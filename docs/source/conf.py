@@ -17,7 +17,7 @@ release = '0.0.1'
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
+    #'sphinx.ext.autosummary',
 ]
 
 templates_path = ['_templates']
@@ -33,7 +33,7 @@ html_static_path = ['_static']
 
 html_context = {
   'display_github': True,
-  'github_user': 'Sciemon',
+  'github_user': 'FraunhIEE-UniKassel-PowSysStability',
   'github_repo': 'powfacpy',
   'github_version': 'main/docs/source/',
 }
