@@ -46,9 +46,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#interface-classes">Interface Classes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/powfacpy.PFBaseInterface.html">powfacpy.PFBaseInterface</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/powfacpy.PFStringManipuilation.html">powfacpy.PFStringManipuilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/powfacpy.PFPlotInterface.html">powfacpy.PFPlotInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/powfacpy.PFDynSimInterface.html">powfacpy.PFDynSimInterface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/powfacpy.PFStudyCases.html">powfacpy.PFStudyCases</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#exceptions">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="how_to_contribute.html">How to contribute</a></li>
@@ -94,42 +96,17 @@
 <tr class="row-even"><td><p><a class="reference internal" href="generated/powfacpy.PFStringManipuilation.html#powfacpy.PFStringManipuilation" title="powfacpy.PFStringManipuilation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">powfacpy.PFStringManipuilation</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/powfacpy.PFPlotInterface.html#powfacpy.PFPlotInterface" title="powfacpy.PFPlotInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">powfacpy.PFPlotInterface</span></code></a>(app)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/powfacpy.PFDynSimInterface.html#powfacpy.PFDynSimInterface" title="powfacpy.PFDynSimInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">powfacpy.PFDynSimInterface</span></code></a>(app)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/powfacpy.PFStudyCases.html#powfacpy.PFStudyCases" title="powfacpy.PFStudyCases"><code class="xref py py-obj docutils literal notranslate"><span class="pre">powfacpy.PFStudyCases</span></code></a>(app)</p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
-</section>
-<section id="exceptions">
-<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this heading"></a></h2>
-<dl class="py exception">
-<dt class="sig sig-object py" id="powfacpy.PFInterfaceError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powfacpy.</span></span><span class="sig-name descname"><span class="pre">PFInterfaceError</span></span><a class="headerlink" href="#powfacpy.PFInterfaceError" title="Permalink to this definition"></a></dt>
-<dd><p>There should always be a base class (that inherits
-from ‘Exception’) for all custom errors/exceptions.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="powfacpy.PFAttributeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powfacpy.</span></span><span class="sig-name descname"><span class="pre">PFAttributeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_raised</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_base_interface</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#powfacpy.PFAttributeError" title="Permalink to this definition"></a></dt>
-<dd><p>Attempt to access an invalid attribute of a PF object.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="powfacpy.PFAttributeTypeError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powfacpy.</span></span><span class="sig-name descname"><span class="pre">PFAttributeTypeError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_raised</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pf_base_interface</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#powfacpy.PFAttributeTypeError" title="Permalink to this definition"></a></dt>
-<dd><p>Attempt to set an invalid type for the attribute of a PF object.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="powfacpy.PFPathError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powfacpy.</span></span><span class="sig-name descname"><span class="pre">PFPathError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">existing_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_existing_child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#powfacpy.PFPathError" title="Permalink to this definition"></a></dt>
-<dd><p>Attempt to access invalid path in PF database.</p>
-</dd></dl>
-
-<dl class="py exception">
-<dt class="sig sig-object py" id="powfacpy.PFNonExistingObjectError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">powfacpy.</span></span><span class="sig-name descname"><span class="pre">PFNonExistingObjectError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_subfolders</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#powfacpy.PFNonExistingObjectError" title="Permalink to this definition"></a></dt>
-<dd><p>Attempt to access PF object that does not exist.</p>
-</dd></dl>
-
 </section>
 </section>
 
