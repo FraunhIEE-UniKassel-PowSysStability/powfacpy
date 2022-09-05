@@ -18,8 +18,8 @@ def test_create_cases_1(pfsc,activate_test_project):
         "q HV load":[-1, -1, 1, 1],
     }
     pfsc.parameter_paths = {
-        "p HV load":r"Network Model\Network Data\Grid\General Load HV\plini",
-        "q HV load":r"Network Model\Network Data\Grid\General Load HV\qlini",
+        "p HV load":r"Network Model\Network Data\test_case_studies\Grid 1\General Load HV\plini",
+        "q HV load":r"Network Model\Network Data\test_case_studies\Grid 1\General Load HV\qlini",
     }
     pfsc.active_grids = [
         r"Network Model\Network Data\test_case_studies\Grid 1",
@@ -65,8 +65,8 @@ def test_create_cases_regression(pfsc,activate_test_project):
         "control": ["A","A","A","A","B","B","B","B",]
     }
     pfsc.parameter_paths = {
-        "p HV load":r"Network Model\Network Data\Grid\General Load HV\plini",
-        "q HV load":r"Network Model\Network Data\Grid\General Load HV\qlini",
+        "p HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\plini",
+        "q HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\qlini",
     }
     pfsc.active_grids = [
         [r"Network Model\Network Data\test_case_studies\Grid 1",

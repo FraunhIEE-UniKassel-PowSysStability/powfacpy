@@ -22,15 +22,16 @@ def pfbi(pf_app):
 @pytest.fixture
 def activate_test_project(pfbi):
     pfbi.app.ActivateProject(r"\seberlein\powfacpy\powfacpy_tests")
+    pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
     
 def test_get_single_object(pfbi,activate_test_project):
-    terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\Grid\Terminal HV 1") 
+    terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
     assert isinstance(terminal_1,powerfactory.DataObject)
     with pytest.raises(TypeError):
-       terminals=pfbi.get_single_obj(r"Network Model\Network Data\Grid\Terminal*")  
+       terminals=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*")  
 
 def test_get_obj(pfbi,activate_test_project):
-    terminal_1 = pfbi.get_obj(r"Network Model\Network Data\Grid\Terminal HV 1")[0]
+    terminal_1 = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")[0]
     assert isinstance(terminal_1,powerfactory.DataObject)
     with pytest.raises(powfacpy.PFPathError):
         terminal_1 = pfbi.get_obj(r"Stretchwork Model\Stretchwork Data\Grid\Termalamala")[0]
@@ -40,26 +41,26 @@ def test_get_obj(pfbi,activate_test_project):
         terminal_1 = pfbi.get_obj(terminal_1)[0]
 
 def test_get_obj_with_condition(pfbi,activate_test_project):
-    hv_terminals = pfbi.get_obj(r"Network Model\Network Data\Grid\Terminal*",
+    hv_terminals = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*",
         condition=lambda x: getattr(x,"uknom") > 50)
     assert len(hv_terminals) == 2    
 
 def test_get_obj_with_parent_folder_argument(pfbi,activate_test_project):
     parent_folder = pfbi.get_first_level_folder("user")
-    terminal_1 = pfbi.get_obj(r"powfacpy\powfacpy_tests\Network Model\Network Data\Grid\Terminal HV 1",
+    terminal_1 = pfbi.get_obj(r"powfacpy\powfacpy_tests\Network Model\Network Data\test_base_interface\Grid\Terminal HV 1",
         parent_folder=parent_folder)[0]
     assert isinstance(terminal_1,powerfactory.DataObject)
 
-    grid = pfbi.get_obj("Grid",parent_folder=r"Network Model\Network Data")[0]
+    grid = pfbi.get_obj("Grid",parent_folder=r"Network Model\Network Data\test_base_interface")[0]
     assert isinstance(grid,powerfactory.DataObject)
 
 def test_get_obj_including_subfolders(pfbi,activate_test_project):
-    terminals = pfbi.get_obj(r"\Network Data\*.ElmTerm",parent_folder="Network Model",
+    terminals = pfbi.get_obj(r"\Network Data\test_base_interface\*.ElmTerm",parent_folder="Network Model",
         include_subfolders=True) 
     assert len(terminals) == 3    
 
 def test_path_exists(pfbi,activate_test_project):
-    assert pfbi.path_exists(r"Network Model\Network Data\Grid\Terminal HV 1")
+    assert pfbi.path_exists(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")
 
 def test_set_attr(pfbi,activate_test_project):
     test_string_1 = "TestString1"
@@ -78,7 +79,7 @@ def test_set_attr_exceptions(pfbi,activate_test_project):
         pfbi.set_attr(r"Library\Dynamic Models\Linear_interpolation",{"sTie":"dummy",
         "desc":["dummy description"]}) # 'sTie' is not a valid attribute 
     with pytest.raises(powfacpy.exceptions.PFPathError):
-        terminal_1 = pfbi.get_obj(r"Network Model\Network Data\Grid\Termalamala")
+        terminal_1 = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Termalamala")
 
 def test_set_attr_by_path(pfbi,activate_test_project):
     pfbi.set_attr_by_path(r"Library\Dynamic Models\Linear_interpolation\desc",["description"])
@@ -86,7 +87,7 @@ def test_set_attr_by_path(pfbi,activate_test_project):
         pfbi.set_attr_by_path(r"Stretchwork Model\Stretchwork Data\Grid\Termalamala",["description"])
 
 def test_get_attr(pfbi,activate_test_project):
-    terminal_1 = pfbi.get_obj(r"Network Model\Network Data\Grid\Terminal HV 1")[0]
+    terminal_1 = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")[0]
     systype = pfbi.get_attr(terminal_1,"systype")
     assert systype == 0
     with pytest.raises(powfacpy.exceptions.PFAttributeError):
@@ -105,7 +106,7 @@ def test_create_in_folder(pfbi,activate_test_project):
         pfbi.create_in_folder(r"Library\Dynamic Models",2)
 
 def test_get_by_condition(pfbi,activate_test_project):
-    folder = r"Network Model\Network Data\Grid"
+    folder = r"Network Model\Network Data\test_base_interface\Grid"
     all_terminals = pfbi.get_obj("*.ElmTerm",parent_folder=folder)
     
     mv_terminals = pfbi.get_by_condition(all_terminals,lambda x:getattr(x,"uknom") > 100)
@@ -219,9 +220,9 @@ def test_handle_single_pf_object_or_path_input(pfbi,activate_test_project):
 
 def test_get_parameter_value_string(pfbi,activate_test_project):
     params = {
-        "p":r"Network Model\Network Data\Grid\General Load HV\plini",
-        "q":r"Network Model\Network Data\Grid\General Load HV\qlini",
-        "u":r"Network Model\Network Data\Grid\Terminal HV 2\uknom"
+        "p":r"Network Model\Network Data\test_base_interface\Grid\General Load HV\plini",
+        "q":r"Network Model\Network Data\test_base_interface\Grid\General Load HV\qlini",
+        "u":r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 2\uknom"
     }
     pfbi.get_parameter_value_string(params,delimiter=" ")      
 

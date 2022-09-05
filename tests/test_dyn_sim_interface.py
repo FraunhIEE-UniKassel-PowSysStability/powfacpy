@@ -21,7 +21,7 @@ def test_export_to_csv(pfsim,activate_test_project):
     study_case = pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case")
     study_case.Activate()
     pfsim.add_results_variable(
-        r"Network Model\Network Data\Grid\AC Voltage Source","m:Psum:bus1")    
+        r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\AC Voltage Source","m:Psum:bus1")    
     pfsim.initialize_and_run_sim()  
 
     pfsim.export_dir =  export_dir
@@ -39,7 +39,7 @@ def test_export_to_csv(pfsim,activate_test_project):
 def test_set_and_get_dsl_obj_array(pfsim,activate_test_project):
     array = [[2,0,2,0],[1,2,3,4],[5,6,7,8]]
     array_two_column = [[2,0],[1,2],[5,6]]
-    dsl_obj = pfsim.get_single_obj(r"Network Model\Network Data\test_case_studies\Grid 1\Voltage source ctrl\Angle")
+    dsl_obj = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\Voltage source ctrl\Angle")
 
     powfacpy.PFDynSimInterface.set_dsl_obj_array(dsl_obj,array)
     array_returned = powfacpy.PFDynSimInterface.get_dsl_obj_array(dsl_obj)
@@ -61,10 +61,10 @@ def test_set_and_get_dsl_obj_array(pfsim,activate_test_project):
 
 def test_create_event(pfsim,activate_test_project):
     
-    target = pfsim.get_single_obj(r"Network Model\Network Data\Grid\AC Voltage Source")
+    target = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\AC Voltage Source")
     pfsim.create_event("test.EvtParam",{"time":1,"p_target":target,"variable":"u0","value":"1.05"})
 
-    target = pfsim.get_single_obj(r"Network Model\Network Data\Grid\General Load HV")
+    target = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\General Load HV")
     pfsim.create_event("loadevent.EvtLod",{"time":1,"p_target":target,"dP":100})
 
 if __name__ == "__main__":
