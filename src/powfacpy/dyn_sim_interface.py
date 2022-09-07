@@ -99,7 +99,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       for col,path in enumerate(full_paths):
           if col > 0:
               formated_path = powfacpy.PFStringManipuilation.format_full_path(path,self)
-              variable_name = variables[col].split(" ", 1)[0][1:] # get rid of description and quotation marks
+              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
               row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
           else:
               row = "Time," # Header of first column
