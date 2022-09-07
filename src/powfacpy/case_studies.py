@@ -14,12 +14,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.hierarchy = []
     self.study_cases = []
     # ToDo base case/scen/var to copy or only base case
+    """
     self.parent_folder_study_cases = powfacpy.PFTranslator.get_default_study_case_folder_name(
       self.language)
     self.parent_folder_scenarios = powfacpy.PFTranslator.get_default_operation_scenario_folder_path(
       self.language)
     self.parent_folder_variations = powfacpy.PFTranslator.get_default_variations_folder_path(
       self.language)
+    """
+    self.parent_folder_study_cases = None
+    self.parent_folder_scenarios = None
+    self.parent_folder_variations = None
     # Options  
     self.add_scenario_to_each_case = True
     self.add_variation_to_each_case = False
@@ -124,15 +129,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
 
   def create_study_case(self,parameter_values_string,folder_path):
     """Creates a study case with the name 'parameter_values_string'
-    in the folder corresponding to 'folder_path' (this parth is 
+    in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_study_cases)
     """
-    if folder_path:
-      parent_folder = self.create_directory(folder_path,
-        parent_folder=self.parent_folder_study_cases)
+    if not self.parent_folder_study_cases:
+      parent_folder_study_case = self.app.GetProjectFolder("study")
     else:
-      parent_folder = self.parent_folder_study_cases
-    study_case_obj = self.create_in_folder(parent_folder,
+      parent_folder_study_case = self.parent_folder_study_cases  
+    if folder_path:
+      parent_folder_study_case = self.create_directory(folder_path,
+        parent_folder=parent_folder_study_case)
+    study_case_obj = self.create_in_folder(parent_folder_study_case,
       parameter_values_string+".IntCase")
     study_case_obj.Activate()
     return study_case_obj
@@ -142,12 +149,14 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this parth is 
     relativ to 'parent_folder_scenarios)
     """
-    if folder_path:
-      parent_folder = self.create_directory(folder_path,
-        parent_folder=self.parent_folder_scenarios)
+    if not self.parent_folder_scenarios:
+      parent_folder_scenario = self.app.GetProjectFolder("scen")
     else:
-      parent_folder = self.parent_folder_scenarios       
-    scenario_obj = self.create_in_folder(parent_folder,
+      parent_folder_scenario = self.parent_folder_scenarios 
+    if folder_path:
+      parent_folder_scenario = self.create_directory(folder_path,
+        parent_folder=parent_folder_scenario)       
+    scenario_obj = self.create_in_folder(parent_folder_scenario,
       parameter_values_string+".IntScenario")
     scenario_obj.Activate()
     scenario_obj.Save()
@@ -158,12 +167,14 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_variations)
     """ 
-    if folder_path:
-      parent_folder = self.create_directory(folder_path,
-        parent_folder=self.parent_folder_variations)
+    if not self.parent_folder_variations:
+      parent_folder_variation = self.app.GetProjectFolder("scheme")
     else:
-      parent_folder = self.parent_folder_variations 
-    variation_obj = self.create_in_folder(parent_folder,
+      parent_folder_variation = self.parent_folder_variations
+    if folder_path:
+      parent_folder_variation = self.create_directory(folder_path,
+        parent_folder=parent_folder_variation)
+    variation_obj = self.create_in_folder(parent_folder_variation,
       parameter_values_string+".IntScheme")
     variation_obj.NewStage(parameter_values_string,0,1)
     variation_obj.Activate()
