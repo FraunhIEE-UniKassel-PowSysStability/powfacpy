@@ -210,8 +210,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     source_graphics_board = self.get_single_obj(graphics_board_name,
       parent_folder=source_study_case)
     currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
-    if not isinstance(target_study_cases,Iterable):
-      target_study_case = [target_study_cases]  
+    if not isinstance(target_study_cases,(list,tuple)):
+      target_study_cases = [target_study_cases]  
     for target_study_case in target_study_cases:
       target_study_case = self.handle_single_pf_object_or_path_input(target_study_case)
       if not target_study_case == source_study_case:
