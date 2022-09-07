@@ -4,3 +4,7 @@ dist
 simulation_results
 src/powfacpy/__pycache__
 tests/__pycache__
+tests/results.csv
+tutorials/results.csv
+tutorials/.ipynb_checkpoints
+powerfactory_projects
