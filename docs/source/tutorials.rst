@@ -4,7 +4,9 @@ Tutorials
 =========
 
 The tutorials are Jupyter notebooks which you can find `here <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/tutorials>`_
-or click on the links below to go to a specific tutorial.
+or click on the links below to go to a specific tutorial. 
+You can use the PowerFactory project 'powfacpy_test' from `here <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/tree/main/powerfactory_projects>`_ 
+to run the commands in the tutorials locally. 
 
 Getting started
 ---------------------------
@@ -16,9 +18,11 @@ do more complex things and to write more readable code using less lines of code.
 
 Dynamic Simulation and Plotting
 ----------------------------------------------
-ToDo
+The `tutorial <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/tutorials/simulation_and_plotting.ipynb>`_ shows how to conveniently 
+simulate and plot with a syntax similar to matplotlib. It is also depicted how to export data to csv format
+and use external plotting libraries such as matplotlib. 
 
 Study Cases
 -----------------------
-The `study cases tutorial <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/tutorials/study_cases.ipynb>` 
-provides a flexible method for automatically creating study cases with different data.
+The `study cases tutorial <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/tutorials/study_cases.ipynb>`_ 
+provides a flexible method to automatically create study cases from different data.

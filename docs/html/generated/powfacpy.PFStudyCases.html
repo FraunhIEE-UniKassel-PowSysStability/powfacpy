@@ -51,7 +51,6 @@
 <li class="toctree-l3 current"><a class="current reference internal" href="#">powfacpy.PFStudyCases</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html#exceptions">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
@@ -133,7 +132,7 @@
 <td><p>Creates a scenario with the name 'parameter_values_string' in the folder corresponding to 'folder_path' (this parth is  relativ to 'parent_folder_scenarios)</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_study_case</span></code>(parameter_values_string, ...)</p></td>
-<td><p>Creates a study case with the name 'parameter_values_string' in the folder corresponding to 'folder_path' (this parth is  relativ to 'parent_folder_study_cases)</p></td>
+<td><p>Creates a study case with the name 'parameter_values_string' in the folder corresponding to 'folder_path' (this path is  relativ to 'parent_folder_study_cases)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_variation</span></code>(parameter_values_string, ...)</p></td>
 <td><p>Creates a variation with the name 'parameter_values_string' in the folder corresponding to 'folder_path' (this path is  relativ to 'parent_folder_variations)</p></td>
@@ -230,6 +229,9 @@
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">language</span></code></p></td>
 <td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">study_cases</span></code></p></td>
+<td><p>self.parent_folder_study_cases = powfacpy.PFTranslator.get_default_study_case_folder_name(</p></td>
 </tr>
 </tbody>
 </table>

@@ -63,5 +63,6 @@
    .. autosummary::
    
       ~PFStudyCases.language
+      ~PFStudyCases.study_cases
    
    

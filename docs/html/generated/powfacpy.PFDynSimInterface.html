@@ -51,7 +51,6 @@
 <li class="toctree-l3"><a class="reference internal" href="powfacpy.PFStudyCases.html">powfacpy.PFStudyCases</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html#exceptions">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
@@ -121,7 +120,7 @@
 <td><p>Create a directory of folders ('IntFolder') if the  directory does not yet exist. Arguments:   path: path of folders   parent_folder: If not specified, the active project folder     is used.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_event</span></code>(name_incl_class[, params, ...])</p></td>
-<td><p></p></td>
+<td><p>Creates an event and sets the parameters in 'params'. Arguments:   name_incl_class: Event name including the class. params: Paramter-values dictionary. parent_folder: If None, the events folder from the active study case is used. overwrite: Oerwrite existing event with same name.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_in_folder</span></code>(folder, obj[, overwrite])</p></td>
 <td><p>Creates an obj inside a folder and returns the object. If overwrite is true, objects with the same name will be overwritten. Example:   pfbi.create_in_folder(&quot;LibraryDynamic Models&quot;,&quot;dummy2.BlkDef&quot;).</p></td>
@@ -151,7 +150,7 @@
 <td><p>From a list of objects, get those for whom the 'condition'  (which is a function) returns 'True'. Example:   pfbi.get_by_condition(list_of_objects,lambda x : getattr(x,&quot;uknom&quot;)==110).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dsl_obj_array</span></code>(dsl_obj[, array_num, ...])</p></td>
-<td><p></p></td>
+<td><p>Get the array of DSL object ('Advanced 1' tab).</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_first_level_folder</span></code>(folder)</p></td>
 <td><p>Returns folder on first level of PF database.</p></td>
@@ -208,7 +207,7 @@
 <td><p>path_with_attr: path of object plus the attribute name Example:   pfbi.set_attr_by_path(self,     &quot;LibraryDynamic ModelsLinear_interpolationdesc&quot;,[&quot;description&quot;])   Here 'desc' is the name of the attribute. .</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_dsl_obj_array</span></code>(dsl_obj, rows[, ...])</p></td>
-<td><p></p></td>
+<td><p>Set the array of DSL object ('Advanced 1' tab).</p></td>
 </tr>
 </tbody>
 </table>

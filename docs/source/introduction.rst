@@ -4,8 +4,8 @@ Introduction
 ============
 
 *powfacpy* is a wrapper around the Python API of PowerFactory |copy| (software for power system simulation by DIgSILENT). 
-You can automate almost anything in PowerFactory |copy| with the native API, but the syntax is quite verbose. Therefore, 
-*powfacpy* provides interface classes to make your life easier.
+You can automate almost anything in PowerFactory |copy| with the native API, but the syntax can be verbose. Therefore, 
+*powfacpy* provides features and interface classes to make your life easier.
 
 For example, setting attributes of an object in the PowerFactory |copy| database requires several lines of code with the 
 native API. With the API of *powfacpy*, this is only one line:

@@ -49,8 +49,8 @@
       ~PFPlotInterface.is_container
       ~PFPlotInterface.path_exists
       ~PFPlotInterface.plot
+      ~PFPlotInterface.plot_from_csv
       ~PFPlotInterface.plot_monitored_variables
-      ~PFPlotInterface.pyplot_from_csv
       ~PFPlotInterface.set_active_graphics_page
       ~PFPlotInterface.set_active_plot
       ~PFPlotInterface.set_attr

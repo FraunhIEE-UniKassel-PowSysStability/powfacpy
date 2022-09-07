@@ -51,7 +51,6 @@
 <li class="toctree-l3"><a class="reference internal" href="powfacpy.PFStudyCases.html">powfacpy.PFStudyCases</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html#exceptions">Exceptions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../how_to_contribute.html">How to contribute</a></li>
@@ -205,13 +204,13 @@
 <td><p>Check if the path exists.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code>(obj, variables[, graphics_page, plot])</p></td>
-<td><p>Plots the variables of 'obj' to the currently active plot. Includes adding the variables to the results (ElmRes) object. The active plot can be set with the optional arguments. Arguemnts:   variables: string or list of variable names    graphics_page: name of graphics page   plot: name of plot   kwargs:     result_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
+<td><p>Plots the variables of 'obj' to the currently active plot. Includes adding the variables to the results (ElmRes) object. The active plot can be set with the optional arguments. Arguemnts:   variables: string or list of variable names    graphics_page: name of graphics page   plot: name of plot   kwargs:     results_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_monitored_variables</span></code>(obj, variables[, ...])</p></td>
-<td><p>Plot varibales that were already added to the monitored variables. Arguments:   obj: PowerFactory object or its path   variables: string or list of variable names    graphics_page: name of graphics page   plot: name of plot   kwargs:     result_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyplot_from_csv</span></code>(variables[, offset])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_from_csv</span></code>(csv_path, variables[, offset, ...])</p></td>
 <td><p>Plot results from csv file using pyplot. Arguments:   csv_path: path of csv file   variables: path of variables to be plotted   offset: time offset.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_monitored_variables</span></code>(obj, variables[, ...])</p></td>
+<td><p>Plot varibales that were already added to the monitored variables. Arguments:   obj: PowerFactory object or its path   variables: string or list of variable names    graphics_page: name of graphics page   plot: name of plot   kwargs:     result_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_active_graphics_page</span></code>(page)</p></td>
 <td><p>Sets the active graphics page. Arguments:   page:graphics page  name.</p></td>
@@ -226,7 +225,7 @@
 <td><p>path_with_attr: path of object plus the attribute name Example:   pfbi.set_attr_by_path(self,     &quot;LibraryDynamic ModelsLinear_interpolationdesc&quot;,[&quot;description&quot;])   Here 'desc' is the name of the attribute. .</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_curve_attributes</span></code>(data_series, **kwargs)</p></td>
-<td><p>Set curve attributes. Arguments:   data_series: data series of plot. kwargs:     result_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
+<td><p>Set curve attributes. Arguments:   data_series: data series of plot. kwargs:     results_obj: result object used (object or path)     linestyle: int     linewidth: double     color: int     label: str.</p></td>
 </tr>
 </tbody>
 </table>
