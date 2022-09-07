@@ -30,8 +30,16 @@ class PFAttributeTypeError(PFInterfaceError):
 class PFPathError(PFInterfaceError):
   """Attempt to access invalid path in PF database.
   """
-  def __init__(self,existing_path,non_existing_child):
+  def __init__(self,non_existing_child,existing_path):
     self.message = f"'{non_existing_child}' does not exist in '{existing_path}'"
+    super().__init__(self.message)
+
+class PFPathInputError(PFInterfaceError):
+  """Invalid input for a PF path.
+  """
+  def __init__(self,path):
+    self.message = (f"The path '{path}' is invalid or empty. Please don't start " +
+    f"the path with '\\'.")
     super().__init__(self.message)
 
 class PFNonExistingObjectError(PFInterfaceError):
