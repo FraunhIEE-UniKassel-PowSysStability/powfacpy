@@ -5,8 +5,6 @@ The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 """
 
 import sys
-
-from powfacpy.exceptions import PFNonExistingObjectError
 sys.path.insert(0,r'.\src')
 import powfacpy
 from os import path as os_path
@@ -59,13 +57,15 @@ class PFBaseInterface:
 
     See also method 'get_single_obj'
     """
-    path = PFStringManipuilation.handle_path(path)
     if not parent_folder:
       parent_folder = self.get_active_project()
     else:
       parent_folder=self.handle_single_pf_object_or_path_input(parent_folder)  
-    if not include_subfolders:  
-      obj = parent_folder.GetContents(path)
+    if not include_subfolders:
+      try:  
+        obj = parent_folder.GetContents(path)
+      except(RuntimeError):
+        raise TypeError("Path must be of type string.")
     else:
       obj = self.handle_inclusion_of_subfolders(path,parent_folder,error_if_non_existent)
     if not obj:
@@ -84,7 +84,10 @@ class PFBaseInterface:
     be used instead of 'GetContents'. 'GetChildren'
     requires the input to be splitted between path and object name.
     """
-    head,tail = os_path.split(path)
+    try:
+      head,tail = os_path.split(path)
+    except(TypeError):
+      raise TypeError("Path must be of type string")  
     if head:
       new_parent_folder = parent_folder.GetContents(head)
       if new_parent_folder:
@@ -139,7 +142,7 @@ class PFBaseInterface:
     else:
       exists_bool,existing_path,non_existing_child = self.path_exists(
         path,parent_folder,return_info=True)
-      raise powfacpy.PFPathError(existing_path,non_existing_child)
+      raise powfacpy.PFPathError(non_existing_child,existing_path)
 
   def handle_condition_of_obj_not_met(self,path,obj,error_if_non_existent):
     """Handles the attempted access to an object with a certain condition
@@ -174,8 +177,10 @@ class PFBaseInterface:
     if not parent:
       parent = self.get_active_project()
     else:
-      parent = self.handle_single_pf_object_or_path_input(parent)  
+      parent = self.handle_single_pf_object_or_path_input(parent)
     splitted_path = path.split('\\')
+    if path[0] == "\\" or not splitted_path:
+      raise powfacpy.PFPathInputError(path)
     existing_path=""
     child = parent
     for child_name in splitted_path:
