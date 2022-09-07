@@ -142,6 +142,12 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
                         rows,
                         array_num=None,
                         size_included_in_array=True): 
+    """Set the array of DSL object ('Advanced 1' tab).
+    The array_num specifies which array is set (if None,
+    all arrays/colums are set).
+    If size_included_in_array=True, the first row (where the size
+    of the array is spedified) is included.
+    """  
     if not size_included_in_array:
       if not array_num:
         dsl_obj.SetAttribute("matrix:0",[len(rows)]*len(rows[0]))
@@ -166,6 +172,12 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
   def get_dsl_obj_array(dsl_obj,
                         array_num=None,
                         size_included_in_array=True):
+    """Get the array of DSL object ('Advanced 1' tab).
+    The array_num specifies which array is returend (if None,
+    all arays/colmns are returned).
+    If size_included_in_array=True, the first row (where the size
+    of the array is spedified) is included.
+    """                    
     if not array_num:
       number_of_rows = int(max(dsl_obj.GetAttribute("matrix:0"))) + 1
     else:
