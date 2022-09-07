@@ -104,7 +104,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       graphics_page: name of graphics page
       plot: name of plot
       kwargs:
-        result_obj: result object used (object or path)
+        results_obj: result object used (object or path)
         linestyle: int
         linewidth: double
         color: int
@@ -120,7 +120,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     Arguments:
       data_series: data series of plot.
       kwargs:
-        result_obj: result object used (object or path)
+        results_obj: result object used (object or path)
         linestyle: int
         linewidth: double
         color: int
@@ -226,8 +226,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
 
   def copy_graphics_board_content_to_all_study_cases(self,source_study_case,
     target_parent_folder=None,
-    obj_to_copy="*",
     include_subfolders=True,
+    obj_to_copy="*",
     clear_target_graphics_board=False):
     """Copy the content of the graphics board to all study cases.
     Arguments:
