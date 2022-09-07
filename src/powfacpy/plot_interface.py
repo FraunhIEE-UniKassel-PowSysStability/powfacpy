@@ -252,25 +252,30 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       obj_to_copy=obj_to_copy,
       clear_target_graphics_board=clear_target_graphics_board)
 
-  def pyplot_from_csv(csv_path,variables,offset=0):
+  @staticmethod
+  def plot_from_csv(csv_path,variables,offset=0,plot_interface=None):
     """Plot results from csv file using pyplot.
     Arguments:
       csv_path: path of csv file
       variables: path of variables to be plotted
       offset: time offset
 
+    Returns the plot.
+
     Example:
-      pyplot_from_csv("results.csv",
+      plot_from_csv("results.csv",
         ["Network Model\\Network Data\\Grid\\AC Voltage Source\\s:u0",
         "Network Model\\Network Data\\Grid\\AC Voltage Source\\m:Psum:bus1"])  
     """
+    if not plot_interface:
+      plot_interface = pyplot
     if isinstance(variables, str):
       variables = [variables]
     with open(csv_path) as file:
       csv_file = pandas.read_csv(file)
       for var in variables:
-        pyplot.plot(csv_file["Time"]+offset, csv_file[var], label = var)   
-    
+        plot = plot_interface.plot(csv_file["Time"]+offset, csv_file[var], label = var)   
+    return plot
 
 
 
