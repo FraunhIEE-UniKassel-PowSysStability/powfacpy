@@ -55,7 +55,7 @@ def test_get_obj_with_parent_folder_argument(pfbi,activate_test_project):
     assert isinstance(grid,powerfactory.DataObject)
 
 def test_get_obj_including_subfolders(pfbi,activate_test_project):
-    terminals = pfbi.get_obj(r"\Network Data\test_base_interface\*.ElmTerm",parent_folder="Network Model",
+    terminals = pfbi.get_obj(r"Network Data\test_base_interface\*.ElmTerm",parent_folder="Network Model",
         include_subfolders=True) 
     assert len(terminals) == 3    
 
