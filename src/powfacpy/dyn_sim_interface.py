@@ -111,23 +111,6 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     replace(file_path + ".temp",file_path)  
 
   """
-  def create_parameter_event(self,target,variable,steps,name="ParEvt"):
-    if not isinstance(steps, list):
-      steps = [steps]
-    if self.simulation_events_folder is None:
-      self.get_simulation_events_folder()
-    target = self.return_obj_if_path_is_provided(target)
-    for step in steps:
-      event = self.create_in_folder(self.simulation_events_folder,name+".EvtParam")
-      event.p_target = target
-      event.time = step[0]
-      event.variable = variable
-      event.value = str(step[1])
-
-  def get_simulation_events_folder(self):
-    self.simulation_events_folder = (
-      self.app.GetFromStudyCase(self.simulation_events_folder_name))
-
   def create_reference_signal(self,path,points):
     composite_model = self.create_by_path(path + ".ElmComp")
     composite_frame = self.get_obj(self.dynamic_model_teamplates_path +
@@ -142,6 +125,13 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
   """
 
   def create_event(self,name_incl_class,params={},parent_folder=None,overwrite=True):
+    """Creates an event and sets the parameters in 'params'.
+    Arguments:
+      name_incl_class: Event name including the class.
+      params: Paramter-values dictionary.
+      parent_folder: If None, the events folder from the active study case is used.
+      overwrite: Oerwrite existing event with same name.
+    """
     if not parent_folder:
       parent_folder = self.app.GetFromStudyCase("IntEvt")
     event_obj = self.create_in_folder(parent_folder,name_incl_class,overwrite=overwrite)
