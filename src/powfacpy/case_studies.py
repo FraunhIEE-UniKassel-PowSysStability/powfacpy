@@ -235,6 +235,23 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     return cases
 
 
-
+  def apply_permutation(self):
+    """Replaces the values in 'parameter_values' with the permutation of
+    their unique elements. 
+    Use this method if you want to create cases of the permutation of all
+    parameters. Note that 'parameter_values' is changed irreversibly.
+    """
+    # Make sure values are unique
+    for param_name in self.parameter_values.keys():
+      self.parameter_values[param_name] = list(
+        set(self.parameter_values[param_name]))
+    iterable = product(*self.parameter_values.values()) 
+    for param_name in self.parameter_values.keys():
+        self.parameter_values[param_name] = []
+    # Copy values from iterable    
+    for values_of_all_parameters_for_case in iterable:
+      for param_num,param_name in enumerate(self.parameter_values.keys()):
+          self.parameter_values[param_name].append(
+              values_of_all_parameters_for_case[param_num])
   
 
