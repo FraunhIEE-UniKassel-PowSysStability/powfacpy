@@ -1,6 +1,7 @@
 import sys
 sys.path.insert(0,r'.\src')
 import powfacpy
+from itertools import product
 
 class PFStudyCases(powfacpy.PFBaseInterface):
   language = powfacpy.PFBaseInterface.language
