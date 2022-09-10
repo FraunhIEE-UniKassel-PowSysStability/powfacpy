@@ -114,7 +114,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if not delimiter:
       delimiter = self.delimiter
     if not equals_symbol:
-      equals_symbol = "_"   
+      equals_symbol = " _ "   
     parameter_values_string = ""
     for par_name in self.parameter_values:
       if omitted_parameters is None or par_name not in omitted_parameters:
