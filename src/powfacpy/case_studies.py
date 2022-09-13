@@ -54,7 +54,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       if self.add_variation_to_each_case:
         self.create_variation(parameter_values_string,folder_path)
       self.set_parameters(case_num)
-      scen.Save()
+      if self.add_scenario_to_each_case:
+        scen.Save()
 
   def get_folder_path(self,case_num):
     """Returns the folder path of a case.
@@ -104,7 +105,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
   def get_case_params_value_string(self,case_obj_or_case_num,
     omitted_parameters=None,
     delimiter=None,
-    equals_symbol=None,
+    equals_sign=None,
     anonymous_parameters=None):
     """Returns the parameter-value string for a case name.
     The string contains those parameters that are not in
@@ -113,8 +114,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     case_num = self.handle_case_input(case_obj_or_case_num)
     if not delimiter:
       delimiter = self.delimiter
-    if not equals_symbol:
-      equals_symbol = " _ "   
+    if not equals_sign:
+      equals_sign = " _ "   
     parameter_values_string = ""
     for par_name in self.parameter_values:
       if omitted_parameters is None or par_name not in omitted_parameters:
@@ -122,9 +123,9 @@ class PFStudyCases(powfacpy.PFBaseInterface):
           self.get_value_of_parameter_for_case(par_name,case_num)) + delimiter
         if anonymous_parameters is None:
           if par_name not in self.anonymous_parameters:
-            add_to_string = par_name + equals_symbol + add_to_string
+            add_to_string = par_name + equals_sign + add_to_string
         elif par_name not in anonymous_parameters:
-          add_to_string = par_name + equals_symbol + add_to_string 
+          add_to_string = par_name + equals_sign + add_to_string 
         parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
@@ -246,11 +247,13 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     for param_name in self.parameter_values.keys():
       self.parameter_values[param_name] = list(
         set(self.parameter_values[param_name]))
-    iterable = product(*self.parameter_values.values()) 
+    # Use 'product' to get iterable that returns permutation    
+    permutation_iterable = product(*self.parameter_values.values())
+    # Clear values 
     for param_name in self.parameter_values.keys():
         self.parameter_values[param_name] = []
     # Copy values from iterable    
-    for values_of_all_parameters_for_case in iterable:
+    for values_of_all_parameters_for_case in permutation_iterable:
       for param_num,param_name in enumerate(self.parameter_values.keys()):
           self.parameter_values[param_name].append(
               values_of_all_parameters_for_case[param_num])

@@ -112,7 +112,7 @@ def test_create_cases_regression(pfsc,activate_test_project):
             case_label = pfsc.get_case_params_value_string(case_num,
                 omitted_parameters="p HV load",
                 delimiter=" | ",
-                equals_symbol="=") 
+                equals_sign="=") 
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_case_studies.py"]))
