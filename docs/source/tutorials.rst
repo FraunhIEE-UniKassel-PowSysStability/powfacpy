@@ -5,7 +5,7 @@ Tutorials
 
 The tutorials are Jupyter notebooks which you can find `here <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/tutorials>`_
 or click on the links below to go to a specific tutorial. 
-You can use the PowerFactory project 'powfacpy_test' from `here <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/tree/main/powerfactory_projects>`_ 
+You can use the PowerFactory project 'powfacpy_tests' from `here <https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/tree/main/powerfactory_projects>`_ 
 to run the commands in the tutorials locally. 
 
 Getting started
