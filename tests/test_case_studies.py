@@ -114,5 +114,31 @@ def test_create_cases_regression(pfsc,activate_test_project):
                 delimiter=" | ",
                 equals_sign="=") 
 
+def test_case_studies_permutation(pfsc,activate_test_project):
+    pfsc.parent_folder_study_cases = r"Study Cases\test_case_studies"
+    pfsc.parent_folder_scenarios = r"Network Model\Operation Scenarios\test_case_studies"
+    pfsc.parent_folder_variations = r"Network Model\Variations\test_case_studies"
+    pfsc.delete_obj("*",
+        parent_folder = pfsc.parent_folder_study_cases,error_if_non_existent=False)
+    pfsc.delete_obj("*",parent_folder =pfsc.parent_folder_scenarios,
+        error_if_non_existent=False)
+    pfsc.delete_obj("*",parent_folder =pfsc.parent_folder_variations,
+        error_if_non_existent=False)
+        
+    pfsc.parameter_values = {
+            "p HV load":[1, 2],
+            "q HV load":[-1, 1,],
+            "control": ["A","B",]
+        }
+    pfsc.parameter_paths = {
+        "p HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\plini",
+        "q HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\qlini",
+    }
+    pfsc.hierarchy = ["q HV load","control",]
+    pfsc.active_grids = r"Network Model\Network Data\test_case_studies\Grid 2"
+    pfsc.apply_permutation()
+    pfsc.create_cases()    
+
+
 if __name__ == "__main__":
     pytest.main(([r"tests\test_case_studies.py"]))
