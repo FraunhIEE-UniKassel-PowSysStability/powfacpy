@@ -1,18 +1,13 @@
-import itertools
 import sys
-import pathlib
-
-
 sys.path.insert(0,r'.\src')
 import powfacpy
-import pandas
-from os import getcwd, replace
+
 
 class PFDynSimInterface(powfacpy.PFBaseInterface):
   
   def __init__(self,app): 
     super().__init__(app) 
-    self.export_dir = None
+    
 
   def initialize_sim(self,param=None):
     """
