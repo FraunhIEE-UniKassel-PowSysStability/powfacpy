@@ -2,8 +2,10 @@
 """
 
 import sys
+from unittest import result
 
 from powfacpy.base_interface import PFTranslator
+from powfacpy.dyn_sim_interface import PFDynSimInterface
 sys.path.insert(0,r'.\src')
 import powfacpy
 import pandas
