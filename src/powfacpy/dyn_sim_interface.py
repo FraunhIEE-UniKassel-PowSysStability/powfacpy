@@ -39,77 +39,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     self.initialize_sim()
     self.run_sim()
 
-  def export_to_csv(self,dir=None,file_name=None,results_obj=None):
-    """Exports simulation results to csv.
-    Arguments:
-      dir: export directory, if 'None' the current working directory 
-        (where script is run) is used 
-      file_name: file name, if 'None', 'results' is used
-      results_obj: PF ElmRes object, if 'None', 'All calculations.ElmRes' in
-        active study case is used. All variables from this object are exported.
-    """
-    comres = self.app.GetFromStudyCase("ComRes")
-    if not results_obj:
-      results_obj_name = powfacpy.PFTranslator.get_default_result_object_name(self.language)
-      comres.pResult = self.app.GetFromStudyCase(results_obj_name)
-    else:
-      comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
-    if not dir:
-      if self.export_dir:
-        dir = self.export_dir
-      else:
-        # Use current working directory (where script is run)
-        dir = getcwd()
-    if not file_name:  
-      file_name = "results"  
-    comres.iopt_exp = 6 # to export as csv
-    path = dir + "\\" + file_name + ".csv"
-    comres.f_name = path
-    comres.iopt_sep = 1 # to use the system seperator
-    comres.iopt_honly = 0 # to export data and not only the header
-    comres.iopt_csel = 0 # export all variables 
-    comres.iopt_locn = 3 # column header includes path
-    comres.ciopt_head = 1 # full variable name
-    comres.Execute()
-    try:
-      self.format_csv(path)
-    except(IndexError):
-      raise Exception(f"Is the file \n" 
-        f"'{path}' \nopen in another program?")
-    # ToDo: Implement selection of variabels to export
-
-  def format_csv(self,file_path):
-    """Format the csv file that is exported from PF.
-    The PF exported csv uses the first row for the full path 
-    of the object and the second row for the variable name.
-    The formated csv file uses only the first row as a header.
-    This row contains the path of the object and the variable name
-    without description.
-
-    Example first row of some column before formating: 
-      '\\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\AC Voltage Source.ElmVac\\s:u0'
-    Example input second row of the column before formating:
-      's:u0 in kV'
-    Example first row of the column after formating:
-      'Network Model\\Network Data\\Grid\\AC Voltage Source\\s:u0'
-    """
-    with open(file_path) as read_file, open(file_path + ".temp", "w") as write_file:
-      full_paths = read_file.readline().split(",")
-      variables = read_file.readline().split(",")
-      for col,path in enumerate(full_paths):
-          if col > 0:
-              formated_path = powfacpy.PFStringManipuilation.format_full_path(path,self)
-              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
-              row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
-          else:
-              row = "Time," # Header of first column
-      write_file.write(row+"\n")
-      # Write remaining data rows until end of file is reached
-      while row:
-          row = read_file.readline()
-          write_file.write(row)
-    replace(file_path + ".temp",file_path)  
-
+  
   """
   def create_reference_signal(self,path,points):
     composite_model = self.create_by_path(path + ".ElmComp")
