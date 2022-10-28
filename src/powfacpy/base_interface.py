@@ -378,6 +378,8 @@ class PFBaseInterface:
     """Delete object(s). In a first step, the objects are loaded using the `get_obj`
     method. In a second step, they are deleted. For further info on the input 
     arguments, see the `get_obj` method. 
+    It is also checked whether the object was really deleted, otherwise it is tried
+    to deactivate the object and then delete it.
     """
     obj = self.handle_pf_object_or_path_input(obj_or_path,
       condition=condition,
@@ -399,12 +401,15 @@ class PFBaseInterface:
         except:
           pass  
       """
+      # 'IsDeleted' seems to be the savest way to check whether an object has been deleted. 
       if not o.IsDeleted():
         try:
           o.Deactivate()
           o.Delete()
         except:
-          pass
+          raise ArgumentError(r"Object {o} cannot be deleted.")
+        if not o.IsDeleted():  
+          raise ArgumentError(r"Object {o} cannot be deleted.")
 
   def handle_pf_object_or_path_input(self,obj_or_path,condition=None,parent_folder=None,
     error_if_non_existent=True,include_subfolders=False):
