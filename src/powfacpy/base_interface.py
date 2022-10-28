@@ -549,12 +549,204 @@ class PFBaseInterface:
       results_obj.AddVariable(obj,var)
     results_obj.Load()
 
+  def clear_elmres_from_objects_with_status_deleted(self,results_obj=None):
+    """Deletes all objects from a results object (ElmRes) that have the
+    status deleted (i.e. attribute 'obj_id' is deleted).
+    """
+    if not results_obj:
+      results_obj = self.app.GetFromStudyCase("ElmRes")
+    obj_in_elmres = results_obj.GetContents("*")
+    for o in obj_in_elmres:
+      obj_id = o.obj_id
+      if obj_id.IsDeleted():
+          o.Delete()
+
   def get_parameter_value_string(self,parameters,delimiter=" "):
     param_value_string = ""
     for parname,path_with_par in parameters.items():
         value = self.get_attr_by_path(path_with_par)
         param_value_string += parname + "=" + str(value) + delimiter
     return param_value_string[:-len(delimiter)] # omit last delimiter
+
+  def export_to_csv(self,
+    dir=None,
+    file_name=None,
+    results_obj=None,
+    results_variables_lists=None):
+      """Exports simulation results to csv.
+      Arguments:
+        dir: export directory, if 'None' the current working directory 
+          (where script is run) is used 
+        file_name: file name, if 'None', 'results' is used
+        results_obj: PF ElmRes object, if 'None', 'All calculations.ElmRes' in
+          active study case is used. All variables from this object are exported.
+        results_variables_lists: Lists of results variables (PFResultVariable) that 
+          are added to ComRes if only selected variables should be exported. Note
+          that results_obj is ignored if results_variables_lists is specified.
+      """
+      comres = self.app.GetFromStudyCase("ComRes")
+      if not results_obj:
+        comres.pResult = self.app.GetFromStudyCase("ElmRes")
+      else:
+        comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
+      if not dir:
+        if self.export_dir:
+          dir = self.export_dir
+        else:
+          # Use current working directory (where script is run)
+          dir = getcwd()
+      if not file_name:  
+        file_name = "results"  
+      if results_variables_lists:
+        PFBaseInterface.add_selected_variables_for_export(comres,results_variables_lists)
+      else:
+        comres.iopt_csel = 0 # export all variables
+      comres.iopt_exp = 6 # to export as csv
+      path = dir + "\\" + file_name + ".csv"
+      comres.f_name = path
+      comres.iopt_sep = 1 # to use the system seperator
+      comres.iopt_honly = 0 # to export data and not only the header
+      comres.iopt_locn = 3 # column header includes path
+      comres.ciopt_head = 1 # full variable name
+      comres.Execute()
+
+      path = self.replace_special_PF_characters_in_path_string(path)
+      # If the result object(s) are ElmRes, the the csv file is formated.
+      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists.result_objects[0].GetClassName() == "ElmRes"):
+        try:
+          self.format_csv_for_elmres(path)
+        except(IndexError):
+          raise Exception(f"Is the file \n" 
+            f"'{path}' \nopen in another program?")
+      else:
+        self.format_csv_for_comtrade(path)
+
+  def replace_special_PF_characters_in_path_string(self,path):
+    """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)'
+    in a path string with their actual directories.
+    """
+    if "$(ExtDataDir)" in path:
+      project_settings = self.get_project_settings()
+      ext_data_dir = self.get_attr(project_settings,"extDataDir")
+      path = path.replace("$(ExtDataDir)",ext_data_dir)
+    path = path.replace("$(WorkspaceDir)",self.app.GetWorkspaceDirectory())
+    return path.replace("$(InstallationDir)",self.app.GetInstallationDirectory())
+
+  def get_project_settings(self):
+    """Returns project settings object.
+    """
+    project_settings_folder = self.get_single_obj("*.SetFold")
+    return self.get_single_obj("*.SetPrj",parent_folder=project_settings_folder)
+
+  @staticmethod
+  def add_selected_variables_for_export(comres,results_variables_lists):
+    """Adds selected variables to ComRes for export.
+    Arguments:
+      comres: PF object ComRes for export
+      results_variables_lists: lists with infos about exported data (results objects,
+        elements,variables)
+    """
+    comres.iopt_csel = 1 # export only selected variables
+    comres.pResult = None # export only selected variables
+    # Insert time
+    if not results_variables_lists.variables[0] == "b:tnow":
+      results_variables_lists.result_objects.insert(0,results_variables_lists.result_objects[0])
+      results_variables_lists.elements.insert(0,results_variables_lists.result_objects[0])
+      results_variables_lists.variables.insert(0,"b:tnow")
+    comres.resultobj = results_variables_lists.result_objects
+    comres.element = results_variables_lists.elements
+    comres.variable = results_variables_lists.variables
+
+  def format_csv_for_comtrade(self,file_path):
+    """Format the csv created from a Comtrade object with ComRes.
+    There is a bug in PF so that the time in the first column sometimes
+    is not monotonously increasing. This methods corrects this by checking 
+    for each time value (1. column) whether it is larger than the previous and discarding rows
+    where this is not the case.
+    """
+    with open(file_path) as read_file, open(file_path + ".temp", "w") as write_file:
+      row = read_file.readline()
+      write_file.write(row)
+      time = -math.inf
+      row = read_file.readline()
+      while row:
+        row_entries = row.split(",")
+        if float(row_entries[0]) > time:
+          write_file.write(row)
+          time = float(row_entries[0])
+        row = read_file.readline()  
+    replace(file_path + ".temp",file_path)  
+
+  def format_csv_for_elmres(self,file_path):
+    """Format the csv file that is exported from PF.
+    The PF exported csv uses the first row for the full path 
+    of the object and the second row for the variable name.
+    The formated csv file uses only the first row as a header.
+    This row contains the path of the object and the variable name
+    without description.
+
+    Example first row of some column before formating: 
+      '\\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\AC Voltage Source.ElmVac\\s:u0'
+    Example input second row of the column before formating:
+      's:u0 in kV'
+    Example first row of the column after formating:
+      'Network Model\\Network Data\\Grid\\AC Voltage Source\\s:u0'
+    """
+    with open(file_path) as read_file, open(file_path + ".temp", "w") as write_file:
+      full_paths = read_file.readline().split(",")
+      variables = read_file.readline().split(",")
+      for col,path in enumerate(full_paths):
+          if col > 0:
+              formated_path = powfacpy.PFStringManipuilation.format_full_path(path,self)
+              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
+              row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
+          else:
+              row = "Time," # Header of first column
+      write_file.write(row+"\n")
+      # Write remaining data rows until end of file is reached
+      while row:
+          row = read_file.readline()
+          write_file.write(row)
+    replace(file_path + ".temp",file_path)  
+
+  @staticmethod
+  def replace_headers_of_csv_file_with_number_of_colums(file_path):
+    """Replaces the first row (headers) of a csv file with its number of
+    columns. This is needed for import of csv files to PF using ElmFile.
+    """
+    with open(file_path+".csv") as read_file, open(file_path + ".temp", "w") as write_file:
+      columns_of_first_row = read_file.readline().split(",")
+      if columns_of_first_row[-1] == "\n":
+        columns_of_first_row = columns_of_first_row[:-1]
+      number_of_columns = len(columns_of_first_row)-1 # Minus one because first column is time and should not be counted.
+      write_file.write(str(number_of_columns)+"\n") 
+      row = read_file.readline()
+      while row:
+          write_file.write(row)
+          row = read_file.readline()
+    replace(file_path + ".temp",file_path+".csv") 
+    return number_of_columns
+
+  @staticmethod
+  def insert_row_with_number_of_columns_in_csv_file(file_path):
+    """Gets the number of columns of the first row in a csv file and
+    inserts a row (first row) with this number in the first column.
+    This is needed for ElmFile to read csv files.
+    """
+    with open(file_path+".csv") as read_file, open(file_path + ".temp", "w") as write_file:
+      first_row = read_file.readline()
+      columns_of_first_row = first_row.split(",")
+      if columns_of_first_row[-1] == "\n":
+        columns_of_first_row = columns_of_first_row[:-1]
+      number_of_columns = len(columns_of_first_row)-1 # Minus one because first column is time and should not be counted.
+      write_file.write(str(number_of_columns)+"\n")
+      write_file.write(first_row)
+      row = read_file.readline()
+      while row:
+          write_file.write(row)
+          row = read_file.readline()
+    replace(file_path + ".temp",file_path+".csv")  
+    return number_of_columns
 
 class PFStringManipuilation:
   
@@ -598,6 +790,15 @@ class PFStringManipuilation:
         return path[1:] 
     except(TypeError):
       raise TypeError("Path must be of type string.")
+
+  
+class PFResultVariable:
+
+  def __init__(self,result_object,element,variable) -> None:
+
+    self.result_object = result_object
+    self.element = element
+    self.variable = variable
 
 class PFTranslator:
 
