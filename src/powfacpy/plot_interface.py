@@ -107,7 +107,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     """Plots the variables of 'obj' to the currently active plot.
     Includes adding the variables to the results (ElmRes) object.
     The active plot can be set with the optional arguments.
-    Arguemnts:
+    Arguments:
       variables: string or list of variable names 
       graphics_page: name of graphics page
       plot: name of plot
