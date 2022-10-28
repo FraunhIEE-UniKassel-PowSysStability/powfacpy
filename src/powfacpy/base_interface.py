@@ -217,6 +217,16 @@ class PFBaseInterface:
       parent = parent.GetParent()
     return parent  
 
+  def get_active_networks(self,error_if_no_network_is_active=True):
+    """Get active networks/grids.  
+    """
+    grids = self.app.GetCalcRelevantObjects(".ElmNet") # This also returns the summary grid in the study case
+    # Delete the summary grid which is in the study case
+    grids[:] = [grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"]  
+    if error_if_no_network_is_active and not grids:
+      raise PFNotActiveError("a network (ElmNet).")
+    return grids  
+
   def get_by_condition(self,objects,condition):
     """From a list of objects, get those for whom the 'condition' 
     (which is a function) returns 'True'.
