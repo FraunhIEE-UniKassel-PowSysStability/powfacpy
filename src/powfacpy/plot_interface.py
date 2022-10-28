@@ -119,7 +119,11 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         label: str
     """
     obj = self.handle_single_pf_object_or_path_input(obj)
-    self.add_results_variable(obj,variables)
+    if "results_obj" in kwargs:
+      results_obj = kwargs["results_obj"]
+    else:
+      results_obj = None
+    self.add_results_variable(obj,variables,results_obj=results_obj)
     self.plot_monitored_variables(obj,variables,
       graphics_page=graphics_page,plot=plot,**kwargs) 
   
