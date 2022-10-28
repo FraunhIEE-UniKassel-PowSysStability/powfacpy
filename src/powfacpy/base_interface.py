@@ -27,6 +27,7 @@ class PFBaseInterface:
       self.language = app.GetLanguage()
     else:
       self.language = language  
+    self.export_dir = None
 
   def get_obj(self,path,condition=None,parent_folder=None,error_if_non_existent=True,
     include_subfolders=False):
