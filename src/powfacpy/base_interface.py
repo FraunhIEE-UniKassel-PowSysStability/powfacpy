@@ -326,9 +326,12 @@ class PFBaseInterface:
     folder = self.get_single_obj(folder_path)
     return self.create_in_folder(folder,obj_name_incl_class,overwrite=overwrite)
   
-  def create_in_folder(self,folder,obj,overwrite=True):
+  def create_in_folder(self,folder,obj,overwrite=True,use_existing=False):
     """Creates an obj inside a folder and returns the object.
     If overwrite is true, objects with the same name will be overwritten.
+    If use_existing is True, objects with the same name are not replaced.
+    If overwrite and use_existing are false and an object with the same name
+    exists, a new object with "(1)"/"(2)".. in name is created.
     Example:
       pfbi.create_in_folder("Library\\Dynamic Models","dummy2.BlkDef")
     """
