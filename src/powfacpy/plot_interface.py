@@ -165,6 +165,62 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         kwargs['results_obj'])
       data_series.SetAttribute("curveTableResultFile",list_curveTableAttr)
 
+  def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
+    """Use an ElmFile object to plot data from csv file.
+    The ElmFiles are stored in a dummy network because the simulation needs to be run
+    to read the data from the csv file and is not just printed to the plot automatically.
+    """
+    # Deactivate currently active networks
+    active_networks = self.get_active_networks(
+      error_if_no_network_is_active=False)
+    for network in active_networks:
+      network.Deactivate()
+    # Activate dummy network
+    elmfiles_network = self.create_dummy_network("network_for_elmfiles")  
+    elmfiles_network.Activate()  
+    # Add new ElmFile
+    elmfile_num = 1
+    while True:
+      existing_elmfile = self.get_single_obj("elmfile_"+str(elmfile_num),
+        parent_folder=elmfiles_network,error_if_non_existent=False)
+      if not existing_elmfile:
+        break
+      elmfile_num += 1 
+    elmfile = self.create_in_folder(elmfiles_network,
+      "elmfile_"+str(elmfile_num)+".ElmFile",overwrite=True)
+    self.clear_elmres_from_objects_with_status_deleted()
+    elmfile.f_name = file_path + ".csv"
+    # Add ElmREs for ElmFiles
+    active_case = self.app.GetActiveStudyCase()
+    elmres_for_elmfiles = self.create_in_folder(active_case,
+      "elmres_for_elmfiles.ElmRes",overwrite=False,use_existing=True)
+    # Plot
+    kwargs.update({"results_obj":elmres_for_elmfiles})  
+    self.plot(elmfile,variable,**kwargs)
+    # Simulate
+    pfds = PFDynSimInterface(self.app)
+    cominc = self.app.GetFromStudyCase("ComInc")
+    initial_elmres = self.get_attr(cominc,"p_resvar")
+    self.set_attr(cominc,{"p_resvar":elmres_for_elmfiles})
+    pfds.initialize_and_run_sim()
+    self.set_attr(cominc,{"p_resvar":initial_elmres})
+    # Reactivate the initial networks
+    elmfiles_network.Deactivate()
+    for network in active_networks:
+      network.Activate()
+
+  def create_dummy_network(self,name=None):
+    """Creates a network with only one terminal.
+    """
+    if not name:
+      name = "dummy_network"
+    network_folder = self.app.GetProjectFolder("netdat",1)
+    dummy_network = self.create_in_folder(network_folder,
+      name+".ElmNet",overwrite=False,use_existing=True)
+    self.create_in_folder(dummy_network,
+      "dummy_terminal.ElmTerm",overwrite=False,use_existing=True)
+    return dummy_network
+
   def autoscale(self):
     self.active_graphics_page.DoAutoScaleY()
     self.active_graphics_page.DoAutoScaleX()
@@ -283,7 +339,64 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         plot = plot_interface.plot(csv_file["Time"]+offset, csv_file[var], label = var)   
     return plot
 
+  def get_data_series_from_plot(self,plot=None,indexes=None,include_curve_options=False):
+    if not plot:
+      data_series = self.get_data_series_of_active_plot()
+    else:
+      plot = self.handle_single_pf_object_or_path_input(plot)
+      data_series = plot.GetDataSeries()
+    lists_from_data_series_of_plot = self.get_lists_from_data_series_of_plot(
+      data_series,indexes=None,include_curve_options=False)
+    return self.get_pf_result_variables_from_lists_of_data_series_of_plot(curveTableElements,curveTableVariable,curveTableResultFile,
+      curveTableLineStyle,curveTableLineWidth,curveTableColor,
+      curveTableLabelinclude_curve_options=False)  
 
+  def get_lists_from_data_series_of_plot(self,plot=None,indexes=None,include_curve_options=False):
+    if not plot:
+        data_series = self.get_data_series_of_active_plot()
+    else:
+      plot = self.handle_single_pf_object_or_path_input(plot)
+      data_series = plot.GetDataSeries()  
+    lists = PFListsOfDataSeriesOfPlot(
+      data_series.GetAttribute("curveTableElement"),  
+      data_series.GetAttribute("curveTableVariable"), 
+      [], [], [], [], []
+    )
+    if data_series.useIndividualResults:
+      lists.result_objects = data_series.GetAttribute("curveTableResultFile") 
+      for idx,res_obj in enumerate(lists.result_objects):
+        if not res_obj:
+          lists.result_objects[idx] = data_series.GetAttribute("userSelectedResultFile")
+    else:
+      # Even if 'autoSearchResultsFile' is True, 'userSelectedResultFile' and 
+      # not 'autoSelectedResultFile' must be used.
+      # Seems to be a PF bug.
+      lists.result_objects = [data_series.GetAttribute("userSelectedResultFile")]*len(lists.elements)
+    if include_curve_options:
+      lists.line_styles = data_series.GetAttribute("curveTableResultFile") 
+      lists.line_widths = data_series.GetAttribute("curveTableLineWidth") 
+      lists.colors = data_series.GetAttribute("curveTableColor") 
+      lists.labels = data_series.GetAttribute("curveTableLabel")
+    if indexes:
+      lists.elements = [lists.elements[i] for i in indexes]
+      lists.variables = [lists.variables[i] for i in indexes]
+      if data_series.useIndividualResults:
+        lists.result_objects = [lists.result_objects[i] for i in indexes] 
+      if include_curve_options:
+        lists.line_style = [lists.line_style[i] for i in indexes] 
+        lists.line_widths = [lists.line_widths[i] for i in indexes] 
+        lists.colors = [lists.colors[i] for i in indexes]  
+        lists.labels = [lists.labels[i] for i in indexes]  
+    return lists
+    
 
+class PFListsOfDataSeriesOfPlot:
 
-          
+  def __init__(self,elements,variables,result_objects,line_styles,line_widths,colors,labels) -> None:
+    self.elements = elements
+    self.variables = variables 
+    self.result_objects = result_objects
+    self.line_styles = line_styles
+    self.line_widths = line_widths
+    self.colors = colors
+    self.labels = labels        
