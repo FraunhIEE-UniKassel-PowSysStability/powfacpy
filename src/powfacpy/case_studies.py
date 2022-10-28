@@ -45,7 +45,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       parameter_values_string = self.get_case_params_value_string(
         case_num,omitted_parameters=self.hierarchy) 
       if self.consecutively_number_case_names:
-        parameter_values_string = str(case_num) + " " + parameter_values_string    
+        parameter_values_string = str(case_num) + " " + parameter_values_string  
       self.study_cases.append(
         self.create_study_case(parameter_values_string,folder_path))
       self.activate_grids(case_num)
@@ -257,5 +257,4 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       for param_num,param_name in enumerate(self.parameter_values.keys()):
           self.parameter_values[param_name].append(
               values_of_all_parameters_for_case[param_num])
-  
-
+              
