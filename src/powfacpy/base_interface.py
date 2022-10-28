@@ -476,11 +476,11 @@ class PFBaseInterface:
 
   def copy_obj(self,obj_or_path,target_folder,overwrite=True,condition=None,
     parent_folder=None,error_if_non_existent=True,include_subfolders=False):
-    """Copies object(s) by using 'get_obj' in first step and the copying 
+    """Copies object(s) by using 'get_obj' in first step and then copying 
     the returned objects to 'target_folder'.
     The argument 'parent_folder' refers to the source folder and is used in
     combination with 'obj_or_path' to get the object(s) to be copied.
-    If 'overwrite' is True, existing objects wit the same name are overwritten
+    If 'overwrite' is True, existing objects with the same name are overwritten
     in the target folder.
     For further information on the input arguments, see method 'get_obj'.
 
