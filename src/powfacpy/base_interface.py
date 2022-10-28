@@ -329,11 +329,15 @@ class PFBaseInterface:
     """
     folder = self.handle_single_pf_object_or_path_input(folder)
     try:
-      obj_name, class_name = obj.split('.')
+      obj_name, _, class_name = obj.rpartition('.')
     except(AttributeError):
       raise TypeError("The argument 'obj' must be of type string.")
     if overwrite:
       self.delete_obj(obj,parent_folder=folder,error_if_non_existent=False)
+    elif use_existing:
+      existing_obj = self.get_single_obj(obj,parent_folder=folder,error_if_non_existent=False)
+      if existing_obj:
+        return existing_obj 
     return folder.CreateObject(class_name, obj_name)
 
   def create_directory(self,directory,parent_folder=None):
@@ -361,7 +365,6 @@ class PFBaseInterface:
     else:
       return self.get_single_obj(directory,parent_folder=parent_folder)      
          
-
   def delete_obj(self,obj_or_path,condition=None,parent_folder=None,error_if_non_existent=True,
     include_subfolders=False):
     """Delete object(s). In a first step, the objects are loaded using the `get_obj`
