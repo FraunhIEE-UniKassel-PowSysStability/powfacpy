@@ -255,6 +255,11 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     """Deletes all graphics (plot) pages from the graphics board of 
     the active study case. 
     """
+    self.clear_graphics_board(obj="*.GrpPage")
+
+  def clear_grid_diagrams(self):
+    self.clear_graphics_board(obj="*.SetDeskpage")  
+
   def clear_graphics_board(self,obj="*"):
     """Clear the graphics board from specific objects or from all objects.
     Objects of class SetDeskpage are closed, others are removed.
