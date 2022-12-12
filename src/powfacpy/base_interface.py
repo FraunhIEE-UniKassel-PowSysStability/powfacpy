@@ -506,17 +506,17 @@ class PFBaseInterface:
 
   def copy_single_obj(self,obj_or_path,target_folder,overwrite=True,
     new_name=None,parent_folder=None,error_if_non_existent=True):
-    """Copies single object by using 'get_single_obj' in first step and the copying 
-    the returned objects to 'target_folder'.
+    """Copies single object by using 'get_single_obj' in first step and then copying 
+    the returned object to 'target_folder'.
     The argument 'parent_folder' refers to the source folder and is used in
-    combination with 'obj_or_path' to get the object(s) to be copied.
-    If 'overwrite' is True, existing objects wit the same name are overwritten
+    combination with 'obj_or_path' to get the object to be copied.
+    If 'overwrite' is True, existing objects with the same name are overwritten
     in the target folder.
     A 'new_name' can be provided (in contrast to method 'copy_obj').
     For further information on the input arguments, see methods 'get_obj' or
     'get_single_obj'.
 
-    Returns a list of the created copy.
+    Returns the created copy.
 
     See also 'copy_obj'
     """
