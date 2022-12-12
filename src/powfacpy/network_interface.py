@@ -48,6 +48,9 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
   def copy_grid(self,grid_or_path,target_folder,new_name,
     parent_folder=None,
     error_if_non_existent=True):
+    """Copying a grid is not trivial in PF because the graphical network objects
+    need to be copied and assigned manually as this is not done automatically.
+    """
     grid_to_be_copied = self.handle_single_pf_object_or_path_input(grid_or_path)
     new_grid = self.copy_single_obj(grid_to_be_copied,target_folder,
       overwrite=True,
