@@ -764,6 +764,34 @@ class PFBaseInterface:
     replace(file_path + ".temp",file_path+".csv")  
     return number_of_columns
 
+  def get_upstream_obj(self, obj_or_path, condition):
+    """Returns the upstream object that meets the condition.
+    Goes up step by step to the parent folders until the condition is met.
+    Arguments:
+      obj_or_path: Object (or its path) to start from.
+      condition: lamba function with condition for parent object.
+    """
+    obj_or_path = self.handle_single_pf_object_or_path_input(obj_or_path)
+    obj_or_path = obj_or_path.GetParent()
+    if condition(obj_or_path):
+      return obj_or_path
+    else:
+      self.get_upstream_obj(obj_or_path, condition)
+
+  def get_path_between_objects(self, obj_high, obj_low):
+    """Returns the path between two objects in the database.
+    Arguments:
+      object_high: Object higher in the hierarchy.
+      object_low: Object lower in the hierarchy. 
+    """
+    obj_high = self.handle_single_pf_object_or_path_input(obj_high)
+    obj_high = PFStringManipuilation.format_full_path(str(obj_high),self)
+    obj_low = self.handle_single_pf_object_or_path_input(obj_low)
+    obj_low = PFStringManipuilation.format_full_path(str(obj_low),self)
+    path = str(obj_low).split(str(obj_high))[1][1:] 
+    return path     
+
+
 class PFStringManipuilation:
   
   @staticmethod
