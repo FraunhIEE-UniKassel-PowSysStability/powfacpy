@@ -271,6 +271,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         graphic.Close()
       else:
         graphic.RemovePage()
+
         
   def copy_graphics_board_content(self,source_study_case,
     target_study_cases,obj_to_copy="*",
@@ -370,6 +371,9 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       curveTableLabelinclude_curve_options=False)  
 
   def get_lists_from_data_series_of_plot(self,plot=None,indexes=None,include_curve_options=False):
+    """Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
+    DataSeries (PltDataseries) of a plot.
+    """
     if not plot:
         data_series = self.get_data_series_of_active_plot()
     else:
@@ -386,20 +390,23 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         if not res_obj:
           lists.result_objects[idx] = data_series.GetAttribute("userSelectedResultFile")
     else:
+      # PF bug:
       # Even if 'autoSearchResultsFile' is True, 'userSelectedResultFile' and 
       # not 'autoSelectedResultFile' must be used.
-      # Seems to be a PF bug.
+      # Furthermore, 'autoSearchResultFile' must be deactivated and activated once.
+      data_series.autoSearchResultFile = 0
+      data_series.autoSearchResultFile = 1
       lists.result_objects = [data_series.GetAttribute("userSelectedResultFile")]*len(lists.elements)
     if include_curve_options:
       lists.line_styles = data_series.GetAttribute("curveTableResultFile") 
       lists.line_widths = data_series.GetAttribute("curveTableLineWidth") 
       lists.colors = data_series.GetAttribute("curveTableColor") 
       lists.labels = data_series.GetAttribute("curveTableLabel")
+    # Return only curves contained in indexes  
     if indexes:
       lists.elements = [lists.elements[i] for i in indexes]
       lists.variables = [lists.variables[i] for i in indexes]
-      if data_series.useIndividualResults:
-        lists.result_objects = [lists.result_objects[i] for i in indexes] 
+      lists.result_objects = [lists.result_objects[i] for i in indexes] 
       if include_curve_options:
         lists.line_style = [lists.line_style[i] for i in indexes] 
         lists.line_widths = [lists.line_widths[i] for i in indexes] 
