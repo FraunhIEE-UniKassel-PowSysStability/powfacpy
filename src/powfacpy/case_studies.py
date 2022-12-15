@@ -14,6 +14,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.delimiter = " "
     self.hierarchy = []
     self.study_cases = []
+    self.omitted_combinations = []
     # ToDo base case/scen/var to copy or only base case
     """
     self.parent_folder_study_cases = powfacpy.PFTranslator.get_default_study_case_folder_name(
@@ -65,8 +66,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if self.hierarchy:
       folder_path = ""
       for par_name in self.hierarchy:
-        add_to_string = str(
-          self.get_value_of_parameter_for_case(par_name,case_num)) + "\\"
+        add_to_string = str(self.get_value_of_parameter_for_case(par_name,case_num)) + "\\"
         if not par_name in self.anonymous_parameters: 
           add_to_string = par_name + "_" + add_to_string
         folder_path += add_to_string
@@ -129,7 +129,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
-  def create_study_case(self,parameter_values_string,folder_path):
+  def create_study_case(self,name,folder_path):
     """Creates a study case with the name 'parameter_values_string'
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_study_cases)
@@ -142,7 +142,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       parent_folder_study_case = self.create_directory(folder_path,
         parent_folder=parent_folder_study_case)
     study_case_obj = self.create_in_folder(parent_folder_study_case,
-      parameter_values_string+".IntCase")
+      name+".IntCase")
     study_case_obj.Activate()
     return study_case_obj
 
@@ -208,8 +208,9 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     """
     case_num = self.handle_case_input(case_obj_or_case_num)
     for par_name,path in self.parameter_paths.items():
-      self.set_attr_by_path(path,
-        self.get_value_of_parameter_for_case(par_name,case_num))  
+      value = self.get_value_of_parameter_for_case(par_name,case_num)
+      if value:
+        self.set_attr_by_path(path,value)  
 
   def get_study_cases(self,conditions):
     """Retrieve study case objects depending on parameter values.
@@ -237,7 +238,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     return cases
 
 
-  def apply_permutation(self):
+  def apply_permutation(self,omitted_combinations=None):
     """Replaces the values in 'parameter_values' with the permutation of
     their unique elements. 
     Use this method if you want to create cases of the permutation of all
@@ -254,7 +255,39 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         self.parameter_values[param_name] = []
     # Copy values from iterable    
     for values_of_all_parameters_for_case in permutation_iterable:
-      for param_num,param_name in enumerate(self.parameter_values.keys()):
+      if omitted_combinations:
+        values_of_all_parameters_for_case = self.filter_omitted_combinations(
+          values_of_all_parameters_for_case,omitted_combinations)
+      if values_of_all_parameters_for_case:    
+        for param_num,param_name in enumerate(self.parameter_values.keys()):
           self.parameter_values[param_name].append(
-              values_of_all_parameters_for_case[param_num])
-              
+            values_of_all_parameters_for_case[param_num])
+
+  def filter_omitted_combinations(self,values_of_all_parameters_for_case,omitted_combinations):
+    """Filter the parameter combinations that should be omitted. 
+    The difficulty is the handling of the 'all' case. In this case, the combination
+    with any value of a parameter is omitted, but combinations with the other parameters
+    must be allowed
+    """
+    # Create list from tuple because values might be changed/set to 'None'
+    values_of_all_parameters_for_case = list(values_of_all_parameters_for_case)
+    for omitted_combination_dict in omitted_combinations:
+      is_omitted_combination = True
+      for param_num,param_name in enumerate(self.parameter_values.keys()):
+        if param_name in omitted_combination_dict:
+          if omitted_combination_dict[param_name] == "all":
+            # If the parameter is 'all', then only one case should be created. The case where
+            # the value of the parameter takes on the value of the first entry in 
+            # self.parameter_values[param_name][0] is selected. This must be the case for all
+            # parameters that are set to 'all'
+            if not (self.parameter_values[param_name][0] == values_of_all_parameters_for_case[param_num]): 
+              return False
+            else:
+              is_omitted_combination = False
+              values_of_all_parameters_for_case[param_num] = None
+          elif not values_of_all_parameters_for_case[param_num] in omitted_combination_dict[param_name]:
+            is_omitted_combination = False
+            break
+      if is_omitted_combination:
+        return False
+    return values_of_all_parameters_for_case

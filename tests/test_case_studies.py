@@ -139,6 +139,51 @@ def test_case_studies_permutation(pfsc,activate_test_project):
     pfsc.apply_permutation()
     pfsc.create_cases()    
 
+def test_case_studies_permutation_with_omitted_combinations(pfsc,activate_test_project):
+    pfsc.parent_folder_study_cases = r"Study Cases\test_case_studies"
+    pfsc.parent_folder_scenarios = r"Network Model\Operation Scenarios\test_case_studies"
+    pfsc.parent_folder_variations = r"Network Model\Variations\test_case_studies"
+    pfsc.delete_obj("*",
+        parent_folder = pfsc.parent_folder_study_cases,error_if_non_existent=False)
+    pfsc.delete_obj("*",parent_folder =pfsc.parent_folder_scenarios,
+        error_if_non_existent=False)
+    pfsc.delete_obj("*",parent_folder =pfsc.parent_folder_variations,
+        error_if_non_existent=False)
+
+    pfsc.parameter_values = {
+            "p HV load":[1, 2, 3],
+            "q HV load":[-1, 1, 0],
+            "control 1": ["A","B","C"],
+            "control 2": ["R","S","T"],
+        }
+    pfsc.parameter_paths = {
+        "p HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\plini",
+        "q HV load":r"Network Model\Network Data\test_case_studies\Grid 2\General Load HV\qlini",
+    }
+    pfsc.hierarchy = ["p HV load","control 1",]
+    pfsc.active_grids = r"Network Model\Network Data\test_case_studies\Grid 2"
+    omitted_combinations = [
+        {"p HV load": [2], "control 1": "all", "control 2": "all"},
+        {"q HV load": [1,0],"control 2": ["R","T"]}
+    ]
+    pfsc.apply_permutation(omitted_combinations=omitted_combinations)
+    # Assert that the omitted combinations are not included
+    for case_num,_ in enumerate(pfsc.parameter_values["p HV load"]):
+        assert(not(
+            (pfsc.parameter_values["p HV load"][case_num] == 2) and
+            (pfsc.parameter_values["control 1"][case_num] is not None) and 
+            (pfsc.parameter_values["control 2"][case_num] is not None)  
+        ))
+        assert(not(
+            (pfsc.parameter_values["q HV load"][case_num] == 0) and
+            (pfsc.parameter_values["control 2"][case_num] == "T")  
+        ))
+        assert(not(
+            (pfsc.parameter_values["q HV load"][case_num] == 1) and
+            (pfsc.parameter_values["control 2"][case_num] == "R")  
+        ))
+    pfsc.create_cases()
+
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_case_studies.py"]))
