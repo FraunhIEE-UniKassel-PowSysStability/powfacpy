@@ -864,7 +864,7 @@ class PFTranslator:
       return "Graphics Board.SetDesktop"
     elif language == "de":
       return "Grafiksammlung.SetDesktop"
-
+  
   @staticmethod
   def get_default_study_case_folder_name(language):
     if language == "en":
@@ -877,7 +877,7 @@ class PFTranslator:
     if language == "en":
       return r"Network Model\Operation Scenarios"
     elif language == "de":
-      return r"Netzmodell\Betriebsfälle"  
+      return r"Netzmodell\Betriebsfälle"
 
   @staticmethod
   def get_default_variations_folder_path(language):
@@ -886,7 +886,47 @@ class PFTranslator:
     elif language == "de":
       return r"Netzmodell\Varianten"      
 
+  @staticmethod
+  def _get_language_dependent_name_from_studycase(
+    studycase, english_name, german_name):
+    studycase_contents = powfacpy.PFTranslator.\
+      get_name_with_ending(
+        studycase.GetContents())
+    has_english_name = english_name in studycase_contents
+    has_german_name = german_name in studycase_contents
+    assert not (has_english_name and has_german_name), \
+      'Two redundant file versions: English and German named files exist.'
+    if has_english_name:
+      return english_name
+    else:
+      return german_name
 
+  @staticmethod
+  def get_graphics_board_name_from_studycase(studycase):
+    name = powfacpy.PFTranslator.\
+      _get_language_dependent_name_from_studycase(
+      studycase=studycase,
+      english_name="Graphics Board.SetDesktop",
+      german_name="Grafiksammlung.SetDesktop",
+    )
+    return name
+
+  @staticmethod
+  def get_result_object_name_from_studycase(studycase):
+    name = powfacpy.PFTranslator.\
+      _get_language_dependent_name_from_studycase(
+      studycase=studycase,
+      english_name="All calculations.ElmRes",
+      german_name="Alle Berechnungsarten.ElmRes",
+    )
+    return name
+
+  @staticmethod
+  def get_name_with_ending(objects):
+    if not type(objects) == list:
+      objects = [objects]
+    return [x.GetFullName().split('\\')[-1] for x in objects]
+    
 
 if __name__ == "__main__":
   print("ok")

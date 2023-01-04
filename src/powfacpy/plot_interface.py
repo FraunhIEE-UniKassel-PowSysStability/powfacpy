@@ -326,12 +326,13 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       clear_target_graphics_board: If true, the graphics boards of the target 
         cases are cleared before pasting the content  
     """    
-    graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
-      self.language)  
+    
+    currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
+    graphics_board_name = powfacpy.PFTranslator.get_graphics_board_name_from_studycase(
+      currently_active_study_case) # assumption: graphics board names identical in all study cases 
     source_study_case = self.handle_single_pf_object_or_path_input(source_study_case)
     source_graphics_board = self.get_single_obj(graphics_board_name,
       parent_folder=source_study_case)
-    currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
     if not isinstance(target_study_cases,(list,tuple)):
       target_study_cases = [target_study_cases]  
     for target_study_case in target_study_cases:
