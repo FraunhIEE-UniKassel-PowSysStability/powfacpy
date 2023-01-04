@@ -19,6 +19,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.active_graphics_page = None
     self.active_plot = None
 
+
   def set_active_graphics_page(self,page):
     """Sets the active graphics page.
     Arguments:
@@ -29,6 +30,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.active_graphics_page = grb.GetPage(page,1,"GrpPage")
     else:
       self.active_graphics_page = page
+
 
   def set_active_plot(self,name_or_obj,graphics_page=None):
     """Set the currently active plot.
@@ -47,6 +49,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.active_plot = name_or_obj
       self.set_active_graphics_page(self.active_plot.GetParent())
 
+
   def get_or_create_graphics_board(self):
     """Get the graphics board of the currently active study case or create
     a new graphics board if it does not exist within the study case yet.
@@ -60,6 +63,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       grb.Show()
       grb = self.app.GetGraphicsBoard() # get grb again to get correct object from PF
     return grb  
+
 
   def plot_monitored_variables(self,obj,variables,
     graphics_page=None,plot=None,**kwargs):
@@ -90,18 +94,43 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for var in variables:
       data_series.AddCurve(obj,var)
       self.set_curve_attributes(data_series,**kwargs)
+    x_axis = self.get_x_axis_of_active_plot()
+    self.set_x_axis_attributes(x_axis, **kwargs)
     self.active_graphics_page.Show()
 
-  def get_data_series_of_active_plot(self):
-    """Get the dataseries of the currently active plot.
+
+  def _get_element_of_active_plot(self, element):
+    """Get sub-element of the currently active plot.
     """
     try:
-      return self.active_plot.GetDataSeries()
+      if element == 'data_series':
+        return self.active_plot.GetDataSeries()
+      elif element == 'x_axis':
+        return self.active_plot.GetAxisX()
+      elif element == 'y_axis':
+        return self.active_plot.GetAxisY()
+
     except(AttributeError) as e:
       if not self.active_plot:
         raise powfacpy.PFNoPlotActivatedError()
       else:
         raise AttributeError(e)
+
+  def get_data_series_of_active_plot(self):
+    """Get the dataseries of the currently active plot.
+    """
+    return self._get_element_of_active_plot('data_series')
+
+  def get_x_axis_of_active_plot(self):
+    """Get the x-axis of the currently active plot.
+    """
+    return self._get_element_of_active_plot('x_axis')
+  
+  def get_y_axis_of_active_plot(self):
+    """Get the y-axis of the currently active plot.
+    """
+    return self._get_element_of_active_plot('y_axis')
+    
 
   def plot(self,obj,variables,graphics_page=None,plot=None,**kwargs):
     """Plots the variables of 'obj' to the currently active plot.
@@ -127,6 +156,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.plot_monitored_variables(obj,variables,
       graphics_page=graphics_page,plot=plot,**kwargs) 
   
+
   def set_curve_attributes(self,data_series,**kwargs):
     """Set curve attributes.
     Arguments:
@@ -170,6 +200,17 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       list_curveTableAttr[-1] = self.handle_single_pf_object_or_path_input(
         kwargs['results_obj'])
       data_series.SetAttribute("curveTableResultFile",list_curveTableAttr)
+
+  def set_x_axis_attributes(self,x_axis,**kwargs):
+    """Set x-axis attributes.
+    Arguments:
+      x_axis: x-axis of plot.
+      kwargs:
+        axismode: int (e. g. 0=standard, 1=time, 2=date)
+    """
+    if  "xaxismode" in kwargs:
+      x_axis.SetAttribute("axisMode",kwargs["xaxismode"])
+    
 
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
