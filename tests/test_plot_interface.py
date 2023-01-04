@@ -35,7 +35,7 @@ def test_plot(pfplot,activate_test_project):
         result_obj=r"Study Cases\test_plot_interface\Study Case 1\All calculations")
 
 def test_pyplot_from_csv(pfplot,activate_test_project):
-    export_dir = r"D:\User\seberlein\Code\powfacpy\tests"
+    export_dir = r"D:\User\mfranke\documents\software_projects\powfacpy\tests"
     file_name = "results"
     pfsim = powfacpy.PFDynSimInterface(pfplot.app)
     pfsim.export_dir =  export_dir
