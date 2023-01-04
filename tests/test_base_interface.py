@@ -21,7 +21,7 @@ def pfbi(pf_app):
 
 @pytest.fixture
 def activate_test_project(pfbi):
-    pfbi.app.ActivateProject(r"\seberlein\powfacpy\powfacpy_tests")
+    pfbi.app.ActivateProject(r"\mfranke\powfacpy\powfacpy_tests")
     pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
     
 def test_get_single_object(pfbi,activate_test_project):

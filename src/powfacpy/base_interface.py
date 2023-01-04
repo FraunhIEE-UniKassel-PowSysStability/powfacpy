@@ -588,7 +588,10 @@ class PFBaseInterface:
     dir=None,
     file_name=None,
     results_obj=None,
-    results_variables_lists=None):
+    results_variables_lists=None,
+    separator=',',
+    decimal='.'
+    ):
       """Exports simulation results to csv.
       Arguments:
         dir: export directory, if 'None' the current working directory 
@@ -620,7 +623,9 @@ class PFBaseInterface:
       comres.iopt_exp = 6 # to export as csv
       path = dir + "\\" + file_name + ".csv"
       comres.f_name = path
-      comres.iopt_sep = 1 # to use the system seperator
+      comres.iopt_sep = 0 # to use specified separator and decimal symbols
+      comres.col_Sep = separator
+      comres.dec_Sep = decimal
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
