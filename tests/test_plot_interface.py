@@ -32,7 +32,8 @@ def test_plot(pfplot,activate_test_project):
     pfplot.set_active_plot("test_plot 2","test_plot_interface 1")
     pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","s:u0",
         linestyle=2,linewidth=100,color=3,label="u0 test",
-        result_obj=r"Study Cases\test_plot_interface\Study Case 1\All calculations")
+        result_obj=r"Study Cases\test_plot_interface\Study Case 1\All calculations",
+        xaxislabelmode=2)
 
 def test_pyplot_from_csv(pfplot,activate_test_project):
     export_dir = r"D:\User\mfranke\documents\software_projects\powfacpy\tests"
