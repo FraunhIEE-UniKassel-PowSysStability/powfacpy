@@ -206,10 +206,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     Arguments:
       x_axis: x-axis of plot.
       kwargs:
-        axismode: int (e. g. 0=standard, 1=time, 2=date)
+        xaxislabelmode: int (e. g. 0=standard, 1=time, 2=date)
     """
-    if  "xaxismode" in kwargs:
-      x_axis.SetAttribute("axisMode",kwargs["xaxismode"])
+    if  "xaxislabelmode" in kwargs:
+      x_axis.SetAttribute("axisMode",kwargs["xaxislabelmode"])
     
 
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
