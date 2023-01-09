@@ -413,7 +413,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         lists.colors = [lists.colors[i] for i in indexes]  
         lists.labels = [lists.labels[i] for i in indexes]  
     return lists
-    
+
+  def export_active_page(self,format,path):
+    """Export active page using ComWr
+    """
+    self.active_graphics_page.Show()
+    comwr = self.app.GetFromStudyCase('ComWr')
+    self.set_attr(comwr,{'iopt_rd': format,'iopt_savas': 0, 'f': path})
+    comwr.Execute()  
 
 class PFListsOfDataSeriesOfPlot:
 
