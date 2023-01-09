@@ -102,6 +102,14 @@ class PFBaseInterface:
         return self.handle_non_existing_obj(head,parent_folder,error_if_non_existent)
     return parent_folder.GetChildren(1,tail,1)
 
+  def get_unique_obj(self,path,parent_folder=None,error_if_non_existent=True):
+    """This method is equal to get_single_obj and was added because the method
+    name fits better to what the method does (i.e. to get a unique object and to
+    throw an error if the object is not unique)
+    """
+    self.get_single_obj(path,parent_folder=parent_folder,
+      error_if_non_existent=error_if_non_existent)
+
   def get_single_obj(self,path,parent_folder=None,error_if_non_existent=True):
     """Use this method if you want to access one single unique object.
     This method is an alterntive to 'get_obj' and returns the unique object instead
