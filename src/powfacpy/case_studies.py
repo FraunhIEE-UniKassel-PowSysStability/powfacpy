@@ -120,16 +120,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if not equals_sign:
       equals_sign = " _ "   
     parameter_values_string = ""
-    for par_name in self.parameter_values:
+    for par_name in self.parameter_values.keys():
       if omitted_parameters is None or par_name not in omitted_parameters:
-        add_to_string = str(
-          self.get_value_of_parameter_for_case(par_name,case_num)) + delimiter
-        if anonymous_parameters is None:
-          if par_name not in self.anonymous_parameters:
-            add_to_string = par_name + equals_sign + add_to_string
-        elif par_name not in anonymous_parameters:
-          add_to_string = par_name + equals_sign + add_to_string 
-        parameter_values_string += add_to_string
+        par_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        if par_value is not None or not self.ignore_parameters_that_are_none_in_names:
+          add_to_string = str(par_value) + delimiter
+          if anonymous_parameters is None:
+            if par_name not in self.anonymous_parameters:
+              add_to_string = par_name + equals_sign + add_to_string
+          elif par_name not in anonymous_parameters:
+            add_to_string = par_name + equals_sign + add_to_string 
+          parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
   def create_study_case(self,name,folder_path):
