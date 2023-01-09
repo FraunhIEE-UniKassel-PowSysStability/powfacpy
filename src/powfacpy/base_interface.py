@@ -622,7 +622,9 @@ class PFBaseInterface:
       comres.iopt_exp = 6 # to export as csv
       path = dir + "\\" + file_name + ".csv"
       comres.f_name = path
-      comres.iopt_sep = 1 # to use the system seperator
+      comres.iopt_sep = 0 # Do NOT use system separator
+      comres.col_Sep = "," # Column separator
+      comres.dec_Sep = "." # Decimal separator
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
