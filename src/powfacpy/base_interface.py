@@ -461,16 +461,21 @@ class PFBaseInterface:
         error_if_non_existent=error_if_non_existent)
     elif isinstance(obj, Iterable):
       elements_count = len(obj)
-      first_obj_type = type(obj[0])
-      try:
-        first_obj_path = self.get_path_of_object(obj[0])
-        msg_obj = (f"The first element is of type {first_obj_type} and its "
-          f"path is {first_obj_path}.")
-      except(AttributeError):
-        msg_obj = f"The first element is of type {first_obj_type}." 
-      msg = (f"Expected a PowerFactory object or a path string. Instead an "
-        f"iterable of length {elements_count} is given. {msg_obj}")
-      raise TypeError(msg)
+      if obj:
+        first_obj_type = type(obj[0]) 
+        try:
+          first_obj_path = self.get_path_of_object(obj[0])
+          msg_obj = (f"The first element is of type {first_obj_type} and its "
+            f"path is {first_obj_path}.")
+        except(AttributeError):
+          msg_obj = f"The first element is of type {first_obj_type}." 
+          msg = (f"Expected a PowerFactory object or a path string. Instead an "
+            f"iterable of length {elements_count} is given. {msg_obj}")
+          raise TypeError(msg)
+      else:
+        msg = (f"Expected a PowerFactory object or a path string. Instead an "
+            f"empty object of type '{type(obj).__name__}' is given.")
+        raise TypeError(msg)    
     else: # If all former conditions are False, it is assumed that the
       # input already was a PF object.
       return obj
