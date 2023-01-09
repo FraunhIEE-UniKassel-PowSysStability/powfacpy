@@ -571,6 +571,7 @@ class PFBaseInterface:
     for var in variables:
       results_obj.AddVariable(obj,var)
     results_obj.Load()
+    return results_obj
 
   def clear_elmres_from_objects_with_status_deleted(self,results_obj=None):
     """Deletes all objects from a results object (ElmRes) that have the
