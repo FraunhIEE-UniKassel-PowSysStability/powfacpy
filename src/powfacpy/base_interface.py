@@ -786,7 +786,7 @@ class PFBaseInterface:
     if condition(obj_or_path):
       return obj_or_path
     else:
-      self.get_upstream_obj(obj_or_path, condition)
+      return self.get_upstream_obj(obj_or_path, condition)
 
   def get_path_between_objects(self, obj_high, obj_low):
     """Returns the path between two objects in the database.
