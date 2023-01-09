@@ -114,8 +114,6 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     equals_sign=None,
     anonymous_parameters=None):
     """Returns the parameter-value string for a case name.
-    The string contains those parameters that are not in
-    'hierarchy' (because these are used for the folder names).
     """
     case_num = self.handle_case_input(case_obj_or_case_num)
     if not delimiter:
