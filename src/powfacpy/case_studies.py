@@ -33,6 +33,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.consecutively_number_case_names = False
     self.anonymous_parameters = [] # Paramters of which names are not used 
     # in folder/case names (only their values are used)
+    self.ignore_parameters_that_are_none_in_names = True
 
   def create_cases(self):
     """Create study cases (and corresponding scenarios/variations)
@@ -66,13 +67,15 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if self.hierarchy:
       folder_path = ""
       for par_name in self.hierarchy:
-        add_to_string = str(self.get_value_of_parameter_for_case(par_name,case_num)) + "\\"
-        if not par_name in self.anonymous_parameters: 
-          add_to_string = par_name + "_" + add_to_string
-        folder_path += add_to_string
-      return folder_path[:-1] # discard last "\\""
-    else:
-      return None
+        parameter_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        if parameter_value is not None or not self.ignore_parameters_that_are_none_in_names:
+          add_to_string = str(parameter_value) + "\\"
+          if not par_name in self.anonymous_parameters: 
+            add_to_string = par_name + "_" + add_to_string
+          folder_path += add_to_string
+      if folder_path:   
+        return folder_path[:-1] # discard last "\\""
+    return None
 
   def get_value_of_parameter_for_case(self,par_name,case_obj_or_case_num):
     """Returns a parameter value for a certain case.
