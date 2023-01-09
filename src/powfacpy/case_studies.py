@@ -138,10 +138,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_study_cases)
     """
-    if not self.parent_folder_study_cases:
-      parent_folder_study_case = self.app.GetProjectFolder("study")
-    else:
-      parent_folder_study_case = self.parent_folder_study_cases  
+    parent_folder_study_case = self.get_study_cases_parent_folder() 
     if folder_path:
       parent_folder_study_case = self.create_directory(folder_path,
         parent_folder=parent_folder_study_case)
@@ -155,10 +152,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this parth is 
     relativ to 'parent_folder_scenarios)
     """
-    if not self.parent_folder_scenarios:
-      parent_folder_scenario = self.app.GetProjectFolder("scen")
-    else:
-      parent_folder_scenario = self.parent_folder_scenarios 
+    parent_folder_scenario = self.get_scenarios_parent_folder()
     if folder_path:
       parent_folder_scenario = self.create_directory(folder_path,
         parent_folder=parent_folder_scenario)       
@@ -173,10 +167,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_variations)
     """ 
-    if not self.parent_folder_variations:
-      parent_folder_variation = self.app.GetProjectFolder("scheme")
-    else:
-      parent_folder_variation = self.parent_folder_variations
+    parent_folder_variation = self.get_variations_parent_folder()
     if folder_path:
       parent_folder_variation = self.create_directory(folder_path,
         parent_folder=parent_folder_variation)
@@ -295,3 +286,41 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       if is_omitted_combination:
         return False
     return values_of_all_parameters_for_case
+
+  def get_study_cases_parent_folder(self):
+    if not self.parent_folder_study_cases:
+      return self.app.GetProjectFolder("study")
+    else:
+      return self.parent_folder_study_cases
+
+  def get_scenarios_parent_folder(self):
+    if not self.parent_folder_scenarios:
+      return self.app.GetProjectFolder("scen")
+    else:
+      return self.parent_folder_scenarios  
+
+  def get_variations_parent_folder(self):
+    if not self.parent_folder_variations:
+      return self.app.GetProjectFolder("scheme")
+    else:
+      return self.parent_folder_variations       
+
+  def clear_parent_folders(self):
+    """Deletes all objects in the folders
+      - self.parent_folder_study_cases
+      - self.parent_folder_scenarios
+      - self.parent_folder_variations
+    if theses attributes are defined.  
+    """
+    parent_folders = [
+      self.get_study_cases_parent_folder(),
+      self.get_scenarios_parent_folder(),
+      self.get_variations_parent_folder(),
+    ]
+    for parent_folder in parent_folders:
+      if parent_folder:
+        self.delete_obj("*",
+          parent_folder=parent_folder,
+          error_if_non_existent=False,
+          include_subfolders=True)  
+
