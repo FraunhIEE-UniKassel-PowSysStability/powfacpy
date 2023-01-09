@@ -548,6 +548,7 @@ class PFBaseInterface:
     """
     study_case = self.get_single_obj(path)
     study_case.Activate()
+    return study_case
 
   def add_results_variable(self,obj,variables,results_obj=None):
     """Adds variables of the object to the PowerFactory results object (ElmRes)
