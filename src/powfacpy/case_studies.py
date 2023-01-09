@@ -91,7 +91,10 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     case_num = self.handle_case_input(case_obj_or_case_num)
     values = self.parameter_values[par_name]
     if isinstance(values,(list,tuple)):
-      return values[case_num]
+      try:
+        return values[case_num]
+      except(IndexError):
+        raise powfacpy.PFCaseStudyParameterValueDefinitionError(par_name,values)  
     else:
       return values
 
