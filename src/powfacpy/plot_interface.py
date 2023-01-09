@@ -271,8 +271,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         graphic.Close()
       else:
         graphic.RemovePage()
-
-        
+  
   def copy_graphics_board_content(self,source_study_case,
     target_study_cases,obj_to_copy="*",
     clear_target_graphics_board=False):
@@ -284,11 +283,9 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         (e.g. "*.GrpPage" to copy only the plot pages)
       clear_target_graphics_board: If true, the graphics boards of the target 
         cases are cleared before pasting the content  
-    """    
-    graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
-      self.language)  
+    """     
     source_study_case = self.handle_single_pf_object_or_path_input(source_study_case)
-    source_graphics_board = self.get_single_obj(graphics_board_name,
+    source_graphics_board = self.get_single_obj(".SetDesktop",
       parent_folder=source_study_case)
     currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
     if not isinstance(target_study_cases,(list,tuple)):
@@ -297,7 +294,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       target_study_case = self.handle_single_pf_object_or_path_input(target_study_case)
       if not target_study_case == source_study_case:
         target_study_case.Deactivate() # Writing to active graphics board not possible 
-        target_graphics_board = self.get_single_obj(graphics_board_name,parent_folder=target_study_case)
+        target_graphics_board = self.get_single_obj(".SetDesktop",parent_folder=target_study_case)
         if clear_target_graphics_board:
           self.delete_obj("*",parent_folder=target_graphics_board,error_if_non_existent=False)
         self.copy_obj(obj_to_copy,target_folder=target_graphics_board,overwrite=True,
