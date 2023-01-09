@@ -261,6 +261,7 @@ class PFBaseInterface:
   def get_attr(self,obj,attr,parent_folder=None):
     """Get the value of an attribute of an object.
     'obj' can be a path (string) or a Powerfactory object.
+    'attr' can be a string or a list of strings.
     If parent_folder is specified, the path is relative to 
     this folder.
 
