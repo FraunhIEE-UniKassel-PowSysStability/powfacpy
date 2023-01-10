@@ -94,8 +94,6 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for var in variables:
       data_series.AddCurve(obj,var)
       self.set_curve_attributes(data_series,**kwargs)
-    x_axis = self.get_x_axis_of_active_plot()
-    self.set_x_axis_attributes(x_axis, **kwargs)
     self.active_graphics_page.Show()
 
 
@@ -198,16 +196,31 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         kwargs['results_obj'])
       data_series.SetAttribute("curveTableResultFile",list_curveTableAttr)
 
-  def set_x_axis_attributes(self,x_axis,**kwargs):
+  def set_x_axis_attributes(self,**kwargs):
     """Set x-axis attributes.
     Arguments:
-      x_axis: x-axis of plot.
-      kwargs:
-        xaxislabelmode: int (e. g. 0=standard, 1=time, 2=date)
+      key-value-pairs of axis-related PF attributes and the desired value.
     """
-    if  "xaxislabelmode" in kwargs:
-      x_axis.SetAttribute("axisMode",kwargs["xaxislabelmode"])
+    self._set_axis_attributes(
+      self.get_x_axis_of_active_plot(),
+      kwargs)
+    pass
     
+  def set_y_axis_attributes(self, **kwargs):
+    """Set y-axis attributes.
+    Arguments:
+      key-value-pairs of axis-related PF attributes and the desired value.
+    """
+    self._set_axis_attributes(
+      self.get_y_axis_of_active_plot(),
+      kwargs)
+    pass
+      
+  def _set_axis_attributes(self, axis, kwargs):
+    for attribute, value in kwargs.items():
+      axis.SetAttribute(attribute, value)
+    pass
+      
 
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
