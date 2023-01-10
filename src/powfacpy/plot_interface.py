@@ -113,19 +113,19 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
   def get_data_series_of_active_plot(self):
     """Get the dataseries of the currently active plot.
     """
-    return _handle_possible_no_plot_activated_error(
+    return self._handle_possible_no_plot_activated_error(
       self.active_plot.GetDataSeries)
 
   def get_x_axis_of_active_plot(self):
     """Get the x-axis of the currently active plot.
     """
-    return _handle_possible_no_plot_activated_error(
+    return self._handle_possible_no_plot_activated_error(
       self.active_plot.GetAxisX)
   
   def get_y_axis_of_active_plot(self):
     """Get the y-axis of the currently active plot.
     """
-    return _handle_possible_no_plot_activated_error(
+    return self._handle_possible_no_plot_activated_error(
       self.active_plot.GetAxisX)
     
 
