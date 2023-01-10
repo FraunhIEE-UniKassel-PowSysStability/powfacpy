@@ -34,7 +34,9 @@ def test_plot(pfplot,activate_test_project):
     pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","s:u0",
         linestyle=2,linewidth=100,color=3,label="u0 test",
         result_obj=r"Study Cases\test_plot_interface\Study Case 1\All calculations",
-        xaxislabelmode=2)
+        )
+    pfplot.set_x_axis_attributes(axisMode=2)
+    pfplot.set_y_axis_attributes(scaleType=1)
 
 def test_pyplot_from_csv(pfplot,activate_test_project):
     export_dir = getcwd()
