@@ -9,4 +9,5 @@ tutorials/results.csv
 tutorials/.ipynb_checkpoints
 powerfactory_projects
 py_venv
+*.csv
 .vscode

@@ -239,5 +239,10 @@ def test_create_directory(pfbi,activate_test_project):
     pfbi.create_directory(r"test1\test2")
     pfbi.delete_obj("test1")
 
+def test_get_loc_name_with_class(pfbi,activate_test_project):
+    pf_objects = pfbi.get_obj(r'*.ElmTerm', include_subfolders=True)
+    pfbi.get_loc_name_with_class(pf_objects)
+    pfbi.get_loc_name_with_class(pf_objects[0])
+
 if __name__ == "__main__":
     pytest.main(([r"tests\test_base_interface.py"]))
