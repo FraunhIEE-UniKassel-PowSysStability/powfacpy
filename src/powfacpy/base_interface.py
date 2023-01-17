@@ -856,6 +856,36 @@ class PFStringManipuilation:
     except(TypeError):
       raise TypeError("Path must be of type string.")
 
+  @staticmethod
+  def get_names_without_path(
+    powerfactory_objects, 
+    get_without_classname=False,
+    ):
+
+    if not type(powerfactory_objects) == list:
+      return_list = False = [powerfactory_objects,]
+    
+    name_strings = [
+      x.GetFullName() for x in  powerfactory_objects
+    ]
+
+    def _get_part_after_last_slash(x:str):
+      return x.split(r'\')[-1]
+    
+    def _remove_classname(x:str):
+      return x.split('.')[0]
+
+    names_without_path = [
+      _get_part_after_last_slash(x) for x in name_strings
+    ]
+    if get_without_classname:
+      names_without_path = [
+        _remove_classname(x) for x in names_without_path
+      ] 
+    return names_without_path
+    
+
+
   
 class PFResultVariable:
 
