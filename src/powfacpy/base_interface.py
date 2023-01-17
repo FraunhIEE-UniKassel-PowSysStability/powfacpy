@@ -207,7 +207,7 @@ class PFBaseInterface:
           return False
         else:
           parent_path = parent.GetFullName()
-          parent_path = PFStringManipuilation.delete_classes(parent_path)
+          parent_path = PFStringManipulation.delete_classes(parent_path)
           existing_path = f"{parent_path}{existing_path}" 
           non_existent_child_name = child_name
           return False,existing_path,non_existent_child_name
@@ -258,13 +258,13 @@ class PFBaseInterface:
       except(AttributeError) as e:
         raise powfacpy.PFAttributeError(obj,e,self)
       except(TypeError) as e:
-        object_str = powfacpy.PFStringManipuilation.format_full_path(str(obj),self)
+        object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),self)
         raise TypeError(f"{e}. Maybe an unexpected type is used "
           f"for attribute of object '{object_str}'.")  
     return objects_true
   
   def get_path_of_object(self,obj):
-    return PFStringManipuilation.format_full_path(str(obj),self)
+    return PFStringManipulation.format_full_path(str(obj),self)
 
   def get_attr(self,obj,attr,parent_folder=None):
     """Get the value of an attribute of an object.
@@ -734,7 +734,7 @@ class PFBaseInterface:
       variables = read_file.readline().split(",")
       for col,path in enumerate(full_paths):
           if col > 0:
-              formated_path = powfacpy.PFStringManipuilation.format_full_path(path,self)
+              formated_path = powfacpy.PFStringManipulation.format_full_path(path,self)
               variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
               row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
           else:
@@ -806,14 +806,14 @@ class PFBaseInterface:
       object_low: Object lower in the hierarchy. 
     """
     obj_high = self.handle_single_pf_object_or_path_input(obj_high)
-    obj_high = PFStringManipuilation.format_full_path(str(obj_high),self)
+    obj_high = PFStringManipulation.format_full_path(str(obj_high),self)
     obj_low = self.handle_single_pf_object_or_path_input(obj_low)
-    obj_low = PFStringManipuilation.format_full_path(str(obj_low),self)
+    obj_low = PFStringManipulation.format_full_path(str(obj_low),self)
     path = str(obj_low).split(str(obj_high))[1][1:] 
     return path     
 
 
-class PFStringManipuilation:
+class PFStringManipulation:
   
   @staticmethod
   def replace_between_characters(char1,char2,replacement,string):
@@ -831,7 +831,7 @@ class PFStringManipuilation:
 
   @staticmethod
   def delete_classes(path):
-    return PFStringManipuilation.replace_between_characters('.','\\','\\',path)
+    return PFStringManipulation.replace_between_characters('.','\\','\\',path)
 
   @staticmethod
   def format_full_path(path,pf_interface):
@@ -844,7 +844,7 @@ class PFStringManipuilation:
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
     path = path[path.find(project_name)+len(project_name):]
-    return PFStringManipuilation.delete_classes(path)
+    return PFStringManipulation.delete_classes(path)
   
   @staticmethod
   def handle_path(path):
