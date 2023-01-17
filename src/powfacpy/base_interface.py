@@ -862,26 +862,24 @@ class PFStringManipulation:
     get_without_classname=False,
     ):
 
+    is_list = True
     if not type(powerfactory_objects) == list:
       powerfactory_objects = [powerfactory_objects,]
-    
-    name_strings = [
-      x.GetFullName() for x in  powerfactory_objects
-    ]
+      is_list = False
 
-    def _get_part_after_last_slash(x:str):
-      return x.split('\\')[-1]
-    
-    def _remove_classname(x:str):
-      return x.split('.')[0]
+    names_without_path = []
+    for powerfactory_object in powerfactory_objects:
+      if get_without_classname:
+        names_without_path.append(
+          powerfactory_object.loc_name)
+      else:
+        names_without_path.append(
+          powerfactory_object.loc_name
+          + '.'
+          + powerfactory_object.GetClassName())
 
-    names_without_path = [
-      _get_part_after_last_slash(x) for x in name_strings
-    ]
-    if get_without_classname:
-      names_without_path = [
-        _remove_classname(x) for x in names_without_path
-      ] 
+    if not is_list:
+      names_without_path = names_without_path[0]  
     return names_without_path
     
 
