@@ -811,6 +811,25 @@ class PFBaseInterface:
     obj_low = PFStringManipulation.format_full_path(str(obj_low),self)
     path = str(obj_low).split(str(obj_high))[1][1:] 
     return path     
+  
+  @staticmethod
+  def get_loc_name_with_class(powerfactory_objects):
+
+    is_list = True
+    if not type(powerfactory_objects) == list:
+      powerfactory_objects = [powerfactory_objects,]
+      is_list = False
+
+    loc_name_with_class = []
+    for powerfactory_object in powerfactory_objects:
+      loc_name_with_class.append(
+        powerfactory_object.loc_name
+        + '.'
+        + powerfactory_object.GetClassName())
+
+    if not is_list:
+      loc_name_with_class = loc_name_with_class[0]  
+    return loc_name_with_class
 
 
 class PFStringManipulation:
@@ -855,27 +874,6 @@ class PFStringManipulation:
         return path[1:] 
     except(TypeError):
       raise TypeError("Path must be of type string.")
-
-  @staticmethod
-  def get_loc_name_with_class(powerfactory_objects):
-    
-    is_list = True
-    if not type(powerfactory_objects) == list:
-      powerfactory_objects = [powerfactory_objects,]
-      is_list = False
-
-    loc_name_with_class = []
-    for powerfactory_object in powerfactory_objects:
-      loc_name_with_class.append(
-        powerfactory_object.loc_name
-        + '.'
-        + powerfactory_object.GetClassName())
-
-    if not is_list:
-      loc_name_with_class = loc_name_with_class[0]  
-    return loc_name_with_class
-    
-
 
   
 class PFResultVariable:
