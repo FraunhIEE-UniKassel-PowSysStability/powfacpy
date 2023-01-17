@@ -863,14 +863,14 @@ class PFStringManipulation:
     ):
 
     if not type(powerfactory_objects) == list:
-      return_list = False = [powerfactory_objects,]
+      powerfactory_objects = [powerfactory_objects,]
     
     name_strings = [
       x.GetFullName() for x in  powerfactory_objects
     ]
 
     def _get_part_after_last_slash(x:str):
-      return x.split(r'\')[-1]
+      return x.split('\\')[-1]
     
     def _remove_classname(x:str):
       return x.split('.')[0]
