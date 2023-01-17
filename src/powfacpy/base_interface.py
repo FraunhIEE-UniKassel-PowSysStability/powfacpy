@@ -857,30 +857,23 @@ class PFStringManipulation:
       raise TypeError("Path must be of type string.")
 
   @staticmethod
-  def get_names_without_path(
-    powerfactory_objects, 
-    get_without_classname=False,
-    ):
-
+  def get_loc_name_with_class(powerfactory_objects):
+    
     is_list = True
     if not type(powerfactory_objects) == list:
       powerfactory_objects = [powerfactory_objects,]
       is_list = False
 
-    names_without_path = []
+    loc_name_with_class = []
     for powerfactory_object in powerfactory_objects:
-      if get_without_classname:
-        names_without_path.append(
-          powerfactory_object.loc_name)
-      else:
-        names_without_path.append(
-          powerfactory_object.loc_name
-          + '.'
-          + powerfactory_object.GetClassName())
+      loc_name_with_class.append(
+        powerfactory_object.loc_name
+        + '.'
+        + powerfactory_object.GetClassName())
 
     if not is_list:
-      names_without_path = names_without_path[0]  
-    return names_without_path
+      loc_name_with_class = loc_name_with_class[0]  
+    return loc_name_with_class
     
 
 
