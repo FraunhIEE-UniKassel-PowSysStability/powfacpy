@@ -1,5 +1,5 @@
 """Contains the class PFBaseInterface (interaction with the PF database)
-and the class PFStringManipuilation for string manipulation.
+and the class PFStringManipulation for string manipulation.
 
 The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 """
