@@ -102,6 +102,14 @@ class PFBaseInterface:
         return self.handle_non_existing_obj(head,parent_folder,error_if_non_existent)
     return parent_folder.GetChildren(1,tail,1)
 
+  def get_unique_obj(self,path,parent_folder=None,error_if_non_existent=True):
+    """This method is equal to get_single_obj and was added because the method
+    name fits better to what the method does (i.e. to get a unique object and to
+    throw an error if the object is not unique)
+    """
+    self.get_single_obj(path,parent_folder=parent_folder,
+      error_if_non_existent=error_if_non_existent)
+
   def get_single_obj(self,path,parent_folder=None,error_if_non_existent=True):
     """Use this method if you want to access one single unique object.
     This method is an alterntive to 'get_obj' and returns the unique object instead
@@ -261,6 +269,7 @@ class PFBaseInterface:
   def get_attr(self,obj,attr,parent_folder=None):
     """Get the value of an attribute of an object.
     'obj' can be a path (string) or a Powerfactory object.
+    'attr' can be a string or a list of strings.
     If parent_folder is specified, the path is relative to 
     this folder.
 
@@ -460,16 +469,21 @@ class PFBaseInterface:
         error_if_non_existent=error_if_non_existent)
     elif isinstance(obj, Iterable):
       elements_count = len(obj)
-      first_obj_type = type(obj[0])
-      try:
-        first_obj_path = self.get_path_of_object(obj[0])
-        msg_obj = (f"The first element is of type {first_obj_type} and its "
-          f"path is {first_obj_path}.")
-      except(AttributeError):
-        msg_obj = f"The first element is of type {first_obj_type}." 
-      msg = (f"Expected a PowerFactory object or a path string. Instead an "
-        f"iterable of length {elements_count} is given. {msg_obj}")
-      raise TypeError(msg)
+      if obj:
+        first_obj_type = type(obj[0]) 
+        try:
+          first_obj_path = self.get_path_of_object(obj[0])
+          msg_obj = (f"The first element is of type {first_obj_type} and its "
+            f"path is {first_obj_path}.")
+        except(AttributeError):
+          msg_obj = f"The first element is of type {first_obj_type}." 
+          msg = (f"Expected a PowerFactory object or a path string. Instead an "
+            f"iterable of length {elements_count} is given. {msg_obj}")
+          raise TypeError(msg)
+      else:
+        msg = (f"Expected a PowerFactory object or a path string. Instead an "
+            f"empty object of type '{type(obj).__name__}' is given.")
+        raise TypeError(msg)    
     else: # If all former conditions are False, it is assumed that the
       # input already was a PF object.
       return obj
@@ -548,6 +562,7 @@ class PFBaseInterface:
     """
     study_case = self.get_single_obj(path)
     study_case.Activate()
+    return study_case
 
   def add_results_variable(self,obj,variables,results_obj=None):
     """Adds variables of the object to the PowerFactory results object (ElmRes)
@@ -564,6 +579,7 @@ class PFBaseInterface:
     for var in variables:
       results_obj.AddVariable(obj,var)
     results_obj.Load()
+    return results_obj
 
   def clear_elmres_from_objects_with_status_deleted(self,results_obj=None):
     """Deletes all objects from a results object (ElmRes) that have the
@@ -781,7 +797,7 @@ class PFBaseInterface:
     if condition(obj_or_path):
       return obj_or_path
     else:
-      self.get_upstream_obj(obj_or_path, condition)
+      return self.get_upstream_obj(obj_or_path, condition)
 
   def get_path_between_objects(self, obj_high, obj_low):
     """Returns the path between two objects in the database.

@@ -72,3 +72,11 @@ class PFNoPlotActivatedError(PFInterfaceError):
     self.message = (f"Attempt access plot, but no plot is active. "
     "Please activate a plot (use 'set_active plot').")
     super().__init__(self.message)
+
+class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):
+  """Number of parameter values is not the same for every parameter. 
+  """
+  def __init__(self,par_name,values):
+    self.message = (f"Incorrect number of values defined for parameter '{par_name}'. "
+    f"Only {len(values)} values were defined.")
+    super().__init__(self.message)

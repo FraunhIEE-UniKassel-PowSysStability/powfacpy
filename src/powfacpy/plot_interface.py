@@ -325,8 +325,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         graphic.Close()
       else:
         graphic.RemovePage()
-
-        
+  
   def copy_graphics_board_content(self,source_study_case,
     target_study_cases,obj_to_copy="*",
     clear_target_graphics_board=False):
@@ -344,7 +343,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     graphics_board_name = powfacpy.PFTranslator.get_graphics_board_name_from_studycase(
       currently_active_study_case) # assumption: graphics board names identical in all study cases 
     source_study_case = self.handle_single_pf_object_or_path_input(source_study_case)
-    source_graphics_board = self.get_single_obj(graphics_board_name,
+    source_graphics_board = self.get_single_obj(".SetDesktop",
       parent_folder=source_study_case)
     if not isinstance(target_study_cases,(list,tuple)):
       target_study_cases = [target_study_cases]  
@@ -352,7 +351,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       target_study_case = self.handle_single_pf_object_or_path_input(target_study_case)
       if not target_study_case == source_study_case:
         target_study_case.Deactivate() # Writing to active graphics board not possible 
-        target_graphics_board = self.get_single_obj(graphics_board_name,parent_folder=target_study_case)
+        target_graphics_board = self.get_single_obj(".SetDesktop",parent_folder=target_study_case)
         if clear_target_graphics_board:
           self.delete_obj("*",parent_folder=target_graphics_board,error_if_non_existent=False)
         self.copy_obj(obj_to_copy,target_folder=target_graphics_board,overwrite=True,
@@ -468,7 +467,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         lists.colors = [lists.colors[i] for i in indexes]  
         lists.labels = [lists.labels[i] for i in indexes]  
     return lists
-    
+
+  def export_active_page(self,format,path):
+    """Export active page using ComWr
+    """
+    self.active_graphics_page.Show()
+    comwr = self.app.GetFromStudyCase('ComWr')
+    self.set_attr(comwr,{'iopt_rd': format,'iopt_savas': 0, 'f': path})
+    comwr.Execute()  
 
 class PFListsOfDataSeriesOfPlot:
 

@@ -33,6 +33,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.consecutively_number_case_names = False
     self.anonymous_parameters = [] # Paramters of which names are not used 
     # in folder/case names (only their values are used)
+    self.ignore_parameters_that_are_none_in_names = True
 
   def create_cases(self):
     """Create study cases (and corresponding scenarios/variations)
@@ -66,13 +67,15 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if self.hierarchy:
       folder_path = ""
       for par_name in self.hierarchy:
-        add_to_string = str(self.get_value_of_parameter_for_case(par_name,case_num)) + "\\"
-        if not par_name in self.anonymous_parameters: 
-          add_to_string = par_name + "_" + add_to_string
-        folder_path += add_to_string
-      return folder_path[:-1] # discard last "\\""
-    else:
-      return None
+        parameter_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        if parameter_value is not None or not self.ignore_parameters_that_are_none_in_names:
+          add_to_string = str(parameter_value) + "\\"
+          if not par_name in self.anonymous_parameters: 
+            add_to_string = par_name + "_" + add_to_string
+          folder_path += add_to_string
+      if folder_path:   
+        return folder_path[:-1] # discard last "\\""
+    return None
 
   def get_value_of_parameter_for_case(self,par_name,case_obj_or_case_num):
     """Returns a parameter value for a certain case.
@@ -88,7 +91,10 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     case_num = self.handle_case_input(case_obj_or_case_num)
     values = self.parameter_values[par_name]
     if isinstance(values,(list,tuple)):
-      return values[case_num]
+      try:
+        return values[case_num]
+      except(IndexError):
+        raise powfacpy.PFCaseStudyParameterValueDefinitionError(par_name,values)  
     else:
       return values
 
@@ -108,8 +114,6 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     equals_sign=None,
     anonymous_parameters=None):
     """Returns the parameter-value string for a case name.
-    The string contains those parameters that are not in
-    'hierarchy' (because these are used for the folder names).
     """
     case_num = self.handle_case_input(case_obj_or_case_num)
     if not delimiter:
@@ -117,16 +121,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if not equals_sign:
       equals_sign = " _ "   
     parameter_values_string = ""
-    for par_name in self.parameter_values:
+    for par_name in self.parameter_values.keys():
       if omitted_parameters is None or par_name not in omitted_parameters:
-        add_to_string = str(
-          self.get_value_of_parameter_for_case(par_name,case_num)) + delimiter
-        if anonymous_parameters is None:
-          if par_name not in self.anonymous_parameters:
-            add_to_string = par_name + equals_sign + add_to_string
-        elif par_name not in anonymous_parameters:
-          add_to_string = par_name + equals_sign + add_to_string 
-        parameter_values_string += add_to_string
+        par_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        if par_value is not None or not self.ignore_parameters_that_are_none_in_names:
+          add_to_string = str(par_value) + delimiter
+          if anonymous_parameters is None:
+            if par_name not in self.anonymous_parameters:
+              add_to_string = par_name + equals_sign + add_to_string
+          elif par_name not in anonymous_parameters:
+            add_to_string = par_name + equals_sign + add_to_string 
+          parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
   def create_study_case(self,name,folder_path):
@@ -134,10 +139,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_study_cases)
     """
-    if not self.parent_folder_study_cases:
-      parent_folder_study_case = self.app.GetProjectFolder("study")
-    else:
-      parent_folder_study_case = self.parent_folder_study_cases  
+    parent_folder_study_case = self.get_study_cases_parent_folder() 
     if folder_path:
       parent_folder_study_case = self.create_directory(folder_path,
         parent_folder=parent_folder_study_case)
@@ -151,10 +153,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this parth is 
     relativ to 'parent_folder_scenarios)
     """
-    if not self.parent_folder_scenarios:
-      parent_folder_scenario = self.app.GetProjectFolder("scen")
-    else:
-      parent_folder_scenario = self.parent_folder_scenarios 
+    parent_folder_scenario = self.get_scenarios_parent_folder()
     if folder_path:
       parent_folder_scenario = self.create_directory(folder_path,
         parent_folder=parent_folder_scenario)       
@@ -169,10 +168,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_variations)
     """ 
-    if not self.parent_folder_variations:
-      parent_folder_variation = self.app.GetProjectFolder("scheme")
-    else:
-      parent_folder_variation = self.parent_folder_variations
+    parent_folder_variation = self.get_variations_parent_folder()
     if folder_path:
       parent_folder_variation = self.create_directory(folder_path,
         parent_folder=parent_folder_variation)
@@ -291,3 +287,41 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       if is_omitted_combination:
         return False
     return values_of_all_parameters_for_case
+
+  def get_study_cases_parent_folder(self):
+    if not self.parent_folder_study_cases:
+      return self.app.GetProjectFolder("study")
+    else:
+      return self.parent_folder_study_cases
+
+  def get_scenarios_parent_folder(self):
+    if not self.parent_folder_scenarios:
+      return self.app.GetProjectFolder("scen")
+    else:
+      return self.parent_folder_scenarios  
+
+  def get_variations_parent_folder(self):
+    if not self.parent_folder_variations:
+      return self.app.GetProjectFolder("scheme")
+    else:
+      return self.parent_folder_variations       
+
+  def clear_parent_folders(self):
+    """Deletes all objects in the folders
+      - self.parent_folder_study_cases
+      - self.parent_folder_scenarios
+      - self.parent_folder_variations
+    if theses attributes are defined.  
+    """
+    parent_folders = [
+      self.get_study_cases_parent_folder(),
+      self.get_scenarios_parent_folder(),
+      self.get_variations_parent_folder(),
+    ]
+    for parent_folder in parent_folders:
+      if parent_folder:
+        self.delete_obj("*",
+          parent_folder=parent_folder,
+          error_if_non_existent=False,
+          include_subfolders=True)  
+
