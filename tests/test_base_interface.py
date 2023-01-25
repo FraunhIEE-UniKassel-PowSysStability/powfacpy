@@ -10,6 +10,8 @@ importlib.reload(powfacpy)
 # ToDo: MAke sure every test uses a copy of the project. In this
 # way it is ensured that tests don't affect each other
 
+PF_PROJECT_PATH = r"\seberlein\powfacpy\powfacpy_tests"
+
 @pytest.fixture(scope='session')
 def pf_app():
     return powerfactory.GetApplication()
@@ -21,7 +23,7 @@ def pfbi(pf_app):
 
 @pytest.fixture
 def activate_test_project(pfbi):
-    pfbi.app.ActivateProject(r"\seberlein\powfacpy\powfacpy_tests")
+    pfbi.app.ActivateProject(PF_PROJECT_PATH)
     pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
     
 def test_get_single_object(pfbi,activate_test_project):

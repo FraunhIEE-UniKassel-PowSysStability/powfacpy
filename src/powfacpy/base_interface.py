@@ -604,7 +604,10 @@ class PFBaseInterface:
     dir=None,
     file_name=None,
     results_obj=None,
-    results_variables_lists=None):
+    results_variables_lists=None,
+    column_separator=',',
+    decimal_separator='.'
+    ):
       """Exports simulation results to csv.
       Arguments:
         dir: export directory, if 'None' the current working directory 
@@ -636,9 +639,9 @@ class PFBaseInterface:
       comres.iopt_exp = 6 # to export as csv
       path = dir + "\\" + file_name + ".csv"
       comres.f_name = path
-      comres.iopt_sep = 0 # Do NOT use system separator
-      comres.col_Sep = "," # Column separator
-      comres.dec_Sep = "." # Decimal separator
+      comres.iopt_sep = 0 # to use specified column and decimal separator symbols
+      comres.col_Sep = column_separator
+      comres.dec_Sep = decimal_separator
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
@@ -877,7 +880,7 @@ class PFTranslator:
       return "Graphics Board.SetDesktop"
     elif language == "de":
       return "Grafiksammlung.SetDesktop"
-
+  
   @staticmethod
   def get_default_study_case_folder_name(language):
     if language == "en":
@@ -890,7 +893,7 @@ class PFTranslator:
     if language == "en":
       return r"Network Model\Operation Scenarios"
     elif language == "de":
-      return r"Netzmodell\Betriebsfälle"  
+      return r"Netzmodell\Betriebsfälle"
 
   @staticmethod
   def get_default_variations_folder_path(language):
@@ -899,7 +902,47 @@ class PFTranslator:
     elif language == "de":
       return r"Netzmodell\Varianten"      
 
+  @staticmethod
+  def _get_language_dependent_name_from_studycase(
+    studycase, english_name, german_name):
+    studycase_contents = powfacpy.PFTranslator.\
+      get_name_with_ending(
+        studycase.GetContents())
+    has_english_name = english_name in studycase_contents
+    has_german_name = german_name in studycase_contents
+    assert not (has_english_name and has_german_name), \
+      'Two redundant file versions: English and German named files exist.'
+    if has_english_name:
+      return english_name
+    else:
+      return german_name
 
+  @staticmethod
+  def get_graphics_board_name_from_studycase(studycase):
+    name = powfacpy.PFTranslator.\
+      _get_language_dependent_name_from_studycase(
+      studycase=studycase,
+      english_name="Graphics Board.SetDesktop",
+      german_name="Grafiksammlung.SetDesktop",
+    )
+    return name
+
+  @staticmethod
+  def get_result_object_name_from_studycase(studycase):
+    name = powfacpy.PFTranslator.\
+      _get_language_dependent_name_from_studycase(
+      studycase=studycase,
+      english_name="All calculations.ElmRes",
+      german_name="Alle Berechnungsarten.ElmRes",
+    )
+    return name
+
+  @staticmethod
+  def get_name_with_ending(objects):
+    if not type(objects) == list:
+      objects = [objects]
+    return [x.GetFullName().split('\\')[-1] for x in objects]
+    
 
 if __name__ == "__main__":
   print("ok")

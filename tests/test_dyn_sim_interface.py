@@ -6,7 +6,7 @@ sys.path.insert(0,r'.\src')
 import powfacpy 
 import importlib
 importlib.reload(powfacpy)
-from os import remove
+from os import remove, getcwd
 
 from test_base_interface import pfbi, pf_app, activate_test_project
 
@@ -16,7 +16,7 @@ def pfsim(pf_app):
     return powfacpy.PFDynSimInterface(pf_app)   
 
 def test_export_to_csv(pfsim,activate_test_project):
-    export_dir = r"D:\User\seberlein\Code\powfacpy\tests"
+    export_dir = getcwd()
     file_name = "test_results"
     study_case = pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case")
     study_case.Activate()

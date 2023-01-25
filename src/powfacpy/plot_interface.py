@@ -19,6 +19,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.active_graphics_page = None
     self.active_plot = None
 
+
   def set_active_graphics_page(self,page):
     """Sets the active graphics page.
     Arguments:
@@ -29,6 +30,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.active_graphics_page = grb.GetPage(page,1,"GrpPage")
     else:
       self.active_graphics_page = page
+
 
   def set_active_plot(self,name_or_obj,graphics_page=None):
     """Set the currently active plot.
@@ -47,6 +49,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.active_plot = name_or_obj
       self.set_active_graphics_page(self.active_plot.GetParent())
 
+
   def get_or_create_graphics_board(self):
     """Get the graphics board of the currently active study case or create
     a new graphics board if it does not exist within the study case yet.
@@ -60,6 +63,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       grb.Show()
       grb = self.app.GetGraphicsBoard() # get grb again to get correct object from PF
     return grb  
+
 
   def plot_monitored_variables(self,obj,variables,
     graphics_page=None,plot=None,**kwargs):
@@ -92,16 +96,39 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.set_curve_attributes(data_series,**kwargs)
     self.active_graphics_page.Show()
 
+
+  def _handle_possible_no_plot_activated_error(self, e):
+    """Handle error if no active plot available.
+    """
+    if not self.active_plot:
+      raise powfacpy.PFNoPlotActivatedError()
+    else:
+      raise AttributeError(e)
+
   def get_data_series_of_active_plot(self):
     """Get the dataseries of the currently active plot.
     """
     try:
       return self.active_plot.GetDataSeries()
     except(AttributeError) as e:
-      if not self.active_plot:
-        raise powfacpy.PFNoPlotActivatedError()
-      else:
-        raise AttributeError(e)
+      self._handle_possible_no_plot_activated_error(e)
+
+  def get_x_axis_of_active_plot(self):
+    """Get the x-axis of the currently active plot.
+    """
+    try:
+      return self.active_plot.GetAxisX()
+    except(AttributeError) as e:
+      self._handle_possible_no_plot_activated_error(e)
+  
+  def get_y_axis_of_active_plot(self):
+    """Get the y-axis of the currently active plot.
+    """
+    try:
+      return self.active_plot.GetAxisY()
+    except(AttributeError) as e:
+      self._handle_possible_no_plot_activated_error(e)
+    
 
   def plot(self,obj,variables,graphics_page=None,plot=None,**kwargs):
     """Plots the variables of 'obj' to the currently active plot.
@@ -127,6 +154,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.plot_monitored_variables(obj,variables,
       graphics_page=graphics_page,plot=plot,**kwargs) 
   
+
   def set_curve_attributes(self,data_series,**kwargs):
     """Set curve attributes.
     Arguments:
@@ -170,6 +198,32 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       list_curveTableAttr[-1] = self.handle_single_pf_object_or_path_input(
         kwargs['results_obj'])
       data_series.SetAttribute("curveTableResultFile",list_curveTableAttr)
+
+  def set_x_axis_attributes(self,**kwargs):
+    """Set x-axis attributes.
+    Arguments:
+      key-value-pairs of axis-related PF attributes and the desired value.
+    """
+    self._set_axis_attributes(
+      self.get_x_axis_of_active_plot(),
+      kwargs)
+    pass
+    
+  def set_y_axis_attributes(self, **kwargs):
+    """Set y-axis attributes.
+    Arguments:
+      key-value-pairs of axis-related PF attributes and the desired value.
+    """
+    self._set_axis_attributes(
+      self.get_y_axis_of_active_plot(),
+      kwargs)
+    pass
+      
+  def _set_axis_attributes(self, axis, kwargs):
+    for attribute, value in kwargs.items():
+      axis.SetAttribute(attribute, value)
+    pass
+      
 
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
@@ -283,11 +337,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         (e.g. "*.GrpPage" to copy only the plot pages)
       clear_target_graphics_board: If true, the graphics boards of the target 
         cases are cleared before pasting the content  
-    """     
+    """    
+    
+    currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
+    graphics_board_name = powfacpy.PFTranslator.get_graphics_board_name_from_studycase(
+      currently_active_study_case) # assumption: graphics board names identical in all study cases 
     source_study_case = self.handle_single_pf_object_or_path_input(source_study_case)
     source_graphics_board = self.get_single_obj(".SetDesktop",
       parent_folder=source_study_case)
-    currently_active_study_case = self.app.GetActiveStudyCase() # Method should not change active case
     if not isinstance(target_study_cases,(list,tuple)):
       target_study_cases = [target_study_cases]  
     for target_study_case in target_study_cases:
