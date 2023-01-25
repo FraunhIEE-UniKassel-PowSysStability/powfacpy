@@ -207,7 +207,6 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self._set_axis_attributes(
       self.get_x_axis_of_active_plot(),
       kwargs)
-    pass
     
   def set_y_axis_attributes(self, **kwargs):
     """Set y-axis attributes.
@@ -216,14 +215,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     """
     self._set_axis_attributes(
       self.get_y_axis_of_active_plot(),
-      kwargs)
-    pass
-      
+      kwargs)      
+    
   def _set_axis_attributes(self, axis, kwargs):
+    """ set axis attributes for given axis. 
+    set_y_axis_attributes() and set_x_axis_attributes() use this funciton.
+    """
     for attribute, value in kwargs.items():
-      axis.SetAttribute(attribute, value)
-    pass
-      
+      axis.SetAttribute(attribute, value)      
 
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
