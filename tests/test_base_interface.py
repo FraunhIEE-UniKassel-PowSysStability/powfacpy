@@ -246,3 +246,4 @@ def test_get_loc_name_with_class(pfbi,activate_test_project):
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_base_interface.py"]))
+    # pytest.main(([r"tests"]))
