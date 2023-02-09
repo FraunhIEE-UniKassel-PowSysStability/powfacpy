@@ -7,7 +7,6 @@ The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 from argparse import ArgumentError
 import sys
 
-from powfacpy.exceptions import PFNotActiveError
 sys.path.insert(0,r'.\src')
 import powfacpy
 from os import path as os_path
@@ -15,7 +14,6 @@ from collections.abc import Iterable
 from os import getcwd, replace
 import math
 
-# ToDo: get_active_networks, copy_graphics_pages
 
 class PFBaseInterface:
   """Base interface for interaction with the PF database.
