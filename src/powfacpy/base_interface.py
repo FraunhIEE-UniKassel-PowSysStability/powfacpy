@@ -693,7 +693,7 @@ class PFBaseInterface:
     comres.variable = results_variables_lists.variables
 
   def format_csv_for_comtrade(self,file_path):
-    """Format the csv created from a Comtrade object with ComRes.
+    """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
     There is a bug in PF so that the time in the first column sometimes
     is not monotonously increasing. This methods corrects this by checking 
     for each time value (1. column) whether it is larger than the previous and discarding rows
