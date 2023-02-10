@@ -65,12 +65,22 @@ class PFNotActiveError(PFInterfaceError):
     self.message = (f"Please activate {obj_str}.")
     super().__init__(self.message)
 
-class PFNoPlotActivatedError(PFInterfaceError):
-  """Attempt to plot, but no plot is active.
+class PFAttributeNotSpecifiedError(PFInterfaceError):
+  """Attempt to access an attribute of a powfacpy class,
+  but it was not specified.
+  """ 
+  def __init__(self,attribute_description):
+    self.message = (f"Attempt to access {attribute_description}, " 
+    "but it was not specified.")
+    super().__init__(self.message)
+
+class PFNoGraphicsPageActivatedError(PFInterfaceError):
+  """Attempt to acces active graphics page.
   """ 
   def __init__(self):
-    self.message = (f"Attempt access plot, but no plot is active. "
-    "Please activate a plot (use 'set_active plot').")
+    self.message = (f"Attempt to access graphics page, but no page is active. "
+    "Please activate a graphics page (use 'set_active plot' (with optional " 
+    "argument)/set_act_grapics_page).")
     super().__init__(self.message)
 
 class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):

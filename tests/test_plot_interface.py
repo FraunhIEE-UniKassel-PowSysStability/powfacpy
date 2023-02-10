@@ -6,6 +6,7 @@ import importlib
 importlib.reload(powfacpy)
 from matplotlib import pyplot
 from os import getcwd
+import os
 
 from test_base_interface import pfbi, pf_app, activate_test_project
 
@@ -23,7 +24,7 @@ def test_plot(pfplot,activate_test_project):
     pfsim.activate_study_case(r"Study Cases\test_plot_interface\Study Case 1")
     pfsim.initialize_and_run_sim()
 
-    with pytest.raises(powfacpy.PFNoPlotActivatedError):
+    with pytest.raises(powfacpy.PFAttributeNotSpecifiedError):
         pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",["s:u0","m:Qsum:bus1"])
 
     pfplot.clear_plot_pages()
