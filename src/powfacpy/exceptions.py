@@ -74,15 +74,6 @@ class PFAttributeNotSpecifiedError(PFInterfaceError):
     "but it was not specified.")
     super().__init__(self.message)
 
-class PFNoGraphicsPageActivatedError(PFInterfaceError):
-  """Attempt to acces active graphics page.
-  """ 
-  def __init__(self):
-    self.message = (f"Attempt to access graphics page, but no page is active. "
-    "Please activate a graphics page (use 'set_active plot' (with optional " 
-    "argument)/set_act_grapics_page).")
-    super().__init__(self.message)
-
 class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):
   """Number of parameter values is not the same for every parameter. 
   """
