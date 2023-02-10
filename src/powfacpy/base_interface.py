@@ -241,7 +241,7 @@ class PFBaseInterface:
     # Delete the summary grid which is in the study case
     grids[:] = [grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"]  
     if error_if_no_network_is_active and not grids:
-      raise PFNotActiveError("a network (ElmNet).")
+      raise powfacpy.PFNotActiveError("a network (ElmNet).")
     return grids  
 
   def get_by_condition(self,objects,condition):
