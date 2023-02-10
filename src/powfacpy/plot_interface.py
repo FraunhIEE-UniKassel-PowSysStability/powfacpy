@@ -253,7 +253,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     kwargs.update({"results_obj":elmres_for_elmfiles})  
     self.plot(elmfile,variable,**kwargs)
     # Simulate
-    pfds = PFDynSimInterface(self.app)
+    pfds = powfacpy.PFDynSimInterface(self.app)
     cominc = self.app.GetFromStudyCase("ComInc")
     initial_elmres = self.get_attr(cominc,"p_resvar")
     self.set_attr(cominc,{"p_resvar":elmres_for_elmfiles})
