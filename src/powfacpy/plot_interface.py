@@ -100,22 +100,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.set_curve_attributes(data_series,**kwargs)
     self.active_graphics_page.Show()
 
-
-  def _handle_possible_no_plot_activated_error(self, e):
-    """Handle error if no active plot available.
-    """
-    if not self.active_plot:
-      raise powfacpy.PFNoPlotActivatedError()
-    else:
-      raise AttributeError(e)
-
   def get_data_series_of_active_plot(self):
     """Get the dataseries of the currently active plot.
     """
     try:
       return self.active_plot.GetDataSeries()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_specified_error(self.active_plot,
+          "active_plot", e)
 
   def get_x_axis_of_active_plot(self):
     """Get the x-axis of the currently active plot.
@@ -123,7 +115,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisX()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_specified_error(self.active_plot,
+          "active_plot", e)
   
   def get_y_axis_of_active_plot(self):
     """Get the y-axis of the currently active plot.
@@ -131,7 +124,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisY()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_specified_error(self.active_plot,
+          "active_plot", e)
     
 
   def plot(self,obj,variables,graphics_page=None,plot=None,**kwargs):
