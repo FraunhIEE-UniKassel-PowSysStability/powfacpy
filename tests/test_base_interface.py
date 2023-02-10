@@ -84,6 +84,13 @@ def test_set_attr(pfbi,activate_test_project):
     stitle = pfbi.get_attr(r"Library\Dynamic Models\Linear_interpolation","sTitle")
     assert stitle == test_string_2
 
+def test_set_attr_of_obj(pfbi,activate_test_project):
+    test_string_1 = "TestString1"
+    model = pfbi.get_single_obj(r"Library\Dynamic Models\Linear_interpolation")
+    powfacpy.set_attr_of_obj(model,{"sTitle":test_string_1})
+    stitle = pfbi.get_attr(model,"sTitle")
+    assert stitle == test_string_1
+
 def test_set_attr_exceptions(pfbi,activate_test_project):
     with pytest.raises(powfacpy.exceptions.PFAttributeTypeError):
         pfbi.set_attr(r"Library\Dynamic Models\Linear_interpolation",{"sTitle":"dummy",

@@ -1003,8 +1003,27 @@ class PFTranslator:
     if not type(objects) == list:
       objects = [objects]
     return [x.GetFullName().split('\\')[-1] for x in objects]
-    
 
-if __name__ == "__main__":
-  print("ok")
-  
+
+def set_attr_of_obj(obj, attributes:dict):
+  """Set attributes of object.
+  The difference to set_attr of PFBaseInterface is that
+  this method only accepts PF objects (and not path strings)
+  and is slightly more performant.
+  """
+  for attr,value in attributes.items():
+    obj.SetAttribute(attr,value)
+
+def set_attr_of_objects(objects: Iterable,attributes: Iterable):
+  """Set attributes of multiple objects.
+  """
+  for obj in objects:
+    set_attr_of_obj(obj,attributes)
+
+def set_attr_of_child(parent,child:str, attributes:dict):
+  """Set attributes of a child object in parent.
+  Just syntactic sugar.
+  """
+  child = parent.GetContents(child)[0]
+  for attr,value in attributes.items():
+    child.SetAttribute(attr,value)
