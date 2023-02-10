@@ -70,6 +70,10 @@ def test_copy_graphics_board_content_to_all_study_cases(pfplot,activate_test_pro
     pfplot.copy_graphics_board_content_to_all_study_cases(source_study_case,
         target_parent_folder=r"Study Cases\test_plot_interface")
 
+def test_activate_plot(pfplot,activate_test_project):
+    with pytest.raises(powfacpy.PFAttributeNotSpecifiedError):
+        pfplot.set_active_plot("test_plot 1")
+
 if __name__ == "__main__":
     pytest.main(([r"tests\test_plot_interface.py"]))
     #pytest.main(([r"tests\test_plot_interface.py::test_plot"]))
