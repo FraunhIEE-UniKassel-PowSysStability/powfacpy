@@ -40,7 +40,7 @@ def test_plot(pfplot,activate_test_project):
     pfplot.set_y_axis_attributes(scaleType=1)
 
 def test_pyplot_from_csv(pfplot,activate_test_project):
-    export_dir = getcwd()
+    export_dir = os.path.dirname(__file__) + r"\tests_output"
     file_name = "results"
     pfsim = powfacpy.PFDynSimInterface(pfplot.app)
     pfsim.export_dir =  export_dir
