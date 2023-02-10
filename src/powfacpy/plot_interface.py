@@ -2,15 +2,13 @@
 """
 
 import sys
-from unittest import result
-
-from powfacpy.base_interface import PFTranslator
-from powfacpy.dyn_sim_interface import PFDynSimInterface
 sys.path.insert(0,r'.\src')
 import powfacpy
 import pandas
 from matplotlib import pyplot
 from collections.abc import Iterable
+from os import getcwd, path
+from os import path as os_path
 
 class PFPlotInterface(powfacpy.PFBaseInterface):
 
