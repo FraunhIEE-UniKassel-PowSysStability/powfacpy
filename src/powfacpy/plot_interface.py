@@ -220,6 +220,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for attribute, value in kwargs.items():
       axis.SetAttribute(attribute, value)      
 
+  def set_x_axis_range_of_active_plot(self,range: Iterable):
+    x_axis = self.get_x_axis_of_active_plot()
+    x_axis.rangeMin = range[0]
+    x_axis.rangeMax = range[1]
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
     The ElmFiles are stored in a dummy network because the simulation needs to be run
