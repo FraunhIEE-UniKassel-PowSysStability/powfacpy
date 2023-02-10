@@ -224,6 +224,37 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     x_axis = self.get_x_axis_of_active_plot()
     x_axis.rangeMin = range[0]
     x_axis.rangeMax = range[1]
+
+  def plot_from_comtrade(self,
+                      file_path,
+                      variables,
+                      graphics_page=None,
+                      plot=None,
+                      parent_folder_comtrade=None,
+                      **kwargs):
+    """Plot a varibale from a COMTRADE formated file under file_path (*.cfg).
+    Creates the comtrade object (IntComtrade) and plots.
+    
+    If you want to plot from a comtrade object (IntComtrade) that already 
+    exists in the PF database, use the method plot_monitored_variables as shown.
+    
+    Arguments:
+      file_path: str
+      variables: The entry in the second column of a signal in .cfg
+      parent_folder_comtrade: Container in PF database for comtrade objects
+        (str or PF object)
+         
+    For further info on the arguments see method plot_monitored_variables.  
+    """                  
+    intcomtrade = self.add_comtrade_obj(file_path,
+      parent_folder=parent_folder_comtrade)
+    self.plot_monitored_variables(intcomtrade,
+              variables,
+              graphics_page=graphics_page,
+              plot=plot,
+              results_obj=intcomtrade,
+              **kwargs)
+
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
     The ElmFiles are stored in a dummy network because the simulation needs to be run

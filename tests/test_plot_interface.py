@@ -70,6 +70,13 @@ def test_copy_graphics_board_content_to_all_study_cases(pfplot,activate_test_pro
     pfplot.copy_graphics_board_content_to_all_study_cases(source_study_case,
         target_parent_folder=r"Study Cases\test_plot_interface")
 
+def test_plot_from_comtrade(pfplot,activate_test_project):
+    path_of_cfg = os.path.dirname(__file__) + r"\tests_input\test_comtrade.cfg"
+    pfplot.set_active_plot("test_plot 1","test_plot_interface 1")
+    pfplot.plot_from_comtrade(path_of_cfg,
+        "AC Voltage Source:m:u:bus1:A",
+        linestyle=2,linewidth=100,color=3,label="comtrade test")
+
 def test_activate_plot(pfplot,activate_test_project):
     with pytest.raises(powfacpy.PFAttributeNotSpecifiedError):
         pfplot.set_active_plot("test_plot 1")
