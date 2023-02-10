@@ -11,10 +11,12 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
 
   def get_list_with_results_of_variable(self,obj,variable,results_obj=None,load_elmres=True):
     if not results_obj:
-      results_obj = self.app.GetFromStudyCase("ElmRes") 
+      results_obj = self.app.GetFromStudyCase("ElmRes")
+    if load_elmres:  
+      results_obj.Load()  
     obj = self.handle_single_pf_object_or_path_input(obj)  
     column = results_obj.FindColumn(obj,variable)
-    return self.get_list_with_results_of_column(column,results_obj=results_obj,load_elmres=load_elmres)  
+    return self.get_list_with_results_of_column(column,results_obj=results_obj,load_elmres=False)  
 
   def get_list_with_results_of_column(self,column,results_obj=None,load_elmres=True):
     if not results_obj:
