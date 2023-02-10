@@ -909,7 +909,7 @@ class PFStringManipulation:
   
   @staticmethod
   def handle_path(path):
-    """Checks if path starts with \ (not accepted by most PF method)
+    """Checks if path starts with \ (not accepted by most PF methods)
     and also if 'path' is of type string.
     """
     try:
