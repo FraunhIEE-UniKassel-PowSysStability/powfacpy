@@ -246,7 +246,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
          
     For further info on the arguments see method plot_monitored_variables.  
     """                  
-    intcomtrade = self.add_comtrade_obj(file_path,
+    intcomtrade = self.create_comtrade_obj(file_path,
       parent_folder=parent_folder_comtrade)
     self.plot_monitored_variables(intcomtrade,
               variables,
