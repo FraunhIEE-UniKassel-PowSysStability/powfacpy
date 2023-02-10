@@ -862,6 +862,18 @@ class PFBaseInterface:
     # intcomtrade.Load() probably not required
     return intcomtrade
 
+  def _handle_possible_attribute_not_specified_error(self, 
+                              potentially_not_secified_attr,
+                              attribute_description: str,
+                              e):
+    """Handles exception if an AttributeError was raised in a
+    method call on an attribute of a powfacpy class.
+    """                          
+    if not potentially_not_secified_attr:
+      raise powfacpy.PFAttributeNotSpecifiedError(attribute_description)
+    else:
+      raise AttributeError(e)
+
 class PFStringManipulation:
   
   @staticmethod
