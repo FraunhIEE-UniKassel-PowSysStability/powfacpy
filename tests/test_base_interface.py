@@ -255,6 +255,12 @@ def test_get_loc_name_with_class(pfbi,activate_test_project):
     pfbi.get_loc_name_with_class(pf_objects)
     pfbi.get_loc_name_with_class(pf_objects[0])
 
+def test_create_comtrade_obj(pfbi,activate_test_project):
+    path_of_cfg = os.path.dirname(__file__) + r"\tests_input\test_comtrade.cfg"
+    intcomtrade = pfbi.create_comtrade_obj(path_of_cfg)
+    intcomtrade.Load()
+    assert(intcomtrade.FindColumn("AC Voltage Source:m:u:bus1:A") == 1)
+
 if __name__ == "__main__":
     pytest.main(([r"tests\test_base_interface.py"]))
     # pytest.main(([r"tests"]))

@@ -833,7 +833,34 @@ class PFBaseInterface:
     if not is_list:
       loc_name_with_class = loc_name_with_class[0]  
     return loc_name_with_class
+    
+  def create_comtrade_obj(self,file_path: str,parent_folder=None):
+    """Add an IntComtrade that refers to file_path (*.cfg).
+    The objects are stored in a folder "Comtrade" in the currently active
+    study case, unless a parent_folder is provided. A new object is only
+    created if there exists no object yet that points to the same file
+    (f_name attribute is the file path). The file name is used for the
+    new object name (without the .cfg ending).
+    """
+    if parent_folder:
+      parent_folder = self.handle_single_pf_object_or_path_input(parent_folder)
+    else:
+      parent_folder = self.app.GetFromStudyCase("Comtrade.IntFolder")
 
+    intcomtrade = self.get_obj("*.IntComtrade",
+      parent_folder=parent_folder,
+      condition=lambda x : getattr(x,"f_name")==file_path,
+      error_if_non_existent=False)
+    if not intcomtrade:
+      _,file_name = os_path.split(file_path)
+      intcomtrade = self.create_in_folder(parent_folder,
+        file_name.replace(".cfg","") + ".IntComtrade", overwrite=False,
+        use_existing=False) 
+      intcomtrade.f_name = file_path
+    else:
+      intcomtrade = intcomtrade[0]
+    # intcomtrade.Load() probably not required
+    return intcomtrade
 
 class PFStringManipulation:
   
