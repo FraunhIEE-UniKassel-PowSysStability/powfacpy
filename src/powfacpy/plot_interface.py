@@ -59,7 +59,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     grb = self.app.GetGraphicsBoard()  
     if not grb:
       active_study_case = self.app.GetActiveStudyCase()
-      graphics_board_name = PFTranslator.get_default_graphics_board_name(
+      graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
          self.language)
       grb = self.create_in_folder(active_study_case,graphics_board_name)
       grb.Show()
