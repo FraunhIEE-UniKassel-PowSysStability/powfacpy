@@ -33,22 +33,26 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
 
 
   def set_active_plot(self,name_or_obj,graphics_page=None):
-    """Set the currently active plot.
+    """Set the currently active plot. Adjusts the active graphics
+    page accordingly if name_or_object is a PF object (the graphics
+    page cannot be infered from a string path) or if the
+    optional argument graphics_page is given.
     Arguments:
-      name_or_obj: name of plot (string) or plot object
+      name_or_obj: name of plot (string) or plot object.
       graphics_page: name of grphics page (string). If  
         specified, this sets the currently active page.
     """
     if graphics_page:
       self.set_active_graphics_page(graphics_page)
-      if not isinstance(name_or_obj,str):
-        self.active_plot = name_or_obj
-      else:
-        self.active_plot = self.active_graphics_page.GetOrInsertCurvePlot(name_or_obj)
-    else:
+    if not isinstance(name_or_obj,str): # is plot object
       self.active_plot = name_or_obj
       self.set_active_graphics_page(self.active_plot.GetParent())
-
+    else:
+      try:
+        self.active_plot = self.active_graphics_page.GetOrInsertCurvePlot(name_or_obj)
+      except(AttributeError) as e:
+        self._handle_possible_attribute_not_specified_error(self.active_graphics_page,
+          "active_grapics_page", e) 
 
   def get_or_create_graphics_board(self):
     """Get the graphics board of the currently active study case or create
