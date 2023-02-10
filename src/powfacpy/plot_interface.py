@@ -299,8 +299,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for network in active_networks:
       network.Activate()
 
+
   def create_dummy_network(self,name=None):
     """Creates a network with only one terminal.
+    Such a network is used for example to read in ElmFile objects.
     """
     if not name:
       name = "dummy_network"
