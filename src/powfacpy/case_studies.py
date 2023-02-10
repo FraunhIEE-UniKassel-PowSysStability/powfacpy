@@ -146,6 +146,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     study_case_obj = self.create_in_folder(parent_folder_study_case,
       name+".IntCase")
     study_case_obj.Activate()
+    pfpi = powfacpy.PFPlotInterface(self.app)
+    self.app.GetFromStudyCase("SetDesktop")
     return study_case_obj
 
   def create_scenario(self,parameter_values_string,folder_path): 
