@@ -475,9 +475,9 @@ class PFBaseInterface:
             f"path is {first_obj_path}.")
         except(AttributeError):
           msg_obj = f"The first element is of type {first_obj_type}." 
-          msg = (f"Expected a PowerFactory object or a path string. Instead an "
-            f"iterable of length {elements_count} is given. {msg_obj}")
-          raise TypeError(msg)
+        msg = (f"Expected a PowerFactory object or a path string. Instead an "
+          f"iterable of length {elements_count} is given. {msg_obj}")
+        raise TypeError(msg)
       else:
         msg = (f"Expected a PowerFactory object or a path string. Instead an "
             f"empty object of type '{type(obj).__name__}' is given.")
