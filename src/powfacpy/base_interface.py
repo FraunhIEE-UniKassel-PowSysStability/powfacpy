@@ -636,7 +636,7 @@ class PFBaseInterface:
       if not file_name:  
         file_name = "results"  
       if results_variables_lists:
-        PFBaseInterface.add_selected_variables_for_export(comres,results_variables_lists)
+        self.add_selected_variables_for_export(results_variables_lists)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -679,19 +679,19 @@ class PFBaseInterface:
     project_settings_folder = self.get_single_obj("*.SetFold")
     return self.get_single_obj("*.SetPrj",parent_folder=project_settings_folder)
 
-  @staticmethod
-  def add_selected_variables_for_export(comres,results_variables_lists):
+  def add_selected_variables_for_export(self, results_variables_lists):
     """Adds selected variables to ComRes for export.
     Arguments:
       comres: PF object ComRes for export
       results_variables_lists: lists with infos about exported data (results objects,
         elements,variables)
     """
+    elmres = self.app.GetFromStudyCase('ElmRes')
+    comres = self.app.GetFromStudyCase('ComRes')
     comres.iopt_csel = 1 # export only selected variables
     comres.pResult = None # export only selected variables
     # Insert time
-    elmres = comres.pResult
-    time_name = _get_time_name_from_elmres(elmres)
+    time_name = self._get_time_name_from_elmres(elmres)
     if not results_variables_lists['variables'][0] == time_name:
       results_variables_lists['result_objects'].insert(0,results_variables_lists['result_objects'][0])
       results_variables_lists['elements'].insert(0,results_variables_lists['result_objects'][0])
