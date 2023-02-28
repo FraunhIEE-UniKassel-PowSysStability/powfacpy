@@ -690,13 +690,8 @@ class PFBaseInterface:
     comres.iopt_csel = 1 # export only selected variables
     comres.pResult = None # export only selected variables
     # Insert time
-    if not results_variables_lists.variables[0] == "b:tnow":
-      results_variables_lists.result_objects.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.elements.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.variables.insert(0,"b:tnow")
-    comres.resultobj = results_variables_lists.result_objects
-    comres.element = results_variables_lists.elements
-    comres.variable = results_variables_lists.variables
+    elmres = comres.pResult
+    time_name = _get_time_name_from_elmres(elmres)
     if not results_variables_lists['variables'][0] == time_name:
       results_variables_lists['result_objects'].insert(0,results_variables_lists['result_objects'][0])
       results_variables_lists['elements'].insert(0,results_variables_lists['result_objects'][0])
@@ -704,6 +699,16 @@ class PFBaseInterface:
     comres.resultobj = results_variables_lists['result_objects']
     comres.element = results_variables_lists['elements']
     comres.variable = results_variables_lists['variables']
+
+  @staticmethod
+  def _get_time_name_from_elmres(elmres):
+    simulation_type_number = elmres.calTp
+    time_names = {
+      0:'b:tnow', # all calculations
+      29:'b:ucttime' # quaidynamic simulation
+      # to be continued if needed
+    }
+    return time_names[simulation_type_number]
 
   def format_csv_for_comtrade(self,file_path):
     """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
