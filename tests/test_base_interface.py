@@ -9,6 +9,7 @@ import importlib
 importlib.reload(powfacpy)
 
 
+PF_PROJECT_PATH = r"\seberlein\powfacpy\powfacpy_tests"
 
 @pytest.fixture(scope='session')
 def pf_app():
@@ -36,6 +37,11 @@ def activate_test_project(pfbi):
         folder_of_project_for_testing,new_name="powfacpy_tests_copy_where_tests_are_run")    
     project_copy.Activate()    
     pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
+
+@pytest.fixture
+def activate_test_project_quasi_dynamic_data(pfbi):
+    pfbi.app.ActivateProject(PF_PROJECT_PATH)
+    pfbi.activate_study_case(r"Study Cases\test_base_interface\quasi_dynamic_data")
     
 def test_get_single_object(pfbi,activate_test_project):
     terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
@@ -267,6 +273,17 @@ def test_create_comtrade_obj(pfbi,activate_test_project):
     intcomtrade = pfbi.create_comtrade_obj(path_of_cfg)
     intcomtrade.Load()
     assert(intcomtrade.FindColumn("AC Voltage Source:m:u:bus1:A") == 1)
+
+def test_export_to_pandas(pfbi, activate_test_project_quasi_dynamic_data):
+    object = pfbi.get_obj(r'Network Model\Network Data\test_base_interface\Grid\General Load HV.ElmLod', include_subfolders=True)[0]
+    variables = ['m:i1:bus1', 'm:u1:bus1']
+    nr_of_columns_including_time = len(variables) + 1
+    elmres = pfbi.app.GetFromStudyCase('ElmRes')
+    df = pfbi.export_to_pandas(
+        result_objects=[elmres,]*len(variables),
+        elements=[object,]*len(variables), 
+        variables=variables)
+    assert len(df.columns) == nr_of_columns_including_time
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_base_interface.py"]))
