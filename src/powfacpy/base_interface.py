@@ -749,12 +749,13 @@ class PFBaseInterface:
       full_paths = read_file.readline().split(",")
       variables = read_file.readline().split(",")
       for col,path in enumerate(full_paths):
+          is_last_column = (col == len(full_paths)-1)
           if col > 0:
               formated_path = powfacpy.PFStringManipulation.format_full_path(path,self)
               variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
-              row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
+              row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
-              row = "Time," # Header of first column
+              row = "time," # Header of first column
       write_file.write(row+"\n")
       # Write remaining data rows until end of file is reached
       while row:
