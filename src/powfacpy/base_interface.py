@@ -648,6 +648,7 @@ class PFBaseInterface:
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
+      comres.numberFormat = 1 # scientific notation
       comres.Execute()
 
       path = self.replace_special_PF_characters_in_path_string(path)
