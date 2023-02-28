@@ -653,7 +653,7 @@ class PFBaseInterface:
 
       path = self.replace_special_PF_characters_in_path_string(path)
       # If the result object(s) are ElmRes, the the csv file is formated.
-      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists.result_objects[0].GetClassName() == "ElmRes"):
+      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
         try:
           self.format_csv_for_elmres(path)
         except(IndexError):
@@ -697,6 +697,13 @@ class PFBaseInterface:
     comres.resultobj = results_variables_lists.result_objects
     comres.element = results_variables_lists.elements
     comres.variable = results_variables_lists.variables
+    if not results_variables_lists['variables'][0] == time_name:
+      results_variables_lists['result_objects'].insert(0,results_variables_lists['result_objects'][0])
+      results_variables_lists['elements'].insert(0,results_variables_lists['result_objects'][0])
+      results_variables_lists['variables'].insert(0,time_name)
+    comres.resultobj = results_variables_lists['result_objects']
+    comres.element = results_variables_lists['elements']
+    comres.variable = results_variables_lists['variables']
 
   def format_csv_for_comtrade(self,file_path):
     """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
