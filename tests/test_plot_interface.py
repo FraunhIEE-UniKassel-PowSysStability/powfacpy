@@ -24,7 +24,7 @@ def test_plot(pfplot,activate_test_project):
     pfsim.activate_study_case(r"Study Cases\test_plot_interface\Study Case 1")
     pfsim.initialize_and_run_sim()
 
-    with pytest.raises(powfacpy.PFAttributeNotSpecifiedError):
+    with pytest.raises(powfacpy.PFAttributeNotSetError):
         pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",["s:u0","m:Qsum:bus1"])
 
     pfplot.clear_plot_pages()
@@ -78,7 +78,7 @@ def test_plot_from_comtrade(pfplot,activate_test_project):
         linestyle=2,linewidth=100,color=3,label="comtrade test")
 
 def test_activate_plot(pfplot,activate_test_project):
-    with pytest.raises(powfacpy.PFAttributeNotSpecifiedError):
+    with pytest.raises(powfacpy.PFAttributeNotSetError):
         pfplot.set_active_plot("test_plot 1")
 
 if __name__ == "__main__":

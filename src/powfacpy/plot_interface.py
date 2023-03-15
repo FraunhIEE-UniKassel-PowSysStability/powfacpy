@@ -32,7 +32,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
 
   def set_active_plot(self,name_or_obj,graphics_page=None):
     """Set the currently active plot. Adjusts the active graphics
-    page accordingly if name_or_object is a PF object (the graphics
+    page accordingly if name_or_object is a PF plot object (the graphics
     page cannot be infered from a string path) or if the
     optional argument graphics_page is given.
     Arguments:
@@ -49,7 +49,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       try:
         self.active_plot = self.active_graphics_page.GetOrInsertCurvePlot(name_or_obj)
       except(AttributeError) as e:
-        self._handle_possible_attribute_not_specified_error(self.active_graphics_page,
+        self._handle_possible_attribute_not_set_error(self.active_graphics_page,
           "active_grapics_page", e) 
 
   def get_or_create_graphics_board(self):
@@ -104,7 +104,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetDataSeries()
     except(AttributeError) as e:
-      self._handle_possible_attribute_not_specified_error(self.active_plot,
+      self._handle_possible_attribute_not_set_error(self.active_plot,
           "active_plot", e)
 
   def get_x_axis_of_active_plot(self):
@@ -113,7 +113,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisX()
     except(AttributeError) as e:
-      self._handle_possible_attribute_not_specified_error(self.active_plot,
+      self._handle_possible_attribute_not_set_error(self.active_plot,
           "active_plot", e)
   
   def get_y_axis_of_active_plot(self):
@@ -122,7 +122,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisY()
     except(AttributeError) as e:
-      self._handle_possible_attribute_not_specified_error(self.active_plot,
+      self._handle_possible_attribute_not_set_error(self.active_plot,
           "active_plot", e)
     
 
@@ -221,9 +221,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       axis.SetAttribute(attribute, value)      
 
   def set_x_axis_range_of_active_plot(self,range: Iterable):
-    x_axis = self.get_x_axis_of_active_plot()
-    x_axis.rangeMin = range[0]
-    x_axis.rangeMax = range[1]
+    self.set_x_axis_attributes(rangeMin=range[0], rangeMax=range[1])
 
   def plot_from_comtrade(self,
                       file_path,
@@ -236,7 +234,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     Creates the comtrade object (IntComtrade) and plots.
     
     If you want to plot from a comtrade object (IntComtrade) that already 
-    exists in the PF database, use the method plot_monitored_variables as shown.
+    exists in the PF database, use the method plot_monitored_variables as shown
+    in this method.
     
     Arguments:
       file_path: str

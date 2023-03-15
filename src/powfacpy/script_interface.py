@@ -22,14 +22,14 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
   def __init__(self,app): 
     super().__init__(app) 
 
-  def create_file_from_embedded_script(self,out_file,compython):
+  def create_file_from_embedded_script(self, out_file, compython):
     """Create a .py file from an embedded script.
     """
     compython = self.handle_single_pf_object_or_path_input(compython)
     # The xScript attribute is a list with all lines of the script
     TextFileProcessor.create_file_from_list_of_lines(out_file,compython.xScript)
 
-  def set_embedded_script_from_file(self,compython,file):
+  def set_embedded_script_from_file(self, compython, file):
     """Set the embedded script based on a .py file.
     """
     compython = self.handle_single_pf_object_or_path_input(compython)
@@ -88,7 +88,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
       # Delete temporary directory
       shutil.rmtree(temporary_dir)
 
-  def merge_powfacpy_package_into_single_file(self,out_file):
+  def merge_powfacpy_package_into_single_file(self, out_file):
     init_file = os.path.dirname(__file__) + r"\__init__.py"
     PythonFileInterface.merge_package_into_single_file(init_file,out_file)
 
@@ -124,7 +124,7 @@ class PythonFileInterface():
     return file_paths,name_of_package
 
   @staticmethod
-  def merge_package_into_single_file(init_file:str,out_file:str):
+  def merge_package_into_single_file(init_file:str, out_file:str):
     """Merges all .py files of a package into a single file.
     Arguments:
       init_file: path of __init__.py of package
@@ -253,7 +253,7 @@ class TextFileProcessor():
     return lines
 
   @staticmethod
-  def create_file_from_list_of_lines(out_file,lines):
+  def create_file_from_list_of_lines(out_file, lines):
     
     with open(out_file,"w") as f:
       for line in lines:
