@@ -1,5 +1,6 @@
 import pytest
 import sys
+import os
 sys.path.append(r'C:\Program Files\DIgSILENT\PowerFactory 2022 SP1\Python\3.10')
 import powerfactory
 sys.path.insert(0,r'.\src')
@@ -7,10 +8,7 @@ import powfacpy
 import importlib
 importlib.reload(powfacpy)
 
-# ToDo: MAke sure every test uses a copy of the project. In this
-# way it is ensured that tests don't affect each other
 
-PF_PROJECT_PATH = r"\seberlein\powfacpy\powfacpy_tests"
 
 @pytest.fixture(scope='session')
 def pf_app():
@@ -23,7 +21,20 @@ def pfbi(pf_app):
 
 @pytest.fixture
 def activate_test_project(pfbi):
-    pfbi.app.ActivateProject(PF_PROJECT_PATH)
+    """The project for testing must be located in the current
+    user under "powfacpy\\powfacpy_tests". This method will create
+    a copy of that project which is then used for the tests. This 
+    ensures that the tests are always run with the same initial
+    project state.
+    """
+    user = pfbi.app.GetCurrentUser()
+    project_for_testing = pfbi.get_single_obj(r"powfacpy\powfacpy_tests",
+        parent_folder = user)
+    folder_of_project_for_testing = pfbi.get_single_obj(r"powfacpy",
+        parent_folder = user)    
+    project_copy = pfbi.copy_single_obj(project_for_testing,
+        folder_of_project_for_testing,new_name="powfacpy_tests_copy_where_tests_are_run")    
+    project_copy.Activate()    
     pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
     
 def test_get_single_object(pfbi,activate_test_project):
@@ -72,6 +83,13 @@ def test_set_attr(pfbi,activate_test_project):
         "desc":["dummy description"]},parent_folder=r"Library\Dynamic Models")
     stitle = pfbi.get_attr(r"Library\Dynamic Models\Linear_interpolation","sTitle")
     assert stitle == test_string_2
+
+def test_set_attr_of_obj(pfbi,activate_test_project):
+    test_string_1 = "TestString1"
+    model = pfbi.get_single_obj(r"Library\Dynamic Models\Linear_interpolation")
+    powfacpy.set_attr_of_obj(model,{"sTitle":test_string_1})
+    stitle = pfbi.get_attr(model,"sTitle")
+    assert stitle == test_string_1
 
 def test_set_attr_exceptions(pfbi,activate_test_project):
     with pytest.raises(powfacpy.exceptions.PFAttributeTypeError):
@@ -243,6 +261,12 @@ def test_get_loc_name_with_class(pfbi,activate_test_project):
     pf_objects = pfbi.get_obj(r'*.ElmTerm', include_subfolders=True)
     pfbi.get_loc_name_with_class(pf_objects)
     pfbi.get_loc_name_with_class(pf_objects[0])
+
+def test_create_comtrade_obj(pfbi,activate_test_project):
+    path_of_cfg = os.path.dirname(__file__) + r"\tests_input\test_comtrade.cfg"
+    intcomtrade = pfbi.create_comtrade_obj(path_of_cfg)
+    intcomtrade.Load()
+    assert(intcomtrade.FindColumn("AC Voltage Source:m:u:bus1:A") == 1)
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_base_interface.py"]))

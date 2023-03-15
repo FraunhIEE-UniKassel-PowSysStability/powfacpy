@@ -6,6 +6,7 @@ import importlib
 importlib.reload(powfacpy)
 from matplotlib import pyplot
 from os import getcwd
+import os
 
 from test_base_interface import pfbi, pf_app, activate_test_project
 
@@ -23,7 +24,7 @@ def test_plot(pfplot,activate_test_project):
     pfsim.activate_study_case(r"Study Cases\test_plot_interface\Study Case 1")
     pfsim.initialize_and_run_sim()
 
-    with pytest.raises(powfacpy.PFNoPlotActivatedError):
+    with pytest.raises(powfacpy.PFAttributeNotSetError):
         pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",["s:u0","m:Qsum:bus1"])
 
     pfplot.clear_plot_pages()
@@ -39,7 +40,7 @@ def test_plot(pfplot,activate_test_project):
     pfplot.set_y_axis_attributes(scaleType=1)
 
 def test_pyplot_from_csv(pfplot,activate_test_project):
-    export_dir = getcwd()
+    export_dir = os.path.dirname(__file__) + r"\tests_output"
     file_name = "results"
     pfsim = powfacpy.PFDynSimInterface(pfplot.app)
     pfsim.export_dir =  export_dir
@@ -68,6 +69,17 @@ def test_copy_graphics_board_content_to_all_study_cases(pfplot,activate_test_pro
     source_study_case = r"Study Cases\test_plot_interface\Study Case 1"
     pfplot.copy_graphics_board_content_to_all_study_cases(source_study_case,
         target_parent_folder=r"Study Cases\test_plot_interface")
+
+def test_plot_from_comtrade(pfplot,activate_test_project):
+    path_of_cfg = os.path.dirname(__file__) + r"\tests_input\test_comtrade.cfg"
+    pfplot.set_active_plot("test_plot 1","test_plot_interface 1")
+    pfplot.plot_from_comtrade(path_of_cfg,
+        "AC Voltage Source:m:u:bus1:A",
+        linestyle=2,linewidth=100,color=3,label="comtrade test")
+
+def test_activate_plot(pfplot,activate_test_project):
+    with pytest.raises(powfacpy.PFAttributeNotSetError):
+        pfplot.set_active_plot("test_plot 1")
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_plot_interface.py"]))

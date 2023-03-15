@@ -100,21 +100,26 @@ class PFBaseInterface:
         return self.handle_non_existing_obj(head,parent_folder,error_if_non_existent)
     return parent_folder.GetChildren(1,tail,1)
 
-  def get_unique_obj(self,path,parent_folder=None,error_if_non_existent=True):
+  def get_unique_obj(self,path,parent_folder=None,error_if_non_existent=True,
+    include_subfolders=False):
     """This method is equal to get_single_obj and was added because the method
     name fits better to what the method does (i.e. to get a unique object and to
-    throw an error if the object is not unique)
+    throw an error if the object is not unique).
     """
-    self.get_single_obj(path,parent_folder=parent_folder,
-      error_if_non_existent=error_if_non_existent)
+    return self.get_single_obj(path,parent_folder=parent_folder,
+      error_if_non_existent=error_if_non_existent,
+      include_subfolders=include_subfolders)
 
-  def get_single_obj(self,path,parent_folder=None,error_if_non_existent=True):
+  def get_single_obj(self,path,parent_folder=None,error_if_non_existent=True,
+    include_subfolders=False):
     """Use this method if you want to access one single unique object.
     This method is an alterntive to 'get_obj' and returns the unique object instead
-    of a list (that needs to be accessed with '[0]').
+    of a list (that needs to be accessed with '[0]'). It also checks whether the found
+    object is unique (only one object is found).
     """
     obj = self.get_obj(path,parent_folder=parent_folder,
-      error_if_non_existent=error_if_non_existent)
+      error_if_non_existent=error_if_non_existent,
+      include_subfolders=include_subfolders)
     if obj:
       if len(obj) < 2:
         return obj[0]
@@ -236,7 +241,7 @@ class PFBaseInterface:
     # Delete the summary grid which is in the study case
     grids[:] = [grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"]  
     if error_if_no_network_is_active and not grids:
-      raise PFNotActiveError("a network (ElmNet).")
+      raise powfacpy.PFNotActiveError("a network (ElmNet).")
     return grids  
 
   def get_by_condition(self,objects,condition):
@@ -475,9 +480,9 @@ class PFBaseInterface:
             f"path is {first_obj_path}.")
         except(AttributeError):
           msg_obj = f"The first element is of type {first_obj_type}." 
-          msg = (f"Expected a PowerFactory object or a path string. Instead an "
-            f"iterable of length {elements_count} is given. {msg_obj}")
-          raise TypeError(msg)
+        msg = (f"Expected a PowerFactory object or a path string. Instead an "
+          f"iterable of length {elements_count} is given. {msg_obj}")
+        raise TypeError(msg)
       else:
         msg = (f"Expected a PowerFactory object or a path string. Instead an "
             f"empty object of type '{type(obj).__name__}' is given.")
@@ -693,7 +698,7 @@ class PFBaseInterface:
     comres.variable = results_variables_lists.variables
 
   def format_csv_for_comtrade(self,file_path):
-    """Format the csv created from a Comtrade object with ComRes.
+    """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
     There is a bug in PF so that the time in the first column sometimes
     is not monotonously increasing. This methods corrects this by checking 
     for each time value (1. column) whether it is larger than the previous and discarding rows
@@ -828,7 +833,46 @@ class PFBaseInterface:
     if not is_list:
       loc_name_with_class = loc_name_with_class[0]  
     return loc_name_with_class
+    
+  def create_comtrade_obj(self,file_path: str,parent_folder=None):
+    """Add an IntComtrade that refers to file_path (*.cfg).
+    The objects are stored in a folder "Comtrade" in the currently active
+    study case, unless a parent_folder is provided. A new object is only
+    created if there exists no object yet that points to the same file
+    (f_name attribute is the file path). The file name is used for the
+    new object name (without the .cfg ending).
+    """
+    if parent_folder:
+      parent_folder = self.handle_single_pf_object_or_path_input(parent_folder)
+    else:
+      parent_folder = self.app.GetFromStudyCase("Comtrade.IntFolder")
 
+    intcomtrade = self.get_obj("*.IntComtrade",
+      parent_folder=parent_folder,
+      condition=lambda x : getattr(x,"f_name")==file_path,
+      error_if_non_existent=False)
+    if not intcomtrade:
+      _,file_name = os_path.split(file_path)
+      intcomtrade = self.create_in_folder(parent_folder,
+        file_name.replace(".cfg","") + ".IntComtrade", overwrite=False,
+        use_existing=False) 
+      intcomtrade.f_name = file_path
+    else:
+      intcomtrade = intcomtrade[0]
+    # intcomtrade.Load() probably not required
+    return intcomtrade
+
+  def _handle_possible_attribute_not_set_error(self, 
+                              possibly_not_secified_attr,
+                              attribute_description: str,
+                              e):
+    """Handles exception if an AttributeError was raised in a
+    method call on an attribute of a powfacpy class.
+    """                          
+    if not possibly_not_secified_attr:
+      raise powfacpy.PFAttributeNotSetError(attribute_description)
+    else:
+      raise AttributeError(e)
 
 class PFStringManipulation:
   
@@ -865,6 +909,9 @@ class PFStringManipulation:
   
   @staticmethod
   def handle_path(path):
+    """Checks if path starts with \ (not accepted by most PF methods)
+    and also if 'path' is of type string.
+    """
     try:
       if not path[0] == "\\":
         return path
@@ -959,8 +1006,27 @@ class PFTranslator:
     if not type(objects) == list:
       objects = [objects]
     return [x.GetFullName().split('\\')[-1] for x in objects]
-    
 
-if __name__ == "__main__":
-  print("ok")
-  
+
+def set_attr_of_obj(obj, attributes:dict):
+  """Set attributes of object.
+  The difference to set_attr of PFBaseInterface is that
+  this method only accepts PF objects (and not path strings)
+  and is slightly more performant.
+  """
+  for attr,value in attributes.items():
+    obj.SetAttribute(attr,value)
+
+def set_attr_of_objects(objects: Iterable,attributes: Iterable):
+  """Set attributes of multiple objects.
+  """
+  for obj in objects:
+    set_attr_of_obj(obj,attributes)
+
+def set_attr_of_child(parent,child:str, attributes:dict):
+  """Set attributes of a child object in parent.
+  Just syntactic sugar.
+  """
+  child = parent.GetContents(child)[0]
+  for attr,value in attributes.items():
+    child.SetAttribute(attr,value)

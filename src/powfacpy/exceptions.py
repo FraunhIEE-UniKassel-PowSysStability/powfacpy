@@ -65,12 +65,13 @@ class PFNotActiveError(PFInterfaceError):
     self.message = (f"Please activate {obj_str}.")
     super().__init__(self.message)
 
-class PFNoPlotActivatedError(PFInterfaceError):
-  """Attempt to plot, but no plot is active.
+class PFAttributeNotSetError(PFInterfaceError):
+  """Attempt to access an attribute of a powfacpy class,
+  but it was not specified.
   """ 
-  def __init__(self):
-    self.message = (f"Attempt access plot, but no plot is active. "
-    "Please activate a plot (use 'set_active plot').")
+  def __init__(self,attribute_description):
+    self.message = (f"Attempt to access {attribute_description}, " 
+    "but it was not set.")
     super().__init__(self.message)
 
 class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):

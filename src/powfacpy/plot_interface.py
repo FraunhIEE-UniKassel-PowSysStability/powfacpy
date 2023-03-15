@@ -2,15 +2,13 @@
 """
 
 import sys
-from unittest import result
-
-from powfacpy.base_interface import PFTranslator
-from powfacpy.dyn_sim_interface import PFDynSimInterface
 sys.path.insert(0,r'.\src')
 import powfacpy
 import pandas
 from matplotlib import pyplot
 from collections.abc import Iterable
+from os import getcwd, path
+from os import path as os_path
 
 class PFPlotInterface(powfacpy.PFBaseInterface):
 
@@ -33,22 +31,26 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
 
 
   def set_active_plot(self,name_or_obj,graphics_page=None):
-    """Set the currently active plot.
+    """Set the currently active plot. Adjusts the active graphics
+    page accordingly if name_or_object is a PF plot object (the graphics
+    page cannot be infered from a string path) or if the
+    optional argument graphics_page is given.
     Arguments:
-      name_or_obj: name of plot (string) or plot object
+      name_or_obj: name of plot (string) or plot object.
       graphics_page: name of grphics page (string). If  
         specified, this sets the currently active page.
     """
     if graphics_page:
       self.set_active_graphics_page(graphics_page)
-      if not isinstance(name_or_obj,str):
-        self.active_plot = name_or_obj
-      else:
-        self.active_plot = self.active_graphics_page.GetOrInsertCurvePlot(name_or_obj)
-    else:
+    if not isinstance(name_or_obj,str): # is plot object
       self.active_plot = name_or_obj
       self.set_active_graphics_page(self.active_plot.GetParent())
-
+    else:
+      try:
+        self.active_plot = self.active_graphics_page.GetOrInsertCurvePlot(name_or_obj)
+      except(AttributeError) as e:
+        self._handle_possible_attribute_not_set_error(self.active_graphics_page,
+          "active_grapics_page", e) 
 
   def get_or_create_graphics_board(self):
     """Get the graphics board of the currently active study case or create
@@ -57,7 +59,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     grb = self.app.GetGraphicsBoard()  
     if not grb:
       active_study_case = self.app.GetActiveStudyCase()
-      graphics_board_name = PFTranslator.get_default_graphics_board_name(
+      graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
          self.language)
       grb = self.create_in_folder(active_study_case,graphics_board_name)
       grb.Show()
@@ -96,22 +98,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.set_curve_attributes(data_series,**kwargs)
     self.active_graphics_page.Show()
 
-
-  def _handle_possible_no_plot_activated_error(self, e):
-    """Handle error if no active plot available.
-    """
-    if not self.active_plot:
-      raise powfacpy.PFNoPlotActivatedError()
-    else:
-      raise AttributeError(e)
-
   def get_data_series_of_active_plot(self):
     """Get the dataseries of the currently active plot.
     """
     try:
       return self.active_plot.GetDataSeries()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_set_error(self.active_plot,
+          "active_plot", e)
 
   def get_x_axis_of_active_plot(self):
     """Get the x-axis of the currently active plot.
@@ -119,7 +113,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisX()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_set_error(self.active_plot,
+          "active_plot", e)
   
   def get_y_axis_of_active_plot(self):
     """Get the y-axis of the currently active plot.
@@ -127,7 +122,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     try:
       return self.active_plot.GetAxisY()
     except(AttributeError) as e:
-      self._handle_possible_no_plot_activated_error(e)
+      self._handle_possible_attribute_not_set_error(self.active_plot,
+          "active_plot", e)
     
 
   def plot(self,obj,variables,graphics_page=None,plot=None,**kwargs):
@@ -224,6 +220,40 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for attribute, value in kwargs.items():
       axis.SetAttribute(attribute, value)      
 
+  def set_x_axis_range_of_active_plot(self,range: Iterable):
+    self.set_x_axis_attributes(rangeMin=range[0], rangeMax=range[1])
+
+  def plot_from_comtrade(self,
+                      file_path,
+                      variables,
+                      graphics_page=None,
+                      plot=None,
+                      parent_folder_comtrade=None,
+                      **kwargs):
+    """Plot a varibale from a COMTRADE formated file under file_path (*.cfg).
+    Creates the comtrade object (IntComtrade) and plots.
+    
+    If you want to plot from a comtrade object (IntComtrade) that already 
+    exists in the PF database, use the method plot_monitored_variables as shown
+    in this method.
+    
+    Arguments:
+      file_path: str
+      variables: The entry in the second column of a signal in .cfg
+      parent_folder_comtrade: Container in PF database for comtrade objects
+        (str or PF object)
+         
+    For further info on the arguments see method plot_monitored_variables.  
+    """                  
+    intcomtrade = self.create_comtrade_obj(file_path,
+      parent_folder=parent_folder_comtrade)
+    self.plot_monitored_variables(intcomtrade,
+              variables,
+              graphics_page=graphics_page,
+              plot=plot,
+              results_obj=intcomtrade,
+              **kwargs)
+
   def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
     The ElmFiles are stored in a dummy network because the simulation needs to be run
@@ -257,7 +287,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     kwargs.update({"results_obj":elmres_for_elmfiles})  
     self.plot(elmfile,variable,**kwargs)
     # Simulate
-    pfds = PFDynSimInterface(self.app)
+    pfds = powfacpy.PFDynSimInterface(self.app)
     cominc = self.app.GetFromStudyCase("ComInc")
     initial_elmres = self.get_attr(cominc,"p_resvar")
     self.set_attr(cominc,{"p_resvar":elmres_for_elmfiles})
@@ -268,8 +298,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for network in active_networks:
       network.Activate()
 
+
   def create_dummy_network(self,name=None):
     """Creates a network with only one terminal.
+    Such a network is used for example to read in ElmFile objects.
     """
     if not name:
       name = "dummy_network"
@@ -467,12 +499,12 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         lists.labels = [lists.labels[i] for i in indexes]  
     return lists
 
-  def export_active_page(self,format,path):
-    """Export active page using ComWr
+  def export_active_page(self,format='pdf',path=getcwd()):
+    """Export active page using ComWr.
     """
     self.active_graphics_page.Show()
     comwr = self.app.GetFromStudyCase('ComWr')
-    self.set_attr(comwr,{'iopt_rd': format,'iopt_savas': 0, 'f': path})
+    self.set_attr(comwr,{'iopt_rd': format,'iopt_savas': 0, 'f': path + "." + format})
     comwr.Execute()  
 
 class PFListsOfDataSeriesOfPlot:
