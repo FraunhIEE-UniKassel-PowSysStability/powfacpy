@@ -46,13 +46,18 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_variables_lists={
           'result_objects':result_objects,
           'elements':elements,
-          'variables':variables})
-
-    df = read_csv(FULL_PATH, encoding='ISO-8859-1')
+          'variables':variables},
+      leave_csv_file_unchanged=True,
+      )
+    
+    df = read_csv(FULL_PATH, encoding='ISO-8859-1', header=[0,1])
+    def _reformat(column):
+      path = powfacpy.PFStringManipulation._format_full_path(column[0], self)
+      var = powfacpy.PFStringManipulation._format_variable_name(column[1])
+      return path + '\\' + var
+    df.columns = [_reformat(x) for x in df.columns]
     remove(FULL_PATH)
     return df
-
-  
 
 """ class ElmRes2NumPyArray():
 
