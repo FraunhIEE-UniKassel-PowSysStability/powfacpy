@@ -664,6 +664,12 @@ class PFBaseInterface:
         self.format_csv_for_comtrade(path)
 
   def export_to_pandas(self, result_objects, elements, variables):
+    """returns pandas DataFrame of specified simulation results.
+      Arguments:
+        result_objects: List of ElmRes for each result variable (repeat if identical or several variables) 
+        elements: List of Powerfactory Objects for each result variable 
+        variables: List of variable names for each result variable
+    """
     FILE_NAME = 'temp'
     FILE_PATH = getcwd()
     FULL_PATH = FILE_PATH + "\\" + FILE_NAME + ".csv"
