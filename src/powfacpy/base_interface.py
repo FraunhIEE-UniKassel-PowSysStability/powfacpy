@@ -211,7 +211,7 @@ class PFBaseInterface:
           return False
         else:
           parent_path = parent.GetFullName()
-          parent_path = PFStringManipulation.delete_classes(parent_path)
+          parent_path = PFStringManipulation._remove_class_names(parent_path)
           existing_path = f"{parent_path}{existing_path}" 
           non_existent_child_name = child_name
           return False,existing_path,non_existent_child_name
@@ -262,13 +262,13 @@ class PFBaseInterface:
       except(AttributeError) as e:
         raise powfacpy.PFAttributeError(obj,e,self)
       except(TypeError) as e:
-        object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),self)
+        object_str = powfacpy.PFStringManipulation._format_full_path(str(obj),self)
         raise TypeError(f"{e}. Maybe an unexpected type is used "
           f"for attribute of object '{object_str}'.")  
     return objects_true
   
   def get_path_of_object(self,obj):
-    return PFStringManipulation.format_full_path(str(obj),self)
+    return PFStringManipulation._format_full_path(str(obj),self)
 
   def get_attr(self,obj,attr,parent_folder=None):
     """Get the value of an attribute of an object.
@@ -731,7 +731,7 @@ class PFBaseInterface:
         row = read_file.readline()  
     replace(file_path + ".temp",file_path)  
 
-  def format_csv_for_elmres(self,file_path):
+  def _format_csv_for_elmres(self,file_path):
     """Format the csv file that is exported from PF.
     The PF exported csv uses the first row for the full path 
     of the object and the second row for the variable name.
@@ -762,7 +762,7 @@ class PFBaseInterface:
       while row:
           row = read_file.readline()
           write_file.write(row)
-    replace(file_path + ".temp",file_path)  
+    replace(file_path + ".temp", file_path)  
 
   @staticmethod
   def replace_headers_of_csv_file_with_number_of_colums(file_path):
@@ -910,7 +910,7 @@ class PFStringManipulation:
     return PFStringManipulation.replace_between_characters('.','\\','\\',path)
 
   @staticmethod
-  def format_full_path(path,pf_interface):
+  def _format_full_path(path,pf_interface):
     """
     Takes the full path (including user and project) and returns the path 
     relative to the currently active project.
