@@ -610,7 +610,8 @@ class PFBaseInterface:
     results_obj=None,
     results_variables_lists=None,
     column_separator=',',
-    decimal_separator='.'
+    decimal_separator='.',
+    leave_csv_file_unchanged=False,
     ):
       """Exports simulation results to csv.
       Arguments:
@@ -654,16 +655,17 @@ class PFBaseInterface:
 
       path = self._replace_special_PF_characters_in_path_string(path)
       # If the result object(s) are ElmRes, the the csv file is formated.
-      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
-        try:
-          self.format_csv_for_elmres(path)
-        except(IndexError):
-          raise Exception(f"Is the file \n" 
-            f"'{path}' \nopen in another program?")
-      else:
-        self.format_csv_for_comtrade(path)
+      if not leave_csv_file_unchanged:
+        if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
+          try:
+            self._format_csv_for_elmres(path)
+          except(IndexError):
+            raise Exception(f"Is the file \n" 
+              f"'{path}' \nopen in another program?")
+        else:
+          self.format_csv_for_comtrade(path)
 
-  def replace_special_PF_characters_in_path_string(self,path):
+  def _replace_special_PF_characters_in_path_string(self,path):
     """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)'
     in a path string with their actual directories.
     """
