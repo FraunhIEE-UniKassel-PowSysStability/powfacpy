@@ -652,7 +652,7 @@ class PFBaseInterface:
       comres.numberFormat = 1 # scientific notation
       comres.Execute()
 
-      path = self.replace_special_PF_characters_in_path_string(path)
+      path = self._replace_special_PF_characters_in_path_string(path)
       # If the result object(s) are ElmRes, the the csv file is formated.
       if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
         try:
@@ -824,9 +824,9 @@ class PFBaseInterface:
       object_low: Object lower in the hierarchy. 
     """
     obj_high = self.handle_single_pf_object_or_path_input(obj_high)
-    obj_high = PFStringManipulation.format_full_path(str(obj_high),self)
+    obj_high = PFStringManipulation._format_full_path(str(obj_high),self)
     obj_low = self.handle_single_pf_object_or_path_input(obj_low)
-    obj_low = PFStringManipulation.format_full_path(str(obj_low),self)
+    obj_low = PFStringManipulation._format_full_path(str(obj_low),self)
     path = str(obj_low).split(str(obj_high))[1][1:] 
     return path     
   
@@ -906,7 +906,7 @@ class PFStringManipulation:
     return new_string   
 
   @staticmethod
-  def delete_classes(path):
+  def _remove_class_names(path):
     return PFStringManipulation.replace_between_characters('.','\\','\\',path)
 
   @staticmethod
@@ -920,7 +920,7 @@ class PFStringManipulation:
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
     path = path[path.find(project_name)+len(project_name):]
-    return PFStringManipulation.delete_classes(path)
+    return PFStringManipulation._remove_class_names(path)
   
   @staticmethod
   def handle_path(path):
