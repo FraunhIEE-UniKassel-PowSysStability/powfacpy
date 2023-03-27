@@ -685,7 +685,6 @@ class PFBaseInterface:
   def _add_selected_variables_for_export(self, results_variables_lists):
     """Adds selected variables to ComRes for export.
     Arguments:
-      comres: PF object ComRes for export
       results_variables_lists: lists with infos about exported data (results objects,
         elements,variables)
     """
