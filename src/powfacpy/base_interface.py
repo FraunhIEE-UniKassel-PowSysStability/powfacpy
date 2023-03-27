@@ -637,7 +637,7 @@ class PFBaseInterface:
       if not file_name:  
         file_name = "results"  
       if results_variables_lists:
-        self.add_selected_variables_for_export(results_variables_lists)
+        self._add_selected_variables_for_export(results_variables_lists)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -702,7 +702,7 @@ class PFBaseInterface:
     project_settings_folder = self.get_single_obj("*.SetFold")
     return self.get_single_obj("*.SetPrj",parent_folder=project_settings_folder)
 
-  def add_selected_variables_for_export(self, results_variables_lists):
+  def _add_selected_variables_for_export(self, results_variables_lists):
     """Adds selected variables to ComRes for export.
     Arguments:
       comres: PF object ComRes for export
