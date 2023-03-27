@@ -58,6 +58,19 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     df.columns = [_reformat(x) for x in df.columns]
     remove(FULL_PATH)
     return df
+  
+  @staticmethod
+  def _get_time_variable_name_from_elmres(elmres):
+    """Returns the variable name of simulation time. 
+    Different PF simulation types generally have different names for the time variable.
+    """
+    simulation_type_number = elmres.calTp
+    time_names = {
+      0:'b:tnow', # all calculations
+      29:'b:ucttime' # quaidynamic simulation
+      # TODO to be continued if needed
+    }
+    return time_names[simulation_type_number]
 
 """ class ElmRes2NumPyArray():
 
