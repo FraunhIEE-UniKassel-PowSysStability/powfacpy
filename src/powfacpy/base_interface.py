@@ -754,8 +754,8 @@ class PFBaseInterface:
       for col,path in enumerate(full_paths):
           is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation.format_full_path(path,self)
-              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
+              formated_path = powfacpy.PFStringManipulation._format_full_path(path,self)
+              variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
               row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
               row = "time," # Header of first column
@@ -923,6 +923,16 @@ class PFStringManipulation:
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
     path = path[path.find(project_name)+len(project_name):]
     return PFStringManipulation._remove_class_names(path)
+  
+  @staticmethod
+  def _format_variable_name(name:str) -> str:
+    """
+    Takes PF-generated csv export variable name and returns shortened version.
+    Example:
+      name: 's:u0 in kV'
+      output: 's:u0' 
+    """
+    return name.split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
   
   @staticmethod
   def handle_path(path):
