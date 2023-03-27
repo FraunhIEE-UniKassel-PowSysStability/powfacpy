@@ -11,7 +11,7 @@ sys.path.insert(0,r'.\src')
 import powfacpy
 from os import path as os_path
 from collections.abc import Iterable
-from os import getcwd, replace, remove
+from os import getcwd, replace
 import math
 from pandas import read_csv
 
@@ -662,28 +662,6 @@ class PFBaseInterface:
             f"'{path}' \nopen in another program?")
       else:
         self.format_csv_for_comtrade(path)
-
-  def export_to_pandas(self, result_objects, elements, variables):
-    """returns pandas DataFrame of specified simulation results.
-      Arguments:
-        result_objects: List of ElmRes for each result variable (repeat if identical or several variables) 
-        elements: List of Powerfactory Objects for each result variable 
-        variables: List of variable names for each result variable
-    """
-    FILE_NAME = 'temp'
-    FILE_PATH = getcwd()
-    FULL_PATH = FILE_PATH + "\\" + FILE_NAME + ".csv"
-    self.export_to_csv(
-      dir= FILE_PATH,
-      file_name=FILE_NAME,
-      results_variables_lists={
-          'result_objects':result_objects,
-          'elements':elements,
-          'variables':variables})
-
-    df = read_csv(FULL_PATH, encoding='ISO-8859-1')
-    remove(FULL_PATH)
-    return df
 
   def replace_special_PF_characters_in_path_string(self,path):
     """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)'
