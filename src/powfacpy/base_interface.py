@@ -13,6 +13,7 @@ from os import path as os_path
 from collections.abc import Iterable
 from os import getcwd, replace
 import math
+from pandas import read_csv
 
 
 class PFBaseInterface:
@@ -210,7 +211,7 @@ class PFBaseInterface:
           return False
         else:
           parent_path = parent.GetFullName()
-          parent_path = PFStringManipulation.delete_classes(parent_path)
+          parent_path = PFStringManipulation._remove_class_names(parent_path)
           existing_path = f"{parent_path}{existing_path}" 
           non_existent_child_name = child_name
           return False,existing_path,non_existent_child_name
@@ -261,13 +262,13 @@ class PFBaseInterface:
       except(AttributeError) as e:
         raise powfacpy.PFAttributeError(obj,e,self)
       except(TypeError) as e:
-        object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),self)
+        object_str = powfacpy.PFStringManipulation._format_full_path(str(obj),self)
         raise TypeError(f"{e}. Maybe an unexpected type is used "
           f"for attribute of object '{object_str}'.")  
     return objects_true
   
   def get_path_of_object(self,obj):
-    return PFStringManipulation.format_full_path(str(obj),self)
+    return PFStringManipulation._format_full_path(str(obj),self)
 
   def get_attr(self,obj,attr,parent_folder=None):
     """Get the value of an attribute of an object.
@@ -609,7 +610,8 @@ class PFBaseInterface:
     results_obj=None,
     results_variables_lists=None,
     column_separator=',',
-    decimal_separator='.'
+    decimal_separator='.',
+    leave_csv_file_unchanged=False,
     ):
       """Exports simulation results to csv.
       Arguments:
@@ -636,7 +638,7 @@ class PFBaseInterface:
       if not file_name:  
         file_name = "results"  
       if results_variables_lists:
-        PFBaseInterface.add_selected_variables_for_export(comres,results_variables_lists)
+        self._add_selected_variables_for_export(results_variables_lists)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -648,20 +650,22 @@ class PFBaseInterface:
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
+      comres.numberFormat = 1 # scientific notation
       comres.Execute()
 
-      path = self.replace_special_PF_characters_in_path_string(path)
+      path = self._replace_special_PF_characters_in_path_string(path)
       # If the result object(s) are ElmRes, the the csv file is formated.
-      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists.result_objects[0].GetClassName() == "ElmRes"):
-        try:
-          self.format_csv_for_elmres(path)
-        except(IndexError):
-          raise Exception(f"Is the file \n" 
-            f"'{path}' \nopen in another program?")
-      else:
-        self.format_csv_for_comtrade(path)
+      if not leave_csv_file_unchanged:
+        if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
+          try:
+            self._format_csv_for_elmres(path)
+          except(IndexError):
+            raise Exception(f"Is the file \n" 
+              f"'{path}' \nopen in another program?")
+        else:
+          self.format_csv_for_comtrade(path)
 
-  def replace_special_PF_characters_in_path_string(self,path):
+  def _replace_special_PF_characters_in_path_string(self,path):
     """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)'
     in a path string with their actual directories.
     """
@@ -678,24 +682,28 @@ class PFBaseInterface:
     project_settings_folder = self.get_single_obj("*.SetFold")
     return self.get_single_obj("*.SetPrj",parent_folder=project_settings_folder)
 
-  @staticmethod
-  def add_selected_variables_for_export(comres,results_variables_lists):
+  def _add_selected_variables_for_export(self, results_variables_lists):
     """Adds selected variables to ComRes for export.
     Arguments:
-      comres: PF object ComRes for export
       results_variables_lists: lists with infos about exported data (results objects,
         elements,variables)
     """
+    elmres = self.app.GetFromStudyCase('ElmRes')
+    comres = self.app.GetFromStudyCase('ComRes')
     comres.iopt_csel = 1 # export only selected variables
     comres.pResult = None # export only selected variables
     # Insert time
-    if not results_variables_lists.variables[0] == "b:tnow":
-      results_variables_lists.result_objects.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.elements.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.variables.insert(0,"b:tnow")
-    comres.resultobj = results_variables_lists.result_objects
-    comres.element = results_variables_lists.elements
-    comres.variable = results_variables_lists.variables
+    time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
+    
+    first_column_is_time = results_variables_lists['variables'][0] == time_variable_name
+    if not first_column_is_time: # add time as first column
+      results_variables_lists['result_objects'].insert(0,results_variables_lists['result_objects'][0])
+      results_variables_lists['elements'].insert(0,results_variables_lists['result_objects'][0])
+      results_variables_lists['variables'].insert(0,time_variable_name)
+    
+    comres.resultobj = results_variables_lists['result_objects']
+    comres.element = results_variables_lists['elements']
+    comres.variable = results_variables_lists['variables']
 
   def format_csv_for_comtrade(self,file_path):
     """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
@@ -717,7 +725,7 @@ class PFBaseInterface:
         row = read_file.readline()  
     replace(file_path + ".temp",file_path)  
 
-  def format_csv_for_elmres(self,file_path):
+  def _format_csv_for_elmres(self,file_path):
     """Format the csv file that is exported from PF.
     The PF exported csv uses the first row for the full path 
     of the object and the second row for the variable name.
@@ -736,18 +744,19 @@ class PFBaseInterface:
       full_paths = read_file.readline().split(",")
       variables = read_file.readline().split(",")
       for col,path in enumerate(full_paths):
+          is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation.format_full_path(path,self)
-              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
-              row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
+              formated_path = powfacpy.PFStringManipulation._format_full_path(path,self)
+              variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
+              row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
-              row = "Time," # Header of first column
+              row = "time," # Header of first column
       write_file.write(row+"\n")
       # Write remaining data rows until end of file is reached
       while row:
           row = read_file.readline()
           write_file.write(row)
-    replace(file_path + ".temp",file_path)  
+    replace(file_path + ".temp", file_path)  
 
   @staticmethod
   def replace_headers_of_csv_file_with_number_of_colums(file_path):
@@ -809,9 +818,9 @@ class PFBaseInterface:
       object_low: Object lower in the hierarchy. 
     """
     obj_high = self.handle_single_pf_object_or_path_input(obj_high)
-    obj_high = PFStringManipulation.format_full_path(str(obj_high),self)
+    obj_high = PFStringManipulation._format_full_path(str(obj_high),self)
     obj_low = self.handle_single_pf_object_or_path_input(obj_low)
-    obj_low = PFStringManipulation.format_full_path(str(obj_low),self)
+    obj_low = PFStringManipulation._format_full_path(str(obj_low),self)
     path = str(obj_low).split(str(obj_high))[1][1:] 
     return path     
   
@@ -891,11 +900,11 @@ class PFStringManipulation:
     return new_string   
 
   @staticmethod
-  def delete_classes(path):
+  def _remove_class_names(path):
     return PFStringManipulation.replace_between_characters('.','\\','\\',path)
 
   @staticmethod
-  def format_full_path(path,pf_interface):
+  def _format_full_path(path,pf_interface):
     """
     Takes the full path (including user and project) and returns the path 
     relative to the currently active project.
@@ -905,7 +914,17 @@ class PFStringManipulation:
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
     path = path[path.find(project_name)+len(project_name):]
-    return PFStringManipulation.delete_classes(path)
+    return PFStringManipulation._remove_class_names(path)
+  
+  @staticmethod
+  def _format_variable_name(name:str) -> str:
+    """
+    Takes PF-generated csv export variable name and returns shortened version.
+    Example:
+      name: 's:u0 in kV'
+      output: 's:u0' 
+    """
+    return name.split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
   
   @staticmethod
   def handle_path(path):

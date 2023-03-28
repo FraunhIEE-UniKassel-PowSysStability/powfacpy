@@ -14,7 +14,7 @@ class PFAttributeError(PFInterfaceError):
   """Attempt to access an invalid attribute of a PF object.
   """
   def __init__(self,obj,msg_raised,pf_base_interface):
-    object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),pf_base_interface)
+    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj),pf_base_interface)
     self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
     super().__init__(self.message)
 
@@ -22,7 +22,7 @@ class PFAttributeTypeError(PFInterfaceError):
   """Attempt to set an invalid type for the attribute of a PF object.
   """
   def __init__(self,obj,attr,msg_raised,pf_base_interface):
-    object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),pf_base_interface)
+    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj),pf_base_interface)
     self.message = (f"The attribute '{attr}' of the object '{object_str}' "
       f"is of unexpected type: {msg_raised}.")
     super().__init__(self.message)
