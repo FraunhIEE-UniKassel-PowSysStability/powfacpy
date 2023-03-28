@@ -1,12 +1,12 @@
 import sys
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy
 from itertools import product
 
 class PFStudyCases(powfacpy.PFBaseInterface):
   language = powfacpy.PFBaseInterface.language
 
-  def __init__(self,app):
+  def __init__(self, app):
     super().__init__(app)
     self.active_grids = None
     self.parameter_values = {}
@@ -45,21 +45,21 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     for case_num in range(number_of_cases):
       folder_path = self.get_folder_path(case_num)
       parameter_values_string = self.get_case_params_value_string(
-        case_num,omitted_parameters=self.hierarchy) 
+        case_num, omitted_parameters=self.hierarchy) 
       if self.consecutively_number_case_names:
         parameter_values_string = str(case_num) + " " + parameter_values_string  
       self.study_cases.append(
-        self.create_study_case(parameter_values_string,folder_path))
+        self.create_study_case(parameter_values_string, folder_path))
       self.activate_grids(case_num)
       if self.add_scenario_to_each_case:
-        scen = self.create_scenario(parameter_values_string,folder_path)
+        scen = self.create_scenario(parameter_values_string, folder_path)
       if self.add_variation_to_each_case:
-        self.create_variation(parameter_values_string,folder_path)
+        self.create_variation(parameter_values_string, folder_path)
       self.set_parameters(case_num)
       if self.add_scenario_to_each_case:
         scen.Save()
 
-  def get_folder_path(self,case_num):
+  def get_folder_path(self, case_num):
     """Returns the folder path of a case.
     The path corresponds to parameter-value pairs specified
     in 'hierarchy'. 
@@ -67,7 +67,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if self.hierarchy:
       folder_path = ""
       for par_name in self.hierarchy:
-        parameter_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        parameter_value = self.get_value_of_parameter_for_case(par_name, case_num)
         if parameter_value is not None or not self.ignore_parameters_that_are_none_in_names:
           add_to_string = str(parameter_value) + "\\"
           if not par_name in self.anonymous_parameters: 
@@ -77,7 +77,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         return folder_path[:-1] # discard last "\\""
     return None
 
-  def get_value_of_parameter_for_case(self,par_name,case_obj_or_case_num):
+  def get_value_of_parameter_for_case(self, par_name, case_obj_or_case_num):
     """Returns a parameter value for a certain case.
     Arguments:
       par_name: Parameter name (string)
@@ -90,25 +90,25 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     """
     case_num = self.handle_case_input(case_obj_or_case_num)
     values = self.parameter_values[par_name]
-    if isinstance(values,(list,tuple)):
+    if isinstance(values,(list, tuple)):
       try:
         return values[case_num]
       except(IndexError):
-        raise powfacpy.PFCaseStudyParameterValueDefinitionError(par_name,values)  
+        raise powfacpy.PFCaseStudyParameterValueDefinitionError(par_name, values)  
     else:
       return values
 
-  def handle_case_input(self,case_obj_or_case_num):
+  def handle_case_input(self, case_obj_or_case_num):
     """Accepts PF study case object or integer.
     If the input is a PF object, the corresponding case number is returned,
     else simply the input (integer) is returned.   
     """
-    if not isinstance(case_obj_or_case_num,int):
+    if not isinstance(case_obj_or_case_num, int):
       return self.study_cases.index(case_obj_or_case_num)
     else:
       return case_obj_or_case_num  
 
-  def get_case_params_value_string(self,case_obj_or_case_num,
+  def get_case_params_value_string(self, case_obj_or_case_num,
     omitted_parameters=None,
     delimiter=None,
     equals_sign=None,
@@ -123,7 +123,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     parameter_values_string = ""
     for par_name in self.parameter_values.keys():
       if omitted_parameters is None or par_name not in omitted_parameters:
-        par_value = self.get_value_of_parameter_for_case(par_name,case_num)
+        par_value = self.get_value_of_parameter_for_case(par_name, case_num)
         if par_value is not None or not self.ignore_parameters_that_are_none_in_names:
           add_to_string = str(par_value) + delimiter
           if anonymous_parameters is None:
@@ -134,7 +134,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
           parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
-  def create_study_case(self,name,folder_path):
+  def create_study_case(self, name, folder_path):
     """Creates a study case with the name 'parameter_values_string'
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_study_cases)
@@ -150,7 +150,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.app.GetFromStudyCase("SetDesktop")
     return study_case_obj
 
-  def create_scenario(self,parameter_values_string,folder_path): 
+  def create_scenario(self, parameter_values_string, folder_path): 
     """Creates a scenario with the name 'parameter_values_string'
     in the folder corresponding to 'folder_path' (this parth is 
     relativ to 'parent_folder_scenarios)
@@ -165,7 +165,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     scenario_obj.Save()
     return scenario_obj
 
-  def create_variation(self,parameter_values_string,folder_path):
+  def create_variation(self, parameter_values_string, folder_path):
     """Creates a variation with the name 'parameter_values_string'
     in the folder corresponding to 'folder_path' (this path is 
     relativ to 'parent_folder_variations)
@@ -180,7 +180,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     variation_obj.Activate()
     return variation_obj
 
-  def activate_grids(self,case_num):
+  def activate_grids(self, case_num):
     """Activate the corresponding grids of a study case.
     If 'active_grids' is a list/tuple, the elements correspond to
     each study case. If multiple grids are active, list/tuples can be 
@@ -189,9 +189,9 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     for all cases.
     The grids can be thir paths or PF objects.
     """
-    if isinstance(self.active_grids,(list,tuple)):
+    if isinstance(self.active_grids,(list, tuple)):
       grids = self.active_grids[case_num]
-      if not isinstance(grids,(list,tuple)):
+      if not isinstance(grids,(list, tuple)):
           grids = [grids]
       for grid in grids:
           grid = self.handle_single_pf_object_or_path_input(grid)
@@ -200,17 +200,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       grid = self.handle_single_pf_object_or_path_input(self.active_grids)
       grid.Activate() 
 
-  def set_parameters(self,case_obj_or_case_num):
+  def set_parameters(self, case_obj_or_case_num):
     """Set the parameters according to paths specified in 'parameter_paths'
     and values specified in 'parameter_values'. 
     """
     case_num = self.handle_case_input(case_obj_or_case_num)
-    for par_name,path in self.parameter_paths.items():
-      value = self.get_value_of_parameter_for_case(par_name,case_num)
+    for par_name, path in self.parameter_paths.items():
+      value = self.get_value_of_parameter_for_case(par_name, case_num)
       if value:
-        self.set_attr_by_path(path,value)  
+        self.set_attr_by_path(path, value)  
 
-  def get_study_cases(self,conditions):
+  def get_study_cases(self, conditions):
     """Retrieve study case objects depending on parameter values.
     Arguments:
       conditions: A dictionary with
@@ -225,10 +225,10 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         positive.       
     """
     cases = []
-    for case_num,case_obj in enumerate(self.study_cases):
+    for case_num, case_obj in enumerate(self.study_cases):
       conditions_fullfiled = True
-      for parameter,condition in conditions.items():
-        if not condition(self.get_value_of_parameter_for_case(parameter,case_num)):
+      for parameter, condition in conditions.items():
+        if not condition(self.get_value_of_parameter_for_case(parameter, case_num)):
           conditions_fullfiled = False
           break
       if conditions_fullfiled:
@@ -236,7 +236,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     return cases
 
 
-  def apply_permutation(self,omitted_combinations=None):
+  def apply_permutation(self, omitted_combinations=None):
     """Replaces the values in 'parameter_values' with the permutation of
     their unique elements. 
     Use this method if you want to create cases of the permutation of all
@@ -255,13 +255,13 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     for values_of_all_parameters_for_case in permutation_iterable:
       if omitted_combinations:
         values_of_all_parameters_for_case = self.filter_omitted_combinations(
-          values_of_all_parameters_for_case,omitted_combinations)
+          values_of_all_parameters_for_case, omitted_combinations)
       if values_of_all_parameters_for_case:    
-        for param_num,param_name in enumerate(self.parameter_values.keys()):
+        for param_num, param_name in enumerate(self.parameter_values.keys()):
           self.parameter_values[param_name].append(
             values_of_all_parameters_for_case[param_num])
 
-  def filter_omitted_combinations(self,values_of_all_parameters_for_case,omitted_combinations):
+  def filter_omitted_combinations(self, values_of_all_parameters_for_case, omitted_combinations):
     """Filter the parameter combinations that should be omitted. 
     The difficulty is the handling of the 'all' case. In this case, the combination
     with any value of a parameter is omitted, but combinations with the other parameters
@@ -271,7 +271,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     values_of_all_parameters_for_case = list(values_of_all_parameters_for_case)
     for omitted_combination_dict in omitted_combinations:
       is_omitted_combination = True
-      for param_num,param_name in enumerate(self.parameter_values.keys()):
+      for param_num, param_name in enumerate(self.parameter_values.keys()):
         if param_name in omitted_combination_dict:
           if omitted_combination_dict[param_name] == "all":
             # If the parameter is 'all', then only one case should be created. The case where

@@ -7,7 +7,7 @@ or with pip.
 """
 
 import sys
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy
 import warnings
 from os import path as os_path
@@ -19,7 +19,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
   """Interface to python script objects.
   """
 
-  def __init__(self,app): 
+  def __init__(self, app): 
     super().__init__(app) 
 
   def create_file_from_embedded_script(self, out_file, compython):
@@ -27,7 +27,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     """
     compython = self.handle_single_pf_object_or_path_input(compython)
     # The xScript attribute is a list with all lines of the script
-    TextFileProcessor.create_file_from_list_of_lines(out_file,compython.xScript)
+    TextFileProcessor.create_file_from_list_of_lines(out_file, compython.xScript)
 
   def set_embedded_script_from_file(self, compython, file):
     """Set the embedded script based on a .py file.
@@ -50,11 +50,11 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     os.makedirs(temporary_dir)
     try:
       embedded_script_original_file = temporary_dir + r"\embedded_script_original.py"
-      self.create_file_from_embedded_script(embedded_script_original_file,compython)
+      self.create_file_from_embedded_script(embedded_script_original_file, compython)
       merged_file = temporary_dir + r"\merged.py"
       TextFileProcessor.merge_into_file(embedded_script_original_file,
-        inserted_file,merged_file,start_after_line,end_before_line)
-      self.set_embedded_script_from_file(compython,merged_file)  
+        inserted_file, merged_file, start_after_line, end_before_line)
+      self.set_embedded_script_from_file(compython, merged_file)  
     finally:
       # Delete temporary directory
       shutil.rmtree(temporary_dir)  
@@ -74,23 +74,23 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     try:
       compython = self.handle_single_pf_object_or_path_input(compython)
       merged_package_file = temporary_dir + r"\merged_package.py"
-      PythonFileInterface.merge_package_into_single_file(init_file,merged_package_file)
+      PythonFileInterface.merge_package_into_single_file(init_file, merged_package_file)
       original_embedded_script_file = temporary_dir + r"\original_embedded_script.py"
-      self.create_file_from_embedded_script(original_embedded_script_file,compython)
+      self.create_file_from_embedded_script(original_embedded_script_file, compython)
       merged_package_into_embedded_file = temporary_dir + r"\merged_package_into_embedded.py"
       TextFileProcessor.merge_into_file(original_embedded_script_file,
         merged_package_file,
         merged_package_into_embedded_file,
         start_after_line,
         end_before_line)
-      self.set_embedded_script_from_file(compython,merged_package_into_embedded_file)  
+      self.set_embedded_script_from_file(compython, merged_package_into_embedded_file)  
     finally:
       # Delete temporary directory
       shutil.rmtree(temporary_dir)
 
   def merge_powfacpy_package_into_single_file(self, out_file):
     init_file = os.path.dirname(__file__) + r"\__init__.py"
-    PythonFileInterface.merge_package_into_single_file(init_file,out_file)
+    PythonFileInterface.merge_package_into_single_file(init_file, out_file)
 
 
 class PythonFileInterface():
@@ -116,12 +116,12 @@ class PythonFileInterface():
       for line in init_file:
         if line.startswith("from "):
           line = line.replace("from ","").replace(".","")
-          file,imported_content = line.split(" import ")
+          file, imported_content = line.split(" import ")
           if not "*" in imported_content:
             falsely_read_line = line.split("import")[0] + "import *"
             warnings.warn(f"Cannot read <{line}>. Instead <{falsely_read_line}> is read.")
           file_paths.append(dir_of_all_files + "\\" + file + ".py")
-    return file_paths,name_of_package
+    return file_paths, name_of_package
 
   @staticmethod
   def merge_package_into_single_file(init_file:str, out_file:str):
@@ -130,7 +130,7 @@ class PythonFileInterface():
       init_file: path of __init__.py of package
       out_file: path of file created  
     """
-    package_files,package_name = PythonFileInterface.read_init_file_of_package(init_file)     
+    package_files, package_name = PythonFileInterface.read_init_file_of_package(init_file)     
     merged_package_file = out_file
     replaced_chars = {package_name + ".":""}
     ignored_lines = {"import " + package_name:""} 
@@ -165,7 +165,7 @@ class TextFileProcessor():
         with open(fname) as infile:
           for line in infile:
             line = TextFileProcessor._replace_line(line,
-              replace_line_if_startswith,replace_chars)
+              replace_line_if_startswith, replace_chars)
             if line:
               outfile.write(line)
           outfile.write("\n \n")
@@ -178,13 +178,13 @@ class TextFileProcessor():
     """Handle replacements in line.
     """
     if replace_line_if_startswith:
-      for start,replacement in replace_line_if_startswith.items():
+      for start, replacement in replace_line_if_startswith.items():
         if line.startswith(start):
           line = replacement
           break
     if replace_chars:
-      for replaced_char,replacement in replace_chars.items():
-        line = line.replace(replaced_char,replacement)
+      for replaced_char, replacement in replace_chars.items():
+        line = line.replace(replaced_char, replacement)
     return line    
 
   @staticmethod
@@ -210,12 +210,12 @@ class TextFileProcessor():
           line_count = line_count + 1
           if not start_line_was_reached:
             outfile.write(line)
-            if TextFileProcessor._line_is_reached(line,line_count,start_after_line):
+            if TextFileProcessor._line_is_reached(line, line_count, start_after_line):
               with open(inserted_file,'r') as insfile:
                 outfile.write(insfile.read())
               outfile.write("\n")	
               start_line_was_reached = True
-          elif TextFileProcessor._line_is_reached(line,line_count,end_before_line):		
+          elif TextFileProcessor._line_is_reached(line, line_count, end_before_line):		
             end_line_was_reached = True
           if end_line_was_reached:
             outfile.write(line)			
@@ -297,10 +297,10 @@ class TextFileProcessor():
         for line in sourcefile:
           line_count = line_count + 1
           if not start_line_was_reached:
-            if TextFileProcessor._line_is_reached(line,line_count,start_after_line):
+            if TextFileProcessor._line_is_reached(line, line_count, start_after_line):
               start_line_was_reached = True
           elif not end_line_was_reached:
-            if TextFileProcessor._line_is_reached(line,line_count,end_before_line):		
+            if TextFileProcessor._line_is_reached(line, line_count, end_before_line):		
               end_line_was_reached = True
             else:
               outfile.write(line)

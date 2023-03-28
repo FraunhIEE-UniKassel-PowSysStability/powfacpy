@@ -2,7 +2,7 @@
 """
 
 import sys
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy
 import pandas
 from matplotlib import pyplot
@@ -12,13 +12,13 @@ from os import path as os_path
 
 class PFPlotInterface(powfacpy.PFBaseInterface):
 
-  def __init__(self,app):
+  def __init__(self, app):
     super().__init__(app) 
     self.active_graphics_page = None
     self.active_plot = None
 
 
-  def set_active_graphics_page(self,page):
+  def set_active_graphics_page(self, page):
     """Sets the active graphics page.
     Arguments:
       page:graphics page  name.
@@ -30,7 +30,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       self.active_graphics_page = page
 
 
-  def set_active_plot(self,name_or_obj,graphics_page=None):
+  def set_active_plot(self, name_or_obj, graphics_page=None):
     """Set the currently active plot. Adjusts the active graphics
     page accordingly if name_or_object is a PF plot object (the graphics
     page cannot be infered from a string path) or if the
@@ -42,7 +42,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     """
     if graphics_page:
       self.set_active_graphics_page(graphics_page)
-    if not isinstance(name_or_obj,str): # is plot object
+    if not isinstance(name_or_obj, str): # is plot object
       self.active_plot = name_or_obj
       self.set_active_graphics_page(self.active_plot.GetParent())
     else:
@@ -61,14 +61,14 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       active_study_case = self.app.GetActiveStudyCase()
       graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
          self.language)
-      grb = self.create_in_folder(active_study_case,graphics_board_name)
+      grb = self.create_in_folder(active_study_case, graphics_board_name)
       grb.Show()
       grb = self.app.GetGraphicsBoard() # get grb again to get correct object from PF
     return grb  
 
 
-  def plot_monitored_variables(self,obj,variables,
-    graphics_page=None,plot=None,**kwargs):
+  def plot_monitored_variables(self, obj, variables,
+    graphics_page=None, plot=None,**kwargs):
     """Plot varibales that were already added to the monitored
     variables.
     Arguments:
@@ -94,7 +94,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     if isinstance(variables, str):
      variables = [variables]
     for var in variables:
-      data_series.AddCurve(obj,var)
+      data_series.AddCurve(obj, var)
       self.set_curve_attributes(data_series,**kwargs)
     self.active_graphics_page.Show()
 
@@ -126,7 +126,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
           "active_plot", e)
     
 
-  def plot(self,obj,variables,graphics_page=None,plot=None,**kwargs):
+  def plot(self, obj, variables, graphics_page=None, plot=None,**kwargs):
     """Plots the variables of 'obj' to the currently active plot.
     Includes adding the variables to the results (ElmRes) object.
     The active plot can be set with the optional arguments.
@@ -146,12 +146,12 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       results_obj = kwargs["results_obj"]
     else:
       results_obj = None
-    self.add_results_variable(obj,variables,results_obj=results_obj)
-    self.plot_monitored_variables(obj,variables,
-      graphics_page=graphics_page,plot=plot,**kwargs) 
+    self.add_results_variable(obj, variables, results_obj=results_obj)
+    self.plot_monitored_variables(obj, variables,
+      graphics_page=graphics_page, plot=plot,**kwargs) 
   
 
-  def set_curve_attributes(self,data_series,**kwargs):
+  def set_curve_attributes(self, data_series,**kwargs):
     """Set curve attributes.
     Arguments:
       data_series: data series of plot.
@@ -165,21 +165,21 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     if  "linestyle" in kwargs:
       list_curveTableAttr = data_series.GetAttribute("curveTableLineStyle")
       list_curveTableAttr[-1] = kwargs['linestyle']
-      data_series.SetAttribute("curveTableLineStyle",list_curveTableAttr)
+      data_series.SetAttribute("curveTableLineStyle", list_curveTableAttr)
     if "linewidth" in kwargs:
       list_curveTableAttr = data_series.GetAttribute("curveTableLineWidth")
       list_curveTableAttr[-1] = kwargs['linewidth']
-      data_series.SetAttribute("curveTableLineWidth",list_curveTableAttr)
+      data_series.SetAttribute("curveTableLineWidth", list_curveTableAttr)
     else:
       # The linewidth must be set to the standard value. Otherwise PF uses 
       # the value from the previous data series (this seems to be a PF bug).
       list_curveTableAttr = data_series.GetAttribute("curveTableLineWidth")
       list_curveTableAttr[-1] = 100
-      data_series.SetAttribute("curveTableLineWidth",list_curveTableAttr)
+      data_series.SetAttribute("curveTableLineWidth", list_curveTableAttr)
     if "color" in kwargs:
       list_curveTableAttr = data_series.GetAttribute("curveTableColor")
       list_curveTableAttr[-1] = kwargs['color']
-      data_series.SetAttribute("curveTableColor",list_curveTableAttr)
+      data_series.SetAttribute("curveTableColor", list_curveTableAttr)
     # The label must be handled differently because PF returns an empty list
     # if there haven't been any labels specified yet for any of the curves.
     if "label" in kwargs:
@@ -188,12 +188,12 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         list_curveTableAttr[-1] = kwargs['label']
       else:
         list_curveTableAttr = [kwargs['label']]
-      data_series.SetAttribute("curveTableLabel",list_curveTableAttr)
+      data_series.SetAttribute("curveTableLabel", list_curveTableAttr)
     if "results_obj" in kwargs:
       list_curveTableAttr = data_series.GetAttribute("curveTableResultFile")
       list_curveTableAttr[-1] = self.handle_single_pf_object_or_path_input(
         kwargs['results_obj'])
-      data_series.SetAttribute("curveTableResultFile",list_curveTableAttr)
+      data_series.SetAttribute("curveTableResultFile", list_curveTableAttr)
 
   def set_x_axis_attributes(self,**kwargs):
     """Set x-axis attributes.
@@ -220,7 +220,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for attribute, value in kwargs.items():
       axis.SetAttribute(attribute, value)      
 
-  def set_x_axis_range_of_active_plot(self,range: Iterable):
+  def set_x_axis_range_of_active_plot(self, range: Iterable):
     self.set_x_axis_attributes(rangeMin=range[0], rangeMax=range[1])
 
   def plot_from_comtrade(self,
@@ -254,7 +254,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
               results_obj=intcomtrade,
               **kwargs)
 
-  def plot_from_csv_using_elm_file(self,file_path,variable,**kwargs):
+  def plot_from_csv_using_elm_file(self, file_path, variable,**kwargs):
     """Use an ElmFile object to plot data from csv file.
     The ElmFiles are stored in a dummy network because the simulation needs to be run
     to read the data from the csv file and is not just printed to the plot automatically.
@@ -271,21 +271,21 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     elmfile_num = 1
     while True:
       existing_elmfile = self.get_single_obj("elmfile_"+str(elmfile_num),
-        parent_folder=elmfiles_network,error_if_non_existent=False)
+        parent_folder=elmfiles_network, error_if_non_existent=False)
       if not existing_elmfile:
         break
       elmfile_num += 1 
     elmfile = self.create_in_folder(elmfiles_network,
-      "elmfile_"+str(elmfile_num)+".ElmFile",overwrite=True)
+      "elmfile_"+str(elmfile_num)+".ElmFile", overwrite=True)
     self.clear_elmres_from_objects_with_status_deleted()
     elmfile.f_name = file_path + ".csv"
     # Add ElmREs for ElmFiles
     active_case = self.app.GetActiveStudyCase()
     elmres_for_elmfiles = self.create_in_folder(active_case,
-      "elmres_for_elmfiles.ElmRes",overwrite=False,use_existing=True)
+      "elmres_for_elmfiles.ElmRes", overwrite=False, use_existing=True)
     # Plot
     kwargs.update({"results_obj":elmres_for_elmfiles})  
-    self.plot(elmfile,variable,**kwargs)
+    self.plot(elmfile, variable,**kwargs)
     # Simulate
     pfds = powfacpy.PFDynSimInterface(self.app)
     cominc = self.app.GetFromStudyCase("ComInc")
@@ -299,7 +299,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       network.Activate()
 
 
-  def create_dummy_network(self,name=None):
+  def create_dummy_network(self, name=None):
     """Creates a network with only one terminal.
     Such a network is used for example to read in ElmFile objects.
     """
@@ -307,9 +307,9 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       name = "dummy_network"
     network_folder = self.app.GetProjectFolder("netdat",1)
     dummy_network = self.create_in_folder(network_folder,
-      name+".ElmNet",overwrite=False,use_existing=True)
+      name+".ElmNet", overwrite=False, use_existing=True)
     self.create_in_folder(dummy_network,
-      "dummy_terminal.ElmTerm",overwrite=False,use_existing=True)
+      "dummy_terminal.ElmTerm", overwrite=False, use_existing=True)
     return dummy_network
 
   def autoscale(self):
@@ -345,7 +345,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
   def clear_grid_diagrams(self):
     self.clear_graphics_board(obj="*.SetDeskpage")  
 
-  def clear_graphics_board(self,obj="*"):
+  def clear_graphics_board(self, obj="*"):
     """Clear the graphics board from specific objects or from all objects.
     Objects of class SetDeskpage are closed, others are removed.
     """
@@ -357,8 +357,8 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       else:
         graphic.RemovePage()
   
-  def copy_graphics_board_content(self,source_study_case,
-    target_study_cases,obj_to_copy="*",
+  def copy_graphics_board_content(self, source_study_case,
+    target_study_cases, obj_to_copy="*",
     clear_target_graphics_board=False):
     """Copy the graphics board content of a study case to another study cases.
     Arguments:
@@ -376,21 +376,21 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     source_study_case = self.handle_single_pf_object_or_path_input(source_study_case)
     source_graphics_board = self.get_single_obj(".SetDesktop",
       parent_folder=source_study_case)
-    if not isinstance(target_study_cases,(list,tuple)):
+    if not isinstance(target_study_cases,(list, tuple)):
       target_study_cases = [target_study_cases]  
     for target_study_case in target_study_cases:
       target_study_case = self.handle_single_pf_object_or_path_input(target_study_case)
       if not target_study_case == source_study_case:
         target_study_case.Deactivate() # Writing to active graphics board not possible 
-        target_graphics_board = self.get_single_obj(".SetDesktop",parent_folder=target_study_case)
+        target_graphics_board = self.get_single_obj(".SetDesktop", parent_folder=target_study_case)
         if clear_target_graphics_board:
-          self.delete_obj("*",parent_folder=target_graphics_board,error_if_non_existent=False)
-        self.copy_obj(obj_to_copy,target_folder=target_graphics_board,overwrite=True,
+          self.delete_obj("*", parent_folder=target_graphics_board, error_if_non_existent=False)
+        self.copy_obj(obj_to_copy, target_folder=target_graphics_board, overwrite=True,
           parent_folder=source_graphics_board)
     if currently_active_study_case:         
       currently_active_study_case.Activate() # Activate if it was deactivated
 
-  def copy_graphics_board_content_to_all_study_cases(self,source_study_case,
+  def copy_graphics_board_content_to_all_study_cases(self, source_study_case,
     target_parent_folder=None,
     include_subfolders=True,
     obj_to_copy="*",
@@ -414,12 +414,12 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     target_study_cases = self.get_obj("*.IntCase",
       parent_folder=target_parent_folder,
       include_subfolders=include_subfolders)
-    self.copy_graphics_board_content(source_study_case,target_study_cases,
+    self.copy_graphics_board_content(source_study_case, target_study_cases,
       obj_to_copy=obj_to_copy,
       clear_target_graphics_board=clear_target_graphics_board)
 
   @staticmethod
-  def plot_from_csv(csv_path,variables,offset=0,plot_interface=None):
+  def plot_from_csv(csv_path, variables, offset=0, plot_interface=None):
     """Plot results from csv file using pyplot.
     Arguments:
       csv_path: path of csv file
@@ -443,19 +443,19 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         plot = plot_interface.plot(csv_file["Time"]+offset, csv_file[var], label = var)   
     return plot
 
-  def get_data_series_from_plot(self,plot=None,indexes=None,include_curve_options=False):
+  def get_data_series_from_plot(self, plot=None, indexes=None, include_curve_options=False):
     if not plot:
       data_series = self.get_data_series_of_active_plot()
     else:
       plot = self.handle_single_pf_object_or_path_input(plot)
       data_series = plot.GetDataSeries()
     lists_from_data_series_of_plot = self.get_lists_from_data_series_of_plot(
-      data_series,indexes=None,include_curve_options=False)
-    return self.get_pf_result_variables_from_lists_of_data_series_of_plot(curveTableElements,curveTableVariable,curveTableResultFile,
-      curveTableLineStyle,curveTableLineWidth,curveTableColor,
+      data_series, indexes=None, include_curve_options=False)
+    return self.get_pf_result_variables_from_lists_of_data_series_of_plot(curveTableElements, curveTableVariable, curveTableResultFile,
+      curveTableLineStyle, curveTableLineWidth, curveTableColor,
       curveTableLabelinclude_curve_options=False)  
 
-  def get_lists_from_data_series_of_plot(self,plot=None,indexes=None,include_curve_options=False):
+  def get_lists_from_data_series_of_plot(self, plot=None, indexes=None, include_curve_options=False):
     """Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
     DataSeries (PltDataseries) of a plot.
     """
@@ -471,7 +471,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     )
     if data_series.useIndividualResults:
       lists.result_objects = data_series.GetAttribute("curveTableResultFile") 
-      for idx,res_obj in enumerate(lists.result_objects):
+      for idx, res_obj in enumerate(lists.result_objects):
         if not res_obj:
           lists.result_objects[idx] = data_series.GetAttribute("userSelectedResultFile")
     else:
@@ -499,7 +499,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         lists.labels = [lists.labels[i] for i in indexes]  
     return lists
 
-  def export_active_page(self,format='pdf',path=getcwd()):
+  def export_active_page(self, format='pdf', path=getcwd()):
     """Export active page using ComWr.
     """
     self.active_graphics_page.Show()
@@ -509,7 +509,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
 
 class PFListsOfDataSeriesOfPlot:
 
-  def __init__(self,elements,variables,result_objects,line_styles,line_widths,colors,labels) -> None:
+  def __init__(self, elements, variables, result_objects, line_styles, line_widths, colors, labels) -> None:
     self.elements = elements
     self.variables = variables 
     self.result_objects = result_objects

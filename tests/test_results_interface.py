@@ -1,6 +1,6 @@
 import pytest
 import sys
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy 
 import importlib
 importlib.reload(powfacpy)
