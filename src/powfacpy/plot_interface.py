@@ -440,7 +440,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     with open(csv_path) as file:
       csv_file = pandas.read_csv(file)
       for var in variables:
-        plot = plot_interface.plot(csv_file["Time"]+offset, csv_file[var], label = var)   
+        plot = plot_interface.plot(csv_file["time"]+offset, csv_file[var], label = var)   
     return plot
 
   def get_data_series_from_plot(self, plot=None, indexes=None, include_curve_options=False):
