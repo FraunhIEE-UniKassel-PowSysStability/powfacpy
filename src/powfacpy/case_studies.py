@@ -248,7 +248,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     # Use 'product' to get iterable that returns permutation    
     permutation_iterable = product(*self.parameter_values.values())
     # Clear values
-    original_parameter_values =  self.parameter_values
+    original_parameter_values =  self.parameter_values.copy()
     for param_name in self.parameter_values.keys():
         self.parameter_values[param_name] = []
     # Copy values from iterable    
