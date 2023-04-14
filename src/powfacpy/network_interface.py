@@ -58,7 +58,7 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
       parent_folder=parent_folder,
       error_if_non_existent=error_if_non_existent)
     new_network_diagram = self.copy_single_obj(grid_to_be_copied.pDiagram,
-      grid_to_be_copied.pDiagram.GetParent(), new_name=new_name, overwrite=True)
+      self.app.GetProjectFolder("dia"),new_name=new_name,overwrite=True)
     graphical_net_objects = self.get_obj("*.IntGrf",
       parent_folder=new_network_diagram, include_subfolders=True)
     for graphical_net_obj in graphical_net_objects:
