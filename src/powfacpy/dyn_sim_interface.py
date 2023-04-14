@@ -1,32 +1,32 @@
 import sys
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy
 
 
 class PFDynSimInterface(powfacpy.PFBaseInterface):
   
-  def __init__(self,app): 
+  def __init__(self, app): 
     super().__init__(app) 
     
 
-  def initialize_sim(self,param=None):
+  def initialize_sim(self, param=None):
     """
     Initialize time domain simulation.
     Parameters for 'ComInc' command object can be specified in 'param' dictionary.
     """
     cominc = self.app.GetFromStudyCase("ComInc")
     if param is not None:
-      self.set_attr(cominc,param)
+      self.set_attr(cominc, param)
     cominc.Execute()
 
-  def run_sim(self,param=None):
+  def run_sim(self, param=None):
     """
     Perform dynamic simulation.
     Parameters for 'ComSim' command object can be specified in 'param' dictionary.
     """
     comsim = self.app.GetFromStudyCase("ComSim")
     if param is not None:
-      self.set_attr(comsim,param)
+      self.set_attr(comsim, param)
     comsim.Execute()
 
   def initialize_and_run_sim(self):
@@ -36,20 +36,20 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
 
   
   """
-  def create_reference_signal(self,path,points):
+  def create_reference_signal(self, path, points):
     composite_model = self.create_by_path(path + ".ElmComp")
     composite_frame = self.get_obj(self.dynamic_model_teamplates_path +
       r"\reference_signal_frame")
-    composite_model.SetAttribute("typ_id",composite_frame)
+    composite_model.SetAttribute("typ_id", composite_frame)
     dsl_obj = self.create_in_folder(composite_model,"lin_interpol_model.ElmDsl")
     lin_interpol_model = self.get_obj(self.dynamic_model_teamplates_path +
       r"\Linear_interpolation")
-    dsl_obj.SetAttribute("typ_id",lin_interpol_model)
-    set_dsl_obj_matrix(dsl_obj,points)
+    dsl_obj.SetAttribute("typ_id", lin_interpol_model)
+    set_dsl_obj_matrix(dsl_obj, points)
     composite_model.SetAttribute("pelm",[dsl_obj])
   """
 
-  def create_event(self,name_incl_class,params={},parent_folder=None,overwrite=True):
+  def create_event(self, name_incl_class, params={}, parent_folder=None, overwrite=True):
     """Creates an event and sets the parameters in 'params'.
     Arguments:
       name_incl_class: Event name including the class.
@@ -59,8 +59,8 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     """
     if not parent_folder:
       parent_folder = self.app.GetFromStudyCase("IntEvt")
-    event_obj = self.create_in_folder(parent_folder,name_incl_class,overwrite=overwrite)
-    self.set_attr(event_obj,params)  
+    event_obj = self.create_in_folder(parent_folder, name_incl_class, overwrite=overwrite)
+    self.set_attr(event_obj, params)  
 
   @staticmethod 
   def set_dsl_obj_array(dsl_obj,
@@ -79,19 +79,19 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       else:
         complete_row = dsl_obj.GetAttribute("matrix:0")
         complete_row[(array_num-1)*2] = len(rows)
-        dsl_obj.SetAttribute("matrix:0",complete_row)                                              
-    for row_num,row in enumerate(rows):
+        dsl_obj.SetAttribute("matrix:0", complete_row)                                              
+    for row_num, row in enumerate(rows):
       if not size_included_in_array:
         attrib = "matrix:" + str(row_num+1)
       else:
         attrib = "matrix:" + str(row_num)
       if not array_num:
-        dsl_obj.SetAttribute(attrib,row)
+        dsl_obj.SetAttribute(attrib, row)
       else:
         complete_row = dsl_obj.GetAttribute(attrib)
         complete_row[(array_num-1)*2] = row[0]
         complete_row[(array_num-1)*2+1] = row[1]
-        dsl_obj.SetAttribute(attrib,complete_row)
+        dsl_obj.SetAttribute(attrib, complete_row)
 
   @staticmethod 
   def get_dsl_obj_array(dsl_obj,
@@ -114,7 +114,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       attrib = "matrix:" + str(row_num)
       row = dsl_obj.GetAttribute(attrib)
       if array_num:
-        row = [row[(array_num-1)*2],row[(array_num-1)*2+1]]  
+        row = [row[(array_num-1)*2], row[(array_num-1)*2+1]]  
       array.append(row)
     return array
       

@@ -1,13 +1,10 @@
 work_in_progress
 dist
 .pytest_cache
-simulation_results
 src/powfacpy/__pycache__
 tests/__pycache__
-tests/results.csv
 tutorials/results.csv
 tutorials/.ipynb_checkpoints
-powerfactory_projects
 py_venv
 *.csv
 .vscode

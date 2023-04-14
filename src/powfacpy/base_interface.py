@@ -7,12 +7,13 @@ The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 from argparse import ArgumentError
 import sys
 
-sys.path.insert(0,r'.\src')
+sys.path.insert(0, r'.\src')
 import powfacpy
 from os import path as os_path
 from collections.abc import Iterable
 from os import getcwd, replace
 import math
+from pandas import read_csv
 
 
 class PFBaseInterface:
@@ -20,7 +21,7 @@ class PFBaseInterface:
   """
   language = "en" 
 
-  def __init__(self,app,language=None):  
+  def __init__(self, app, language=None):  
     if app:
       self.app = app
     else:
@@ -32,7 +33,7 @@ class PFBaseInterface:
       self.language = language  
     self.export_dir = None
 
-  def get_obj(self,path,condition=None,parent_folder=None,error_if_non_existent=True,
+  def get_obj(self, path, condition=None, parent_folder=None, error_if_non_existent=True,
     include_subfolders=False):
     """Returns the PowerFactory object(s) under 'path'. 
     'path' can contain wildcards ("*") after the last "\". 
@@ -71,25 +72,25 @@ class PFBaseInterface:
       except(RuntimeError):
         raise TypeError("Path must be of type string.")
     else:
-      obj = self.handle_inclusion_of_subfolders(path,parent_folder,error_if_non_existent)
+      obj = self.handle_inclusion_of_subfolders(path, parent_folder, error_if_non_existent)
     if not obj:
-      return self.handle_non_existing_obj(path,parent_folder,error_if_non_existent)
+      return self.handle_non_existing_obj(path, parent_folder, error_if_non_existent)
     if condition:
-      obj_with_condition = self.get_by_condition(obj,condition)
+      obj_with_condition = self.get_by_condition(obj, condition)
       if obj_with_condition:
         return obj_with_condition
       else:
-        return self.handle_condition_of_obj_not_met(path,obj,error_if_non_existent)
+        return self.handle_condition_of_obj_not_met(path, obj, error_if_non_existent)
     else:
       return obj    
 
-  def handle_inclusion_of_subfolders(self,path,parent_folder,error_if_non_existent):
+  def handle_inclusion_of_subfolders(self, path, parent_folder, error_if_non_existent):
     """If subfolders are included, 'GetChildren' must
     be used instead of 'GetContents'. 'GetChildren'
     requires the input to be splitted between path and object name.
     """
     try:
-      head,tail = os_path.split(path)
+      head, tail = os_path.split(path)
     except(TypeError):
       raise TypeError("Path must be of type string")  
     if head:
@@ -97,27 +98,27 @@ class PFBaseInterface:
       if new_parent_folder:
         parent_folder = new_parent_folder[0]
       else:
-        return self.handle_non_existing_obj(head,parent_folder,error_if_non_existent)
-    return parent_folder.GetChildren(1,tail,1)
+        return self.handle_non_existing_obj(head, parent_folder, error_if_non_existent)
+    return parent_folder.GetChildren(1, tail,1)
 
-  def get_unique_obj(self,path,parent_folder=None,error_if_non_existent=True,
+  def get_unique_obj(self, path, parent_folder=None, error_if_non_existent=True,
     include_subfolders=False):
     """This method is equal to get_single_obj and was added because the method
     name fits better to what the method does (i.e. to get a unique object and to
     throw an error if the object is not unique).
     """
-    return self.get_single_obj(path,parent_folder=parent_folder,
+    return self.get_single_obj(path, parent_folder=parent_folder,
       error_if_non_existent=error_if_non_existent,
       include_subfolders=include_subfolders)
 
-  def get_single_obj(self,path,parent_folder=None,error_if_non_existent=True,
+  def get_single_obj(self, path, parent_folder=None, error_if_non_existent=True,
     include_subfolders=False):
     """Use this method if you want to access one single unique object.
     This method is an alterntive to 'get_obj' and returns the unique object instead
     of a list (that needs to be accessed with '[0]'). It also checks whether the found
     object is unique (only one object is found).
     """
-    obj = self.get_obj(path,parent_folder=parent_folder,
+    obj = self.get_obj(path, parent_folder=parent_folder,
       error_if_non_existent=error_if_non_existent,
       include_subfolders=include_subfolders)
     if obj:
@@ -129,11 +130,11 @@ class PFBaseInterface:
     else:
       return None      
 
-  def get_multiple_obj_from_similar_sub_directories(self,parent_folders,sub_path):
+  def get_multiple_obj_from_similar_sub_directories(self, parent_folders, sub_path):
     """Returns multiple objects that are in a similar subdirectory relativ to
     their parent folders.
     Arguments:
-      parents: Parent folders (string path,list of objects/string paths)
+      parents: Parent folders (string path, list of objects/string paths)
       sub_path: Path within the parent folders (string). Must be unique (don't
         use placeholders '*')
 
@@ -143,35 +144,35 @@ class PFBaseInterface:
         self.get_multiple_obj_from_similar_sub_directories(
           r"Study Cases\*","All calculations")     
     """
-    if isinstance(parent_folders,str):
+    if isinstance(parent_folders, str):
       parent_folders = self.get_obj(parent_folders)
     objs = []  
     for parent in parent_folders:
       parent = self.handle_single_pf_object_or_path_input(parent)
-      objs.append(self.get_single_obj(sub_path,parent_folder=parent))
+      objs.append(self.get_single_obj(sub_path, parent_folder=parent))
     return objs
     
-  def handle_non_existing_obj(self,path,parent_folder,error_if_non_existent):
+  def handle_non_existing_obj(self, path, parent_folder, error_if_non_existent):
     """Handles the attempted access to a non existent object.
     """
     if not error_if_non_existent:
       return []
     else:
-      exists_bool,existing_path,non_existing_child = self.path_exists(
-        path,parent_folder,return_info=True)
-      raise powfacpy.PFPathError(non_existing_child,existing_path)
+      exists_bool, existing_path, non_existing_child = self.path_exists(
+        path, parent_folder, return_info=True)
+      raise powfacpy.PFPathError(non_existing_child, existing_path)
 
-  def handle_condition_of_obj_not_met(self,path,obj,error_if_non_existent):
+  def handle_condition_of_obj_not_met(self, path, obj, error_if_non_existent):
     """Handles the attempted access to an object with a certain condition
     that does not exist.
     """
     if not error_if_non_existent:
       return []
     else:
-      head,tail = os_path.split(path)
-      raise powfacpy.PFNonExistingObjectError(obj[0].GetParent(),tail,condition=True)
+      head, tail = os_path.split(path)
+      raise powfacpy.PFNonExistingObjectError(obj[0].GetParent(), tail, condition=True)
 
-  def get_first_level_folder(self,folder):
+  def get_first_level_folder(self, folder):
     """Returns folder on first level of PF database.
     Currently the folder of the active user ('folder'='user') 
     or the global library ('folder'='global library') can be accessed.
@@ -184,7 +185,7 @@ class PFBaseInterface:
       raise TypeError(f"The first level folder {folder} is not valid. " 
        "Use one of these: 'user', 'global library'.")  
 
-  def path_exists(self,path,parent=None,return_info=False):
+  def path_exists(self, path, parent=None, return_info=False):
     """Check if the path exists.
     By default, it is searched in the folder of the active project
     If 'parent' is specified it is searched relative to that folder.
@@ -210,10 +211,10 @@ class PFBaseInterface:
           return False
         else:
           parent_path = parent.GetFullName()
-          parent_path = PFStringManipulation.delete_classes(parent_path)
+          parent_path = PFStringManipulation._remove_class_names(parent_path)
           existing_path = f"{parent_path}{existing_path}" 
           non_existent_child_name = child_name
-          return False,existing_path,non_existent_child_name
+          return False, existing_path, non_existent_child_name
     return True    
 
   def get_active_project(self):
@@ -234,7 +235,7 @@ class PFBaseInterface:
       parent = parent.GetParent()
     return parent  
 
-  def get_active_networks(self,error_if_no_network_is_active=True):
+  def get_active_networks(self, error_if_no_network_is_active=True):
     """Get active networks/grids.  
     """
     grids = self.app.GetCalcRelevantObjects(".ElmNet") # This also returns the summary grid in the study case
@@ -244,11 +245,11 @@ class PFBaseInterface:
       raise powfacpy.PFNotActiveError("a network (ElmNet).")
     return grids  
 
-  def get_by_condition(self,objects,condition):
+  def get_by_condition(self, objects, condition):
     """From a list of objects, get those for whom the 'condition' 
     (which is a function) returns 'True'.
     Example:
-      pfbi.get_by_condition(list_of_objects,lambda x : getattr(x,"uknom")==110)
+      pfbi.get_by_condition(list_of_objects, lambda x : getattr(x,"uknom")==110)
     """
     objects_true = []
     for obj in objects:
@@ -259,17 +260,17 @@ class PFBaseInterface:
         if condition(obj):
           objects_true.append(obj)
       except(AttributeError) as e:
-        raise powfacpy.PFAttributeError(obj,e,self)
+        raise powfacpy.PFAttributeError(obj, e, self)
       except(TypeError) as e:
-        object_str = powfacpy.PFStringManipulation.format_full_path(str(obj),self)
+        object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), self)
         raise TypeError(f"{e}. Maybe an unexpected type is used "
           f"for attribute of object '{object_str}'.")  
     return objects_true
   
-  def get_path_of_object(self,obj):
-    return PFStringManipulation.format_full_path(str(obj),self)
+  def get_path_of_object(self, obj):
+    return PFStringManipulation._format_full_path(str(obj), self)
 
-  def get_attr(self,obj,attr,parent_folder=None):
+  def get_attr(self, obj, attr, parent_folder=None):
     """Get the value of an attribute of an object.
     'obj' can be a path (string) or a Powerfactory object.
     'attr' can be a string or a list of strings.
@@ -279,8 +280,8 @@ class PFBaseInterface:
     Example:
      pfbi.get_attr(terminal_1,"systype")
     """
-    if isinstance(obj,str):
-      obj = self.get_single_obj(obj,parent_folder=parent_folder)
+    if isinstance(obj, str):
+      obj = self.get_single_obj(obj, parent_folder=parent_folder)
     try:
       if not isinstance(attr, list):
         return obj.GetAttribute(attr)
@@ -290,13 +291,13 @@ class PFBaseInterface:
           attr_values[attribute]=obj.GetAttribute(attribute)
         return attr_values
     except(AttributeError) as e:
-      raise powfacpy.PFAttributeError(obj,e,self)
+      raise powfacpy.PFAttributeError(obj, e, self)
 
-  def get_attr_by_path(self,path_with_attr):
+  def get_attr_by_path(self, path_with_attr):
     head_tail = os_path.split(path_with_attr)
-    return self.get_attr(head_tail[0],head_tail[1])
+    return self.get_attr(head_tail[0], head_tail[1])
 
-  def set_attr(self,obj,params,parent_folder=None):
+  def set_attr(self, obj, params, parent_folder=None):
     """
     Set the attribute(s) of an object. 
     obj: PowerFactory object or its path (string).
@@ -304,17 +305,17 @@ class PFBaseInterface:
     this folder.
     params: dictionary {parameter1:value1, parameter2:value2,..}.
     """
-    if isinstance(obj,str):
-      obj = self.get_single_obj(obj,parent_folder=parent_folder)
+    if isinstance(obj, str):
+      obj = self.get_single_obj(obj, parent_folder=parent_folder)
     for attr, value in params.items():
       try:
-        obj.SetAttribute(attr,value)
+        obj.SetAttribute(attr, value)
       except(TypeError) as e:
-        raise powfacpy.PFAttributeTypeError(obj,attr,e,self)
+        raise powfacpy.PFAttributeTypeError(obj, attr, e, self)
       except(AttributeError) as e:
-        raise powfacpy.PFAttributeError(obj,e,self)
+        raise powfacpy.PFAttributeError(obj, e, self)
 
-  def set_attr_by_path(self,path_with_attr,value):
+  def set_attr_by_path(self, path_with_attr, value):
     """
     path_with_attr: path of object plus the attribute name
     Example:
@@ -325,7 +326,7 @@ class PFBaseInterface:
     head_tail = os_path.split(path_with_attr)
     self.set_attr(head_tail[0],{head_tail[1]:value})
 
-  def create_by_path(self,path,overwrite=True):
+  def create_by_path(self, path, overwrite=True):
     """Create an object by specifying its path including its class and return the object.
     If overwrite is true, objects with the same name will be overwritten.
     Example:
@@ -336,9 +337,9 @@ class PFBaseInterface:
     except(AttributeError):
       raise TypeError("The argument 'path' must be of type string.")
     folder = self.get_single_obj(folder_path)
-    return self.create_in_folder(folder,obj_name_incl_class,overwrite=overwrite)
+    return self.create_in_folder(folder, obj_name_incl_class, overwrite=overwrite)
   
-  def create_in_folder(self,folder,obj,overwrite=True,use_existing=False):
+  def create_in_folder(self, folder, obj, overwrite=True, use_existing=False):
     """Creates an obj inside a folder and returns the object.
     If overwrite is true, objects with the same name will be overwritten.
     If use_existing is True, objects with the same name are not replaced.
@@ -353,14 +354,14 @@ class PFBaseInterface:
     except(AttributeError):
       raise TypeError("The argument 'obj' must be of type string.")
     if overwrite:
-      self.delete_obj(obj,parent_folder=folder,error_if_non_existent=False)
+      self.delete_obj(obj, parent_folder=folder, error_if_non_existent=False)
     elif use_existing:
-      existing_obj = self.get_single_obj(obj,parent_folder=folder,error_if_non_existent=False)
+      existing_obj = self.get_single_obj(obj, parent_folder=folder, error_if_non_existent=False)
       if existing_obj:
         return existing_obj 
     return folder.CreateObject(class_name, obj_name)
 
-  def create_directory(self,directory,parent_folder=None):
+  def create_directory(self, directory, parent_folder=None):
     """Create a directory of folders ('IntFolder') if the 
     directory does not yet exist.
     Arguments:
@@ -370,22 +371,22 @@ class PFBaseInterface:
 
     Returns the folder in the lowest subdirectory.  
     """
-    if not self.path_exists(directory,parent=parent_folder):
+    if not self.path_exists(directory, parent=parent_folder):
       if parent_folder:
         folder = parent_folder
       else:
         folder = self.app.GetActiveProject()
       folder_names = directory.split("\\")
       for folder_name in folder_names:
-        if not self.path_exists(folder_name,parent=folder):
-          folder = self.create_in_folder(folder,folder_name+".IntFolder")
+        if not self.path_exists(folder_name, parent=folder):
+          folder = self.create_in_folder(folder, folder_name+".IntFolder")
         else:
-          folder = self.get_single_obj(folder_name,parent_folder=folder)
+          folder = self.get_single_obj(folder_name, parent_folder=folder)
       return folder     
     else:
-      return self.get_single_obj(directory,parent_folder=parent_folder)      
+      return self.get_single_obj(directory, parent_folder=parent_folder)      
          
-  def delete_obj(self,obj_or_path,condition=None,parent_folder=None,error_if_non_existent=True,
+  def delete_obj(self, obj_or_path, condition=None, parent_folder=None, error_if_non_existent=True,
     include_subfolders=False):
     """Delete object(s). In a first step, the objects are loaded using the `get_obj`
     method. In a second step, they are deleted. For further info on the input 
@@ -423,8 +424,8 @@ class PFBaseInterface:
         if not o.IsDeleted():  
           raise ArgumentError(r"Object {o} cannot be deleted.")
 
-  def handle_pf_object_or_path_input(self,obj_or_path,condition=None,parent_folder=None,
-    error_if_non_existent=True,include_subfolders=False):
+  def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
+    error_if_non_existent=True, include_subfolders=False):
     """Handles the input argument when a method accepts either
       - a path string
       - a PF object
@@ -440,18 +441,18 @@ class PFBaseInterface:
     
     See also method 'handle_single_pf_object_or_path_input'
     """
-    if isinstance(obj_or_path,str):
-      return self.get_obj(obj_or_path,condition=condition,
+    if isinstance(obj_or_path, str):
+      return self.get_obj(obj_or_path, condition=condition,
         parent_folder=parent_folder,
         error_if_non_existent=error_if_non_existent,
         include_subfolders=include_subfolders)
-    elif not isinstance(obj_or_path,Iterable):
+    elif not isinstance(obj_or_path, Iterable):
       return [obj_or_path]
     else: # If all former conditions are False, it is assumed that the
       # input already was a list of PF object(s). 
       return obj_or_path
 
-  def handle_single_pf_object_or_path_input(self,obj,parent_folder=None,
+  def handle_single_pf_object_or_path_input(self, obj, parent_folder=None,
     error_if_non_existent=True):
     """Handles the input argument when a method accepts either
       - a path string
@@ -468,7 +469,7 @@ class PFBaseInterface:
     See also method 'handle_pf_object_path_input'
     """    
     if isinstance(obj, str):
-      return self.get_single_obj(obj,parent_folder=parent_folder,
+      return self.get_single_obj(obj, parent_folder=parent_folder,
         error_if_non_existent=error_if_non_existent)
     elif isinstance(obj, Iterable):
       elements_count = len(obj)
@@ -491,8 +492,8 @@ class PFBaseInterface:
       # input already was a PF object.
       return obj
 
-  def copy_obj(self,obj_or_path,target_folder,overwrite=True,condition=None,
-    parent_folder=None,error_if_non_existent=True,include_subfolders=False):
+  def copy_obj(self, obj_or_path, target_folder, overwrite=True, condition=None,
+    parent_folder=None, error_if_non_existent=True, include_subfolders=False):
     """Copies object(s) by using 'get_obj' in first step and then copying 
     the returned objects to 'target_folder'.
     The argument 'parent_folder' refers to the source folder and is used in
@@ -514,15 +515,15 @@ class PFBaseInterface:
     if overwrite:
       for object_to_be_copied in obj:
         self.delete_obj(object_to_be_copied.GetAttribute("loc_name"),
-          parent_folder=target_folder,error_if_non_existent=False)
+          parent_folder=target_folder, error_if_non_existent=False)
     target_folder.AddCopy(obj)
-    if isinstance(obj,Iterable):
+    if isinstance(obj, Iterable):
       return obj
     else:
       return [obj]
 
-  def copy_single_obj(self,obj_or_path,target_folder,overwrite=True,
-    new_name=None,parent_folder=None,error_if_non_existent=True):
+  def copy_single_obj(self, obj_or_path, target_folder, overwrite=True,
+    new_name=None, parent_folder=None, error_if_non_existent=True):
     """Copies single object by using 'get_single_obj' in first step and then copying 
     the returned object to 'target_folder'.
     The argument 'parent_folder' refers to the source folder and is used in
@@ -544,16 +545,16 @@ class PFBaseInterface:
     if overwrite:
       if not new_name:
         self.delete_obj(obj.GetAttribute("loc_name"),
-          parent_folder=target_folder,error_if_non_existent=False)
+          parent_folder=target_folder, error_if_non_existent=False)
       else:
         self.delete_obj(f"{new_name}.*",
-          parent_folder=target_folder,error_if_non_existent=False)
+          parent_folder=target_folder, error_if_non_existent=False)
     if new_name: 
-      return target_folder.AddCopy(obj,new_name)
+      return target_folder.AddCopy(obj, new_name)
     else:
       return target_folder.AddCopy(obj)
   
-  def is_container(self,obj):
+  def is_container(self, obj):
     """Checks whether a PF object is a container. It is assumed
     that an object is a container if it has the attribute 'contents'.
     """
@@ -567,7 +568,7 @@ class PFBaseInterface:
     study_case.Activate()
     return study_case
 
-  def add_results_variable(self,obj,variables,results_obj=None):
+  def add_results_variable(self, obj, variables, results_obj=None):
     """Adds variables of the object to the PowerFactory results object (ElmRes)
     obj: PowerFactory object or its path
     """
@@ -580,11 +581,11 @@ class PFBaseInterface:
     if isinstance(variables, str):
       variables = [variables]
     for var in variables:
-      results_obj.AddVariable(obj,var)
+      results_obj.AddVariable(obj, var)
     results_obj.Load()
     return results_obj
 
-  def clear_elmres_from_objects_with_status_deleted(self,results_obj=None):
+  def clear_elmres_from_objects_with_status_deleted(self, results_obj=None):
     """Deletes all objects from a results object (ElmRes) that have the
     status deleted (i.e. attribute 'obj_id' is deleted).
     """
@@ -596,9 +597,9 @@ class PFBaseInterface:
       if obj_id.IsDeleted():
           o.Delete()
 
-  def get_parameter_value_string(self,parameters,delimiter=" "):
+  def get_parameter_value_string(self, parameters, delimiter=" "):
     param_value_string = ""
-    for parname,path_with_par in parameters.items():
+    for parname, path_with_par in parameters.items():
         value = self.get_attr_by_path(path_with_par)
         param_value_string += parname + "=" + str(value) + delimiter
     return param_value_string[:-len(delimiter)] # omit last delimiter
@@ -609,7 +610,8 @@ class PFBaseInterface:
     results_obj=None,
     results_variables_lists=None,
     column_separator=',',
-    decimal_separator='.'
+    decimal_separator='.',
+    leave_csv_file_unchanged=False,
     ):
       """Exports simulation results to csv.
       Arguments:
@@ -636,7 +638,7 @@ class PFBaseInterface:
       if not file_name:  
         file_name = "results"  
       if results_variables_lists:
-        PFBaseInterface.add_selected_variables_for_export(comres,results_variables_lists)
+        self._add_selected_variables_for_export(results_variables_lists)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -648,56 +650,62 @@ class PFBaseInterface:
       comres.iopt_honly = 0 # to export data and not only the header
       comres.iopt_locn = 3 # column header includes path
       comres.ciopt_head = 1 # full variable name
+      comres.numberFormat = 1 # scientific notation
       comres.Execute()
 
-      path = self.replace_special_PF_characters_in_path_string(path)
+      path = self._replace_special_PF_characters_in_path_string(path)
       # If the result object(s) are ElmRes, the the csv file is formated.
-      if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists.result_objects[0].GetClassName() == "ElmRes"):
-        try:
-          self.format_csv_for_elmres(path)
-        except(IndexError):
-          raise Exception(f"Is the file \n" 
-            f"'{path}' \nopen in another program?")
-      else:
-        self.format_csv_for_comtrade(path)
+      if not leave_csv_file_unchanged:
+        if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or (results_variables_lists and results_variables_lists['result_objects'][0].GetClassName() == "ElmRes"):
+          try:
+            self._format_csv_for_elmres(path)
+          except(IndexError):
+            raise Exception(f"Is the file \n" 
+              f"'{path}' \nopen in another program?")
+        else:
+          self.format_csv_for_comtrade(path)
 
-  def replace_special_PF_characters_in_path_string(self,path):
+  def _replace_special_PF_characters_in_path_string(self, path):
     """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)'
     in a path string with their actual directories.
     """
     if "$(ExtDataDir)" in path:
       project_settings = self.get_project_settings()
       ext_data_dir = self.get_attr(project_settings,"extDataDir")
-      path = path.replace("$(ExtDataDir)",ext_data_dir)
-    path = path.replace("$(WorkspaceDir)",self.app.GetWorkspaceDirectory())
-    return path.replace("$(InstallationDir)",self.app.GetInstallationDirectory())
+      path = path.replace("$(ExtDataDir)", ext_data_dir)
+    path = path.replace("$(WorkspaceDir)", self.app.GetWorkspaceDirectory())
+    return path.replace("$(InstallationDir)", self.app.GetInstallationDirectory())
 
   def get_project_settings(self):
     """Returns project settings object.
     """
     project_settings_folder = self.get_single_obj("*.SetFold")
-    return self.get_single_obj("*.SetPrj",parent_folder=project_settings_folder)
+    return self.get_single_obj("*.SetPrj", parent_folder=project_settings_folder)
 
-  @staticmethod
-  def add_selected_variables_for_export(comres,results_variables_lists):
+  def _add_selected_variables_for_export(self, results_variables_lists):
     """Adds selected variables to ComRes for export.
     Arguments:
-      comres: PF object ComRes for export
       results_variables_lists: lists with infos about exported data (results objects,
-        elements,variables)
+        elements, variables)
     """
+    elmres = self.app.GetFromStudyCase('ElmRes')
+    comres = self.app.GetFromStudyCase('ComRes')
     comres.iopt_csel = 1 # export only selected variables
     comres.pResult = None # export only selected variables
     # Insert time
-    if not results_variables_lists.variables[0] == "b:tnow":
-      results_variables_lists.result_objects.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.elements.insert(0,results_variables_lists.result_objects[0])
-      results_variables_lists.variables.insert(0,"b:tnow")
-    comres.resultobj = results_variables_lists.result_objects
-    comres.element = results_variables_lists.elements
-    comres.variable = results_variables_lists.variables
+    time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
+    
+    first_column_is_time = results_variables_lists['variables'][0] == time_variable_name
+    if not first_column_is_time: # add time as first column
+      results_variables_lists['result_objects'].insert(0, results_variables_lists['result_objects'][0])
+      results_variables_lists['elements'].insert(0, results_variables_lists['result_objects'][0])
+      results_variables_lists['variables'].insert(0, time_variable_name)
+    
+    comres.resultobj = results_variables_lists['result_objects']
+    comres.element = results_variables_lists['elements']
+    comres.variable = results_variables_lists['variables']
 
-  def format_csv_for_comtrade(self,file_path):
+  def format_csv_for_comtrade(self, file_path):
     """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
     There is a bug in PF so that the time in the first column sometimes
     is not monotonously increasing. This methods corrects this by checking 
@@ -715,9 +723,9 @@ class PFBaseInterface:
           write_file.write(row)
           time = float(row_entries[0])
         row = read_file.readline()  
-    replace(file_path + ".temp",file_path)  
+    replace(file_path + ".temp", file_path)  
 
-  def format_csv_for_elmres(self,file_path):
+  def _format_csv_for_elmres(self, file_path):
     """Format the csv file that is exported from PF.
     The PF exported csv uses the first row for the full path 
     of the object and the second row for the variable name.
@@ -735,19 +743,20 @@ class PFBaseInterface:
     with open(file_path) as read_file, open(file_path + ".temp", "w") as write_file:
       full_paths = read_file.readline().split(",")
       variables = read_file.readline().split(",")
-      for col,path in enumerate(full_paths):
+      for col, path in enumerate(full_paths):
+          is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation.format_full_path(path,self)
-              variable_name = variables[col].split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
-              row = row + formated_path + "\\" + variable_name + "," # consistently add headers to row
+              formated_path = powfacpy.PFStringManipulation._format_full_path(path, self)
+              variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
+              row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
-              row = "Time," # Header of first column
+              row = "time," # Header of first column
       write_file.write(row+"\n")
       # Write remaining data rows until end of file is reached
       while row:
           row = read_file.readline()
           write_file.write(row)
-    replace(file_path + ".temp",file_path)  
+    replace(file_path + ".temp", file_path)  
 
   @staticmethod
   def replace_headers_of_csv_file_with_number_of_colums(file_path):
@@ -764,7 +773,7 @@ class PFBaseInterface:
       while row:
           write_file.write(row)
           row = read_file.readline()
-    replace(file_path + ".temp",file_path+".csv") 
+    replace(file_path + ".temp", file_path+".csv") 
     return number_of_columns
 
   @staticmethod
@@ -785,7 +794,7 @@ class PFBaseInterface:
       while row:
           write_file.write(row)
           row = read_file.readline()
-    replace(file_path + ".temp",file_path+".csv")  
+    replace(file_path + ".temp", file_path+".csv")  
     return number_of_columns
 
   def get_upstream_obj(self, obj_or_path, condition):
@@ -809,9 +818,9 @@ class PFBaseInterface:
       object_low: Object lower in the hierarchy. 
     """
     obj_high = self.handle_single_pf_object_or_path_input(obj_high)
-    obj_high = PFStringManipulation.format_full_path(str(obj_high),self)
+    obj_high = PFStringManipulation._format_full_path(str(obj_high), self)
     obj_low = self.handle_single_pf_object_or_path_input(obj_low)
-    obj_low = PFStringManipulation.format_full_path(str(obj_low),self)
+    obj_low = PFStringManipulation._format_full_path(str(obj_low), self)
     path = str(obj_low).split(str(obj_high))[1][1:] 
     return path     
   
@@ -834,7 +843,7 @@ class PFBaseInterface:
       loc_name_with_class = loc_name_with_class[0]  
     return loc_name_with_class
     
-  def create_comtrade_obj(self,file_path: str,parent_folder=None):
+  def create_comtrade_obj(self, file_path: str, parent_folder=None):
     """Add an IntComtrade that refers to file_path (*.cfg).
     The objects are stored in a folder "Comtrade" in the currently active
     study case, unless a parent_folder is provided. A new object is only
@@ -852,7 +861,7 @@ class PFBaseInterface:
       condition=lambda x : getattr(x,"f_name")==file_path,
       error_if_non_existent=False)
     if not intcomtrade:
-      _,file_name = os_path.split(file_path)
+      _, file_name = os_path.split(file_path)
       intcomtrade = self.create_in_folder(parent_folder,
         file_name.replace(".cfg","") + ".IntComtrade", overwrite=False,
         use_existing=False) 
@@ -877,7 +886,7 @@ class PFBaseInterface:
 class PFStringManipulation:
   
   @staticmethod
-  def replace_between_characters(char1,char2,replacement,string):
+  def replace_between_characters(char1, char2, replacement, string):
     new_string = ""
     is_between_chars = False
     for c in string:
@@ -891,11 +900,11 @@ class PFStringManipulation:
     return new_string   
 
   @staticmethod
-  def delete_classes(path):
-    return PFStringManipulation.replace_between_characters('.','\\','\\',path)
+  def _remove_class_names(path):
+    return PFStringManipulation.replace_between_characters('.','\\','\\', path)
 
   @staticmethod
-  def format_full_path(path,pf_interface):
+  def _format_full_path(path, pf_interface):
     """
     Takes the full path (including user and project) and returns the path 
     relative to the currently active project.
@@ -905,7 +914,17 @@ class PFStringManipulation:
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
     path = path[path.find(project_name)+len(project_name):]
-    return PFStringManipulation.delete_classes(path)
+    return PFStringManipulation._remove_class_names(path)
+  
+  @staticmethod
+  def _format_variable_name(name:str) -> str:
+    """
+    Takes PF-generated csv export variable name and returns shortened version.
+    Example:
+      name: 's:u0 in kV'
+      output: 's:u0' 
+    """
+    return name.split(" ", 1)[0].replace("\"","").replace("\n","") # get rid of description and quotation marks
   
   @staticmethod
   def handle_path(path):
@@ -923,7 +942,7 @@ class PFStringManipulation:
   
 class PFResultVariable:
 
-  def __init__(self,result_object,element,variable) -> None:
+  def __init__(self, result_object, element, variable) -> None:
 
     self.result_object = result_object
     self.element = element
@@ -1014,19 +1033,19 @@ def set_attr_of_obj(obj, attributes:dict):
   this method only accepts PF objects (and not path strings)
   and is slightly more performant.
   """
-  for attr,value in attributes.items():
-    obj.SetAttribute(attr,value)
+  for attr, value in attributes.items():
+    obj.SetAttribute(attr, value)
 
-def set_attr_of_objects(objects: Iterable,attributes: Iterable):
+def set_attr_of_objects(objects: Iterable, attributes: Iterable):
   """Set attributes of multiple objects.
   """
   for obj in objects:
-    set_attr_of_obj(obj,attributes)
+    set_attr_of_obj(obj, attributes)
 
-def set_attr_of_child(parent,child:str, attributes:dict):
+def set_attr_of_child(parent, child:str, attributes:dict):
   """Set attributes of a child object in parent.
   Just syntactic sugar.
   """
   child = parent.GetContents(child)[0]
-  for attr,value in attributes.items():
-    child.SetAttribute(attr,value)
+  for attr, value in attributes.items():
+    child.SetAttribute(attr, value)
