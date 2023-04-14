@@ -207,7 +207,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     case_num = self.handle_case_input(case_obj_or_case_num)
     for par_name, path in self.parameter_paths.items():
       value = self.get_value_of_parameter_for_case(par_name, case_num)
-      if value:
+      if value is not None:
         self.set_attr_by_path(path, value)  
 
   def get_study_cases(self, conditions):
