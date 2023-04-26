@@ -34,7 +34,7 @@ class PFBaseInterface:
     self.export_dir = None
 
   def get_obj(self, path, condition=None, parent_folder=None, error_if_non_existent=True,
-    include_subfolders=False):
+    include_subfolders=True):
     """Returns the PowerFactory object(s) under 'path'. 
     'path' can contain wildcards ("*") after the last "\". 
     A condition may be specified as a function, for example to check 
