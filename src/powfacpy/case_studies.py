@@ -235,7 +235,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         cases.append(case_obj)
     return cases
 
-  def apply_permutation(self,omitted_combinations=None):
+  def apply_permutation(self, omitted_combinations=None):
     """Replaces the values in 'parameter_values' with the permutation of
     their unique elements. 
     Use this method if you want to create cases of the permutation of all
@@ -255,7 +255,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     for values_of_all_parameters_for_case in permutation_iterable:
       if omitted_combinations:
         values_of_all_parameters_for_case = self.filter_omitted_combinations(
-          values_of_all_parameters_for_case,omitted_combinations,original_parameter_values)
+          values_of_all_parameters_for_case, omitted_combinations, original_parameter_values)
       if values_of_all_parameters_for_case:    
         for param_num, param_name in enumerate(self.parameter_values.keys()):
           self.parameter_values[param_name].append(
@@ -280,7 +280,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
           if omitted_combination_dict[param_name] == "all":
             # If the parameter is 'all', then only one case should be created. The case where
             # the value of the parameter takes on the value of the first entry in 
-            # original_parameter_values[param_name][0] is selected. This must be the case for all
+            # original_parameter_values[param_name] is selected. This must be the case for all
             # parameters that are set to 'all'
             if not (original_parameter_values[param_name][0] == 
                     values_of_all_parameters_for_case[param_num]): 
