@@ -124,7 +124,30 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     except(AttributeError) as e:
       self._handle_possible_attribute_not_set_error(self.active_plot,
           "active_plot", e)
-    
+
+  def get_legend_of_active_plot(self): 
+    try:
+      return self.active_plot.GetLegend()
+    except(AttributeError) as e:
+      self._handle_possible_attribute_not_set_error(self.active_plot,
+          "active_plot", e) 
+
+  def get_title_obj_of_active_plot(self): 
+    try:
+      return self.active_plot.GetTitleObject()
+    except(AttributeError) as e:
+      self._handle_possible_attribute_not_set_error(self.active_plot,
+          "active_plot", e) 
+      
+  def set_all_fonts_of_active_plot(self, fontsize=10, fontname="Arial", fontstyle=0):
+    """Sets the fonts of all text elements (axis labels,legend,title). Note that the 
+    fonts are not attributes of the PF objects (x-axis, title object,..), but can only be 
+    set using the method 'SetFont'.
+    """
+    self.get_x_axis_of_active_plot().SetFont(fontname,fontsize,fontstyle)
+    self.get_y_axis_of_active_plot().SetFont(fontname,fontsize,fontstyle) 
+    self.get_legend_of_active_plot().SetFont(fontname,fontsize,fontstyle)  
+    self.get_title_obj_of_active_plot().SetFont(fontname,fontsize,fontstyle)
 
   def plot(self, obj, variables, graphics_page=None, plot=None,**kwargs):
     """Plots the variables of 'obj' to the currently active plot.
