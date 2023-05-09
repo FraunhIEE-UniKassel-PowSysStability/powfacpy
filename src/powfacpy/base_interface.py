@@ -34,7 +34,7 @@ class PFBaseInterface:
     self.export_dir = None
 
   def get_obj(self, path, condition=None, parent_folder=None, error_if_non_existent=True,
-    include_subfolders=False):
+    include_subfolders=True):
     """Returns the PowerFactory object(s) under 'path'. 
     'path' can contain wildcards ("*") after the last "\". 
     A condition may be specified as a function, for example to check 
@@ -90,7 +90,8 @@ class PFBaseInterface:
     requires the input to be splitted between path and object name.
     """
     try:
-      head, tail = os_path.split(path)
+      path_folder_list = path.split('\\')
+      head, tail = '\\'.join(path_folder_list[:-1]), path_folder_list[-1]
     except(TypeError):
       raise TypeError("Path must be of type string")  
     if head:
