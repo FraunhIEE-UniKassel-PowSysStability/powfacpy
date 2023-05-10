@@ -15,6 +15,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.hierarchy = []
     self.study_cases = []
     self.omitted_combinations = []
+    self.base_study_case = None
     # ToDo base case/scen/var to copy or only base case
     """
     self.parent_folder_study_cases = powfacpy.PFTranslator.get_default_study_case_folder_name(
@@ -42,6 +43,9 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     study cases (and folder names). 
     """
     number_of_cases = len(next(iter(self.parameter_values.values())))
+    if self.base_study_case:
+      self.base_study_case = self.handle_single_pf_object_or_path_input(
+        self.base_study_case)
     for case_num in range(number_of_cases):
       folder_path = self.get_folder_path(case_num)
       parameter_values_string = self.get_case_params_value_string(
@@ -143,10 +147,15 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if folder_path:
       parent_folder_study_case = self.create_directory(folder_path,
         parent_folder=parent_folder_study_case)
-    study_case_obj = self.create_in_folder(parent_folder_study_case,
-      name+".IntCase")
+    if not self.base_study_case:
+      study_case_obj = self.create_in_folder(parent_folder_study_case,
+        name+".IntCase")
+    else:
+      study_case_obj = self.copy_single_obj(
+        self.base_study_case,
+        parent_folder_study_case,
+        new_name=name)  
     study_case_obj.Activate()
-    pfpi = powfacpy.PFPlotInterface(self.app)
     self.app.GetFromStudyCase("SetDesktop")
     return study_case_obj
 
