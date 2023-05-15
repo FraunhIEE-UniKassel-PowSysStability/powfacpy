@@ -461,11 +461,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
     DataSeries (PltDataseries) of a plot.
     """
-    if not plot:
-        data_series = self.get_data_series_of_active_plot()
-    else:
-      plot = self.handle_single_pf_object_or_path_input(plot)
-      data_series = plot.GetDataSeries()  
+    data_series = self.get_data_series_of_plot(plot)   
     lists = PFListsOfDataSeriesOfPlot(
       data_series.GetAttribute("curveTableElement"),  
       data_series.GetAttribute("curveTableVariable"), 
