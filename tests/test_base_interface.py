@@ -9,8 +9,6 @@ import importlib
 importlib.reload(powfacpy)
 
 
-PF_PROJECT_PATH = r"\seberlein\powfacpy\powfacpy_tests"
-
 @pytest.fixture(scope='session')
 def pf_app():
     return powerfactory.GetApplication()
@@ -36,12 +34,6 @@ def activate_test_project(pfbi):
     project_copy = pfbi.copy_single_obj(project_for_testing,
         folder_of_project_for_testing, new_name="powfacpy_tests_copy_where_tests_are_run")    
     project_copy.Activate()    
-    pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
-
-@pytest.fixture
-def activate_test_project_quasi_dynamic(pfbi):
-    pfbi.app.ActivateProject(PF_PROJECT_PATH)
-    pfbi.activate_study_case(r"Study Cases\test_base_interface\quasi_dynamic_data")
     
 def test_get_single_object(pfbi, activate_test_project):
     terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
