@@ -401,29 +401,23 @@ class PFBaseInterface:
       error_if_non_existent=error_if_non_existent,
       include_subfolders=include_subfolders)
     for o in obj:
-      success = o.Delete()
-      """
-      if not success == 0:
-        o.Deactivate()
-        o.Delete()
-      # Due to a PF bug, study cases need special treatment.
-      # Here, Delete() returns 0 even if it was not successful.  
-      elif o.GetClassName() == "IntCase":
-        try:
-          o.Deactivate()
-          o.Delete()
-        except:
-          pass  
-      """
+      o.Delete()
       # 'IsDeleted' seems to be the savest way to check whether an object has been deleted. 
+      #return None
       if not o.IsDeleted():
-        try:
-          o.Deactivate()
+        if not o.IsDeleted(): 
+          active_study_case = self.app.GetActiveStudyCase()
+          active_study_case.Deactivate()
           o.Delete()
-        except:
-          raise ArgumentError(r"Object {o} cannot be deleted.")
+          active_study_case.Activate() 
+        if not o.IsDeleted():     
+          try:
+            o.Deactivate()
+            o.Delete()
+          except(AttributeError): # raised when o cannot be deactivated
+            raise TypeError(f"Object {o} cannot be deleted.")
         if not o.IsDeleted():  
-          raise ArgumentError(r"Object {o} cannot be deleted.")
+          raise TypeError(f"Object {o} cannot be deleted.")
 
   def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
     error_if_non_existent=True, include_subfolders=False):
