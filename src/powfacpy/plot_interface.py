@@ -477,8 +477,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       # Even if 'autoSearchResultsFile' is True, 'userSelectedResultFile' and 
       # not 'autoSelectedResultFile' must be used.
       # Furthermore, 'autoSearchResultFile' must be deactivated and activated once.
+      auto_search_result_file_original_value = data_series.autoSearchResultFile 
       data_series.autoSearchResultFile = 0
       data_series.autoSearchResultFile = 1
+      data_series.autoSearchResultFile = auto_search_result_file_original_value
       lists.result_objects = [data_series.GetAttribute("userSelectedResultFile")]*len(lists.elements)
     if include_curve_options:
       lists.line_styles = data_series.GetAttribute("curveTableResultFile") 
