@@ -175,16 +175,16 @@ def test_delete_obj(pfbi, activate_test_project):
     assert len(objects_in_folder) == 0
 
 def test_copy_obj(pfbi, activate_test_project):
-    folder_copy_from = r"Library\Dynamic Models\TestDummyFolder"
-    folder_copy_to = r"Library\Dynamic Models\TestCopyMultiple"
+    folder_copy_from = r"Library\Dynamic Models\TestCopyFrom"
+    folder_copy_to = r"Library\Dynamic Models\TestCopyTo"
 
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder=folder_copy_from)
     assert len(copied_objects) == 2
 
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
-    folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestDummyFolder")[0]
-    folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyMultiple")[0]
+    folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestCopyFrom")[0]
+    folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyTo")[0]
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder = folder_copy_from)
     assert len(copied_objects) == 2
 
