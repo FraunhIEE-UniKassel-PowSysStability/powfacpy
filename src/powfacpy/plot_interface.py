@@ -246,6 +246,9 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
   def set_x_axis_range_of_active_plot(self, range: Iterable):
     self.set_x_axis_attributes(rangeMin=range[0], rangeMax=range[1])
 
+  def set_y_axis_range_of_active_plot(self, range: Iterable):
+    self.set_y_axis_attributes(rangeMin=range[0], rangeMax=range[1])  
+
   def plot_from_comtrade(self,
                       file_path,
                       variables,
