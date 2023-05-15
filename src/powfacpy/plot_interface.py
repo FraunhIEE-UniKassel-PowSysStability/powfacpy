@@ -453,6 +453,178 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       plot = self.handle_single_pf_object_or_path_input(plot)
       return plot.GetDataSeries()
 
+  def get_curve_table_attributes(
+      self, 
+      plot=None, 
+      adjust_result_file=True) -> dict:
+    """Returns a dictionary with all curve table attributes (keys) and
+    list with the attributes values for each curve (values) of a plot (i.e. its data series).
+
+    Arguments:
+      - plot: path or PF object. If None, the active plot is used
+      - adjust_result_file: please see get_curve_table_attributes_referring_to_data_source
+        for a detailed description 
+    """
+    attributes_referring_to_data_source = self.get_curve_table_attributes_referring_to_data_source(
+      plot=plot, 
+      adjust_result_file=adjust_result_file)
+    attributes_referring_to_visualisation_visualization = self.get_curve_table_attributes_referring_to_visualization(
+      plot=plot)
+    return {**attributes_referring_to_data_source,
+            **attributes_referring_to_visualisation_visualization}
+
+  def get_curve_table_attributes_referring_to_data_source(
+      self, 
+      plot=None, 
+      adjust_result_file=True) -> dict:
+    """Get the curve table attributes referring to the data source 
+    of the curves from a plot (i.e. its data series).
+    These attributes are: "curveTableResultFile", "curveTableElement",
+      "curveTableVariable"
+    The return value is a dictionary with 
+      - keys: attribute names
+      - values: lists with the values for each curve
+
+    Use this method if the data sources of the curves are of interest.
+    If further attributes on visualisation are of interest, see also the
+    methods:
+      - get_curve_table_attributes
+      - get_curve_table_attributes_referring_to_visualization
+
+    Arguments:
+      - plot: path or PF object. If None, the active plot is used.
+      - adjust_result_file: 
+        - If False, the list in "curveTableResultFile" is used as is
+        - If True, the list is adjusted depending on the plot settings
+          "useIndividualResults". If "useIndividualResults" is True,
+          the result files from the list "curveTableResultFile" are used
+          by default. If an element of this list is empty, the 
+          "userSelectedResultFile" is used. Note that there is a bug in
+          PF so that "autoSelectedResultFile" is always empty as described 
+          below.
+    """
+    data_series = self.get_data_series_of_plot(plot)
+    attributes = dict.fromkeys(["curveTableResultFile", 
+                                "curveTableElement",
+                                "curveTableVariable"]) 
+    attributes["curveTableElement"] = data_series.GetAttribute("curveTableElement")
+    attributes["curveTableVariable"] = data_series.GetAttribute("curveTableVariable")
+    if adjust_result_file:
+      # PF bug:
+      # Even if 'autoSearchResultsFile' is True, 'userSelectedResultFile' and 
+      # not 'autoSelectedResultFile' must be used.
+      # Furthermore, 'autoSearchResultFile' must be deactivated and activated once.
+      auto_search_result_file_original_value = data_series.autoSearchResultFile 
+      data_series.autoSearchResultFile = 0
+      data_series.autoSearchResultFile = 1
+      data_series.autoSearchResultFile = auto_search_result_file_original_value
+      attributes["curveTableResultFile"] = [data_series.GetAttribute(
+      "userSelectedResultFile")]*len(attributes["curveTableElement"])  
+      if data_series.useIndividualResults:
+        curve_table_result_list = data_series.GetAttribute(
+        "curveTableResultFile")
+        for idx, result_file in enumerate(curve_table_result_list):
+          if result_file:
+            attributes["curveTableResultFile"][idx] = result_file   
+    else:
+      attributes["curveTableResultFile"] = data_series.GetAttribute(
+        "curveTableResultFile")  
+    return attributes
+  
+  def get_curve_table_attributes_referring_to_visualization(
+      self, 
+      plot=None) -> dict:
+    """Returns the curve table attributes of a plot  (i.e. its data series) 
+    that refer to the visualisation. 
+
+    The return value is a dictionary with 
+      - keys: attribute names
+      - values: lists with the values for each curve
+
+    Use this method if the data sources of the curves are of interest.
+    If further attributes on the data sources are of interest, see also the
+    methods:
+      - get_curve_table_attributes
+      - get_curve_table_attributes_referring_to_data_source    
+
+    Arguments:
+      - plot: path or PF object. If None, the active plot is used.
+
+    """
+    data_series = self.get_data_series_of_plot(plot)
+    attributes = dict.fromkeys(["curveTableVisible", 
+                                "curveTableNormalise",
+                                "curveTableNormValue",
+                                "curveTableColor", 
+                                "curveTableLineStyle",
+                                "curveTableLineWidth", 
+                                "curveTableShape",
+                                "curveTableFillStyle", 
+                                "curveTableLabel"])
+    for attr in attributes.keys():
+      attributes[attr] = data_series.GetAttribute(attr)
+    return attributes
+
+  def set_curve_table_attributes(
+      self, 
+      attributes:dict, 
+      plot=None) -> None:
+    """Set the curve table attributes of a plot  (i.e. its data series).
+
+    Arguments:
+      - attributes: a dictionary with 
+        - keys: argument names, e.g. "curveTableLabel"
+        - values: list with the values for each curve
+        - plot: path or PF object. If None, the active plot is used. 
+    """     
+    data_series = self.get_data_series_of_plot(plot)
+    for attr,value in attributes.items():
+      data_series.SetAttribute(attr,value)
+
+  @staticmethod
+  def clear_curves_from_curve_table_attributes_dict(
+    attributes: dict, 
+    index: int|slice) -> dict:
+    """Clear curves from a dictionary with the curve table attributes (keys)
+    and the entries for each curve (values).
+    IMPORTANT: Zero based indexing is used i.e. the first curve has index 0.
+    Note that this does not clear the curves from the data series in the 
+    PF plot, but only from the dictionary. If you want to clear the curves
+    from a plot, use clear_curves_by_index_from_active_plot
+
+    Arguments: 
+      - attributes: dictionary with attribute names (keys) and entries for each 
+        curve (values)
+      - index: can be an integer or slice
+        - integer: index of one curve to be deleted
+        - slice: several curves are deleted. Examples:
+          - slices have the general form "slice(start, end, step)" (see for example https://www.programiz.com/python-programming/methods/built-in/slice) 
+          - "slice(2,4)": clear curves with index 2,3 (step=1 is default)
+          - "slice(-1,1,-1): start at the end and delete all curves larger than index 1  
+    """
+    for values in attributes.values():
+      del values[index]
+
+  def clear_curves_by_index_from_active_plot(self, index: int|slice) -> None:
+    """Clear curves with certain index from plot (i.e. its data series).
+    IMPORTANT: Zero based indexing is used i.e. the first curve has index 0.
+    The native PF API has no such functionality and can only delete all curves.
+    The method works as follows: 
+     - gets the curve table attributes in a dictionary
+     - clears all curves from plot
+     - clear certain curves from the dictionary
+     - set the curve table attributes according to the dictionary
+
+     Arguments:
+      - index: for a detailled description please have 
+        a look at clear_curves_from_curve_table_attributes_dict
+    """
+    curve_table_attr = self.get_curve_table_attributes()
+    self.clear_curves()
+    powfacpy.PFPlotInterface.clear_curves_from_curve_table_attributes_dict(
+      curve_table_attr,index)
+    self.set_curve_table_attributes(curve_table_attr)
+
   def get_lists_from_data_series_of_plot(self, plot=None, indexes=None, include_curve_options=False):
     """Depracated: Please use get_curve_table_attributes instead. The usage of
     a the class PFListsOfDataSeriesOfPlot has turned out to be less convenient than
