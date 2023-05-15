@@ -443,17 +443,15 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
         plot = plot_interface.plot(csv_file["time"]+offset, csv_file[var], label = var)   
     return plot
 
-  def get_data_series_from_plot(self, plot=None, indexes=None, include_curve_options=False):
+  def get_data_series_of_plot(self, plot=None):
+    """Returns the data series object of a plot,
+    If plot is None, the active plot is used.
+    """
     if not plot:
-      data_series = self.get_data_series_of_active_plot()
+      return self.get_data_series_of_active_plot()
     else:
       plot = self.handle_single_pf_object_or_path_input(plot)
-      data_series = plot.GetDataSeries()
-    lists_from_data_series_of_plot = self.get_lists_from_data_series_of_plot(
-      data_series, indexes=None, include_curve_options=False)
-    return self.get_pf_result_variables_from_lists_of_data_series_of_plot(curveTableElements, curveTableVariable, curveTableResultFile,
-      curveTableLineStyle, curveTableLineWidth, curveTableColor,
-      curveTableLabelinclude_curve_options=False)  
+      return plot.GetDataSeries()
 
   def get_lists_from_data_series_of_plot(self, plot=None, indexes=None, include_curve_options=False):
     """Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
