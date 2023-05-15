@@ -519,4 +519,4 @@ class PFListsOfDataSeriesOfPlot:
     self.line_styles = line_styles
     self.line_widths = line_widths
     self.colors = colors
-    self.labels = labels        
+    self.labels = labels          
