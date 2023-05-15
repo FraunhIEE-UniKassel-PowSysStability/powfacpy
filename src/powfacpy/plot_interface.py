@@ -454,7 +454,11 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       return plot.GetDataSeries()
 
   def get_lists_from_data_series_of_plot(self, plot=None, indexes=None, include_curve_options=False):
-    """Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
+    """Depracated: Please use get_curve_table_attributes instead. The usage of
+    a the class PFListsOfDataSeriesOfPlot has turned out to be less convenient than
+    just using a dictionary for the curve table attributes.
+
+    Returns PFListsOfDataSeriesOfPlot object with lists of the data from 
     DataSeries (PltDataseries) of a plot.
     """
     if not plot:
@@ -505,7 +509,10 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.set_attr(comwr,{'iopt_rd': format,'iopt_savas': 0, 'f': path + "." + format})
     comwr.Execute()  
 
+
 class PFListsOfDataSeriesOfPlot:
+  """Deprecated: This class turned out to be less convenient than
+  just using a dictionary for the curve table attributes"""
 
   def __init__(self, elements, variables, result_objects, line_styles, line_widths, colors, labels) -> None:
     self.elements = elements
