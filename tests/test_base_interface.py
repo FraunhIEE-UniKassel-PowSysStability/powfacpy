@@ -50,6 +50,8 @@ def test_get_obj(pfbi, activate_test_project):
         terminal_1 = pfbi.get_obj(r"N")[0]    
     with pytest.raises(TypeError):
         terminal_1 = pfbi.get_obj(terminal_1)[0]
+    with pytest.raises(TypeError):
+        terminal_1 = pfbi.get_obj(terminal_1, include_subfolders=False)[0]
 
 def test_get_obj_with_condition(pfbi, activate_test_project):
     hv_terminals = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*",
