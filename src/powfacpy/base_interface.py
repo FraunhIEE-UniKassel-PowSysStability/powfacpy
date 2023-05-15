@@ -4,7 +4,6 @@ and the class PFStringManipulation for string manipulation.
 The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 """
 
-from argparse import ArgumentError
 import sys
 
 sys.path.insert(0, r'.\src')
@@ -92,8 +91,8 @@ class PFBaseInterface:
     try:
       path_folder_list = path.split('\\')
       head, tail = '\\'.join(path_folder_list[:-1]), path_folder_list[-1]
-    except(TypeError):
-      raise TypeError("Path must be of type string")  
+    except(AttributeError):
+      raise TypeError("Path must be of type string.")  
     if head:
       new_parent_folder = parent_folder.GetContents(head)
       if new_parent_folder:
