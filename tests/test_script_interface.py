@@ -38,7 +38,7 @@ def test_merge_powfacpy_package_into_single_file(pfscripts, activate_test_projec
     r".\tests\tests_output\powfacpy_single_file.py",
     "#### Insert powfacpy after this line",
     "#### End powfacpy before this line")
-  # Please manually execute this compython script (not possible to test
+  # Please manually execute and test this compython script (not possible to test
   # this automatically)   
 
 

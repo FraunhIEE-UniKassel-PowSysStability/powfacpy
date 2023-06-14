@@ -14,10 +14,20 @@ from test_base_interface import pfbi, pf_app, activate_test_project
 def pfplot(pf_app):
     # Return PFPlotInterface instance and show app
     pfplot = powfacpy.PFPlotInterface(pf_app)
+    
+    return pfplot 
+
+@pytest.fixture(autouse=True)
+def run_around_tests(pfplot):
+    # Code run before each test:
     # PF app needs to be shown for some reason, because otherwise 
     # PF can error when plotting.
     pfplot.app.Show()
-    return pfplot 
+    # Run test
+    yield
+    # Code that will run after each test:
+    # Make sure that app is hidden for other modules
+    pfplot.app.Hide()
 
 def test_plot(pfplot, activate_test_project):
     pfsim = powfacpy.PFDynSimInterface(pfplot.app)
