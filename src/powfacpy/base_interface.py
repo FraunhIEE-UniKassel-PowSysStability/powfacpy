@@ -402,13 +402,13 @@ class PFBaseInterface:
     for o in obj:
       o.Delete()
       # 'IsDeleted' seems to be the savest way to check whether an object has been deleted. 
-      #return None
       if not o.IsDeleted():
         if not o.IsDeleted(): 
           active_study_case = self.app.GetActiveStudyCase()
-          active_study_case.Deactivate()
-          o.Delete()
-          active_study_case.Activate() 
+          if active_study_case:
+            active_study_case.Deactivate()
+            o.Delete()
+            active_study_case.Activate() 
         if not o.IsDeleted():     
           try:
             o.Deactivate()
