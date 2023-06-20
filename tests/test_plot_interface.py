@@ -91,6 +91,34 @@ def test_activate_plot(pfplot, activate_test_project):
     with pytest.raises(powfacpy.PFAttributeNotSetError):
         pfplot.set_active_plot("test_plot 1")
 
+def test_clear_curves_by_index_from_active_plot(pfplot, activate_test_project):
+    pfplot.get_unique_obj(r"Study Cases\test_plot_interface\Study Case 1").Activate()
+    pfplot.set_active_plot("test clear curves","test clear curves")
+
+    # Plot and simulate    
+    pfplot.clear_curves()
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","m:Psum:bus1")
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","m:Qsum:bus1")
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","s:u0")
+    pfdi = powfacpy.PFDynSimInterface(pfplot.app)
+    pfdi.initialize_and_run_sim()
+    # Clear the last curve
+    pfplot.clear_curves_by_index_from_active_plot(slice(-1,1,-1)) 
+    attributes = pfplot.get_curve_table_attributes()
+    assert len(attributes["curveTableResultFile"]) == 2
+    assert attributes["curveTableVariable"][0] == "m:Psum:bus1"
+
+    # Plot again
+    pfplot.clear_curves()
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","m:Psum:bus1")
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","m:Qsum:bus1")
+    pfplot.plot(r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source","s:u0")
+    # Clear the first curve
+    pfplot.clear_curves_by_index_from_active_plot(0) 
+    attributes = pfplot.get_curve_table_attributes()
+    assert len(attributes["curveTableResultFile"]) == 2
+    assert attributes["curveTableVariable"][0] == "m:Qsum:bus1"
+
 if __name__ == "__main__":
     pytest.main(([r"tests\test_plot_interface.py"]))
     #pytest.main(([r"tests\test_plot_interface.py::test_plot"]))
