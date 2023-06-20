@@ -24,9 +24,9 @@ def run_around_tests(pfplot):
     # PF can error when plotting.
     pfplot.app.Show()
     # Run test
-    yield
+    yield # gives control back to the 'context manager', i. e. the function that called this fixture.
     # Code that will run after each test:
-    # Make sure that app is hidden for other modules
+    # Make sure that app is hidden for other modules than plot interface
     pfplot.app.Hide()
 
 def test_plot(pfplot, activate_test_project):
