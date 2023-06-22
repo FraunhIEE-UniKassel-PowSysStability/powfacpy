@@ -4,7 +4,6 @@ and the class PFStringManipulation for string manipulation.
 The abbreviation 'PF' is sometimes used for 'PowerFactory'.
 """
 
-from argparse import ArgumentError
 import sys
 
 sys.path.insert(0, r'.\src')
@@ -92,8 +91,8 @@ class PFBaseInterface:
     try:
       path_folder_list = path.split('\\')
       head, tail = '\\'.join(path_folder_list[:-1]), path_folder_list[-1]
-    except(TypeError):
-      raise TypeError("Path must be of type string")  
+    except(AttributeError):
+      raise TypeError("Path must be of type string.")  
     if head:
       new_parent_folder = parent_folder.GetContents(head)
       if new_parent_folder:
@@ -401,29 +400,24 @@ class PFBaseInterface:
       error_if_non_existent=error_if_non_existent,
       include_subfolders=include_subfolders)
     for o in obj:
-      success = o.Delete()
-      """
-      if not success == 0:
-        o.Deactivate()
-        o.Delete()
-      # Due to a PF bug, study cases need special treatment.
-      # Here, Delete() returns 0 even if it was not successful.  
-      elif o.GetClassName() == "IntCase":
-        try:
-          o.Deactivate()
-          o.Delete()
-        except:
-          pass  
-      """
+      o.Delete()
       # 'IsDeleted' seems to be the savest way to check whether an object has been deleted. 
       if not o.IsDeleted():
-        try:
-          o.Deactivate()
+        active_study_case = self.app.GetActiveStudyCase()
+        if active_study_case:
+          active_study_case.Deactivate()
           o.Delete()
-        except:
-          raise ArgumentError(r"Object {o} cannot be deleted.")
-        if not o.IsDeleted():  
-          raise ArgumentError(r"Object {o} cannot be deleted.")
+          active_study_case.Activate() 
+
+        if not o.IsDeleted():     
+          try:
+            o.Deactivate()
+            o.Delete()
+          except(AttributeError): # raised when o cannot be deactivated
+            raise TypeError(f"Object {o} cannot be deleted.")
+            
+          if not o.IsDeleted():  
+            raise TypeError(f"Object {o} cannot be deleted.")
 
   def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
     error_if_non_existent=True, include_subfolders=False):

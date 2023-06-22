@@ -9,8 +9,6 @@ import importlib
 importlib.reload(powfacpy)
 
 
-PF_PROJECT_PATH = r"\seberlein\powfacpy\powfacpy_tests"
-
 @pytest.fixture(scope='session')
 def pf_app():
     return powerfactory.GetApplication()
@@ -36,12 +34,6 @@ def activate_test_project(pfbi):
     project_copy = pfbi.copy_single_obj(project_for_testing,
         folder_of_project_for_testing, new_name="powfacpy_tests_copy_where_tests_are_run")    
     project_copy.Activate()    
-    pfbi.activate_study_case(r"Study Cases\test_base_interface\Study Case 1")
-
-@pytest.fixture
-def activate_test_project_quasi_dynamic(pfbi):
-    pfbi.app.ActivateProject(PF_PROJECT_PATH)
-    pfbi.activate_study_case(r"Study Cases\test_base_interface\quasi_dynamic_data")
     
 def test_get_single_object(pfbi, activate_test_project):
     terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
@@ -58,6 +50,8 @@ def test_get_obj(pfbi, activate_test_project):
         terminal_1 = pfbi.get_obj(r"N")[0]    
     with pytest.raises(TypeError):
         terminal_1 = pfbi.get_obj(terminal_1)[0]
+    with pytest.raises(TypeError):
+        terminal_1 = pfbi.get_obj(terminal_1, include_subfolders=False)[0]
 
 def test_get_obj_with_condition(pfbi, activate_test_project):
     hv_terminals = pfbi.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*",
@@ -181,16 +175,16 @@ def test_delete_obj(pfbi, activate_test_project):
     assert len(objects_in_folder) == 0
 
 def test_copy_obj(pfbi, activate_test_project):
-    folder_copy_from = r"Library\Dynamic Models\TestDummyFolder"
-    folder_copy_to = r"Library\Dynamic Models\TestCopyMultiple"
+    folder_copy_from = r"Library\Dynamic Models\TestCopyFrom"
+    folder_copy_to = r"Library\Dynamic Models\TestCopyTo"
 
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder=folder_copy_from)
     assert len(copied_objects) == 2
 
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
-    folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestDummyFolder")[0]
-    folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyMultiple")[0]
+    folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestCopyFrom")[0]
+    folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyTo")[0]
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder = folder_copy_from)
     assert len(copied_objects) == 2
 
