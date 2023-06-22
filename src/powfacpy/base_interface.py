@@ -403,20 +403,21 @@ class PFBaseInterface:
       o.Delete()
       # 'IsDeleted' seems to be the savest way to check whether an object has been deleted. 
       if not o.IsDeleted():
-        if not o.IsDeleted(): 
-          active_study_case = self.app.GetActiveStudyCase()
-          if active_study_case:
-            active_study_case.Deactivate()
-            o.Delete()
-            active_study_case.Activate() 
+        active_study_case = self.app.GetActiveStudyCase()
+        if active_study_case:
+          active_study_case.Deactivate()
+          o.Delete()
+          active_study_case.Activate() 
+
         if not o.IsDeleted():     
           try:
             o.Deactivate()
             o.Delete()
           except(AttributeError): # raised when o cannot be deactivated
             raise TypeError(f"Object {o} cannot be deleted.")
-        if not o.IsDeleted():  
-          raise TypeError(f"Object {o} cannot be deleted.")
+            
+          if not o.IsDeleted():  
+            raise TypeError(f"Object {o} cannot be deleted.")
 
   def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
     error_if_non_existent=True, include_subfolders=False):

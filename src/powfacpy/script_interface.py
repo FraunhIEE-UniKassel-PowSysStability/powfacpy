@@ -47,7 +47,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     """
     compython = self.handle_single_pf_object_or_path_input(compython)
     temporary_dir = "powfacpy_temp"
-    os.makedirs(temporary_dir,exist_ok=True)
+    os.makedirs(temporary_dir, exist_ok=True)
     try:
       embedded_script_original_file = temporary_dir + r"\embedded_script_original.py"
       self.create_file_from_embedded_script(embedded_script_original_file, compython)
