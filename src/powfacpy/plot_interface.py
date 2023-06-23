@@ -610,7 +610,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
   @staticmethod
   def clear_curves_from_curve_table_attributes_dict(
     attributes: dict, 
-    index: int|slice) -> dict:
+    index: "int|slice") -> dict:
     """Clear curves from a dictionary with the curve table attributes (keys)
     and the entries for each curve (values).
     IMPORTANT: Zero based indexing is used i.e. the first curve has index 0.
@@ -631,7 +631,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     for values in attributes.values():
       del values[index]
 
-  def clear_curves_by_index_from_active_plot(self, index: int|slice) -> None:
+  def clear_curves_by_index_from_active_plot(self, index: "int|slice") -> None:
     """Clear curves with certain index from plot (i.e. its data series).
     IMPORTANT: Zero based indexing is used i.e. the first curve has index 0.
     The native PF API has no such functionality and can only delete all curves.
