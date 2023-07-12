@@ -233,9 +233,10 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       conditions: 
         Either a dictionary with
           keys: parameter names
-          values: lambda function with boolean return value depending on 
+          values: lambda functions with boolean return value depending on 
             parameter (key)
-        or a lambda function with an iterable containing all parameters.
+        or a single lambda function that accepts an iterable containing all 
+        parameters.
           Example: lambda x: x[0] >= 2 and x[2] == 'A'
           Note that the order of the parameters in x must be the same as the
           order of the keys in self.parameter_values.
@@ -277,14 +278,15 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if not return_case_numbers:     
       return cases_objects 
     else:
-      return cases_objects,case_numbers
+      return cases_objects, case_numbers
 
   def get_study_cases_from_string(self, conditions: str, return_case_numbers=False):
     """This method is another convenient way to get study cases according to conditions.
     The conditions are a simple lambda function argument string (see example below).
-    This method is more convenient but less save than get_study_cases because the
+    This method is more convenient but less safe than get_study_cases because the
     conditions string is evaluated and a lambda function is created from it. Using
     eval() statements is generally not recommended due to unforeseeable behavior.
+    However, for convenience, it is used here.
 
     Arguments:
       conditions: 
@@ -294,18 +296,18 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         numbers (indexes) are returned as a tuple.    
     """
 
-    # To create a lambda fcuntion from the conditions string, the parameter names need
+    # To create a lambda function from the conditions string, the parameter names need
     # to be replaced by proper python variable names (e.g. "p HV load" is not a proper
-    # variable name because of the spaces). Therefore, a dict with themapping  from 
-    # parameter names to a list is required (e.g. {"p HV load": x[0],..)
+    # variable name because of the spaces). Therefore, a dict with the mapping  from 
+    # parameter names to a list is required (e.g. {"p HV load": x[0],..})
     par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
     # Then the parameter names are replaced in conditions. Note that there could be strings
     # inside conditions which should not be considered: For example, if there is condition
-    # control == 'control A', then only the parameter name 'control' should be replaced, not 
-    # the value which also contains 'control', i.e x[0] == 'control A'.
-    condition_splitted_strings = powfacpy.PFStringManipulation.replace_outside_of_strings_in_a_string(
+    # "control == 'control A'", then only the parameter name 'control' should be replaced, not 
+    # the value 'control A' which also contains 'control', i.e x[0] == 'control A'.
+    condition_strings_list = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
       conditions, par_name_to_list_mapping)
-    lambda_fun = "lambda x: " + "".join(condition_splitted_strings).strip()
+    lambda_fun = "lambda x: " + "".join(condition_strings_list).strip()
     # Going back to example in the docstring, we now have a lambda function string that can 
     # be executed: "lambda x: x[0] >= 2 and (x[1] == 'A' and x[2] != 'S')"
     lambda_fun = eval(lambda_fun)
@@ -416,6 +418,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       If there are two parameters "p HV load" and "control 1",
       the dictionary is
       {"p HV load": "x[0], "control 1": x[1]}
+      {"p HV load": "x[0]", "control 1": "x[1]"}
     """
     par_name_to_list_mapping = {}
     for par_num,par_name in enumerate(self.parameter_values.keys()):
