@@ -2,7 +2,9 @@ import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
 from itertools import product
-
+from os import getcwd
+from os import makedirs
+from os.path import join
 class PFStudyCases(powfacpy.PFBaseInterface):
   language = powfacpy.PFBaseInterface.language
 
@@ -417,5 +419,49 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       par_name_to_list_mapping[par_name] = "x[" + str(par_num) + "]"  
     return par_name_to_list_mapping
 
+  def export_results_of_study_cases(
+      self, 
+      export_dir=None, 
+      study_cases=None,
+      case_numbers=None,
+      results_obj="ElmRes",
+      results_variables_lists=None,):
+    """Export the simulation results (ElmRes) of the study cases to csv files. 
+    The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
+    Returns the full paths of the csv files.
 
+    Arguments:
+      - export_dir: directory for export (default is working directory)
+      - study_cases: study case objects
+      - case_numbers: corresponing study case numbers
+      - results_obj: string that used in GetFromStudyCase to get the ElmRes
+      - results_variables_lists: if only specific variables should be export (see also 
+          export_to_csv). By default all variables are exported.
+    """
 
+    # Get case objects and their corresponding numbers/indexes depending on input
+    if not study_cases and not case_numbers:
+      # Use all study cases
+      study_cases = self.study_cases
+      case_numbers = range(len(study_cases))
+    elif not case_numbers:
+      case_numbers = [self.get_study_case_number(case) for case in study_cases]
+    elif not study_cases:
+      study_cases = [self.study_cases[case_num] for case_num in case_numbers]  
+    
+    if not export_dir:
+      export_dir = getcwd() + "\\" + self.title 
+    makedirs(export_dir, exist_ok=True)   
+
+    csv_files_full_paths = []
+    for case_num,case in zip(case_numbers, study_cases):
+      case.Activate()
+      elmres = self.app.GetFromStudyCase(results_obj)
+      case_file_name = "case" + str(case_num)
+      self.export_to_csv(
+        export_dir,
+        case_file_name,
+        elmres,
+        results_variables_lists)
+      csv_files_full_paths.append(join(export_dir, case_file_name + ".csv"))
+    return csv_files_full_paths  
