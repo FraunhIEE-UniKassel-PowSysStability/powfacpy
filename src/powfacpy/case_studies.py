@@ -8,6 +8,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
 
   def __init__(self, app):
     super().__init__(app)
+    self.title = "Case_Studies"
     self.active_grids = None
     self.parameter_values = {}
     self.parameter_paths = {}
