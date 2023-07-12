@@ -452,7 +452,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       - leave_csv_file_unchanged: see export_to_csv    
     """
 
-    self.handle_study_case_objects_case_numbers_input(
+    study_cases,case_numbers = self.handle_study_case_objects_case_numbers_input(
       study_cases=None, 
       case_numbers=None) 
     
