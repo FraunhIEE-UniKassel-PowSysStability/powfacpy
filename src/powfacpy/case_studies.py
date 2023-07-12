@@ -444,7 +444,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     study_cases, case_numbers = self.handle_study_case_objects_case_numbers_input(
       study_cases=study_cases, 
       case_numbers=case_numbers) 
-    print(case_numbers)
+
     if not export_dir:
       export_dir = getcwd() + "\\" + self.title 
     makedirs(export_dir, exist_ok=True)   
