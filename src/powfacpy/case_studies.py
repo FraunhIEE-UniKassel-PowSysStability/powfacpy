@@ -302,6 +302,11 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     cases = self.get_study_cases(lambda_fun, return_case_numbers=return_case_numbers)
     return cases
 
+  def get_study_case_number(self, study_case):
+    """Returns the number (index) of a study case object.
+    """
+    return self.study_cases.index(study_case)
+
   def apply_permutation(self, omitted_combinations=None):
     """Replaces the values in 'parameter_values' with the permutation of
     their unique elements. 
