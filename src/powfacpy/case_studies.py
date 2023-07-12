@@ -425,7 +425,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       study_cases=None,
       case_numbers=None,
       results_obj="ElmRes",
-      results_variables_lists=None,):
+      results_variables_lists=None,
+      leave_csv_file_unchanged=False):
     """Export the simulation results (ElmRes) of the study cases to csv files. 
     The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
     Returns the full paths of the csv files.
@@ -437,6 +438,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       - results_obj: string that used in GetFromStudyCase to get the ElmRes
       - results_variables_lists: if only specific variables should be export (see also 
           export_to_csv). By default all variables are exported.
+      - leave_csv_file_unchanged: see export_to_csv    
     """
 
     # Get case objects and their corresponding numbers/indexes depending on input
@@ -462,6 +464,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         export_dir,
         case_file_name,
         elmres,
-        results_variables_lists)
+        results_variables_lists,
+        leave_csv_file_unchanged=leave_csv_file_unchanged)
       csv_files_full_paths.append(join(export_dir, case_file_name + ".csv"))
     return csv_files_full_paths  
