@@ -935,29 +935,36 @@ class PFStringManipulation:
       raise TypeError("Path must be of type string.")
   
   @staticmethod
-  def replace_outside_of_strings_in_a_string(string: str, replacements: dict):
+  def replace_outside_or_inside_of_strings_in_a_string(
+    string: str, 
+    replacements: dict,
+    outside=True):
     """This method replaces parts of a string but only in the sections
-    of the original string that are outside of strings. This is best
+    of the original string that are either outside of strings. This is best
     explained by example:
     "p HV load >= 2 and 'This is a string inside the string'"
     In this string the part 'This is a string inside the string'
-    is a string inside the original string and is no replacements are
+    is a string inside the original string and no replacements are
     made in this part.
 
     Arguments:
       - string: The string that will be adjusted
       - replacements: key-value pairs of matching strings and their replacement
     """
-    string = PFStringManipulation.split_but_keep_delimiter(string,"'")
+    if outside:
+      modulo_result = 0
+    else:
+      modulo_result = 1  
+    string = PFStringManipulation.split_but_keep_delimiter(string, "'")
     for n, part_of_string in enumerate(string):
-      if n % 2 == 0: # Even elemnts store the parts that are outside strings
+      if n % 2 == modulo_result: # Even elemnts store the parts that are outside strings
         for par_name,var_name in replacements.items():
           part_of_string = part_of_string.replace(par_name,var_name)	
           string[n] = part_of_string
     return "".join(string).strip()      
 
   @staticmethod
-  def split_but_keep_delimiter(string: str,delimiter: str):
+  def split_but_keep_delimiter(string: str, delimiter: str):
     """Uses the split() method to separate a string acoording
     to a delimiter, but keeps the delimiter in the
     separated strings (it is suprising that this is not optional
@@ -969,10 +976,10 @@ class PFStringManipulation:
       returns 
         ["p HV load >= 2 and (control 1 == '", "A'", " and control 2 != '", "S'", ')']
     """
-    splitted_strings = [part + delimiter 
+    split_strings_list = [part + delimiter 
       for part in string.split(delimiter)]
-    splitted_strings[-1] = splitted_strings[-1].rstrip(delimiter)
-    return splitted_strings
+    split_strings_list[-1] = split_strings_list[-1].rstrip(delimiter)
+    return split_strings_list
   
 
   
