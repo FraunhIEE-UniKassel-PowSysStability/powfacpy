@@ -1,7 +1,10 @@
 import pytest
 import sys
 import os
-sys.path.append(r'C:\Program Files\DIgSILENT\PowerFactory 2022 SP1\Python\3.10')
+import json
+settings_file = open('.\\settings.json')
+settings = json.load(settings_file)
+sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 sys.path.insert(0, r'.\src')
 import powfacpy 
