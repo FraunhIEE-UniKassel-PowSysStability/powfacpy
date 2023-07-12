@@ -441,15 +441,9 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       - leave_csv_file_unchanged: see export_to_csv    
     """
 
-    # Get case objects and their corresponding numbers/indexes depending on input
-    if not study_cases and not case_numbers:
-      # Use all study cases
-      study_cases = self.study_cases
-      case_numbers = range(len(study_cases))
-    elif not case_numbers:
-      case_numbers = [self.get_study_case_number(case) for case in study_cases]
-    elif not study_cases:
-      study_cases = [self.study_cases[case_num] for case_num in case_numbers]  
+    self.handle_study_case_objects_case_numbers_input(
+      study_cases=None, 
+      case_numbers=None) 
     
     if not export_dir:
       export_dir = getcwd() + "\\" + self.title 
@@ -468,3 +462,25 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         leave_csv_file_unchanged=leave_csv_file_unchanged)
       csv_files_full_paths.append(join(export_dir, case_file_name + ".csv"))
     return csv_files_full_paths  
+
+  def handle_study_case_objects_case_numbers_input(
+      self,
+      study_cases=None, 
+      case_numbers=None):
+    """Handles input for study case objects and case numbers/indexes.
+    Always returns BOTH study case objects and case numbers, independent from
+    the input.
+    Arguments:
+      If only study_cases are provided, case_numbers are inferred.
+      If only case_numbers are provided, study_cases are inferred.
+      If none are provided, all study cases and case_numbers are returned.
+    """
+    if not study_cases and not case_numbers:
+      # Use all study cases
+      study_cases = self.study_cases
+      case_numbers = range(len(study_cases))
+    elif not case_numbers:
+      case_numbers = [self.get_study_case_number(case) for case in study_cases]
+    elif not study_cases:
+      study_cases = [self.study_cases[case_num] for case_num in case_numbers] 
+    return study_cases, case_numbers   
