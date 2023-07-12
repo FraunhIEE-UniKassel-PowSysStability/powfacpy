@@ -281,7 +281,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
 
   def get_study_cases_from_string(self, conditions: str, return_case_numbers=False):
     """This method is another convenient way to get study cases according to conditions.
-    The condistions are a simple lambda function argument string (see example below).
+    The conditions are a simple lambda function argument string (see example below).
     This method is more convenient but less save than get_study_cases because the
     conditions string is evaluated and a lambda function is created from it. Using
     eval() statements is generally not recommended due to unforeseeable behavior.
@@ -291,12 +291,23 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         lambda function argument string: 
           Example: "p HV load >= 2 and (control 1 == 'A' and control 2 != 'S')"
       return_case_numbers: If True, not only study case objects, but also study case
-        numbers are returned as a tuple.    
+        numbers (indexes) are returned as a tuple.    
     """
+
+    # To create a lambda fcuntion from the conditions string, the parameter names need
+    # to be replaced by proper python variable names (e.g. "p HV load" is not a proper
+    # variable name because of the spaces). Therefore, a dict with themapping  from 
+    # parameter names to a list is required (e.g. {"p HV load": x[0],..)
     par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
+    # Then the parameter names are replaced in conditions. Note that there could be strings
+    # inside conditions which should not be considered: For example, if there is condition
+    # control == 'control A', then only the parameter name 'control' should be replaced, not 
+    # the value which also contains 'control', i.e x[0] == 'control A'.
     condition_splitted_strings = powfacpy.PFStringManipulation.replace_outside_of_strings_in_a_string(
       conditions, par_name_to_list_mapping)
     lambda_fun = "lambda x: " + "".join(condition_splitted_strings).strip()
+    # Going back to example in the docstring, we now have a lambda function string that can 
+    # be executed: "lambda x: x[0] >= 2 and (x[1] == 'A' and x[2] != 'S')"
     lambda_fun = eval(lambda_fun)
     cases = self.get_study_cases(lambda_fun, return_case_numbers=return_case_numbers)
     return cases
