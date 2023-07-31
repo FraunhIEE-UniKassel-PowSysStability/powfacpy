@@ -105,12 +105,12 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     else:
       return values
 
-  def get_values_of_all_parameters_for_case(self,case_obj_or_case_num):
+  def get_values_of_all_parameters_for_case(self, case_obj_or_case_num):
     parameter_values = []
     case_num = self.handle_case_input(case_obj_or_case_num)
     for par_name in self.parameter_values.keys():
       parameter_values.append(
-        self.get_value_of_parameter_for_case(par_name,case_num))
+        self.get_value_of_parameter_for_case(par_name, case_num))
     return parameter_values  
 
   def handle_case_input(self, case_obj_or_case_num):
