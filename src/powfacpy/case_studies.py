@@ -2,12 +2,15 @@ import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
 from itertools import product
-
+from os import getcwd
+from os import makedirs
+from os.path import join
 class PFStudyCases(powfacpy.PFBaseInterface):
   language = powfacpy.PFBaseInterface.language
 
   def __init__(self, app):
     super().__init__(app)
+    self.title = "Case_Studies"
     self.active_grids = None
     self.parameter_values = {}
     self.parameter_paths = {}
@@ -102,12 +105,12 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     else:
       return values
 
-  def get_values_of_all_parameters_for_case(self,case_obj_or_case_num):
+  def get_values_of_all_parameters_for_case(self, case_obj_or_case_num):
     parameter_values = []
     case_num = self.handle_case_input(case_obj_or_case_num)
     for par_name in self.parameter_values.keys():
       parameter_values.append(
-        self.get_value_of_parameter_for_case(par_name,case_num))
+        self.get_value_of_parameter_for_case(par_name, case_num))
     return parameter_values  
 
   def handle_case_input(self, case_obj_or_case_num):
@@ -314,6 +317,11 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     cases = self.get_study_cases(lambda_fun, return_case_numbers=return_case_numbers)
     return cases
 
+  def get_study_case_number(self, study_case):
+    """Returns the number (index) of a study case object.
+    """
+    return self.study_cases.index(study_case)
+
   def apply_permutation(self, omitted_combinations=None):
     """Replaces the values in 'parameter_values' with the permutation of
     their unique elements. 
@@ -425,5 +433,69 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       par_name_to_list_mapping[par_name] = "x[" + str(par_num) + "]"  
     return par_name_to_list_mapping
 
+  def export_results_of_study_cases(
+      self, 
+      export_dir=None, 
+      study_cases=None,
+      case_numbers=None,
+      results_obj="ElmRes",
+      results_variables_lists=None,
+      leave_csv_file_unchanged=False):
+    """Export the simulation results (ElmRes) of the study cases to csv files. 
+    The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
+    Returns the full paths of the csv files.
 
+    Arguments:
+      - export_dir: directory for export (default is working directory)
+      - study_cases: study case objects
+      - case_numbers: corresponing study case numbers
+      - results_obj: string that is used in GetFromStudyCase to get the ElmRes object (e.g. 
+        'self.app.GetFromStudyCase("ElmRes")' )
+      - results_variables_lists: if only specific variables should be export (see also 
+          export_to_csv). By default all variables are exported.
+      - leave_csv_file_unchanged: see export_to_csv    
+    """
 
+    study_cases, case_numbers = self.handle_study_case_objects_case_numbers_input(
+      study_cases=study_cases, 
+      case_numbers=case_numbers) 
+
+    if not export_dir:
+      export_dir = getcwd() + "\\" + self.title 
+    makedirs(export_dir, exist_ok=True)   
+
+    csv_files_full_paths = []
+    for case_num,case in zip(case_numbers, study_cases):
+      case.Activate()
+      elmres = self.app.GetFromStudyCase(results_obj)
+      case_file_name = "case" + str(case_num)
+      self.export_to_csv(
+        export_dir,
+        case_file_name,
+        elmres,
+        results_variables_lists,
+        leave_csv_file_unchanged=leave_csv_file_unchanged)
+      csv_files_full_paths.append(join(export_dir, case_file_name + ".csv"))
+    return csv_files_full_paths  
+
+  def handle_study_case_objects_case_numbers_input(
+      self,
+      study_cases=None, 
+      case_numbers=None):
+    """Handles input for study case objects and case numbers/indexes.
+    Always returns BOTH study case objects and case numbers, independent from
+    the input.
+    Arguments:
+      If only study_cases are provided, case_numbers are inferred.
+      If only case_numbers are provided, study_cases are inferred.
+      If none are provided, all study cases and case_numbers are returned.
+    """
+    if not study_cases and not case_numbers:
+      # Use all study cases
+      study_cases = self.study_cases
+      case_numbers = range(len(study_cases))
+    elif not case_numbers:
+      case_numbers = [self.get_study_case_number(case) for case in study_cases]
+    elif not study_cases:
+      study_cases = [self.study_cases[case_num] for case_num in case_numbers] 
+    return study_cases, case_numbers   
