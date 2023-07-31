@@ -435,7 +435,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       - export_dir: directory for export (default is working directory)
       - study_cases: study case objects
       - case_numbers: corresponing study case numbers
-      - results_obj: string that used in GetFromStudyCase to get the ElmRes
+      - results_obj: string that is used in GetFromStudyCase to get the ElmRes object (e.g. 
+        'self.app.GetFromStudyCase("ElmRes")' )
       - results_variables_lists: if only specific variables should be export (see also 
           export_to_csv). By default all variables are exported.
       - leave_csv_file_unchanged: see export_to_csv    
