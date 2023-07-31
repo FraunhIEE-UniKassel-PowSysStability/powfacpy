@@ -271,6 +271,28 @@ def test_create_comtrade_obj(pfbi, activate_test_project):
     intcomtrade.Load()
     assert(intcomtrade.FindColumn("AC Voltage Source:m:u:bus1:A") == 1)
 
+def test_replace_outside_or_inside_of_strings_in_a_string(pfbi, activate_test_project):
+    conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' control 1"
+    conditions = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+	    conditions, {"control 1": "x[1]"})    
+    assert(conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1' x[1]")
+
+    conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1'"
+    conditions = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+	    conditions, {"control 1": "x[1]"})    
+    assert(conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1'")
+
+    conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' "
+    conditions = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+	    conditions, {"control 1": "x[1]"})    
+    assert(conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1'")
+
+    conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' "
+    conditions = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+	    conditions, {"control 1": "x[1]"}, outside=False)    
+    assert(conditions == "lorem ipsum control 1 == 'ABC x[1]' 'x[1]'")
+
+
 if __name__ == "__main__":
-    pytest.main(([r"tests\test_base_interface.py"]))
+    pytest.main([r"tests\test_base_interface.py"])
     # pytest.main(([r"tests"]))

@@ -102,6 +102,14 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     else:
       return values
 
+  def get_values_of_all_parameters_for_case(self,case_obj_or_case_num):
+    parameter_values = []
+    case_num = self.handle_case_input(case_obj_or_case_num)
+    for par_name in self.parameter_values.keys():
+      parameter_values.append(
+        self.get_value_of_parameter_for_case(par_name,case_num))
+    return parameter_values  
+
   def handle_case_input(self, case_obj_or_case_num):
     """Accepts PF study case object or integer.
     If the input is a PF object, the corresponding case number is returned,
@@ -219,29 +227,91 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       if value is not None:
         self.set_attr_by_path(path, value)  
 
-  def get_study_cases(self, conditions):
+  def get_study_cases(self, conditions, return_case_numbers=False):
     """Retrieve study case objects depending on parameter values.
     Arguments:
-      conditions: A dictionary with
-        keys: parameter names
-        values: lambda function with boolean return value depending on 
-          parameter (key)
+      conditions: 
+        Either a dictionary with
+          keys: parameter names
+          values: lambda functions with boolean return value depending on 
+            parameter (key)
+        or a single lambda function that accepts an iterable containing all 
+        parameters.
+          Example: lambda x: x[0] >= 2 and x[2] == 'A'
+          Note that the order of the parameters in x must be the same as the
+          order of the keys in self.parameter_values.
     Returns the study case objects whose parameters fullfill the conditions.
+    If return_case_numbers is True, a tuple including the case numbers is returned.
 
-    Example:
+    Example 1:
       get_study_cases({"par1": lambda x: x == 2, "par2": lambda x: x>0})
         This returns the study cases for which 'par1' equals 2 and 'par2' is 
-        positive.       
+        positive. 
+    Example 2 (lambda function): 
+      get_study_cases(lambda x: x[0] >= 2 and x[2] == 'A')          
     """
-    cases = []
-    for case_num, case_obj in enumerate(self.study_cases):
-      conditions_fullfiled = True
-      for parameter, condition in conditions.items():
-        if not condition(self.get_value_of_parameter_for_case(parameter, case_num)):
-          conditions_fullfiled = False
-          break
-      if conditions_fullfiled:
-        cases.append(case_obj)
+    cases_objects = []
+    if return_case_numbers:
+      case_numbers = []
+    # Dictionary with conditions for parameters  
+    if isinstance(conditions, dict):
+      for case_num, case_obj in enumerate(self.study_cases):
+        conditions_fullfiled = True
+        for parameter, condition in conditions.items():
+          if not condition(self.get_value_of_parameter_for_case(parameter, case_num)):
+            conditions_fullfiled = False
+            break
+        if conditions_fullfiled:
+          cases_objects.append(case_obj)
+          if return_case_numbers:
+            case_numbers.append(case_num)
+    # Callables (e.g. lambda function for all parameters)      
+    elif callable(conditions):
+      for case_num, case_obj in enumerate(self.study_cases):
+        parameter_values = self.get_values_of_all_parameters_for_case(case_num)
+        if conditions(parameter_values):
+          cases_objects.append(case_obj)
+          if return_case_numbers:
+            case_numbers.append(case_num)
+    else:
+      raise ValueError("conditions must be a dictionary or a callable.") 
+    if not return_case_numbers:     
+      return cases_objects 
+    else:
+      return cases_objects, case_numbers
+
+  def get_study_cases_from_string(self, conditions: str, return_case_numbers=False):
+    """This method is another convenient way to get study cases according to conditions.
+    The conditions are a simple lambda function argument string (see example below).
+    This method is more convenient but less safe than get_study_cases because the
+    conditions string is evaluated and a lambda function is created from it. Using
+    eval() statements is generally not recommended due to unforeseeable behavior.
+    However, for convenience, it is used here.
+
+    Arguments:
+      conditions: 
+        lambda function argument string: 
+          Example: "p HV load >= 2 and (control 1 == 'A' and control 2 != 'S')"
+      return_case_numbers: If True, not only study case objects, but also study case
+        numbers (indexes) are returned as a tuple.    
+    """
+
+    # To create a lambda function from the conditions string, the parameter names need
+    # to be replaced by proper python variable names (e.g. "p HV load" is not a proper
+    # variable name because of the spaces). Therefore, a dict with the mapping  from 
+    # parameter names to a list is required (e.g. {"p HV load": x[0],..})
+    par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
+    # Then the parameter names are replaced in conditions. Note that there could be strings
+    # inside conditions which should not be considered: For example, if there is condition
+    # "control == 'control A'", then only the parameter name 'control' should be replaced, not 
+    # the value 'control A' which also contains 'control', i.e x[0] == 'control A'.
+    condition_strings_list = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+      conditions, par_name_to_list_mapping)
+    lambda_fun = "lambda x: " + "".join(condition_strings_list).strip()
+    # Going back to example in the docstring, we now have a lambda function string that can 
+    # be executed: "lambda x: x[0] >= 2 and (x[1] == 'A' and x[2] != 'S')"
+    lambda_fun = eval(lambda_fun)
+    cases = self.get_study_cases(lambda_fun, return_case_numbers=return_case_numbers)
     return cases
 
   def apply_permutation(self, omitted_combinations=None):
@@ -340,4 +410,20 @@ class PFStudyCases(powfacpy.PFBaseInterface):
           parent_folder=parent_folder,
           error_if_non_existent=False,
           include_subfolders=True)  
+        
+  def _get_parameter_name_to_list_mapping(self):
+    """Returns a dictionary that maps the parameters to
+    a list including indexing.
+    Example:
+      If there are two parameters "p HV load" and "control 1",
+      the dictionary is
+      {"p HV load": "x[0], "control 1": x[1]}
+      {"p HV load": "x[0]", "control 1": "x[1]"}
+    """
+    par_name_to_list_mapping = {}
+    for par_num,par_name in enumerate(self.parameter_values.keys()):
+      par_name_to_list_mapping[par_name] = "x[" + str(par_num) + "]"  
+    return par_name_to_list_mapping
+
+
 
