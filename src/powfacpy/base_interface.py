@@ -268,7 +268,18 @@ class PFBaseInterface:
     return objects_true
   
   def get_path_of_object(self, obj):
+    """
+    Returns path relative to active project without class names.
+    """
     return PFStringManipulation._format_full_path(str(obj), self)
+
+  def get_path_of_object_with_class_names(self, obj):
+    obj = self.handle_single_pf_object_or_path_input(obj)
+    return str(obj)
+
+  def get_path_of_obj_with_class_names_relative_to_project(self, obj):
+    obj = self.handle_single_pf_object_or_path_input(obj)
+    return PFStringManipulation._get_path_inside_project_from_full_path(str(obj), self)
 
   def get_attr(self, obj, attr, parent_folder=None):
     """Get the value of an attribute of an object.
@@ -899,16 +910,32 @@ class PFStringManipulation:
     return PFStringManipulation.replace_between_characters('.','\\','\\', path)
 
   @staticmethod
-  def _format_full_path(path, pf_interface):
+  def _get_path_inside_project_from_full_path(path: str, pf_interface):
     """
     Takes the full path (including user and project) and returns the path 
     relative to the currently active project.
     Example:
+      input path:  \\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm</l3>
+      output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
+    """
+    project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
+    path = path[path.find(project_name)+len(project_name):] 
+    # In case a closing tag occurs at the end of the path </l3> (e.g. when 
+    # str() is called on a PF object, make sure this is removed.
+    if path[-1] == ">":
+      path = path[0:path.rfind("<")]
+    return path 
+
+  @staticmethod
+  def _format_full_path(path, pf_interface):
+    """
+    Takes the full path (including user and project) and returns the path 
+    relative to the currently active project. Deletes class information.
+    Example:
       input path:  \\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
       output: Network Model\\Network Data\\Grid\\Terminal 1 
     """
-    project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
-    path = path[path.find(project_name)+len(project_name):]
+    path = PFStringManipulation._get_path_inside_project_from_full_path(path, pf_interface)
     return PFStringManipulation._remove_class_names(path)
   
   @staticmethod
