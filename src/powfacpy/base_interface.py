@@ -888,7 +888,7 @@ class PFStringManipulation:
         powfacpy.PFStringManipulation.replace_between_characters(
           '.', 
           '\\', 
-          '', 
+          '\\', 
           'username.IntUser\\pow.facpy.\\powfacpy.tests.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_base_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm'
       would give the output:
         'username\\pow.facpy\\powfacpy.tests\\Network Model\\Network Data\\test_base_interface\\Grid\\Terminal HV 1' 
