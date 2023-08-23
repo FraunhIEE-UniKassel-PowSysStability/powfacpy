@@ -919,12 +919,16 @@ class PFStringManipulation:
       output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
-    path = path[path.find(project_name)+len(project_name):] 
+    path = PFStringManipulation.truncate_until_string(path, project_name) 
     # In case a closing tag occurs at the end of the path </l3> (e.g. when 
     # str() is called on a PF object, make sure this is removed.
     if path[-1] == ">":
       path = path[0:path.rfind("<")]
     return path 
+
+  @staticmethod
+  def truncate_until_string(original: str, string_pattern:str):
+    return original[original.find(string_pattern)+len(string_pattern):]
 
   @staticmethod
   def _format_full_path(path, pf_interface):
