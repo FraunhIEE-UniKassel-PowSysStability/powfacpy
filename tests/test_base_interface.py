@@ -292,7 +292,13 @@ def test_replace_outside_or_inside_of_strings_in_a_string(pfbi, activate_test_pr
 	    conditions, {"control 1": "x[1]"}, outside=False)    
     assert(conditions == "lorem ipsum control 1 == 'ABC x[1]' 'x[1]'")
 
+def test_get_path_of_object(pfbi, activate_test_project):
+    path = "Network Model\\Network Data\\test_base_interface\\Grid\\Line 1.2"
+    line = pfbi.get_unique_obj(path)    
+    path_derived = pfbi.get_path_of_object(line)
+    print(path_derived)
+    assert (path==path_derived)
 
 if __name__ == "__main__":
-    pytest.main([r"tests\test_base_interface.py"])
+    pytest.main([r"tests\test_base_interface.py::test_get_path_of_object"])
     # pytest.main(([r"tests"]))
