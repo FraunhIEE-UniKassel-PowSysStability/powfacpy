@@ -1,3 +1,14 @@
+"""
+Use cases:
+- standard parameters for models/controllers
+- check if model was changed
+
+ToDo:
+- search for ToDo in this file
+- json export/import
+"""
+
+
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
@@ -13,25 +24,62 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       self,
       objs,
       class_attributes: dict = None,
-      relative_path: str = "") -> dict:
+      relative_path: str = "",
+      pf_obj_handling: str ="path") -> dict:
     """
+    Get dictionary with attributes of objects.
+    The keys of the dictionary are the paths of the objects.
+    The values are dictionaries keys (attribute names) and values (attribute
+    values), see "example return dict" below. 
     
+    ToDo: pf_obj_handling="path"
+    
+    Arguments:
+      - objs: Iterable with PF objects
+      - class_attributes: dictionary with keys (class names) and values 
+        (iterable with attribute names). To control which attributes are 
+        relevant for a class. The class names can contain wildcards ("*").
+        Example:
+          {
+            "ElmTr2": ["typ_id"],
+            "*": ["loc_name", ],
+            "ElmVac": ["bus1", "outserv"],    
+          }
+          -> "loc_name" is relevant for every class
+      - relative_path: If specified, this relative path is truncated from the keys (object paths)
+        Example: relative_path = "Network Model\\Network Data"
+          -> Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac"
+          becomes "test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac" (first part truncated)
+    
+          
+    Example return dict:
+     {
+     "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac": {
+          "loc_name": "AC Voltage Source",
+          "bus1": "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic",
+          "outserv": 0
+     },
+     "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic": {
+          "loc_name": "Cub_1"
+     },
+     }
     """
     if not class_attributes:
-      class_attributes = {"*":[]}
-    if relative_path:
+      class_attributes = {"*": []} # no relevant attributes -> get only keys (object paths)
+    if relative_path: # include class names in relative_part
       relative_path = self.get_path_of_obj_with_class_names_relative_to_project(relative_path)  
-    
+
     obj_attr_dict = {}
     for obj in objs:
       obj_path = self.get_path_of_obj_with_class_names_relative_to_project(obj)
-      if relative_path:
-        obj_path = obj_path[obj_path.find(relative_path)+len(relative_path)+1:]
+      if relative_path: 
+        obj_path = powfacpy.PFStringManipulation.truncate_until_string(relative_path + "\\") 
       obj_attr_dict[obj_path] = {}
       for class_name in class_attributes.keys():
         if fnmatchcase(obj.GetClassName(), class_name):
           for attr in class_attributes[class_name]:
-            obj_attr_dict[obj_path][attr] = self._handle_attribute_type_for_reading(obj,attr)
+            obj_attr_dict[obj_path][attr] = self._handle_attribute_type_for_reading(
+              obj, attr, pf_obj_handling)
     return obj_attr_dict
   
   def set_object_attributes(
@@ -39,7 +87,14 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       obj_attr_dict: dict,
       relative_path: str = ""):
     """
-    
+    Takes a dict with keys (object paths) and values (dict with attributes 
+    and their values) and writes the data to the PF database.
+    (the dict can be created e.g. with 'get_object_attributes')
+
+    Arguments:
+      - obj_attr_dict: data
+      - relative_path: Assumes that the object paths are relative paths.
+        Adds relative_path to the paths. 
     """
     for obj, attr_key_val in obj_attr_dict.items():
       if relative_path:
@@ -48,34 +103,46 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       for attr, value in attr_key_val.items():
         if isinstance(value, str):
           if not isinstance(obj.GetAttributeType(attr), str):
-            print(attr)
-            print(value)
             value_pf_obj = self.get_unique_obj(value, error_if_non_existent=False)
-            
             if value_pf_obj:
-              print(value_pf_obj)
-              value = value_pf_obj 
-              
+              value = value_pf_obj    
         self.set_attr(obj, {attr: value})  
 
   def _handle_attribute_type_for_reading(
       self,
       obj,
-      attr,
+      attr: str,
       pf_obj_handling="path",
       relative_path=""):
+    """
+    Offers various ways to handle attributes which are PF objects when
+    reading from the PF database.
+    PF objects can be read as
+      - a PF object (pf_obj_handling="original_pf_obj")
+      - the path of the object (pf_obj_handling="path")
+      
+    Arguments:
+      - obj: PF object
+      - attr: Attribute of the object
+      - pf_obj_handling: see above
+      - relative_path: pf_obj_handling="path", then this relative_path is truncated
+    """
     attr_value = self.get_attr(obj,attr)
     if isinstance(attr_value, (str, int, float)) or not attr_value:
       return attr_value
-    else:
+    else: # Then it must be a PF object
       if pf_obj_handling == "path":
         if relative_path:
           relative_path = self.get_path_of_obj_with_class_names_relative_to_project(relative_path)    
         return self.get_path_of_obj_with_class_names_relative_to_project(attr_value)
       elif pf_obj_handling == "original_pf_obj":
         return attr_value 
-      
+
+
+  # Todo: define standard class attributes
   def get_standard_class_attributes():
     return {
       "ElmTerm": ["Unom"]  
     }
+  
+  
