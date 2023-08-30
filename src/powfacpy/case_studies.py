@@ -45,6 +45,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     according to 'hierarchy') using parameter-value strings for the
     study cases (and folder names). 
     """
+    self.study_cases = []
     number_of_cases = len(next(iter(self.parameter_values.values())))
     if self.base_study_case:
       self.base_study_case = self.handle_single_pf_object_or_path_input(
