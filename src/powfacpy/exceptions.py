@@ -46,7 +46,7 @@ class PFNonExistingObjectError(PFInterfaceError):
   """Attempt to access PF object that does not exist.
   """
   def __init__(self, folder, obj, condition=False, include_subfolders=False):
-    folder_str = powfacpy.PFStringManipulation.delete_classes(str(folder))
+    folder_str = powfacpy.PFStringManipulation._remove_class_names(str(folder))
     if include_subfolders:
       msg_subfolder = " (and its subfolders)"
     else:
