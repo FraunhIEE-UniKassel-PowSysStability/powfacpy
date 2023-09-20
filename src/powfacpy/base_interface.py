@@ -501,7 +501,8 @@ class PFBaseInterface:
   def copy_obj(self, obj_or_path, target_folder, overwrite=True, condition=None,
     parent_folder=None, error_if_non_existent=True, include_subfolders=False):
     """Copies object(s) by using 'get_obj' in first step and then copying 
-    the returned objects to 'target_folder'.
+    the returned objects to 'target_folder'. Source and target must be in 
+    the active project (otherwise use PasteCopy(), see scripting reference).
     The argument 'parent_folder' refers to the source folder and is used in
     combination with 'obj_or_path' to get the object(s) to be copied.
     If 'overwrite' is True, existing objects with the same name are overwritten
@@ -522,11 +523,13 @@ class PFBaseInterface:
       for object_to_be_copied in obj:
         self.delete_obj(object_to_be_copied.GetAttribute("loc_name"),
           parent_folder=target_folder, error_if_non_existent=False)
-    target_folder.AddCopy(obj)
-    if isinstance(obj, Iterable):
-      return obj
-    else:
-      return [obj]
+    # AddCopy() accepts a list of objects, but then it returns the target
+    # folder object and not the copied objects. Therefore, it is iterated through the
+    # objects.
+    copied_obj = []
+    for o in obj:
+      copied_obj.append(target_folder.AddCopy(o))    
+    return copied_obj
 
   def copy_single_obj(self, obj_or_path, target_folder, overwrite=True,
     new_name=None, parent_folder=None, error_if_non_existent=True):
