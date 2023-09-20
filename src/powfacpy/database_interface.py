@@ -1,11 +1,12 @@
 """
-Use cases:
-- standard parameters for models/controllers
-- check if model was changed
+The database interface is helpful to interact with larger numbers
+of PF objects in the database (getting, setting, storing or comparing
+attributes).
+One use case is for example to define a set of standard parameters for a
+larger model. Using the interface, one can easily get, store (e.g. in a json file)
+and later reset a set of parameters.
 
-ToDo:
-- search for ToDo in this file
-- json export/import
+ToDo: Add tutorial for this interface (when there is more functionality).
 """
 
 
@@ -32,8 +33,6 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     The values are dictionaries with keys (attribute names) and values (attribute
     values), see "example return dict" below. 
     
-    ToDo: pf_obj_handling="path"
-    
     Arguments:
       - objs: Iterable with PF objects
       - class_attributes: dictionary with keys (class names) and values 
@@ -50,7 +49,8 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
         Example: relative_path = "Network Model\\Network Data"
           -> Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac"
           becomes "test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac" (first part truncated)
-    
+      - pf_obj_handling: If the value of an attribute is a PF object, there are several options on 
+        how to read the attribute (please see _handle_attribute_type_for_reading)
           
     Example return dict:
      {
@@ -77,7 +77,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
           obj_path,relative_path + "\\") 
       obj_attr_dict[obj_path] = {}
       for class_name in class_attributes.keys():
-        if fnmatchcase(obj.GetClassName(), class_name):
+        if fnmatchcase(obj.GetClassName(), class_name): # fnmatch allows to use wildcards ("*")
           for attr in class_attributes[class_name]:
             obj_attr_dict[obj_path][attr] = self._handle_attribute_type_for_reading(
               obj, attr, pf_obj_handling)
@@ -103,7 +103,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       obj = self.get_unique_obj(obj)
       for attr, value in attr_key_val.items():
         if isinstance(value, str):
-          if not isinstance(obj.GetAttributeType(attr), str):
+          if not isinstance(obj.GetAttributeType(attr), str): # Then a PF objeczt is expected
             value_pf_obj = self.get_unique_obj(value, error_if_non_existent=False)
             if value_pf_obj:
               value = value_pf_obj    
