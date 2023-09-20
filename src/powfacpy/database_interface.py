@@ -29,7 +29,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     """
     Get dictionary with attributes of objects.
     The keys of the dictionary are the paths of the objects.
-    The values are dictionaries keys (attribute names) and values (attribute
+    The values are dictionaries with keys (attribute names) and values (attribute
     values), see "example return dict" below. 
     
     ToDo: pf_obj_handling="path"
@@ -73,7 +73,8 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     for obj in objs:
       obj_path = self.get_path_of_obj_with_class_names_relative_to_project(obj)
       if relative_path: 
-        obj_path = powfacpy.PFStringManipulation.truncate_until_string(relative_path + "\\") 
+        obj_path = powfacpy.PFStringManipulation.truncate_until_string(
+          obj_path,relative_path + "\\") 
       obj_attr_dict[obj_path] = {}
       for class_name in class_attributes.keys():
         if fnmatchcase(obj.GetClassName(), class_name):
