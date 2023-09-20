@@ -962,7 +962,7 @@ class PFStringManipulation:
     return path 
 
   @staticmethod
-  def truncate_until(original: str, string_pattern:str):
+  def truncate_until(original: str, string_pattern: str):
     """
     Truncate all characters until (and including) the occurence of string_pattern
     in original.
@@ -970,13 +970,13 @@ class PFStringManipulation:
     return original[original.find(string_pattern)+len(string_pattern):]   
 
   @staticmethod
-  def truncate_beginning(original: str, string_pattern:str):
+  def truncate_beginning(original: str, string_pattern: str):
     """
     Truncate string_pattern if it occurs at the beginning of the
-    original string.
+    original string. Otherwise return original string.
     """
     index_where_pattern_begins = original.find(string_pattern)
-    if index_where_pattern_begins > 0:
+    if index_where_pattern_begins == 0:
       return original[index_where_pattern_begins+len(string_pattern):]
     else:
       return original
