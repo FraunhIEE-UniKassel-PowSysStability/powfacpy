@@ -53,16 +53,16 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
         how to read the attribute (please see _handle_attribute_type_for_reading)
           
     Example return dict:
-     {
-     "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac": {
-          "loc_name": "AC Voltage Source",
-          "bus1": "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic",
-          "outserv": 0
-     },
-     "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic": {
-          "loc_name": "Cub_1"
-     },
-     }
+    {
+      "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac": {
+            "loc_name": "AC Voltage Source",
+            "bus1": "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic",
+            "outserv": 0
+      },
+      "Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm\\Cub_1.StaCubic": {
+            "loc_name": "Cub_1"
+      },
+    }
     """
     if not class_attributes:
       class_attributes = {"*": []} # no relevant attributes -> get only keys (object paths)
