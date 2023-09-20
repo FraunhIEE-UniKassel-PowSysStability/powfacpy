@@ -73,7 +73,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     for obj in objs:
       obj_path = self.get_path_of_obj_with_class_names_relative_to_project(obj)
       if relative_path: 
-        obj_path = powfacpy.PFStringManipulation.truncate_until_string(
+        obj_path = powfacpy.PFStringManipulation.truncate_beginning(
           obj_path,relative_path + "\\") 
       obj_attr_dict[obj_path] = {}
       for class_name in class_attributes.keys():

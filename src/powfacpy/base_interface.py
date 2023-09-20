@@ -954,16 +954,32 @@ class PFStringManipulation:
       output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
-    path = PFStringManipulation.truncate_until_string(path, project_name) 
+    path = PFStringManipulation.truncate_until(path, project_name) 
     # In case a closing tag occurs at the end of the path </l3> (e.g. when 
-    # str() is called on a PF object, make sure this is removed.
+    # str() is called on a PF object) make sure this is removed.
     if path[-1] == ">":
       path = path[0:path.rfind("<")]
     return path 
 
   @staticmethod
-  def truncate_until_string(original: str, string_pattern:str):
-    return original[original.find(string_pattern)+len(string_pattern):]
+  def truncate_until(original: str, string_pattern:str):
+    """
+    Truncate all characters until (and including) the occurence of string_pattern
+    in original.
+    """
+    return original[original.find(string_pattern)+len(string_pattern):]   
+
+  @staticmethod
+  def truncate_beginning(original: str, string_pattern:str):
+    """
+    Truncate string_pattern if it occurs at the beginning of the
+    original string.
+    """
+    index_where_pattern_begins = original.find(string_pattern)
+    if index_where_pattern_begins > 0:
+      return original[index_where_pattern_begins+len(string_pattern):]
+    else:
+      return original
 
   @staticmethod
   def _format_full_path(path, pf_interface):
