@@ -303,6 +303,13 @@ def test_get_path_of_object(pfbi, activate_test_project):
     print(path_derived)
     assert (path==path_derived)
 
+def test_get_upstream_object(pfbi, activate_test_project):
+    pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                      lambda x: x.loc_name == "Grid")
+    with pytest.raises(Exception):
+        pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                        lambda x: x.loc_name == "wrong name") 
+
 if __name__ == "__main__":
-    pytest.main([r"tests\test_base_interface.py::test_get_path_of_object"])
+    pytest.main([r"tests\test_base_interface.py"])
     # pytest.main(([r"tests"]))
