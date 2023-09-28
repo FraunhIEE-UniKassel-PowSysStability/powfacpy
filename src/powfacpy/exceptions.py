@@ -18,6 +18,14 @@ class PFAttributeError(PFInterfaceError):
     self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
     super().__init__(self.message)
 
+class PFObjectAttributeTypeError(PFInterfaceError):
+  """Unexpected type of a PF object attribute (e.g. 'None' type).
+  """
+  def __init__(self, obj, msg_raised, pf_base_interface):
+    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), pf_base_interface)
+    self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
+    super().__init__(self.message) 
+     
 class PFAttributeTypeError(PFInterfaceError):
   """Attempt to set an invalid type for the attribute of a PF object.
   """
