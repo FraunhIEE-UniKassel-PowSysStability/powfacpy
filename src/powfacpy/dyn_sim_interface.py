@@ -190,11 +190,11 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
                         rows,
                         array_num=None,
                         size_included_in_array=True): 
-    """Set the array of DSL object ('Advanced 1' tab).
+    """Set the array of a DSL object ('Advanced 1' tab).
     The array_num specifies which array is set (if None,
     all arrays/colums are set).
     If size_included_in_array=True, the first row (where the size
-    of the array is spedified) is included.
+    of the array is specified) is included.
     """  
     if not size_included_in_array:
       if not array_num:

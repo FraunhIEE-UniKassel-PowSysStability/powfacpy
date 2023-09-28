@@ -1,7 +1,5 @@
 import pytest
 import sys
-sys.path.append(r'C:\Program Files\DIgSILENT\PowerFactory 2022 SP1\Python\3.10')
-import powerfactory
 sys.path.insert(0, r'.\src')
 import powfacpy 
 import importlib
@@ -16,7 +14,7 @@ def pfsim(pf_app):
     return powfacpy.PFDynSimInterface(pf_app)   
 
 def test_export_to_csv(pfsim, activate_test_project):
-    export_dir = getcwd()
+    export_dir = getcwd() + r"\tests\tests_output"
     file_name = "test_results"
     study_case = pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case")
     study_case.Activate()
