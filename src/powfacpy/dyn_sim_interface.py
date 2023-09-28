@@ -62,6 +62,129 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     event_obj = self.create_in_folder(parent_folder, name_incl_class, overwrite=overwrite)
     self.set_attr(event_obj, params)  
 
+  def get_dsl_model_parameter_names(self, dsl_model):
+    """
+    Get the parameter names of the block definition (BlkDef)
+    of a dsl model.
+    """
+    dsl_model = self.handle_single_pf_object_or_path_input(dsl_model)
+    try: 
+      parameter_names = dsl_model.typ_id.sParams
+      if parameter_names:
+        return parameter_names[0].split(",")
+    except AttributeError:
+      msg = "Attribute 'typ_id' is of type 'None'"
+      raise powfacpy.PFObjectAttributeTypeError(dsl_model, msg, self)
+  
+  def get_dsl_models_inside_composite_model(self, composite_model):
+    return self.get_obj("*.ElmDsl", 
+                        parent_folder=composite_model,
+                        include_subfolders=True)
+  
+  def get_parameters_of_dsl_models_in_composite_model(
+      self, 
+      composite_model,
+      single_dict_for_all_dsl_models = False,
+      ):
+    """
+    Returns a dictionary with the parameter names (of the block definition) 
+    and values of all dsl models inside a composite model.
+    dsl lookup varibales (e.g. 'array_*', 'omatrix_*',.. ) are ignored.
+    
+    Arguments:
+      composite_model: ElmComp or its path
+      single_dict_for_all_dsl_models: 
+        - If true, a single dictionary with the parameters of all dsl models is 
+        returned (no distinction is made between the dsl models). 
+        This assumes that a parameter that occurs in several dsl
+        models has the same value.
+        Example: {"a": 1, "b":0, "c":2}
+        - If false, the returned dictionary contains dictionaries for each dsl model.
+        Example:
+          {
+          "controller_a": {"a": 1, "b":0}
+          "controller_b": {"a": 5, "c":2}
+          } 
+    """
+    composite_model = self.handle_single_pf_object_or_path_input(composite_model)
+    dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+    all_models_params_dict = {}
+    for dsl_model in dsl_models:
+      parameter_names_incl_dsl_lookup = self.get_dsl_model_parameter_names(dsl_model)
+      # Ignore dsl lookup arrays/matrices
+      parameter_names = []
+      if parameter_names_incl_dsl_lookup:
+        for parameter_name in parameter_names_incl_dsl_lookup:
+          if not PFDynSimInterface.is_dsl_lookup_arrays_and_matrices_name(parameter_name):
+            parameter_names.append(parameter_name)
+              
+      if parameter_names:       
+        parameter_names_and_values = self.get_attr(
+          dsl_model, 
+          parameter_names)
+        if single_dict_for_all_dsl_models: 
+          all_models_params_dict = {**all_models_params_dict, 
+                                    **parameter_names_and_values}
+        else:
+          all_models_params_dict[dsl_model.loc_name] = parameter_names_and_values
+      elif not single_dict_for_all_dsl_models:
+        all_models_params_dict[dsl_model.loc_name] = {}  
+    return all_models_params_dict
+
+  def set_parameters_of_dsl_models_in_composite_model(
+      self, 
+      composite_model,
+      models_params_dict,
+      single_dict_for_all_dsl_models = False,
+      ):
+    """
+    Set the parameters of the dsl models (i.e. of its block definition) in
+    a composite model.
+    Arguments:
+      composite_model: ElmComp or its path
+      models_params_dict: dictionary with model parameters and values
+      single_dict_for_all_dsl_models: 
+        - If true, models_params_dict is a single dictionary that is used to 
+        set the parameters of all dsl models.
+        Example: {"a": 1, "b":0, "c":2} -> if a dsl model has an attribute ("a","b",
+        "c"), the value is set, otherwise it is ignored.
+        - If false, models_params_dict contains dictionaries for each dsl model.
+        Example:
+          {
+          "controller_a": {"a": 1, "b":0}
+          "controller_b": {"a": 5, "c":2}
+          } 
+    """
+    composite_model = self.handle_single_pf_object_or_path_input(composite_model)
+    if not single_dict_for_all_dsl_models:
+      for dsl_model, parameter_value_dict in models_params_dict.items():
+        dsl_model = self.get_unique_obj(dsl_model+".ElmDsl", 
+                                        parent_folder=composite_model,
+                                        include_subfolders=True)
+        self.set_attr(dsl_model, parameter_value_dict)
+    else:
+      dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+      for dsl_model in dsl_models:
+        for param_name, value in models_params_dict.items(): 
+          if dsl_model.HasAttribute(param_name):
+            dsl_model.SetAttribute(param_name, value)   
+
+  @staticmethod
+  def is_dsl_lookup_arrays_and_matrices_name(string: str):
+    """
+    dsl has a special variable type for lookup tables. Such variables
+    are defined using certain variable names starting with e.g. 'array_'.
+    """
+    is_dsl_lookup = False
+    for dsl_lookup_name in PFDynSimInterface.get_dsl_lookup_arrays_and_matrices_names():
+      if dsl_lookup_name in string:
+        is_dsl_lookup = True
+    return is_dsl_lookup    
+
+  @staticmethod
+  def get_dsl_lookup_arrays_and_matrices_names():
+    return ["oarray_", "array_", "matrix", "omatrix"]
+
   @staticmethod 
   def set_dsl_obj_array(dsl_obj,
                         rows,

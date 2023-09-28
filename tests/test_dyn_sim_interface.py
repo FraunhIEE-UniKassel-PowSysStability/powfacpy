@@ -24,7 +24,7 @@ def test_export_to_csv(pfsim, activate_test_project):
         r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\AC Voltage Source","m:Psum:bus1")    
     pfsim.initialize_and_run_sim()  
 
-    pfsim.export_dir =  export_dir
+    pfsim.export_dir = export_dir
     pfsim.export_to_csv() 
     remove(export_dir + "\\results.csv")
 
@@ -66,6 +66,60 @@ def test_create_event(pfsim, activate_test_project):
 
     target = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\General Load HV")
     pfsim.create_event("loadevent.EvtLod",{"time":1,"p_target":target,"dP":100})
-
+    
+def test_get_parameters_of_dsl_models_in_composite_model(pfsim, activate_test_project):
+    pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case").Activate()
+    composite_model = pfsim.get_unique_obj(
+        r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\test_composite_model")
+    
+    par_val_dict = pfsim.get_parameters_of_dsl_models_in_composite_model(
+        composite_model)
+    assert not par_val_dict["test_no_parameters"]
+    assert par_val_dict["test_a"]["d"] == 0
+    assert not "oarray_x" in par_val_dict["test_a"]
+    
+    par_val_dict = pfsim.get_parameters_of_dsl_models_in_composite_model(
+        composite_model,
+        single_dict_for_all_dsl_models=True)
+    assert par_val_dict["d"] == 0
+    
+def test_set_parameters_of_dsl_models_in_composite_model(pfsim, activate_test_project):
+    pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case").Activate()
+    composite_model = pfsim.get_unique_obj(
+        r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\test_composite_model")
+    
+    par_val_dict = {"test_a": {"a": 50}}
+    pfsim.set_parameters_of_dsl_models_in_composite_model(
+    composite_model,
+    par_val_dict)
+    par_val_dict = pfsim.get_parameters_of_dsl_models_in_composite_model(
+        composite_model)
+    assert par_val_dict["test_a"]["a"] == 50
+    
+    par_val_dict = {"b": 70}
+    pfsim.set_parameters_of_dsl_models_in_composite_model(
+        composite_model,
+        par_val_dict,
+        single_dict_for_all_dsl_models=True)
+    par_val_dict = pfsim.get_parameters_of_dsl_models_in_composite_model(
+        composite_model)
+    assert par_val_dict["test_a"]["b"] == 70
+    assert par_val_dict["test_b"]["b"] == 70
+    
+    # Make sure there is no exception when par_val_dict is empty
+    par_val_dict = {}
+    pfsim.set_parameters_of_dsl_models_in_composite_model(
+        composite_model,
+        par_val_dict,
+        single_dict_for_all_dsl_models=True)
+    
+def test_get_dsl_model_parameter_names(pfsim, activate_test_project):    
+    pfsim.get_unique_obj(r"Study Cases\test_dyn_sim_interface\Study Case").Activate()
+    composite_model = pfsim.get_unique_obj(
+        r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\test_composite_model_no_blkdef")
+    dsl_model = pfsim.get_unique_obj("test_a", parent_folder=composite_model)
+    with pytest.raises(powfacpy.PFObjectAttributeTypeError):
+        pfsim.get_dsl_model_parameter_names(dsl_model)
+    
 if __name__ == "__main__":
     pytest.main(([r"tests\test_dyn_sim_interface.py"]))
