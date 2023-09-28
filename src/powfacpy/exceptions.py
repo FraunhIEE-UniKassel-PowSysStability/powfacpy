@@ -74,7 +74,7 @@ class PFNotActiveError(PFInterfaceError):
     super().__init__(self.message)
 
 class PFAttributeNotSetError(PFInterfaceError):
-  """Attempt to access an attribute of a powfacpy class,
+  """Attempt to access an attribute of a powfacpy class instance,
   but it was not specified.
   """ 
   def __init__(self, attribute_description):
