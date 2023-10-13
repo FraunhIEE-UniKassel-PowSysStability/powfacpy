@@ -27,7 +27,7 @@ def test_get_and_set_object_attributes(pfdbi, activate_test_project):
     2. modifiy some of the data.
     3. setting the data of the PF objects in the PF database with the output from 2.
     4. again getting data of PF objects from the PF database.
-    5. Checking if the output from 2. and 4. are equal. If so, gettind and setting
+    5. Checking if the output from 2. and 4. are equal. If so, getting and setting
     data works correctly.
   This process is done with various optional arguments (relative_paths, pf_obj_handling_options).
   The json files under 'tests\tests_output\test_get_object_attributes*.json' can help with the 
