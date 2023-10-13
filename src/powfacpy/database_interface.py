@@ -25,7 +25,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       self,
       objs,
       class_attributes: dict = None,
-      relative_path: str = "",
+      truncated_path: str = "",
       pf_obj_handling: str ="path") -> dict:
     """
     Get dictionary with attributes of objects.
@@ -45,8 +45,8 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
             "ElmVac": ["bus1", "outserv"],    
           }
           -> "loc_name" is relevant for every class
-      - relative_path: If specified, this relative path is truncated from the keys (object paths)
-        Example: relative_path = "Network Model\\Network Data"
+      - truncated_path: If specified, this path is truncated from the keys (object paths)
+        Example: truncated_path = "Network Model\\Network Data"
           -> Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac"
           becomes "test_database_interface\\Grid.ElmNet\\AC Voltage Source.ElmVac" (first part truncated)
       - pf_obj_handling: If the value of an attribute is a PF object, there are several options on 
@@ -66,15 +66,15 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     """
     if not class_attributes:
       class_attributes = {"*": []} # no relevant attributes -> get only keys (object paths)
-    if relative_path: # include class names in relative_part
-      relative_path = self.get_path_of_obj_with_class_names_relative_to_project(relative_path)  
+    if truncated_path: # include class names in truncated_path
+      truncated_path = self.get_path_of_obj_with_class_names_relative_to_project(truncated_path)  
 
     obj_attr_dict = {}
     for obj in objs:
       obj_path = self.get_path_of_obj_with_class_names_relative_to_project(obj)
-      if relative_path: 
+      if truncated_path: 
         obj_path = powfacpy.PFStringManipulation.truncate_until_string(
-          obj_path,relative_path + "\\") 
+          obj_path,truncated_path + "\\") 
       obj_attr_dict[obj_path] = {}
       for class_name in class_attributes.keys():
         if fnmatchcase(obj.GetClassName(), class_name): # fnmatch allows to use wildcards ("*")
@@ -86,7 +86,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
   def set_object_attributes(
       self,
       obj_attr_dict: dict,
-      relative_path: str = ""):
+      added_path: str = ""):
     """
     Takes a dict with keys (object paths) and values (dict with attributes 
     and their values) and writes the data to the PF database.
@@ -94,12 +94,12 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
 
     Arguments:
       - obj_attr_dict: data
-      - relative_path: Assumes that the object paths are relative paths.
-        Adds relative_path to the paths. 
+      - added_path: Assumes that the object paths are relative to a parent 
+        folder inside the project. Adds added_path to the paths. 
     """
     for obj, attr_key_val in obj_attr_dict.items():
-      if relative_path:
-        obj = relative_path + "\\" + obj
+      if added_path:
+        obj = added_path + "\\" + obj
       obj = self.get_unique_obj(obj)
       for attr, value in attr_key_val.items():
         if isinstance(value, str):
@@ -114,7 +114,7 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       obj,
       attr: str,
       pf_obj_handling="path",
-      relative_path=""):
+      truncated_path=""):
     """
     Offers various ways to handle attributes which are PF objects when
     reading from the PF database.
@@ -126,15 +126,15 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
       - obj: PF object
       - attr: Attribute of the object
       - pf_obj_handling: see above
-      - relative_path: pf_obj_handling="path", then this relative_path is truncated
+      - truncated_path: If pf_obj_handling="path", then this truncated_path is truncated
     """
     attr_value = self.get_attr(obj,attr)
     if isinstance(attr_value, (str, int, float)) or not attr_value:
       return attr_value
     else: # Then it must be a PF object
       if pf_obj_handling == "path":
-        if relative_path:
-          relative_path = self.get_path_of_obj_with_class_names_relative_to_project(relative_path)    
+        if truncated_path:
+          truncated_path = self.get_path_of_obj_with_class_names_relative_to_project(truncated_path)    
         return self.get_path_of_obj_with_class_names_relative_to_project(attr_value)
       elif pf_obj_handling == "original_pf_obj":
         return attr_value 

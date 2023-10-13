@@ -32,9 +32,9 @@ def test_get_and_set_object_attributes(pfdbi, activate_test_project):
   The json file under 'tests\tests_output\test_get_object_attributes.json' can help with the 
   interpretation of the operations.
   """
-  relative_paths = ["", r"Network Model\Network Data"]
+  truncated_paths = ["", r"Network Model\Network Data"]
   pf_obj_handling_options = ["path", "original_pf_obj"]
-  for relative_path in relative_paths:
+  for truncated_path in truncated_paths:
     for pf_obj_handling in pf_obj_handling_options:
       objs = pfdbi.get_obj("*",parent_folder=r"Network Model\Network Data\test_database_interface\Grid")
       class_attributes =  {
@@ -45,16 +45,16 @@ def test_get_and_set_object_attributes(pfdbi, activate_test_project):
       obj_attr_dict = pfdbi.get_object_attributes(
         objs,
         class_attributes = class_attributes,
-        relative_path = relative_path,
+        truncated_path = truncated_path,
         pf_obj_handling = pf_obj_handling) 
       if pf_obj_handling == "path":
         with open(r'tests\tests_output\test_get_object_attributes.json', 'w') as json_file:
           json.dump(obj_attr_dict,json_file,indent=5)
-      pfdbi.set_object_attributes(obj_attr_dict, relative_path=relative_path)  
+      pfdbi.set_object_attributes(obj_attr_dict, added_path=truncated_path)  
       obj_attr_dict_after_reading_and_writing = pfdbi.get_object_attributes(
         objs,
         class_attributes=class_attributes,
-        relative_path=relative_path,
+        truncated_path=truncated_path,
         pf_obj_handling = pf_obj_handling) 
       assert(not diff(obj_attr_dict, obj_attr_dict_after_reading_and_writing))
 
