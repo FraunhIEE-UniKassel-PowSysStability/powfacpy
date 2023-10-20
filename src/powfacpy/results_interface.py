@@ -70,7 +70,10 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       29:'b:ucttime' # quaidynamic simulation
       # TODO to be continued if needed
     }
-    return time_names[simulation_type_number]
+    try:
+      return time_names[simulation_type_number]
+    except KeyError:
+      print('PF simulation type number {} not known or not implemented yet. Maybe to be added to time_names dictionary?')
 
 """ class ElmRes2NumPyArray():
 
