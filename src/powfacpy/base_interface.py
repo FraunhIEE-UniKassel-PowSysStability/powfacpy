@@ -631,10 +631,16 @@ class PFBaseInterface:
           that results_obj is ignored if results_variables_lists is specified.
       """
       comres = self.app.GetFromStudyCase("ComRes")
-      if not results_obj:
-        comres.pResult = self.app.GetFromStudyCase("ElmRes")
+      if (not results_obj) and (not results_variables_lists):
+        elmres = self.app.GetFromStudyCase("ElmRes")
+      elif results_obj and (not results_variables_lists):
+        elmres = self.handle_single_pf_object_or_path_input(results_obj)
+      elif (not results_obj) and results_variables_lists:
+        elmres = results_variables_lists["result_objects"][0]
       else:
-        comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
+        raise Exception("ElmRes was given in results_obj and results_variables_lists. This is redundant, only choose one.")
+
+      comres.pResult = elmres
       if not dir:
         if self.export_dir:
           dir = self.export_dir
