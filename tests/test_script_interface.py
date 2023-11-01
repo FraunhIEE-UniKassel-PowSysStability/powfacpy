@@ -30,6 +30,7 @@ def test_merge_file_into_embedded_script(pfscripts, activate_test_project):
     "#### Insert after this line",
     "#### Insert before this line")
 
+@pytest.mark.skip(reason="takes too long since PF2023")
 def test_merge_powfacpy_package_into_single_file(pfscripts, activate_test_project):
   pfscripts.merge_powfacpy_package_into_single_file(
   r".\tests\tests_output\powfacpy_single_file.py")
