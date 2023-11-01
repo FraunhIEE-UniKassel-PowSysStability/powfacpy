@@ -825,7 +825,7 @@ class PFBaseInterface:
     Arguments:
       obj_or_path: Object (or its path) to start from.
       condition: lamba function with condition for parent object.
-      error_if_non_existent: If True, an expetion is raised if no upstream 
+      error_if_non_existent: If True, an exception is raised if no upstream 
         object is found. If False, None is then returned.
     """
     obj_or_path = self.handle_single_pf_object_or_path_input(obj_or_path)
