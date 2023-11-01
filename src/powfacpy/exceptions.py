@@ -18,6 +18,14 @@ class PFAttributeError(PFInterfaceError):
     self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
     super().__init__(self.message)
 
+class PFObjectAttributeTypeError(PFInterfaceError):
+  """Unexpected type of a PF object attribute (e.g. 'None' type).
+  """
+  def __init__(self, obj, msg_raised, pf_base_interface):
+    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), pf_base_interface)
+    self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
+    super().__init__(self.message) 
+     
 class PFAttributeTypeError(PFInterfaceError):
   """Attempt to set an invalid type for the attribute of a PF object.
   """
@@ -66,7 +74,7 @@ class PFNotActiveError(PFInterfaceError):
     super().__init__(self.message)
 
 class PFAttributeNotSetError(PFInterfaceError):
-  """Attempt to access an attribute of a powfacpy class,
+  """Attempt to access an attribute of a powfacpy class instance,
   but it was not specified.
   """ 
   def __init__(self, attribute_description):
@@ -80,4 +88,16 @@ class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):
   def __init__(self, par_name, values):
     self.message = (f"Incorrect number of values defined for parameter '{par_name}'. "
     f"Only {len(values)} values were defined.")
+    super().__init__(self.message)
+    
+class PFInconsistentParamValueOfDSLModelInCompositeModel(PFInterfaceError):
+  """Attempt to create a dictionary with parameter names and values of DSL
+  models in a composite model, but the DSL models have different values for
+  the same parameter. 
+  """
+  def __init__(self, param_name, composite_model):
+    self.message = (f"The parameter '{param_name}' takes on different values in "
+                    f"the DSL models of the composite model '{composite_model}'. " 
+                    "Therefore, creating a single dictionary with correct parameter "
+                    "values for all DSL models is not possible.")
     super().__init__(self.message)
