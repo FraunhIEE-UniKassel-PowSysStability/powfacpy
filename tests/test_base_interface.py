@@ -300,7 +300,6 @@ def test_get_path_of_object(pfbi, activate_test_project):
     path = "Network Model\\Network Data\\test_base_interface\\Grid\\Line 1.2"
     line = pfbi.get_unique_obj(path)    
     path_derived = pfbi.get_path_of_object(line)
-    print(path_derived)
     assert (path==path_derived)
 
 if __name__ == "__main__":
