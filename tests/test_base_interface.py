@@ -302,6 +302,15 @@ def test_get_path_of_object(pfbi, activate_test_project):
     path_derived = pfbi.get_path_of_object(line)
     assert (path==path_derived)
 
+def test_get_upstream_object(pfbi, activate_test_project):
+    grid = pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                      lambda x: x.loc_name == "Grid")
+    grid_using_get_unique_obj = pfbi.get_unique_obj(r"Network Model\Network Data\test_database_interface\Grid")
+    assert(grid == grid_using_get_unique_obj)
+    with pytest.raises(Exception):
+        pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                        lambda x: x.loc_name == "wrong name") 
+
 if __name__ == "__main__":
-    pytest.main([r"tests\test_base_interface.py::test_get_path_of_object"])
+    pytest.main([r"tests\test_base_interface.py"])
     # pytest.main(([r"tests"]))

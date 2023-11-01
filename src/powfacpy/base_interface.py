@@ -816,19 +816,31 @@ class PFBaseInterface:
     replace(file_path + ".temp", file_path+".csv")  
     return number_of_columns
 
-  def get_upstream_obj(self, obj_or_path, condition):
+  def get_upstream_obj(self, 
+                       obj_or_path, 
+                       condition,
+                       error_if_non_existent=True):
     """Returns the upstream object that meets the condition.
     Goes up step by step to the parent folders until the condition is met.
     Arguments:
       obj_or_path: Object (or its path) to start from.
       condition: lamba function with condition for parent object.
+      error_if_non_existent: If True, an exception is raised if no upstream 
+        object is found. If False, None is then returned.
     """
     obj_or_path = self.handle_single_pf_object_or_path_input(obj_or_path)
     obj_or_path = obj_or_path.GetParent()
-    if condition(obj_or_path):
-      return obj_or_path
+    if obj_or_path:
+      if condition(obj_or_path):
+        return obj_or_path
+      else:
+        return self.get_upstream_obj(obj_or_path, condition)
     else:
-      return self.get_upstream_obj(obj_or_path, condition)
+      if error_if_non_existent:
+        raise Exception("There is no upstream object that fullfills the condition.")
+      else:
+        return None
+        
 
   def get_path_between_objects(self, obj_high, obj_low):
     """Returns the path between two objects in the database.
