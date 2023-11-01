@@ -429,7 +429,17 @@ class PFBaseInterface:
             
           if not o.IsDeleted():  
             raise TypeError(f"Object {o} cannot be deleted.")
-
+          
+  def clear_folder(self, folder):
+    """
+    Clear all objects inside folder (including hidden objects).
+    """
+    folder = self.handle_single_pf_object_or_path_input(folder)  
+    self.delete_obj("*",
+                    parent_folder=folder,
+                    include_subfolders=True,
+                    error_if_non_existent=False)
+    
   def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
     error_if_non_existent=True, include_subfolders=False):
     """Handles the input argument when a method accepts either
