@@ -892,17 +892,39 @@ class PFBaseInterface:
 class PFStringManipulation:
   
   @staticmethod
-  def replace_between_characters(char1, char2, replacement, string):
+  def replace_between_characters(char1, char2, replacement: str, original: str):
+    """
+    Example:
+      Calling      
+        powfacpy.PFStringManipulation.replace_between_characters(
+          '.', 
+          '\\', 
+          '\\', 
+          'username.IntUser\\pow.facpy.\\powfacpy.tests.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_base_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm'
+      would give the output:
+        'username\\pow.facpy\\powfacpy.tests\\Network Model\\Network Data\\test_base_interface\\Grid\\Terminal HV 1' 
+      Note the behavior when there are several '.' in between '\\' 
+      -> then the replacement starts after the last '.'
+    """
     new_string = ""
-    is_between_chars = False
-    for c in string:
+    is_after_char_1 = False
+    string_between_char_1_occurrences = ""
+    for c in original:
       if c == char1:
-        is_between_chars = True
-      elif c == char2 and is_between_chars:
-        is_between_chars = False
-        new_string = new_string + replacement
-      elif not is_between_chars:
-        new_string = new_string + c
+        is_after_char_1 = True
+        new_string += string_between_char_1_occurrences
+        string_between_char_1_occurrences = ""
+      elif c == char2:
+        if is_after_char_1:
+          new_string += replacement
+        else:
+          new_string += c 
+        string_between_char_1_occurrences = ""  
+        is_after_char_1 = False
+      if is_after_char_1:
+        string_between_char_1_occurrences += c
+      elif not c == char2:
+        new_string += c  
     return new_string   
 
   @staticmethod
