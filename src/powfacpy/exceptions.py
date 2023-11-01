@@ -89,3 +89,15 @@ class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):
     self.message = (f"Incorrect number of values defined for parameter '{par_name}'. "
     f"Only {len(values)} values were defined.")
     super().__init__(self.message)
+    
+class PFInconsistentParamValueOfDSLModelInCompositeModel(PFInterfaceError):
+  """Attempt to create a dictionary with parameter names and values of DSL
+  models in a composite model, but the DSL models have different values for
+  the same parameter. 
+  """
+  def __init__(self, param_name, composite_model):
+    self.message = (f"The parameter '{param_name}' takes on different values in "
+                    f"the DSL models of the composite model '{composite_model}'. " 
+                    "Therefore, creating a single dictionary with correct parameter "
+                    "values for all DSL models is not possible.")
+    super().__init__(self.message)

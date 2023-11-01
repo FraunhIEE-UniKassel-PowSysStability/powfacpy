@@ -123,6 +123,12 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
           dsl_model, 
           parameter_names)
         if single_dict_for_all_dsl_models: 
+          # Check if 
+          for param_name in parameter_names:
+            if param_name in all_models_params_dict:
+              if all_models_params_dict[param_name] != parameter_names_and_values[param_name]:
+                raise powfacpy.PFInconsistentParamValueOfDSLModelInCompositeModel(param_name,
+                                                                          composite_model)
           all_models_params_dict = {**all_models_params_dict, 
                                     **parameter_names_and_values}
         else:
