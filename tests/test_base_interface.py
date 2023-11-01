@@ -184,7 +184,11 @@ def test_copy_obj(pfbi, activate_test_project):
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder=folder_copy_from)
     assert len(copied_objects) == 2
-
+    # test that the copied objects are returned and not the initial objects to be copied
+    obj_to_be_copied = pfbi.get_obj("*", parent_folder=folder_copy_from)
+    for idx, obj in enumerate(obj_to_be_copied):
+        assert copied_objects[idx] != obj
+    
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestCopyFrom")[0]
     folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyTo")[0]

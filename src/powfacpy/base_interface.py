@@ -511,7 +511,8 @@ class PFBaseInterface:
   def copy_obj(self, obj_or_path, target_folder, overwrite=True, condition=None,
     parent_folder=None, error_if_non_existent=True, include_subfolders=False):
     """Copies object(s) by using 'get_obj' in first step and then copying 
-    the returned objects to 'target_folder'.
+    the returned objects to 'target_folder'. Source and target must be in 
+    the active project (otherwise use PasteCopy(), see scripting reference).
     The argument 'parent_folder' refers to the source folder and is used in
     combination with 'obj_or_path' to get the object(s) to be copied.
     If 'overwrite' is True, existing objects with the same name are overwritten
@@ -532,11 +533,13 @@ class PFBaseInterface:
       for object_to_be_copied in obj:
         self.delete_obj(object_to_be_copied.GetAttribute("loc_name"),
           parent_folder=target_folder, error_if_non_existent=False)
-    target_folder.AddCopy(obj)
-    if isinstance(obj, Iterable):
-      return obj
-    else:
-      return [obj]
+    # AddCopy() accepts a list of objects, but then it returns the target
+    # folder object and not the copied objects. Therefore, it is iterated through the
+    # objects.
+    copied_obj = []
+    for o in obj:
+      copied_obj.append(target_folder.AddCopy(o))    
+    return copied_obj
 
   def copy_single_obj(self, obj_or_path, target_folder, overwrite=True,
     new_name=None, parent_folder=None, error_if_non_existent=True):
@@ -951,16 +954,32 @@ class PFStringManipulation:
       output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
-    path = PFStringManipulation.truncate_until_string(path, project_name) 
+    path = PFStringManipulation.truncate_until(path, project_name) 
     # In case a closing tag occurs at the end of the path </l3> (e.g. when 
-    # str() is called on a PF object, make sure this is removed.
+    # str() is called on a PF object) make sure this is removed.
     if path[-1] == ">":
       path = path[0:path.rfind("<")]
     return path 
 
   @staticmethod
-  def truncate_until_string(original: str, string_pattern:str):
-    return original[original.find(string_pattern)+len(string_pattern):]
+  def truncate_until(original: str, string_pattern: str):
+    """
+    Truncate all characters until (and including) the occurence of string_pattern
+    in original.
+    """
+    return original[original.find(string_pattern)+len(string_pattern):]   
+
+  @staticmethod
+  def truncate_beginning(original: str, string_pattern: str):
+    """
+    Truncate string_pattern if it occurs at the beginning of the
+    original string. Otherwise return original string.
+    """
+    index_where_pattern_begins = original.find(string_pattern)
+    if index_where_pattern_begins == 0:
+      return original[index_where_pattern_begins+len(string_pattern):]
+    else:
+      return original
 
   @staticmethod
   def _format_full_path(path, pf_interface):
