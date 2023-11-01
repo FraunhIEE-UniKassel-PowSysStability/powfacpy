@@ -897,21 +897,21 @@ class PFStringManipulation:
     """
     new_string = ""
     is_after_char_1 = False
-    string_between_char_1_occurences = ""
+    string_between_char_1_occurrences = ""
     for c in original:
       if c == char1:
         is_after_char_1 = True
-        new_string += string_between_char_1_occurences
-        string_between_char_1_occurences = ""
+        new_string += string_between_char_1_occurrences
+        string_between_char_1_occurrences = ""
       elif c == char2:
         if is_after_char_1:
           new_string += replacement
         else:
           new_string += c 
-        string_between_char_1_occurences = ""  
+        string_between_char_1_occurrences = ""  
         is_after_char_1 = False
       if is_after_char_1:
-        string_between_char_1_occurences += c
+        string_between_char_1_occurrences += c
       elif not c == char2:
         new_string += c  
     return new_string   
