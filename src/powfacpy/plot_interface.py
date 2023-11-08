@@ -383,8 +383,6 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
           graphic.Close()
       elif class_name == "GrpPage":
           graphic.RemovePage()
-      else:
-          graphic.Delete()
   
   def copy_graphics_board_content(self, source_study_case,
     target_study_cases, obj_to_copy="*",
