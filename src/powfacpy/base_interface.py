@@ -625,7 +625,7 @@ class PFBaseInterface:
 
   def export_to_csv(self,
     dir=None,
-    file_name=None,
+    file_name="results",
     results_obj=None,
     results_variables_lists=None,
     column_separator=',',
@@ -659,9 +659,7 @@ class PFBaseInterface:
           dir = self.export_dir
         else:
           # Use current working directory (where script is run)
-          dir = getcwd()
-      if not file_name:  
-        file_name = "results"  
+          dir = getcwd()  
       if results_variables_lists:
         self._add_selected_variables_for_export(results_variables_lists, comres, elmres)
       else:
