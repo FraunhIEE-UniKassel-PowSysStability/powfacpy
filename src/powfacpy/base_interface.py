@@ -661,7 +661,7 @@ class PFBaseInterface:
           # Use current working directory (where script is run)
           dir = getcwd()  
       if results_variables_lists:
-        self._add_selected_variables_for_export(results_variables_lists, comres, elmres)
+        self._add_selected_variables_for_export(results_variables_lists, comres)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -705,13 +705,14 @@ class PFBaseInterface:
     project_settings_folder = self.get_single_obj("*.SetFold")
     return self.get_single_obj("*.SetPrj", parent_folder=project_settings_folder)
 
-  def _add_selected_variables_for_export(self, results_variables_lists, comres, elmres):
+  def _add_selected_variables_for_export(self, results_variables_lists, comres):
     """Adds selected variables to ComRes for export.
     Arguments:
       results_variables_lists: lists with infos about exported data (results objects,
         elements, variables)
     """
     comres.iopt_csel = 1 # export only selected variables
+    elmres = results_variables_lists['result_objects'][0]
     # Insert time
     time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
     
