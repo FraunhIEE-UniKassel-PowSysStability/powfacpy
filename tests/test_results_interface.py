@@ -14,8 +14,8 @@ def pfri(pf_app):
     return pfri
 
 def test_export_to_pandas(pfri, activate_test_project):
-    pfri.get_unique_obj(r"Study Cases\test_results_interface\Study Case 1").Activate()
-    network_element = pfri.get_obj(r'Network Model\Network Data\test_results_interface\Grid 1\General Load HV.ElmLod', include_subfolders=True)[0]
+    pfri.get_unique_obj(r"Study Cases\test_results_interface\Study Case").Activate()
+    network_element = pfri.get_obj(r'Network Model\Network Data\test_results_interface\Grid\General Load HV.ElmLod', include_subfolders=True)[0]
     variables = ['m:i1:bus1', 'm:u1:bus1']
     elmres = pfri.add_results_variable(network_element, variables)
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
