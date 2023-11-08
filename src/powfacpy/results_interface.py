@@ -38,10 +38,10 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         variables: List of variable names for each result variable
     """
     FILE_NAME = 'temp'
-    FILE_PATH = getcwd()
-    FULL_PATH = FILE_PATH + "\\" + FILE_NAME + ".csv"
+    file_path = getcwd()
+    full_path = file_path + "\\" + FILE_NAME + ".csv"
     self.export_to_csv(
-      dir= FILE_PATH,
+      dir= file_path,
       file_name=FILE_NAME,
       results_variables_lists={
           'result_objects':result_objects,
@@ -50,13 +50,13 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       leave_csv_file_unchanged=True,
       )
     
-    df = read_csv(FULL_PATH, encoding='ISO-8859-1', header=[0,1])
+    df = read_csv(full_path, encoding='ISO-8859-1', header=[0,1])
     def _reformat(column):
       path = powfacpy.PFStringManipulation._format_full_path(column[0], self)
       var = powfacpy.PFStringManipulation._format_variable_name(column[1])
       return path + '\\' + var
     df.columns = [_reformat(x) for x in df.columns]
-    remove(FULL_PATH)
+    remove(full_path)
     return df
   
   @staticmethod
@@ -70,7 +70,10 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       29:'b:ucttime' # quaidynamic simulation
       # TODO to be continued if needed
     }
-    return time_names[simulation_type_number]
+    try:
+      return time_names[simulation_type_number]
+    except KeyError:
+      print('PF simulation type number {} not known or not implemented yet. Maybe to be added to time_names dictionary?')
 
 """ class ElmRes2NumPyArray():
 

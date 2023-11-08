@@ -644,10 +644,16 @@ class PFBaseInterface:
           that results_obj is ignored if results_variables_lists is specified.
       """
       comres = self.app.GetFromStudyCase("ComRes")
-      if not results_obj:
-        comres.pResult = self.app.GetFromStudyCase("ElmRes")
+      if (not results_obj) and (not results_variables_lists):
+        elmres = self.app.GetFromStudyCase("ElmRes")
+      elif results_obj and (not results_variables_lists):
+        elmres = self.handle_single_pf_object_or_path_input(results_obj)
+      elif (not results_obj) and results_variables_lists:
+        elmres = results_variables_lists["result_objects"][0]
       else:
-        comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
+        raise Exception("ElmRes was given in results_obj and results_variables_lists. This is redundant, only choose one.")
+
+      comres.pResult = elmres
       if not dir:
         if self.export_dir:
           dir = self.export_dir
@@ -657,7 +663,7 @@ class PFBaseInterface:
       if not file_name:  
         file_name = "results"  
       if results_variables_lists:
-        self._add_selected_variables_for_export(results_variables_lists)
+        self._add_selected_variables_for_export(results_variables_lists, comres, elmres)
       else:
         comres.iopt_csel = 0 # export all variables
       comres.iopt_exp = 6 # to export as csv
@@ -701,23 +707,20 @@ class PFBaseInterface:
     project_settings_folder = self.get_single_obj("*.SetFold")
     return self.get_single_obj("*.SetPrj", parent_folder=project_settings_folder)
 
-  def _add_selected_variables_for_export(self, results_variables_lists):
+  def _add_selected_variables_for_export(self, results_variables_lists, comres, elmres):
     """Adds selected variables to ComRes for export.
     Arguments:
       results_variables_lists: lists with infos about exported data (results objects,
         elements, variables)
     """
-    elmres = self.app.GetFromStudyCase('ElmRes')
-    comres = self.app.GetFromStudyCase('ComRes')
     comres.iopt_csel = 1 # export only selected variables
-    comres.pResult = None # export only selected variables
     # Insert time
     time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
     
     first_column_is_time = results_variables_lists['variables'][0] == time_variable_name
     if not first_column_is_time: # add time as first column
-      results_variables_lists['result_objects'].insert(0, results_variables_lists['result_objects'][0])
-      results_variables_lists['elements'].insert(0, results_variables_lists['result_objects'][0])
+      results_variables_lists['result_objects'].insert(0, elmres)
+      results_variables_lists['elements'].insert(0, elmres)
       results_variables_lists['variables'].insert(0, time_variable_name)
     
     comres.resultobj = results_variables_lists['result_objects']
