@@ -429,7 +429,17 @@ class PFBaseInterface:
             
           if not o.IsDeleted():  
             raise TypeError(f"Object {o} cannot be deleted.")
-
+          
+  def clear_folder(self, folder):
+    """
+    Clear all objects inside folder (including hidden objects).
+    """
+    folder = self.handle_single_pf_object_or_path_input(folder)  
+    self.delete_obj("*",
+                    parent_folder=folder,
+                    include_subfolders=True,
+                    error_if_non_existent=False)
+    
   def handle_pf_object_or_path_input(self, obj_or_path, condition=None, parent_folder=None,
     error_if_non_existent=True, include_subfolders=False):
     """Handles the input argument when a method accepts either
@@ -501,7 +511,8 @@ class PFBaseInterface:
   def copy_obj(self, obj_or_path, target_folder, overwrite=True, condition=None,
     parent_folder=None, error_if_non_existent=True, include_subfolders=False):
     """Copies object(s) by using 'get_obj' in first step and then copying 
-    the returned objects to 'target_folder'.
+    the returned objects to 'target_folder'. Source and target must be in 
+    the active project (otherwise use PasteCopy(), see scripting reference).
     The argument 'parent_folder' refers to the source folder and is used in
     combination with 'obj_or_path' to get the object(s) to be copied.
     If 'overwrite' is True, existing objects with the same name are overwritten
@@ -522,11 +533,13 @@ class PFBaseInterface:
       for object_to_be_copied in obj:
         self.delete_obj(object_to_be_copied.GetAttribute("loc_name"),
           parent_folder=target_folder, error_if_non_existent=False)
-    target_folder.AddCopy(obj)
-    if isinstance(obj, Iterable):
-      return obj
-    else:
-      return [obj]
+    # AddCopy() accepts a list of objects, but then it returns the target
+    # folder object and not the copied objects. Therefore, it is iterated through the
+    # objects.
+    copied_obj = []
+    for o in obj:
+      copied_obj.append(target_folder.AddCopy(o))    
+    return copied_obj
 
   def copy_single_obj(self, obj_or_path, target_folder, overwrite=True,
     new_name=None, parent_folder=None, error_if_non_existent=True):
@@ -806,19 +819,31 @@ class PFBaseInterface:
     replace(file_path + ".temp", file_path+".csv")  
     return number_of_columns
 
-  def get_upstream_obj(self, obj_or_path, condition):
+  def get_upstream_obj(self, 
+                       obj_or_path, 
+                       condition,
+                       error_if_non_existent=True):
     """Returns the upstream object that meets the condition.
     Goes up step by step to the parent folders until the condition is met.
     Arguments:
       obj_or_path: Object (or its path) to start from.
       condition: lamba function with condition for parent object.
+      error_if_non_existent: If True, an exception is raised if no upstream 
+        object is found. If False, None is then returned.
     """
     obj_or_path = self.handle_single_pf_object_or_path_input(obj_or_path)
     obj_or_path = obj_or_path.GetParent()
-    if condition(obj_or_path):
-      return obj_or_path
+    if obj_or_path:
+      if condition(obj_or_path):
+        return obj_or_path
+      else:
+        return self.get_upstream_obj(obj_or_path, condition)
     else:
-      return self.get_upstream_obj(obj_or_path, condition)
+      if error_if_non_existent:
+        raise Exception("There is no upstream object that fullfills the condition.")
+      else:
+        return None
+        
 
   def get_path_between_objects(self, obj_high, obj_low):
     """Returns the path between two objects in the database.
@@ -895,17 +920,39 @@ class PFBaseInterface:
 class PFStringManipulation:
   
   @staticmethod
-  def replace_between_characters(char1, char2, replacement, string):
+  def replace_between_characters(char1, char2, replacement: str, original: str):
+    """
+    Example:
+      Calling      
+        powfacpy.PFStringManipulation.replace_between_characters(
+          '.', 
+          '\\', 
+          '\\', 
+          'username.IntUser\\pow.facpy.\\powfacpy.tests.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_base_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm'
+      would give the output:
+        'username\\pow.facpy\\powfacpy.tests\\Network Model\\Network Data\\test_base_interface\\Grid\\Terminal HV 1' 
+      Note the behavior when there are several '.' in between '\\' 
+      -> then the replacement starts after the last '.'
+    """
     new_string = ""
-    is_between_chars = False
-    for c in string:
+    is_after_char_1 = False
+    string_between_char_1_occurrences = ""
+    for c in original:
       if c == char1:
-        is_between_chars = True
-      elif c == char2 and is_between_chars:
-        is_between_chars = False
-        new_string = new_string + replacement
-      elif not is_between_chars:
-        new_string = new_string + c
+        is_after_char_1 = True
+        new_string += string_between_char_1_occurrences
+        string_between_char_1_occurrences = ""
+      elif c == char2:
+        if is_after_char_1:
+          new_string += replacement
+        else:
+          new_string += c 
+        string_between_char_1_occurrences = ""  
+        is_after_char_1 = False
+      if is_after_char_1:
+        string_between_char_1_occurrences += c
+      elif not c == char2:
+        new_string += c  
     return new_string   
 
   @staticmethod
@@ -922,16 +969,32 @@ class PFStringManipulation:
       output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
     """
     project_name = pf_interface.app.GetActiveProject().loc_name + '.IntPrj\\'
-    path = PFStringManipulation.truncate_until_string(path, project_name) 
+    path = PFStringManipulation.truncate_until(path, project_name) 
     # In case a closing tag occurs at the end of the path </l3> (e.g. when 
-    # str() is called on a PF object, make sure this is removed.
+    # str() is called on a PF object) make sure this is removed.
     if path[-1] == ">":
       path = path[0:path.rfind("<")]
     return path 
 
   @staticmethod
-  def truncate_until_string(original: str, string_pattern:str):
-    return original[original.find(string_pattern)+len(string_pattern):]
+  def truncate_until(original: str, string_pattern: str):
+    """
+    Truncate all characters until (and including) the occurence of string_pattern
+    in original.
+    """
+    return original[original.find(string_pattern)+len(string_pattern):]   
+
+  @staticmethod
+  def truncate_beginning(original: str, string_pattern: str):
+    """
+    Truncate string_pattern if it occurs at the beginning of the
+    original string. Otherwise return original string.
+    """
+    index_where_pattern_begins = original.find(string_pattern)
+    if index_where_pattern_begins == 0:
+      return original[index_where_pattern_begins+len(string_pattern):]
+    else:
+      return original
 
   @staticmethod
   def _format_full_path(path, pf_interface):

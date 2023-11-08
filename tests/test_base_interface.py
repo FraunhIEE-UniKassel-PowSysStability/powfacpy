@@ -184,7 +184,11 @@ def test_copy_obj(pfbi, activate_test_project):
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     copied_objects = pfbi.copy_obj("*", folder_copy_to, parent_folder=folder_copy_from)
     assert len(copied_objects) == 2
-
+    # test that the copied objects are returned and not the initial objects to be copied
+    obj_to_be_copied = pfbi.get_obj("*", parent_folder=folder_copy_from)
+    for idx, obj in enumerate(obj_to_be_copied):
+        assert copied_objects[idx] != obj
+    
     pfbi.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     folder_copy_from = pfbi.get_obj(r"Library\Dynamic Models\TestCopyFrom")[0]
     folder_copy_to = pfbi.get_obj(r"Library\Dynamic Models\TestCopyTo")[0]
@@ -292,6 +296,20 @@ def test_replace_outside_or_inside_of_strings_in_a_string(pfbi, activate_test_pr
 	    conditions, {"control 1": "x[1]"}, outside=False)    
     assert(conditions == "lorem ipsum control 1 == 'ABC x[1]' 'x[1]'")
 
+def test_get_path_of_object(pfbi, activate_test_project):
+    path = "Network Model\\Network Data\\test_base_interface\\Grid\\Line 1.2"
+    line = pfbi.get_unique_obj(path)    
+    path_derived = pfbi.get_path_of_object(line)
+    assert (path==path_derived)
+
+def test_get_upstream_object(pfbi, activate_test_project):
+    grid = pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                      lambda x: x.loc_name == "Grid")
+    grid_using_get_unique_obj = pfbi.get_unique_obj(r"Network Model\Network Data\test_database_interface\Grid")
+    assert(grid == grid_using_get_unique_obj)
+    with pytest.raises(Exception):
+        pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
+                        lambda x: x.loc_name == "wrong name") 
 
 if __name__ == "__main__":
     pytest.main([r"tests\test_base_interface.py"])
