@@ -378,10 +378,13 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     grb = self.get_or_create_graphics_board()
     graphics = grb.GetContents(obj)
     for graphic in graphics:
-      if graphic.GetClassName() == "SetDeskpage":
-        graphic.Close()
+      class_name = graphic.GetClassName()
+      if class_name == "SetDeskpage":
+          graphic.Close()
+      elif class_name == "GrpPage":
+          graphic.RemovePage()
       else:
-        graphic.RemovePage()
+          graphic.Delete()
   
   def copy_graphics_board_content(self, source_study_case,
     target_study_cases, obj_to_copy="*",
