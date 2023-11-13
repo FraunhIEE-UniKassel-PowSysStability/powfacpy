@@ -369,20 +369,27 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     self.clear_graphics_board(obj="*.GrpPage")
 
   def clear_grid_diagrams(self):
-    self.clear_graphics_board(obj="*.SetDeskpage")  
+    self.clear_graphics_board(obj="*.SetDeskpage") 
+
+  def clear_all_graphics_pages(self):
+    self.clear_graphics_board(obj="*.GrpPage")
+    self.clear_graphics_board(obj="*.SetDeskpage") 
 
   def clear_graphics_board(self, obj="*"):
     """Clear the graphics board from specific objects or from all objects.
-    Objects of class SetDeskpage are closed, others are removed.
+    Objects of class SetDeskpage are closed, 
+    objects of class GrpPage are removed, 
+    others are deleted.
     """
     grb = self.get_or_create_graphics_board()
     graphics = grb.GetContents(obj)
     for graphic in graphics:
-      class_name = graphic.GetClassName()
-      if class_name == "SetDeskpage":
-          graphic.Close()
-      elif class_name == "GrpPage":
-          graphic.RemovePage()
+      if graphic.GetClassName() == "SetDeskpage":
+        graphic.Close()
+      elif graphic.GetClassName() == "GrpPage":
+        graphic.RemovePage()
+      else:
+        graphic.Delete()
   
   def copy_graphics_board_content(self, source_study_case,
     target_study_cases, obj_to_copy="*",
