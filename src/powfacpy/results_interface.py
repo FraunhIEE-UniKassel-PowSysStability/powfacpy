@@ -73,7 +73,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     try:
       return time_names[simulation_type_number]
     except KeyError:
-      print('PF simulation type number {} not known or not implemented yet. Maybe to be added to time_names dictionary?')
+      raise KeyError('PF simulation type number {} not known or not implemented yet. Maybe to be added to time_names dictionary?'.format(simulation_type_number))
 
 """ class ElmRes2NumPyArray():
 
