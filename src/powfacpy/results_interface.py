@@ -73,7 +73,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     try:
       return time_names[simulation_type_number]
     except KeyError:
-      raise KeyError('PF simulation type number {} not known or not implemented yet. Maybe to be added to time_names dictionary?'.format(simulation_type_number))
+      raise Exception(f"The PF simulation type number '{simulation_type_number}' of the results object (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code: Add the simulation type number to the 'time_names' dictionary of the method '_get_time_variable_name_from_elmres' (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/).")
 
 """ class ElmRes2NumPyArray():
 
