@@ -9,6 +9,22 @@ class PFModelExchangeInterface(powfacpy.PFBaseInterface):
     super().__init__(app)
 
 
+  # Import functions TODO
+
+
+  def cgmes_file_to_archive(self):
+    pass
+
+
+  def cgmes_archive_to_grid(self):
+    pass
+
+
+  def cgmes_import(self):
+    self.cgmes_file_to_archive()
+    self.cgmes_archive_to_grid()
+
+
   def _cgmes_import_profiles(self, file_name, CGMES_ARCHIVE_NAME='cgmes_profiles'):
      cim_import = self.create_in_folder(
         self.app.GetActiveStudyCase(), 
@@ -48,7 +64,7 @@ class PFModelExchangeInterface(powfacpy.PFBaseInterface):
   def _create_grid_to_cim_tool(self):
     grid_to_cim_tool = self.create_in_folder(self.app.GetActiveStudyCase(), 'grid_to_cim.ComGridtocim', use_existing=True)
     grid_to_cim_tool.cAuthority = ['Authority1'] # TODO this probably isn't general
-    grid_to_cim_tool.cSelected = [1] # TODO this probably isn't general
+    grid_to_cim_tool.cSelected = [1] # TODO this probably isn't general (should all grids be selected? or actually only the first one?)
     grid_to_cim_tool.version = 'CGMES 3.0.0'
     return grid_to_cim_tool
 
@@ -63,7 +79,7 @@ class PFModelExchangeInterface(powfacpy.PFBaseInterface):
   def _cgmes_convert_grid_to_archive(self, selected_profiles='all'):
     grid_to_cim_tool = self._create_grid_to_cim_tool()
 
-    def set_profiles(grid_to_cim_tool, profiles, state):
+    def _set_profiles(grid_to_cim_tool, profiles, state):
       for profile in profiles.split(' '):
         grid_to_cim_tool.SetAttribute('convert'+profile.upper(), state)
 
@@ -72,8 +88,8 @@ class PFModelExchangeInterface(powfacpy.PFBaseInterface):
     else:
       grid_to_cim_tool.partial = 1 # convert selected profiles
       ALL_PROFILES = 'eq tp ssh sc sv dy dl gl'
-      set_profiles(grid_to_cim_tool, ALL_PROFILES, False)
-      set_profiles(grid_to_cim_tool, selected_profiles, True)
+      _set_profiles(grid_to_cim_tool, ALL_PROFILES, False)
+      _set_profiles(grid_to_cim_tool, selected_profiles, True)
 
     grid_to_cim_tool.iopt_target = 1 # existing archive
     cim_archive = self._create_cim_archive()
