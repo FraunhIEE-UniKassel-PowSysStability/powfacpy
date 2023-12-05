@@ -42,4 +42,4 @@ def test_cgmes_export(pfcgmes, activate_test_project):
 
 
 if __name__ == "__main__":
-    pytest.main(([r"tests\test_model_exchange_interface.py"]))
+    pytest.main(([r"tests\test_model_exchange_interfaces.py"]))
