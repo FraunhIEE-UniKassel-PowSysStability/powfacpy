@@ -4,7 +4,7 @@ import powfacpy
 import numpy as np
 
 
-class PFModelExchangeInterface(powfacpy.PFBaseInterface):
+class PFCgmesInterface(powfacpy.PFBaseInterface):
   def __init__(self, app):
     super().__init__(app)
 
