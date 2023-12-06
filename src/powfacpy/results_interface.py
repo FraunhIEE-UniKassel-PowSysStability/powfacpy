@@ -30,8 +30,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     intvec.Delete()
     return list
   
-  def export_to_pandas(self, result_objects, elements, variables):
-    """returns pandas DataFrame of specified simulation results.
+  def export_to_pandas(self, result_objects=None, elements=None, variables=None):
+    """returns pandas DataFrame of all or specified simulation results. To return all results, leave all input arguments = None.
       Arguments:
         result_objects: List of ElmRes for each result variable (repeat if identical or several variables) 
         elements: List of Powerfactory Objects for each result variable 
@@ -40,15 +40,23 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     FILE_NAME = 'temp'
     file_path = getcwd()
     full_path = file_path + "\\" + FILE_NAME + ".csv"
-    self.export_to_csv(
-      dir= file_path,
-      file_name=FILE_NAME,
-      results_variables_lists={
-          'result_objects':result_objects,
-          'elements':elements,
-          'variables':variables},
-      leave_csv_file_unchanged=True,
-      )
+    
+    if result_objects == None:
+      self.export_to_csv(
+        dir= file_path,
+        file_name=FILE_NAME,
+        leave_csv_file_unchanged=True,
+        )
+    else:
+      self.export_to_csv(
+        dir= file_path,
+        file_name=FILE_NAME,
+        results_variables_lists={
+            'result_objects':result_objects,
+            'elements':elements,
+            'variables':variables},
+        leave_csv_file_unchanged=True,
+        )
     
     df = read_csv(full_path, encoding='ISO-8859-1', header=[0,1])
     def _reformat(column):
