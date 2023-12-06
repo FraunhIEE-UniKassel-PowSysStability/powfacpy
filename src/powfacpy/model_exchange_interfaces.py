@@ -52,7 +52,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
 
 
   def update_profiles(self, update_file_path:str, base_archive):
-    update_profiles_archive = self._convert_file_to_archive(update_file_path, 'imported_profiles_to_update')
+    update_profiles_archive = self._convert_file_to_archive(update_file_path, 'imported_profiles_for_update')
 
     cim_to_grid_tool = self._create_cim_to_grid_tool()
     cim_to_grid_tool.sourcePath = update_profiles_archive
@@ -108,7 +108,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
       self._set_profiles_of_cim_tool(grid_to_cim_tool, selected_profiles, True)
 
     grid_to_cim_tool.iopt_target = 1 # existing archive
-    cim_archive = self._create_cim_archive(name='_'.join([self.ARCHIVE_NAME, selected_profiles.replace(' ', '_')]))
+    cim_archive = self._create_cim_archive(name='_'.join([self.ARCHIVE_NAME, 'exported', selected_profiles.replace(' ', '_')]))
     grid_to_cim_tool.targetPath = cim_archive
     grid_to_cim_tool.Execute()
     return cim_archive
