@@ -17,7 +17,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
     self.CGMES_VERSION = 'CGMES 3.0.0'
     self._ALL_PROFILES = 'eq tp ssh sc sv dy dl gl'
   
-  # Import functions TODO
+  # Import functions
 
   def _create_cim_to_grid_tool(self):
     """Returns the CIM to Grid tool object .ComCimtogrid."""
@@ -26,7 +26,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
 
 
   def _convert_file_to_archive(self, file_path, name):
-    """Convert a .zip file to a PowerFactory .CimArchive object. Returns the .CimArchive object."""
+    """Convert a .zip CGMES file to a PowerFactory .CimArchive object. Returns the .CimArchive object."""
     file_to_archive_tool = self.create_in_folder(self.app.GetActiveStudyCase(), 
                                             self.FILE_TO_ARCHIVE_TOOL_NAME+'.ComCimdbimp', 
                                             use_existing=True)
