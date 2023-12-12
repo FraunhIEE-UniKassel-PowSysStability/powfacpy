@@ -271,12 +271,14 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       variables: List of variable names for each result variable
       
     Example (export a selection of results variables): 
-      voltage_source = pfri.get_unique_obj('Network Model\\Network Data\\test_plot_interface\\Grid 1\\AC Voltage Source')
-      control_model = pfri.get_unique_obj('Network Model\\Network Data\\test_plot_interface\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
-      objects =   [voltage_source, voltage_source, control_model]
+      voltage_source = pfri.get_unique_obj(r'Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source')
+      control_model = pfri.get_unique_obj(r'Network Model\Network Data\test_plot_interface\Grid 1\WECC WT Control System Type 4A\REEC_A Electrical Control Model')
+      elements =   [voltage_source, voltage_source, control_model]
       variables = ['m:Qsum:bus1',  'm:Psum:bus1',  's:Ipcmd'    ]
       elmres_list = [pfri.app.GetFromStudyCase('ElmRes'),]*len(variables)
-      df = pfri.export_to_pandas(elmres_list, objects, variables)  
+      df = pfri.export_to_pandas(list_of_results_objs=elmres_list, 
+                                elements=elements, 
+                                variables=variables) 
     """
     FILE_NAME = 'temp'
     file_path = getcwd()
