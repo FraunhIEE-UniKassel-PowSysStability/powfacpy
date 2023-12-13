@@ -88,17 +88,15 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       if results_obj and list_of_results_objs:
         raise ValueError("Results objects were given in 'results_obj' and in " + 
                         "'list_of_results_objs'. This is redundant, specifiy only one.")   
-      if elements and variables:
+      if elements and variables and list_of_results_objs:
         self._add_selected_variables_for_export(comres, 
                                                 list_of_results_objs,
                                                 elements,
                                                 variables)
         comres.iopt_csel = 1 # export selected variables
-        num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
-          list_of_results_objs)
-      elif elements or variables:
-        raise ValueError("Please specify argument 'elements' together with " +
-                         "argument 'variables'")      
+      elif elements or variables or list_of_results_objs:
+        raise ValueError("The arguments 'list_of_results_objs', 'elements' and 'variables' " +
+                         "must be specified together.")      
       else:
         if not results_obj:
           if not self.app.GetActiveStudyCase():
@@ -107,7 +105,6 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         else:
           comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
         comres.iopt_csel = 0 # export all variables     
-        num_header_rows = 2 
           
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator)
       [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]  
@@ -115,6 +112,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
 
       path = self._replace_special_PF_characters_in_path_string(comres.f_name)
       if format_csv_file:
+        num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
+          list_of_results_objs) 
         self._format_exported_csv_file(path, comres, list_of_results_objs, num_header_rows) 
       return path    
 
@@ -162,7 +161,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       IntComtrade).
       """
       if (comres.pResult and comres.pResult.GetClassName() == "ElmRes") or \
-        (list_of_results_objs and list_of_results_objs['result_objects'][0].GetClassName() == "ElmRes"):
+        (list_of_results_objs and list_of_results_objs[0].GetClassName() == "ElmRes"):
           self._format_csv_for_elmres(path, num_header_rows, list_of_results_objs)
       else: # results objects are in COMTRADE format
         self._format_csv_for_comtrade(path)
@@ -237,7 +236,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
 
   def _add_selected_variables_for_export(self, 
                                          comres, 
-                                         results_objs: list, 
+                                         list_of_results_objs: list, 
                                          elements: list, 
                                          variables: list):
     """Adds selected variables to ComRes for export.
@@ -251,12 +250,12 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       variables: list of varaibles (corresponding to elements)
     """
     comres.iopt_csel = 1 # export only selected variables
-    elmres = results_objs[0]
+    elmres = list_of_results_objs[0]
     # Insert simuation time
     time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
     first_row_is_time = variables[0] == time_variable_name
     if not first_row_is_time: # add time as first row
-      comres.resultobj = [elmres] + results_objs
+      comres.resultobj = [elmres] + list_of_results_objs
       comres.element = [elmres] + elements
       comres.variable = [time_variable_name] + variables
 
