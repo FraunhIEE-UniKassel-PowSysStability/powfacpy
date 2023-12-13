@@ -12,6 +12,7 @@ import importlib
 importlib.reload(powfacpy)
 
 
+
 @pytest.fixture(scope='session')
 def pf_app():
     return powerfactory.GetApplication()
@@ -311,6 +312,8 @@ def test_get_upstream_object(pfbi, activate_test_project):
         pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
                         lambda x: x.loc_name == "wrong name") 
 
+
+        
 if __name__ == "__main__":
     pytest.main([r"tests\test_base_interface.py"])
     # pytest.main(([r"tests"]))

@@ -41,9 +41,13 @@ def test_export_to_csv(pfri, activate_test_project):
                        list_of_results_objs = [elmres_list[0],elmres_list[0]],
                        elements=[terminal_hv_1, terminal_hv_1],
                        variables = ["m:u1", "m:u1"])
-    # don't format csv  
+    # don't format csv, use comres parameter argument 
     pfri.export_to_csv(dir=dir, 
                        file_name="test_5",
+                       comres_parameters={
+                           "iopt_rscl":1, 
+                           "scl_start":0.5
+                           },
                        format_csv_file = False)
     
     

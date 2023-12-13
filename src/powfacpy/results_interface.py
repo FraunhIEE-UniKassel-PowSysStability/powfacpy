@@ -34,13 +34,14 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
   
   def export_to_csv(self,
     dir=None,
-    file_name="results",
-    results_obj=None,
+    file_name ="results",
+    results_obj = None,
     list_of_results_objs:list = None,
     elements:list = None, 
     variables:list = None,
-    column_separator:str=',',
-    decimal_separator:str='.',
+    column_separator:str = ',',
+    decimal_separator:str = '.',
+    comres_parameters:dict = {},
     format_csv_file=True,
     ) -> str:
       """Exports simulation results to csv.
@@ -49,8 +50,9 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         dir: export directory, if 'None' the current working directory 
           (where script is run) is used 
         file_name: Name of target csv file
-        results_obj: PF ElmRes object, by default the first ElmRes found in the 
-          active study case is used. All variables from this object are exported.
+        results_obj: PF ElmRes or IntComtrade object, by default the first ElmRes 
+          found in the active study case is used. All variables from this object 
+          are exported.
         list_of_results_objs: Specify if selected variables from several results
           objects should be exported. Used in combination with arguments 
           'elements' and 'variables'. Don't specify in combination with 'results_obj'.
@@ -64,6 +66,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           exported). Used in combination with 'elements' (and either with 'results_obj' 
           (one result object) or 'list_of_results_objs'(several different results 
           objects)).
+        comres_parameters: Dictionary with parameters (and values) for the comres
+          object.  
         format_csv_file: Format csv file so there is only one row for the header
           (see also _format_csv_for_elmres and format_csv_for_comtrade).
 
@@ -93,8 +97,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
           list_of_results_objs)
       elif elements or variables:
-        raise ValueError("Please specify argument 'elements' together with \
-                         argument 'variables'")      
+        raise ValueError("Please specify argument 'elements' together with " +
+                         "argument 'variables'")      
       else:
         if not results_obj:
           if not self.app.GetActiveStudyCase():
@@ -106,6 +110,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         num_header_rows = 2 
           
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator)
+      [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]  
       comres.Execute()
 
       path = self._replace_special_PF_characters_in_path_string(comres.f_name)
@@ -259,20 +264,38 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
                       results_obj=None, 
                       list_of_results_objs:list = None,
                       elements:list = None, 
-                      variables:list = None) -> None:
-    """Returns pandas DataFrame of the simulation results in ElmRes. By default, all
+                      variables:list = None,
+                      comres_parameters:dict = {},) -> None:
+    """
+    Returns pandas DataFrame of the simulation results in ElmRes. By default, all
     results variables of the first ElmRes object found in the active study case
     are exported. A selection of specific variables can be exported using 
-    the optional arguments.
+    the optional arguments. Uses intermediate step by exporting to csv format
+    with comres object.
     
     Arguments:
-      result_objects: List of ElmRes for each result variable (repeat if identical or several variables) 
-      elements: List of Powerfactory Objects for each result variable 
-      variables: List of variable names for each result variable
+      results_obj: PF ElmRes or IntComtrade object, by default the first ElmRes 
+          found in the active study case is used. All variables from this object 
+          are exported.
+        list_of_results_objs: Specify if selected variables from several results
+          objects should be exported. Used in combination with arguments 
+          'elements' and 'variables'. Don't specify in combination with 'results_obj'.
+          Note that PF (i.e. ComRes objects) does not allow the combined export 
+          from ElmRes and IntComtrade objects. 
+        elements: Specify if only selected variables from the grid elements in 
+          this list (e.g. ElmTerm etc.) should be exported. Used in combination
+          with 'variables' (and either with 'results_obj' (one result object) 
+          or 'list_of_results_objs'(several different results objects)).
+        variables: Specify if only selected variables (e.g. "m:u") should be 
+          exported). Used in combination with 'elements' (and either with 'results_obj' 
+          (one result object) or 'list_of_results_objs'(several different results 
+          objects)).
+        comres_parameters: Dictionary with parameters (and values) for the comres
+          object (for intermediate step to export to csv).
       
     Example (export a selection of results variables): 
-      voltage_source = pfri.get_unique_obj(r'Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source')
-      control_model = pfri.get_unique_obj(r'Network Model\Network Data\test_plot_interface\Grid 1\WECC WT Control System Type 4A\REEC_A Electrical Control Model')
+      voltage_source = pfri.get_unique_obj('Network Model\\Network Data\\test_plot_interface\\Grid 1\\AC Voltage Source')
+      control_model = pfri.get_unique_obj('Network Model\\Network Data\\test_plot_interface\\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
       elements =   [voltage_source, voltage_source, control_model]
       variables = ['m:Qsum:bus1',  'm:Psum:bus1',  's:Ipcmd'    ]
       elmres_list = [pfri.app.GetFromStudyCase('ElmRes'),]*len(variables)
@@ -292,6 +315,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         list_of_results_objs=list_of_results_objs,
         elements=elements,
         variables=variables,
+        comres_parameters=comres_parameters,
         format_csv_file=False)
       
       df = pd.read_csv(full_path, encoding='ISO-8859-1', header=[0,1])
