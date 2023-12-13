@@ -60,12 +60,9 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           from ElmRes and IntComtrade objects. 
         elements: Specify if only selected variables from the grid elements in 
           this list (e.g. ElmTerm etc.) should be exported. Used in combination
-          with 'variables' (and either with 'results_obj' (one result object) 
-          or 'list_of_results_objs'(several different results objects)).
+          with 'variables' and 'list_of_results_objs'(several different results objects)).
         variables: Specify if only selected variables (e.g. "m:u") should be 
-          exported). Used in combination with 'elements' (and either with 'results_obj' 
-          (one result object) or 'list_of_results_objs'(several different results 
-          objects)).
+          exported). Used in combination with 'elements' and 'list_of_results_objs'.
         comres_parameters: Dictionary with parameters (and values) for the comres
           object.  
         format_csv_file: Format csv file so there is only one row for the header
@@ -104,8 +101,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           comres.pResult = self.app.GetFromStudyCase("ElmRes")  
         else:
           comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
-        comres.iopt_csel = 0 # export all variables     
-          
+        comres.iopt_csel = 0 # export all variables 
+                 
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator)
       [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]  
       comres.Execute()
@@ -276,19 +273,16 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_obj: PF ElmRes or IntComtrade object, by default the first ElmRes 
           found in the active study case is used. All variables from this object 
           are exported.
-        list_of_results_objs: Specify if selected variables from several results
+        ist_of_results_objs: Specify if selected variables from several results
           objects should be exported. Used in combination with arguments 
           'elements' and 'variables'. Don't specify in combination with 'results_obj'.
           Note that PF (i.e. ComRes objects) does not allow the combined export 
           from ElmRes and IntComtrade objects. 
         elements: Specify if only selected variables from the grid elements in 
           this list (e.g. ElmTerm etc.) should be exported. Used in combination
-          with 'variables' (and either with 'results_obj' (one result object) 
-          or 'list_of_results_objs'(several different results objects)).
+          with 'variables' and 'list_of_results_objs'(several different results objects)).
         variables: Specify if only selected variables (e.g. "m:u") should be 
-          exported). Used in combination with 'elements' (and either with 'results_obj' 
-          (one result object) or 'list_of_results_objs'(several different results 
-          objects)).
+          exported). Used in combination with 'elements' and 'list_of_results_objs'.
         comres_parameters: Dictionary with parameters (and values) for the comres
           object (for intermediate step to export to csv).
       
