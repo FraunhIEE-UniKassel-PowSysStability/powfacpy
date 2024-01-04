@@ -7,10 +7,12 @@ import pandas as pd
 from math import inf
 from warnings import warn
 
+
 class PFResultsInterface(powfacpy.PFBaseInterface):
 
   def __init__(self, app):
     super().__init__(app)
+
 
   def get_list_with_results_of_variable_from_elmres(self, obj, variable, results_obj=None, load_elmres=True):
     if not results_obj:
@@ -20,6 +22,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     obj = self.handle_single_pf_object_or_path_input(obj)  
     column = results_obj.FindColumn(obj, variable)
     return self.get_list_with_results_of_column(column, results_obj=results_obj, load_elmres=False)  
+
 
   def get_list_with_results_of_column_from_elmres(self, column, results_obj=None, load_elmres=True):
     if not results_obj:
@@ -32,6 +35,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     intvec.Delete()
     return list
   
+
   def export_to_csv(self,
     dir=None,
     file_name ="results",
@@ -42,7 +46,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     column_separator:str = ',',
     decimal_separator:str = '.',
     comres_parameters:dict = {},
-    format_csv_file=True,
+    format_csv_file:bool = True,
     ) -> str:
       """Exports simulation results to csv.
       
@@ -111,7 +115,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
           list_of_results_objs) 
         self._format_exported_csv_file(path, comres, list_of_results_objs, num_header_rows) 
-      return path    
+      return path
+
 
   def _get_number_of_header_rows_of_exported_csv_file(self, list_of_results_objs:list) -> int:
     """
@@ -128,6 +133,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     else:  
       return 2 
   
+
   def _set_comres_settings_for_csv_export(self, 
                                          comres, 
                                          dir:str, 
@@ -148,6 +154,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     comres.numberFormat = 1 # scientific notation  
     _ = [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]
   
+
   def _format_exported_csv_file(self, 
                                 path:str, 
                                 comres, 
@@ -164,6 +171,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       else: # results objects are in COMTRADE format
         self._format_csv_for_comtrade(path)
     
+
   def _format_csv_for_comtrade(self, file_path:str) -> None:
     """Format the .csv file created (using ComRes) based on a Comtrade object (IntComtrade).
     There is a bug in PF so that the time in the first column sometimes
@@ -183,6 +191,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           time = float(row_entries[0])
         row = read_file.readline()  
     replace(file_path + ".temp", file_path)  
+
 
   def _format_csv_for_elmres(self, 
                              file_path:str, 
@@ -232,6 +241,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       if len(list_of_results_objs) != len(full_paths) - 1: # -1 because of time in first column
         warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
 
+
   def _add_selected_variables_for_export(self, 
                                          comres, 
                                          list_of_results_objs: list, 
@@ -256,6 +266,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       comres.resultobj = [elmres] + list_of_results_objs
       comres.element = [elmres] + elements
       comres.variable = [time_variable_name] + variables
+
 
   def export_to_pandas(self, 
                       results_obj=None, 
@@ -321,6 +332,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       remove(full_path)
     return df
   
+
   def _format_pandas_column_headers(self, df:pd.DataFrame, list_of_results_objs:list) -> None:
     num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
         list_of_results_objs)
@@ -330,6 +342,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       var = powfacpy.PFStringManipulation._format_variable_name(col[num_header_rows-1])
       headers.append(path + '\\' + var)
     df.columns = headers
+
 
   @staticmethod
   def _get_time_variable_name_from_elmres(elmres) -> str:
