@@ -29,7 +29,7 @@ def test_export_to_csv(pfri, activate_test_project):
     dir = getcwd()  + "\\tests\\tests_output"
     pfri.export_to_csv(dir=dir, file_name="test_1")   
     pfri.export_to_csv(dir=dir, file_name="test_2", results_obj = elmres_list[0]) 
-    # lists and differnt elmres
+    # lists and different elmres
     pfri.export_to_csv(dir=dir,
                        file_name="test_3", 
                        list_of_results_objs = elmres_list,

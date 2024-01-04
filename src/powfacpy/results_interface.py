@@ -95,6 +95,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
                                                 elements,
                                                 variables)
         comres.iopt_csel = 1 # export selected variables
+        if not comres.timeSclObj: # Leading results object
+          comres.timeSclObj = list_of_results_objs[0]
       elif elements or variables or list_of_results_objs:
         raise ValueError("The arguments 'list_of_results_objs', 'elements' and 'variables' " +
                          "must be specified together.")      
@@ -109,8 +111,10 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator, comres_parameters)
       export_successful = comres.Execute()
-      if export_successful == 0:
-        raise Exception("CSV Export was not successful.")
+      if export_successful != 0:
+        comres_path = self.get_path_of_object(comres)
+        raise Exception("CSV export was not successful using '" +
+                        str(comres_path) + "'")
 
       path = self._replace_special_PF_characters_in_path_string(comres.f_name)
       if format_csv_file:
@@ -337,6 +341,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
     finally:
       remove(full_path)
+      
     return df
   
 
@@ -357,11 +362,12 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     Different PF simulation types (RMS, quasi-static,..) 
     have different names for the time variable.
     """
-    if elmres.calTp == 0: # RMS
+    if elmres.calTp == 0: # RMS/EMT
       return 'b:tnow'
     elif elmres.calTp == 29: # quasi-static
       return 'b:ucttime'
     else:
-      raise Exception(f"The PF simulation type number '{elmres.calTp}' of the results object (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code: Add the simulation type number to the 'time_names' dictionary of the method '_get_time_variable_name_from_elmres' (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/).")
+      raise Exception(f"""The PF simulation type number '{elmres.calTp}' of the results object (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
+      _get_time_variable_name_from_elmres (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/).""")
       
 
