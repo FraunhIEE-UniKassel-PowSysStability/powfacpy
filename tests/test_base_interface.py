@@ -39,6 +39,20 @@ def activate_test_project(pfbi):
         folder_of_project_for_testing, new_name="powfacpy_tests_copy_where_tests_are_run")    
     project_copy.Activate()    
     
+
+def test_get_from_study_case(pfbi, activate_test_project):
+    study_case = pfbi.get_unique_obj(r'Study Cases\test_base_interface\multiple_elmres.IntCase')
+    study_case.Activate()
+
+    with pytest.warns(Warning):
+        pfbi.get_from_study_case('ElmRes')
+
+    study_case.Deactivate()
+    with pytest.raises(powfacpy.PFNoActiveStudyCaseError):
+        pfbi.get_from_study_case('ElmRes')
+    pass
+
+
 def test_get_single_object(pfbi, activate_test_project):
     terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
     assert isinstance(terminal_1, powerfactory.DataObject)
@@ -313,7 +327,6 @@ def test_get_upstream_object(pfbi, activate_test_project):
                         lambda x: x.loc_name == "wrong name") 
 
 
-        
 if __name__ == "__main__":
     pytest.main([r"tests\test_base_interface.py"])
     # pytest.main(([r"tests"]))
