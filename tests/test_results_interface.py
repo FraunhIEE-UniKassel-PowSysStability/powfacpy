@@ -15,8 +15,8 @@ def pfri(pf_app):
     return pfri
 
 def test_export_to_csv(pfri, activate_test_project):
-    study_case_1 = pfri.get_unique_obj(r"Study Cases\test_base_interface\Study Case 1")
-    study_case_2 = pfri.get_unique_obj(r"Study Cases\test_base_interface\Study Case 2")
+    study_case_1 = pfri.get_unique_obj(r"Study Cases\test_results_interface\Export Simulation 1.IntCase")
+    study_case_2 = pfri.get_unique_obj(r"Study Cases\test_results_interface\Export Simulation 2.IntCase")
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
     elmres_list = []
     terminal_hv_1 = pfri.get_unique_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 2")
@@ -24,13 +24,13 @@ def test_export_to_csv(pfri, activate_test_project):
         case.Activate()
         pfdi.add_results_variable(terminal_hv_1,"m:u1")
         pfdi.initialize_and_run_sim()
-        elmres_list.append(pfri.app.GetFromStudyCase(".ElmRes"))
+        elmres_list.append(pfri.get_from_study_case("ElmRes"))
     study_case_1.Activate()
     dir = getcwd()  + "\\tests\\tests_output"
     pfri.export_to_csv(dir=dir, file_name="test_1")   
     pfri.export_to_csv(dir=dir, file_name="test_2", results_obj = elmres_list[0]) 
     # lists and differnt elmres
-    pfri.export_to_csv(dir=dir, 
+    pfri.export_to_csv(dir=dir,
                        file_name="test_3", 
                        list_of_results_objs = elmres_list,
                        elements=[terminal_hv_1, terminal_hv_1],
@@ -87,7 +87,7 @@ def test_export_to_pandas(pfri, activate_test_project):
         variables=variables)
     assert len(df.columns) == nr_of_columns_including_time
 
-    df = pfri.export_to_pandas() 
+    df = pfri.export_to_pandas()
 
 if __name__ == "__main__":
     pytest.main(([r"tests\test_results_interface.py"]))

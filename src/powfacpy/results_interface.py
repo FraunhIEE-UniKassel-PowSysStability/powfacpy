@@ -102,13 +102,15 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         if not results_obj:
           if not self.app.GetActiveStudyCase():
             raise powfacpy.PFNotActiveError("study case")
-          comres.pResult = self.app.GetFromStudyCase("ElmRes")  
+          comres.pResult = self.get_from_study_case("ElmRes")
         else:
           comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
-        comres.iopt_csel = 0 # export all variables 
-                 
+        comres.iopt_csel = 0 # export all variables
+      
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator, comres_parameters)
-      comres.Execute()
+      export_successful = comres.Execute()
+      if export_successful == 0:
+        raise Exception("CSV Export was not successful.")
 
       path = self._replace_special_PF_characters_in_path_string(comres.f_name)
       if format_csv_file:
@@ -262,10 +264,15 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     # Insert simuation time
     time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
     first_row_is_time = variables[0] == time_variable_name
+    
     if not first_row_is_time: # add time as first row
       comres.resultobj = [elmres] + list_of_results_objs
       comres.element = [elmres] + elements
       comres.variable = [time_variable_name] + variables
+    else:
+      comres.resultobj = list_of_results_objs
+      comres.element = elements
+      comres.variable = variables
 
 
   def export_to_pandas(self, 
@@ -314,7 +321,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     
     try:
       self.export_to_csv(
-        dir= file_path,
+        dir=file_path,
         file_name=FILE_NAME,
         results_obj=results_obj,
         list_of_results_objs=list_of_results_objs,
@@ -328,7 +335,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       if list_of_results_objs:
         if len(list_of_results_objs) != len(df.columns) - 1:
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
-    finally:    
+    finally:
       remove(full_path)
     return df
   
