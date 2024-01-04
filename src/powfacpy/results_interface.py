@@ -103,8 +103,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
         comres.iopt_csel = 0 # export all variables 
                  
-      self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator)
-      [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]  
+      self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator, comres_parameters)
       comres.Execute()
 
       path = self._replace_special_PF_characters_in_path_string(comres.f_name)
@@ -134,7 +133,8 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
                                          dir:str, 
                                          file_name:str, 
                                          column_separator:str, 
-                                         decimal_separator:str) -> None:
+                                         decimal_separator:str,
+                                         comres_parameters:dict) -> None:
     if not dir:
       dir = getcwd() 
     comres.f_name = dir + "\\" + file_name + ".csv"
@@ -146,6 +146,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     comres.iopt_locn = 3 # column header includes path
     comres.ciopt_head = 1 # full variable name
     comres.numberFormat = 1 # scientific notation  
+    _ = [comres.SetAttribute(attr, value) for attr, value in comres_parameters.items()]
   
   def _format_exported_csv_file(self, 
                                 path:str, 
