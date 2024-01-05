@@ -2,8 +2,8 @@ import pytest
 import sys
 import os
 import json
-settings_file = open('.\\settings.json')
-settings = json.load(settings_file)
+with open('.\\settings.json') as settings_file:
+    settings = json.load(settings_file)
 sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 sys.path.insert(0, r'.\src')
