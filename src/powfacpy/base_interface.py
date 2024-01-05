@@ -141,7 +141,7 @@ class PFBaseInterface:
           If you want to get the "All calculation" objects of all the study cases 
           in the study case folder, use
             self.get_multiple_obj_from_similar_sub_directories(
-              r"Study Cases\*","All calculations")     
+              r'Study Cases\*','All calculations')     
         """
         if isinstance(parent_folders, str):
             parent_folders = self.get_obj(parent_folders)
@@ -205,7 +205,7 @@ class PFBaseInterface:
             child = child.GetContents(f"{child_name}")
             if child:
                 child = child[0]
-                existing_path = f"{existing_path}\{child.loc_name}"
+                existing_path = f"{existing_path}\\{child.loc_name}"
             else:
                 if not return_info:
                     return False
@@ -381,7 +381,7 @@ class PFBaseInterface:
         """Create an object by specifying its path including its class and return the object.
         If overwrite is true, objects with the same name will be overwritten.
         Example:
-          pfbi.create_by_path(r"Library\Dynamic Models\dummy.BlkDef") 
+          pfbi.create_by_path(r'Library\Dynamic Models\dummy.BlkDef') 
         """
         try:
             folder_path, obj_name_incl_class = path.rsplit('\\', 1)
