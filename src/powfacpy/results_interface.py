@@ -266,7 +266,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     comres.iopt_csel = 1 # export only selected variables
     elmres = list_of_results_objs[0]
     # Insert simuation time
-    time_variable_name = powfacpy.PFResultsInterface._get_time_variable_name_from_elmres(elmres)
+    time_variable_name = self._get_time_variable_name_from_elmres(elmres)
     first_row_is_time = variables[0] == time_variable_name
     
     if not first_row_is_time: # add time as first row
@@ -341,7 +341,6 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
     finally:
       remove(full_path)
-      
     return df
   
 
@@ -356,8 +355,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     df.columns = headers
 
 
-  @staticmethod
-  def _get_time_variable_name_from_elmres(elmres) -> str:
+  def _get_time_variable_name_from_elmres(self,elmres) -> str:
     """Returns the variable name of simulation time in an ElmRes object. 
     Different PF simulation types (RMS, quasi-static,..) 
     have different names for the time variable.
@@ -367,7 +365,10 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     elif elmres.calTp == 29: # quasi-static
       return 'b:ucttime'
     else:
-      raise Exception(f"""The PF simulation type number '{elmres.calTp}' of the results object (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
+      elmres_path = self.get_path_of_object(elmres)
+      raise Exception(f"""The PF simulation type number '{elmres.calTp}' of the results object 
+      '{elmres_path}' 
+      (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
       _get_time_variable_name_from_elmres (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/).""")
       
 

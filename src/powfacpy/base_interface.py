@@ -244,12 +244,13 @@ class PFBaseInterface:
             all_objects_of_this_class = self.get_obj(
                 search_string, parent_folder=object.GetParent(), include_subfolders=False)
             if len(all_objects_of_this_class) > 1:
+                parent_path = self.get_path_of_object(object.GetParent())
                 if if_not_unique == "warning":
                     warn(
-                        f"The returned {class_name} object is not unique in its folder / in its study case. Make sure that the correct {class_name} object is used.")
+                        f"The returned {class_name} object is not unique in its folder / in its study case: '{parent_path}'. Make sure that the correct {class_name} object is used.")
                 if if_not_unique == "error":
                     raise TypeError(
-                        f"The returned {class_name} object is not unique in its folder / in its study case.")
+                        f"The returned {class_name} object is not unique in its folder / in its study case: '{parent_path}'")
 
         return object
 

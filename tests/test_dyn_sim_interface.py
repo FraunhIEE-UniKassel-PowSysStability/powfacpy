@@ -22,16 +22,17 @@ def test_export_to_csv(pfsim, activate_test_project):
         r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\AC Voltage Source","m:Psum:bus1")    
     pfsim.initialize_and_run_sim()  
 
-    pfsim.export_dir = export_dir
-    pfsim.export_to_csv() 
+    pfri = powfacpy.PFResultsInterface(pfsim.app)
+    export_dir = export_dir
+    pfri.export_to_csv(export_dir) 
     remove(export_dir + "\\results.csv")
 
-    pfsim.export_to_csv(dir=export_dir, file_name=file_name)
+    pfri.export_to_csv(dir=export_dir, file_name=file_name)
     remove(export_dir + "\\" + file_name + ".csv")
 
     results_obj = pfsim.get_single_obj(
         r"Study Cases\test_dyn_sim_interface\Study Case\All calculations")
-    pfsim.export_to_csv(results_obj=results_obj) 
+    pfri.export_to_csv(export_dir,results_obj=results_obj) 
     remove(export_dir + "\\results.csv")    
 
 def test_set_and_get_dsl_obj_array(pfsim, activate_test_project):

@@ -434,14 +434,14 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       par_name_to_list_mapping[par_name] = "x[" + str(par_num) + "]"  
     return par_name_to_list_mapping
 
-  def export_results_of_study_cases(
+  def export_results_of_study_cases_to_csv(
       self, 
       export_dir=None, 
       study_cases=None,
       case_numbers=None,
       results_obj="ElmRes",
       results_variables_lists=None,
-      leave_csv_file_unchanged=False):
+      format_csv_file=True):
     """Export the simulation results (ElmRes) of the study cases to csv files. 
     The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
     Returns the full paths of the csv files.
@@ -454,7 +454,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         'self.app.GetFromStudyCase("ElmRes")' )
       - results_variables_lists: if only specific variables should be export (see also 
           export_to_csv). By default all variables are exported.
-      - leave_csv_file_unchanged: see export_to_csv    
+      - format_csv_file: see export_to_csv    
     """
 
     study_cases, case_numbers = self.handle_study_case_objects_case_numbers_input(
@@ -466,16 +466,17 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     makedirs(export_dir, exist_ok=True)   
 
     csv_files_full_paths = []
+    pfri = powfacpy.PFResultsInterface(self.app)
     for case_num,case in zip(case_numbers, study_cases):
       case.Activate()
       elmres = self.app.GetFromStudyCase(results_obj)
       case_file_name = "case" + str(case_num)
-      self.export_to_csv(
+      pfri.export_to_csv(
         export_dir,
         case_file_name,
         elmres,
-        results_variables_lists,
-        leave_csv_file_unchanged=leave_csv_file_unchanged)
+        variables=results_variables_lists,
+        format_csv_file=format_csv_file)
       csv_files_full_paths.append(join(export_dir, case_file_name + ".csv"))
     return csv_files_full_paths  
 

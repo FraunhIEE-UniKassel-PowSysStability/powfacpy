@@ -247,7 +247,7 @@ def test_get_study_cases_from_string(pfsc, activate_test_project):
         assert(pfsc.get_value_of_parameter_for_case("q HV load",case_num) == 1)
         assert not(pfsc.get_value_of_parameter_for_case("q HV load",case_num) == -1)
 
-def test_export_results_of_study_cases(pfsc, activate_test_project):
+def test_export_results_of_study_cases_to_csv(pfsc, activate_test_project):
     # Create cases
     pfsc.parameter_values = {
         "p HV load":[1, 2, 3],
@@ -275,7 +275,7 @@ def test_export_results_of_study_cases(pfsc, activate_test_project):
         pfds.initialize_and_run_sim()
     # Export to csv
     export_dir = r"tests\tests_output\Case_studies"
-    csv_files_full_paths = pfsc.export_results_of_study_cases(
+    csv_files_full_paths = pfsc.export_results_of_study_cases_to_csv(
         study_cases=cases,
         case_numbers=case_numbers,
         export_dir=export_dir) 
@@ -310,4 +310,4 @@ def test_handle_study_case_objects_case_numbers_input(pfsc, activate_test_projec
     assert(case_numbers2 == list(case_numbers3))
 
 if __name__ == "__main__":
-    pytest.main(([r"tests\test_case_studies.py"]))
+    pytest.main(([r"tests\test_case_studies.py::test_export_results_of_study_cases_to_csv"]))

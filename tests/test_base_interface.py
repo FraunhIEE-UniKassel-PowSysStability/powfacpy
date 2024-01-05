@@ -326,6 +326,13 @@ def test_get_upstream_object(pfbi, activate_test_project):
         pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
                         lambda x: x.loc_name == "wrong name") 
 
+def test_get_from_study_case(pfbi, activate_test_project):
+    pfbi.activate_study_case(r"Study Cases\test_base_interface\multiple_elmres")
+    with pytest.warns():
+        pfbi.get_from_study_case("ElmRes")
+    with pytest.raises(Exception):    
+        pfbi.get_from_study_case("ElmRes", if_not_unique="error")
+    
 
 if __name__ == "__main__":
     pytest.main([r"tests\test_base_interface.py"])

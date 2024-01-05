@@ -53,10 +53,10 @@ def test_pyplot_from_csv(pfplot, activate_test_project):
     export_dir = os.path.dirname(__file__) + r"\tests_output"
     file_name = "results"
     pfsim = powfacpy.PFDynSimInterface(pfplot.app)
-    pfsim.export_dir =  export_dir
     pfsim.activate_study_case(r"Study Cases\test_plot_interface\Study Case 1")
     pfsim.initialize_and_run_sim()
-    pfsim.export_to_csv(file_name=file_name)
+    pfri = powfacpy.PFResultsInterface(pfplot.app)
+    pfri.export_to_csv(export_dir,file_name=file_name)
 
     pyplot.figure()
     powfacpy.PFPlotInterface.plot_from_csv(
