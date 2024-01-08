@@ -73,6 +73,13 @@ class PFNotActiveError(PFInterfaceError):
     self.message = (f"Please activate {obj_str}.")
     super().__init__(self.message)
 
+class PFNoActiveStudyCaseError(PFInterfaceError):
+  """No active study case found.
+  """
+  def __init__(self):
+    self.message = ("No active study case found. Please activate one.")
+    super().__init__(self.message)
+
 class PFAttributeNotSetError(PFInterfaceError):
   """Attempt to access an attribute of a powfacpy class instance,
   but it was not specified.

@@ -2,14 +2,15 @@ import pytest
 import sys
 import os
 import json
-settings_file = open('.\\settings.json')
-settings = json.load(settings_file)
+with open('.\\settings.json') as settings_file:
+    settings = json.load(settings_file)
 sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 sys.path.insert(0, r'.\src')
 import powfacpy 
 import importlib
 importlib.reload(powfacpy)
+
 
 
 @pytest.fixture(scope='session')
@@ -38,6 +39,20 @@ def activate_test_project(pfbi):
         folder_of_project_for_testing, new_name="powfacpy_tests_copy_where_tests_are_run")    
     project_copy.Activate()    
     
+
+def test_get_from_study_case(pfbi, activate_test_project):
+    study_case = pfbi.get_unique_obj(r'Study Cases\test_base_interface\multiple_elmres.IntCase')
+    study_case.Activate()
+
+    with pytest.warns(Warning):
+        pfbi.get_from_study_case('ElmRes')
+
+    study_case.Deactivate()
+    with pytest.raises(powfacpy.PFNoActiveStudyCaseError):
+        pfbi.get_from_study_case('ElmRes')
+    pass
+
+
 def test_get_single_object(pfbi, activate_test_project):
     terminal_1=pfbi.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
     assert isinstance(terminal_1, powerfactory.DataObject)
@@ -310,6 +325,14 @@ def test_get_upstream_object(pfbi, activate_test_project):
     with pytest.raises(Exception):
         pfbi.get_upstream_obj(r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
                         lambda x: x.loc_name == "wrong name") 
+
+def test_get_from_study_case(pfbi, activate_test_project):
+    pfbi.activate_study_case(r"Study Cases\test_base_interface\multiple_elmres")
+    with pytest.warns():
+        pfbi.get_from_study_case("ElmRes")
+    with pytest.raises(Exception):    
+        pfbi.get_from_study_case("ElmRes", if_not_unique="error")
+    
 
 if __name__ == "__main__":
     pytest.main([r"tests\test_base_interface.py"])
