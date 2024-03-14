@@ -11,16 +11,16 @@ from os import path as os_path
 import powfacpy
 import sys
 sys.path.insert(0, r'.\src')
-
+from powfacpy.pf_class_protocols import *
 
 class PFBaseInterface:
     """Base interface for interaction with the PF database.
     """
     language = "en"
 
-    def __init__(self, app, language=None):
+    def __init__(self, app, language:str=None):
         if app:
-            self.app = app
+            self.app:PFApp = app
         else:
             raise TypeError("The input app is of type 'NoneType'. Maybe the PowerFactory "
                             "app was not loaded correctly.")
@@ -254,7 +254,7 @@ class PFBaseInterface:
 
         return object
 
-    def get_active_project(self):
+    def get_active_project(self) -> IntPrj:
         """Returns the currently active project and throws an
         error if no prject has been activated.
         """
@@ -264,7 +264,7 @@ class PFBaseInterface:
         else:
             raise powfacpy.PFNotActiveError("a project")
 
-    def get_active_user_folder(self):
+    def get_active_user_folder(self) -> IntUser:
         """Return the folder of the active user.
         """
         parent = self.get_active_project()
@@ -272,7 +272,7 @@ class PFBaseInterface:
             parent = parent.GetParent()
         return parent
 
-    def get_active_networks(self, error_if_no_network_is_active=True):
+    def get_active_networks(self, error_if_no_network_is_active=True) -> ElmNet:
         """Get active networks/grids.  
         """
         grids = self.app.GetCalcRelevantObjects(
@@ -618,7 +618,12 @@ class PFBaseInterface:
             return target_folder.AddCopy(obj, new_name)
         else:
             return target_folder.AddCopy(obj)
-
+    
+    def is_pf_class(self, class_name:str) -> bool:
+        """Checks if class_name is a valid PF class (using the class ID).
+        """
+        return self.app.GetClassId(class_name) != 0
+    
     def is_container(self, obj):
         """Checks whether a PF object is a container. It is assumed
         that an object is a container if it has the attribute 'contents'.
@@ -633,7 +638,7 @@ class PFBaseInterface:
         study_case.Activate()
         return study_case
 
-    def add_results_variable(self, obj, variables, results_obj=None):
+    def add_results_variable(self, obj, variables, results_obj:ElmRes=None):
         """Adds variables of the object to the PowerFactory results object (ElmRes)
         obj: PowerFactory object or its path
         """
@@ -650,7 +655,7 @@ class PFBaseInterface:
         results_obj.Load()
         return results_obj
 
-    def clear_elmres_from_objects_with_status_deleted(self, results_obj=None):
+    def clear_elmres_from_objects_with_status_deleted(self, results_obj:ElmRes=None):
         """Deletes all objects from a results object (ElmRes) that have the
         status deleted (i.e. attribute 'obj_id' is deleted).
         """
@@ -786,7 +791,7 @@ class PFBaseInterface:
             loc_name_with_class = loc_name_with_class[0]
         return loc_name_with_class
 
-    def create_comtrade_obj(self, file_path: str, parent_folder=None):
+    def create_comtrade_obj(self, file_path: str, parent_folder=None) -> IntComtrade:
         """Add an IntComtrade that refers to file_path (*.cfg).
         The objects are stored in a folder "Comtrade" in the currently active
         study case, unless a parent_folder is provided. A new object is only
@@ -800,7 +805,7 @@ class PFBaseInterface:
         else:
             parent_folder = self.app.GetFromStudyCase("Comtrade.IntFolder")
 
-        intcomtrade = self.get_obj("*.IntComtrade",
+        intcomtrade:IntComtrade = self.get_obj("*.IntComtrade",
                                    parent_folder=parent_folder,
                                    condition=lambda x: getattr(
                                        x, "f_name") == file_path,
