@@ -25,21 +25,24 @@ class Empty:
 class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
   """Generate protocol classes for PF classes from the PF python scripting reference.
   """
-  def __init__(self, app, language=None):
-    super().__init__(app, language)
+  def __init__(self, app):
+    super().__init__(app)
     self.indentation_increment:str = "  "
+    self.general_methods = self.get_general_methods()
 
   
   def create_pf_class_protocols(self) -> None:
     """Main method of this class. 
     """
     pf_class_names = pfcpg.get_all_class_names_from_scripting_reference()
+    pf_class_names.append("IntFolder")
     pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(pf_class_names) # pf_class_objects_not_found is used only for debugging
     try:
       self.app.Hide() 
       with open(".\\src\\powfacpy\\pf_class_protocols_new.py", 'w') as out_file:
         out_file.write("\"\"\"Protocol classes for (almost) all PowerFactory classes in the python scripting reference pdf file. Protocol classes are helpful for example for type hints where they can be used just like 'normal' implementations of classes.\n\"\"\"\n\n")
         out_file.write("from typing import Protocol\n\n")
+        out_file.write(self.get_general_class_string())
         for pf_obj in pf_class_objects:
           definition:str = pfcpg.get_class_definition(pf_obj)
           out_file.write(definition)
@@ -93,7 +96,7 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
         pf_class_objects_not_found = [] 
         for pf_class in pf_class_names:
           for folder in folders:
-            pf_class_obj = self.create_in_folder(folder,"new."+pf_class)
+            pf_class_obj = self.create_in_folder("new."+pf_class, folder)
             if pf_class_obj: 
               break # break loop when successfully created an object
           if not pf_class_obj:
@@ -126,9 +129,11 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
     definition:str = ""
     if not isinstance(pf_obj, type(self.app)):
       class_name = pf_obj.GetClassName()
+      definition += "class "+ class_name + "(PFGeneral):\n"
     else:
       class_name = "PFApp"  
-    definition += "class "+ class_name + "(Protocol):\n"
+      definition += "class "+ class_name + "(Protocol):\n"
+    
     if hasattr(pf_obj, "GetClassDescription"):
       class_description = self.app.GetClassDescription(class_name) # It seems that GetClassDescription always retruns an empty string for every class
       if class_description:
@@ -145,7 +150,8 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
     Returns:
         str: definitions of all attributes of the class of the object
     """
-    class_attributes = set(dir(pf_obj)) - set(dir(Empty)) # omit attributes that all python objects have.
+    class_attributes:set = set(dir(pf_obj)) - set(dir(Empty)) - self.general_methods # omit attributes that all python objects have and general methods.
+    class_attributes = sorted(class_attributes)
     data_attributes = ""
     methods = ""
     for attr in class_attributes:
@@ -171,6 +177,21 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
               attribute_description = attribute_description.replace("\n","").replace("\"","").replace('\xb0',"")
               data_attributes += self.indentation_increment + "\"" + attribute_description + "\"\n"
     return data_attributes, methods
+  
+  
+  def get_general_class_string(self):
+    """Add class with 'general methods' (see Section 'General Methods' in scripting reference. All other classes (except for PFApp) inherit from this class. 
+    """
+    class_str = f"class PFGeneral(Protocol):\n{self.indentation_increment}\"\"\"Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). \n{self.indentation_increment}\"\"\"\n"
+    for method in self.get_general_methods():
+      class_str += self.indentation_increment + "def " + method + "(*args):\n" + 2*self.indentation_increment + "...\n\n"
+    return class_str
+    
+  
+  def get_general_methods(self):
+    """General methods from python scripting reference."""
+    general_methods = "AddCopy ContainsNonAsciiCharacters CopyData CreateObject Delete Energize GetAttribute GetAttributeDescription GetAttributeLength GetAttributes GetAttributeShape GetAttributeType GetAttributeUnit GetChildren GetClassName GetCombinedProjectSource GetConnectedElements GetConnectionCount GetContents GetControlledNode GetCubicle GetFullName GetImpedance GetInom GetNode GetOperator GetOwner GetParent GetReferences GetRegion GetSupplyingSubstations GetSupplyingTransformers GetSupplyingTrfstations GetSystemGrounding GetUnom GetZeroImpedance HasAttribute HasResults IsCalcRelevant IsDeleted IsEarthed IsEnergized IsHidden IsInFeeder IsNetworkDataFolder IsNode IsObjectActive IsObjectModifiedByVariation Isolate IsOutOfService IsReducible IsShortCircuited MarkInGraphics Move PasteCopy PurgeUnusedObjects ReplaceNonAsciiCharacters ReportNonAsciiCharacters ReportUnusedObjects SearchObject SetAttribute SetAttributeLength SetAttributes SetAttributeShape ShowEditDialog ShowModalSelectTree SwitchOff SwitchOn WriteChangesToDb"
+    return set(general_methods.split())
 
 
 if __name__ == "__main__":
