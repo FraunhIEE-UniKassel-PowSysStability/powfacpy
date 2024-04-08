@@ -38,9 +38,9 @@ def _get_output_path():
 
 def _activate_new_study_case_and_grid(pfcgmes):
     pfcgmes.app.GetActiveStudyCase().Deactivate()
-    new_study_case = pfcgmes.create_in_folder(r'Study Cases\test_model_exchange_interfaces', 'New Study Case.IntCase', overwrite=True)
+    new_study_case = pfcgmes.create_in_folder('New Study Case.IntCase', r'Study Cases\test_model_exchange_interfaces', overwrite=True)
     new_study_case.Activate()
-    new_grid = pfcgmes.create_in_folder(r'Network Model\Network Data\test_model_exchange_interfaces', 'New Grid.ElmNet', overwrite=True)
+    new_grid = pfcgmes.create_in_folder('New Grid.ElmNet', r'Network Model\Network Data\test_model_exchange_interfaces', overwrite=True)
     new_grid.Activate()
     return new_study_case
 

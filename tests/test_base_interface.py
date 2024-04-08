@@ -2,15 +2,16 @@ import pytest
 import sys
 import os
 import json
+import importlib
+
+
 with open('.\\settings.json') as settings_file:
     settings = json.load(settings_file)
 sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 sys.path.insert(0, r'.\src')
 import powfacpy 
-import importlib
 importlib.reload(powfacpy)
-
 
 
 @pytest.fixture(scope='session')
@@ -139,9 +140,9 @@ def test_create_by_path(pfbi, activate_test_project):
         pfbi.create_by_path(4)
 
 def test_create_in_folder(pfbi, activate_test_project):
-    pfbi.create_in_folder(r"Library\Dynamic Models","dummy2.BlkDef")
+    pfbi.create_in_folder("dummy2.BlkDef", r"Library\Dynamic Models")
     with pytest.raises(TypeError):
-        pfbi.create_in_folder(r"Library\Dynamic Models",2)
+        pfbi.create_in_folder(2, r"Library\Dynamic Models")
 
 def test_get_by_condition(pfbi, activate_test_project):
     folder = r"Network Model\Network Data\test_base_interface\Grid"
@@ -156,36 +157,36 @@ def test_get_by_condition(pfbi, activate_test_project):
 
 def test_delete_obj(pfbi, activate_test_project):
     folder = r"Library\Dynamic Models\TestDelete"
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_1.BlkDef")
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_2.BlkDef")    
+    pfbi.create_in_folder("dummy_to_be_deleted_1.BlkDef", folder,)
+    pfbi.create_in_folder("dummy_to_be_deleted_2.BlkDef", folder,)    
     pfbi.delete_obj("dummy_to_be_deleted*", parent_folder=folder)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder,
         error_if_non_existent=False)
     assert len(objects_in_folder) == 0
 
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_1.BlkDef")
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_2.BlkDef")    
+    pfbi.create_in_folder("dummy_to_be_deleted_1.BlkDef", folder,)
+    pfbi.create_in_folder("dummy_to_be_deleted_2.BlkDef", folder,)    
     pfbi.delete_obj("dummy_to_be_deleted_1.BlkDef", parent_folder=folder)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder)
     assert len(objects_in_folder) == 1
     
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_1.BlkDef")
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_2.BlkDef")
+    pfbi.create_in_folder("dummy_to_be_deleted_1.BlkDef", folder,)
+    pfbi.create_in_folder("dummy_to_be_deleted_2.BlkDef", folder,)
     pfbi.delete_obj("dummy_to_be_deleted*",
         parent_folder=r"Library\Dynamic Models", include_subfolders=True)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder,
         error_if_non_existent=False)
     assert len(objects_in_folder) == 0
 
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_1.BlkDef")
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_2.BlkDef")
+    pfbi.create_in_folder("dummy_to_be_deleted_1.BlkDef",folder,)
+    pfbi.create_in_folder("dummy_to_be_deleted_2.BlkDef",folder,)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder)
     pfbi.delete_obj(objects_in_folder)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder,
         error_if_non_existent=False)
     assert len(objects_in_folder) == 0
 
-    pfbi.create_in_folder(folder,"dummy_to_be_deleted_1.BlkDef")
+    pfbi.create_in_folder("dummy_to_be_deleted_1.BlkDef",folder)
     object_in_folder = pfbi.get_single_obj("*", parent_folder=folder)
     pfbi.delete_obj(object_in_folder)
     objects_in_folder = pfbi.get_obj("*", parent_folder=folder,
@@ -335,5 +336,5 @@ def test_get_from_study_case(pfbi, activate_test_project):
     
 
 if __name__ == "__main__":
-    pytest.main([r"tests\test_base_interface.py"])
-    # pytest.main(([r"tests"]))
+    #pytest.main([r"tests\test_base_interface.py"])
+    pytest.main(([r"tests"]))

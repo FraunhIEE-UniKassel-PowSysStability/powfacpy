@@ -8,7 +8,6 @@ from os import makedirs
 from os.path import join
 
 class PFStudyCases(powfacpy.PFBaseInterface):
-  language = powfacpy.PFBaseInterface.language
 
   def __init__(self, app):
     super().__init__(app)
@@ -143,6 +142,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
           parameter_values_string += add_to_string
     return parameter_values_string[:-len(delimiter)] # discard last delimiter
 
+
   def create_study_case(self, name, folder_path):
     """Creates a study case with the name 'parameter_values_string'
     in the folder corresponding to 'folder_path' (this path is 
@@ -153,8 +153,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       parent_folder_study_case = self.create_directory(folder_path,
         parent_folder=parent_folder_study_case)
     if not self.base_study_case:
-      study_case_obj = self.create_in_folder(parent_folder_study_case,
-        name+".IntCase")
+      study_case_obj = self.create_in_folder(
+        name+".IntCase", parent_folder_study_case)
     else:
       study_case_obj = self.copy_single_obj(
         self.base_study_case,
@@ -173,8 +173,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if folder_path:
       parent_folder_scenario = self.create_directory(folder_path,
         parent_folder=parent_folder_scenario)       
-    scenario_obj: IntScenario = self.create_in_folder(parent_folder_scenario,
-      parameter_values_string+".IntScenario")
+    scenario_obj: IntScenario = self.create_in_folder(
+      parameter_values_string+".IntScenario", parent_folder_scenario)
     scenario_obj.Activate()
     scenario_obj.Save()
     return scenario_obj
@@ -188,8 +188,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if folder_path:
       parent_folder_variation = self.create_directory(folder_path,
         parent_folder=parent_folder_variation)
-    variation_obj = self.create_in_folder(parent_folder_variation,
-      parameter_values_string+".IntScheme")
+    variation_obj = self.create_in_folder(
+      parameter_values_string+".IntScheme", parent_folder_variation)
     variation_obj.NewStage(parameter_values_string,0,1)
     variation_obj.Activate()
     return variation_obj

@@ -25,7 +25,7 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
         return cubicle
     if not new_cubicle_name:
       new_cubicle_name = "Cub_"+str(len(cubicles)+1)     
-    return self.create_in_folder(terminal, new_cubicle_name+".StaCubic")
+    return self.create_in_folder(new_cubicle_name+".StaCubic", terminal)
 
   def get_cubicles_of_terminal(self, terminal, only_calc_relevant=False):
     if not only_calc_relevant:

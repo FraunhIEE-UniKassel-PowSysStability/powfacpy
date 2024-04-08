@@ -16,7 +16,6 @@ import powfacpy
 from fnmatch import fnmatchcase
 
 class PFDatabaseInterface(powfacpy.PFBaseInterface):
-  language = powfacpy.PFBaseInterface.language
   
   def __init__(self, app):
     super().__init__(app)

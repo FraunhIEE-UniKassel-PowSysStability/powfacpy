@@ -21,15 +21,19 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
 
   def _create_cim_to_grid_tool(self):
     """Returns the CIM to Grid tool object .ComCimtogrid."""
-    cim_to_grid_tool = self.create_in_folder(self.app.GetActiveStudyCase(), self.ARCHIVE_TO_GRID_TOOL_NAME+'.ComCimtogrid', use_existing=True)
+    cim_to_grid_tool = self.create_in_folder(
+      self.ARCHIVE_TO_GRID_TOOL_NAME+'.ComCimtogrid', 
+      self.app.GetActiveStudyCase(),
+      use_existing=True)
     return cim_to_grid_tool
 
 
-  def _convert_file_to_archive(self, file_path, name):
+  def _convert_file_to_archive(self, file_path:str, name:str):
     """Convert a .zip CGMES file to a PowerFactory .CimArchive object. Returns the .CimArchive object."""
-    file_to_archive_tool = self.create_in_folder(self.app.GetActiveStudyCase(), 
-                                            self.FILE_TO_ARCHIVE_TOOL_NAME+'.ComCimdbimp', 
-                                            use_existing=True)
+    file_to_archive_tool = self.create_in_folder(
+      self.FILE_TO_ARCHIVE_TOOL_NAME+'.ComCimdbimp', 
+      self.app.GetActiveStudyCase(),       
+      use_existing=True)
     file_to_archive_tool.iopt_target = 2
     archive = self._create_archive(name='_'.join([self.ARCHIVE_NAME, name]))
     file_to_archive_tool.targetPath = archive
@@ -91,7 +95,10 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
 
   def _create_grid_to_cim_tool(self):
     """Returns the Grid to CIM tool object .ComGridtocim."""
-    grid_to_cim_tool = self.create_in_folder(self.app.GetActiveStudyCase(), self.GRID_TO_ARCHIVE_TOOL_NAME+'.ComGridtocim', use_existing=True)
+    grid_to_cim_tool = self.create_in_folder( 
+      self.GRID_TO_ARCHIVE_TOOL_NAME+'.ComGridtocim', 
+      self.app.GetActiveStudyCase(),
+      use_existing=True)
     grid_to_cim_tool.cAuthority = ['Authority1'] # TODO this probably isn't general
     grid_to_cim_tool.cSelected = [1] # TODO this probably isn't general (should all grids be selected? or actually only the first one?) --> get project with >1 grid and get to run properly
     grid_to_cim_tool.version = self.CGMES_VERSION
@@ -100,9 +107,11 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
 
   def _get_archive_folder(self):
     """Get or create the folder for PowerFactory .CimArchive objects. Returns the folder."""
-    archive_folder = self.create_in_folder(self.app.GetActiveProject(), 
-                                               self.ARCHIVE_FOLDER_NAME+'.IntPrjfolder', 
-                                               use_existing=True, overwrite=False)
+    archive_folder = self.create_in_folder(
+      self.ARCHIVE_FOLDER_NAME+'.IntPrjfolder', 
+      self.app.GetActiveProject(), 
+      use_existing=True, 
+      overwrite=False)
     archive_folder.iopt_typ = 'cim'
     return archive_folder
   
@@ -110,9 +119,11 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
   def _create_archive(self, name):
     """Create a PowerFactory .CimArchive object. Returns the .CimArchive object."""
     archive_folder = self._get_archive_folder()
-    archive = self.create_in_folder(archive_folder, 
-                                        name+'.CimArchive', 
-                                        use_existing=False, overwrite=True)
+    archive = self.create_in_folder(
+      name + '.CimArchive', 
+      archive_folder, 
+      use_existing=False, 
+      overwrite=True)
     return archive
 
 
@@ -165,9 +176,10 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
         None
     """
     archive = self.handle_single_pf_object_or_path_input(archive)
-    cim_export_tool = self.create_in_folder(self.app.GetActiveStudyCase(), 
-                                            self.ARCHIVE_TO_FILE_TOOL_NAME+'.ComCimdbexp', 
-                                            use_existing=True)
+    cim_export_tool = self.create_in_folder(
+      self.ARCHIVE_TO_FILE_TOOL_NAME+'.ComCimdbexp', 
+      self.app.GetActiveStudyCase(),
+      use_existing=True)
     cim_export_tool.targetFolder = [output_path]
     if as_zip:
       cim_export_tool.zipModels = 0

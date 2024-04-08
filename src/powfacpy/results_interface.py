@@ -29,7 +29,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_obj = self.app.GetFromStudyCase("ElmRes")
     if load_elmres:  
       results_obj.Load()   
-    intvec = self.create_in_folder(results_obj.GetParent(),"test.IntVec", overwrite=True) 
+    intvec = self.create_in_folder("test.IntVec", results_obj.GetParent(),overwrite=True) 
     results_obj.GetColumnValues(intvec, column) 
     list = intvec.V
     intvec.Delete()
@@ -232,7 +232,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       for col, path in enumerate(full_paths):
           is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation._format_full_path(path, self)
+              formated_path = powfacpy.PFStringManipulation._format_full_path(path, self.app)
               variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
               row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
@@ -349,7 +349,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
         list_of_results_objs)
     headers = ["time"]
     for col in df.columns[1:]:
-      path = powfacpy.PFStringManipulation._format_full_path(col[num_header_rows-2], self)
+      path = powfacpy.PFStringManipulation._format_full_path(col[num_header_rows-2], self.app)
       var = powfacpy.PFStringManipulation._format_variable_name(col[num_header_rows-1])
       headers.append(path + '\\' + var)
     df.columns = headers

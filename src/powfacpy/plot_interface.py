@@ -61,7 +61,7 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       active_study_case = self.app.GetActiveStudyCase()
       graphics_board_name = powfacpy.PFTranslator.get_default_graphics_board_name(
          self.language)
-      grb = self.create_in_folder(active_study_case, graphics_board_name)
+      grb = self.create_in_folder(graphics_board_name, active_study_case)
       grb.Show()
       grb = self.app.GetGraphicsBoard() # get grb again to get correct object from PF
     return grb  
@@ -301,14 +301,19 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
       if not existing_elmfile:
         break
       elmfile_num += 1 
-    elmfile = self.create_in_folder(elmfiles_network,
-      "elmfile_"+str(elmfile_num)+".ElmFile", overwrite=True)
+    elmfile = self.create_in_folder(
+      "elmfile_" + str(elmfile_num) + ".ElmFile",       
+      elmfiles_network,
+      overwrite=True)
     self.clear_elmres_from_objects_with_status_deleted()
     elmfile.f_name = file_path + ".csv"
     # Add ElmREs for ElmFiles
     active_case = self.app.GetActiveStudyCase()
-    elmres_for_elmfiles = self.create_in_folder(active_case,
-      "elmres_for_elmfiles.ElmRes", overwrite=False, use_existing=True)
+    elmres_for_elmfiles = self.create_in_folder(
+      "elmres_for_elmfiles.ElmRes",
+      active_case,
+      overwrite=False, 
+      use_existing=True)
     # Plot
     kwargs.update({"results_obj":elmres_for_elmfiles})  
     self.plot(elmfile, variable,**kwargs)
@@ -332,10 +337,12 @@ class PFPlotInterface(powfacpy.PFBaseInterface):
     if not name:
       name = "dummy_network"
     network_folder = self.app.GetProjectFolder("netdat",1)
-    dummy_network = self.create_in_folder(network_folder,
-      name+".ElmNet", overwrite=False, use_existing=True)
-    self.create_in_folder(dummy_network,
-      "dummy_terminal.ElmTerm", overwrite=False, use_existing=True)
+    dummy_network = self.create_in_folder(
+      name+".ElmNet", 
+      network_folder,
+      overwrite=False, 
+      use_existing=True)
+    self.create_in_folder("dummy_terminal.ElmTerm", dummy_network, overwrite=False, use_existing=True)
     return dummy_network
 
   def autoscale(self):

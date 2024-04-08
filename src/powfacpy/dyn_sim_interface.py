@@ -19,6 +19,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       self.set_attr(cominc, param)
     cominc.Execute()
 
+
   def run_sim(self, param=None):
     """
     Perform dynamic simulation.
@@ -28,6 +29,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     if param is not None:
       self.set_attr(comsim, param)
     comsim.Execute()
+
 
   def initialize_and_run_sim(self):
     """Initialize and perform time domain simulation."""
@@ -41,7 +43,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     composite_frame = self.get_obj(self.dynamic_model_teamplates_path +
       r"\reference_signal_frame")
     composite_model.SetAttribute("typ_id", composite_frame)
-    dsl_obj = self.create_in_folder(composite_model,"lin_interpol_model.ElmDsl")
+    dsl_obj = self.create_in_folder("lin_interpol_model.ElmDsl", composite_model)
     lin_interpol_model = self.get_obj(self.dynamic_model_teamplates_path +
       r"\Linear_interpolation")
     dsl_obj.SetAttribute("typ_id", lin_interpol_model)
@@ -49,7 +51,11 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     composite_model.SetAttribute("pelm",[dsl_obj])
   """
 
-  def create_event(self, name_incl_class, params={}, parent_folder=None, overwrite=True):
+  def create_event(self, 
+                   name_incl_class, 
+                   params={}, 
+                   parent_folder=None, 
+                   overwrite=True):
     """Creates an event and sets the parameters in 'params'.
     Arguments:
       name_incl_class: Event name including the class.
@@ -59,7 +65,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     """
     if not parent_folder:
       parent_folder = self.app.GetFromStudyCase("IntEvt")
-    event_obj = self.create_in_folder(parent_folder, name_incl_class, overwrite=overwrite)
+    event_obj = self.create_in_folder(name_incl_class, parent_folder, overwrite=overwrite)
     self.set_attr(event_obj, params)  
 
   def get_dsl_model_parameter_names(self, dsl_model):
