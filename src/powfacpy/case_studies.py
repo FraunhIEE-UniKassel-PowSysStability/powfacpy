@@ -1,33 +1,26 @@
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
+from powfacpy.pf_class_protocols import *
 from itertools import product
 from os import getcwd
 from os import makedirs
 from os.path import join
+
 class PFStudyCases(powfacpy.PFBaseInterface):
   language = powfacpy.PFBaseInterface.language
 
   def __init__(self, app):
     super().__init__(app)
-    self.title = "Case_Studies"
-    self.active_grids = None
+    self.title:str = "Case_Studies"
+    self.active_grids: list[ElmNet] | ElmNet = None
     self.parameter_values = {}
     self.parameter_paths = {}
     self.delimiter = " "
     self.hierarchy = []
     self.study_cases = []
     self.omitted_combinations = []
-    self.base_study_case = None
-    # ToDo base case/scen/var to copy or only base case
-    """
-    self.parent_folder_study_cases = powfacpy.PFTranslator.get_default_study_case_folder_name(
-      self.language)
-    self.parent_folder_scenarios = powfacpy.PFTranslator.get_default_operation_scenario_folder_path(
-      self.language)
-    self.parent_folder_variations = powfacpy.PFTranslator.get_default_variations_folder_path(
-      self.language)
-    """
+    self.base_study_case: IntCase = None
     self.parent_folder_study_cases = None
     self.parent_folder_scenarios = None
     self.parent_folder_variations = None
@@ -35,8 +28,8 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     self.add_scenario_to_each_case = True
     self.add_variation_to_each_case = False
     self.consecutively_number_case_names = False
-    self.anonymous_parameters = [] # Paramters of which names are not used 
-    # in folder/case names (only their values are used)
+    self.anonymous_parameters = [] # Parameters for which names are not used 
+    # in folder/case name strings (only their values are used)
     self.ignore_parameters_that_are_none_in_names = True
 
   def create_cases(self):
@@ -67,7 +60,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
       if self.add_scenario_to_each_case:
         scen.Save()
 
-  def get_folder_path(self, case_num):
+  def get_folder_path(self, case_num:int):
     """Returns the folder path of a case.
     The path corresponds to parameter-value pairs specified
     in 'hierarchy'. 
@@ -85,7 +78,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
         return folder_path[:-1] # discard last "\\""
     return None
 
-  def get_value_of_parameter_for_case(self, par_name, case_obj_or_case_num):
+  def get_value_of_parameter_for_case(self, par_name:str, case_obj_or_case_num: IntCase|int):
     """Returns a parameter value for a certain case.
     Arguments:
       par_name: Parameter name (string)
@@ -180,7 +173,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     if folder_path:
       parent_folder_scenario = self.create_directory(folder_path,
         parent_folder=parent_folder_scenario)       
-    scenario_obj = self.create_in_folder(parent_folder_scenario,
+    scenario_obj: IntScenario = self.create_in_folder(parent_folder_scenario,
       parameter_values_string+".IntScenario")
     scenario_obj.Activate()
     scenario_obj.Save()
@@ -206,7 +199,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     If 'active_grids' is a list/tuple, the elements correspond to
     each study case. If multiple grids are active, list/tuples can be 
     used in the elements in 'active_grids'. 
-    If 'active_grid' is not a list/tuple, than one gird will be used
+    If 'active_grid' is not a list/tuple, then one grid will be used
     for all cases.
     The grids can be thir paths or PF objects.
     """
@@ -318,7 +311,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     cases = self.get_study_cases(lambda_fun, return_case_numbers=return_case_numbers)
     return cases
 
-  def get_study_case_number(self, study_case):
+  def get_study_case_number(self, study_case: IntCase):
     """Returns the number (index) of a study case object.
     """
     return self.study_cases.index(study_case)
@@ -469,7 +462,7 @@ class PFStudyCases(powfacpy.PFBaseInterface):
     pfri = powfacpy.PFResultsInterface(self.app)
     for case_num,case in zip(case_numbers, study_cases):
       case.Activate()
-      elmres = self.app.GetFromStudyCase(results_obj)
+      elmres:ElmRes = self.app.GetFromStudyCase(results_obj)
       case_file_name = "case" + str(case_num)
       pfri.export_to_csv(
         export_dir,
