@@ -60,7 +60,13 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
     if not parent_folder:
       parent_folder = self.app.GetFromStudyCase("IntEvt")
     event_obj = self.create_in_folder(parent_folder, name_incl_class, overwrite=overwrite)
-    self.set_attr(event_obj, params)  
+    self.set_attr(event_obj, params) 
+    return event_obj
+    
+    
+  def clear_event_folder(self) -> None:
+    self.clear_folder
+
 
   def get_dsl_model_parameter_names(self, dsl_model):
     """
