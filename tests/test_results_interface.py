@@ -20,7 +20,7 @@ def test_export_to_csv(pfri, activate_test_project):
     study_case_2 = pfri.get_unique_obj(r"Study Cases\test_results_interface\Export Simulation 2.IntCase")
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
     elmres_list = []
-    terminal_hv_1 = pfri.get_unique_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 2")
+    terminal_hv_1 = pfri.get_unique_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 2")
     for case in [study_case_1, study_case_2]:
         case.Activate()
         pfdi.add_results_variable(terminal_hv_1,"m:u1")

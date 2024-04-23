@@ -50,7 +50,7 @@ def activate_test_project(pfp):
     
 
 def test_get_obj(pfp, activate_test_project):
-    terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")[0]
+    terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1")[0]
     assert isinstance(terminal_1, powerfactory.DataObject)
     with pytest.raises(powfacpy.PFPathError):
         terminal_1 = pfp.get_obj(r"Stretchwork Model\Stretchwork Data\Grid\Termalamala")[0]
@@ -63,40 +63,40 @@ def test_get_obj(pfp, activate_test_project):
 
 
 def test_get_single_object(pfp, activate_test_project):
-    terminal_1=pfp.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1") 
+    terminal_1=pfp.get_single_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1") 
     assert isinstance(terminal_1, powerfactory.DataObject)
     with pytest.raises(TypeError):
-       terminals=pfp.get_single_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*")  
+       terminals=pfp.get_single_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*")  
 
 
 def test_get_obj_with_condition(pfp, activate_test_project):
-    hv_terminals = pfp.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal*",
+    hv_terminals = pfp.get_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*",
         condition=lambda x: getattr(x,"uknom") > 50)
     assert len(hv_terminals) == 2    
 
 
 def test_get_obj_with_parent_folder_argument(pfp, activate_test_project):
     parent_folder = pfp.get_first_level_folder("user")
-    terminal_1 = pfp.get_obj(r"powfacpy\powfacpy_tests\Network Model\Network Data\test_base_interface\Grid\Terminal HV 1",
+    terminal_1 = pfp.get_obj(r"powfacpy\powfacpy_tests\Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1",
         parent_folder=parent_folder)[0]
     assert isinstance(terminal_1, powerfactory.DataObject)
 
-    grid = pfp.get_obj("Grid", parent_folder=r"Network Model\Network Data\test_base_interface")[0]
+    grid = pfp.get_obj("Grid", parent_folder=r"Network Model\Network Data\test_active_project_interface")[0]
     assert isinstance(grid, powerfactory.DataObject)
     
-    parent_folder = powfacpy.PFFolder(r"Network Model\Network Data\test_base_interface", pfp.app)
+    parent_folder = powfacpy.PFFolder(r"Network Model\Network Data\test_active_project_interface", pfp.app)
     grid = pfp.get_obj("Grid", parent_folder=parent_folder)[0]
     assert isinstance(grid, powerfactory.DataObject)
 
 
 def test_get_obj_including_subfolders(pfp, activate_test_project):
-    terminals = pfp.get_obj(r"Network Data\test_base_interface\*.ElmTerm", parent_folder="Network Model",
+    terminals = pfp.get_obj(r"Network Data\test_active_project_interface\*.ElmTerm", parent_folder="Network Model",
         include_subfolders=True) 
     assert len(terminals) == 3    
 
 
 def test_path_exists(pfp, activate_test_project):
-    assert pfp.path_exists(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")
+    assert pfp.path_exists(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1")
 
 
 def test_set_attr(pfp, activate_test_project):
@@ -117,7 +117,7 @@ def test_set_attr_exceptions(pfp, activate_test_project):
         pfp.set_attr(r"Library\Dynamic Models\Linear_interpolation",{"sTie":"dummy",
         "desc":["dummy description"]}) # 'sTie' is not a valid attribute 
     with pytest.raises(powfacpy.exceptions.PFPathError):
-        terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Termalamala")
+        terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Termalamala")
 
 
 def test_set_attr_by_path(pfp, activate_test_project):
@@ -127,7 +127,7 @@ def test_set_attr_by_path(pfp, activate_test_project):
 
 
 def test_get_attr(pfp, activate_test_project):
-    terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 1")[0]
+    terminal_1 = pfp.get_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1")[0]
     systype = pfp.get_attr(terminal_1,"systype")
     assert systype == 0
     with pytest.raises(powfacpy.exceptions.PFAttributeError):
@@ -149,7 +149,7 @@ def test_create_in_folder(pfp, activate_test_project):
 
 
 def test_get_by_condition(pfp, activate_test_project):
-    folder = r"Network Model\Network Data\test_base_interface\Grid"
+    folder = r"Network Model\Network Data\test_active_project_interface\Grid"
     all_terminals = pfp.get_obj("*.ElmTerm", parent_folder=folder)
     
     mv_terminals = pfp.get_by_condition(all_terminals, lambda x:getattr(x,"uknom") > 100)
@@ -272,9 +272,9 @@ def test_handle_single_pf_object_or_path_input(pfp, activate_test_project):
 
 def test_get_parameter_value_string(pfp, activate_test_project):
     params = {
-        "p":r"Network Model\Network Data\test_base_interface\Grid\General Load HV\plini",
-        "q":r"Network Model\Network Data\test_base_interface\Grid\General Load HV\qlini",
-        "u":r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 2\uknom"
+        "p":r"Network Model\Network Data\test_active_project_interface\Grid\General Load HV\plini",
+        "q":r"Network Model\Network Data\test_active_project_interface\Grid\General Load HV\qlini",
+        "u":r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 2\uknom"
     }
     pfp.get_parameter_value_string(params, delimiter=" ")      
 
@@ -327,7 +327,7 @@ def test_replace_outside_or_inside_of_strings_in_a_string(pfp, activate_test_pro
 
 
 def test_get_path_of_object(pfp, activate_test_project):
-    path = "Network Model\\Network Data\\test_base_interface\\Grid\\Line 1.2"
+    path = "Network Model\\Network Data\\test_active_project_interface\\Grid\\Line 1.2"
     line = pfp.get_unique_obj(path)    
     path_derived = pfp.get_path_of_object(line)
     assert (path==path_derived)
@@ -344,7 +344,7 @@ def test_get_upstream_object(pfp, activate_test_project):
 
 
 def test_get_from_study_case(pfp, activate_test_project):
-    pfp.activate_study_case(r"Study Cases\test_base_interface\multiple_elmres")
+    pfp.activate_study_case(r"Study Cases\test_active_project_interface\multiple_elmres")
     with pytest.warns():
         pfp.get_from_study_case("ElmRes")
     with pytest.raises(Exception):    
