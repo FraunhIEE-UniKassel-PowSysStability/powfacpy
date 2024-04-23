@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
 
-class PFNetworkInterface(powfacpy.PFBaseInterface):
+class PFNetworkInterface(powfacpy.PFActiveProject):
     
   def __init__(self, app):
     super().__init__(app) 
@@ -16,7 +16,7 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
       terminal: ElmTerm
       new_cubicle_name: Name  that is set for the found or created cubicle 
     """
-    terminal = self.handle_single_pf_object_or_path_input(terminal)
+    terminal = self._handle_single_pf_object_or_path_input(terminal)
     cubicles = self.get_cubicles_of_terminal(terminal)
     for cubicle in cubicles:
       if cubicle.obj_id == None:
@@ -51,7 +51,7 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
     """Copying a grid is not trivial in PF because the graphical network objects
     need to be copied and assigned manually as this is not done automatically.
     """
-    grid_to_be_copied = self.handle_single_pf_object_or_path_input(grid_or_path)
+    grid_to_be_copied = self._handle_single_pf_object_or_path_input(grid_or_path)
     new_grid = self.copy_single_obj(grid_to_be_copied, target_folder,
       overwrite=True,
       new_name=new_name,
@@ -70,6 +70,6 @@ class PFNetworkInterface(powfacpy.PFBaseInterface):
     return new_grid
 
   def get_parent_grid(self, obj_or_path):
-    obj_or_path = self.handle_single_pf_object_or_path_input(obj_or_path)
+    obj_or_path = self._handle_single_pf_object_or_path_input(obj_or_path)
     return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName == "IntNet")    
 

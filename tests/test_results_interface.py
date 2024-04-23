@@ -1,4 +1,3 @@
-import pytest
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy 
@@ -6,7 +5,9 @@ import importlib
 importlib.reload(powfacpy)
 from os import getcwd
 
-from test_base_interface import pfbi, pf_app, activate_test_project
+import pytest
+
+from test_active_project_interface import pfp, pf_app, activate_test_project
 
 @pytest.fixture
 def pfri(pf_app):

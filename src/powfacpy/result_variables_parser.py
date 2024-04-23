@@ -4,14 +4,13 @@
 """
 
 from os import listdir
-from icecream import ic
 
 
 supported_and_unsupported_simulation_types_and_names = {
   "Basic Data balanced:": "Basic", 
   "Basic Data unbalanced:": False, # False means not supported
-  "Load Flow AC balanced:": False,
-  "Load Flow AC unbalanced:": False,
+  "Load Flow AC balanced:": "LF_Bal",
+  "Load Flow AC unbalanced:": "LF_Unbal",
   "Simulation RMS balanced:": "RMS_Bal",
   "Simulation RMS unbalanced:": "RMS_Unbal",
   "Simulation EMT balanced:": False,
@@ -102,7 +101,7 @@ Currently, the following 'Elm' classes are supported: \n
           
   def write_variable_line(self, line, used_attr, out_file):
     """Write one variable to the output python file. 
-    Splits the line (that was read in) according to two (or more) empty spaces, that separete attribute, unit (optional) and description.
+    Splits the line (that was read in) according to two (or more) empty spaces, that separate attribute, unit (optional) and description.
     The same attributes can occur several times in the simualtion type in the .txt file, so alreay used attributes ('used_attr') are ignored.
     """
     attr_and_unit_and_description = line.split("  ")
@@ -112,6 +111,7 @@ Currently, the following 'Elm' classes are supported: \n
       out_line = 3*self.indentation_increment + attr_with_underscores_instead_of_colon + " = " + "\"" + attr_and_unit_and_description[0] + "\", \""
       for n in attr_and_unit_and_description[1:]:
         if n:
+          n = n.replace("\"","''") # replaces "\"" e.g. in "Ik\""
           out_line +=  n.rstrip().lstrip() + ", "  # delete leading and trailing whitespace
       out_file.write(out_line[:-2] + "\"\n") # delete last comma 
 

@@ -1,9 +1,11 @@
 import sys
 sys.path.insert(0, r'.\src')
-import powfacpy
-import numpy as np
 
-class PFCgmesInterface(powfacpy.PFBaseInterface):
+
+import powfacpy
+
+
+class PFCgmesInterface(powfacpy.PFActiveProject):
   """Interface for CGMES integration in PowerFactory."""
   def __init__(self, app):
     super().__init__(app)
@@ -77,7 +79,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
         Returns:
             None
         """
-    base_archive = self.handle_single_pf_object_or_path_input(base_archive)
+    base_archive = self._handle_single_pf_object_or_path_input(base_archive)
     update_profiles_archive = self._convert_file_to_archive(update_file_path, 'imported_profiles_for_update')
     cim_to_grid_tool = self._create_cim_to_grid_tool()
     cim_to_grid_tool.sourcePath = update_profiles_archive
@@ -136,7 +138,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
     Returns:
         None
     """
-    cim_tool = self.handle_single_pf_object_or_path_input(cim_tool)
+    cim_tool = self._handle_single_pf_object_or_path_input(cim_tool)
     for profile in profiles.split(' '):
       cim_tool.SetAttribute('convert'+profile.upper(), state)
     return None
@@ -175,7 +177,7 @@ class PFCgmesInterface(powfacpy.PFBaseInterface):
     Returns:
         None
     """
-    archive = self.handle_single_pf_object_or_path_input(archive)
+    archive = self._handle_single_pf_object_or_path_input(archive)
     cim_export_tool = self.create_in_folder(
       self.ARCHIVE_TO_FILE_TOOL_NAME+'.ComCimdbexp', 
       self.app.GetActiveStudyCase(),

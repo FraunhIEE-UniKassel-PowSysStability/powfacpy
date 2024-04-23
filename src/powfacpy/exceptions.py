@@ -13,24 +13,24 @@ class PFInterfaceError(Exception):
 class PFAttributeError(PFInterfaceError):
   """Attempt to access an invalid attribute of a PF object.
   """
-  def __init__(self, obj, msg_raised, pf_base_interface):
-    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), pf_base_interface.app)
+  def __init__(self, obj, msg_raised, pf_active_project: powfacpy.PFActiveProject):
+    object_str = pf_active_project.get_path_of_object(obj)
     self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
     super().__init__(self.message)
 
 class PFObjectAttributeTypeError(PFInterfaceError):
   """Unexpected type of a PF object attribute (e.g. 'None' type).
   """
-  def __init__(self, obj, msg_raised, pf_base_interface):
-    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), pf_base_interface.app)
+  def __init__(self, obj, msg_raised, pf_active_project):
+    object_str = pf_active_project.get_path_of_object(obj)
     self.message = (f"Unexpected attribute of object '{object_str}': {msg_raised}.")
     super().__init__(self.message) 
      
 class PFAttributeTypeError(PFInterfaceError):
   """Attempt to set an invalid type for the attribute of a PF object.
   """
-  def __init__(self, obj, attr, msg_raised, pf_base_interface):
-    object_str = powfacpy.PFStringManipulation._format_full_path(str(obj), pf_base_interface.app)
+  def __init__(self, obj, attr, msg_raised, pf_active_project):
+    object_str = pf_active_project.get_path_of_object(obj)
     self.message = (f"The attribute '{attr}' of the object '{object_str}' is of unexpected type: {msg_raised}.")
     super().__init__(self.message)
 
@@ -50,7 +50,7 @@ class PFPathInputError(PFInterfaceError):
     super().__init__(self.message)
 
 class PFNonExistingObjectError(PFInterfaceError):
-  """Attempt to access PF object that does not exist.
+  """Attempt to access PF object (optional: with a specific condition) that does not exist.
   """
   def __init__(self, folder, obj, condition=False, include_subfolders=False):
     folder_str = powfacpy.PFStringManipulation._remove_class_names(str(folder))

@@ -1,8 +1,14 @@
 """
-Create protocoll classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module 'pf_class_protocols' which is used in powfacpy. If you run this module a new module is created ('pf_class_protocols_new').
+Create protocoll classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module 'pf_class_protocols' which is used in powfacpy. If you run this module a new module is created ('pf_class_protocols_new'). You can then delete the old one and rename the new file. 
+
+IMPORTANT: If you miss a class please add it to the 'missing_classes_that_are_not_in_scripting_reference' list below.
+
 
 This module is not used by other modules of powfacpy and has the sole purpose of creating the protocols.
 """
+
+missing_classes_that_are_not_in_scripting_reference = ["IntFolder", "ElmSite"]
+
 
 import os 
 import keyword
@@ -15,14 +21,13 @@ sys.path.insert(0, powfacpy_directory + r'\src')
 import powfacpy 
 
 
-
 class Empty:
   """This empty class is used to get the generic attributes that every python object has (e.g. using 'dir(class_instance)'). 
   For the PF class protocols, these attributes are not added to the protocol classes of the PowerFactory objects."""
   pass
 
 
-class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
+class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
   """Generate protocol classes for PF classes from the PF python scripting reference.
   """
   def __init__(self, app):
@@ -35,7 +40,7 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
     """Main method of this class. 
     """
     pf_class_names = pfcpg.get_all_class_names_from_scripting_reference()
-    pf_class_names.append("IntFolder")
+    pf_class_names += missing_classes_that_are_not_in_scripting_reference
     pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(pf_class_names) # pf_class_objects_not_found is used only for debugging
     try:
       self.app.Hide() 
@@ -135,7 +140,7 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
       definition += "class "+ class_name + "(Protocol):\n"
     
     if hasattr(pf_obj, "GetClassDescription"):
-      class_description = self.app.GetClassDescription(class_name) # It seems that GetClassDescription always retruns an empty string for every class
+      class_description = self.app.GetClassDescription(class_name) # It seems that GetClassDescription always retuns an empty string for every class
       if class_description:
         definition += self.indentation_increment + "\"\"\"" + class_description + "\"\"\"\n\n"
     return definition    
@@ -180,7 +185,7 @@ class PFClassesProtocolGenerator(powfacpy.PFBaseInterface):
   
   
   def get_general_class_string(self):
-    """Add class with 'general methods' (see Section 'General Methods' in scripting reference. All other classes (except for PFApp) inherit from this class. 
+    """Add class with 'general methods' (see Section 'General Methods' in scripting reference). All other classes (except for PFApp) inherit from this class. 
     """
     class_str = f"class PFGeneral(Protocol):\n{self.indentation_increment}\"\"\"Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). \n{self.indentation_increment}\"\"\"\n"
     for method in self.get_general_methods():

@@ -1,14 +1,15 @@
 import sys
-sys.path.insert(0, r'.\src')
-import powfacpy
-import numpy as np
 from os import remove, getcwd, replace
-import pandas as pd
 from math import inf
 from warnings import warn
 
+import pandas as pd
 
-class PFResultsInterface(powfacpy.PFBaseInterface):
+sys.path.insert(0, r'.\src')
+import powfacpy
+from powfacpy.pf_class_protocols import ElmRes
+
+class PFResultsInterface(powfacpy.PFActiveProject):
 
   def __init__(self, app):
     super().__init__(app)
@@ -19,7 +20,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_obj = self.app.GetFromStudyCase("ElmRes")
     if load_elmres:  
       results_obj.Load()  
-    obj = self.handle_single_pf_object_or_path_input(obj)  
+    obj = self._handle_single_pf_object_or_path_input(obj)  
     column = results_obj.FindColumn(obj, variable)
     return self.get_list_with_results_of_column(column, results_obj=results_obj, load_elmres=False)  
 
@@ -106,7 +107,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
             raise powfacpy.PFNotActiveError("study case")
           comres.pResult = self.get_from_study_case("ElmRes")
         else:
-          comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
+          comres.pResult = self._handle_single_pf_object_or_path_input(results_obj)
         comres.iopt_csel = 0 # export all variables
       
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator, comres_parameters)
@@ -232,7 +233,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       for col, path in enumerate(full_paths):
           is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation._format_full_path(path, self.app)
+              formated_path = powfacpy.PFStringManipulation.format_full_path(path, self.app)
               variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
               row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
@@ -344,12 +345,15 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
     return df
   
 
-  def _format_pandas_column_headers(self, df:pd.DataFrame, list_of_results_objs:list) -> None:
+  def _format_pandas_column_headers(
+    self, 
+    df: pd.DataFrame, 
+    list_of_results_objs: list[ElmRes]) -> None:
     num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
         list_of_results_objs)
     headers = ["time"]
     for col in df.columns[1:]:
-      path = powfacpy.PFStringManipulation._format_full_path(col[num_header_rows-2], self.app)
+      path = powfacpy.PFStringManipulation.format_full_path(col[num_header_rows-2], self.app)
       var = powfacpy.PFStringManipulation._format_variable_name(col[num_header_rows-1])
       headers.append(path + '\\' + var)
     df.columns = headers
