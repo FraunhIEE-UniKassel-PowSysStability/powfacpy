@@ -53,13 +53,13 @@ class PFNonExistingObjectError(PFInterfaceError):
   """Attempt to access PF object (optional: with a specific condition) that does not exist.
   """
   def __init__(self, folder, obj, condition=False, include_subfolders=False):
-    folder_str = powfacpy.PFStringManipulation._remove_class_names(str(folder))
+    folder_str = powfacpy.PFStringManipulation.remove_html_tags_from_path(str(folder))
+    folder_str = powfacpy.PFStringManipulation.remove_class_names(folder_str)
     if include_subfolders:
       msg_subfolder = " (and its subfolders)"
     else:
       msg_subfolder = ""
-    msg = (f"The folder '{folder_str}'{msg_subfolder} does not contain "
-      f"any object named '{obj}'")
+    msg = (f"The folder '{folder_str}'{msg_subfolder} does not contain any object or path named '{obj}'")
     if condition:
       msg = msg + " with specified condition"  
     self.message = msg

@@ -123,7 +123,7 @@ class PFFolder():
 ##################
     def get_obj(self, 
                 path: str, 
-                condition: Callable=None, 
+                condition: Callable = None, 
                 parent_folder: Union[PFGeneral, PFFolder, str] = None, 
                 error_if_non_existent: bool = True,
                 include_subfolders: bool = False) -> list[PFGeneral]:
@@ -178,7 +178,7 @@ class PFFolder():
             if obj_with_condition:
                 return obj_with_condition
             else:
-                return self._handle_condition_of_obj_not_met(path, obj, error_if_non_existent)
+                return self._handle_condition_of_obj_not_met(path, parent_folder, error_if_non_existent)
         else:
             return obj    
 
@@ -865,7 +865,7 @@ class PFFolder():
     def _handle_condition_of_obj_not_met(
         self, 
         path:str, 
-        obj:list[Union[PFGeneral, PFFolder]], 
+        parent_folder:Union[PFGeneral, PFFolder], 
         error_if_non_existent:bool) -> list | None:
         """Handle the attempted access to an object with a specific condition, when such object(s) were found, but none of them meets the condition.
 
@@ -885,9 +885,9 @@ class PFFolder():
         if not error_if_non_existent:
             return []
         else:
-            head, tail = os_path.split(path)
+            # head, tail = os_path.split(path)
             raise powfacpy.PFNonExistingObjectError(
-                obj[0].GetParent(), tail, condition=True)
+                parent_folder, path, condition=True)
     
 
     def _handle_pf_object_or_path_input(

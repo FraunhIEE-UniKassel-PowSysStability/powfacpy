@@ -349,8 +349,34 @@ def test_get_from_study_case(pfp, activate_test_project):
         pfp.get_from_study_case("ElmRes")
     with pytest.raises(Exception):    
         pfp.get_from_study_case("ElmRes", if_not_unique="error")
+        
+        
+def test_get_calc_relevant_obj(pfp, activate_test_project): 
+    pfp.activate_study_case(r"Study Cases\test_active_project_interface\Study Case 1")
+    # Assert similar objects found with with get_obj  
+    terminals_getobj = []
+    for network in pfp.get_active_networks():     
+        terminals_getobj += pfp.get_obj("*.ElmTerm", 
+                                        parent_folder=network,
+                                        include_subfolders=True)
+    terminals_calc_rel = pfp.get_calc_relevant_obj("*.ElmTerm")
+    assert len(terminals_getobj) == len(terminals_calc_rel)
     
+    terminals_getobj = []
+    for network in pfp.get_active_networks():     
+        terminals_getobj += pfp.get_obj("*.ElmTerm", 
+                                    parent_folder=network,
+                                    include_subfolders=True,
+                                    condition=lambda x: x.uknom > 100)
+    terminals_calc_rel = pfp.get_calc_relevant_obj(
+        "*.ElmTerm",
+        condition=lambda x: x.uknom > 100)
+    assert len(terminals_getobj) == len(terminals_calc_rel)
+    
+    with pytest.raises(powfacpy.PFNonExistingObjectError):    
+        pfp.get_calc_relevant_obj("*.ElmTerm", 
+                                  condition=lambda x: x.uknom > 5000)
 
 if __name__ == "__main__":
-    # pytest.main([r"tests\test_active_project_interface.py"])
-    pytest.main(([r"tests"]))
+    pytest.main([r"tests\test_active_project_interface.py::test_get_calc_relevant_obj"])
+    #pytest.main(([r"tests"]))

@@ -147,21 +147,49 @@ class PFActiveProject(PFFolder):
         return self.get_from_study_case("ComInc", if_not_unique="error").p_event
 
     def get_calc_relevant_obj(self,
-                              obj: str,
+                              obj_str: str,
                               condition: Callable = lambda x: True,
+                              error_if_non_existent = True,
                               includeOutOfService: int = 1,
                               topoElementsOnly: int = 0,
-                              bAcSchemes: int = 0) -> PFGeneral:
-        """Wraps the method 'GetCalcRelevantObjects' (see PF scripting reference) and adds the option to define a condition (as in the 'get_obj' method).
+                              bAcSchemes: int = 0) -> list[PFGeneral]:
+        """Wraps the method 'GetCalcRelevantObjects' (see PF scripting reference) and adds optional arguments similar to 'get_obj'.
+
+        Args:
+            obj_str (str): name inlcuding class of object(s) (NOT their path)
+            
+            condition (Callable, optional): See get_obj. Defaults to lambdax:True.
+            
+            error_if_non_existent (bool, optional): See get_obj. Defaults to True.
+            
+            From scripting reference:
+            
+            includeOutOfService (int, optional): Flag whether to include out of service objects. Defaults to 1.
+            
+            topoElementsOnly (int, optional): Flag to filter for topology relevant objects only. Defaults to 0.
+            
+            bAcSchemes (int, optional): Flag to include hidden objects in active schemes. Defaults to 0.
 
         Returns:
-            PFGeneral: PF objects found.
-        """
-        objs = self.app.GetCalcRelevantObjects(obj,
+            list[PFGeneral]: Found object(s)
+        """    
+        objs = self.app.GetCalcRelevantObjects(obj_str,
                                                includeOutOfService,
                                                topoElementsOnly,
                                                bAcSchemes)
-        return self.get_by_condition(objs, condition)
+        if not objs:
+            return self._handle_non_existing_obj(
+                obj_str, 
+                self.get_active_project(), 
+                error_if_non_existent)
+        if condition:
+            obj_with_condition = self.get_by_condition(objs, condition)
+            if obj_with_condition:
+                return obj_with_condition
+            else:
+                return self._handle_condition_of_obj_not_met(obj_str, self.get_active_project(), error_if_non_existent)
+        else:
+            return objs 
 
     def add_results_variable(self,
                              obj: Union[PFGeneral, str],

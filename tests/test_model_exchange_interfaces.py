@@ -10,8 +10,6 @@ sys.path.insert(0, r'.\src')
 import powfacpy 
 importlib.reload(powfacpy)
 
-
-
 from test_active_project_interface import pfp, pf_app, activate_test_project
 
 @pytest.fixture
