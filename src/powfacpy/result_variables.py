@@ -1581,15 +1581,6 @@ class ResVar:
       e_icolor = "e:icolor", "Colour"
       e_curscale = "e:curscale", "Load Scaling Factor"
       e_windscale = "e:windscale", "Wind Generation Scaling Factor"
-      b_loc_name = "b:loc_name", "Name"
-      b_n_ele = "b:n_ele", "Number of Elements"
-      b_n_zones = "b:n_zones", "Number of Connected Zones"
-      b_scale = "b:scale", "Load Scaling Factor"
-      b_scaleWind = "b:scaleWind", "Wind Generation Scaling Factor"
-      e_loc_name = "e:loc_name", "Name"
-      e_icolor = "e:icolor", "Colour"
-      e_curscale = "e:curscale", "Load Scaling Factor"
-      e_windscale = "e:windscale", "Wind Generation Scaling Factor"
 
     class ElmZpu(Enum):
       _init_ = 'value __doc__'
