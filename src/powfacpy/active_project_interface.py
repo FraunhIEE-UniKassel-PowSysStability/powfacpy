@@ -279,6 +279,16 @@ class PFActiveProject(PFFolder):
             if obj_id.IsDeleted():
                 o.Delete()
                 
+    def clear_elmres(self, results_obj:ElmRes = None):
+        """Clear all results variables from results object (ElmRes).
+
+        Args:
+            results_obj (ElmRes, optional): Results object. Defaults to None (get elmres from study case).
+        """
+        if not results_obj:
+            results_obj = self.get_from_study_case("ElmRes")
+        self.clear_folder(results_obj)           
+
     def get_parameter_value_string(self,
                                    parameters: dict,
                                    delimiter=" ") -> str:
