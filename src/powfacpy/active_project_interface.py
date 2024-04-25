@@ -278,7 +278,7 @@ class PFActiveProject(PFFolder):
             obj_id = o.obj_id
             if obj_id.IsDeleted():
                 o.Delete()
-
+                
     def get_parameter_value_string(self,
                                    parameters: dict,
                                    delimiter=" ") -> str:
