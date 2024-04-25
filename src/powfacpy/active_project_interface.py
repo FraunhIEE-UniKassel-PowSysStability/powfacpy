@@ -6,7 +6,7 @@ from os import path as os_path
 from warnings import warn
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ComLdf
+from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf
 from powfacpy.folders_interface import PFFolder
 
 
