@@ -192,7 +192,7 @@ class PFActiveProject(PFFolder):
             return objs 
 
     def add_results_variable(self,
-                             obj: Union[PFGeneral, str],
+                             obj: PFGeneral | str | list[PFGeneral | str],
                              variables: list[str],
                              results_obj: ElmRes = None) -> ElmRes:
         """Add variables of 'obj' to the monitored variables in of result object.
@@ -210,11 +210,12 @@ class PFActiveProject(PFFolder):
         else:
             results_obj = self._handle_single_pf_object_or_path_input(
                 results_obj)
-        obj = self._handle_single_pf_object_or_path_input(obj)
+        obj = self._handle_pf_object_or_path_input(obj)
         if isinstance(variables, str):
             variables = [variables]
+        for o in obj:     
         for var in variables:
-            results_obj.AddVariable(obj, var)
+                results_obj.AddVariable(o, var)
         results_obj.Load()
         return results_obj
 
