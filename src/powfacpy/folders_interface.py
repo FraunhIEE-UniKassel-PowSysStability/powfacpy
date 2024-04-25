@@ -432,7 +432,7 @@ class PFFolder():
                          folder:Union[PFGeneral, PFFolder, str] = None, 
                          overwrite:bool = True, 
                          use_existing:bool = False) -> PFGeneral:
-        """Create an obj inside a folder and return the object.
+        """Create an object inside a folder and return the object.
 
         Args:
             obj (str): obj including class, e.g. 'model.BlkDef'
@@ -443,7 +443,7 @@ class PFFolder():
             
             use_existing (bool, optional): 
                 If overwrite and use_existing are false and an object with the same name exists, a new object with "(1)"/"(2)".. in name is created.
-                If use_existing is True, objects with the same name are not replaced.
+                If use_existing is True and an object with the same name exists, the method just returns the existing object.
                 Defaults to False.
                 
         Raises:
