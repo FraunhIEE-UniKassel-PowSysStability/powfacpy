@@ -896,7 +896,7 @@ class PFFolder():
         condition:bool=None, 
         parent_folder:Union[PFGeneral, PFFolder, str]=None,
         error_if_non_existent:bool=True, 
-        include_subfolders:bool=False) -> PFGeneral:
+        include_subfolders:bool=False) -> PFGeneral | list[PFGeneral]:
         """Handles the input argument 'obj_or_path' when a method accepts either
           - a path string
           - a PF object
@@ -929,8 +929,14 @@ class PFFolder():
                                 include_subfolders=include_subfolders)
         elif not isinstance(obj_or_path, Iterable):
             return [obj_or_path]
-        else:  # If all former conditions are False, it is assumed that the input already was a list of PF object(s).
-            return obj_or_path
+        elif not isinstance(obj_or_path[0], str):
+            return obj_or_path    
+        else: 
+            objs = []
+            for obj in obj_or_path:
+                objs += self.get_obj(obj)
+            return objs
+            
 
 
     def _handle_single_pf_object_or_path_input(
