@@ -342,7 +342,17 @@ class PFActiveProject(PFFolder):
             intcomtrade = intcomtrade[0]
         # intcomtrade.Load() probably not required
         return intcomtrade
-
+    def execute_load_flow(self) -> int:
+        comldf: ComLdf = self.get_from_study_case("ComLdf")    
+        return comldf.Execute()
+        
+    def mark_in_graphics(self, 
+                         elms: list[PFGeneral] | PFGeneral,
+                         searchOpenedDiagramsOnly: int = 0) -> None:
+        if not isinstance(elms, list):
+            elms = list(elms)
+        self.app.MarkInGraphics(elms, searchOpenedDiagramsOnly)
+     
     def _handle_possible_attribute_not_set_error(
             self,
             possibly_not_secified_attr: str,
