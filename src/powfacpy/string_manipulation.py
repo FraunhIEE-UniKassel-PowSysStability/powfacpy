@@ -93,7 +93,7 @@ class PFStringManipulation:
         return PFStringManipulation.remove_class_names(path)
 
     @staticmethod
-    def _format_variable_name(name: str) -> str:
+    def format_variable_name(name: str) -> str:
         """Takes PF-generated csv export variable name and returns shortened version.
         Example:
           name: 's:u0 in kV'
