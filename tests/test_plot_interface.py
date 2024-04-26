@@ -62,8 +62,8 @@ def test_pyplot_from_csv(pfplot, activate_test_project):
     pyplot.figure()
     powfacpy.PFPlotInterface.plot_from_csv(
         export_dir + "\\" + file_name + ".csv",
-        [r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source\s:u0",
-        r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source\m:Qsum:bus1"]) 
+        [r"test_plot_interface\Grid 1\AC Voltage Source\s:u0",
+        r"test_plot_interface\Grid 1\AC Voltage Source\m:Qsum:bus1"]) 
     pyplot.xlabel("t [s]")
 
 def test_copy_graphics_board_content(pfplot, activate_test_project):
