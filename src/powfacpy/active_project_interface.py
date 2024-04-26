@@ -193,13 +193,16 @@ class PFActiveProject(PFFolder):
 
     def add_results_variable(self,
                              obj: PFGeneral | str | list[PFGeneral | str],
-                             variables: list[str],
+                             variables: str | list[str],
                              results_obj: ElmRes = None) -> ElmRes:
         """Add variables of 'obj' to the monitored variables in of result object.
 
         Args:
-            obj (Union[PFGeneral, str]): PF object or its path
+        
+            obj (PFGeneral | str | list[PFGeneral | str]): PF object or its path
+            
             variables (list[str]): variable names
+            
             results_obj (ElmRes, optional): Results object. Defaults to None (ElmRes from active study case is used).
 
         Returns:
