@@ -26,7 +26,7 @@ class PFPlotInterface(powfacpy.PFActiveProject):
 
 
   def plot(self, 
-           obj: PFGeneral, 
+           obj: PFGeneral | str, 
            variables: str | list[str], 
            graphics_page: str | GrpPage | SetVipage = None, 
            plot: str | VisPlot | PltLinebarplot | PltVectorplot = None,
@@ -37,11 +37,17 @@ class PFPlotInterface(powfacpy.PFActiveProject):
     The active plot can be set with the optional arguments.
 
     Args:
+    
         obj (PFGeneral): Object (e.g. of class 'Elm...') of which variables are plotted.
+      
         variables (str | list[str]): string or list of variable names 
+      
         graphics_page (str | GrpPage | SetVipage, optional): Defaults to None.
+      
         plot (str | VisPlot | PltLinebarplot | PltVectorplot, optional): Plot object. Defaults to None.
+      
         kwargs:
+      
           results_obj: result object used (object or path)
           linestyle: int
           linewidth: double
