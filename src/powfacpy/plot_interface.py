@@ -38,21 +38,21 @@ class PFPlotInterface(powfacpy.PFActiveProject):
 
     Args:
     
-        obj (PFGeneral): Object (e.g. of class 'Elm...') of which variables are plotted.
+      obj (PFGeneral): Object (e.g. of class 'Elm...') of which variables are plotted.
       
-        variables (str | list[str]): string or list of variable names 
+      variables (str | list[str]): string or list of variable names 
       
-        graphics_page (str | GrpPage | SetVipage, optional): Defaults to None.
+      graphics_page (str | GrpPage | SetVipage, optional): Defaults to None.
       
-        plot (str | VisPlot | PltLinebarplot | PltVectorplot, optional): Plot object. Defaults to None.
+      plot (str | VisPlot | PltLinebarplot | PltVectorplot, optional): Plot object. Defaults to None.
       
-        kwargs:
+      kwargs:
       
-          results_obj: result object used (object or path)
-          linestyle: int
-          linewidth: double
-          color: int
-          label: str
+      results_obj: result object used (object or path)
+      linestyle: int
+      linewidth: double
+      color: int
+      label: str
     """
     obj = self._handle_single_pf_object_or_path_input(obj)
     if "results_obj" in kwargs:
