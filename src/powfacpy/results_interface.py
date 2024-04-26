@@ -401,10 +401,11 @@ class PFResultsInterface(powfacpy.PFActiveProject):
     Returns:
         str: Replacement (value in 'self.variable_aliases')
     """
-    for original, replacement in self.variable_aliases.items():
-      if var_name == original:
-        return replacement
-    return var_name  
+    replacement = self.variable_aliases.get(var_name)
+    if replacement:
+      return replacement
+    else:
+      return var_name
       
       
   def replace_object_aliases(self, obj_name: str) -> str:
@@ -416,10 +417,11 @@ class PFResultsInterface(powfacpy.PFActiveProject):
     Returns:
         str: Replacement (value in 'self.obj_aliases')
     """ 
-    for original, replacement in self.obj_aliases.items():
-      if obj_name == original:
-        return replacement      
-    return obj_name
+    replacement = self.obj_aliases_aliases.get(obj_name)
+    if replacement:
+      return replacement
+    else:
+      return obj_name
   
   
   def get_simulation_results_from_dataframe(
