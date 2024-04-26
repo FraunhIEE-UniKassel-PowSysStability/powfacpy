@@ -81,12 +81,12 @@ def test_export_to_pandas(pfri, activate_test_project):
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
     pfdi.initialize_sim(param={"p_resvar":elmres})
     pfdi.run_sim()
-    nr_of_columns_including_time = len(variables) + 1
+    nr_of_columns = len(variables)
     df = pfri.export_to_pandas(
         list_of_results_objs=[elmres,]*len(variables),
         elements=[network_element,]*len(variables), 
         variables=variables)
-    assert len(df.columns) == nr_of_columns_including_time
+    assert len(df.columns) == nr_of_columns
 
     df = pfri.export_to_pandas()
 
