@@ -177,7 +177,7 @@ class PFStringManipulation:
         path = PFStringManipulation.truncate_until(path, project_name)
         # In case a closing tag occurs at the end of the path </l3> (e.g. when
         # str() is called on a PF object) make sure this is removed.
-        if path[-1] == ">":
+        if path and path[-1] == ">":
             path = path[0:path.rfind("<")]
         return path
 
