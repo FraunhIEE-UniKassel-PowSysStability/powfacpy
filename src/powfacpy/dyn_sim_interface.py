@@ -1,7 +1,7 @@
-import sys
-sys.path.insert(0, r'.\src')
-import powfacpy
+from warnings import warn
 
+import powfacpy
+from powfacpy.pf_class_protocols import PFGeneral
 
 class PFDynSimInterface(powfacpy.PFActiveProject):
   """Dynamic simulation interface"""
@@ -38,6 +38,28 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
     self.run_sim()
 
 
+  def create_dyn_sim_event(self, 
+                   name_incl_class: str, 
+                   params: dict[str, object] = {}, 
+                   parent_folder: PFGeneral | str = None, 
+                   overwrite: bool = True):
+    """Creates an event for dynamic simulations (RMS/EMT) and sets the parameters in 'params'.
+
+    Args:
+        name_incl_class (str): Event name including the class.
+        
+        params (dict, optional): Paramter-values dictionary for created event object. Defaults to {}.
+        
+        parent_folder (PFGeneral | str, optional): Folder where event is created. If None, the events folder from the initial conditions calculation (ComInc) is used. Defaults to None.
+        
+        overwrite (bool, optional): Overwrite existing event with same name. Defaults to True.
+    """
+    if not parent_folder:
+      parent_folder = self.get_events_folder_from_initial_conditions_calc()
+    event_obj = self.create_in_folder(name_incl_class, parent_folder, overwrite=overwrite)
+    self.set_attr(event_obj, params)  
+    
+      
   def create_event(self, 
                    name_incl_class, 
                    params={}, 
@@ -51,10 +73,12 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
       parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
       overwrite: Oerwrite existing event with same name.
     """
-    if not parent_folder:
-      parent_folder = self.get_events_folder_from_initial_conditions_calc()
-    event_obj = self.create_in_folder(name_incl_class, parent_folder, overwrite=overwrite)
-    self.set_attr(event_obj, params)  
+    warn(f'{self.__class__.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.',
+             DeprecationWarning, stacklevel=2)
+    self.create_dyn_sim_event(name_incl_class, 
+                              params, 
+                              parent_folder,
+                              overwrite) 
 
 
   def get_dsl_model_parameter_names(self, dsl_model):
