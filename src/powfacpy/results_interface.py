@@ -417,7 +417,7 @@ class PFResultsInterface(powfacpy.PFActiveProject):
     Returns:
         str: Replacement (value in 'self.obj_aliases')
     """ 
-    replacement = self.obj_aliases_aliases.get(obj_name)
+    replacement = self.obj_aliases.get(obj_name)
     if replacement:
       return replacement
     else:
