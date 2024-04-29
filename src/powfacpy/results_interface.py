@@ -435,9 +435,9 @@ class PFResultsInterface(powfacpy.PFActiveProject):
     
         df (pd.DataFrame): DataFrame with simulation results (created using 'export_to_pandas')
         
-        objs (PFGeneral | str | Iterable[PFGeneral  |  str]): Results for objects must be contained in the 'df'
+        objs (PFGeneral | str | Iterable[PFGeneral  |  str]): objects (for which results must be contained in the 'df')
         
-        variables (str | Iterable[str]): Results for varoables of objects must be contained in the 'df'
+        variables (str | Iterable[str]): variables (for which results must be contained in the 'df')
 
     Returns:
         DataFrame: DataFrame with specified results
