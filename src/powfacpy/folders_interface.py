@@ -442,7 +442,8 @@ class PFFolder():
             overwrite (bool, optional): objects with the same name will be overwritten. Defaults to True.
             
             use_existing (bool, optional): 
-                If overwrite and use_existing are false and an object with the same name exists, a new object with "(1)"/"(2)".. in name is created.
+                Only relevant if 'overwrite' is False.
+                If use_existing is False and an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
                 If use_existing is True and an object with the same name exists, the method just returns the existing object.
                 Defaults to False.
                 
