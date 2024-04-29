@@ -80,7 +80,26 @@ class PFActiveProject(PFFolder):
     @property
     def feeders_folder(self):
         return self.app.GetDataFolder("IntFeeder")
+    
+    def get_active_study_case(self, 
+                              error_if_no_active_case: bool = True) -> IntCase:
+        """Get the currently active study case. Control whether error should be raised if no case is active.
 
+        Args:
+            error_if_no_active_case (bool, optional): If True, raise exception if no case is active. If False, return none. Defaults to True.
+
+        Raises:
+            powfacpy.PFNoActiveStudyCaseError: When no case is active.
+
+        Returns:
+            IntCase: The active study case
+        """
+        case = self.app.GetActiveStudyCase()
+        if case or not error_if_no_active_case:
+            return case
+        else:
+            raise powfacpy.PFNoActiveStudyCaseError()
+            
     def get_from_study_case(self,
                             class_name: str,
                             if_not_unique: str = "warning", if_no_study_case: str = "error") -> PFGeneral:
@@ -139,7 +158,7 @@ class PFActiveProject(PFFolder):
     def get_events_folder_from_initial_conditions_calc(self) -> IntEvt:
         """Get events folder (IntEvt) from the initial conditions calculation object (ComInc). 
 
-        This is the events folder used for time domain simulation (RMS/EMT).
+        This folder is used for the events in dynamic time domain simulation (RMS/EMT).
 
         Returns:
             IntEvt: Events folder.
@@ -217,7 +236,7 @@ class PFActiveProject(PFFolder):
         if isinstance(variables, str):
             variables = [variables]
         for o in obj:     
-        for var in variables:
+            for var in variables:
                 results_obj.AddVariable(o, var)
         results_obj.Load()
         return results_obj
@@ -255,8 +274,7 @@ class PFActiveProject(PFFolder):
         grids = self.app.GetCalcRelevantObjects(
             ".ElmNet")  # This also returns the summary grid in the study case
         # Delete the summary grid which is in the study case
-        grids[:] = [grid for grid in grids if not grid.GetParent().GetClassName()
-                    == "IntCase"]
+        grids[:] = [grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"]
         if error_if_no_network_is_active and not grids:
             raise powfacpy.PFNotActiveError("a network (ElmNet).")
         return grids
@@ -282,7 +300,7 @@ class PFActiveProject(PFFolder):
             if obj_id.IsDeleted():
                 o.Delete()
                 
-    def clear_elmres(self, results_obj:ElmRes = None):
+    def clear_elmres(self, results_obj: ElmRes = None):
         """Clear all results variables from results object (ElmRes).
 
         Args:
@@ -345,8 +363,24 @@ class PFActiveProject(PFFolder):
             intcomtrade = intcomtrade[0]
         # intcomtrade.Load() probably not required
         return intcomtrade
-    def execute_load_flow(self) -> int:
-        comldf: ComLdf = self.get_from_study_case("ComLdf")    
+    
+    def create_zone(self, 
+                    name: str, 
+                    elms: list[PFGeneral],
+                    color: int = 2,
+                    parent_folder: str | PFGeneral = None) -> ElmZone:
+        if not parent_folder:
+            parent_folder = self.zones_folder
+        elmzone: ElmZone = self.create_in_folder(
+            name + ".ElmZone", parent_folder)
+        elmzone.icolor = color
+        for elm in elms:
+            elm.cpZone = elmzone
+        return elmzone
+    
+    def execute_load_flow(self, params: dict = {}) -> int:
+        comldf: ComLdf = self.get_from_study_case("ComLdf")  
+        self.set_attr(comldf, params=params)  
         return comldf.Execute()
         
     def mark_in_graphics(self, 
