@@ -7,19 +7,25 @@ from os import listdir
 
 
 supported_and_unsupported_simulation_types_and_names = {
-  "Basic Data balanced:": "Basic", 
-  "Basic Data unbalanced:": False, # False means not supported
-  "Load Flow AC balanced:": "LF_Bal",
-  "Load Flow AC unbalanced:": "LF_Unbal",
-  "Simulation RMS balanced:": "RMS_Bal",
-  "Simulation RMS unbalanced:": "RMS_Unbal",
-  "Simulation EMT balanced:": False,
-  "Simulation EMT unbalanced:": "EMT",
-  "Power Quality/Harmonics balanced:": False,
-  "Power Quality/Harmonics unbalanced:": False,
-  "Protection unbalanced:": False,  
+  "Basic Data balanced": "Basic", 
+  "Basic Data unbalanced": False, # False means not supported
+  "Load Flow AC balanced": "LF_Bal",
+  "Load Flow AC unbalanced": "LF_Unbal",
+  "Simulation RMS balanced": "RMS_Bal",
+  "Simulation RMS unbalanced": "RMS_Unbal",
+  "Simulation EMT balanced": False,
+  "Simulation EMT unbalanced": "EMT",
+  "Power Quality/Harmonics balanced": False,
+  "Power Quality/Harmonics unbalanced": False,
+  "Protection unbalanced": False,  
+  "Sensitivities / Distribution Factors AC balanced": "Sensitivities_Bal",
 }
 
+new_dict = {}
+for old_key in supported_and_unsupported_simulation_types_and_names.keys():
+  new_dict[old_key + ":"] = supported_and_unsupported_simulation_types_and_names[old_key]
+supported_and_unsupported_simulation_types_and_names = new_dict
+  
 
 class ResultVariablesParser():
   """Read (parse) the result variables of PowerFactory .IntMon objects and create enumeration classes (for code completion etc.). The classes are written to the file under 'path_python_res_var_file'. The .txt files under 'path_pf_res_var_txt_files' were created manually by copying from the PF output window when clicking on 'Variable List' in the dialogue of an .IntMon file.
@@ -52,7 +58,7 @@ class ResultVariablesParser():
             with open(self.path_pf_res_var_txt_files + "//" + res_var_file, 'r') as in_file:
               out_file.write("\n")
               elm_class = res_var_file.split(".")[0]
-              self.write_elm_class_in_sumlation_type(elm_class, in_file, out_file, pf_sim_type)
+              self.write_elm_class_in_simulation_type(elm_class, in_file, out_file, pf_sim_type)
   
       
   def get_results_variables_module_docstring(self):
@@ -74,7 +80,7 @@ Currently, the following 'Elm' classes are supported: \n
     return module_docstring
 
 
-  def write_elm_class_in_sumlation_type(self, elm_class:str, in_file, out_file, pf_sim_type:str):
+  def write_elm_class_in_simulation_type(self, elm_class:str, in_file, out_file, pf_sim_type:str):
     """Write an elm class to the output python file for a specific simulation type. Iterates through the lines of the .txt file until it finds the simulation type. Then writes all its variables to the python files. Breaks the loop as soon as the next simualtion type is reached.
     """
     out_file.write(2*self.indentation_increment + "class " + elm_class + "(Enum):\n")
