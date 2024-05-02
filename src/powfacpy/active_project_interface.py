@@ -81,8 +81,9 @@ class PFActiveProject(PFFolder):
     def feeders_folder(self):
         return self.app.GetDataFolder("IntFeeder")
     
-    def get_active_study_case(self, 
-                              error_if_no_active_case: bool = True) -> IntCase:
+    def get_active_study_case(
+        self, 
+        error_if_no_active_case: bool = True) -> IntCase | None:
         """Get the currently active study case. Control whether error should be raised if no case is active.
 
         Args:
@@ -92,7 +93,7 @@ class PFActiveProject(PFFolder):
             powfacpy.PFNoActiveStudyCaseError: When no case is active.
 
         Returns:
-            IntCase: The active study case
+            IntCase: The active study case | None
         """
         case = self.app.GetActiveStudyCase()
         if case or not error_if_no_active_case:
