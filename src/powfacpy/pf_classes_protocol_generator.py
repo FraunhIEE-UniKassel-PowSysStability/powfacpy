@@ -96,7 +96,7 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
       project.Activate()
       
       for n in range(2):
-        folders = self.get_obj("*")
+        folders = self.get_obj("*", include_subfolders=True)
         pf_class_objects = []
         pf_class_objects_not_found = [] 
         for pf_class in pf_class_names:
