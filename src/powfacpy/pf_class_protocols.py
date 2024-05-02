@@ -6,202 +6,106 @@ from typing import Protocol
 class PFGeneral(Protocol):
   """Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). 
   """
-  def GetRegion(*args):
-    ...
-
-  def GetSupplyingTrfstations(*args):
-    ...
-
-  def HasResults(*args):
-    ...
-
-  def PasteCopy(*args):
-    ...
-
-  def GetOperator(*args):
-    ...
-
-  def IsOutOfService(*args):
-    ...
-
-  def GetFullName(*args):
-    ...
-
-  def GetAttributeDescription(*args):
-    ...
-
-  def ReportUnusedObjects(*args):
-    ...
-
-  def GetConnectionCount(*args):
-    ...
-
-  def SetAttribute(*args):
-    ...
-
-  def GetInom(*args):
-    ...
-
-  def Isolate(*args):
-    ...
-
-  def GetAttribute(*args):
-    ...
-
-  def ShowEditDialog(*args):
-    ...
-
-  def MarkInGraphics(*args):
-    ...
-
-  def SetAttributeShape(*args):
-    ...
-
-  def GetConnectedElements(*args):
-    ...
-
-  def SwitchOff(*args):
-    ...
-
-  def GetAttributes(*args):
-    ...
-
-  def GetContents(*args):
-    ...
-
-  def GetAttributeType(*args):
-    ...
-
-  def GetClassName(*args):
-    ...
-
-  def GetControlledNode(*args):
-    ...
-
-  def GetCubicle(*args):
-    ...
-
-  def Energize(*args):
+  def CreateObject(*args):
     ...
 
   def GetAttributeLength(*args):
     ...
 
-  def GetAttributeUnit(*args):
-    ...
-
-  def IsObjectModifiedByVariation(*args):
-    ...
-
-  def IsShortCircuited(*args):
-    ...
-
-  def SwitchOn(*args):
-    ...
-
-  def IsNetworkDataFolder(*args):
-    ...
-
-  def ContainsNonAsciiCharacters(*args):
-    ...
-
-  def GetSupplyingSubstations(*args):
-    ...
-
-  def CreateObject(*args):
-    ...
-
   def GetCombinedProjectSource(*args):
     ...
 
-  def GetSystemGrounding(*args):
-    ...
-
-  def IsNode(*args):
-    ...
-
-  def GetImpedance(*args):
-    ...
-
-  def CopyData(*args):
-    ...
-
-  def ReplaceNonAsciiCharacters(*args):
-    ...
-
-  def GetParent(*args):
-    ...
-
-  def IsHidden(*args):
-    ...
-
-  def Move(*args):
-    ...
-
-  def Delete(*args):
-    ...
-
-  def GetNode(*args):
-    ...
-
-  def SearchObject(*args):
-    ...
-
-  def GetAttributeShape(*args):
-    ...
-
-  def AddCopy(*args):
-    ...
-
-  def IsEnergized(*args):
-    ...
-
-  def ReportNonAsciiCharacters(*args):
-    ...
-
-  def IsCalcRelevant(*args):
-    ...
-
-  def GetReferences(*args):
-    ...
-
-  def GetOwner(*args):
-    ...
-
-  def GetZeroImpedance(*args):
+  def HasResults(*args):
     ...
 
   def IsEarthed(*args):
     ...
 
-  def GetSupplyingTransformers(*args):
+  def GetOwner(*args):
     ...
 
-  def IsObjectActive(*args):
+  def GetCubicle(*args):
     ...
 
-  def GetChildren(*args):
+  def IsNetworkDataFolder(*args):
     ...
 
-  def SetAttributeLength(*args):
-    ...
-
-  def PurgeUnusedObjects(*args):
-    ...
-
-  def WriteChangesToDb(*args):
+  def Isolate(*args):
     ...
 
   def SetAttributes(*args):
     ...
 
-  def HasAttribute(*args):
+  def WriteChangesToDb(*args):
     ...
 
-  def IsInFeeder(*args):
+  def GetControlledNode(*args):
     ...
 
-  def IsDeleted(*args):
+  def SetAttributeLength(*args):
+    ...
+
+  def GetOperator(*args):
+    ...
+
+  def GetNode(*args):
+    ...
+
+  def GetReferences(*args):
+    ...
+
+  def PurgeUnusedObjects(*args):
+    ...
+
+  def GetParent(*args):
+    ...
+
+  def SetAttributeShape(*args):
+    ...
+
+  def IsOutOfService(*args):
+    ...
+
+  def GetConnectionCount(*args):
+    ...
+
+  def PasteCopy(*args):
+    ...
+
+  def GetSupplyingTrfstations(*args):
+    ...
+
+  def GetInom(*args):
+    ...
+
+  def IsEnergized(*args):
+    ...
+
+  def SearchObject(*args):
+    ...
+
+  def GetSupplyingTransformers(*args):
+    ...
+
+  def GetUnom(*args):
+    ...
+
+  def SetAttribute(*args):
+    ...
+
+  def GetClassName(*args):
+    ...
+
+  def IsNode(*args):
+    ...
+
+  def GetZeroImpedance(*args):
+    ...
+
+  def GetAttributeDescription(*args):
+    ...
+
+  def GetConnectedElements(*args):
     ...
 
   def ShowModalSelectTree(*args):
@@ -210,7 +114,103 @@ class PFGeneral(Protocol):
   def IsReducible(*args):
     ...
 
-  def GetUnom(*args):
+  def IsDeleted(*args):
+    ...
+
+  def IsShortCircuited(*args):
+    ...
+
+  def GetImpedance(*args):
+    ...
+
+  def AddCopy(*args):
+    ...
+
+  def Delete(*args):
+    ...
+
+  def GetChildren(*args):
+    ...
+
+  def GetAttributeUnit(*args):
+    ...
+
+  def GetFullName(*args):
+    ...
+
+  def Energize(*args):
+    ...
+
+  def IsCalcRelevant(*args):
+    ...
+
+  def IsInFeeder(*args):
+    ...
+
+  def GetSupplyingSubstations(*args):
+    ...
+
+  def CopyData(*args):
+    ...
+
+  def GetAttribute(*args):
+    ...
+
+  def ReportUnusedObjects(*args):
+    ...
+
+  def MarkInGraphics(*args):
+    ...
+
+  def SwitchOff(*args):
+    ...
+
+  def GetAttributes(*args):
+    ...
+
+  def IsObjectModifiedByVariation(*args):
+    ...
+
+  def ShowEditDialog(*args):
+    ...
+
+  def SwitchOn(*args):
+    ...
+
+  def IsObjectActive(*args):
+    ...
+
+  def IsHidden(*args):
+    ...
+
+  def ReplaceNonAsciiCharacters(*args):
+    ...
+
+  def ContainsNonAsciiCharacters(*args):
+    ...
+
+  def GetAttributeShape(*args):
+    ...
+
+  def GetSystemGrounding(*args):
+    ...
+
+  def ReportNonAsciiCharacters(*args):
+    ...
+
+  def GetContents(*args):
+    ...
+
+  def GetRegion(*args):
+    ...
+
+  def Move(*args):
+    ...
+
+  def GetAttributeType(*args):
+    ...
+
+  def HasAttribute(*args):
     ...
 
 class PFApp(Protocol):
@@ -35283,93 +35283,170 @@ class ElmSite(PFGeneral):
 
 
 
-class IntScenario(PFGeneral):
-  appr_modby: str
-  "Approval Information: Modified by"
-  appr_modif: int
-  "Approval Information: Modified"
-  appr_status: int
-  "Approval Information: Status"
+class ComVstab(PFGeneral):
+  addoptions: str
+  "Additional Parameters"
+  calcBoundSens: int
+  "Calculate boundary sensitivity between adjacent regions"
+  calcDiaElms: int
+  "Diagonal elements only"
+  calcHvdc: int
+  "Sensitivities / Distribution factors: Sensitivity to HVDC"
+  calcLodf: int
+  "Sensitivities / Distribution factors: Line Outage Distribution Factors"
+  calcModal: int
+  "Modal/Eigenvalue Analysis"
+  calcPtdf: int
+  "Sensitivities / Distribution factors: Busbar"
+  calcRegionSens: int
+  "Calculate regional sensitivities"
+  calcShiftKeySens: int
+  "Injection based on generation shift key (GSK)"
+  calcTapChg: int
+  "Sensitivities / Distribution factors: Phase Shift/Tap Change"
+  ccalcPtdf: int
+  "Sensitivities / Distribution factors: Busbar"
+  ccalcRegionSens: int
+  "Calculate regional sensitivities"
+  cdpflim: float
+  "Consider recording thresholds for branches: dP/dP"
+  cdtplim: float
+  "Consider recording thresholds for branches: dP/dtap"
   charact: list
   "Charact."
   chr_name: str
   "Characteristic Name"
+  ciopt_method: int
+  "Calculation method"
+  considerAllGskGens: int
+  "Consider generators with the setting 'Out of service when active power is zero'"
+  considerThresh: int
+  "Consider recording thresholds"
   contents: list
   "Contents"
   cpHeadFold: object
   "Head Folder"
+  cshwAllSensVars: int
+  "Calculate all sensitivity variables"
+  ctrfSensMeth: int
+  "Calculation method for transformer tap sensitivities"
+  danlim: float
+  "Consider recording thresholds for terminals: Angle change (w.r.t. power or tap)"
+  danlimi: float
+  "Consider recording thresholds for terminals: Angle change (w.r.t. current sequence)"
   dat_src: str
   "Data source"
   dataExtDesc: list
   "Description"
   dataExtUnit: list
   "Unit"
-  desc: list
-  "Description"
+  dbgOn: int
+  "Debug mode"
+  dpflim: float
+  "Consider recording thresholds for branches: dP/dP, dQ/dP, dP/dQ, dQ/dQ"
+  dpflimi: float
+  "Consider recording thresholds for branches: dP/di_seq, dQ/di_seq"
+  dtplim: float
+  "Consider recording thresholds for branches: dP/dtap, dQ/dtap"
+  dvolim: float
+  "Consider recording thresholds for terminals: Voltage change (w.r.t. power or tap)"
+  dvolimi: float
+  "Consider recording thresholds for terminals: Voltage change (w.r.t. current sequence)"
+  factors4bus: int
+  "Power change"
+  factors4conv: int
+  "Power change"
+  factors4trf: int
+  "Tap change"
+  filename: str
+  "File name"
   fold_id: object
   "In Folder"
   for_name: str
   "Foreign Key"
+  frmElmFilt4Res: int
+  "Elements for results"
+  frmLimitsBrc: int
+  "Consider recording thresholds for branches"
+  frmLimitsBus: int
+  "Consider recording thresholds for terminals"
   gnrl_modby: str
   "Object modified by"
   gnrl_modif: int
   "Object modified"
-  iAcIncremental: int
-  "Include incremental subset in activation"
-  iCurConfig: int
-  "Based on current scenario configuration"
-  iModified: int
-  "Modified"
+  iExport: int
+  "Export results to Comma Separated Values (*.csv) file"
   iSchemeStatus: int
   "Scheme Status"
+  i_nr: int
+  "Modal/Eigenvalue Analysis: Number of Eigenvalues"
+  ignoreReds: int
+  "Elements for results: Calculate sensitivities for reducible elements"
+  iopt_method: int
+  "Calculation method"
+  iopt_mod: int
+  "Calculation type"
+  isContSens: int
+  "Consider contingencies"
+  isLinearCont: int
+  "Consider contingencies: Use linearised AC calculation"
+  isResultFile: int
+  "Recording of results"
   loc_name: str
   "Name"
+  lodflim: float
+  "Consider recording thresholds for branches: Min. Line Outage Distribution Factors"
+  obj_bus: int
+  "User-defined 3-/4-winding transformer control side: Bus Index"
   oid_: int
   "ObjectID"
+  optRep: int
+  "Output"
+  order: float
+  "Order"
+  pComSimoutage: object
+  "Consider contingencies: Contingency Analysis"
+  pFictitiousGrid: object
+  "Use fictitious border network: Border network"
+  pResult: object
+  "Result file: Results"
+  p_bus: object
+  "Sensitivities / Distribution factors: Busbar(s)"
+  p_hvdc: object
+  "Sensitivities / Distribution factors: HVDC(s)"
+  p_tr: object
+  "Sensitivities / Distribution factors: Transformer(s)/Tap-Controller(s)"
   pid_: int
   "ProjectID"
   root_id: object
   "Original Location"
-  sShort: str
-  "Short Name"
+  set_mode: int
+  "Modal/Eigenvalue Analysis: Display Results for Mode"
+  setfilter: object
+  "Elements for results: Element filter"
+  shwAllSensVars: int
+  "Calculate all sensitivity variables"
+  tapDirection: int
+  "Tap direction"
+  taplimtrfs: int
+  "Consider transformers at max. or min. tap position."
   tid_: int
   "TimeID"
+  trfSensMeth: int
+  "Calculation method for transformer tap sensitivities"
+  useFictitiousGrid: int
+  "Use fictitious border network"
+  usrtrside: int
+  "User-defined 3-/4-winding transformer control side"
 
-
-  def Activate(*args):
-    ...
-
-  def Apply(*args):
-    ...
-
-  def ApplySelective(*args):
-    ...
 
   def AttributeType(*args):
     ...
 
-  def Deactivate(*args):
-    ...
-
-  def DiscardChanges(*args):
-    ...
-
-  def GetObjects(*args):
-    ...
-
-  def GetOperationValue(*args):
+  def Execute(*args):
     ...
 
   def HasReferences(*args):
-    ...
-
-  def ReleaseMemory(*args):
-    ...
-
-  def Save(*args):
-    ...
-
-  def SetOperationValue(*args):
     ...
 
   def __getattr__(*args):
