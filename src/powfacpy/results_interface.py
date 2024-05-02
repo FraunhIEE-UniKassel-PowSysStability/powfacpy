@@ -349,7 +349,7 @@ class PFResultsInterface(powfacpy.PFActiveProject):
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
     finally:
       remove(full_path)
-    return df.set_index("time")
+    return df.set_index("time", inplace=True)
   
 
   def _format_pandas_column_headers(
