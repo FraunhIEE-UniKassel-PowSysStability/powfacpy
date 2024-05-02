@@ -11,7 +11,7 @@ from powfacpy.folders_interface import PFFolder
 
 
 class PFActiveProject(PFFolder):
-    """Folder of the currently active project.
+    """Interface to the currently active project.
     """
 
     def __init__(self, pf_app: PFApp):
