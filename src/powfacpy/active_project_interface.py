@@ -6,7 +6,7 @@ from os import path as os_path
 from warnings import warn
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf
+from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf, IntMon
 from powfacpy.folders_interface import PFFolder
 
 
@@ -241,6 +241,31 @@ class PFActiveProject(PFFolder):
                 results_obj.AddVariable(o, var)
         results_obj.Load()
         return results_obj
+    
+    def add_variable_selection_obj_to_results_obj(self,
+                                name,
+                                results_obj: ElmRes,  
+                                class_name: str = None, 
+                                variables: list[str] = []) -> IntMon:
+        """Add a varible selection object (IntMon) to a result object (ElmRes).
+
+        Args:
+            name (str): Name of IntMon
+            results_obj (ElmRes): Results object
+            class_name (str, optional): 'classnm' parameter of IntMon. Defaults to None.
+            variables (list[str], optional): 'vars' parameter of IntMon. Defaults to [].
+
+        Returns:
+            IntMon: varible selection object
+        """
+        variable_selection_obj: IntMon = self.create_in_folder(
+        name + ".IntMon", 
+        results_obj)
+        if class_name:
+            variable_selection_obj.classnm = class_name
+        if variables:
+            variable_selection_obj.vars = variables  
+        return variable_selection_obj 
 
     def get_first_level_folder(self, folder_type: str) -> PFGeneral:
         """Get folder on first level of PF database.
