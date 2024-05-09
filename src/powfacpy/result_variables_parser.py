@@ -19,6 +19,7 @@ supported_and_unsupported_simulation_types_and_names = {
   "Power Quality/Harmonics unbalanced": False,
   "Protection unbalanced": False,  
   "Sensitivities / Distribution Factors AC balanced": "Sensitivities_Bal",
+  "Sensitivities / Distribution Factors AC unbalanced": False,
 }
 
 new_dict = {}
