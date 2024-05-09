@@ -293,9 +293,7 @@ class PFResultsInterface(powfacpy.PFActiveProject):
                       variables: list = None,
                       comres_parameters: dict = {},) -> pd.DataFrame:
     """
-    Returns pandas DataFrame of the simulation results in ElmRes. By default, all
-    results variables of the first ElmRes object found in the active study case
-    are exported. A selection of specific variables can be exported using 
+    Returns pandas DataFrame of the simulation results in ElmRes. By default, all  results variables of the first ElmRes object found in the active study case are exported. A selection of specific variables can be exported using 
     the optional arguments. Uses intermediate step by exporting to csv format
     with comres object.
     
@@ -349,7 +347,8 @@ class PFResultsInterface(powfacpy.PFActiveProject):
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
     finally:
       remove(full_path)
-    return df.set_index("time", inplace=True)
+    df.set_index("time", inplace=True)  
+    return df
   
 
   def _format_pandas_column_headers(
