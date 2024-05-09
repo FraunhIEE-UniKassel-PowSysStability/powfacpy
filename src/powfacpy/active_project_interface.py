@@ -215,7 +215,7 @@ class PFActiveProject(PFFolder):
                              obj: PFGeneral | str | list[PFGeneral | str],
                              variables: str | list[str],
                              results_obj: ElmRes = None) -> ElmRes:
-        """Add variables of 'obj' to the monitored variables in of result object.
+        """Add variable(s) of 'obj' to the monitored variables in of result object.
 
         Args:
         
