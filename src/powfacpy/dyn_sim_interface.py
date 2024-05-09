@@ -113,7 +113,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
       parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
       overwrite: Oerwrite existing event with same name.
     """
-    warn(f'{self.__class__.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.',
+    warn(f'{self.create_event.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.',
              DeprecationWarning, stacklevel=2)
     self.create_dyn_sim_event(name_incl_class, 
                               params, 
