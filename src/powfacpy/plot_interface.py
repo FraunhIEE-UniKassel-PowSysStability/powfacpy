@@ -72,7 +72,7 @@ class PFPlotInterface(powfacpy.PFActiveProject):
     plot: VisPlot | PltLinebarplot | PltVectorplot = None,
     **kwargs) -> None:
     """Plot varibales. Variables must have been added to the monitored
-    variables before.
+    variables before (e.g. using 'add_results_variable').
 
     Args:
         obj (PFGeneral): Object (e.g. of class 'Elm...') of which variables are plotted.
