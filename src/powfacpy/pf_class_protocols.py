@@ -6,211 +6,211 @@ from typing import Protocol
 class PFGeneral(Protocol):
   """Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). 
   """
-  def CreateObject(*args):
-    ...
-
-  def GetAttributeLength(*args):
-    ...
-
-  def GetCombinedProjectSource(*args):
-    ...
-
-  def HasResults(*args):
-    ...
-
-  def IsEarthed(*args):
-    ...
-
-  def GetOwner(*args):
-    ...
-
-  def GetCubicle(*args):
+  def GetAttributeUnit(*args):
     ...
 
   def IsNetworkDataFolder(*args):
     ...
 
-  def Isolate(*args):
-    ...
-
-  def SetAttributes(*args):
-    ...
-
-  def WriteChangesToDb(*args):
-    ...
-
-  def GetControlledNode(*args):
-    ...
-
-  def SetAttributeLength(*args):
-    ...
-
-  def GetOperator(*args):
-    ...
-
-  def GetNode(*args):
-    ...
-
-  def GetReferences(*args):
-    ...
-
   def PurgeUnusedObjects(*args):
-    ...
-
-  def GetParent(*args):
-    ...
-
-  def SetAttributeShape(*args):
-    ...
-
-  def IsOutOfService(*args):
-    ...
-
-  def GetConnectionCount(*args):
-    ...
-
-  def PasteCopy(*args):
-    ...
-
-  def GetSupplyingTrfstations(*args):
-    ...
-
-  def GetInom(*args):
-    ...
-
-  def IsEnergized(*args):
-    ...
-
-  def SearchObject(*args):
-    ...
-
-  def GetSupplyingTransformers(*args):
-    ...
-
-  def GetUnom(*args):
-    ...
-
-  def SetAttribute(*args):
-    ...
-
-  def GetClassName(*args):
-    ...
-
-  def IsNode(*args):
-    ...
-
-  def GetZeroImpedance(*args):
-    ...
-
-  def GetAttributeDescription(*args):
-    ...
-
-  def GetConnectedElements(*args):
-    ...
-
-  def ShowModalSelectTree(*args):
-    ...
-
-  def IsReducible(*args):
-    ...
-
-  def IsDeleted(*args):
-    ...
-
-  def IsShortCircuited(*args):
-    ...
-
-  def GetImpedance(*args):
-    ...
-
-  def AddCopy(*args):
-    ...
-
-  def Delete(*args):
-    ...
-
-  def GetChildren(*args):
-    ...
-
-  def GetAttributeUnit(*args):
-    ...
-
-  def GetFullName(*args):
-    ...
-
-  def Energize(*args):
-    ...
-
-  def IsCalcRelevant(*args):
-    ...
-
-  def IsInFeeder(*args):
-    ...
-
-  def GetSupplyingSubstations(*args):
-    ...
-
-  def CopyData(*args):
-    ...
-
-  def GetAttribute(*args):
-    ...
-
-  def ReportUnusedObjects(*args):
-    ...
-
-  def MarkInGraphics(*args):
-    ...
-
-  def SwitchOff(*args):
     ...
 
   def GetAttributes(*args):
     ...
 
-  def IsObjectModifiedByVariation(*args):
-    ...
-
   def ShowEditDialog(*args):
     ...
 
-  def SwitchOn(*args):
+  def GetCombinedProjectSource(*args):
     ...
 
-  def IsObjectActive(*args):
+  def GetAttributeDescription(*args):
     ...
 
-  def IsHidden(*args):
+  def GetInom(*args):
     ...
 
-  def ReplaceNonAsciiCharacters(*args):
+  def AddCopy(*args):
     ...
 
-  def ContainsNonAsciiCharacters(*args):
+  def SetAttributes(*args):
+    ...
+
+  def GetCubicle(*args):
+    ...
+
+  def GetSupplyingTransformers(*args):
     ...
 
   def GetAttributeShape(*args):
     ...
 
-  def GetSystemGrounding(*args):
+  def ReportUnusedObjects(*args):
     ...
 
-  def ReportNonAsciiCharacters(*args):
+  def GetUnom(*args):
+    ...
+
+  def Delete(*args):
+    ...
+
+  def IsDeleted(*args):
+    ...
+
+  def IsCalcRelevant(*args):
+    ...
+
+  def IsObjectModifiedByVariation(*args):
+    ...
+
+  def WriteChangesToDb(*args):
+    ...
+
+  def GetAttributeLength(*args):
+    ...
+
+  def GetChildren(*args):
+    ...
+
+  def IsInFeeder(*args):
+    ...
+
+  def GetOwner(*args):
     ...
 
   def GetContents(*args):
     ...
 
-  def GetRegion(*args):
+  def ReplaceNonAsciiCharacters(*args):
     ...
 
-  def Move(*args):
+  def GetFullName(*args):
+    ...
+
+  def Isolate(*args):
+    ...
+
+  def IsObjectActive(*args):
+    ...
+
+  def GetOperator(*args):
+    ...
+
+  def ReportNonAsciiCharacters(*args):
+    ...
+
+  def IsNode(*args):
+    ...
+
+  def SearchObject(*args):
+    ...
+
+  def GetParent(*args):
+    ...
+
+  def CopyData(*args):
+    ...
+
+  def GetSupplyingTrfstations(*args):
+    ...
+
+  def IsHidden(*args):
+    ...
+
+  def ShowModalSelectTree(*args):
+    ...
+
+  def SwitchOff(*args):
+    ...
+
+  def MarkInGraphics(*args):
+    ...
+
+  def GetImpedance(*args):
+    ...
+
+  def GetClassName(*args):
+    ...
+
+  def IsReducible(*args):
+    ...
+
+  def GetAttribute(*args):
+    ...
+
+  def GetReferences(*args):
+    ...
+
+  def CreateObject(*args):
+    ...
+
+  def IsShortCircuited(*args):
+    ...
+
+  def SetAttributeShape(*args):
+    ...
+
+  def SwitchOn(*args):
+    ...
+
+  def SetAttribute(*args):
+    ...
+
+  def GetNode(*args):
+    ...
+
+  def GetSupplyingSubstations(*args):
+    ...
+
+  def HasResults(*args):
     ...
 
   def GetAttributeType(*args):
     ...
 
+  def IsEarthed(*args):
+    ...
+
+  def ContainsNonAsciiCharacters(*args):
+    ...
+
+  def IsOutOfService(*args):
+    ...
+
+  def Energize(*args):
+    ...
+
+  def GetControlledNode(*args):
+    ...
+
+  def GetRegion(*args):
+    ...
+
+  def PasteCopy(*args):
+    ...
+
+  def SetAttributeLength(*args):
+    ...
+
+  def GetConnectedElements(*args):
+    ...
+
   def HasAttribute(*args):
+    ...
+
+  def IsEnergized(*args):
+    ...
+
+  def Move(*args):
+    ...
+
+  def GetConnectionCount(*args):
+    ...
+
+  def GetZeroImpedance(*args):
+    ...
+
+  def GetSystemGrounding(*args):
     ...
 
 class PFApp(Protocol):
@@ -35444,6 +35444,331 @@ class ComVstab(PFGeneral):
     ...
 
   def Execute(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class ComMod(PFGeneral):
+  MP_alg: int
+  "Direct construction of A-matrix (as in V13.2)"
+  ResultFile: object
+  "Results"
+  addoptions: str
+  "Additional Parameters"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cinitMode: int
+  "Operating point for calculation"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  dirMatl: str
+  "Output to Matlab files: in Directory"
+  epsIdent: float
+  "Identification of eigenvalues: consider identical if distance smaller"
+  erreq: float
+  "Iteration Control: Maximum Error of Model Equations"
+  errsm: float
+  "Iteration Control: Maximum Iteration Error of Nodal Equations"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iChkEVecs: int
+  "Omit eigenvalues if eigenvector-transformation fails."
+  iDirectA: int
+  "Direct construction of A-matrix (as in V13.2)"
+  iEValMatl: int
+  "Output to Matlab files: Eigenvalues"
+  iExtra: int
+  "Solve implicit system"
+  iGnrlMode: int
+  "Initialisation of Arnoldi Iteration"
+  iLEVMatl: int
+  "Output to Matlab files: Left Eigenvectors (Controllability)"
+  iLeft: int
+  "Calculate: Left Eigenvectors (Controllability)"
+  iPart: int
+  "Calculate: Participation Factors"
+  iPartMatl: int
+  "Output to Matlab files: Participation Factors"
+  iQRorQZ: int
+  "Algorithm"
+  iREVMatl: int
+  "Output to Matlab files: Right Eigenvectors (Observability)"
+  iRight: int
+  "Calculate: Right Eigenvectors (Observability)"
+  iSchemeStatus: int
+  "Scheme Status"
+  iSparse: int
+  "Use spectral transformation"
+  iSysMatsMatl: int
+  "Output to Matlab files: System Matrices"
+  i_nr: int
+  "Number of Eigenvalues"
+  ignoreAbove: float
+  "Recording filter for eigenvalues: Max. magnitude"
+  ignoreBelow: float
+  "Recording filter for eigenvalues: Min. magnitude"
+  initMode: int
+  "Operating point for calculation"
+  iopt_met: int
+  "Calculation Method"
+  iopt_noevec: int
+  "Calculate Eigenvalues only"
+  iopt_which: int
+  "Selection of eigenvalues closest to RP"
+  isRecMaxDampRat: int
+  "Recording filter for eigenvalues: Max. damp. ratio"
+  isRecMaxImag: int
+  "Recording filter for eigenvalues: Max. imag. part"
+  isRecMaxMagn: int
+  "Recording filter for eigenvalues: Max. magnitude"
+  isRecMaxReal: int
+  "Recording filter for eigenvalues: Max. real part"
+  isRecMinDampRat: int
+  "Recording filter for eigenvalues: Min. damp. ratio"
+  isRecMinImag: int
+  "Recording filter for eigenvalues: Min. imag. part"
+  isRecMinMagn: int
+  "Recording filter for eigenvalues: Min. magnitude"
+  isRecMinReal: int
+  "Recording filter for eigenvalues: Min. real part"
+  isRecOscModesOnly: int
+  "Recording filter for eigenvalues: Oscillatory modes only"
+  isRecUnstabModesOnly: int
+  "Recording filter for eigenvalues: Unstable modes only"
+  isShowFilteredEvals: int
+  "Report filtered out eigenvalues in output window"
+  loc_name: str
+  "Name"
+  maxDampRat: float
+  "Recording filter for eigenvalues: Max. damp. ratio"
+  maxDampedFreq: float
+  "Recording filter for eigenvalues: Max. frequency"
+  maxImag: float
+  "Recording filter for eigenvalues: Max. imag. part"
+  maxReal: float
+  "Recording filter for eigenvalues: Max. real part"
+  minDampRat: float
+  "Recording filter for eigenvalues: Min. damp. ratio"
+  minDampedFreq: float
+  "Recording filter for eigenvalues: Min. frequency"
+  minImag: float
+  "Recording filter for eigenvalues: Min. imag. part"
+  minReal: float
+  "Recording filter for eigenvalues: Min. real part"
+  oid_: int
+  "ObjectID"
+  order: float
+  "Order"
+  outputType: int
+  "Output"
+  pInitCond: object
+  "Operating point for calculation: Initial conditions"
+  pid_: int
+  "ProjectID"
+  repBufferAndExtDll: int
+  "Report models containing buffers, time-discrete variables or external functions"
+  repConstantStates: int
+  "Report state variables that are assumed to be constant at current operating point"
+  root_id: object
+  "Original Location"
+  shiftDampFreq: float
+  "Complex reference point (RP): Damped frequency:"
+  shifti: float
+  "Complex reference point (RP): Imaginary part:"
+  shiftr: float
+  "Complex reference point (RP): Real part:"
+  tid_: int
+  "TimeID"
+  tol: float
+  "Eigenvalue convergence tolerance"
+  useBalancing: int
+  "Apply algorithm for improved conditioning"
+
+
+  def AttributeType(*args):
+    ...
+
+  def Execute(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class ElmSecctrl(PFGeneral):
+  Kpf: float
+  "Active Power Exchange: Frequency Bias"
+  Pexmax: float
+  "Economic Dispatch: Maximum Power Interchange"
+  appr_modby: str
+  "Approval Information: Modified by"
+  appr_modif: int
+  "Approval Information: Modified"
+  appr_status: int
+  "Approval Information: Status"
+  cDisplayName: str
+  "Display Name"
+  cUserDefIndex: int
+  "User defined Index"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  ciDist: int
+  "Distance from infeed in number of buses"
+  ciDistAll: int
+  "Distance from infeed in number of buses including switches"
+  ciDistAllRoot: int
+  "Distance from first infeed in number of buses including switches"
+  ciDistRoot: int
+  "Distance from first infeed in number of buses"
+  ciEarthed: int
+  "Earthed"
+  ciEnergized: int
+  "Energized"
+  ciLater: int
+  "Lateral Index"
+  ciOutaged: int
+  "Planned Outage"
+  cimRdfId: list
+  "RDF ID"
+  cmo: int
+  "Merit Order"
+  commissionDate: str
+  "Commissioning Date"
+  constr: int
+  "Year of Construction"
+  cpArea: object
+  "Area"
+  cpBranch: object
+  "Branch"
+  cpFeed: object
+  "Feeder"
+  cpGrid: object
+  "Active Power Exchange: Grid"
+  cpHeadFold: object
+  "Head Folder"
+  cpMeteostat: object
+  "Meteo Station"
+  cpOperator: object
+  "Operator"
+  cpOwner: object
+  "Owner"
+  cpSite: object
+  "Site"
+  cpSubstat: object
+  "Substation"
+  cpSupplySubstation: object
+  "Supplying Substation"
+  cpSupplyTransformer: object
+  "Supplying Transformer"
+  cpSupplyTrfStation: object
+  "Supplying Secondary Substation"
+  cpZone: object
+  "Zone"
+  cvpp: list
+  "Active Power Percentage"
+  dReserve: float
+  "Economic Dispatch: Minimum Control Reserve"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  desc: list
+  "Description"
+  doc_id: object
+  "Additional Data"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iComDate: int
+  "Commissioning Date"
+  iOPFCpsummax: int
+  "Max. Total Active Power Limit"
+  iOPFCpsummin: int
+  "Min. Total Active Power Limit"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_net: int
+  "Control Mode"
+  i_pest: int
+  "Estimate Area Exchange Flow"
+  i_popt: int
+  "Optimise Area Exchange Flow"
+  iexchange: int
+  "Active Power Exchange: Exchange for"
+  imode: int
+  "Active Power Distribution"
+  loc_name: str
+  "Name"
+  manuf: str
+  "Manufacturer"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  pOperator: object
+  "Operator"
+  pOwner: object
+  "Owner"
+  pPmeas: object
+  "Active Power Exchange: Boundary/Zone/Area"
+  pid_: int
+  "ProjectID"
+  psetp: float
+  "Active Power Exchange: Power Setpoint"
+  psummax: float
+  "Max. Total Active Power Limit"
+  psummin: float
+  "Min. Total Active Power Limit"
+  psym: list
+  "Machines"
+  qdslCtrl: object
+  "Quasi-Dynamic Model"
+  rembar: object
+  "Busbar for Frequency Measurement"
+  root_id: object
+  "Original Location"
+  sernum: str
+  "Serial Number"
+  tid_: int
+  "TimeID"
+  vpp: list
+  "Active Power Percentage"
+
+
+  def AttributeType(*args):
     ...
 
   def HasReferences(*args):

@@ -7,7 +7,7 @@ IMPORTANT: If you miss a class please add it to the 'missing_classes_that_are_no
 This module is not used by other modules of powfacpy and has the sole purpose of creating the protocols.
 """
 
-missing_classes_that_are_not_in_scripting_reference = ["IntFolder", "ElmSite", "ComVstab"]
+missing_classes_that_are_not_in_scripting_reference = ["IntFolder", "ElmSite", "ComVstab", "ComMod", "ElmSecctrl"]
 
 
 import os 
