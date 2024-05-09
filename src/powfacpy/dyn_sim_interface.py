@@ -1,14 +1,17 @@
 from warnings import warn
+from os import getcwd, remove
+
+import pandas as pd
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFGeneral
+from powfacpy.pf_class_protocols import PFGeneral, ComMod, ElmRes, ComRes
 
 class PFDynSimInterface(powfacpy.PFActiveProject):
   """Dynamic simulation interface"""
   
   def __init__(self, app): 
     super().__init__(app) 
-    
+ 
 
   def initialize_sim(self, param=None):
     """
@@ -36,6 +39,43 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
     """Initialize and perform time domain simulation."""
     self.initialize_sim()
     self.run_sim()
+    
+    
+  def get_eigenvalues_of_current_state(
+    self, 
+    commod_parameters: dict[str, object] = {}) -> pd.DataFrame:
+    """Get the eigenvalues of the current state of the system.
+    
+    Uses the modal analysis command (ComMod) to calculate the eigenvalues. Eigenvectors and participation factors are omitted). The operating point of the current simulaiton time is used.
+    Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.
+
+    Args:
+        commod_parameters (dict[str, str], optional): Additional parameter settings of modal analysis command (ComMod). Defaults to {}.
+
+    Returns:
+        pd.DataFrame: pandas DataFrame with columns "real in 1/s", "imag in rad/s"
+    """
+    commod: ComMod = self.get_from_study_case("ComMod")
+    commod.iLeft = False
+    commod.iRight = False
+    commod.iPart = False
+    commod.initMode = 0
+    if commod_parameters:
+      self.set_attr(commod, commod_parameters)
+    commod.Execute()
+    
+    elmres: ElmRes = commod.ResultFile
+    comres: ComRes = self.app.GetFromStudyCase("ComRes")      
+    comres.pResult = elmres
+    comres.iopt_csel = 0 # export all variables
+    comres.f_name = getcwd() + "\\temp.csv"
+    try:
+      comres.Execute()
+      df = pd.read_csv(comres.f_name, encoding='ISO-8859-1', header=[0,1], index_col=0)
+    finally:
+      remove(comres.f_name)  
+    df.columns = ["real in 1/s", "imag in rad/s"]  
+    return df   
 
 
   def create_dyn_sim_event(self, 
@@ -79,7 +119,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
                               params, 
                               parent_folder,
                               overwrite) 
-
+   
 
   def get_dsl_model_parameter_names(self, dsl_model):
     """
