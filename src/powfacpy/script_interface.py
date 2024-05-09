@@ -15,7 +15,7 @@ import os
 import shutil
 
 
-class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
+class PFComPythonObjectInterface(powfacpy.PFActiveProject):
   """Interface to python script objects.
   """
 
@@ -25,14 +25,14 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
   def create_file_from_embedded_script(self, out_file, compython):
     """Create a .py file from an embedded script.
     """
-    compython = self.handle_single_pf_object_or_path_input(compython)
+    compython = self._handle_single_pf_object_or_path_input(compython)
     # The xScript attribute is a list with all lines of the script
     TextFileProcessor.create_file_from_list_of_lines(out_file, compython.xScript)
 
   def set_embedded_script_from_file(self, compython, file):
     """Set the embedded script based on a .py file.
     """
-    compython = self.handle_single_pf_object_or_path_input(compython)
+    compython = self._handle_single_pf_object_or_path_input(compython)
     compython.xScript = TextFileProcessor.get_list_of_lines_of_file(file)
 
   def merge_file_into_embedded_script(self,
@@ -45,7 +45,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     The start and end lines can either be integers (line numbers) or
     string matches.
     """
-    compython = self.handle_single_pf_object_or_path_input(compython)
+    compython = self._handle_single_pf_object_or_path_input(compython)
     temporary_dir = "powfacpy_temp"
     os.makedirs(temporary_dir, exist_ok=True)
     try:
@@ -72,7 +72,7 @@ class PFComPythonObjectInterface(powfacpy.PFBaseInterface):
     temporary_dir = "powfacpy_temp"  
     os.makedirs(temporary_dir)
     try:
-      compython = self.handle_single_pf_object_or_path_input(compython)
+      compython = self._handle_single_pf_object_or_path_input(compython)
       merged_package_file = temporary_dir + r"\merged_package.py"
       PythonFileInterface.merge_package_into_single_file(init_file, merged_package_file)
       original_embedded_script_file = temporary_dir + r"\original_embedded_script.py"

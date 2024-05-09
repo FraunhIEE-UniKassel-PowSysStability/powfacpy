@@ -1,17 +1,24 @@
 import sys
-sys.path.insert(0, r'.\src')
-import powfacpy
-import numpy as np
 from os import remove, getcwd, replace
-import pandas as pd
 from math import inf
 from warnings import warn
+from typing import Iterable
 
+import pandas as pd
+from icecream import ic
 
-class PFResultsInterface(powfacpy.PFBaseInterface):
+sys.path.insert(0, r'.\src')
+import powfacpy
+from powfacpy import PFStringManipulation
+from powfacpy.pf_class_protocols import PFGeneral, ElmRes
+
+class PFResultsInterface(powfacpy.PFActiveProject):
 
   def __init__(self, app):
     super().__init__(app)
+    self.truncate_paths_until: str = PFStringManipulation.format_full_path(str(self.network_data_folder), self.app) + "\\"
+    self.variable_aliases: dict[str, str] = {}
+    self.obj_aliases: dict[str, str] = {}
 
 
   def get_list_with_results_of_variable_from_elmres(self, obj, variable, results_obj=None, load_elmres=True):
@@ -19,7 +26,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_obj = self.app.GetFromStudyCase("ElmRes")
     if load_elmres:  
       results_obj.Load()  
-    obj = self.handle_single_pf_object_or_path_input(obj)  
+    obj = self._handle_single_pf_object_or_path_input(obj)  
     column = results_obj.FindColumn(obj, variable)
     return self.get_list_with_results_of_column(column, results_obj=results_obj, load_elmres=False)  
 
@@ -29,7 +36,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       results_obj = self.app.GetFromStudyCase("ElmRes")
     if load_elmres:  
       results_obj.Load()   
-    intvec = self.create_in_folder(results_obj.GetParent(),"test.IntVec", overwrite=True) 
+    intvec = self.create_in_folder("test.IntVec", results_obj.GetParent(),overwrite=True) 
     results_obj.GetColumnValues(intvec, column) 
     list = intvec.V
     intvec.Delete()
@@ -106,7 +113,7 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
             raise powfacpy.PFNotActiveError("study case")
           comres.pResult = self.get_from_study_case("ElmRes")
         else:
-          comres.pResult = self.handle_single_pf_object_or_path_input(results_obj)
+          comres.pResult = self._handle_single_pf_object_or_path_input(results_obj)
         comres.iopt_csel = 0 # export all variables
       
       self._set_comres_settings_for_csv_export(comres, dir, file_name, column_separator, decimal_separator, comres_parameters)
@@ -232,9 +239,9 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       for col, path in enumerate(full_paths):
           is_last_column = (col == len(full_paths)-1)
           if col > 0:
-              formated_path = powfacpy.PFStringManipulation._format_full_path(path, self)
-              variable_name = powfacpy.PFStringManipulation._format_variable_name(variables[col])
-              row = row + formated_path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
+            path = self._format_path_of_obj(path)
+            variable_name = PFStringManipulation.format_variable_name(variables[col])
+            row = row + path + "\\" + variable_name + ","*(not is_last_column) # consistently add headers to row
           else:
               row = "time," # Header of first column
       write_file.write(row+"\n")
@@ -280,15 +287,13 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
 
 
   def export_to_pandas(self, 
-                      results_obj=None, 
-                      list_of_results_objs:list = None,
-                      elements:list = None, 
-                      variables:list = None,
-                      comres_parameters:dict = {},) -> None:
+                      results_obj: ElmRes = None, 
+                      list_of_results_objs: list = None,
+                      elements: list = None, 
+                      variables: list = None,
+                      comres_parameters: dict = {},) -> pd.DataFrame:
     """
-    Returns pandas DataFrame of the simulation results in ElmRes. By default, all
-    results variables of the first ElmRes object found in the active study case
-    are exported. A selection of specific variables can be exported using 
+    Returns pandas DataFrame of the simulation results in ElmRes. By default, all  results variables of the first ElmRes object found in the active study case are exported. A selection of specific variables can be exported using 
     the optional arguments. Uses intermediate step by exporting to csv format
     with comres object.
     
@@ -336,25 +341,118 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       
       df = pd.read_csv(full_path, encoding='ISO-8859-1', header=[0,1])
       self._format_pandas_column_headers(df, list_of_results_objs)  
+      
       if list_of_results_objs:
         if len(list_of_results_objs) != len(df.columns) - 1:
           warn("Not all specified results were exported. Some of the elements may be 'out of service' and were not included.")
     finally:
       remove(full_path)
+    df.set_index("time", inplace=True)  
     return df
   
 
-  def _format_pandas_column_headers(self, df:pd.DataFrame, list_of_results_objs:list) -> None:
+  def _format_pandas_column_headers(
+    self, 
+    df: pd.DataFrame, 
+    list_of_results_objs: list[ElmRes]) -> None:
+    """Format column headers of pandas DataFrame.
+    
+    Use single line column headers with path of object and results varible. 
+
+    Args:
+        df (pd.DataFrame): unformatted DataFrame.
+        list_of_results_objs (list[ElmRes]): Used to get numer of header rows of exported csv file.
+    """
     num_header_rows = self._get_number_of_header_rows_of_exported_csv_file(
         list_of_results_objs)
     headers = ["time"]
     for col in df.columns[1:]:
-      path = powfacpy.PFStringManipulation._format_full_path(col[num_header_rows-2], self)
-      var = powfacpy.PFStringManipulation._format_variable_name(col[num_header_rows-1])
+      path = self._format_path_of_obj(col[num_header_rows-2])
+      var = PFStringManipulation.format_variable_name(col[num_header_rows-1])
       headers.append(path + '\\' + var)
     df.columns = headers
+    
+  
+  def _format_path_of_obj(self, 
+                         path: str) -> str:
+    """Format the path of an obj.
 
+    Args:
+        path (str): unformated full path (usually created using 'str(obj)')
 
+    Returns:
+        str: path inside active project without class name and truncated until 'self.truncate_paths_until'
+    """
+    path = PFStringManipulation.format_full_path(path, self.app)
+    if self.truncate_paths_until:
+      path = PFStringManipulation.truncate_until(
+        path,
+        self.truncate_paths_until)  
+    return path
+  
+  
+  def replace_variable_aliases(self, var_name: str) -> str:
+    """Replace 'var_name' with correponding entry in 'self.variable_aliases'. If no such key exists in 'self.variable_aliases', 'var_name' is returned.
+
+    Args:
+        var_name (str): Original name (key in 'self.variable_aliases')
+
+    Returns:
+        str: Replacement (value in 'self.variable_aliases')
+    """
+    replacement = self.variable_aliases.get(var_name)
+    if replacement:
+      return replacement
+    else:
+      return var_name
+      
+      
+  def replace_object_aliases(self, obj_name: str) -> str:
+    """Replace 'obj_name' with correponding entry in 'self.obj_aliases'. If no such key exists in 'self.obj_aliases', 'obj_name' is returned.
+
+    Args:
+        obj_name (str): Original name (key in 'self.obj_aliases')
+
+    Returns:
+        str: Replacement (value in 'self.obj_aliases')
+    """ 
+    replacement = self.obj_aliases.get(obj_name)
+    if replacement:
+      return replacement
+    else:
+      return obj_name
+  
+  
+  def get_simulation_results_from_dataframe(
+    self, 
+    df: pd.DataFrame, 
+    objs: PFGeneral | str | Iterable[PFGeneral | str], 
+    variables: str | Iterable[str]) -> pd.DataFrame:
+    """Get simulation results from a DataFrame (which was created using 'export_to_pandas')
+
+    Args:
+    
+        df (pd.DataFrame): DataFrame with simulation results (created using 'export_to_pandas')
+        
+        objs (PFGeneral | str | Iterable[PFGeneral  |  str]): objects (for which results must be contained in the 'df')
+        
+        variables (str | Iterable[str]): variables (for which results must be contained in the 'df')
+
+    Returns:
+        DataFrame: DataFrame with specified results
+    """
+    objs = self._handle_pf_object_or_path_input(objs)
+    if isinstance(variables, str):
+      variables = [variables]
+    obj_and_var_strings = []
+    for obj in objs:
+      obj_and_var_string = self._format_path_of_obj(PFStringManipulation.remove_html_tags_from_path(str(obj)))
+      for var in variables:
+        obj_and_var_string += "\\" + var
+        obj_and_var_strings.append(obj_and_var_string) 
+    return df[obj_and_var_strings]  
+    
+      
   def _get_time_variable_name_from_elmres(self,elmres) -> str:
     """Returns the variable name of simulation time in an ElmRes object. 
     Different PF simulation types (RMS, quasi-static,..) 
@@ -371,4 +469,5 @@ class PFResultsInterface(powfacpy.PFBaseInterface):
       (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
       _get_time_variable_name_from_elmres (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/).""")
       
-
+      
+      

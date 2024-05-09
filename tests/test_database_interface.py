@@ -1,17 +1,20 @@
-import pytest
 import sys
 import json
+import importlib
+
+import pytest
+from jsondiff import diff
+
 settings_file = open('.\\settings.json')
 settings = json.load(settings_file)
 sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 sys.path.insert(0, r'.\src')
 import powfacpy 
-import importlib
 importlib.reload(powfacpy)
-from jsondiff import diff
 
-from test_base_interface import pfbi, pf_app, activate_test_project
+
+from test_active_project_interface import pfp, pf_app, activate_test_project
 
 @pytest.fixture
 def pfdbi(pf_app):
@@ -30,8 +33,7 @@ def test_get_and_set_object_attributes(pfdbi, activate_test_project):
     5. Checking if the output from 2. and 4. are equal. If so, getting and setting
     data works correctly.
   This process is done with various optional arguments (relative_paths, pf_obj_handling_options).
-  The json files under 'tests\tests_output\test_get_object_attributes*.json' can help with the 
-  interpretation of the operations.
+  The json files under 'tests\tests_output\test_get_object_attributes*.json' can help with the interpretation of the operations.
   """
   truncated_paths = ["", r"Network Model\Network Data"]
   pf_obj_handling_options = ["path", "original_pf_obj"]

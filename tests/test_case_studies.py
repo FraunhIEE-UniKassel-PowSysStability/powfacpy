@@ -1,12 +1,13 @@
-import pytest
 import sys
+
+import pytest
 
 sys.path.insert(0, r'.\src')
 import powfacpy 
 import importlib
 importlib.reload(powfacpy)
+from test_active_project_interface import pfp, pf_app, activate_test_project
 
-from test_base_interface import pfbi, pf_app, activate_test_project
 
 @pytest.fixture
 def pfsc(pf_app):
@@ -299,15 +300,15 @@ def test_handle_study_case_objects_case_numbers_input(pfsc, activate_test_projec
     # Make sure the various possible input argument variations give
     # the same results.
     study_cases = pfsc.study_cases    
-    study_cases1, case_numbers1 = pfsc.handle_study_case_objects_case_numbers_input(
+    study_cases1, case_numbers1 = pfsc._handle_study_case_objects_case_numbers_input(
       study_cases=pfsc.study_cases)
     assert(study_cases == study_cases1)
-    study_cases2, case_numbers2 = pfsc.handle_study_case_objects_case_numbers_input( 
+    study_cases2, case_numbers2 = pfsc._handle_study_case_objects_case_numbers_input( 
       case_numbers=case_numbers1)
     assert(case_numbers1 == case_numbers2)
-    study_cases3, case_numbers3 = pfsc.handle_study_case_objects_case_numbers_input()
+    study_cases3, case_numbers3 = pfsc._handle_study_case_objects_case_numbers_input()
     assert(study_cases == study_cases3)
     assert(case_numbers2 == list(case_numbers3))
 
 if __name__ == "__main__":
-    pytest.main(([r"tests\test_case_studies.py::test_export_results_of_study_cases_to_csv"]))
+    pytest.main(([r"tests\test_case_studies.py"]))

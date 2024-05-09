@@ -3,20 +3,18 @@ The database interface is helpful to interact with larger numbers
 of PF objects in the database (getting, setting, storing or comparing
 attributes).
 One use case is for example to define a set of standard parameters for a
-larger model. Using the interface, one can easily get, store (e.g. in a json file)
-and later reset a set of parameters.
+larger model. Using the interface, one can easily get, store (e.g. in a json file) and later reset a set of parameters.
 
 ToDo: Add tutorial for this interface (when there is more functionality).
 """
-
-
 import sys
-sys.path.insert(0, r'.\src')
-import powfacpy
 from fnmatch import fnmatchcase
 
-class PFDatabaseInterface(powfacpy.PFBaseInterface):
-  language = powfacpy.PFBaseInterface.language
+sys.path.insert(0, r'.\src')
+import powfacpy
+
+
+class PFDatabaseInterface(powfacpy.PFActiveProject):
   
   def __init__(self, app):
     super().__init__(app)
@@ -67,11 +65,11 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     if not class_attributes:
       class_attributes = {"*": []} # no relevant attributes -> get only keys (object paths)
     if truncated_path: # include class names in truncated_path
-      truncated_path = self.get_path_of_obj_with_class_names_relative_to_project(truncated_path)  
+      truncated_path = self.get_path_of_obj_with_class_names(truncated_path)  
 
     obj_attr_dict = {}
     for obj in objs:
-      obj_path = self.get_path_of_obj_with_class_names_relative_to_project(obj)
+      obj_path = self.get_path_of_obj_with_class_names(obj)
       if truncated_path: 
         obj_path = powfacpy.PFStringManipulation.truncate_until(
           obj_path,truncated_path + "\\") 
@@ -100,11 +98,11 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     for obj, attr_key_val in obj_attr_dict.items():
       if added_path:
         obj = added_path + "\\" + obj
-      obj = self.get_unique_obj(obj)
+      obj = self.get_unique_obj(obj, include_subfolders=False)
       for attr, value in attr_key_val.items():
         if isinstance(value, str):
-          if not isinstance(obj.GetAttributeType(attr), str): # Then a PF objeczt is expected
-            value_pf_obj = self.get_unique_obj(value, error_if_non_existent=False)
+          if not isinstance(obj.GetAttributeType(attr), str): # Then a PF object is expected
+            value_pf_obj = self.get_unique_obj(value, error_if_non_existent=False, include_subfolders=False)
             if value_pf_obj:
               value = value_pf_obj    
         self.set_attr(obj, {attr: value})  
@@ -134,8 +132,8 @@ class PFDatabaseInterface(powfacpy.PFBaseInterface):
     else: # Then it must be a PF object
       if pf_obj_handling == "path":
         if truncated_path:
-          truncated_path = self.get_path_of_obj_with_class_names_relative_to_project(truncated_path)    
-        return self.get_path_of_obj_with_class_names_relative_to_project(attr_value)
+          truncated_path = self.get_path_of_obj_with_class_names(truncated_path)    
+        return self.get_path_of_obj_with_class_names(attr_value)
       elif pf_obj_handling == "original_pf_obj":
         return attr_value 
 

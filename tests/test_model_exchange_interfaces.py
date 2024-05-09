@@ -1,14 +1,16 @@
-import pytest
-import sys
-sys.path.insert(0, r'.\src')
-import powfacpy 
-import importlib
-importlib.reload(powfacpy)
 import os
 import glob
-import numpy.random as random
-from test_base_interface import pfbi, pf_app, activate_test_project
+import importlib
+import sys
+
+import pytest
 import numpy as np
+
+sys.path.insert(0, r'.\src')
+import powfacpy 
+importlib.reload(powfacpy)
+
+from test_active_project_interface import pfp, pf_app, activate_test_project
 
 @pytest.fixture
 def pfcgmes(pf_app):
@@ -38,9 +40,9 @@ def _get_output_path():
 
 def _activate_new_study_case_and_grid(pfcgmes):
     pfcgmes.app.GetActiveStudyCase().Deactivate()
-    new_study_case = pfcgmes.create_in_folder(r'Study Cases\test_model_exchange_interfaces', 'New Study Case.IntCase', overwrite=True)
+    new_study_case = pfcgmes.create_in_folder('New Study Case.IntCase', r'Study Cases\test_model_exchange_interfaces', overwrite=True)
     new_study_case.Activate()
-    new_grid = pfcgmes.create_in_folder(r'Network Model\Network Data\test_model_exchange_interfaces', 'New Grid.ElmNet', overwrite=True)
+    new_grid = pfcgmes.create_in_folder('New Grid.ElmNet', r'Network Model\Network Data\test_model_exchange_interfaces', overwrite=True)
     new_grid.Activate()
     return new_study_case
 
@@ -112,7 +114,7 @@ def test_cgmes_update_profiles(pfcgmes, activate_test_project):
 
     voltages_source_before_changes, active_powers_source_before_changes = _get_loadflow_results(pfcgmes)
     study_case_source.Activate()
-    for load in pfcgmes.get_obj('*.ElmLod'):
+    for load in pfcgmes.get_obj('*.ElmLod', include_subfolders=True):
         load.qlini = 0
     voltages_source, active_powers_source = _get_loadflow_results(pfcgmes)
     
@@ -127,7 +129,7 @@ def test_cgmes_update_profiles(pfcgmes, activate_test_project):
     )
     voltages_destination, active_powers_destination = _get_loadflow_results(pfcgmes)
     
-    for load in pfcgmes.get_obj('*.ElmLod'):
+    for load in pfcgmes.get_obj('*.ElmLod', include_subfolders=True):
         assert load.qlini == 0
     _compare_loadflow_results(voltages_source, voltages_destination)
     _compare_loadflow_results(active_powers_source, active_powers_destination)

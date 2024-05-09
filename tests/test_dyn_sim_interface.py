@@ -1,4 +1,3 @@
-import pytest
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy 
@@ -6,7 +5,10 @@ import importlib
 importlib.reload(powfacpy)
 from os import remove, getcwd
 
-from test_base_interface import pfbi, pf_app, activate_test_project
+import pytest
+
+from test_active_project_interface import pfp, pf_app, activate_test_project
+
 
 @pytest.fixture
 def pfsim(pf_app):
@@ -61,10 +63,10 @@ def test_set_and_get_dsl_obj_array(pfsim, activate_test_project):
 def test_create_event(pfsim, activate_test_project):
     
     target = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\AC Voltage Source")
-    pfsim.create_event("test.EvtParam",{"time":1,"p_target":target,"variable":"u0","value":"1.05"})
+    pfsim.create_dyn_sim_event("test.EvtParam",{"time":1,"p_target":target,"variable":"u0","value":"1.05"})
 
     target = pfsim.get_single_obj(r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\General Load HV")
-    pfsim.create_event("loadevent.EvtLod",{"time":1,"p_target":target,"dP":100})
+    pfsim.create_dyn_sim_event("loadevent.EvtLod",{"time":1,"p_target":target,"dP":100})
     
 def test_get_parameters_of_dsl_models_in_composite_model(pfsim, activate_test_project):
     pfsim.get_single_obj(r"Study Cases\test_dyn_sim_interface\Study Case").Activate()

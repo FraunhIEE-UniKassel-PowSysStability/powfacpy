@@ -1,4 +1,3 @@
-import pytest
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy 
@@ -6,7 +5,9 @@ import importlib
 importlib.reload(powfacpy)
 from os import getcwd
 
-from test_base_interface import pfbi, pf_app, activate_test_project
+import pytest
+
+from test_active_project_interface import pfp, pf_app, activate_test_project
 
 @pytest.fixture
 def pfri(pf_app):
@@ -19,7 +20,7 @@ def test_export_to_csv(pfri, activate_test_project):
     study_case_2 = pfri.get_unique_obj(r"Study Cases\test_results_interface\Export Simulation 2.IntCase")
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
     elmres_list = []
-    terminal_hv_1 = pfri.get_unique_obj(r"Network Model\Network Data\test_base_interface\Grid\Terminal HV 2")
+    terminal_hv_1 = pfri.get_unique_obj(r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 2")
     for case in [study_case_1, study_case_2]:
         case.Activate()
         pfdi.add_results_variable(terminal_hv_1,"m:u1")
@@ -80,12 +81,12 @@ def test_export_to_pandas(pfri, activate_test_project):
     pfdi = powfacpy.PFDynSimInterface(pfri.app)
     pfdi.initialize_sim(param={"p_resvar":elmres})
     pfdi.run_sim()
-    nr_of_columns_including_time = len(variables) + 1
+    nr_of_columns = len(variables)
     df = pfri.export_to_pandas(
         list_of_results_objs=[elmres,]*len(variables),
         elements=[network_element,]*len(variables), 
         variables=variables)
-    assert len(df.columns) == nr_of_columns_including_time
+    assert len(df.columns) == nr_of_columns
 
     df = pfri.export_to_pandas()
 

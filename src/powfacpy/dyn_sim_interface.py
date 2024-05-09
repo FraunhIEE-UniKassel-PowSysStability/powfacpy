@@ -1,13 +1,17 @@
-import sys
-sys.path.insert(0, r'.\src')
+from warnings import warn
+from os import getcwd, remove
+
+import pandas as pd
+
 import powfacpy
+from powfacpy.pf_class_protocols import PFGeneral, ComMod, ElmRes, ComRes
 
-
-class PFDynSimInterface(powfacpy.PFBaseInterface):
+class PFDynSimInterface(powfacpy.PFActiveProject):
+  """Dynamic simulation interface"""
   
   def __init__(self, app): 
     super().__init__(app) 
-    
+ 
 
   def initialize_sim(self, param=None):
     """
@@ -19,6 +23,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       self.set_attr(cominc, param)
     cominc.Execute()
 
+
   def run_sim(self, param=None):
     """
     Perform dynamic simulation.
@@ -29,51 +34,99 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       self.set_attr(comsim, param)
     comsim.Execute()
 
+
   def initialize_and_run_sim(self):
     """Initialize and perform time domain simulation."""
     self.initialize_sim()
     self.run_sim()
+    
+    
+  def get_eigenvalues_of_current_state(
+    self, 
+    commod_parameters: dict[str, object] = {}) -> pd.DataFrame:
+    """Get the eigenvalues of the current state of the system.
+    
+    Uses the modal analysis command (ComMod) to calculate the eigenvalues. Eigenvectors and participation factors are omitted). The operating point of the current simulaiton time is used.
+    Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.
 
-  
-  """
-  def create_reference_signal(self, path, points):
-    composite_model = self.create_by_path(path + ".ElmComp")
-    composite_frame = self.get_obj(self.dynamic_model_teamplates_path +
-      r"\reference_signal_frame")
-    composite_model.SetAttribute("typ_id", composite_frame)
-    dsl_obj = self.create_in_folder(composite_model,"lin_interpol_model.ElmDsl")
-    lin_interpol_model = self.get_obj(self.dynamic_model_teamplates_path +
-      r"\Linear_interpolation")
-    dsl_obj.SetAttribute("typ_id", lin_interpol_model)
-    set_dsl_obj_matrix(dsl_obj, points)
-    composite_model.SetAttribute("pelm",[dsl_obj])
-  """
+    Args:
+        commod_parameters (dict[str, str], optional): Additional parameter settings of modal analysis command (ComMod). Defaults to {}.
 
-  def create_event(self, name_incl_class, params={}, parent_folder=None, overwrite=True):
+    Returns:
+        pd.DataFrame: pandas DataFrame with columns "real in 1/s", "imag in rad/s"
+    """
+    commod: ComMod = self.get_from_study_case("ComMod")
+    commod.iLeft = False
+    commod.iRight = False
+    commod.iPart = False
+    commod.initMode = 0
+    if commod_parameters:
+      self.set_attr(commod, commod_parameters)
+    commod.Execute()
+    
+    elmres: ElmRes = commod.ResultFile
+    comres: ComRes = self.app.GetFromStudyCase("ComRes")      
+    comres.pResult = elmres
+    comres.iopt_csel = 0 # export all variables
+    comres.f_name = getcwd() + "\\temp.csv"
+    try:
+      comres.Execute()
+      df = pd.read_csv(comres.f_name, encoding='ISO-8859-1', header=[0,1], index_col=0)
+    finally:
+      remove(comres.f_name)  
+    df.columns = ["real in 1/s", "imag in rad/s"]  
+    return df   
+
+
+  def create_dyn_sim_event(self, 
+                   name_incl_class: str, 
+                   params: dict[str, object] = {}, 
+                   parent_folder: PFGeneral | str = None, 
+                   overwrite: bool = True):
+    """Creates an event for dynamic simulations (RMS/EMT) and sets the parameters in 'params'.
+
+    Args:
+        name_incl_class (str): Event name including the class.
+        
+        params (dict, optional): Paramter-values dictionary for created event object. Defaults to {}.
+        
+        parent_folder (PFGeneral | str, optional): Folder where event is created. If None, the events folder from the initial conditions calculation (ComInc) is used. Defaults to None.
+        
+        overwrite (bool, optional): Overwrite existing event with same name. Defaults to True.
+    """
+    if not parent_folder:
+      parent_folder = self.get_events_folder_from_initial_conditions_calc()
+    event_obj = self.create_in_folder(name_incl_class, parent_folder, overwrite=overwrite)
+    self.set_attr(event_obj, params)  
+    
+      
+  def create_event(self, 
+                   name_incl_class, 
+                   params={}, 
+                   parent_folder=None, 
+                   overwrite=True):
     """Creates an event and sets the parameters in 'params'.
+    
     Arguments:
       name_incl_class: Event name including the class.
       params: Paramter-values dictionary.
-      parent_folder: If None, the events folder from the active study case is used.
+      parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
       overwrite: Oerwrite existing event with same name.
     """
-    if not parent_folder:
-      parent_folder = self.app.GetFromStudyCase("IntEvt")
-    event_obj = self.create_in_folder(parent_folder, name_incl_class, overwrite=overwrite)
-    self.set_attr(event_obj, params) 
-    return event_obj
-    
-    
-  def clear_event_folder(self) -> None:
-    self.clear_folder
-
+    warn(f'{self.create_event.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.',
+             DeprecationWarning, stacklevel=2)
+    self.create_dyn_sim_event(name_incl_class, 
+                              params, 
+                              parent_folder,
+                              overwrite) 
+   
 
   def get_dsl_model_parameter_names(self, dsl_model):
     """
     Get the parameter names of the block definition (BlkDef)
     of a dsl model.
     """
-    dsl_model = self.handle_single_pf_object_or_path_input(dsl_model)
+    dsl_model = self._handle_single_pf_object_or_path_input(dsl_model)
     try: 
       parameter_names = dsl_model.typ_id.sParams
       if parameter_names:
@@ -82,10 +135,12 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
       msg = "Attribute 'typ_id' is of type 'None'"
       raise powfacpy.PFObjectAttributeTypeError(dsl_model, msg, self)
   
+  
   def get_dsl_models_inside_composite_model(self, composite_model):
     return self.get_obj("*.ElmDsl", 
                         parent_folder=composite_model,
                         include_subfolders=True)
+  
   
   def get_parameters_of_dsl_models_in_composite_model(
       self, 
@@ -112,7 +167,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
           "controller_b": {"a": 5, "c":2}
           } 
     """
-    composite_model = self.handle_single_pf_object_or_path_input(composite_model)
+    composite_model = self._handle_single_pf_object_or_path_input(composite_model)
     dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
     all_models_params_dict = {}
     for dsl_model in dsl_models:
@@ -143,6 +198,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
         all_models_params_dict[dsl_model.loc_name] = {}  
     return all_models_params_dict
 
+
   def set_parameters_of_dsl_models_in_composite_model(
       self, 
       composite_model,
@@ -167,7 +223,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
           "controller_b": {"a": 5, "c":2}
           } 
     """
-    composite_model = self.handle_single_pf_object_or_path_input(composite_model)
+    composite_model = self._handle_single_pf_object_or_path_input(composite_model)
     if not single_dict_for_all_dsl_models:
       for dsl_model, parameter_value_dict in models_params_dict.items():
         dsl_model = self.get_unique_obj(dsl_model+".ElmDsl", 
@@ -181,6 +237,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
           if dsl_model.HasAttribute(param_name):
             dsl_model.SetAttribute(param_name, value)   
 
+
   @staticmethod
   def is_dsl_lookup_arrays_and_matrices_name(string: str):
     """
@@ -193,9 +250,11 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
         is_dsl_lookup = True
     return is_dsl_lookup    
 
+
   @staticmethod
   def get_dsl_lookup_arrays_and_matrices_names():
     return ["oarray_", "array_", "matrix", "omatrix"]
+
 
   @staticmethod 
   def set_dsl_obj_array(dsl_obj,
@@ -227,6 +286,7 @@ class PFDynSimInterface(powfacpy.PFBaseInterface):
         complete_row[(array_num-1)*2] = row[0]
         complete_row[(array_num-1)*2+1] = row[1]
         dsl_obj.SetAttribute(attrib, complete_row)
+
 
   @staticmethod 
   def get_dsl_obj_array(dsl_obj,

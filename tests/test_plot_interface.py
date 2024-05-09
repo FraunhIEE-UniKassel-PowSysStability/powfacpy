@@ -8,7 +8,8 @@ from matplotlib import pyplot
 from os import getcwd
 import os
 
-from test_base_interface import pfbi, pf_app, activate_test_project
+from test_active_project_interface import pfp, pf_app, activate_test_project
+
 
 @pytest.fixture
 def pfplot(pf_app):
@@ -61,8 +62,8 @@ def test_pyplot_from_csv(pfplot, activate_test_project):
     pyplot.figure()
     powfacpy.PFPlotInterface.plot_from_csv(
         export_dir + "\\" + file_name + ".csv",
-        [r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source\s:u0",
-        r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source\m:Qsum:bus1"]) 
+        [r"test_plot_interface\Grid 1\AC Voltage Source\s:u0",
+        r"test_plot_interface\Grid 1\AC Voltage Source\m:Qsum:bus1"]) 
     pyplot.xlabel("t [s]")
 
 def test_copy_graphics_board_content(pfplot, activate_test_project):
@@ -92,7 +93,7 @@ def test_activate_plot(pfplot, activate_test_project):
         pfplot.set_active_plot("test_plot 1")
 
 def test_clear_curves_by_index_from_active_plot(pfplot, activate_test_project):
-    pfplot.get_unique_obj(r"Study Cases\test_plot_interface\Study Case 1").Activate()
+    pfplot.get_unique_obj(r"Study Cases\test_plot_interface\Study Case 1", include_subfolders = False).Activate()
     pfplot.set_active_plot("test clear curves","test clear curves")
 
     # Plot and simulate    

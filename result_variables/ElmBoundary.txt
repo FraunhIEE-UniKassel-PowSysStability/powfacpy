@@ -1,0 +1,4743 @@
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+
+Element Parameter:
+
+e:loc_name              Name    
+e:icolor                Colour  
+e:outserv               Out of Service  
+e:cubicles       StaCubic       Boundary Cubicle        
+e:headfold              Head Folder     
+e:buses                 Busbar  
+e:branches              Branch  
+e:ciorient              Orientation     
+e:iSwitchStates                 Topological search: Stop at open breakers       
+e:iNeutral              Topological search: consider neutral wire connections   
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:icolor                Colour  
+e:outserv               Out of Service  
+e:cubicles       StaCubic       Boundary Cubicle        
+e:headfold              Head Folder     
+e:buses                 Busbar  
+e:branches              Branch  
+e:ciorient              Orientation     
+e:iSwitchStates                 Topological search: Stop at open breakers       
+e:iNeutral              Topological search: consider neutral wire connections   
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:cubicles       StaCubic       Boundary Cubicle        
+r:headfold              Head Folder     
+r:buses                 Busbar  
+r:branches              Branch  
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+
+Element Parameter:
+
+e:loc_name              Name    
+e:icolor                Colour  
+e:outserv               Out of Service  
+e:cubicles       StaCubic       Boundary Cubicle        
+e:headfold              Head Folder     
+e:buses                 Busbar  
+e:branches              Branch  
+e:ciorient              Orientation     
+e:iSwitchStates                 Topological search: Stop at open breakers       
+e:iNeutral              Topological search: consider neutral wire connections   
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:icolor                Colour  
+e:outserv               Out of Service  
+e:cubicles       StaCubic       Boundary Cubicle        
+e:headfold              Head Folder     
+e:buses                 Busbar  
+e:branches              Branch  
+e:ciorient              Orientation     
+e:iSwitchStates                 Topological search: Stop at open breakers       
+e:iNeutral              Topological search: consider neutral wire connections   
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:cubicles       StaCubic       Boundary Cubicle        
+r:headfold              Head Folder     
+r:buses                 Busbar  
+r:branches              Branch  
+
+Load Flow AC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:iInterChg             Consider Interchange Schedule   
+e:InterPset      MW     Scheduled Active Power Interchange      
+
+Scenario Parameter:
+
+e:iInterChg             Consider Interchange Schedule   
+e:InterPset      MW     Scheduled Active Power Interchange      
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow AC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:iInterChg             Consider Interchange Schedule   
+e:InterPset      MW     Scheduled Active Power Interchange      
+
+Scenario Parameter:
+
+e:iInterChg             Consider Interchange Schedule   
+e:InterPset      MW     Scheduled Active Power Interchange      
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:Pinter         MW     OUT     Active Power Interchange        continuous, double      
+s:Qinter         Mvar   OUT     Reactive Power Interchange      continuous, double      
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:Pinter         MW     OUT     Active Power Interchange        continuous, double      
+s:Qinter         Mvar   OUT     Reactive Power Interchange      continuous, double      
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:psummax        MW     Max. Total Active Power Limit   
+c:psummin        MW     Min. Total Active Power Limit   
+c:qsummax        Mvar   Max. Total Reactive Power Limit 
+c:qsummin        Mvar   Min. Total Reactive Power Limit 
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Scenario Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Scenario Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+
+Scenario Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+
+Scenario Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Description balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+
+Scenario Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Description unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+
+Scenario Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Short-Circuit Complete balanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit Complete unbalanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:dPdP           MW/MW  Sensitivity dPdP        
+c:dPdQ           MW/Mvar        Sensitivity dPdQ        
+c:dQdP           Mvar/MW        Sensitivity dQdP        
+c:dQdQ           Mvar/Mvar      Sensitivity dQdQ        
+c:dPdtap         MW/tap         Sensitivity dPdtap      
+c:dQdtap         Mvar/tap       Sensitivity dQdtap      
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:dPdP           MW/MW  Sensitivity dPdP        
+c:dPdtap         MW/tap         Sensitivity dPdtap      
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:Pinter         MW     OUT     Active Power Interchange        continuous, double      
+s:Qinter         Mvar   OUT     Reactive Power Interchange      continuous, double      
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:Pinter         MW     OUT     Active Power Interchange        continuous, double      
+s:Qinter         Mvar   OUT     Reactive Power Interchange      continuous, double      
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:psummax        MW     Max. Total Active Power Limit   
+c:psummin        MW     Min. Total Active Power Limit   
+c:ShadowMaxP     USD/MWh        Shadow price (max. total active power constraint)       
+c:ShadowMinP     USD/MWh        Shadow price (min. total active power constraint)       
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Scenario Parameter:
+
+e:iOPFCpsummin          Min. Active Boundary Flow       
+e:iOPFCpsummax          Max. Active Boundary Flow       
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isSoftPConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfP              Weighting factor for soft constraint penalty    
+e:iOPFCqsummin          Min. Reactive Boundary Flow     
+e:iOPFCqsummax          Max. Reactive Boundary Flow     
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isSoftQConstr                 Soft constraint (AC OPF only)   
+e:scalingFacSoftConstrOpfQ              Weighting factor for soft constraint penalty    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:psummax        MW     Max. Total Active Power Limit   
+c:psummin        MW     Min. Total Active Power Limit   
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation balanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation unbalanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version balanced:
+----------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version unbalanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:psummax        MW     Max. Total Active Power Limit   
+c:psummin        MW     Min. Total Active Power Limit   
+c:qsummax        Mvar   Max. Total Reactive Power Limit 
+c:qsummin        Mvar   Min. Total Reactive Power Limit 
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Scenario Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Scenario Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:psummax        MW     Max. Total Active Power Limit   
+c:psummin        MW     Min. Total Active Power Limit   
+c:Pinter         MW     Active Power Interchange        
+c:ExportP        MW     Export, Active Power    
+c:ImportP        MW     Import, Active Power    
+
+Element Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Scenario Parameter:
+
+e:isPlimsRel            Active power limits for Unit Commitment 
+e:isSoftPConstrUC               Soft constraint 
+e:isLimPmin             Min.    
+e:isLimPmax             Max.    
+e:psummin        MW     Min. Total Active Power Limit   
+e:psummax        MW     Max. Total Active Power Limit   
+e:isLimDecreaseP                Max. decrease   
+e:isLimIncreaseP                Max. increase   
+e:PlimDecrease   MW     Max. active boundary flow decrease      
+e:PlimIncrease   MW     Max. active boundary flow increase      
+e:isQlimsRel            Reactive power limits for Unit Commitment       
+e:isSoftQConstrUC               Soft constraint 
+e:isLimQmin             Min.    
+e:isLimQmax             Max.    
+e:qsummin        Mvar   Min. Total Reactive Power Limit 
+e:qsummax        Mvar   Max. Total Reactive Power Limit 
+e:isLimDecreaseQ                Max. decrease   
+e:isLimIncreaseQ                Max. increase   
+e:QlimDecrease   Mvar           Max. reactive boundary flow decrease    
+e:QlimIncrease   Mvar           Max. reactive boundary flow increase    
+e:allowMarginFiltP              Allow filtering by constraint margin    
+e:allowCntConstrFiltP           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeP           Separate constraint type for contingencies      
+e:cntConstrTypeP                Contingency-constraint type     
+e:isMaxLoadSoftNlinP            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostP             Cost scaling factor     
+e:cAllowMarginFilt              Allow filtering by constraint margin    
+e:cAllowCntConstrFilt           Allow contingency filtering by number of critical constraints   
+e:cIsSepCntConstrType           Separate constraint type for contingencies      
+e:allowMarginFiltQ              Allow filtering by constraint margin    
+e:allowCntConstrFiltQ           Allow contingency filtering by number of critical constraints   
+e:isSepCntConstrTypeQ           Separate constraint type for contingencies      
+e:cntConstrTypeQ                Contingency-constraint type     
+e:isMaxLoadSoftNlinQ            Penalty costs for soft constraints      
+e:scalingFacSoftConstrCostQ             Cost scaling factor     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios balanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios unbalanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+c:ExportP        MW     Export, Active Power    
+c:ExportQ        Mvar   Export, Reactive Power  
+c:ImportP        MW     Import, Active Power    
+c:ImportQ        Mvar   Import, Reactive Power  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation balanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation unbalanced:
+----------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:Pinter         MW     Active Power Interchange        
+c:Qinter         Mvar   Reactive Power Interchange      
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
