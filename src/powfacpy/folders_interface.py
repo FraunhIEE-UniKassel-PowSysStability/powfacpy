@@ -183,7 +183,7 @@ class PFFolder():
             return obj    
 
     
-    def get_obj_inc_subf(
+    def get_obj_including_subfolders(
                 self, 
                 path: str, 
                 condition: Callable=None, 
