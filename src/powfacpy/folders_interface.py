@@ -13,7 +13,7 @@ from functools import partial
 from icecream import ic
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFApp, PFGeneral, IntFolder, IntPrj, SetPrj
+from powfacpy.pf_class_protocols import PFApp, PFGeneral, IntFolder, IntPrj, SetPrj, SetFilt
 from powfacpy.string_manipulation import PFStringManipulation
 
 
@@ -503,6 +503,59 @@ class PFFolder():
             return self.get_single_obj(directory, 
                                        parent_folder=parent_folder,
                                        include_subfolders=False)
+    
+    
+    def create_filter_obj(
+        self,
+        name: str, 
+        folder: str | PFGeneral,
+        object_filter: str,
+        look_in: PFGeneral | str,
+        expression: str, 
+        include_subfolders: bool = True,
+        only_calc_relevant_obj: bool = False,
+        overwrite = True,
+        use_existing = False) -> SetFilt:
+        """Create filter object (SetFilt)
+
+        Args:
+            name (str): Name of filter object.
+            
+            folder (PFGeneral | PFFolder | str): target folder where filer is created.
+        
+            object_filter (str): Object/class filter (parameter 'objset'). Class names sparated by commas, e.g. '*.ElmTerm, *.ElmLne'.
+            
+            look_in (PFGeneral | str): Folder from which search is started (parameter 'pstart').
+            
+            expression (str): filter expression (parameter 'expr'), e.g. 'uknom>100.and.uknom<380.and.iUsage=0'
+            
+            include_subfolders (bool, optional): Include subfolders in search. Defaults to True.
+            
+            only_calc_relevant_obj (bool, optional): Search only for calc. relevant objects. Defaults to True.
+            
+            overwrite (bool, optional): Overwrite possible existing filter object. Defaults to True.
+            
+            use_existing (bool, optional): See description of 'create_in_folder' in 'PFFolder' class of powfacpy. Defaults to False.
+
+        Returns:
+            SetFilt: Filter object
+        """ 
+        
+        filter_obj: SetFilt = self.create_in_folder(
+            name + ".SetFilt", 
+            folder=folder,
+            overwrite=overwrite, 
+            use_existing=use_existing)
+        look_in = self._handle_single_pf_object_or_path_input(look_in)
+        filter_obj.objset =  [object_filter]
+        filter_obj.expr = expression
+        filter_obj.pstart = look_in  
+        filter_obj.isubfold = include_subfolders
+        filter_obj.icalcrel = only_calc_relevant_obj
+        return filter_obj
+        
+        
+               
 
 
 ##################
