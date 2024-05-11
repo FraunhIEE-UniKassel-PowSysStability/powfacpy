@@ -355,7 +355,7 @@ class PFFolder():
             if condition(obj_or_path):
                 return obj_or_path
             else:
-                return self.get_upstream_obj(obj_or_path, condition)
+                return self.get_upstream_obj(obj_or_path, condition, error_if_non_existent=error_if_non_existent)
         else:
             if error_if_non_existent:
                 raise Exception(
