@@ -98,6 +98,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
       parent_folder = self.get_events_folder_from_initial_conditions_calc()
     event_obj = self.create_in_folder(name_incl_class, parent_folder, overwrite=overwrite)
     self.set_attr(event_obj, params)  
+    return event_obj
     
       
   def create_event(self, 
@@ -115,7 +116,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
     """
     warn(f'{self.create_event.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.',
              DeprecationWarning, stacklevel=2)
-    self.create_dyn_sim_event(name_incl_class, 
+    return self.create_dyn_sim_event(name_incl_class, 
                               params, 
                               parent_folder,
                               overwrite) 
