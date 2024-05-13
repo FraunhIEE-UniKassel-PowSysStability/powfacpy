@@ -102,14 +102,15 @@ class PFActiveProject(PFFolder):
             raise powfacpy.PFNoActiveStudyCaseError()
             
     def get_from_study_case(self,
-                            class_name: str,
-                            if_not_unique: str = "warning", if_no_study_case: str = "error") -> PFGeneral:
+                            name: str,
+                            if_not_unique: str = "warning", 
+                            if_no_study_case: str = "error") -> PFGeneral:
         """Get objects from active study case (similar to PF built-in function 'app.GetFromStudyCase()').
 
         Additionally, this method prints a warning or raises an exception if there is more than one object found in the study case and if no study case is activated.
 
         Args:
-            class_name (str): class name of the object (e.g. 'ElmRes'), optionally preceded by an object name without wildcards and a dot (e.g. 'All Calcualations.ElmRes')
+            name (str): class name of the object (e.g. 'ElmRes'), optionally preceded by an object name without wildcards and a dot (e.g. 'All Calcualations.ElmRes')
 
             if_not_unique (str, optional): Warn ('warning') or raise exception ('error') if there are more than one objets of class 'class_name'. Defaults to "warning".
 
@@ -122,28 +123,26 @@ class PFActiveProject(PFFolder):
         Returns:
             PFGeneral: Found or created object
         """
-        study_case = self.app.GetActiveStudyCase()
-        object = self.app.GetFromStudyCase(class_name)
-
-        if not study_case:
+        object = self.app.GetFromStudyCase(name)
+        
+        if if_no_study_case and not self.app.GetActiveStudyCase(): 
             if if_no_study_case == "warning":
-                warn("No study case activated. PowerFactory creates object of class_name in tmp folder, outside any study case.")
+                    warn("No study case activated. PowerFactory creates object of class_name in tmp folder, outside any study case.")
             elif if_no_study_case == "error":
                 raise powfacpy.PFNoActiveStudyCaseError()
-
-        if if_not_unique:
-            if not '.' in class_name:
-                search_string = "*." + class_name
+           
+        if if_not_unique and self.is_pf_class(name):
+            name = "*." + name
             all_objects_of_this_class = self.get_obj(
-                search_string, parent_folder=object.GetParent(), include_subfolders=False)
+                name, parent_folder=object.GetParent(), include_subfolders=False)
             if len(all_objects_of_this_class) > 1:
                 parent_path = self.get_path_of_object(object.GetParent())
                 if if_not_unique == "warning":
                     warn(
-                        f"The returned {class_name} object is not unique in its folder / in its study case: '{parent_path}'. Make sure that the correct {class_name} object is used.")
+                        f"The returned {name} object is not unique in the  study case: '{parent_path}'. Make sure that the correct {name} object is used.")
                 if if_not_unique == "error":
                     raise TypeError(
-                        f"The returned {class_name} object is not unique in its folder / in its study case: '{parent_path}'")
+                        f"The returned {name} object is not unique in its folder / in its study case: '{parent_path}'")
         return object
 
     def get_results_obj_from_initial_conditions_calc(self) -> ElmRes:
