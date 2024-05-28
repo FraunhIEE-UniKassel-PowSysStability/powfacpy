@@ -233,7 +233,7 @@ class PFFolder():
                 
             error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
                 
-            include_subfolders (bool, optional): include subfolders in the search; defaults to True
+            include_subfolders (bool, optional): include subfolders in the search; defaults to False
 
         Raises:
             TypeError: If 'path' is not a string or if several objects were found. 
@@ -481,6 +481,8 @@ class PFFolder():
 
         Args:
             directory (str): path with folders
+                Example: 'folder1\\folder2\\folder3'
+            
             parent_folder (Union[PFGeneral, PFFolder, str], optional): Folder to start from. Defaults to None.
 
         Returns:
@@ -1055,9 +1057,6 @@ class PFFolder():
                     parent:Union[PFGeneral, PFFolder, str] = None, 
                     return_info:bool=False) -> bool:
         """Check if the path exists.
-        
-        If 'parent' is specified it is searched relative to that folder.
-        If 'return_info' is True, . 
 
         Args:
             path (str): path
