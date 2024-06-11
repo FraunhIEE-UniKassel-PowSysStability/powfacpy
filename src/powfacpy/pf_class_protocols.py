@@ -6,154 +6,172 @@ from typing import Protocol
 class PFGeneral(Protocol):
   """Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). 
   """
-  def GetOperator(*args):
-    ...
-
-  def ShowModalSelectTree(*args):
+  def GetChildren(*args):
     ...
 
   def GetConnectionCount(*args):
     ...
 
-  def GetAttributeShape(*args):
+  def GetOperator(*args):
     ...
 
-  def SwitchOff(*args):
-    ...
-
-  def MarkInGraphics(*args):
-    ...
-
-  def HasResults(*args):
-    ...
-
-  def IsCalcRelevant(*args):
-    ...
-
-  def SearchObject(*args):
-    ...
-
-  def GetAttribute(*args):
-    ...
-
-  def GetAttributes(*args):
-    ...
-
-  def ContainsNonAsciiCharacters(*args):
-    ...
-
-  def IsNode(*args):
-    ...
-
-  def GetSystemGrounding(*args):
-    ...
-
-  def Move(*args):
-    ...
-
-  def GetOwner(*args):
-    ...
-
-  def GetFullName(*args):
-    ...
-
-  def GetAttributeLength(*args):
-    ...
-
-  def GetSupplyingSubstations(*args):
-    ...
-
-  def IsEnergized(*args):
-    ...
-
-  def SwitchOn(*args):
-    ...
-
-  def IsObjectActive(*args):
-    ...
-
-  def PasteCopy(*args):
-    ...
-
-  def GetSupplyingTransformers(*args):
-    ...
-
-  def SetAttribute(*args):
-    ...
-
-  def WriteChangesToDb(*args):
-    ...
-
-  def GetConnectedElements(*args):
-    ...
-
-  def GetUnom(*args):
-    ...
-
-  def SetAttributeLength(*args):
-    ...
-
-  def ShowEditDialog(*args):
-    ...
-
-  def GetAttributeUnit(*args):
-    ...
-
-  def GetContents(*args):
-    ...
-
-  def GetInom(*args):
-    ...
-
-  def GetCombinedProjectSource(*args):
-    ...
-
-  def CreateObject(*args):
-    ...
-
-  def GetChildren(*args):
-    ...
-
-  def HasAttribute(*args):
-    ...
-
-  def Energize(*args):
-    ...
-
-  def SetAttributeShape(*args):
-    ...
-
-  def IsNetworkDataFolder(*args):
-    ...
-
-  def SetAttributes(*args):
-    ...
-
-  def GetClassName(*args):
-    ...
-
-  def Isolate(*args):
-    ...
-
-  def AddCopy(*args):
-    ...
-
-  def GetSupplyingTrfstations(*args):
+  def IsObjectModifiedByVariation(*args):
     ...
 
   def GetRegion(*args):
     ...
 
-  def GetZeroImpedance(*args):
+  def GetInom(*args):
     ...
 
-  def ReplaceNonAsciiCharacters(*args):
+  def IsCalcRelevant(*args):
+    ...
+
+  def SetAttributeShape(*args):
+    ...
+
+  def GetConnectedElements(*args):
+    ...
+
+  def IsNetworkDataFolder(*args):
+    ...
+
+  def GetImpedance(*args):
+    ...
+
+  def SwitchOff(*args):
+    ...
+
+  def CopyData(*args):
+    ...
+
+  def GetAttributeLength(*args):
+    ...
+
+  def GetAttributes(*args):
+    ...
+
+  def GetSystemGrounding(*args):
+    ...
+
+  def IsEnergized(*args):
+    ...
+
+  def Isolate(*args):
+    ...
+
+  def SetAttribute(*args):
+    ...
+
+  def GetContents(*args):
+    ...
+
+  def GetReferences(*args):
+    ...
+
+  def GetSupplyingTransformers(*args):
+    ...
+
+  def ReportUnusedObjects(*args):
+    ...
+
+  def SetAttributes(*args):
+    ...
+
+  def GetNode(*args):
+    ...
+
+  def IsReducible(*args):
     ...
 
   def IsShortCircuited(*args):
     ...
 
-  def ReportUnusedObjects(*args):
+  def WriteChangesToDb(*args):
+    ...
+
+  def SwitchOn(*args):
+    ...
+
+  def GetControlledNode(*args):
+    ...
+
+  def IsObjectActive(*args):
+    ...
+
+  def IsInFeeder(*args):
+    ...
+
+  def PasteCopy(*args):
+    ...
+
+  def GetZeroImpedance(*args):
+    ...
+
+  def ShowEditDialog(*args):
+    ...
+
+  def GetFullName(*args):
+    ...
+
+  def GetAttributeType(*args):
+    ...
+
+  def GetUnom(*args):
+    ...
+
+  def ShowModalSelectTree(*args):
+    ...
+
+  def AddCopy(*args):
+    ...
+
+  def HasAttribute(*args):
+    ...
+
+  def SearchObject(*args):
+    ...
+
+  def IsNode(*args):
+    ...
+
+  def PurgeUnusedObjects(*args):
+    ...
+
+  def GetAttributeShape(*args):
+    ...
+
+  def IsDeleted(*args):
+    ...
+
+  def GetCombinedProjectSource(*args):
+    ...
+
+  def Move(*args):
+    ...
+
+  def SetAttributeLength(*args):
+    ...
+
+  def GetAttributeDescription(*args):
+    ...
+
+  def Energize(*args):
+    ...
+
+  def Delete(*args):
+    ...
+
+  def GetSupplyingSubstations(*args):
+    ...
+
+  def GetSupplyingTrfstations(*args):
+    ...
+
+  def GetAttributeUnit(*args):
+    ...
+
+  def GetOwner(*args):
     ...
 
   def IsHidden(*args):
@@ -162,55 +180,37 @@ class PFGeneral(Protocol):
   def IsOutOfService(*args):
     ...
 
-  def IsReducible(*args):
-    ...
-
-  def GetAttributeDescription(*args):
-    ...
-
-  def PurgeUnusedObjects(*args):
-    ...
-
-  def GetNode(*args):
-    ...
-
-  def GetReferences(*args):
-    ...
-
-  def IsDeleted(*args):
-    ...
-
-  def CopyData(*args):
-    ...
-
-  def GetControlledNode(*args):
-    ...
-
-  def ReportNonAsciiCharacters(*args):
-    ...
-
-  def GetImpedance(*args):
-    ...
-
-  def IsInFeeder(*args):
-    ...
-
-  def GetParent(*args):
-    ...
-
-  def GetAttributeType(*args):
-    ...
-
-  def IsObjectModifiedByVariation(*args):
+  def HasResults(*args):
     ...
 
   def GetCubicle(*args):
     ...
 
+  def MarkInGraphics(*args):
+    ...
+
+  def ReportNonAsciiCharacters(*args):
+    ...
+
+  def GetClassName(*args):
+    ...
+
+  def CreateObject(*args):
+    ...
+
   def IsEarthed(*args):
     ...
 
-  def Delete(*args):
+  def ReplaceNonAsciiCharacters(*args):
+    ...
+
+  def GetAttribute(*args):
+    ...
+
+  def ContainsNonAsciiCharacters(*args):
+    ...
+
+  def GetParent(*args):
     ...
 
 class PFApp(Protocol):
@@ -35456,6 +35456,103 @@ class ComVstab(PFGeneral):
   "Use fictitious border network"
   usrtrside: int
   "User-defined 3-/4-winding transformer control side"
+
+
+  def AttributeType(*args):
+    ...
+
+  def Execute(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class ComQvcurves(PFGeneral):
+  P_Step: float
+  "Active Power Iteration: Step size"
+  VoltageStep: float
+  "Voltage iteration: Step size"
+  addoptions: str
+  "Additional Parameters"
+  calcCont: int
+  "Consider contingencies"
+  calcType: int
+  "Calculation"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  controlOut: int
+  "Detailed output: Deactivated voltage controllers"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  debugOut: int
+  "Detailed output: Voltage iterations"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  frActiveP: int
+  "Additional active power injection"
+  frCalcStart: int
+  "Voltage range"
+  frStepsize: int
+  "Voltage iteration"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  iniP: float
+  "Active Power Iteration: Minimum"
+  iniVoltage: float
+  "Voltage iteration: Maximum voltage"
+  ldfOut: int
+  "Detailed output: Messages of initial Load Flow of each curve"
+  listP: list
+  "Active Power"
+  loc_name: str
+  "Name"
+  maxIter: int
+  "Maximum iterations"
+  minusVolt: float
+  "Voltage iteration: Minimum: Base case voltage minus"
+  noStopCalc: int
+  "Voltage iteration: Continue if load flow of the maximum (initial) voltage did not converge"
+  oid_: int
+  "ObjectID"
+  order: float
+  "Order"
+  pInputCont: object
+  "Consider contingencies: Contingency Analysis"
+  pStudyBB: object
+  "Analysed nodes"
+  pid_: int
+  "ProjectID"
+  plusVoltage: float
+  "Voltage iteration: Maximum: Base case voltage plus"
+  results: object
+  "Results"
+  root_id: object
+  "Original Location"
+  stopVolt: float
+  "Voltage iteration: Minimum voltage"
+  targetP: float
+  "Active Power Iteration: Maximum"
+  tid_: int
+  "TimeID"
 
 
   def AttributeType(*args):
