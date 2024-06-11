@@ -10,7 +10,7 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
   def get_vacant_cubicle_of_terminal(self, terminal, new_cubicle_name=None):
     """Gets the first vacant cubicle found in a terminal (i.e. nothing is connected
     to this cubicle).
-    If there is no vacant cuibicle, a new cubicle is created.
+    If there is no vacant cubicle, a new cubicle is created.
 
     Arguments:
       terminal: ElmTerm
