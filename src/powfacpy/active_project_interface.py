@@ -6,7 +6,7 @@ from os import path as os_path
 from warnings import warn
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf, IntMon
+from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf, IntMon, IntVersion, ComPfdimport, IntPrj
 from powfacpy.folders_interface import PFFolder
 
 
@@ -80,6 +80,10 @@ class PFActiveProject(PFFolder):
     @property
     def feeders_folder(self):
         return self.app.GetDataFolder("IntFeeder")
+    
+    @property
+    def versions_folder(self):
+        return self.get_unique_obj("*.IntVersionman")
     
     def get_active_study_case(
         self, 
@@ -429,6 +433,96 @@ class PFActiveProject(PFFolder):
             raise powfacpy.PFAttributeNotSetError(attribute_description)
         else:
             raise AttributeError(error_message)
+        
+    def get_project_version(self, version_name: str) -> IntVersion | None:
+        """Get (previous) version of project.
+
+        Args:
+            version_name (str): Name (loc_name) of version
+
+        Returns:
+            IntVersion | None: Version object
+        """
+        version = self.get_by_condition(
+            self._folder.GetVersions(),
+            lambda x: x.loc_name == version_name)     
+        if version:
+            return version[0]  
+        
+    def create_project_version(self, 
+                       version_name: str, 
+                       overwrite: bool = True) -> None:
+        """Create a version of current state of the project.
+        
+        Uses 'CreateVersion'. New version will be added to top level versions folder of project.
+        
+        Args:
+            version_name (str): Name (loc_name) of version
+            
+            overwrite (bool, optional): Overwrite existing version with same name. Defaults to True.
+        """
+        version = self.get_project_version(version_name)
+        if not version or overwrite:
+            self._folder.CreateVersion(version_name)
+        
+    def rollback_project_to_previous_version(
+        self, 
+        version_name: str) -> None:
+        """Rollback to previous project version (IntVersion in versions folder).
+
+        Args:
+            version_name (str): Name (loc_name) of version.
+        """
+        active_project = self._folder
+        version = self.get_project_version(version_name)
+        try:
+            active_project.Deactivate()
+            version.Rollback()
+        finally:    
+            active_project.Activate()
+            
+    def import_project(
+        self, 
+        file_path: str, 
+        target_folder_in_active_user: str | PFGeneral | None = None,
+        keep_current_project_activated: bool = True) -> IntPrj:
+        """Import a project (.pfd file)
+
+        Args:
+            file_path (str): Windows path
+            target_folder_in_active_user (str | PFGeneral | None, optional): Target folder for project import in active user. Defaults to None.
+            keep_current_project_activated (bool, optional): If True, the initial project and study case remain active.If False, the imported project will be active after import. Defaults to True.
+        
+        Returns:
+            IntPrj: Imported project
+        """
+        try:
+            if keep_current_project_activated:
+                initial_project = self._folder
+                initial_study_case = self.get_active_study_case()
+            pfd_import: ComPfdimport = self.get_from_study_case("ComPfdimport")
+            if not file_path[-4:] == ".pfd":
+                file_path += ".pfd"
+            pfd_import.g_file = file_path
+            if target_folder_in_active_user:
+                if isinstance(target_folder_in_active_user, str):
+                    pfd_import.g_target = self.get_unique_obj(
+                        target_folder_in_active_user, 
+                        parent_folder=self.get_active_user_folder())
+                else:
+                    pfd_import.g_target = target_folder_in_active_user
+            else:
+                pfd_import.g_target = self.get_active_user_folder()
+            pfd_import.Execute()
+            imported_project: IntPrj = self.app.GetActiveProject()
+        finally:    
+            if keep_current_project_activated:
+                imported_project.Deactivate()
+                initial_project.Activate()
+                initial_study_case.Activate()
+        return imported_project
+        
+                
 
     @staticmethod
     def replace_headers_of_csv_file_with_number_of_colums(file_path: str) -> int:
