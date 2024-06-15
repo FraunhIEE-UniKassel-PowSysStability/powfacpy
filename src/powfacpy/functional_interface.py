@@ -16,7 +16,7 @@ def set_attr_of_obj(obj, attributes: dict[str, object]) -> None:
         obj.SetAttribute(attr, value)
 
 
-def set_attr_of_objects(objects: Iterable, attributes: Iterable) -> None:
+def set_attr_of_objects(objects: Iterable, attributes: dict[str, object]) -> None:
     """Set attributes of multiple objects.
     """
     for obj in objects:
