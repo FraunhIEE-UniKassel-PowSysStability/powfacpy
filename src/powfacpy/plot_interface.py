@@ -84,7 +84,7 @@ class PFPlotInterface(powfacpy.PFActiveProject):
         plot (VisPlot | PltLinebarplot | PltVectorplot, optional): Plot object. Defaults to None.
         
         kwargs:
-          result_obj: result object used (object or path)
+          results_obj: result object used (object or path)
           linestyle: int
           linewidth: double
           color: int
