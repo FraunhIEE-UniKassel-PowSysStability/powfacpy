@@ -187,7 +187,7 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
   def get_general_class_string(self):
     """Add class with 'general methods' (see Section 'General Methods' in scripting reference). All other classes (except for PFApp) inherit from this class. 
     """
-    class_str = f"class PFGeneral(Protocol):\n{self.indentation_increment}\"\"\"Class with general methods (see Section 'General Methods' in scripting reference. All other methods (except for PFApp) inherit from this class). \n{self.indentation_increment}\"\"\"\n"
+    class_str = f"class PFGeneral(Protocol):\n{self.indentation_increment}\"\"\"Class with general methods (see Section 'General Methods' in scripting reference. All other classes (except for PFApp) inherit from this class). \n{self.indentation_increment}\"\"\"\n"
     for method in self.get_general_methods():
       class_str += self.indentation_increment + "def " + method + "(*args):\n" + 2*self.indentation_increment + "...\n\n"
     return class_str
