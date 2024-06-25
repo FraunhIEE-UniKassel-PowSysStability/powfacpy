@@ -513,7 +513,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
             return case_obj_or_case_num
 
     def _create_study_case(self, name: str, folder_path: str) -> IntCase:
-        """Create a study case in the folder under 'folder_path'.
+        """Create a study case in the folder under 'folder_path' and activates the case.
 
         Args:
             name (str): name of study case object without class (e.g. parameter-value pairs)
@@ -525,7 +525,8 @@ class PFStudyCases(powfacpy.PFActiveProject):
         """
         parent_folder_study_case = self.get_study_cases_parent_folder()
         if folder_path:
-            parent_folder_study_case = self.create_directory(folder_path,
+            parent_folder_study_case = self.create_directory(
+                folder_path,
                                                              parent_folder=parent_folder_study_case)
         if not self.base_study_case:
             study_case_obj = self.create_in_folder(
