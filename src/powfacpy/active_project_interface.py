@@ -6,7 +6,7 @@ from os import path as os_path
 from warnings import warn
 
 import powfacpy
-from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf, IntMon, IntVersion, ComPfdimport, IntPrj
+from powfacpy.pf_class_protocols import PFApp, PFGeneral, ElmRes, ElmNet, IntComtrade, IntUser, IntCase, IntEvt, ElmZone, ComLdf, IntMon, IntVersion, ComPfdimport, IntPrj, IntScheme, IntSstage
 from powfacpy.folders_interface import PFFolder
 
 
@@ -406,6 +406,30 @@ class PFActiveProject(PFFolder):
         for elm in elms:
             elm.cpZone = elmzone
         return elmzone
+    
+    def create_variation(self,
+                         name: str,
+                         parent_folder: str | PFGeneral = None,
+                         name_expansion_stage: str = "Expansion Stage",
+                         activate: int = 1) -> IntScheme:
+        """Create variation (including one expansion stage).
+
+        Args:
+            name (str): Name of variation
+            parent_folder (str | PFGeneral, optional): Parent folder where variation is created. Defaults to None (i.e. variations folder).
+            name_expansion_stage (str, optional): Name of. Defaults to "Expansion Stage".
+            activate (int, optional): If 1, expansion stage is activate. If 0, expansion stage is not activated. Defaults to 1.
+
+        Returns:
+            IntScheme: The created variation object
+        """
+        if not parent_folder:
+            parent_folder = self.variations_folder
+        variation = self.create_in_folder(name + ".IntScheme", parent_folder) 
+        
+        variation.NewStage(name_expansion_stage, 0, activate)
+        return variation
+    
     
     def execute_load_flow(self, params: dict = {}) -> int:
         comldf: ComLdf = self.get_from_study_case("ComLdf")  
