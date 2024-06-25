@@ -462,7 +462,8 @@ class PFActiveProject(PFFolder):
             overwrite (bool, optional): Overwrite existing version with same name. Defaults to True.
         """
         version = self.get_project_version(version_name)
-        if not version or overwrite:
+        if version and overwrite:
+            version.Delete()
             self._folder.CreateVersion(version_name)
         
     def rollback_project_to_previous_version(
