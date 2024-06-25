@@ -3,6 +3,8 @@ from itertools import product
 from os import getcwd, makedirs
 from os.path import join
 
+from icecream import ic
+
 import powfacpy
 from powfacpy.pf_class_protocols import ElmNet, IntCase, IntScenario, ElmRes, IntFolder, IntPrjfolder, IntScheme
 
@@ -61,7 +63,9 @@ class PFStudyCases(powfacpy.PFActiveProject):
         """
         return self._study_cases
 
-    def create_cases(self) -> None:
+    def create_cases(
+        self, 
+        reactivate_initially_activated_study_case: bool = True) -> None:
         """Create study cases.
 
         Optionally create corresponding scenarios/variations (if add_scenario_to_each_case/add_variation_to_each_case is True).
@@ -70,6 +74,8 @@ class PFStudyCases(powfacpy.PFActiveProject):
         according to 'hierarchy') using parameter-value strings for the
         study cases (and folder names). 
         """
+        if reactivate_initially_activated_study_case:
+            initially_active_case = self.app.GetActiveStudyCase()
         self._study_cases = []
         number_of_cases = len(next(iter(self.parameter_values.values())))
         if self.base_study_case:
@@ -93,6 +99,9 @@ class PFStudyCases(powfacpy.PFActiveProject):
             self._set_parameters(case_num)
             if self.add_scenario_to_each_case:
                 scen.Save()
+        if reactivate_initially_activated_study_case and initially_active_case:
+            initially_active_case = self.app.GetActiveStudyCase()        
+     
 
     def get_folder_path(self, case_num: int) -> str | None:
         """Get folder path (inside parent folder) of a case.
