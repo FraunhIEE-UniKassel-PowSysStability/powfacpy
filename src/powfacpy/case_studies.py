@@ -536,7 +536,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
         if folder_path:
             parent_folder_study_case = self.create_directory(
                 folder_path,
-                                                             parent_folder=parent_folder_study_case)
+                parent_folder=parent_folder_study_case)
         if not self.base_study_case:
             study_case_obj = self.create_in_folder(
                 name + ".IntCase",
