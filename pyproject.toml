@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "powfacpy"
-version = "0.2.2"
+version = "0.2.3"
 authors = [
   { name="Sciemon", email="simon.eberlein@gmx.de" },
 ]
@@ -21,6 +21,7 @@ dependencies = [
     "pandas >= 2.2.2",
     "matplotlib >= 3.8.4",
     "aenum >= 3.1.15", 
+    "icecream >= 2.1.3",
 ]
 
 [project.urls]
