@@ -411,6 +411,7 @@ class PFActiveProject(PFFolder):
                          name: str,
                          parent_folder: str | PFGeneral = None,
                          name_expansion_stage: str = "Expansion Stage",
+                         activationTime: int = 0,
                          activate: int = 1) -> IntScheme:
         """Create variation (including one expansion stage).
 
@@ -418,6 +419,7 @@ class PFActiveProject(PFFolder):
             name (str): Name of variation
             parent_folder (str | PFGeneral, optional): Parent folder where variation is created. Defaults to None (i.e. variations folder).
             name_expansion_stage (str, optional): Name of. Defaults to "Expansion Stage".
+            activationTime (int, optional): UTC time
             activate (int, optional): If 1, expansion stage is activate. If 0, expansion stage is not activated. Defaults to 1.
 
         Returns:
@@ -427,7 +429,7 @@ class PFActiveProject(PFFolder):
             parent_folder = self.variations_folder
         variation = self.create_in_folder(name + ".IntScheme", parent_folder) 
         
-        variation.NewStage(name_expansion_stage, 0, activate)
+        variation.NewStage(name_expansion_stage, activationTime, activate)
         return variation
     
     
