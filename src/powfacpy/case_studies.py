@@ -580,7 +580,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
 
         Args:
             name (str): name of variation (e.g. parameter value pairs)
-            folder_path (str): relativ to 'self.get_variations_parent_folder'
+            folder_path (str): relative to 'self.get_variations_parent_folder'
 
         Returns:
             IntScheme: Created variation
@@ -591,8 +591,9 @@ class PFStudyCases(powfacpy.PFActiveProject):
                                                             parent_folder=parent_folder_variation)
         variation_obj = self.create_in_folder(
             name+".IntScheme", parent_folder_variation)
-        variation_obj.NewStage(name, 0, 1)
-        variation_obj.Activate()
+        activation_time = self.app.GetStudyTimeObject().cTime
+        variation_obj.NewStage(name, int(activation_time), 1)
+        #variation_obj.Activate()
         return variation_obj
 
     def _set_parameters(self, case_obj_or_case_num: IntCase | int):
