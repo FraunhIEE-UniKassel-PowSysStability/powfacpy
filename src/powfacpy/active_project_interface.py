@@ -490,6 +490,7 @@ class PFActiveProject(PFFolder):
         version = self.get_project_version(version_name)
         if version and overwrite:
             version.Delete()
+        self.app.WriteChangesToDb()    
         self._folder.CreateVersion(version_name)
         
     def rollback_project_to_previous_version(
