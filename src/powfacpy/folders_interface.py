@@ -461,16 +461,16 @@ class PFFolder():
             obj_name, _, class_name = obj.rpartition('.')
         except (AttributeError):
             raise TypeError("The argument 'obj' must be of type string.")
-        if overwrite:
-            self.delete_obj(obj, 
-                            parent_folder=folder,
-                            include_subfolders=False,
-                            error_if_non_existent=False)
-        elif use_existing:
+        if use_existing:
             existing_obj = self.get_single_obj(
                 obj, parent_folder=folder, error_if_non_existent=False)
             if existing_obj:
                 return existing_obj
+        elif overwrite:
+            self.delete_obj(obj, 
+                            parent_folder=folder,
+                            include_subfolders=False,
+                            error_if_non_existent=False)
         return folder.CreateObject(class_name, obj_name)
 
 
