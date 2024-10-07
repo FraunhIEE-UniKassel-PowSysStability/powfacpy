@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 """Custom exceptions for powfacpy.
 """
 import sys
 sys.path.insert(0, r'.\src')
 import powfacpy
+
 
 class PFInterfaceError(Exception):
   """There should always be a base class (that inherits
