@@ -10,3 +10,6 @@ py_venv
 .vscode
 /settings.json
 venv/
+/.quarto/
+/_site/
+/_freeze/

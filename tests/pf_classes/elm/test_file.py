@@ -6,7 +6,7 @@ import pandas as pd
 
 sys.path.insert(0, r".\src")
 from powfacpy.pf_classes.elm.file import MeasurementFile
-from powfacpy.applications.active_project import ActiveProject
+from powfacpy.base.active_project import ActiveProject
 
 
 @pytest.fixture(scope="module")

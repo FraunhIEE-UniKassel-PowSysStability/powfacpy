@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "powfacpy"
-version = "0.2.5"
+version = "0.3.1"
 authors = [
   { name="Sciemon", email="simon.eberlein@gmx.de" },
 ]

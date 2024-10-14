@@ -23,7 +23,7 @@ from powfacpy.pf_class_protocols import (
     SetPrj,
     SetFilt,
 )
-from powfacpy.string_manipulation import PFStringManipulation
+from powfacpy.base.string_manipulation import PFStringManipulation
 
 
 class PFFolder:
@@ -769,32 +769,33 @@ class PFFolder:
         Raises:
             TypeError: If an object cannot be deleted.
         """
-        obj = self._handle_pf_object_or_path_input(
-            obj_or_path,
-            condition=condition,
-            parent_folder=parent_folder,
-            error_if_non_existent=error_if_non_existent,
-            include_subfolders=include_subfolders,
-        )
-        for o in obj:
-            o.Delete()
-            # 'IsDeleted' seems to be the savest way to check whether an object has been deleted.
-            if not o.IsDeleted():
-                active_study_case = self.app.GetActiveStudyCase()
-                if active_study_case:
-                    active_study_case.Deactivate()
-                    o.Delete()
-                    active_study_case.Activate()
-
+        if obj_or_path:
+            obj = self._handle_pf_object_or_path_input(
+                obj_or_path,
+                condition=condition,
+                parent_folder=parent_folder,
+                error_if_non_existent=error_if_non_existent,
+                include_subfolders=include_subfolders,
+            )
+            for o in obj:
+                o.Delete()
+                # 'IsDeleted' seems to be the savest way to check whether an object has been deleted.
                 if not o.IsDeleted():
-                    try:
-                        o.Deactivate()
+                    active_study_case = self.app.GetActiveStudyCase()
+                    if active_study_case:
+                        active_study_case.Deactivate()
                         o.Delete()
-                    except AttributeError:  # raised when o cannot be deactivated
-                        raise TypeError(f"Object {o} cannot be deleted.")
+                        active_study_case.Activate()
 
                     if not o.IsDeleted():
-                        raise TypeError(f"Object {o} cannot be deleted.")
+                        try:
+                            o.Deactivate()
+                            o.Delete()
+                        except AttributeError:  # raised when o cannot be deactivated
+                            raise TypeError(f"Object {o} cannot be deleted.")
+
+                        if not o.IsDeleted():
+                            raise TypeError(f"Object {o} cannot be deleted.")
 
     def clear_folder(self, folder: Union[PFGeneral, PFFolder, str] = None):
         """Clear all objects inside folder (including hidden objects).

@@ -17,7 +17,7 @@ import powerfactory
 
 sys.path.insert(0, r".\src")
 import powfacpy
-from powfacpy.applications.folder import Folder
+from powfacpy.base.folder import Folder
 import powfacpy.exceptions
 
 importlib.reload(powfacpy)

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from powfacpy.applications.active_project import ActiveProjectCached
+from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import ElmTerm, PFGeneral, StaPll
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase
