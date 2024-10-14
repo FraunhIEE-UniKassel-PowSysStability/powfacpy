@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from powfacpy.applications.active_project import ActiveProjectCached
+from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import ElmSym, TypSym
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase, SinglePortBase

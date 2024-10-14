@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from os import replace
 
 import pandas as pd
 import numpy as np
@@ -8,7 +9,7 @@ from icecream import ic
 
 from powfacpy.pf_classes.protocols import ElmFile
 from powfacpy.pf_classes.elm.elm_base import ElmBase
-from powfacpy.applications.active_project import ActiveProjectCached
+from powfacpy.base.active_project import ActiveProjectCached
 
 
 class MeasurementFile(ElmBase):
@@ -94,3 +95,50 @@ class MeasurementFile(ElmBase):
             + "\\"
             + MeasurementFile.get_path_of_elmfile_data_inside_external_data_directory()
         )
+
+    @staticmethod
+    def replace_headers_of_csv_file_with_number_of_colums(file_path: str) -> int:
+        """Replaces the first row (headers) of a csv file with its number of
+        columns. This is needed for import of csv files to PF using ElmFile.
+        """
+        with (
+            open(file_path + ".csv") as read_file,
+            open(file_path + ".temp", "w") as write_file,
+        ):
+            columns_of_first_row = read_file.readline().split(",")
+            if columns_of_first_row[-1] == "\n":
+                columns_of_first_row = columns_of_first_row[:-1]
+            # Minus one because first column is time and should not be counted.
+            number_of_columns = len(columns_of_first_row) - 1
+            write_file.write(str(number_of_columns) + "\n")
+            row = read_file.readline()
+            while row:
+                write_file.write(row)
+                row = read_file.readline()
+        replace(file_path + ".temp", file_path + ".csv")
+        return number_of_columns
+
+    @staticmethod
+    def insert_row_with_number_of_columns_in_csv_file(file_path: str) -> int:
+        """Gets the number of columns of the first row in a csv file and
+        inserts a row (first row) with this number in the first column.
+        This is needed for ElmFile to read csv files.
+        """
+        with (
+            open(file_path + ".csv") as read_file,
+            open(file_path + ".temp", "w") as write_file,
+        ):
+            first_row = read_file.readline()
+            columns_of_first_row = first_row.split(",")
+            if columns_of_first_row[-1] == "\n":
+                columns_of_first_row = columns_of_first_row[:-1]
+            # Minus one because first column is time and should not be counted.
+            number_of_columns = len(columns_of_first_row) - 1
+            write_file.write(str(number_of_columns) + "\n")
+            write_file.write(first_row)
+            row = read_file.readline()
+            while row:
+                write_file.write(row)
+                row = read_file.readline()
+        replace(file_path + ".temp", file_path + ".csv")
+        return number_of_columns

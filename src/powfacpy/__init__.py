@@ -13,4 +13,4 @@ from .deprecated.database_interface import *
 from .deprecated.model_exchange_interfaces import *
 from .exceptions import *
 
-from .applications.active_project import ActiveProject, ActiveProjectCached
+from .base.active_project import ActiveProject, ActiveProjectCached

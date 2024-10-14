@@ -1,4 +1,4 @@
-from powfacpy.applications.active_project import ActiveProjectCached, ActiveProject
+from powfacpy.base.active_project import ActiveProjectCached, ActiveProject
 from powfacpy.pf_class_protocols import PFApp
 
 

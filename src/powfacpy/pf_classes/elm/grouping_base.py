@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Callable
 
-from powfacpy.applications.active_project import ActiveProjectCached
+from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, StaPll
 
 
