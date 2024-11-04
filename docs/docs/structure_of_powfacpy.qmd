@@ -1,0 +1,96 @@
+---
+title: Structure of *powfacpy*
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+execute:
+  freeze: auto
+---
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+sys.path.append(r"..\..\src")
+```
+
+The structure of the source code of *powfacpy* is the explained in the following. At first, the basics relevant for **users** of *powfacpy* are introduced. Then a more detailed description is provided for power users and **contributors** to the package.  
+
+# Basics (for Users)
+The file tree of the *powfacpy* source code is shown below in @fig-file-tree. 
+
+```{python}
+# | label: fig-file-tree
+# | fig-cap: "File tree of the source code."
+# | echo: false
+
+from directory_tree import DisplayTree
+
+stringRepresentation: str = DisplayTree(
+    r"..\..\src\powfacpy",
+    stringRep=True,
+    ignoreList=[
+        "__pycache__",
+        "__init__.py",
+        "grouping.py",
+        "pf_elm_objects.py",
+        "protocols_old.py",
+        "deprecated",
+    ],
+)
+print(stringRepresentation)
+```
+
+
+## Active Project
+
+- *base/active_project.py*
+
+The class `ActiveProject` in *base/active_project.py* is the main interface to the database of *PowerFactory* as illustrated in the [Getting Started Tutorial](../tutorials/getting_started.qmd). 
+
+## *PowerFactory* Classes {#sec-pf-classes}
+- *pf_classes/*
+
+This is a collection of interface classes that refer directly to individual classes in the *PowerFactory* database.
+The classes "inherit" (more details in @sec-detailed) from the classes in the *PowerFactory* database and add further functionality. For example, the `SynchronousMachine` class (in *pf_classes/elm/sym*) has all data and functionality (as described in the *python scripting reference* of *PowerFactory*) of *PowerFactory*'s *ElmSym* class, but adds further functionality (e.g. a secure way of getting the rated apparent power, which considers the number of parallel machines).  
+
+The classes in the *PowerFactory* database can be grouped based on the first three letters and the remaining part of their names (e.g. *Elm* + *Sym*, where *Elm* is common to all network element classes and *Sym* is short for *synchronous machine*). This is reflected by the subfolders (*elm*, *sta*, *set*, etc.) which contain the interface classes for each subgroup. The files in the subfolders are named accordingly, but the full names are used for the classes in the files (e.g. *sym.py* in the *elm* folder contains the class `SynchronousMachine`) to distinguish the class names from the protocol classes (see below). 
+To create an instance, an instance of the native *PowerFactory* class must be provided (e.g. `sm_instance_powfacpy = SynchronousMachine(sm)`, where `sm` is an instance of the native `ElmSym` class).
+
+In addition, *pf_classes/protocols.py* contains protocol classes for (almost) all classes from the *PowerFactory* database (automatically created, see *protocol_generator.py*). They are used for type hints for example, as explained in the [Getting Started Tutorial](../tutorials/getting_started.qmd). 
+
+::: {.callout-warning}
+## Protocols
+
+Note that for compatibility with versions prior to 0.3.0, there is still the *protocols.py* file in the root directory. It is no longer maintained and *pf_classes/protocols.py* should be used.
+:::
+
+## Applications
+- *applications/*
+
+In comparison to the *PowerFactory* classes from @sec-pf-classes, this folder contains applications that are more complex than an interface to a single *PowerFactory* class. The applications are more complicated and often require multiple native *PowerFactory* classes. Examples are interfaces for plotting, dynamic simulation, results export, network topology analysis, study cases, etc.  
+
+::: {.callout-tip}
+## Comparison of *PowerFactory* classes and *Applications*
+
+As a rule of thumb, any functionality that involves only one native *PowerFactory* class should be accommodated in an interface class in the *pf_classes/* folder. *Applications* can make use of this functionality. This prevents too much functionality from being packed into the application classes.
+:::
+
+## Result Variables
+- *result_variables.py*
+
+
+
+
+## Deprecated 
+- *deprecated/* (not shown in @fig-file-tree)
+
+not shown in @fig-file-tree
+
+# Detailed (for Contributors) {#sec-detailed}
+
