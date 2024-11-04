@@ -19,15 +19,16 @@ import sys
 sys.path.append(r"..\..\src")
 ```
 
-The structure of the source code of *powfacpy* is the explained in the following. At first, the basics relevant for **users** of *powfacpy* are introduced. Then a more detailed description is provided for power users and **contributors** to the package.  
+The structure of the source code of *powfacpy* (see folder *src/powfacpy*) is the explained in the following. At first, the basics relevant for **users** of *powfacpy* are introduced. Then some more advanced topics are elaborated for power users and **contributors** to the package in @sec-advanced.  
 
 # Basics (for Users)
 The file tree of the *powfacpy* source code is shown below in @fig-file-tree. 
 
 ```{python}
+
 # | label: fig-file-tree
-# | fig-cap: "File tree of the source code."
 # | echo: false
+# | fig-cap: "File tree of the source code."
 
 from directory_tree import DisplayTree
 
@@ -47,33 +48,46 @@ print(stringRepresentation)
 ```
 
 
-## Active Project
+## Active Project {#sec-active-project}
 
-- *base/active_project.py*
+- [*base/active_project.py*](../../src/powfacpy/base/active_project.py)
 
 The class `ActiveProject` in *base/active_project.py* is the main interface to the database of *PowerFactory* as illustrated in the [Getting Started Tutorial](../tutorials/getting_started.qmd). 
 
 ## *PowerFactory* Classes {#sec-pf-classes}
-- *pf_classes/*
+- [*pf_classes/*](../../src/powfacpy/pf_classes)
 
 This is a collection of interface classes that refer directly to individual classes in the *PowerFactory* database.
-The classes "inherit" (more details in @sec-detailed) from the classes in the *PowerFactory* database and add further functionality. For example, the `SynchronousMachine` class (in *pf_classes/elm/sym*) has all data and functionality (as described in the *python scripting reference* of *PowerFactory*) of *PowerFactory*'s *ElmSym* class, but adds further functionality (e.g. a secure way of getting the rated apparent power, which considers the number of parallel machines).  
+The classes "inherit" (more details in @sec-advanced) from the classes in the *PowerFactory* database and add further functionality. For example, the `SynchronousMachine` class (in *pf_classes/elm/sym*) has all data and functionality (as described in the *python scripting reference* of *PowerFactory*) of *PowerFactory*'s *ElmSym* class, but adds further functionality (e.g. a secure way of getting the rated apparent power, which considers the number of parallel machines).  
 
 The classes in the *PowerFactory* database can be grouped based on the first three letters and the remaining part of their names (e.g. *Elm* + *Sym*, where *Elm* is common to all network element classes and *Sym* is short for *synchronous machine*). This is reflected by the subfolders (*elm*, *sta*, *set*, etc.) which contain the interface classes for each subgroup. The files in the subfolders are named accordingly, but the full names are used for the classes in the files (e.g. *sym.py* in the *elm* folder contains the class `SynchronousMachine`) to distinguish the class names from the protocol classes (see below). 
-To create an instance, an instance of the native *PowerFactory* class must be provided (e.g. `sm_instance_powfacpy = SynchronousMachine(sm)`, where `sm` is an instance of the native `ElmSym` class).
+To create an instance, an instance of the native *PowerFactory* class must be provided, as in the following example:
+
+```python
+from powfacpy.pf_classes.elm.sym import SynchronousMachine
+from powfacpy.base.active_project import ActiveProject
+
+act_prj = ActiveProject()
+sm_pf_native = act_prj.get_calc_relevant_object("SM 01.ElmSym")
+sm = SynchronousMachine(sm_pf_native)
+sm.Disconnect() # Method from native PF object
+x = sm.get_averaged_internal_reactance() # Method from powfacpy.pf_classes.elm.sym
+```
 
 In addition, *pf_classes/protocols.py* contains protocol classes for (almost) all classes from the *PowerFactory* database (automatically created, see *protocol_generator.py*). They are used for type hints for example, as explained in the [Getting Started Tutorial](../tutorials/getting_started.qmd). 
 
 ::: {.callout-warning}
 ## Protocols
 
-Note that for compatibility with versions prior to 0.3.0, there is still the *protocols.py* file in the root directory. It is no longer maintained and *pf_classes/protocols.py* should be used.
+Note that there is a *protocols.py* file in the root directory for compatibility with versions prior to 0.3.0. It is no longer maintained and *pf_classes/protocols.py* should be used.
 :::
 
 ## Applications
-- *applications/*
+- [*applications/*](../../src/powfacpy/applications/)
 
-In comparison to the *PowerFactory* classes from @sec-pf-classes, this folder contains applications that are more complex than an interface to a single *PowerFactory* class. The applications are more complicated and often require multiple native *PowerFactory* classes. Examples are interfaces for plotting, dynamic simulation, results export, network topology analysis, study cases, etc.  
+In comparison to the *PowerFactory* classes from @sec-pf-classes, this folder contains applications that are more complex than an interface to a single *PowerFactory* class. The applications are more complicated and often require multiple native *PowerFactory* classes. Examples are interfaces for plotting, dynamic simulation, results export, network topology analysis, study cases, etc. 
+
+*Application* classes usually have an attribute that is an instance of `ActiveProject` (see @sec-active-project) to interact with the active project. Prior to version 0.3.0, *Application* classes inherited from `ActiveProject` instead, but this cluttered the *Application* classes with many methods (`ActiveProject` is large). Hence, it was decided that composition is the better option. 
 
 ::: {.callout-tip}
 ## Comparison of *PowerFactory* classes and *Applications*
@@ -82,15 +96,71 @@ As a rule of thumb, any functionality that involves only one native *PowerFactor
 :::
 
 ## Result Variables
-- *result_variables.py*
+- [*result_variables.py*](../../src/powfacpy/result_variables.py)
 
-
-
+The file *result_variables.py* contains (automatically created) enumeration classes for results variables (e.g. of dynamic simulations) and it is created by executing [*result_variables_parser.py*](../../src/powfacpy/result_variables_parser.py). The usage is explained in the [Simulation and Plotting Tutorial](../tutorials/simulation_and_plotting.qmd).
 
 ## Deprecated 
-- *deprecated/* (not shown in @fig-file-tree)
+- [*deprecated/*](../../src/powfacpy/deprecated/) (not shown in @fig-file-tree)
 
-not shown in @fig-file-tree
+This folder contains files used in versions prior to 0.3.0 for compatibility.
 
-# Detailed (for Contributors) {#sec-detailed}
+# Advanced (for Contributors) {#sec-advanced}
 
+## *base*
+- [*base/*](../../src/powfacpy/base/)
+
+This folder contains base classes that are used in for *Application* and *PowerFacory* classes and the `ActiveProject` class.
+
+### *base/folder.py*
+- [*base/folder.py*](../../src/powfacpy/base/folder.py)
+
+This file contains the `Folder` class which provides functionality to interact with the *PowerFactory* database, such as getting objects and setting attributes of objects inside a folder in the *PowerFactory* database. To interact with *PowerFactory*, it holds the *PowerFactory* app as a class attribute.
+
+### *base/active_project.py*
+- [*base/active_project.py*](../../src/powfacpy/base/active_project.py)
+
+The file contains the `ActiveProject` class that inherits from the `Folder` class and adds functionality specific to the active project in *PowerFactory*. The class `ActiveProjectCached` can be more performant than `ActiveProject` as it caches the properties, but it should be used only in one project (the caching fails after a different project was activated).
+
+### *base/base.py*
+- [*base/base.py*](../../src/powfacpy/base/base.py)
+
+This file contains base classes for *PowerFactory* interface classes (see @sec-pf-classes). Instances of such classes usually hold one data attribute (the native *PowerFactory* object). In some use cases, numerous instances will have to be created (e.g. for all terminals in a network). Therefore, it is essential that these classes access and allocate their data efficiently. This is implemented in the `BaseObjectStatic` class using [slots](https://wiki.python.org/moin/UsingSlots). 
+
+The class `BaseChildStatic` inherits from `BaseObjectStatic` and adds functionality to inherit behavior from native *PowerFactory* objects (see @sec-pf-classes) by overloading the methods `__getattribute__` and `__setattr__`.
+
+
+### *base/functional.py*
+- [*base/functional.py*](../../src/powfacpy/base/functional.py)
+
+This is a functional interface to be used as a (limited) alternative to `ActiveProject` and `Folder`. 
+Performance can be improved as there are more restrictions on the input arguments (for example, only *PowerFactory* objects are accepted and not their path string).
+
+
+## *pf_classes*
+- [*pf_classes*](../../src/powfacpy/pf_classes/)
+
+The classes in the *pf_classes* folder usually overload the method `__new__` with the following boilerplate code (exemplified for `SynchronousMachine`):
+
+```python
+    def __new__(cls, *args, **kwargs) -> ElmSym | SynchronousMachine:
+        """Implemented only to add type hints for the created instance.
+
+        Returns:
+            ElmSym | SynchronousMachine: New instance
+        """
+        instance = super().__new__(cls)
+        return instance
+```
+The sole reason is to make type hints work.
+
+
+## *engineering_helpers.py*
+- [*engineering_helpers.py*](../../src/powfacpy/engineering_helpers.py) 
+
+These are generic helper functions in the electrical and power engineering domain.
+
+## *exceptions.py*
+- [*exceptions.py*](../../src/powfacpy/exceptions.py) 
+
+This is a collection of custom exceptions of *powfacpy*. Custom exceptions can provide more information on what goes wrong and are easier to catch for any python code that uses *powfacpy*.  
