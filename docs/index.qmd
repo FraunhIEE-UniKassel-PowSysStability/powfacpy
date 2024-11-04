@@ -14,7 +14,7 @@ set_attr(r"Network Model\Network Data\Grid\Terminal MV",{"uknom":33,"outserv":0}
 ```
 Here we have set two attributes (`uknom`, `outserv`) of the object specified under the path `Network Mod…`.
 
-Plotting also requires many lines with the native API (need to add the variable to the monitored variables, create a plot page, add the curve,..). Using *powfacpy* the syntax is succinct and similar to matplotlib. Just activate a plot and then plot variables of an object:
+Plotting also requires many lines with the native API (you need to add the variable to the monitored variables, create a plot page, add the curve,..). Using *powfacpy* the syntax is succinct and similar to matplotlib. Just activate a plot and then plot variables of an object:
 
 ```python
 set_active_plot("Active power","§ PV plant")
@@ -23,11 +23,16 @@ plot(r"Network Model\Network Data\Grid\PV", "m:Psum:bus1")
 
 *powfacpy* will save you time and make your code more readable. Get started with the [Tutorials](tutorials/overview.qmd).
 
-Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github.
+# Why use *powfacpy*?
+There are a number of reasons why you should consider using *powfacpy*:
+- Increase productivity 
+- Write more readable code
+- Avoid running into similar problems, errors and obscurities as other users of the python interface of *PowerFactory* before you
+- Having a standard way of doing things in your organization (e.g. a standard format for simulation result export) 
+- Steep learning curve for *PowerFactory* beginners (helpful tutorials)
 
 # Installation
 Using pip:
-
 ```
 pip install powfacpy
 ```
@@ -35,6 +40,9 @@ pip install powfacpy
 # Contact
 simon.eberlein@iee.fraunhofer.de
 
+# Contribute
+Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. 
+
 # About
-*powfacpy* is an open source module which is mainly developed at Fraunhofer IEE and not associated with *DIgSILENT*.
+*powfacpy* is an open source package which is mainly developed at Fraunhofer IEE and not associated with *DIgSILENT*.
 
