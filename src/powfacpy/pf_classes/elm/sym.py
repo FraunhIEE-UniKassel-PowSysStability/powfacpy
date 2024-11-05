@@ -9,6 +9,8 @@ from powfacpy.result_variables import ResVar
 
 class SynchronousMachine(ElmBase, SinglePortBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: ElmSym) -> None:
         super().__init__(obj)
         self._obj: ElmSym

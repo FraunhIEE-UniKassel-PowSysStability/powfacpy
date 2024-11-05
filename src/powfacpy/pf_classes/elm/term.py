@@ -14,6 +14,8 @@ RMS_BAL = ResVar.RMS_Bal
 
 class Terminal(ElmBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: ElmTerm) -> None:
         super().__init__(obj)
         self._obj: ElmTerm

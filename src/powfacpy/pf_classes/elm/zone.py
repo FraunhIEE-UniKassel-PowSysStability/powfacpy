@@ -11,6 +11,8 @@ LF_BAL = ResVar.LF_Bal
 
 class ZoneStatic(ElmBase, GroupingBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: ElmZone) -> None:
         super().__init__(obj)
         self._obj: ElmZone
