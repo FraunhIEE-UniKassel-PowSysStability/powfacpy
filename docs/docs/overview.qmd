@@ -1,7 +1,0 @@
----
-title: 'Overview'
-toc: true
-number-sections: true
----
-
-Please use the sidebar to navigate through the documentation.
