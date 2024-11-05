@@ -370,45 +370,27 @@ Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
 <h1 data-number="2"><span class="header-section-number">2</span> Advanced (for Contributors)</h1>
 <section id="base" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="base"><span class="header-section-number">2.1</span> <em>base</em></h2>
-<ul>
-<li><em>base/</em></li>
-</ul>
 <p>This folder contains base classes that are used in for <em>Application</em> and <em>PowerFacory</em> classes and the <code>ActiveProject</code> class.</p>
 <section id="basefolder.py" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="basefolder.py"><span class="header-section-number">2.1.1</span> <em>base/folder.py</em></h3>
-<ul>
-<li><em>base/folder.py</em></li>
-</ul>
 <p>This file contains the <code>Folder</code> class which provides functionality to interact with the <em>PowerFactory</em> database, such as getting objects and setting attributes of objects inside a folder in the <em>PowerFactory</em> database. To interact with <em>PowerFactory</em>, it holds the <em>PowerFactory</em> app as a class attribute.</p>
 </section>
 <section id="baseactive_project.py" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="baseactive_project.py"><span class="header-section-number">2.1.2</span> <em>base/active_project.py</em></h3>
-<ul>
-<li><em>base/active_project.py</em></li>
-</ul>
 <p>The file contains the <code>ActiveProject</code> class that inherits from the <code>Folder</code> class and adds functionality specific to the active project in <em>PowerFactory</em>. The class <code>ActiveProjectCached</code> can be more performant than <code>ActiveProject</code> as it caches the properties, but it should be used only in one project (the caching fails after a different project was activated).</p>
 </section>
 <section id="basebase.py" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="basebase.py"><span class="header-section-number">2.1.3</span> <em>base/base.py</em></h3>
-<ul>
-<li><em>base/base.py</em></li>
-</ul>
 <p>This file contains base classes for <em>PowerFactory</em> interface classes (see <a href="#sec-pf-classes" class="quarto-xref">Section&nbsp;1.2</a>). Instances of such classes usually hold one data attribute (the native <em>PowerFactory</em> object). In some use cases, numerous instances will have to be created (e.g.&nbsp;for all terminals in a network). Therefore, it is essential that these classes access and allocate their data efficiently. This is implemented in the <code>BaseObjectStatic</code> class using <a href="https://wiki.python.org/moin/UsingSlots">slots</a>.</p>
 <p>The class <code>BaseChildStatic</code> inherits from <code>BaseObjectStatic</code> and adds functionality to inherit behavior from native <em>PowerFactory</em> objects (see <a href="#sec-pf-classes" class="quarto-xref">Section&nbsp;1.2</a>) by overloading the methods <code>__getattribute__</code> and <code>__setattr__</code>.</p>
 </section>
 <section id="basefunctional.py" class="level3" data-number="2.1.4">
 <h3 data-number="2.1.4" class="anchored" data-anchor-id="basefunctional.py"><span class="header-section-number">2.1.4</span> <em>base/functional.py</em></h3>
-<ul>
-<li><em>base/functional.py</em></li>
-</ul>
 <p>This is a functional interface to be used as a (limited) alternative to <code>ActiveProject</code> and <code>Folder</code>. Performance can be improved as there are more restrictions on the input arguments (for example, only <em>PowerFactory</em> objects are accepted and not their path string).</p>
 </section>
 </section>
 <section id="pf_classes" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="pf_classes"><span class="header-section-number">2.2</span> <em>pf_classes</em></h2>
-<ul>
-<li><em>pf_classes</em></li>
-</ul>
 <p>The classes in the <em>pf_classes</em> folder usually overload the method <code>__new__</code> with the following boilerplate code (exemplified for <code>SynchronousMachine</code>):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__new__</span>(cls, <span class="op">*</span>args, <span class="op">**</span>kwargs) <span class="op">-&gt;</span> ElmSym <span class="op">|</span> SynchronousMachine:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Implemented only to add type hints for the created instance.</span></span>
@@ -422,16 +404,10 @@ Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
 </section>
 <section id="engineering_helpers.py" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="engineering_helpers.py"><span class="header-section-number">2.3</span> <em>engineering_helpers.py</em></h2>
-<ul>
-<li><em>engineering_helpers.py</em></li>
-</ul>
 <p>These are generic helper functions in the electrical and power engineering domain.</p>
 </section>
 <section id="exceptions.py" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="exceptions.py"><span class="header-section-number">2.4</span> <em>exceptions.py</em></h2>
-<ul>
-<li><em>exceptions.py</em></li>
-</ul>
 <p>This is a collection of custom exceptions of <em>powfacpy</em>. Custom exceptions can provide more information on what goes wrong and are easier to catch for any python code that uses <em>powfacpy</em>.</p>
 
 

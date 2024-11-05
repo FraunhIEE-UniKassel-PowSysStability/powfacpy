@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/tutorials/study_cases.html</loc>
-    <lastmod>2024-11-05T09:00:49.090Z</lastmod>
+    <lastmod>2024-11-05T16:47:31.037Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/tutorials/getting_started.html</loc>
-    <lastmod>2024-11-05T09:00:54.840Z</lastmod>
+    <lastmod>2024-11-05T16:46:59.408Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/simulation_and_plotting.html</loc>
@@ -18,7 +18,7 @@
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/structure_of_powfacpy.html</loc>
-    <lastmod>2024-11-05T16:34:03.129Z</lastmod>
+    <lastmod>2024-11-05T16:56:18.449Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/overview.html</loc>
@@ -46,6 +46,6 @@
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/tutorials/simulation_and_plotting.html</loc>
-    <lastmod>2024-11-05T09:00:52.591Z</lastmod>
+    <lastmod>2024-11-05T16:44:50.227Z</lastmod>
   </url>
 </urlset>
