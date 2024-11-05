@@ -85,7 +85,7 @@ class Results(ApplicationBase):
                                     variables = variables)
             ```
         """
-        comres = self.act_prj.app.GetFromStudyCase("ComRes")
+        comres = self.act_prj.get_from_study_case("ComRes")
         if results_obj and list_of_results_objs:
             raise ValueError(
                 "Results objects were given in 'results_obj' and in "
@@ -552,7 +552,7 @@ class Results(ApplicationBase):
     ):
         # TODO move these methods to a separate class 'ResultExport' i.e. a specific ElmRes interface
         if not results_obj:
-            results_obj = self.act_prj.app.GetFromStudyCase("ElmRes")
+            results_obj = self.act_prj.get_from_study_case("ElmRes")
         if load_elmres:
             results_obj.Load()
         obj = self.act_prj._handle_single_pf_object_or_path_input(obj)
@@ -565,7 +565,7 @@ class Results(ApplicationBase):
         self, column, results_obj=None, load_elmres=True
     ):
         if not results_obj:
-            results_obj = self.act_prj.app.GetFromStudyCase("ElmRes")
+            results_obj = self.act_prj.get_from_study_case("ElmRes")
         if load_elmres:
             results_obj.Load()
         intvec = self.act_prj.create_in_folder(

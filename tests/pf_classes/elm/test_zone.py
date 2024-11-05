@@ -5,13 +5,11 @@ import pytest
 sys.path.insert(0, r".\src")
 from powfacpy.pf_classes.elm.zone import Zone
 from powfacpy.base.active_project import ActiveProject
-from powfacpy.applications.topology import Topology
-from powfacpy.pf_classes.protocols import PFGeneral, ElmZone
+
+from applications.test_topology import create_zone
 from powfacpy.result_variables import ResVar
 
 RMS_BAL = ResVar.RMS_Bal
-
-from applications.test_topology import create_zone
 
 
 def test_get_all_internal_elms(create_zone):

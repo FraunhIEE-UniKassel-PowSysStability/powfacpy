@@ -16,6 +16,11 @@ from powfacpy.pf_class_protocols import PFGeneral, ElmRes
 class PFResultsInterface(powfacpy.PFActiveProject):
 
     def __init__(self, app):
+        warn(
+            f"{self.__class__.__name__} will be deprecated. Please use the class 'Results' from 'applications/results' instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super().__init__(app)
         self.truncate_paths_until: str = (
             PFStringManipulation.format_full_path(

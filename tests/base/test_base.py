@@ -11,15 +11,16 @@ from powfacpy.base.active_project import ActiveProject
 importlib.reload(powfacpy)
 
 
-def test_base_obj_static(act_prj: ActiveProject, activate_test_project):
+def test_base_obj_static(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal = act_prj.get_calc_relevant_obj("*.ElmTerm")[0]
-    terminal_base_obj = BaseObjectStatic(terminal)
-    assert terminal_base_obj.obj == terminal_base_obj._obj  # test property obj
-    assert terminal_base_obj == terminal  # test __eq__
-    assert str(terminal_base_obj) == terminal.loc_name  # test __str__
+    terminal_base_obj_1 = BaseObjectStatic(terminal)
+    terminal_base_obj_2 = BaseObjectStatic(terminal)
+    assert terminal_base_obj_1.obj == terminal_base_obj_2._obj  # test property obj
+    assert terminal_base_obj_1 == terminal_base_obj_2  # test __eq__
+    assert str(terminal_base_obj_1) == terminal.loc_name  # test __str__
 
 
-def test_base_child_caching(act_prj: ActiveProject, activate_test_project):
+def test_base_child_caching(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal = act_prj.get_calc_relevant_obj("*.ElmTerm")[0]
     terminal_base_child = BaseChild(terminal)
     terminal_base_child.cache_attr("uknom")
@@ -30,7 +31,7 @@ def test_base_child_caching(act_prj: ActiveProject, activate_test_project):
     assert terminal_base_child.GetClassName() == terminal.GetClassName()
 
 
-def test_base_child_static(act_prj: ActiveProject, activate_test_project):
+def test_base_child_static(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal = act_prj.get_calc_relevant_obj("*.ElmTerm")[0]
     terminal_base_child_static = BaseChildStatic(terminal)
     # Call methods, get attributes..
@@ -46,4 +47,6 @@ def test_base_child_static(act_prj: ActiveProject, activate_test_project):
 
 
 if __name__ == "__main__":
-    pytest.main([r"tests\test_base.py"])
+    # pytest.main([r"tests\test_base.py"])
+    # pytest.main([r"tests\applications\test_networks.py"])
+    pytest.main([r"tests\applications\test_model_exchange.py"])

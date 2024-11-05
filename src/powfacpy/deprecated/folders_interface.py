@@ -10,6 +10,7 @@ from collections.abc import Iterable
 from typing import Union, Callable, Generator
 from os import path as os_path
 from functools import partial
+from warnings import warn
 
 from icecream import ic
 
@@ -43,6 +44,11 @@ class PFFolder:
     """
 
     def __init__(self, folder: Union[PFGeneral, str], pf_app: PFApp):
+        warn(
+            f"{self.__class__.__name__} will be deprecated. Please use the class 'Folder' from 'base/folder' instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         if pf_app:
             self.app: PFApp = pf_app
         else:
@@ -1156,7 +1162,7 @@ class PFFolder:
 
         splitted_path = path.split("\\")
         if path[0] == "\\" or not splitted_path:
-            raise powfacpy.PFPathInputError(path)
+            raise powfacpy.exceptions.PFPathInputError(path)
         existing_path = ""
         child = parent
         for child_name in splitted_path:
@@ -1351,4 +1357,4 @@ class PFFolder:
         if active_project:
             return active_project
         else:
-            raise powfacpy.PFNotActiveError("a project")
+            raise powfacpy.exceptions.PFNotActiveError("a project")

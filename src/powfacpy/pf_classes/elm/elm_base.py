@@ -1,5 +1,8 @@
-from abc import ABC
+"""
+Base classes for elm.
+"""
 
+from abc import ABC
 from powfacpy.pf_classes.protocols import PFGeneral
 from powfacpy.base.base import BaseChildStatic
 

@@ -1,19 +1,14 @@
-import powfacpy
-import sys
-from warnings import warn
-
-sys.path.insert(0, r".\src")
+from powfacpy.applications.application_base import ApplicationBase
+from powfacpy.pf_class_protocols import PFApp
 
 
-class PFNetworkInterface(powfacpy.PFActiveProject):
+class Networks(ApplicationBase):
+    """Class for interface with power system networks and their elements."""
 
-    def __init__(self, app):
-        warn(
-            f"{self.__class__.__name__} will be deprecated. Please use the class 'Networks' from 'applications/networks' instead",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        super().__init__(app)
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -> None:
+        super().__init__(pf_app, cached)
 
     def get_vacant_cubicle_of_terminal(self, terminal, new_cubicle_name=None):
         """Gets the first vacant cubicle found in a terminal (i.e. nothing is connected
@@ -24,7 +19,7 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
           terminal: ElmTerm
           new_cubicle_name: Name  that is set for the found or created cubicle
         """
-        terminal = self._handle_single_pf_object_or_path_input(terminal)
+        terminal = self.act_prj._handle_single_pf_object_or_path_input(terminal)
         cubicles = self.get_cubicles_of_terminal(terminal)
         for cubicle in cubicles:
             if cubicle.obj_id == None:
@@ -33,11 +28,11 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
                 return cubicle
         if not new_cubicle_name:
             new_cubicle_name = "Cub_" + str(len(cubicles) + 1)
-        return self.create_in_folder(new_cubicle_name + ".StaCubic", terminal)
+        return self.act_prj.create_in_folder(new_cubicle_name + ".StaCubic", terminal)
 
     def get_cubicles_of_terminal(self, terminal, only_calc_relevant=False):
         if not only_calc_relevant:
-            return self.get_obj(
+            return self.act_prj.get_obj(
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
@@ -69,8 +64,10 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
         error_if_non_existent=True,
     ):
         """Copying a grid is not trivial in PF because the graphical network objects need to be copied and assigned manually as this is not done automatically."""
-        grid_to_be_copied = self._handle_single_pf_object_or_path_input(grid_or_path)
-        new_grid = self.copy_single_obj(
+        grid_to_be_copied = self.act_prj._handle_single_pf_object_or_path_input(
+            grid_or_path
+        )
+        new_grid = self.act_prj.copy_single_obj(
             grid_to_be_copied,
             target_folder,
             overwrite=True,
@@ -78,9 +75,9 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
             parent_folder=parent_folder,
             error_if_non_existent=error_if_non_existent,
         )
-        new_network_diagram = self.copy_single_obj(
+        new_network_diagram = self.act_prj.copy_single_obj(
             grid_to_be_copied.pDiagram,
-            self.app.GetProjectFolder("dia"),
+            self.act_prj.app.GetProjectFolder("dia"),
             new_name=new_name,
             overwrite=True,
         )
@@ -89,8 +86,10 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
         )
         for graphical_net_obj in graphical_net_objects:
             element = graphical_net_obj.pDataObj
-            path_in_grid = self.get_path_between_objects(grid_to_be_copied, element)
-            graphical_net_obj.pDataObj = self.get_unique_obj(
+            path_in_grid = self.act_prj.get_path_between_objects(
+                grid_to_be_copied, element
+            )
+            graphical_net_obj.pDataObj = self.act_prj.get_unique_obj(
                 path_in_grid, parent_folder=new_grid
             )
         new_network_diagram.pDataFolder = new_grid
@@ -98,5 +97,7 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
         return new_grid
 
     def get_parent_grid(self, obj_or_path):
-        obj_or_path = self._handle_single_pf_object_or_path_input(obj_or_path)
-        return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName == "IntNet")
+        obj_or_path = self.act_prj._handle_single_pf_object_or_path_input(obj_or_path)
+        return self.act_prj.get_upstream_obj(
+            obj_or_path, lambda x: x.GetClassName == "IntNet"
+        )

@@ -9,6 +9,7 @@ from icecream import ic
 
 import powfacpy
 from powfacpy.base.folder import Folder
+import powfacpy.exceptions
 from powfacpy.pf_class_protocols import (
     PFApp,
     PFGeneral,
@@ -18,7 +19,6 @@ from powfacpy.pf_class_protocols import (
     IntUser,
     IntCase,
     IntEvt,
-    ElmZone,
     ComLdf,
     IntMon,
     IntVersion,
@@ -44,6 +44,7 @@ class ActiveProject(Folder):
             )
 
     def __new__(cls, *args, **kwargs) -> IntPrj | ActiveProject:
+        """Required to provide type hints ('IntPrj | ActiveProject')"""
         instance = super().__new__(cls)
         return instance
 
@@ -129,7 +130,7 @@ class ActiveProject(Folder):
         if case or not error_if_no_active_case:
             return case
         else:
-            raise powfacpy.PFNoActiveStudyCaseError()
+            raise powfacpy.exceptions.PFNoActiveStudyCaseError()
 
     def get_from_study_case(
         self, name: str, if_not_unique: str = "warning", if_no_study_case: str = "error"
@@ -160,7 +161,7 @@ class ActiveProject(Folder):
                     "No study case activated. PowerFactory creates object of class_name in tmp folder, outside any study case."
                 )
             elif if_no_study_case == "error":
-                raise powfacpy.PFNoActiveStudyCaseError()
+                raise powfacpy.exceptions.PFNoActiveStudyCaseError()
 
         if if_not_unique and self.is_pf_class(name):
             name = "*." + name
@@ -340,7 +341,7 @@ class ActiveProject(Folder):
             grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"
         ]
         if error_if_no_network_is_active and not grids:
-            raise powfacpy.PFNotActiveError("a network (ElmNet).")
+            raise powfacpy.exceptions.PFNotActiveError("a network (ElmNet).")
         return grids
 
     def get_diagram_color_scheme(self) -> SetColscheme:
@@ -348,7 +349,7 @@ class ActiveProject(Folder):
 
     def activate_study_case(self, path: str) -> IntCase:
         """Activate study case under path."""
-        study_case = self.get_single_obj(path, include_subfolders=False)
+        study_case = self.get_unique_obj(path, include_subfolders=False)
         study_case.Activate()
         return study_case
 
@@ -581,6 +582,7 @@ class ActiveProject(Folder):
 
 
 class ActiveProjectCached(ActiveProject):
+    """Caches the properties. Should be used only in one project (the caching fails after a different project is activated)."""
 
     @cached_property
     def _obj(self):

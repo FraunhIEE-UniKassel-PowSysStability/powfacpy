@@ -12,7 +12,7 @@ from powfacpy.result_variables import ResVar
 RMS_BAL = ResVar.RMS_Bal
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def create_boundary(
     act_prj: ActiveProject, activate_39_bus_new_england_test_project
 ) -> tuple[Boundary, list[PFGeneral]]:

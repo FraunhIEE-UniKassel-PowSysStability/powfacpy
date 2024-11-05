@@ -18,12 +18,13 @@ import powerfactory
 sys.path.insert(0, r".\src")
 import powfacpy
 from powfacpy.base.folder import Folder
+from powfacpy.base.active_project import ActiveProject
 import powfacpy.exceptions
 
 importlib.reload(powfacpy)
 
 
-def test_get_obj(act_prj, activate_test_project):
+def test_get_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal_1 = act_prj.get_obj(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
     )[0]
@@ -40,18 +41,18 @@ def test_get_obj(act_prj, activate_test_project):
         terminal_1 = act_prj.get_obj(terminal_1, include_subfolders=False)[0]
 
 
-def test_get_single_object(act_prj, activate_test_project):
-    terminal_1 = act_prj.get_single_obj(
+def test_get_single_object(act_prj: ActiveProject, activate_powfacpy_test_project):
+    terminal_1 = act_prj.get_unique_obj(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
     )
     assert isinstance(terminal_1, powerfactory.DataObject)
     with pytest.raises(TypeError):
-        terminals = act_prj.get_single_obj(
+        terminals = act_prj.get_unique_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*"
         )
 
 
-def test_get_obj_with_condition(act_prj, activate_test_project):
+def test_get_obj_with_condition(act_prj: ActiveProject, activate_powfacpy_test_project):
     hv_terminals = act_prj.get_obj(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*",
         condition=lambda x: getattr(x, "uknom") > 50,
@@ -59,7 +60,9 @@ def test_get_obj_with_condition(act_prj, activate_test_project):
     assert len(hv_terminals) == 2
 
 
-def test_get_obj_with_parent_folder_argument(act_prj, activate_test_project):
+def test_get_obj_with_parent_folder_argument(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
     parent_folder = act_prj.get_first_level_folder("user")
     terminal_1 = act_prj.get_obj(
         r"powfacpy\powfacpy_tests\Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1",
@@ -80,7 +83,9 @@ def test_get_obj_with_parent_folder_argument(act_prj, activate_test_project):
     assert isinstance(grid, powerfactory.DataObject)
 
 
-def test_get_obj_including_subfolders(act_prj, activate_test_project):
+def test_get_obj_including_subfolders(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
     terminals = act_prj.get_obj(
         r"Network Data\test_active_project_interface\*.ElmTerm",
         parent_folder="Network Model",
@@ -89,13 +94,13 @@ def test_get_obj_including_subfolders(act_prj, activate_test_project):
     assert len(terminals) == 3
 
 
-def test_path_exists(act_prj, activate_test_project):
+def test_path_exists(act_prj: ActiveProject, activate_powfacpy_test_project):
     assert act_prj.path_exists(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
     )
 
 
-def test_set_attr(act_prj, activate_test_project):
+def test_set_attr(act_prj: ActiveProject, activate_powfacpy_test_project):
     test_string_1 = "TestString1"
     test_string_2 = "TestString2"
     act_prj.set_attr(
@@ -110,7 +115,7 @@ def test_set_attr(act_prj, activate_test_project):
     assert stitle == test_string_2
 
 
-def test_set_attr_exceptions(act_prj, activate_test_project):
+def test_set_attr_exceptions(act_prj: ActiveProject, activate_powfacpy_test_project):
     with pytest.raises(powfacpy.exceptions.PFAttributeTypeError):
         act_prj.set_attr(
             r"Library\Dynamic Models\Linear_interpolation",
@@ -127,7 +132,7 @@ def test_set_attr_exceptions(act_prj, activate_test_project):
         )
 
 
-def test_set_attr_by_path(act_prj, activate_test_project):
+def test_set_attr_by_path(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.set_attr_by_path(
         r"Library\Dynamic Models\Linear_interpolation\desc", ["description"]
     )
@@ -137,7 +142,7 @@ def test_set_attr_by_path(act_prj, activate_test_project):
         )
 
 
-def test_get_attr(act_prj, activate_test_project):
+def test_get_attr(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal_1 = act_prj.get_obj(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
     )[0]
@@ -147,7 +152,7 @@ def test_get_attr(act_prj, activate_test_project):
         systype = act_prj.get_attr(terminal_1, "trixi")
 
 
-def test_create_by_path(act_prj, activate_test_project):
+def test_create_by_path(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.create_by_path(r"Library\Dynamic Models\dummy.BlkDef")
     with pytest.raises(powfacpy.exceptions.PFPathError):
         act_prj.create_by_path(r"ry\Dynamic Models\dummy.BlkDef")
@@ -155,13 +160,13 @@ def test_create_by_path(act_prj, activate_test_project):
         act_prj.create_by_path(4)
 
 
-def test_create_in_folder(act_prj, activate_test_project):
+def test_create_in_folder(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.create_in_folder("dummy2.BlkDef", r"Library\Dynamic Models")
     with pytest.raises(TypeError):
         act_prj.create_in_folder(2, r"Library\Dynamic Models")
 
 
-def test_get_by_condition(act_prj, activate_test_project):
+def test_get_by_condition(act_prj: ActiveProject, activate_powfacpy_test_project):
     folder = r"Network Model\Network Data\test_active_project_interface\Grid"
     all_terminals = act_prj.get_obj("*.ElmTerm", parent_folder=folder)
 
@@ -176,7 +181,7 @@ def test_get_by_condition(act_prj, activate_test_project):
         )
 
 
-def test_delete_obj(act_prj, activate_test_project):
+def test_delete_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     folder = r"Library\Dynamic Models\TestDelete"
     act_prj.create_in_folder(
         "dummy_to_be_deleted_1.BlkDef",
@@ -188,7 +193,7 @@ def test_delete_obj(act_prj, activate_test_project):
     )
     act_prj.delete_obj("dummy_to_be_deleted*", parent_folder=folder)
     objects_in_folder = act_prj.get_obj(
-        "*", parent_folder=folder, error_if_non_existent=False
+        "dummy_to_be_deleted*.BlkDef", parent_folder=folder, error_if_non_existent=False
     )
     assert len(objects_in_folder) == 0
 
@@ -201,7 +206,9 @@ def test_delete_obj(act_prj, activate_test_project):
         folder,
     )
     act_prj.delete_obj("dummy_to_be_deleted_1.BlkDef", parent_folder=folder)
-    objects_in_folder = act_prj.get_obj("*", parent_folder=folder)
+    objects_in_folder = act_prj.get_obj(
+        "dummy_to_be_deleted*.BlkDef", parent_folder=folder
+    )
     assert len(objects_in_folder) == 1
 
     act_prj.create_in_folder(
@@ -218,7 +225,7 @@ def test_delete_obj(act_prj, activate_test_project):
         include_subfolders=True,
     )
     objects_in_folder = act_prj.get_obj(
-        "*", parent_folder=folder, error_if_non_existent=False
+        "dummy_to_be_deleted*", parent_folder=folder, error_if_non_existent=False
     )
     assert len(objects_in_folder) == 0
 
@@ -238,7 +245,7 @@ def test_delete_obj(act_prj, activate_test_project):
     assert len(objects_in_folder) == 0
 
     act_prj.create_in_folder("dummy_to_be_deleted_1.BlkDef", folder)
-    object_in_folder = act_prj.get_single_obj("*", parent_folder=folder)
+    object_in_folder = act_prj.get_unique_obj("*", parent_folder=folder)
     act_prj.delete_obj(object_in_folder)
     objects_in_folder = act_prj.get_obj(
         "*", parent_folder=folder, error_if_non_existent=False
@@ -246,7 +253,7 @@ def test_delete_obj(act_prj, activate_test_project):
     assert len(objects_in_folder) == 0
 
 
-def test_copy_obj(act_prj, activate_test_project):
+def test_copy_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     folder_copy_from = r"Library\Dynamic Models\TestCopyFrom"
     folder_copy_to = r"Library\Dynamic Models\TestCopyTo"
 
@@ -282,7 +289,7 @@ def test_copy_obj(act_prj, activate_test_project):
     assert len(all_objects_in_folder) == 1
 
 
-def test_copy_single_obj(act_prj, activate_test_project):
+def test_copy_single_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     folder_copy_from = r"Library\Dynamic Models\TestDummyFolder"
     folder_copy_to = r"Library\Dynamic Models\TestCopy"
 
@@ -293,20 +300,20 @@ def test_copy_single_obj(act_prj, activate_test_project):
         parent_folder=folder_copy_from,
         new_name="new_dummy_name",
     )
-    copied_obj_from_folder = act_prj.get_single_obj(
+    copied_obj_from_folder = act_prj.get_unique_obj(
         "new_dummy_name", parent_folder=folder_copy_to
     )
     assert copied_object == copied_obj_from_folder
 
-    obj_to_copy = act_prj.get_single_obj("dummy2.*", parent_folder=folder_copy_from)
+    obj_to_copy = act_prj.get_unique_obj("dummy2.*", parent_folder=folder_copy_from)
     copied_object = act_prj.copy_single_obj(obj_to_copy, folder_copy_to, overwrite=True)
-    copied_obj_from_folder = act_prj.get_single_obj(
+    copied_obj_from_folder = act_prj.get_unique_obj(
         "dummy2", parent_folder=folder_copy_to
     )
     assert copied_object == copied_obj_from_folder
 
     act_prj.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
-    obj_to_copy = act_prj.get_single_obj("dummy2.*", parent_folder=folder_copy_from)
+    obj_to_copy = act_prj.get_unique_obj("dummy2.*", parent_folder=folder_copy_from)
     copied_object = act_prj.copy_single_obj(
         obj_to_copy,
         folder_copy_to,
@@ -314,13 +321,31 @@ def test_copy_single_obj(act_prj, activate_test_project):
         parent_folder=folder_copy_from,
         new_name="new_dummy_name",
     )
-    copied_obj_from_folder = act_prj.get_single_obj(
+    copied_obj_from_folder = act_prj.get_unique_obj(
         "new_dummy_name", parent_folder=folder_copy_to
     )
     assert copied_object == copied_obj_from_folder
 
 
-def test_handle_single_pf_object_or_path_input(act_prj, activate_test_project):
+def test_move_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
+    folder_copy_from = r"Library\Dynamic Models\TestCopyFrom"
+    folder_copy_to = r"Library\Dynamic Models\TestCopyTo"
+
+    act_prj.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
+    copied_objects = act_prj.move_obj(
+        "*", folder_copy_to, parent_folder=folder_copy_from
+    )
+    moved_objects = act_prj.get_obj("*", parent_folder=folder_copy_to)
+    assert len(moved_objects) == 2
+    empty_objects = act_prj.get_obj(
+        "*", parent_folder=folder_copy_from, error_if_non_existent=False
+    )
+    assert len(empty_objects) == 0
+
+
+def test_handle_single_pf_object_or_path_input(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
     folder = act_prj.get_obj(r"Network Model\Network Data")[0]
     with pytest.raises(TypeError):
         act_prj._handle_single_pf_object_or_path_input([folder])
@@ -334,7 +359,9 @@ def test_handle_single_pf_object_or_path_input(act_prj, activate_test_project):
     assert same_folder_using_string == folder
 
 
-def test_get_parameter_value_string(act_prj, activate_test_project):
+def test_get_parameter_value_string(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
     params = {
         "p": r"Network Model\Network Data\test_active_project_interface\Grid\General Load HV\plini",
         "q": r"Network Model\Network Data\test_active_project_interface\Grid\General Load HV\qlini",
@@ -343,7 +370,7 @@ def test_get_parameter_value_string(act_prj, activate_test_project):
     act_prj.get_parameter_value_string(params, delimiter=" ")
 
 
-def test_create_directory(act_prj, activate_test_project):
+def test_create_directory(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.create_directory(
         r"test1\test2", parent_folder=r"Study Cases\test_case_studies"
     )
@@ -357,13 +384,15 @@ def test_create_directory(act_prj, activate_test_project):
     act_prj.delete_obj("test1")
 
 
-def test_get_loc_name_with_class(act_prj, activate_test_project):
+def test_get_loc_name_with_class(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
     pf_objects = act_prj.get_obj(r"*.ElmTerm", include_subfolders=True)
     act_prj.get_loc_name_with_class(pf_objects)
     act_prj.get_loc_name_with_class(pf_objects[0])
 
 
-def test_create_comtrade_obj(act_prj, activate_test_project):
+def test_create_comtrade_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     path_of_cfg = os.getcwd() + r"\tests\tests_input\test_comtrade.cfg"
     intcomtrade = act_prj.create_comtrade_obj(path_of_cfg)
     intcomtrade.Load()
@@ -371,7 +400,7 @@ def test_create_comtrade_obj(act_prj, activate_test_project):
 
 
 def test_replace_outside_or_inside_of_strings_in_a_string(
-    act_prj, activate_test_project
+    act_prj: ActiveProject, activate_powfacpy_test_project
 ):
     conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' control 1"
     conditions = (
@@ -406,14 +435,14 @@ def test_replace_outside_or_inside_of_strings_in_a_string(
     assert conditions == "lorem ipsum control 1 == 'ABC x[1]' 'x[1]'"
 
 
-def test_get_path_of_object(act_prj, activate_test_project):
+def test_get_path_of_object(act_prj: ActiveProject, activate_powfacpy_test_project):
     path = "Network Model\\Network Data\\test_active_project_interface\\Grid\\Line 1.2"
     line = act_prj.get_unique_obj(path)
     path_derived = act_prj.get_path_of_object(line)
     assert path == path_derived
 
 
-def test_get_upstream_object(act_prj, activate_test_project):
+def test_get_upstream_object(act_prj: ActiveProject, activate_powfacpy_test_project):
     grid = act_prj.get_upstream_obj(
         r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency",
         lambda x: x.loc_name == "Grid",
@@ -429,7 +458,7 @@ def test_get_upstream_object(act_prj, activate_test_project):
         )
 
 
-def test_get_from_study_case(act_prj, activate_test_project):
+def test_get_from_study_case(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.activate_study_case(
         r"Study Cases\test_active_project_interface\multiple_elmres"
     )
@@ -439,7 +468,7 @@ def test_get_from_study_case(act_prj, activate_test_project):
         act_prj.get_from_study_case("ElmRes", if_not_unique="error")
 
 
-def test_get_calc_relevant_obj(act_prj, activate_test_project):
+def test_get_calc_relevant_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.activate_study_case(
         r"Study Cases\test_active_project_interface\Study Case 1"
     )
@@ -470,8 +499,8 @@ def test_get_calc_relevant_obj(act_prj, activate_test_project):
 
 
 if __name__ == "__main__":
-    # pytest.main([r"tests\applications\test_active_project.py"])
-    # pytest.main([r"tests"])
-    # pytest.main([r"tests\applications"])
-    # pytest.main([r"tests\pf_classes"])
+    # pytest.main([r"tests\base\test_active_project.py::test_copy_obj"])
     pytest.main([r"tests"])
+    # pytest.main([r"tests\applications\test_results.py"])
+    # pytest.main([r"tests\pf_classes"])
+    # pytest.main([r"tests"])

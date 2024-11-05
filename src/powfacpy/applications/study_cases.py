@@ -172,7 +172,7 @@ class StudyCases(ApplicationBase):
             try:
                 return values[case_num]
             except IndexError:
-                raise powfacpy.PFCaseStudyParameterValueDefinitionError(
+                raise powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError(
                     par_name, values
                 )
         else:
@@ -521,7 +521,7 @@ class StudyCases(ApplicationBase):
         pfri = powfacpy.PFResultsInterface(self.act_prj.app)
         for case_num, case in zip(case_numbers, study_cases):
             case.Activate()
-            elmres: ElmRes = self.act_prj.app.GetFromStudyCase(results_obj)
+            elmres: ElmRes = self.act_prj.get_from_study_case(results_obj)
             case_file_name = "case" + str(case_num)
             pfri.export_to_csv(
                 export_dir,
@@ -580,7 +580,7 @@ class StudyCases(ApplicationBase):
                 new_name=name,
             )
         study_case_obj.Activate()
-        self.act_prj.app.GetFromStudyCase("SetDesktop")
+        self.act_prj.get_from_study_case("SetDesktop")
         return study_case_obj
 
     def _create_scenario(self, name: str, folder_path: str) -> IntScenario:

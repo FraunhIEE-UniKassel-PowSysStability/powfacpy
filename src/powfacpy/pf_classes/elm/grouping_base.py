@@ -6,7 +6,7 @@ from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, StaPll
 
 
 class GroupingBase(ABC):
-    """ElmZone, ElmArea, ElmBoundary"""
+    """Base class for groupings (ElmZone, ElmArea, ElmBoundary). Provides a common interface (e.g. to get internal elements)."""
 
     __slots__ = ()
 

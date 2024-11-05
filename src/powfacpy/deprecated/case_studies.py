@@ -2,6 +2,7 @@ from typing import Any, Callable
 from itertools import product
 from os import getcwd, makedirs
 from os.path import join
+from warnings import warn
 
 from icecream import ic
 
@@ -20,6 +21,11 @@ from powfacpy.pf_class_protocols import (
 class PFStudyCases(powfacpy.PFActiveProject):
 
     def __init__(self, app):
+        warn(
+            f"{self.__class__.__name__} will be deprecated. Please use the class 'StudyCases' from 'applications/study_cases' instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super().__init__(app)
 
         self.title: str = "Case_Studies"
@@ -169,7 +175,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
             try:
                 return values[case_num]
             except IndexError:
-                raise powfacpy.PFCaseStudyParameterValueDefinitionError(
+                raise powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError(
                     par_name, values
                 )
         else:
@@ -516,7 +522,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
         pfri = powfacpy.PFResultsInterface(self.app)
         for case_num, case in zip(case_numbers, study_cases):
             case.Activate()
-            elmres: ElmRes = self.app.GetFromStudyCase(results_obj)
+            elmres: ElmRes = self.get_from_study_case(results_obj)
             case_file_name = "case" + str(case_num)
             pfri.export_to_csv(
                 export_dir,
@@ -575,7 +581,7 @@ class PFStudyCases(powfacpy.PFActiveProject):
                 new_name=name,
             )
         study_case_obj.Activate()
-        self.app.GetFromStudyCase("SetDesktop")
+        self.get_from_study_case("SetDesktop")
         return study_case_obj
 
     def _create_scenario(self, name: str, folder_path: str) -> IntScenario:
