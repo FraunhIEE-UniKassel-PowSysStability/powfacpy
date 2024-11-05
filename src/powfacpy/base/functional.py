@@ -1,6 +1,7 @@
 """Functional interface.
+
 powfacpy is mainly object oriented and builds upon base classes like 'Folder' or 'ActiveProject'.
-This is a collection of helper functions (utils) to be used as an alternative and that can be more performant (for example, only PF objects are accepted and not their path). 
+This is a collection of helper functions (utils) to be used as an alternative and that can be more performant (for example, only PF objects are accepted and not their path string). 
 """
 
 from typing import Iterable

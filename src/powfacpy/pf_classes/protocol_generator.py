@@ -23,12 +23,30 @@ missing_classes_that_are_not_in_scripting_reference = [
     "ElmVscmono",
     "ElmZpu",
     "StaPll",
-    "TypSim",
+    "TypSym",
     "TypLod",
     "BlkSlot",
     "BlkSum",
     "BlkRef",
     "StaPqmea",
+    "CimArchive",
+    "ComCimtogrid",
+    "Evtlod",
+    "EvtOutage",
+    "EvtParam",
+    "EvtShc",
+    "EvtSwitch",
+    "EvtSym",
+    "EvtGen",
+    "EvtTap",
+    "EvtStop",
+    "EvtSave",
+    "EvtMessage",
+    "EvtTransfer",
+    "EvtPresync",
+    "EvtTrigger",
+    "EvtStep",
+    "IntScan",
 ]
 
 
@@ -37,10 +55,11 @@ import keyword
 import sys
 import json
 
+from icecream import ic
+
 powfacpy_project_root_directory = os.path.dirname(os.path.abspath(__file__)).replace(
     r"\src\powfacpy\pf_classes", ""
 )
-
 sys.path.insert(0, powfacpy_project_root_directory + r"\src")
 import powfacpy
 
@@ -67,10 +86,13 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
         pf_class_names += missing_classes_that_are_not_in_scripting_reference
         pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(
             pf_class_names
-        )  # pf_class_objects_not_found is used only for debugging
+        )
+        ic(pf_class_objects_not_found)
         try:
             self.app.Hide()
-            with open(".\\src\\powfacpy\\pf_class_protocols_new.py", "w") as out_file:
+            with open(
+                ".\\src\\powfacpy\\pf_classes\\protocols_new.py", "w"
+            ) as out_file:
                 out_file.write(
                     '"""Protocol classes for (almost) all PowerFactory classes in the python scripting reference pdf file. Protocol classes are helpful for example for type hints where they can be used just like \'normal\' implementations of classes.\n"""\n\n'
                 )
@@ -123,7 +145,7 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
             pf_class_objects_not_found: list of objects that could not be found/created
         """
         try:
-            self.app.Hide()  # for performace
+            self.app.Hide()
             project = self.app.CreateProject("delete_this_project", "grid")
             project.Activate()
 
@@ -133,9 +155,15 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
                 pf_class_objects_not_found = []
                 for pf_class in pf_class_names:
                     for folder in folders:
-                        pf_class_obj = self.create_in_folder("new." + pf_class, folder)
-                        if pf_class_obj:
-                            break  # break loop when successfully created an object
+                        pf_class_obj = None
+                        try:
+                            pf_class_obj = self.create_in_folder(
+                                "new." + pf_class, folder
+                            )
+                            if pf_class_obj:
+                                break  # break loop when successfully created an object
+                        except RuntimeError:  # CreateObject can raise runtime error
+                            pass
                     if not pf_class_obj:
                         pf_class_objects_not_found.append(pf_class)
                     else:

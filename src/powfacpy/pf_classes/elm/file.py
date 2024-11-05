@@ -39,8 +39,10 @@ class MeasurementFile(ElmBase):
 
         Args:
             dataframe (pd.DataFrame): Data for measurement file. IMPORTANT: The index of the frame is the time.
+
             csv_file_name (str): Name of csv file (created using the dataframe) from which the measurement file reads.
-            csv_file_dir (str | None, optional): directory where csv file is created. Defaults to None (external data directory of PF is used).
+
+            csv_file_dir (str | None, optional): directory where csv file is created. Must have write access. Defaults to None (external data directory of PF is used, see Settings\Project Settings).
 
         Returns:
             str: Directory where csv file was created

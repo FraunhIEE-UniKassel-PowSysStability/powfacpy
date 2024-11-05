@@ -11,6 +11,5 @@ from .deprecated.results_interface import *
 from .deprecated.script_interface import *
 from .deprecated.database_interface import *
 from .deprecated.model_exchange_interfaces import *
-from .exceptions import *
 
 from .base.active_project import ActiveProject, ActiveProjectCached

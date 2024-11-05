@@ -1,0 +1,30 @@
+---
+title: "How to Contribute"
+toc: true
+number-sections: true
+---
+
+Contributions in the form of issues (bug reports, feature requests, etc.) and to the codebase are very welcome.
+
+If you want to contribute to the codebase there are a few things to consider which are described in the following. **Note that any valuable contribution is appreciated even if they do not adhere to all of the following guidelines**. And if you have questions just open an issue.
+
+## Where should I add a new feature?
+It is recommended to read through the [description of the structure of *powfacpy*](./structure_of_powfacpy.qmd) to select a suitable location of the new feature (usually either in the [*applications*](../../src/powfacpy/applications/) or the [*pf_classes*](../../src/powfacpy/pf_classes/) folder).
+
+## Should I add tests?
+It is good practice to add unit tests using the *pytest* package. Unit tests are located in the [*tests* folder](../../tests/), which has a similar folder structure as the source code. The unit tests require *PowerFactory* test projects which you can find under [*tests/tests_input/*](../../tests/tests_input/). They need to be added in the *PowerFactory* database to the folder specified in [settings.json](../../settings.json) (attribute `path to powfacpy folder in PowerFactory database`). If you adapt those *.pfd* files for your tests, don't forget to commit the new version.
+
+## How can I showcase the functionality of the feature?
+To expose features to a wider range of users, adding a tutorial is more effective than just adding source code. Tutorials are located in the [*docs/tutorials* folder](../tutorials/). Like the whole website, they are written in [*quarto*](https://quarto.org/)(markdown like syntax with extended features). If you prefer working with jupyter notebooks, you can easily convert jupyter notebooks to quarto (*.qmd*) with the command `quarto convert my_tutorial.ipynb`. Finally, to make the *.qmd* file appear on the website, it must be added to the [*_quart.yml* file](../../_quarto.yml) in the root directory, e.g.:
+
+```yml
+sidebar:
+- title: "Tutorials"
+    style: "docked"
+    contents:
+    - docs/tutorials/overview.qmd
+    - docs/tutorials/getting_started.qmd
+    - docs/tutorials/simulation_and_plotting.qmd
+    - docs/tutorials/study_cases.qmd
+    - docs/tutorials/my_tutorial.qmd
+```

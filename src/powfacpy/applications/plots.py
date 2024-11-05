@@ -397,7 +397,7 @@ class Plots(ApplicationBase):
         source_study_case = self.act_prj._handle_single_pf_object_or_path_input(
             source_study_case, include_subfolders=False
         )
-        source_graphics_board = self.act_prj.get_single_obj(
+        source_graphics_board = self.act_prj.get_unique_obj(
             ".SetDesktop", parent_folder=source_study_case, include_subfolders=False
         )
         if not isinstance(target_study_cases, (list, tuple)):
@@ -408,7 +408,7 @@ class Plots(ApplicationBase):
             )
             if not target_study_case == source_study_case:
                 target_study_case.Deactivate()  # Writing to active graphics board not possible
-                target_graphics_board = self.act_prj.get_single_obj(
+                target_graphics_board = self.act_prj.get_unique_obj(
                     ".SetDesktop",
                     parent_folder=target_study_case,
                     include_subfolders=False,
@@ -561,7 +561,7 @@ class Plots(ApplicationBase):
         # Add new ElmFile
         elmfile_num = 1
         while True:
-            existing_elmfile = self.act_prj.get_single_obj(
+            existing_elmfile = self.act_prj.get_unique_obj(
                 "elmfile_" + str(elmfile_num),
                 parent_folder=elmfiles_network,
                 error_if_non_existent=False,

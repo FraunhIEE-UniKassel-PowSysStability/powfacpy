@@ -1,3 +1,5 @@
+"""Module with interface for dynamic simulations (RMS/EMT)"""
+
 from warnings import warn
 from os import getcwd, remove
 
@@ -5,7 +7,15 @@ import pandas as pd
 
 import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_class_protocols import PFGeneral, ComMod, ElmRes, ComRes, PFApp
+from powfacpy.pf_classes.protocols import (
+    PFGeneral,
+    ComMod,
+    ElmRes,
+    ComRes,
+    PFApp,
+    ComInc,
+    ComSim,
+)
 
 
 class DynamicSimulation(ApplicationBase):
@@ -15,6 +25,14 @@ class DynamicSimulation(ApplicationBase):
         self, pf_app: PFApp | None | bool = False, cached: bool = False
     ) -> None:
         super().__init__(pf_app, cached)
+
+    @property
+    def initialization_obj(self) -> ComInc:
+        return self.act_prj.get_from_study_case("ComInc")
+
+    @property
+    def simulation_obj(self) -> ComSim:
+        return self.act_prj.get_from_study_case("ComSim")
 
     def initialize_sim(self, param=None):
         """
@@ -36,10 +54,14 @@ class DynamicSimulation(ApplicationBase):
             self.act_prj.set_attr(comsim, param)
         comsim.Execute()
 
-    def initialize_and_run_sim(self):
+    def initialize_and_run_sim(
+        self,
+        param_initialization: dict | None = None,
+        param_simulation: dict | None = None,
+    ):
         """Initialize and perform time domain simulation."""
-        self.initialize_sim()
-        self.run_sim()
+        self.initialize_sim(param_initialization)
+        self.run_sim(param_simulation)
 
     def get_eigenvalues_of_current_state(
         self, commod_parameters: dict[str, object] = {}
@@ -140,7 +162,9 @@ class DynamicSimulation(ApplicationBase):
                 return parameter_names[0].split(",")
         except AttributeError:
             msg = "Attribute 'typ_id' is of type 'None'"
-            raise powfacpy.exceptions.PFObjectAttributeTypeError(dsl_model, msg, self)
+            raise powfacpy.exceptions.PFObjectAttributeTypeError(
+                dsl_model, msg, self.act_prj
+            )
 
     def get_dsl_models_inside_composite_model(self, composite_model):
         return self.act_prj.get_obj(
@@ -159,6 +183,7 @@ class DynamicSimulation(ApplicationBase):
 
         Arguments:
           composite_model: ElmComp or its path
+
           single_dict_for_all_dsl_models:
             - If true, a single dictionary with the parameters of all dsl models is returned (no distinction is made between the dsl models).
             This assumes that a parameter that occurs in several dsl
@@ -174,6 +199,7 @@ class DynamicSimulation(ApplicationBase):
         composite_model = self.act_prj._handle_single_pf_object_or_path_input(
             composite_model
         )
+        composite_model.SlotUpdate()
         dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
         all_models_params_dict = {}
         for dsl_model in dsl_models:
@@ -192,7 +218,6 @@ class DynamicSimulation(ApplicationBase):
                     dsl_model, parameter_names
                 )
                 if single_dict_for_all_dsl_models:
-                    # Check if
                     for param_name in parameter_names:
                         if param_name in all_models_params_dict:
                             if (

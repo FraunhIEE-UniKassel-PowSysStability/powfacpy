@@ -55,7 +55,7 @@ pfsc = StudyCases(app)
 # fmt: off
 pfsc.parameter_values = {
     "p HV load": [1,   2, 1, 2],
-    "q HV load": [-1, -1, 1, 1],
+    "q HV load": [-1, -1, 1, 1], 
 }
 # fmt: on
 ```
@@ -166,10 +166,8 @@ pfpi = Plots(app)
 pfds = DynamicSimulation(app)
 dsl_controller_obj = pfsc.act_prj.get_unique_obj(
     r"Network Model\Network Data"
-
     r"\test_case_studies\Grid 2\WECC WT Control System Type 4A\REEC_A Electrical Control Model"
 )
-
 
 
 for case_num, study_case_obj in enumerate(pfsc.study_cases):

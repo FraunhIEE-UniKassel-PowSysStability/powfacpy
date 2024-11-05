@@ -42,7 +42,7 @@ class Folder(BaseObjectStatic):
 
     The class is large to have a convenient interface with a lot of functionality to interact with the PF database (at the cost of the clarity of the code unfortunately).
 
-    Note that 'app' is a class attribute, i.e. it is shared by all instances. This is convenient because there is only one 'app' object provided by 'powerfactory.GetApplication'
+    Note that 'app' is a class attribute, i.e. it is shared by all instances. This is convenient because there is only one 'app' object provided by 'powerfactory.GetApplication()'
     """
 
     app: PFApp
@@ -262,47 +262,7 @@ class Folder(BaseObjectStatic):
         """Get unique PowerFactory object under 'path'.
 
         Use this method if you want to access one single unique object.
-        This method is an alterntive to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
-
-        This method is equal to get_single_obj and was added because the method
-        name fits better to what the method does (i.e. to get a unique object and to throw an error if the object is not unique).
-
-        Args:
-            path (str): path to object(s); can contain wildcards ("*") after the last "\"
-
-            condition (Callable, optional): filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110; defaults to None
-
-            parent_folder (Union[PFGeneral, Folder, str], optional):
-            specify a parent folder/container (or its path) from where the search is started ('path' is then relativ to 'parent_folder'); defaults to _folder/the active project folder for instances of PFActiveProject
-
-            error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
-
-            include_subfolders (bool, optional): include subfolders in the search; defaults to False
-
-        Raises:
-            TypeError: If 'path' is not a string or if several objects were found.
-
-        Returns:
-            PFGeneral: PF object
-        """
-        return self.get_single_obj(
-            path,
-            parent_folder=parent_folder,
-            error_if_non_existent=error_if_non_existent,
-            include_subfolders=include_subfolders,
-        )
-
-    def get_single_obj(
-        self,
-        path: str,
-        parent_folder: Union[PFGeneral, Folder, str] = None,
-        error_if_non_existent: bool = True,
-        include_subfolders: bool = False,
-    ) -> PFGeneral:
-        """Get unique PowerFactory object under 'path'.
-
-        Use this method if you want to access one single unique object.
-        This method is an alterntive to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
+        This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
 
         Args:
             path (str): path to object(s);
@@ -313,7 +273,7 @@ class Folder(BaseObjectStatic):
             defaults to None
 
             parent_folder (Union[PFGeneral, Folder, str], optional):
-            specify a parent folder/container (or its path) from where the search is started ('path' is then relativ to 'parent_folder');
+            specify a parent folder/container (or its path) from where the search is started ('path' is then relative to 'parent_folder');
             defaults to _folder/the active project folder for instances of PFActiveProject
 
             error_if_non_existent (bool, optional):
@@ -353,6 +313,55 @@ class Folder(BaseObjectStatic):
                 )
         else:
             return None
+
+    def get_single_obj(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -> PFGeneral:
+        """DEPRECATED: Use 'get_unique_obj' instead.
+
+        Get unique PowerFactory object under 'path'.
+
+        Use this method if you want to access one single unique object.
+        This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
+
+        Args:
+            path (str): path to object(s);
+            can contain wildcards ("*") after the last "\"
+
+            condition (Callable, optional):
+            filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110;
+            defaults to None
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+            specify a parent folder/container (or its path) from where the search is started ('path' is then relativ to 'parent_folder');
+            defaults to _folder/the active project folder for instances of PFActiveProject
+
+            error_if_non_existent (bool, optional):
+            raise exception if no objects are found;
+            defaults to True
+
+            include_subfolders (bool, optional):
+            include subfolders in the search;
+            defaults to True
+
+        Raises:
+            TypeError:
+            If 'path' is not a string.
+            If several objects were found.
+
+        Returns:
+            PFGeneral: PF object
+        """
+        return self.get_unique_obj(
+            path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
 
     def get_multiple_obj_from_similar_sub_directories(
         self, parent_folders: Union[list[PFGeneral], str], sub_path: str
@@ -465,8 +474,8 @@ class Folder(BaseObjectStatic):
 
     def get_project_settings(self) -> SetPrj:
         """Get project settings object."""
-        # project_settings_folder = self.get_single_obj("*.SetFold")
-        # return self.get_single_obj("*.SetPrj", parent_folder=project_settings_folder)
+        # project_settings_folder = self.get_unique_obj("*.SetFold")
+        # return self.get_unique_obj("*.SetPrj", parent_folder=project_settings_folder)
         return self.app.GetActiveProject().pPrjSettings
 
     def get_external_data_directory(self) -> str:
@@ -502,13 +511,13 @@ class Folder(BaseObjectStatic):
             folder_path, obj_name_incl_class = path.rsplit("\\", 1)
         except AttributeError:
             raise TypeError("The argument 'path' must be of type string.")
-        folder = self.get_single_obj(folder_path)
+        folder = self.get_unique_obj(folder_path)
         return self.create_in_folder(obj_name_incl_class, folder, overwrite=overwrite)
 
     def create_in_folder(
         self,
         obj: str,
-        folder: Union[PFGeneral, Folder, str] = None,
+        folder: PFGeneral | Folder | str = None,
         overwrite: bool = True,
         use_existing: bool = False,
     ) -> PFGeneral:
@@ -522,8 +531,7 @@ class Folder(BaseObjectStatic):
             overwrite (bool, optional): objects with the same name will be overwritten. Defaults to True.
 
             use_existing (bool, optional):
-                Only relevant if 'overwrite' is False.
-                If use_existing is False and an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
+                If an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
                 If use_existing is True and an object with the same name exists, the method just returns the existing object.
                 Defaults to False.
 
@@ -534,7 +542,7 @@ class Folder(BaseObjectStatic):
             PFGeneral: The created object
 
         Example:
-          pfbi.create_in_folder("dummy2.BlkDef", "Library\\Dynamic Models",)
+          folder.create_in_folder("dummy2.BlkDef", "Library\\Dynamic Models",)
         """
         folder = (
             self._obj
@@ -545,19 +553,19 @@ class Folder(BaseObjectStatic):
             obj_name, _, class_name = obj.rpartition(".")
         except AttributeError:
             raise TypeError("The argument 'obj' must be of type string.")
-        if overwrite:
+        if use_existing:
+            existing_obj = self.get_unique_obj(
+                obj, parent_folder=folder, error_if_non_existent=False
+            )
+            if existing_obj:
+                return existing_obj
+        elif overwrite:
             self.delete_obj(
                 obj,
                 parent_folder=folder,
                 include_subfolders=False,
                 error_if_non_existent=False,
             )
-        elif use_existing:
-            existing_obj = self.get_single_obj(
-                obj, parent_folder=folder, error_if_non_existent=False
-            )
-            if existing_obj:
-                return existing_obj
         return folder.CreateObject(class_name, obj_name)
 
     def create_directory(
@@ -583,12 +591,12 @@ class Folder(BaseObjectStatic):
                 if not self.path_exists(folder_name, parent=folder):
                     folder = self.create_in_folder(folder_name + ".IntFolder", folder)
                 else:
-                    folder = self.get_single_obj(
+                    folder = self.get_unique_obj(
                         folder_name, parent_folder=folder, include_subfolders=False
                     )
             return folder
         else:
-            return self.get_single_obj(
+            return self.get_unique_obj(
                 directory, parent_folder=parent_folder, include_subfolders=False
             )
 
@@ -770,7 +778,7 @@ class Folder(BaseObjectStatic):
                     error_if_non_existent=False,
                 )
         else:
-            existing_obj = self.get_single_obj(
+            existing_obj = self.get_unique_obj(
                 obj.GetAttribute("loc_name"),
                 parent_folder=target_folder,
                 error_if_non_existent=False,
@@ -781,6 +789,63 @@ class Folder(BaseObjectStatic):
             return target_folder.AddCopy(obj, new_name)
         else:
             return target_folder.AddCopy(obj)
+
+    ##################
+    # Move
+    ##################
+
+    def move_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        target_folder: Union[PFGeneral, Folder, str],
+        overwrite: bool = True,
+        condition: Callable = None,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -> int:
+
+        obj = self._handle_pf_object_or_path_input(
+            obj_or_path,
+            condition=condition,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if overwrite:
+            for object_to_be_copied in obj:
+                self.delete_obj(
+                    object_to_be_copied.GetAttribute("loc_name"),
+                    parent_folder=target_folder,
+                    error_if_non_existent=False,
+                )
+        return target_folder.Move(obj)
+
+    def move_single_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        target_folder: Union[PFGeneral, Folder, str],
+        overwrite: bool = True,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -> int:
+
+        obj = self._handle_single_pf_object_or_path_input(
+            obj_or_path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if overwrite:
+            self.delete_obj(
+                obj.GetAttribute("loc_name"),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+        return target_folder.Move(obj)
 
     ##################
     # Delete
@@ -888,7 +953,7 @@ class Folder(BaseObjectStatic):
             get_attr(terminal_1, "systype")
         """
         if isinstance(obj, str):
-            obj = self.get_single_obj(obj, parent_folder=parent_folder)
+            obj = self.get_unique_obj(obj, parent_folder=parent_folder)
         try:
             if not isinstance(attr, list):
                 return obj.GetAttribute(attr)
@@ -1142,7 +1207,7 @@ class Folder(BaseObjectStatic):
             If 'obj_or_path' is a PF object, it does nothing and just returns the object.
         """
         if isinstance(obj_or_path, str):
-            return self.get_single_obj(
+            return self.get_unique_obj(
                 obj_or_path,
                 parent_folder=parent_folder,
                 error_if_non_existent=error_if_non_existent,
@@ -1200,7 +1265,7 @@ class Folder(BaseObjectStatic):
 
         splitted_path = path.split("\\")
         if path[0] == "\\" or not splitted_path:
-            raise powfacpy.PFPathInputError(path)
+            raise powfacpy.exceptions.PFPathInputError(path)
         existing_path = ""
         child = parent
         for child_name in splitted_path:
@@ -1244,14 +1309,10 @@ class Folder(BaseObjectStatic):
         Returns:
             str: path
         """
-        _folder_path_without_closing_tag = (
-            PFStringManipulation.remove_closing_html_tag_from_path(str(self._obj))
-        )
+        folder_path = self._obj.GetFullName()
         obj = self._handle_single_pf_object_or_path_input(obj)
-        obj_str = PFStringManipulation.remove_closing_html_tag_from_path(str(obj))
-        return PFStringManipulation.truncate_beginning(
-            obj_str, _folder_path_without_closing_tag
-        )
+        obj_str = obj.GetFullName()
+        return PFStringManipulation.truncate_beginning(obj_str, folder_path)
 
     def get_full_path_of_object(self, obj: Union[PFGeneral, Folder]) -> str:
         """Get full path in PF database without class names.
@@ -1277,7 +1338,7 @@ class Folder(BaseObjectStatic):
             str: path
         """
         obj = self._handle_single_pf_object_or_path_input(obj)
-        return PFStringManipulation.remove_html_tags_from_path(str(obj))
+        return obj.GetFullName()
 
     def get_path_of_object_in_active_project(
         self, obj: Union[PFGeneral, Folder, str]
@@ -1304,11 +1365,13 @@ class Folder(BaseObjectStatic):
         Returns:
             str: path
         """
-        active_project_path = PFStringManipulation.remove_closing_html_tag_from_path(
-            str(self.__class__.app.GetActiveProject())
-        )
+        active_project = self.__class__.app.GetActiveProject()
+        if active_project:
+            active_project_path = self.__class__.app.GetActiveProject().GetFullName()
+        else:
+            active_project_path = ""
         obj = self._handle_single_pf_object_or_path_input(obj)
-        obj_str = PFStringManipulation.remove_closing_html_tag_from_path(str(obj))
+        obj_str = obj.GetFullName()
         return PFStringManipulation.truncate_beginning(obj_str, active_project_path)
 
     def _replace_special_PF_characters_in_path_string(self, path: str) -> str:
@@ -1389,4 +1452,4 @@ class Folder(BaseObjectStatic):
         if active_project:
             return active_project
         else:
-            raise powfacpy.PFNotActiveError("a project")
+            raise powfacpy.exceptions.PFNotActiveError("a project")

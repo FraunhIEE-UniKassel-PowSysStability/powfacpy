@@ -6,211 +6,211 @@ from typing import Protocol
 class PFGeneral(Protocol):
   """Class with general methods (see Section 'General Methods' in scripting reference. All other classes (except for PFApp) inherit from this class). 
   """
-  def ReplaceNonAsciiCharacters(*args):
+  def GetCubicle(*args):
     ...
 
-  def Delete(*args):
-    ...
-
-  def GetAttributeUnit(*args):
-    ...
-
-  def SwitchOn(*args):
-    ...
-
-  def HasAttribute(*args):
-    ...
-
-  def IsCalcRelevant(*args):
+  def GetZeroImpedance(*args):
     ...
 
   def MarkInGraphics(*args):
     ...
 
+  def SetAttributeLength(*args):
+    ...
+
+  def SetAttributes(*args):
+    ...
+
+  def GetAttributeType(*args):
+    ...
+
   def IsInFeeder(*args):
     ...
 
-  def GetSystemGrounding(*args):
+  def HasResults(*args):
     ...
 
-  def ShowEditDialog(*args):
+  def GetUnom(*args):
     ...
 
-  def IsNetworkDataFolder(*args):
+  def ReportUnusedObjects(*args):
     ...
 
-  def GetParent(*args):
+  def PasteCopy(*args):
     ...
 
-  def CopyData(*args):
-    ...
-
-  def GetFullName(*args):
+  def IsDeleted(*args):
     ...
 
   def ShowModalSelectTree(*args):
     ...
 
-  def WriteChangesToDb(*args):
+  def GetSupplyingTrfstations(*args):
+    ...
+
+  def GetChildren(*args):
+    ...
+
+  def GetClassName(*args):
+    ...
+
+  def CreateObject(*args):
     ...
 
   def ReportNonAsciiCharacters(*args):
     ...
 
+  def Delete(*args):
+    ...
+
+  def GetFullName(*args):
+    ...
+
+  def IsNetworkDataFolder(*args):
+    ...
+
+  def SetAttribute(*args):
+    ...
+
+  def SwitchOff(*args):
+    ...
+
+  def ReplaceNonAsciiCharacters(*args):
+    ...
+
+  def ContainsNonAsciiCharacters(*args):
+    ...
+
   def GetOwner(*args):
+    ...
+
+  def SearchObject(*args):
+    ...
+
+  def WriteChangesToDb(*args):
+    ...
+
+  def GetCombinedProjectSource(*args):
+    ...
+
+  def GetImpedance(*args):
+    ...
+
+  def GetOperator(*args):
+    ...
+
+  def Isolate(*args):
+    ...
+
+  def IsReducible(*args):
+    ...
+
+  def IsHidden(*args):
+    ...
+
+  def PurgeUnusedObjects(*args):
+    ...
+
+  def IsOutOfService(*args):
+    ...
+
+  def GetNode(*args):
+    ...
+
+  def GetReferences(*args):
+    ...
+
+  def GetControlledNode(*args):
+    ...
+
+  def IsCalcRelevant(*args):
+    ...
+
+  def IsObjectModifiedByVariation(*args):
+    ...
+
+  def GetParent(*args):
+    ...
+
+  def GetConnectedElements(*args):
+    ...
+
+  def GetInom(*args):
+    ...
+
+  def SwitchOn(*args):
+    ...
+
+  def IsEnergized(*args):
+    ...
+
+  def HasAttribute(*args):
+    ...
+
+  def IsObjectActive(*args):
+    ...
+
+  def Energize(*args):
+    ...
+
+  def GetRegion(*args):
+    ...
+
+  def IsNode(*args):
+    ...
+
+  def SetAttributeShape(*args):
+    ...
+
+  def GetAttributeLength(*args):
+    ...
+
+  def GetAttributes(*args):
+    ...
+
+  def GetContents(*args):
+    ...
+
+  def GetSystemGrounding(*args):
+    ...
+
+  def GetAttribute(*args):
+    ...
+
+  def CopyData(*args):
+    ...
+
+  def IsEarthed(*args):
+    ...
+
+  def IsShortCircuited(*args):
+    ...
+
+  def Move(*args):
+    ...
+
+  def ShowEditDialog(*args):
+    ...
+
+  def GetConnectionCount(*args):
+    ...
+
+  def AddCopy(*args):
+    ...
+
+  def GetAttributeShape(*args):
+    ...
+
+  def GetAttributeUnit(*args):
+    ...
+
+  def GetSupplyingSubstations(*args):
     ...
 
   def GetSupplyingTransformers(*args):
     ...
 
   def GetAttributeDescription(*args):
-    ...
-
-  def ReportUnusedObjects(*args):
-    ...
-
-  def SetAttributes(*args):
-    ...
-
-  def GetSupplyingSubstations(*args):
-    ...
-
-  def SwitchOff(*args):
-    ...
-
-  def GetRegion(*args):
-    ...
-
-  def IsEarthed(*args):
-    ...
-
-  def IsObjectActive(*args):
-    ...
-
-  def GetZeroImpedance(*args):
-    ...
-
-  def GetOperator(*args):
-    ...
-
-  def GetNode(*args):
-    ...
-
-  def Move(*args):
-    ...
-
-  def PasteCopy(*args):
-    ...
-
-  def GetAttribute(*args):
-    ...
-
-  def GetConnectedElements(*args):
-    ...
-
-  def GetContents(*args):
-    ...
-
-  def GetInom(*args):
-    ...
-
-  def IsEnergized(*args):
-    ...
-
-  def GetAttributes(*args):
-    ...
-
-  def ContainsNonAsciiCharacters(*args):
-    ...
-
-  def IsReducible(*args):
-    ...
-
-  def AddCopy(*args):
-    ...
-
-  def SetAttribute(*args):
-    ...
-
-  def GetImpedance(*args):
-    ...
-
-  def HasResults(*args):
-    ...
-
-  def IsHidden(*args):
-    ...
-
-  def SetAttributeLength(*args):
-    ...
-
-  def IsObjectModifiedByVariation(*args):
-    ...
-
-  def SearchObject(*args):
-    ...
-
-  def GetUnom(*args):
-    ...
-
-  def GetSupplyingTrfstations(*args):
-    ...
-
-  def Energize(*args):
-    ...
-
-  def IsOutOfService(*args):
-    ...
-
-  def GetAttributeShape(*args):
-    ...
-
-  def GetChildren(*args):
-    ...
-
-  def GetAttributeLength(*args):
-    ...
-
-  def SetAttributeShape(*args):
-    ...
-
-  def Isolate(*args):
-    ...
-
-  def GetCombinedProjectSource(*args):
-    ...
-
-  def GetAttributeType(*args):
-    ...
-
-  def GetCubicle(*args):
-    ...
-
-  def IsDeleted(*args):
-    ...
-
-  def GetConnectionCount(*args):
-    ...
-
-  def GetReferences(*args):
-    ...
-
-  def IsShortCircuited(*args):
-    ...
-
-  def IsNode(*args):
-    ...
-
-  def PurgeUnusedObjects(*args):
-    ...
-
-  def CreateObject(*args):
-    ...
-
-  def GetClassName(*args):
-    ...
-
-  def GetControlledNode(*args):
     ...
 
 class PFApp(Protocol):
@@ -38857,6 +38857,2252 @@ class StaPll(PFGeneral):
   "TimeID"
   umin: float
   "Voltage dependent blocking: Blocking voltage"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class TypSym(PFGeneral):
+  Ikd: float
+  "Steady-state shc. current: Ikd"
+  J: float
+  "Inertia: Moment of inertia J"
+  Q_max: float
+  "Reactive power limits: Maximum value"
+  Q_min: float
+  "Reactive power limits: Minimum value"
+  Tcold: float
+  "Stall time: Cold"
+  Tdc: float
+  "Time constants: Tdc"
+  Thot: float
+  "Stall time: Hot"
+  Tinrush: float
+  "Inrush peak current: Max. time"
+  appr_modby: str
+  "Approval Information: Modified by"
+  appr_modif: int
+  "Approval Information: Modified"
+  appr_status: int
+  "Approval Information: Status"
+  bname: str
+  "bus name (only for compatib.)"
+  cTdc: float
+  "Time constants: Tdc"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cosn: float
+  "Rated power factor"
+  cpHeadFold: object
+  "Head Folder"
+  curTab: list
+  "Stator leakage reactance: Current"
+  curk: float
+  "Steady-state shc. current: 3-phase Ik3p"
+  curk1p: float
+  "Steady-state shc. current: 1-phase Ik1p"
+  curk2p: float
+  "Steady-state shc. current: 2-phase Ik2p"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  depSmoothFac: float
+  "Stator leakage reactance: Dependency curve smoothing factor"
+  desc: list
+  "Description"
+  dkd: float
+  "Damping torque coefficient"
+  doc_id: object
+  "Additional Data"
+  dpe: float
+  "Damping torque coefficient based on power"
+  dpu: float
+  "Turbine shaft friction torque coefficient"
+  fcharl0: object
+  "Zero sequence data: l0(f)"
+  fcharl2: object
+  "Negative sequence data: l2(f)"
+  fcharlss: object
+  "Subtransient reactances: l''(f)"
+  fcharr0: object
+  "Zero sequence data: r0(f)"
+  fcharr2: object
+  "Negative sequence data: r2(f)"
+  fcharrstr: object
+  "Stator resistance: rs(f)"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  frequ: float
+  "Inertia: Nominal frequency"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  h: float
+  "Inertia: Inertia constant H (rated to Sgn)"
+  hpn: float
+  "Inertia: Inertia constant H (rated to Pgn)"
+  iSchemeStatus: int
+  "Scheme Status"
+  iTdcManual: int
+  "Time constants: Enter Tdc manually"
+  i_exactConv: int
+  "Exact conversion of time constants"
+  i_extModel: int
+  "Model"
+  i_speedD: int
+  "Speed deviation based on"
+  i_speedVar: int
+  "Effect of speed variation"
+  i_trans: int
+  "Use frequency transfer functions"
+  i_xl: int
+  "Stator parameters: xl is current dependent"
+  i_xme2: int
+  "Consider negative sequence torque"
+  iamort: int
+  "with amortisseur windings"
+  ifd: list
+  "Saturation parameter: ie"
+  ifdq: list
+  "Saturation parameter: ie"
+  iinrush: float
+  "Inrush peak current: Ratio Ip/In"
+  iner_inp: str
+  "Inertia: Input mode"
+  iopt_data: int
+  "Input parameters"
+  isat: int
+  "Main flux saturation:&0&No saturation:&1&Quadratic (SG10/SG12):&3&Exponential (SG10/SG12):&2&Tabular input"
+  isatSalient: int
+  "Saturation:d- and q-axis (flux magnitude):d-axis (flux magnitude):d- and q-axis (flux components):d-axis (flux component, d-axis)"
+  iturbo: int
+  "Rotor type"
+  iuseXdk: int
+  "Steady-state shc. current: Ik instead of reactances"
+  iusesat: int
+  "Subtransient reactances: Use saturated value"
+  loc_name: str
+  "Name"
+  lss: float
+  "Subtransient reactances: l''"
+  manuf: str
+  "Manufacturer"
+  model_inp: str
+  "Model"
+  nphase: int
+  "No. of phases:1:3"
+  nslty: int
+  "Connection:D:Y:YN"
+  oid_: int
+  "ObjectID"
+  pid_: int
+  "ProjectID"
+  polepairs: int
+  "Inertia: No. of pole pairs"
+  psim: float
+  "Permanent magnet: Rotor flux"
+  q_max: float
+  "Reactive power limits: Maximum value"
+  q_min: float
+  "Reactive power limits: Minimum value"
+  r0sy: float
+  "Zero sequence data: Resistance r0"
+  r1d: float
+  "Rotor d-axis parameters: r1d"
+  r1de: float
+  "Rotor d-axis parameters: r1de"
+  r1q: float
+  "Rotor q-axis parameters: r1q"
+  r1qe: float
+  "Rotor q-axis parameters: r1qe"
+  r2d: float
+  "Rotor d-axis parameters: r2d"
+  r2q: float
+  "Rotor q-axis parameters: r2q"
+  r2sy: float
+  "Negative sequence data: Resistance r2"
+  r3q: float
+  "Rotor q-axis parameters: r3q"
+  rfd: float
+  "Rotor d-axis parameters: rfd"
+  rfde: float
+  "Rotor d-axis parameters: rfde"
+  rgf: float
+  "Fictitious resistance"
+  root_id: object
+  "Original Location"
+  rstr: float
+  "Stator parameters: rstr"
+  satse: list
+  "Saturation parameter: SG(u)"
+  satseq: list
+  "Saturation parameter: SG(u)"
+  satur: int
+  "For single fed short-circuit: Machine type IEC909/IEC60909"
+  satv: list
+  "Saturation parameter: Term. voltage"
+  satvq: list
+  "Saturation parameter: Term. voltage"
+  sg10: float
+  "Saturation parameter: SG10"
+  sg10q: float
+  "Saturation parameter: SG10 q-axis"
+  sg12: float
+  "Saturation parameter: SG12"
+  sg12q: float
+  "Saturation parameter: SG12 q-axis"
+  sgn: float
+  "Rated apparent power"
+  slipmin: float
+  "Threshold for slip dependency: Minimum slip"
+  smoothFac: float
+  "Saturation parameter: Smoothing factor"
+  t1d: float
+  "d-axis time constants: t1d"
+  t1q: float
+  "q-axis time constants: t1q"
+  t2d: float
+  "d-axis time constants: t2d"
+  t2q: float
+  "q-axis time constants: t2q"
+  t3d: float
+  "d-axis time constants: t3d"
+  t3q: float
+  "q-axis time constants: t3q"
+  t4d: float
+  "d-axis time constants: t4d"
+  t4q: float
+  "q-axis time constants: t4q"
+  t5d: float
+  "d-axis time constants: t5d"
+  t5q: float
+  "q-axis time constants: t5q"
+  t6d: float
+  "d-axis time constants: t6d"
+  t6q: float
+  "q-axis time constants: t6q"
+  t7d: float
+  "d-axis time constants: t7d"
+  t8d: float
+  "d-axis time constants: t8d"
+  tag: float
+  "Inertia: Acceleration time const. Tag (rated to Pgn)"
+  tags: float
+  "Inertia: Acceleration time const. Tag (rated to Sgn)"
+  tds: float
+  "Transient time constants: Td'"
+  tds0: float
+  "Transient time constants: Td0'"
+  tdss: float
+  "Subtransient time constants: Td''"
+  tdss0: float
+  "Subtransient time constants: Td0''"
+  tid_: int
+  "TimeID"
+  tqs: float
+  "Transient time constants: Tq'"
+  tqs0: float
+  "Transient time constants: Tq0'"
+  tqss: float
+  "Subtransient time constants: Tq''"
+  tqss0: float
+  "Subtransient time constants: Tq0''"
+  typemetadata_changeLog: list
+  "Change Log"
+  typemetadata_key: list
+  "Type Key"
+  typemetadata_version: list
+  "Version"
+  ugn: float
+  "Rated voltage"
+  x0sy: float
+  "Zero sequence data: Reactance x0"
+  x1d: float
+  "Rotor d-axis parameters: x1d"
+  x1dc: float
+  "Rotor d-axis parameters: x1dc"
+  x1de: float
+  "Rotor d-axis parameters: x1de"
+  x1q: float
+  "Rotor q-axis parameters: x1q"
+  x1qc: float
+  "Rotor q-axis parameters: x1qc"
+  x1qe: float
+  "Rotor q-axis parameters: x1qe"
+  x2d: float
+  "Rotor d-axis parameters: x2d"
+  x2q: float
+  "Rotor q-axis parameters: x2q"
+  x2sy: float
+  "Negative sequence data: Reactance x2"
+  x3q: float
+  "Rotor q-axis parameters: x3q"
+  xad: float
+  "Mutual reactances: xad"
+  xaq: float
+  "Mutual reactances: xaq"
+  xd: float
+  "Synchronous reactances: xd"
+  xds: float
+  "Transient reactances: xd'"
+  xdsat: float
+  "For single fed short-circuit: Reciprocal of short-circuit ratio (xdsat)"
+  xdss: float
+  "Subtransient reactances: xd''"
+  xdsss: float
+  "Subtransient reactance: saturated value xd''sat"
+  xfd: float
+  "Rotor d-axis parameters: xfd"
+  xfde: float
+  "Rotor d-axis parameters: xfde"
+  xl: float
+  "Stator parameters: xl"
+  xlTab: list
+  "Stator leakage reactance: xl"
+  xq: float
+  "Synchronous reactances: xq"
+  xqs: float
+  "Transient reactances: xq'"
+  xqss: float
+  "Subtransient reactances: xq''"
+  xrl: float
+  "Rotor mutual reactances: xrld"
+  xrl2d: float
+  "Rotor d-axis parameters: xrl2d"
+  xrlq: float
+  "Rotor mutual reactances: xrlq"
+  xstr: float
+  "xstr"
+  xtor: float
+  "Stator resistance: Ratio X/R"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class TypLod(PFGeneral):
+  Prp: float
+  "Static portion"
+  aP: float
+  "Voltage dependence P: Coefficient aP"
+  aQ: float
+  "Voltage dependence of Q: Coefficient aQ"
+  appr_modby: str
+  "Approval Information: Modified by"
+  appr_modif: int
+  "Approval Information: Modified"
+  appr_status: int
+  "Approval Information: Status"
+  bP: float
+  "Voltage dependence P: Coefficient bP"
+  bQ: float
+  "Voltage dependence of Q: Coefficient bQ"
+  cP: float
+  "Voltage dependence P: Coefficient cP"
+  cQ: float
+  "Voltage dependence of Q: Coefficient cQ"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cloddy: int
+  "Percentage: Dynamic"
+  clodst: int
+  "Percentage: Static (const z)"
+  cnm: str
+  "Connection:YN:D"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  desc: list
+  "Description"
+  doc_id: object
+  "Additional Data"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_csrc: int
+  "Load model"
+  i_nln: int
+  "Model dependence:&0&Linear:&1&Nonlinear voltage, linear frequency:&2&Nonlinear:&3&Nonlinear, regulated"
+  i_pure: int
+  "Load model"
+  iintgnd: int
+  "External star point"
+  kpf: float
+  "Frequency dependence: Coefficient kpf"
+  kpu: float
+  "Voltage dependence P: Exponent e_cP"
+  kpu0: float
+  "Voltage dependence P: Exponent e_aP"
+  kpu1: float
+  "Voltage dependence P: Exponent e_bP"
+  kqf: float
+  "Frequency dependence: Coefficient kqf"
+  kqu: float
+  "Voltage dependence of Q: Exponent e_cQ"
+  kqu0: float
+  "Voltage dependence of Q: Exponent e_aQ"
+  kqu1: float
+  "Voltage dependence of Q: Exponent e_bQ"
+  loc_name: str
+  "Name"
+  loddy: int
+  "Percentage: Dynamic"
+  lodst: int
+  "Percentage: Static (const Z)"
+  manuf: str
+  "Manufacturer"
+  nlnph: int
+  "Phases:1:2:3"
+  oid_: int
+  "ObjectID"
+  pfc: float
+  "Power factor correction"
+  pgrd: float
+  "Capacitive/Inductive reactive power: QL/QC"
+  phtech: int
+  "Technology"
+  pid_: int
+  "ProjectID"
+  qcq: float
+  "Capacitive/Inductive reactive power: QC/Q"
+  root_id: object
+  "Original Location"
+  systp: int
+  "System type:AC:DC"
+  t1: float
+  "Time constants: Delay"
+  tid_: int
+  "TimeID"
+  tpf: float
+  "Time constants: P frequency dep."
+  tpu: float
+  "Time constants: P voltage dep."
+  tqf: float
+  "Time constants: Q frequency dep."
+  tqu: float
+  "Time constants: Q voltage dep."
+  typemetadata_changeLog: list
+  "Change Log"
+  typemetadata_key: list
+  "Type Key"
+  typemetadata_version: list
+  "Version"
+  udmax: float
+  "Voltage limits: Upper"
+  udmin: float
+  "Voltage limits: Lower"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class BlkSlot(PFGeneral):
+  cDisplayName: str
+  "Display Name"
+  cUserDefIndex: int
+  "User defined Index"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  ciDist: int
+  "Distance from infeed in number of buses"
+  ciDistAll: int
+  "Distance from infeed in number of buses including switches"
+  ciDistAllRoot: int
+  "Distance from first infeed in number of buses including switches"
+  ciDistRoot: int
+  "Distance from first infeed in number of buses"
+  ciEarthed: int
+  "Earthed"
+  ciEnergized: int
+  "Energized"
+  ciLater: int
+  "Lateral Index"
+  ciOutaged: int
+  "Planned Outage"
+  cpArea: object
+  "Area"
+  cpBranch: object
+  "Branch"
+  cpFeed: object
+  "Feeder"
+  cpGrid: object
+  "Grid"
+  cpHeadFold: object
+  "Head Folder"
+  cpMeteostat: object
+  "Meteo Station"
+  cpOperator: object
+  "Operator"
+  cpOwner: object
+  "Owner"
+  cpSite: object
+  "Site"
+  cpSubstat: object
+  "Substation"
+  cpSupplySubstation: object
+  "Supplying Substation"
+  cpSupplyTransformer: object
+  "Supplying Transformer"
+  cpSupplyTrfStation: object
+  "Supplying Secondary Substation"
+  cpZone: object
+  "Zone"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  element: object
+  "Element"
+  filtmod: str
+  "Filter for: Class Name"
+  filtnam: str
+  "Filter for: Model Name"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  isAutom: int
+  "Classification: Automatic, model will be created"
+  isLinear: int
+  "Classification: Linear"
+  isLocal: int
+  "Classification: Local, model must be stored inside"
+  isMain: int
+  "Classification: Main Slot"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  order: float
+  "Sequence"
+  outserv: int
+  "Out of Service"
+  pDsl: object
+  "Type"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  sInput: list
+  "Variables: Input Signals"
+  sLowLimInp: list
+  "Lower Limitation: Limiting Input Signals"
+  sOutput: list
+  "Variables: Output Signals"
+  sUpLimInp: list
+  "Upper Limitation: Limiting Input Signals"
+  tid_: int
+  "TimeID"
+  typ_id: object
+  "Net Element"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class BlkSum(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iInput0: int
+  "Invert ..: Input 0"
+  iInput1: int
+  "Invert ..: Input 1"
+  iInput2: int
+  "Invert ..: Input 2"
+  iInput3: int
+  "Invert ..: Input 3"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  sInput0: str
+  "Sign at Input 0"
+  sInput1: str
+  "Sign at Input 1"
+  sInput2: str
+  "Sign at Input 2"
+  sInput3: str
+  "Sign at Input 3"
+  sNum0: str
+  "Number of Input 0"
+  sNum1: str
+  "Number of Input 1"
+  sNum2: str
+  "Number of Input 2"
+  sNum3: str
+  "Number of Input 3"
+  tid_: int
+  "TimeID"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class BlkRef(PFGeneral):
+  cDisplayName: str
+  "Display Name"
+  cUserDefIndex: int
+  "User defined Index"
+  cdisName: str
+  "Display name"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  ciDist: int
+  "Distance from infeed in number of buses"
+  ciDistAll: int
+  "Distance from infeed in number of buses including switches"
+  ciDistAllRoot: int
+  "Distance from first infeed in number of buses including switches"
+  ciDistRoot: int
+  "Distance from first infeed in number of buses"
+  ciEarthed: int
+  "Earthed"
+  ciEnergized: int
+  "Energized"
+  ciLater: int
+  "Lateral Index"
+  ciOutaged: int
+  "Planned Outage"
+  cpArea: object
+  "Area"
+  cpBranch: object
+  "Branch"
+  cpFeed: object
+  "Feeder"
+  cpGrid: object
+  "Grid"
+  cpHeadFold: object
+  "Head Folder"
+  cpMeteostat: object
+  "Meteo Station"
+  cpOperator: object
+  "Operator"
+  cpOwner: object
+  "Owner"
+  cpSite: object
+  "Site"
+  cpSubstat: object
+  "Substation"
+  cpSupplySubstation: object
+  "Supplying Substation"
+  cpSupplyTransformer: object
+  "Supplying Transformer"
+  cpSupplyTrfStation: object
+  "Supplying Secondary Substation"
+  cpZone: object
+  "Zone"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  desc: list
+  "Description"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  order: float
+  "Sequence"
+  outserv: int
+  "Out of Service"
+  param: list
+  "Parameter"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  sIntern: list
+  "Variables: Internal Variables"
+  sLowLimPar: list
+  "Limiting Parameter: Lower Limitation"
+  sParams: list
+  "Variables: Parameters"
+  sStates: list
+  "Variables: State Variables"
+  sUpLimPar: list
+  "Limiting Parameter: Upper Limitation"
+  state: list
+  "State Variable"
+  tid_: int
+  "TimeID"
+  typ_id: object
+  "Type"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class StaPqmea(PFGeneral):
+  Gfll: float
+  "FLL proportional gain"
+  Ksogi: float
+  "FLL SOGI proportional gain"
+  Snom: float
+  "Power rating"
+  cDisplayName: str
+  "Display Name"
+  cUserDefIndex: int
+  "User defined Index"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  ciDist: int
+  "Distance from infeed in number of buses"
+  ciDistAll: int
+  "Distance from infeed in number of buses including switches"
+  ciDistAllRoot: int
+  "Distance from first infeed in number of buses including switches"
+  ciDistRoot: int
+  "Distance from first infeed in number of buses"
+  ciEarthed: int
+  "Earthed"
+  ciEnergized: int
+  "Energized"
+  ciLater: int
+  "Lateral Index"
+  ciOutaged: int
+  "Planned Outage"
+  clockPeriod: float
+  "Update outputs: Calculation (update) cycle of outputs"
+  cpArea: object
+  "Area"
+  cpBranch: object
+  "Branch"
+  cpFeed: object
+  "Feeder"
+  cpGrid: object
+  "Grid"
+  cpHeadFold: object
+  "Head Folder"
+  cpMeteostat: object
+  "Meteo Station"
+  cpOperator: object
+  "Operator"
+  cpOwner: object
+  "Owner"
+  cpSite: object
+  "Site"
+  cpSubstat: object
+  "Substation"
+  cpSupplySubstation: object
+  "Supplying Substation"
+  cpSupplyTransformer: object
+  "Supplying Transformer"
+  cpSupplyTrfStation: object
+  "Supplying Secondary Substation"
+  cpZone: object
+  "Zone"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iAstabint: int
+  "A-stable integration algorithm"
+  iFreq: int
+  "Frequency calc.:Use nominal frequency:Phase angle derivative:Frequency-locked loop:Fast fourier transformation"
+  iSchemeStatus: int
+  "Scheme Status"
+  iValues: int
+  "Output values:Instantaneous:RMS phasors (DFT), symmetrical comp. and frequency"
+  i_interOutput: int
+  "Update outputs: Interpolate outputs"
+  i_mode: int
+  "Output base:Equivalent to MVA value:Power rating of connected element:User-defined power rating"
+  i_orient: int
+  "Orientation:Load oriented:Generator oriented:Orientation of connected element"
+  it2p: int
+  "Measured phase:a:b:c:a-n:b-n:c-n"
+  loc_name: str
+  "Name"
+  nominalFreq: float
+  "Samples and frequency: Nominal frequency"
+  nphase: int
+  "No. of phases:1:3"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  pcubic: object
+  "Measurement point"
+  pid_: int
+  "ProjectID"
+  rateLim: float
+  "FLL frequency rate limiter"
+  root_id: object
+  "Original Location"
+  samplesForUpdate: int
+  "Update outputs: Calculate (update) outputs every"
+  samplesPerPeriod: int
+  "Samples and frequency: Number of samples per period"
+  samplesPerWindow: int
+  "Samples and frequency: Number of samples for FFT window"
+  samplingFreq: float
+  "Samples and frequency: Sampling frequency"
+  tid_: int
+  "TimeID"
+  windowLength: float
+  "Samples and frequency: FFT window length for calculation"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class CimArchive(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  contents: list
+  "Contents"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tid_: int
+  "TimeID"
+
+
+  def AttributeType(*args):
+    ...
+
+  def ConvertToBusBranch(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class ComCimtogrid(PFGeneral):
+  addoptions: str
+  "Additional Parameters"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  convertDL: int
+  "Profiles to convert: Diagram Layout"
+  convertDY: int
+  "Profiles to convert: Dynamics"
+  convertEQ: int
+  "Profiles to convert: Equipment"
+  convertGL: int
+  "Profiles to convert: Geographical Location"
+  convertSC: int
+  "Profiles to convert: Short Circuit"
+  convertSSH: int
+  "Profiles to convert: Steady State Hypothesis"
+  convertSV: int
+  "Profiles to convert: State Variables"
+  convertTP: int
+  "Profiles to convert: Topology"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  dependencies: object
+  "Additional Archives"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  order: float
+  "Order"
+  pGrid: list
+  "Grid"
+  partial: int
+  "Profile conversion"
+  pid_: int
+  "ProjectID"
+  profileFlag: int
+  "Profile Filter"
+  root_id: object
+  "Original Location"
+  selectedMas: list
+  "Selected"
+  sourcePath: object
+  "Source Archives"
+  tid_: int
+  "TimeID"
+
+
+  def AttributeType(*args):
+    ...
+
+  def Execute(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtLod(PFGeneral):
+  cAbsP: float
+  "New Load Value: Active Power"
+  cAbsQ: float
+  "New Load Value: Reactive Power"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  contents: list
+  "Loads"
+  cpHeadFold: object
+  "Head Folder"
+  dP: float
+  "Proportional Load Step: Active Power"
+  dQ: float
+  "Proportional Load Step: Reactive Power"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  iStage: int
+  "Event for: Stage"
+  iopt_load: int
+  "Event for"
+  iopt_src: int
+  "Source:Default:Load Shedding:Load Transfer"
+  iopt_type: int
+  "Event of Load"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  newP: float
+  "New Load Value: Active Power"
+  newQ: float
+  "New Load Value: Reactive Power"
+  oid_: int
+  "ObjectID"
+  opt_evt: int
+  "Type of Event"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Event for: Load"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  t_ramp: float
+  "Event of Load: Ramp Duration"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtOutage(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_value: int
+  "Value of output signals after outage"
+  i_what: int
+  "Type of Outage Event"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Element"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtParam(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  eventHandling: int
+  "Event handling:OFF:INTER_EVENT:INTER_EVENT_EXACT_TIME:PRECISE_LANDING_EVENT:REPEAT_EVENT:MIN_EVENT:POSTPROC_EVENT:INVALID_EVENT:CTRL_S_EVENT"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_sysmat: int
+  "Recompute system matrix"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Element"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+  value: str
+  "New Value"
+  variable: str
+  "Name of Variable"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtShc(PFGeneral):
+  L_f: float
+  "Fault Impedance: Inductance"
+  R2X_f: float
+  "Fault Impedance: R/X ratio"
+  R_f: float
+  "Fault Impedance: Resistance"
+  X2R_f: float
+  "Fault Impedance: X/R ratio"
+  X_f: float
+  "Fault Impedance: Reactance"
+  Z_f: float
+  "Fault Impedance: Impedance"
+  ZfaultInp: int
+  "Fault Impedance: Input:Resistance, Reactance:Impedance, Angle:Impedance, X/R:Impedance, R/X"
+  ang_f: float
+  "Fault Impedance: Angle"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  effectedLne: object
+  "Affected line"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iApplyShc: int
+  "Apply Fault"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_clearShc: int
+  "For EMT-Simulation only: Clear Short-Circuit"
+  i_p2pgf: int
+  "Phases:a,b:b,c:c,a"
+  i_p2psc: int
+  "Phases:a-b:b-c:c-a"
+  i_pspgf: int
+  "Phase:a:b:c"
+  i_shc: int
+  "Fault Type"
+  lneshcbus: int
+  "Bus index for shc at line"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Object"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  shcLocation: float
+  "Fault Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtSwitch(PFGeneral):
+  Ilim: float
+  "Current threshold (abs.)"
+  Ulim: float
+  "Voltage threshold (abs.)"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  ctrl_type: int
+  "Used in Step:Unknown:Maintenance:Protection:Substation Automation:Remote Controlled (Stage 1):Indicator of Short Circuit (Stage 2):Manual (Stage 3)"
+  d_2ndph: float
+  "Scheme: Second phase trigger"
+  d_3rdph: float
+  "Scheme: Third phase trigger"
+  d_nph: float
+  "Scheme: Neutral delay"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_a: int
+  "Phase a"
+  i_allph: int
+  "All phases"
+  i_b: int
+  "Phase b"
+  i_c: int
+  "Phase c"
+  i_halfw: int
+  "Consider half wave:Positive and negative:Positive only:Negative only"
+  i_inst: int
+  "Trigger closing at"
+  i_larlow: int
+  "Larger or lower than threshold:Larger:Lower"
+  i_n: int
+  "Neutral"
+  i_open: int
+  "Trigger opening at"
+  i_phase: int
+  "Scheme: Trigger on phase"
+  i_scheme: int
+  "Scheme"
+  i_switch: int
+  "Action"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_switch: object
+  "Circuit-Breaker"
+  p_target: object
+  "Breaker or Element"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  target: str
+  "Breaker or Element found in Slot"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+  v_lim: float
+  "Amplitude threshold"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtSym(PFGeneral):
+  addmt: float
+  "Additional Torque"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  newS: float
+  "Maximal Apparent Power"
+  oid_: int
+  "ObjectID"
+  outNgnum: int
+  "Machine on Outage"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_sym: object
+  "Synchronous Machine"
+  p_target: object
+  "Synchronous Machine"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtGen(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dP: float
+  "Change power: Active Power"
+  dQ: float
+  "Change power: Reactive Power"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Element"
+  pid_: int
+  "ProjectID"
+  powerChange: int
+  "Change power"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtTap(PFGeneral):
+  bus: int
+  "Tap Action: for Tap at"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  i_tap: int
+  "Tap Action"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  ntap: int
+  "Tap Action: Tap"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Shunt or Transformer"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtStop(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtSave(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtMessage(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  sMsg: list
+  "Message"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtTransfer(PFGeneral):
+  P_Portion: list
+  "Active Power"
+  Q_Portion: list
+  "Reactive Power"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_source: object
+  "Source"
+  p_to: list
+  "Elements"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  scPortion: list
+  "Short-Circuit"
+  seq: int
+  "Sequence"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtPresync(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_elmsym: object
+  "Reference Machine"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Breaker"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtTrigger(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iActive: int
+  "Save File"
+  iSchemeStatus: int
+  "Scheme Status"
+  iSource: int
+  "Source"
+  iStart: float
+  "Starting Time of Real-Time Simulation"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  p_target: object
+  "Results"
+  pid_: int
+  "ProjectID"
+  reason: list
+  "Source"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class EvtStep(PFGeneral):
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dhrtime: float
+  "Execution Time: Relative"
+  dmtime: int
+  "Execution Time: Relative"
+  dtime: float
+  "Execution Time: Relative"
+  dtset: float
+  "Integration step size"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  hrtact: float
+  "Execution Time: Now"
+  hrtime: int
+  "Execution Time: Absolute"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  mtact: int
+  "Execution Time: Now"
+  mtime: int
+  "Execution Time: Absolute"
+  oid_: int
+  "ObjectID"
+  outserv: int
+  "Out of Service"
+  p_from: object
+  "Event defined by:"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  tDateTime: int
+  "Execution Time"
+  tact: float
+  "Execution Time: Now"
+  tid_: int
+  "TimeID"
+  time: float
+  "Execution Time: Absolute"
+  tottime: float
+  "Time"
 
 
   def AttributeType(*args):

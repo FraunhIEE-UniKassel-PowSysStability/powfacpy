@@ -30,6 +30,11 @@ sys.path.insert(0, r".\src")
 class PFPlotInterface(powfacpy.PFActiveProject):
 
     def __init__(self, app):
+        warn(
+            f"{self.__class__.__name__} will be deprecated. Please use the class 'Plots' from 'applications/plots' instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super().__init__(app)
         self.active_graphics_page: GrpPage | SetVipage = None
         "Currently active graphics page."

@@ -9,7 +9,7 @@ from powfacpy.base.active_project import ActiveProject
 sys.path.insert(0, r".\tests")
 
 
-def test_elm_base(act_prj: ActiveProject, activate_test_project):
+def test_elm_base(act_prj: ActiveProject, activate_powfacpy_test_project):
     terminal = act_prj.get_calc_relevant_obj("*.ElmTerm")[0]
     terminal_elmbase = ElmBase(terminal)
 

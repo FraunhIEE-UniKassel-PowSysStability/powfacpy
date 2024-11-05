@@ -1,57 +1,54 @@
-import sys
+"""
+This module provides an interface to import/export data in CGMES format.
+"""
 
-sys.path.insert(0, r".\src")
-from warnings import warn
-
-import powfacpy
+from powfacpy.applications.application_base import ApplicationBase
+from powfacpy.pf_classes.protocols import PFApp, CimArchive
 
 
-class PFCgmesInterface(powfacpy.PFActiveProject):
+class CGMES(ApplicationBase):
     """Interface for CGMES integration in PowerFactory."""
 
-    def __init__(self, app):
-        warn(
-            f"{self.__class__.__name__} will be deprecated. Please use the class 'CGMES' from 'applications/model_exchange' instead",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        super().__init__(app)
-        self.ARCHIVE_NAME = "cgmes_archive"
-        self.ARCHIVE_FOLDER_NAME = "cgmes_archive_folder"
-        self.FILE_TO_ARCHIVE_TOOL_NAME = "cgmes_file_to_archive"
-        self.ARCHIVE_TO_FILE_TOOL_NAME = "cgmes_archive_to_file"
-        self.ARCHIVE_TO_GRID_TOOL_NAME = "cgmes_archive_to_grid"
-        self.GRID_TO_ARCHIVE_TOOL_NAME = "cgmes_grid_to_archive"
-        self.EXPORTED_ZIP_NAME = "cgmes_profiles"
-        self.CGMES_VERSION = "CGMES 3.0.0"
-        self._ALL_PROFILES = "eq tp ssh sc sv dy dl gl"
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -> None:
+        super().__init__(pf_app, cached)
+        self.archive_name: str = "cgmes_archive"
+        self.archive_folder_name: str = "cgmes_archive_folder"
+        self.file_to_archive_tool: str = "cgmes_file_to_archive"
+        self.archive_to_file_tool_name: str = "cgmes_archive_to_file"
+        self.archive_to_grid_tool_name: str = "cgmes_archive_to_grid"
+        self.grid_to_archive_tool_name: str = "cgmes_grid_to_archive"
+        self.exported_zip_name: str = "cgmes_profiles"
+        self.cgmes_version: str = "CGMES 3.0.0"
+        self._all_profiles: str = "eq tp ssh sc sv dy dl gl"
 
-    # Import functions
+    # Import methods
 
     def _create_cim_to_grid_tool(self):
         """Returns the CIM to Grid tool object .ComCimtogrid."""
-        cim_to_grid_tool = self.create_in_folder(
-            self.ARCHIVE_TO_GRID_TOOL_NAME + ".ComCimtogrid",
-            self.app.GetActiveStudyCase(),
+        cim_to_grid_tool = self.act_prj.create_in_folder(
+            self.archive_to_grid_tool_name + ".ComCimtogrid",
+            self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
         return cim_to_grid_tool
 
-    def _convert_file_to_archive(self, file_path: str, name: str):
+    def _convert_file_to_archive(self, file_path: str, name: str) -> CimArchive:
         """Convert a .zip CGMES file to a PowerFactory .CimArchive object. Returns the .CimArchive object."""
-        file_to_archive_tool = self.create_in_folder(
-            self.FILE_TO_ARCHIVE_TOOL_NAME + ".ComCimdbimp",
-            self.app.GetActiveStudyCase(),
+        file_to_archive_tool = self.act_prj.create_in_folder(
+            self.file_to_archive_tool + ".ComCimdbimp",
+            self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
         file_to_archive_tool.iopt_target = 2
-        archive = self._create_archive(name="_".join([self.ARCHIVE_NAME, name]))
+        archive = self._create_archive(name="_".join([self.archive_name, name]))
         file_to_archive_tool.targetPath = archive
         file_to_archive_tool.fileName = file_path
         file_to_archive_tool.Execute()
         return archive
 
-    def _convert_archive_to_grid(self, cim_archive):
+    def _convert_archive_to_grid(self, cim_archive) -> None:
         """Convert a PowerFactory .CimArchive to a grid. Returns None."""
         cim_to_grid_tool = self._create_cim_to_grid_tool()
         cim_to_grid_tool.sourcePath = cim_archive
@@ -74,17 +71,17 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
         self._convert_archive_to_grid(archive)
         return None
 
-    def update_profiles(self, update_file_path: str, base_archive):
+    def update_profiles(self, update_file_path: str, base_archive: CimArchive | str):
         """Includes new SSH (and DL) profiles into an already imported grid.
 
         Args:
             update_file_path (str): Path to the CGMES .zip archive, containing profiles for updating (SSH and optionally DL).
-            base_archive (PowerFactory.DataObject|str) Base .CimArchive which the already imported grid has been created from.
+            base_archive (CimArchive | str) Base .CimArchive which the already imported grid has been created from.
 
         Returns:
             None
         """
-        base_archive = self._handle_single_pf_object_or_path_input(base_archive)
+        base_archive = self.act_prj._handle_single_pf_object_or_path_input(base_archive)
         update_profiles_archive = self._convert_file_to_archive(
             update_file_path, "imported_profiles_for_update"
         )
@@ -96,7 +93,7 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
             file.loc_name.split("_")[-2]
             for file in update_profiles_archive.GetContents()
         ]
-        self._set_profiles_of_cim_tool(cim_to_grid_tool, self._ALL_PROFILES, False)
+        self._set_profiles_of_cim_tool(cim_to_grid_tool, self._all_profiles, False)
         self._set_profiles_of_cim_tool(
             cim_to_grid_tool, " ".join(profiles_in_update_file), True
         )
@@ -104,27 +101,27 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
         cim_to_grid_tool.Execute()
         return None
 
-    # Export functions
+    # Export methods
 
     def _create_grid_to_cim_tool(self):
         """Returns the Grid to CIM tool object .ComGridtocim."""
-        grid_to_cim_tool = self.create_in_folder(
-            self.GRID_TO_ARCHIVE_TOOL_NAME + ".ComGridtocim",
-            self.app.GetActiveStudyCase(),
+        grid_to_cim_tool = self.act_prj.create_in_folder(
+            self.grid_to_archive_tool_name + ".ComGridtocim",
+            self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
         grid_to_cim_tool.cAuthority = ["Authority1"]  # TODO this probably isn't general
         grid_to_cim_tool.cSelected = [
             1
         ]  # TODO this probably isn't general (should all grids be selected? or actually only the first one?) --> get project with >1 grid and get to run properly
-        grid_to_cim_tool.version = self.CGMES_VERSION
+        grid_to_cim_tool.version = self.cgmes_version
         return grid_to_cim_tool
 
     def _get_archive_folder(self):
         """Get or create the folder for PowerFactory .CimArchive objects. Returns the folder."""
-        archive_folder = self.create_in_folder(
-            self.ARCHIVE_FOLDER_NAME + ".IntPrjfolder",
-            self.app.GetActiveProject(),
+        archive_folder = self.act_prj.create_in_folder(
+            self.archive_folder_name + ".IntPrjfolder",
+            self.act_prj.app.GetActiveProject(),
             use_existing=True,
             overwrite=False,
         )
@@ -134,7 +131,7 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
     def _create_archive(self, name):
         """Create a PowerFactory .CimArchive object. Returns the .CimArchive object."""
         archive_folder = self._get_archive_folder()
-        archive = self.create_in_folder(
+        archive = self.act_prj.create_in_folder(
             name + ".CimArchive", archive_folder, use_existing=False, overwrite=True
         )
         return archive
@@ -148,7 +145,7 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
         Returns:
             None
         """
-        cim_tool = self._handle_single_pf_object_or_path_input(cim_tool)
+        cim_tool = self.act_prj._handle_single_pf_object_or_path_input(cim_tool)
         for profile in profiles.split(" "):
             cim_tool.SetAttribute("convert" + profile.upper(), state)
         return None
@@ -166,13 +163,13 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
             grid_to_cim_tool.partial = 0  # convert all profiles
         else:
             grid_to_cim_tool.partial = 1  # convert selected profiles
-            self._set_profiles_of_cim_tool(grid_to_cim_tool, self._ALL_PROFILES, False)
+            self._set_profiles_of_cim_tool(grid_to_cim_tool, self._all_profiles, False)
             self._set_profiles_of_cim_tool(grid_to_cim_tool, selected_profiles, True)
 
         grid_to_cim_tool.iopt_target = 1  # existing archive
         archive = self._create_archive(
             name="_".join(
-                [self.ARCHIVE_NAME, "exported", selected_profiles.replace(" ", "_")]
+                [self.archive_name, "exported", selected_profiles.replace(" ", "_")]
             )
         )
         grid_to_cim_tool.targetPath = archive
@@ -189,17 +186,17 @@ class PFCgmesInterface(powfacpy.PFActiveProject):
         Returns:
             None
         """
-        archive = self._handle_single_pf_object_or_path_input(archive)
-        cim_export_tool = self.create_in_folder(
-            self.ARCHIVE_TO_FILE_TOOL_NAME + ".ComCimdbexp",
-            self.app.GetActiveStudyCase(),
+        archive = self.act_prj._handle_single_pf_object_or_path_input(archive)
+        cim_export_tool = self.act_prj.create_in_folder(
+            self.archive_to_file_tool_name + ".ComCimdbexp",
+            self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
         cim_export_tool.targetFolder = [output_path]
         if as_zip:
             cim_export_tool.zipModels = 0
             cim_export_tool.archiveName = [
-                self.EXPORTED_ZIP_NAME,
+                self.exported_zip_name,
             ]
         else:
             cim_export_tool.zipModels = 2

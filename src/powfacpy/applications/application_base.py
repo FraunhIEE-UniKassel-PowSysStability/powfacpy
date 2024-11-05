@@ -3,6 +3,10 @@ from powfacpy.pf_class_protocols import PFApp
 
 
 class ApplicationBase:
+    """Base class for applications. Allows to create versions with
+    - ActiveProjectCached (recommended when one project stays active)
+    - or ActiveProject (recommended when the active project may change)
+    """
 
     def __init__(
         self, pf_app: PFApp | None | bool = False, cached: bool = False

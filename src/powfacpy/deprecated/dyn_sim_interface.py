@@ -11,6 +11,11 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
     """Dynamic simulation interface"""
 
     def __init__(self, app):
+        warn(
+            f"{self.__class__.__name__} will be deprecated. Please use the class 'DynamicSimulation' from 'applications/dynamic_simulation' instead",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         super().__init__(app)
 
     def initialize_sim(self, param=None):
@@ -18,7 +23,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
         Initialize time domain simulation.
         Parameters for 'ComInc' command object can be specified in 'param' dictionary.
         """
-        cominc = self.app.GetFromStudyCase("ComInc")
+        cominc = self.get_from_study_case("ComInc")
         if param is not None:
             self.set_attr(cominc, param)
         cominc.Execute()
@@ -28,7 +33,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
         Perform dynamic simulation.
         Parameters for 'ComSim' command object can be specified in 'param' dictionary.
         """
-        comsim = self.app.GetFromStudyCase("ComSim")
+        comsim = self.get_from_study_case("ComSim")
         if param is not None:
             self.set_attr(comsim, param)
         comsim.Execute()
@@ -62,7 +67,7 @@ class PFDynSimInterface(powfacpy.PFActiveProject):
         commod.Execute()
 
         elmres: ElmRes = commod.ResultFile
-        comres: ComRes = self.app.GetFromStudyCase("ComRes")
+        comres: ComRes = self.get_from_study_case("ComRes")
         comres.pResult = elmres
         comres.iopt_csel = 0  # export all variables
         comres.f_name = getcwd() + "\\temp.csv"
