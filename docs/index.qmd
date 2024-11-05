@@ -25,9 +25,10 @@ plot(r"Network Model\Network Data\Grid\PV", "m:Psum:bus1")
 
 # Why use *powfacpy*?
 There are a number of reasons why you should consider using *powfacpy*:
+
 - Increase productivity 
 - Write more readable code
-- Avoid running into similar problems, errors and obscurities as other users of the python interface of *PowerFactory* before you
+- Avoid running into similar problems, errors and obscurities as other users of the python interface of *PowerFactory* did before you
 - Having a standard way of doing things in your organization (e.g. a standard format for simulation result export) 
 - Steep learning curve for *PowerFactory* beginners (helpful tutorials)
 
@@ -41,7 +42,7 @@ pip install powfacpy
 simon.eberlein@iee.fraunhofer.de
 
 # Contribute
-Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. 
+Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. IF you want to contribute to the code base, please have a look at [How to contribute](docs/how_to_contribute.qmd).
 
 # About
 *powfacpy* is an open source package which is mainly developed at Fraunhofer IEE and not associated with *DIgSILENT*.

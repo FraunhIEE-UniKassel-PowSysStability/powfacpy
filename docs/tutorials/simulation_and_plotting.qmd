@@ -213,20 +213,16 @@ It is also possible to set the actual PF objects as labels:
 ```{python}
 pfres.pf_objects_in_labels = True
 pfres.multi_index_labels = True
-
-
 df_sim_res = pfres.export_to_pandas()
-
-
 df_sim_res.head(3)
 ```
 
-The column headers are the path of the objects relative to the network data folder (by default) together with the result variable name. You can change the relative path by setting the attribute `pfres.truncate_paths_until` (relative to network data folder):  
+The column headers are the path of the objects relative to the network data folder (by default) together with the result variable name. You can change the relative path by setting the attribute `pfres.truncate_paths_until` (relative to active project):  
 
 ```{python}
 pfres.multi_index_labels = True
 pfres.pf_objects_in_labels = False
-pfres.truncate_paths_until = "Grid\\"
+pfres.truncate_paths_until = "Network Model\\Network Data\\Grid\\"
 df_sim_res = pfres.export_to_pandas()
 df_sim_res.head(3)
 ```
@@ -242,6 +238,7 @@ p_g_01 = pfres.get_simulation_results_from_dataframe(
     RMS_bal.ElmSym.s_P1.value,
 )
 p_g_01.plot(grid=True)
+plt.legend()
 p_g_01.head(3)
 ```
 
@@ -387,11 +384,7 @@ The static method `plot_from_csv` pf `Plots` class is used to plot from files of
 from powfacpy.applications.plots import Plots
 
 plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:P1")
-
-
 plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:Q1")
-
-
 plt.grid()
 ```
 
