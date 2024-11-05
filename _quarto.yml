@@ -1,0 +1,50 @@
+project:
+  type: website
+
+metadata-files:
+  - _sidebar.yml
+  
+website:
+  title: "powfacpy"
+  page-navigation: true
+  back-to-top-navigation: true
+  repo-url: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy 
+  repo-actions: [edit, source, issue]
+  navbar:
+    left:
+      - text: Home
+        href: docs/index.qmd
+      - text: Tutorials
+        href: docs/tutorials/overview.qmd 
+      - text: Docs
+        href: docs/docs/overview.qmd   
+    tools:
+      - icon: github
+        href: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy  
+  sidebar:
+    - title: "Tutorials"
+      style: "docked"
+      contents:
+        - docs/tutorials/overview.qmd
+        - docs/tutorials/getting_started.qmd
+        - docs/tutorials/simulation_and_plotting.qmd
+        - docs/tutorials/study_cases.qmd
+    - title: "Docs" 
+      style: "docked"
+      contents:
+        - docs/docs/overview.qmd
+        - docs/docs/structure_of_powfacpy.qmd  
+        - docs/docs/how_to_contribute.qmd
+        - docs/docs/release_notes.qmd 
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    
+execute:
+      freeze: auto  # re-render only when source changes
+
+theme:
+  light: flatly
+  dark: darkly

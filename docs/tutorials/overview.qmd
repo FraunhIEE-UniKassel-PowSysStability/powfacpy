@@ -1,0 +1,17 @@
+---
+title: 'Overview'
+toc: true
+number-sections: true
+---
+
+The following tutorials illustrate the functionality of *powfacpy*. You can use the *PowerFactory* project under [*tests\tests_input\powfacpy_tests.pfd*](../../tests/tests_input/) to run the commands in the tutorials locally. You can follow the link to *Github* on the right to download the tutorials in *.qmd* format ([*quarto*](https://quarto.org/)). If you prefer *jupyter* notebook format, you can convert them with `quarto convert <tutorial_name.qmd>` (assuming *quarto* is installed).
+
+
+# Getting started
+Start here with the [getting started tutorial](getting_started.qmd). This tutorial gives an overview of the interaction with the PowerFactory database using powfacpy. The methods introduced in this tutorial serve as a basis to do more complex things and to write more readable code using less lines of code.
+
+# Dynamic Simulation and Plotting
+The [tutorial](simulation_and_plotting.qmd) shows how to conveniently simulate and plot with a syntax similar to *matplotlib*. It is also depicted how to export data to *pandas* and *csv* formats and use external plotting libraries such as *matplotlib*.
+
+# Study Cases
+The [study cases tutorial](study_cases.qmd) illustrate how to automatically create study cases for parameter studies. 

@@ -1,0 +1,15 @@
+work_in_progress
+dist
+.pytest_cache
+src/powfacpy/__pycache__
+**/__pycache__/**
+tutorials/results.csv
+tutorials/.ipynb_checkpoints
+py_venv
+*.csv
+.vscode
+/settings.json
+venv/
+/.quarto/
+/_site/
+/_freeze/

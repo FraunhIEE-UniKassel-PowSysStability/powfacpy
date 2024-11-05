@@ -1,0 +1,4611 @@
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+b:n_sym                 Number of Machines      
+b:i_modus               Control Mode 0=phi 1=p  
+b:i_net                 Control Area Exchange   
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:cpGrid                Grid    
+r:cpOwner               Owner   
+r:cpOperator            Operator        
+r:cpBranch              Branch  
+r:cpSubstat             Substation      
+r:cpSite                Site    
+r:cpHeadFold            Head Folder     
+r:fold_id               In Folder       
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+b:n_sym                 Number of Machines      
+b:i_modus               Control Mode 0=phi 1=p  
+b:i_net                 Control Area Exchange   
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:cpGrid                Grid    
+r:cpOwner               Owner   
+r:cpOperator            Operator        
+r:cpBranch              Branch  
+r:cpSubstat             Substation      
+r:cpSite                Site    
+r:cpHeadFold            Head Folder     
+r:fold_id               In Folder       
+
+Load Flow AC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+e:i_net                 Control Mode    
+e:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+e:iexchange             Exchange for    
+e:cpGrid                Grid    
+e:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+e:psetp          MW     Power Setpoint  
+e:Kpf            MW/Hz  Frequency Bias  
+e:imode                 Active Power Distribution       
+e:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+e:cvpp           %      Active Power Percentage 
+e:cmo                   Merit Order     
+e:qdslCtrl              Quasi-Dynamic Model     
+
+Scenario Parameter:
+
+e:i_net                 Control Mode    
+e:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+e:iexchange             Exchange for    
+e:cpGrid                Grid    
+e:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+e:psetp          MW     Power Setpoint  
+e:Kpf            MW/Hz  Frequency Bias  
+e:imode                 Active Power Distribution       
+e:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+e:cvpp           %      Active Power Percentage 
+e:cmo                   Merit Order     
+e:qdslCtrl              Quasi-Dynamic Model     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+r:cpGrid                Grid    
+r:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+r:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+r:qdslCtrl              Quasi-Dynamic Model     
+
+Load Flow AC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+e:i_net                 Control Mode    
+e:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+e:iexchange             Exchange for    
+e:cpGrid                Grid    
+e:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+e:psetp          MW     Power Setpoint  
+e:Kpf            MW/Hz  Frequency Bias  
+e:imode                 Active Power Distribution       
+e:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+e:cvpp           %      Active Power Percentage 
+e:cmo                   Merit Order     
+e:qdslCtrl              Quasi-Dynamic Model     
+
+Scenario Parameter:
+
+e:i_net                 Control Mode    
+e:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+e:iexchange             Exchange for    
+e:cpGrid                Grid    
+e:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+e:psetp          MW     Power Setpoint  
+e:Kpf            MW/Hz  Frequency Bias  
+e:imode                 Active Power Distribution       
+e:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+e:cvpp           %      Active Power Percentage 
+e:cmo                   Merit Order     
+e:qdslCtrl              Quasi-Dynamic Model     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:rembar         StaBar*,ElmTerm*       Busbar for Frequency Measurement        
+r:cpGrid                Grid    
+r:pPmeas         ElmBoundary,ElmArea,ElmZone    Boundary/Zone/Area      
+r:psym           ElmSym,ElmGenstat,ElmVscmono,ElmVsc,ElmVac,ElmXnet,ElmPvsys    Machines        
+r:qdslCtrl              Quasi-Dynamic Model     
+
+Short-Circuit VDE/IEC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Scenario Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Scenario Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Description balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:cimRdfId              RDF ID  
+
+Scenario Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:cimRdfId              RDF ID  
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Description unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:cimRdfId              RDF ID  
+
+Scenario Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:cimRdfId              RDF ID  
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Short-Circuit Complete balanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit Complete unbalanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Scenario Parameter:
+
+e:dReserve       MW     Minimum Control Reserve 
+e:Pexmax         MW     Maximum Power Interchange       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation balanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation unbalanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version balanced:
+----------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version unbalanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios balanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios unbalanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:pset           MW     IN      Active Power Setpoint   continuous, double      
+s:dpsco          MW     OUT     Controller Output       continuous, double      
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:pini           MW     Active Power Setpoint   
+c:imode                 Control Mode    
+c:i_modus               Control Mode 0=phi 1=p  
+c:phiu           rad    Phase Angle     
+c:PExch          MW     Power Exchange  
+c:PctrlLim       MW     Controller Output Limit 
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation balanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation unbalanced:
+----------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+

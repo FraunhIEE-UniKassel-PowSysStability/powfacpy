@@ -1,0 +1,5063 @@
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+b:n_q                   Number of Reactive Power Outputs        
+b:n_sym                 Number of Machines      
+b:i_ctrl                Load Flow Control       
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cconn                 Connected       
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cconn                 Connected       
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+r:cpGrid                Grid    
+r:cpOwner               Owner   
+r:cpOperator            Operator        
+r:cpBranch              Branch  
+r:cpSubstat             Substation      
+r:cpSite                Site    
+r:cpHeadFold            Head Folder     
+r:fold_id               In Folder       
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+b:n_q                   Number of Reactive Power Outputs        
+b:n_sym                 Number of Machines      
+b:i_ctrl                Load Flow Control       
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cconn                 Connected       
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cconn                 Connected       
+e:cpGrid                Grid    
+e:cpOwner               Owner   
+e:cpOperator            Operator        
+e:cpBranch              Branch  
+e:cpSubstat             Substation      
+e:cpSite                Site    
+e:cpHeadFold            Head Folder     
+e:fold_id               In Folder       
+e:cDisplayName          Display Name    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+r:cpGrid                Grid    
+r:cpOwner               Owner   
+r:cpOperator            Operator        
+r:cpBranch              Branch  
+r:cpSubstat             Substation      
+r:cpSite                Site    
+r:cpHeadFold            Head Folder     
+r:fold_id               In Folder       
+
+Load Flow AC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+e:i_ctrl                Control Mode    
+e:i_phase               Phase   
+e:qu_char               Q-Control       
+e:cosphi_char           PF-Control      
+e:selBus                Controlled Node 
+e:uset_mode             Setpoint        
+e:rembar         StaBar*,ElmTerm*       Controlled Node 
+e:cpCtrlNode            Target Node     
+e:usetp          p.u.   Voltage Setpoint        
+e:selAutoUn      kV     Busbar Search Criteria >=       
+e:p_cub          StaCubic,ElmBoundary   Control Q at    
+e:qsetp          Mvar   Q Setpoint      
+e:tansetp               tan(phi)        
+e:pfsetp                Power Factor    
+e:pf_recap              Power Factor    
+e:iQorient              Orientation     
+e:i_droop               Enable Droop    
+e:Srated         Mvar   Rated Reactive Power    
+e:ddroop         %      Droop   
+e:Qdroop         Mvar/p.u.      Droop   
+e:deltaV         p.u.   delta(V)        
+e:pQmeas         StaCubic,ElmBoundary   Q measured at   
+e:refbar         StaBar*,ElmTerm*       Reference Node  
+e:iopt_tdr              Different droop values  
+e:Qdroopoe       Mvar/p.u.      Droop (overexcited)     
+e:Qdroopue       Mvar/p.u.      Droop (underexcited)    
+e:ddroopoe       %      Droop (overexcited)     
+e:ddroopue       %      Droop (underexcited)    
+e:deltaVoe       p.u.   delta(V) (overexcited)  
+e:deltaVue       p.u.   delta(V) (underexcited) 
+e:Qmin           Mvar   Qmin    
+e:Qmax           Mvar   Qmax    
+e:udeadbup       p.u.   Upper Voltage Limit     
+e:udeadblow      p.u.   Lower Voltage Limit     
+e:pQPcurve       IntQpcurve     Q(P)-Curve      
+e:pf_over               Min. Power Factor       
+e:p_over         MW     Active Power    
+e:pf_under              Min. Power Factor       
+e:p_under        MW     Active Power    
+e:u_over         p.u.   Voltage 
+e:u_under        p.u.   Voltage 
+e:imode                 Reactive Power Distribution     
+e:consQdisp             Consider reactive power dispatch        
+e:iTrfCtrl              Step-up Transformer Control     
+e:Tctrl          s      Controller Time Constant        
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cvqq           %      Reactive Power Percentage       
+e:cvgen          p.u.   Voltage Setpoint        
+e:cvgenmin       p.u.   Min. Voltage    
+e:cvgenmax       p.u.   Max. Voltage    
+
+Scenario Parameter:
+
+e:i_ctrl                Control Mode    
+e:i_phase               Phase   
+e:qu_char               Q-Control       
+e:cosphi_char           PF-Control      
+e:selBus                Controlled Node 
+e:uset_mode             Setpoint        
+e:rembar         StaBar*,ElmTerm*       Controlled Node 
+e:cpCtrlNode            Target Node     
+e:usetp          p.u.   Voltage Setpoint        
+e:selAutoUn      kV     Busbar Search Criteria >=       
+e:p_cub          StaCubic,ElmBoundary   Control Q at    
+e:qsetp          Mvar   Q Setpoint      
+e:tansetp               tan(phi)        
+e:pfsetp                Power Factor    
+e:pf_recap              Power Factor    
+e:iQorient              Orientation     
+e:i_droop               Enable Droop    
+e:Srated         Mvar   Rated Reactive Power    
+e:ddroop         %      Droop   
+e:Qdroop         Mvar/p.u.      Droop   
+e:deltaV         p.u.   delta(V)        
+e:pQmeas         StaCubic,ElmBoundary   Q measured at   
+e:refbar         StaBar*,ElmTerm*       Reference Node  
+e:iopt_tdr              Different droop values  
+e:Qdroopoe       Mvar/p.u.      Droop (overexcited)     
+e:Qdroopue       Mvar/p.u.      Droop (underexcited)    
+e:ddroopoe       %      Droop (overexcited)     
+e:ddroopue       %      Droop (underexcited)    
+e:deltaVoe       p.u.   delta(V) (overexcited)  
+e:deltaVue       p.u.   delta(V) (underexcited) 
+e:Qmin           Mvar   Qmin    
+e:Qmax           Mvar   Qmax    
+e:udeadbup       p.u.   Upper Voltage Limit     
+e:udeadblow      p.u.   Lower Voltage Limit     
+e:pQPcurve       IntQpcurve     Q(P)-Curve      
+e:pf_over               Min. Power Factor       
+e:p_over         MW     Active Power    
+e:pf_under              Min. Power Factor       
+e:p_under        MW     Active Power    
+e:u_over         p.u.   Voltage 
+e:u_under        p.u.   Voltage 
+e:imode                 Reactive Power Distribution     
+e:consQdisp             Consider reactive power dispatch        
+e:iTrfCtrl              Step-up Transformer Control     
+e:Tctrl          s      Controller Time Constant        
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cvqq           %      Reactive Power Percentage       
+e:cvgen          p.u.   Voltage Setpoint        
+e:cvgenmin       p.u.   Min. Voltage    
+e:cvgenmax       p.u.   Max. Voltage    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:rembar         StaBar*,ElmTerm*       Controlled Node 
+r:cpCtrlNode            Target Node     
+r:p_cub          StaCubic,ElmBoundary   Control Q at    
+r:pQmeas         StaCubic,ElmBoundary   Q measured at   
+r:refbar         StaBar*,ElmTerm*       Reference Node  
+r:pQPcurve       IntQpcurve     Q(P)-Curve      
+r:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+
+Load Flow AC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+e:i_ctrl                Control Mode    
+e:i_phase               Phase   
+e:qu_char               Q-Control       
+e:cosphi_char           PF-Control      
+e:selBus                Controlled Node 
+e:uset_mode             Setpoint        
+e:rembar         StaBar*,ElmTerm*       Controlled Node 
+e:cpCtrlNode            Target Node     
+e:usetp          p.u.   Voltage Setpoint        
+e:selAutoUn      kV     Busbar Search Criteria >=       
+e:p_cub          StaCubic,ElmBoundary   Control Q at    
+e:qsetp          Mvar   Q Setpoint      
+e:tansetp               tan(phi)        
+e:pfsetp                Power Factor    
+e:pf_recap              Power Factor    
+e:iQorient              Orientation     
+e:i_droop               Enable Droop    
+e:Srated         Mvar   Rated Reactive Power    
+e:ddroop         %      Droop   
+e:Qdroop         Mvar/p.u.      Droop   
+e:deltaV         p.u.   delta(V)        
+e:pQmeas         StaCubic,ElmBoundary   Q measured at   
+e:refbar         StaBar*,ElmTerm*       Reference Node  
+e:iopt_tdr              Different droop values  
+e:Qdroopoe       Mvar/p.u.      Droop (overexcited)     
+e:Qdroopue       Mvar/p.u.      Droop (underexcited)    
+e:ddroopoe       %      Droop (overexcited)     
+e:ddroopue       %      Droop (underexcited)    
+e:deltaVoe       p.u.   delta(V) (overexcited)  
+e:deltaVue       p.u.   delta(V) (underexcited) 
+e:Qmin           Mvar   Qmin    
+e:Qmax           Mvar   Qmax    
+e:udeadbup       p.u.   Upper Voltage Limit     
+e:udeadblow      p.u.   Lower Voltage Limit     
+e:pQPcurve       IntQpcurve     Q(P)-Curve      
+e:pf_over               Min. Power Factor       
+e:p_over         MW     Active Power    
+e:pf_under              Min. Power Factor       
+e:p_under        MW     Active Power    
+e:u_over         p.u.   Voltage 
+e:u_under        p.u.   Voltage 
+e:imode                 Reactive Power Distribution     
+e:consQdisp             Consider reactive power dispatch        
+e:iTrfCtrl              Step-up Transformer Control     
+e:Tctrl          s      Controller Time Constant        
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cvqq           %      Reactive Power Percentage       
+e:cvgen          p.u.   Voltage Setpoint        
+e:cvgenmin       p.u.   Min. Voltage    
+e:cvgenmax       p.u.   Max. Voltage    
+
+Scenario Parameter:
+
+e:i_ctrl                Control Mode    
+e:i_phase               Phase   
+e:qu_char               Q-Control       
+e:cosphi_char           PF-Control      
+e:selBus                Controlled Node 
+e:uset_mode             Setpoint        
+e:rembar         StaBar*,ElmTerm*       Controlled Node 
+e:cpCtrlNode            Target Node     
+e:usetp          p.u.   Voltage Setpoint        
+e:selAutoUn      kV     Busbar Search Criteria >=       
+e:p_cub          StaCubic,ElmBoundary   Control Q at    
+e:qsetp          Mvar   Q Setpoint      
+e:tansetp               tan(phi)        
+e:pfsetp                Power Factor    
+e:pf_recap              Power Factor    
+e:iQorient              Orientation     
+e:i_droop               Enable Droop    
+e:Srated         Mvar   Rated Reactive Power    
+e:ddroop         %      Droop   
+e:Qdroop         Mvar/p.u.      Droop   
+e:deltaV         p.u.   delta(V)        
+e:pQmeas         StaCubic,ElmBoundary   Q measured at   
+e:refbar         StaBar*,ElmTerm*       Reference Node  
+e:iopt_tdr              Different droop values  
+e:Qdroopoe       Mvar/p.u.      Droop (overexcited)     
+e:Qdroopue       Mvar/p.u.      Droop (underexcited)    
+e:ddroopoe       %      Droop (overexcited)     
+e:ddroopue       %      Droop (underexcited)    
+e:deltaVoe       p.u.   delta(V) (overexcited)  
+e:deltaVue       p.u.   delta(V) (underexcited) 
+e:Qmin           Mvar   Qmin    
+e:Qmax           Mvar   Qmax    
+e:udeadbup       p.u.   Upper Voltage Limit     
+e:udeadblow      p.u.   Lower Voltage Limit     
+e:pQPcurve       IntQpcurve     Q(P)-Curve      
+e:pf_over               Min. Power Factor       
+e:p_over         MW     Active Power    
+e:pf_under              Min. Power Factor       
+e:p_under        MW     Active Power    
+e:u_over         p.u.   Voltage 
+e:u_under        p.u.   Voltage 
+e:imode                 Reactive Power Distribution     
+e:consQdisp             Consider reactive power dispatch        
+e:iTrfCtrl              Step-up Transformer Control     
+e:Tctrl          s      Controller Time Constant        
+e:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+e:cvqq           %      Reactive Power Percentage       
+e:cvgen          p.u.   Voltage Setpoint        
+e:cvgenmin       p.u.   Min. Voltage    
+e:cvgenmax       p.u.   Max. Voltage    
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:rembar         StaBar*,ElmTerm*       Controlled Node 
+r:cpCtrlNode            Target Node     
+r:p_cub          StaCubic,ElmBoundary   Control Q at    
+r:pQmeas         StaCubic,ElmBoundary   Q measured at   
+r:refbar         StaBar*,ElmTerm*       Reference Node  
+r:pQPcurve       IntQpcurve     Q(P)-Curve      
+r:psym           ElmSym,ElmGenstat,ElmPvsys,ElmSvs,ElmAsm,ElmVsc*,ElmXnet       Machines        
+
+Short-Circuit VDE/IEC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Description balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:sOpComment            Operator Comment        
+
+Scenario Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:sOpComment            Operator Comment        
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Description unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:sOpComment            Operator Comment        
+
+Scenario Parameter:
+
+e:sernum                Serial Number   
+e:manuf                 Manufacturer    
+e:constr                Year of Construction    
+e:commissionDate                Commissioning Date      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+e:doc_id                Additional Data 
+e:pOwner         ElmOwner       Owner   
+e:pOperator      ElmOperator    Operator        
+e:desc                  Description     
+e:appr_status           Status  
+e:appr_modif            Modified        
+e:appr_modby            Modified by     
+e:sOpComment            Operator Comment        
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:doc_id                Additional Data 
+r:pOwner         ElmOwner       Owner   
+r:pOperator      ElmOperator    Operator        
+
+Short-Circuit Complete balanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit Complete unbalanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation balanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation unbalanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version balanced:
+----------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version unbalanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios balanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios unbalanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:qres           Mvar   Reactive Power Reserve  
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+c:rembar                Controlled Busbar       
+c:i_phase               Controlled Phase        
+c:uini:r         p.u.   Voltage Setpoint, Real Part     
+c:uini:i         p.u.   Voltage Setpoint, Imaginary Part        
+c:uini:phi       deg    Voltage Setpoint, Angle 
+c:uini:mag       p.u.   Voltage Setpoint, Magnitude     
+c:uini:phirad    rad    Voltage Setpoint, Angle 
+c:qset                  Reactive Power Percentage       
+c:qres           Mvar   Reactive Power Reserve  
+c:imode                 Control Mode    
+c:i_ctrl                Load Flow Control       
+c:qini           Mvar   Reactive Power Setpoint 
+c:Qdmeas         Mvar   Q(measured) for Droop   
+c:Qdroop         Mvar/p.u.      Droop   
+c:umin           p.u.   Lower Deadband Limit    
+c:umax           p.u.   Upper Deadband Limit    
+c:Qmin           Mvar   Lower limit of reactive power   
+c:Qmax           Mvar   Upper limit of reactive power   
+c:i_qlim                Reactive power limit reached    
+c:nCtrlIter             No. of CTRL-iterations  
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation balanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation unbalanced:
+----------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
