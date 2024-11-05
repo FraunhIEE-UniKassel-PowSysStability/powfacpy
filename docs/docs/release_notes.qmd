@@ -1,0 +1,22 @@
+---
+title: 'Release Notes'
+toc: true
+number-sections: false
+---
+
+
+## v0.3.0
+- Structural changes: 
+  - In this version, the structure of *powfacpy* has changed fundamentally
+  - Please have a look at [Structure of *powfacpy*](../docs/structure_of_powfacpy.qmd) to understand the new structure and why the restructuring was necessary
+  - Instead of PFBaseInterface the class `ActiveProject` from *base/active_project* should be used
+  - Interfaces for plotting, case study, etc. are now found under *applications/*.
+  - All former interface classes can still be used, but their files are located in a folder called *deprecated* and you will get  deprecation warnings
+- There should be few breaking changes. Some of the known are:
+  - The labels of the result export to pandas have changed (see the [tutorial](../tutorials/simulation_and_plotting.qmd))
+  - The name of the method `export_results_of_study_cases` of the class `PFStudyCases` has changed to `export_results_of_study_cases_to_csv`
+- *black* formatter was introduced as the standard formatter for python code
+- The format of the website was changed from *sphinx* to *quarto*
+- Functionality:
+  - Interface for network topology was added
+  - Interfaces to several single *PowerFactory* classes was added (see [*powfacpy/pf_classes/*](../../src/powfacpy/pf_classes/))
