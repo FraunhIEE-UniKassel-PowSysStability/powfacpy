@@ -11,6 +11,8 @@ RMS_BAL = ResVar.RMS_Bal
 
 class PhaseLockedLoop(ElmBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: StaPll) -> None:
         super().__init__(obj)
         self._obj: StaPll
@@ -26,4 +28,3 @@ class PhaseLockedLoop(ElmBase):
 
     def set_standard_parameters(self):
         self._obj.i_norm = 1  # improved behavior during large voltage deviations
-        self._obj.Kp = 1

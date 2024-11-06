@@ -11,6 +11,8 @@ LF_BAL = ResVar.LF_Bal
 
 class DiagramColorScheme(ElmBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: SetColscheme) -> None:
         super().__init__(obj)
         self._obj: SetColscheme

@@ -108,37 +108,29 @@ This folder contains files used in versions prior to 0.3.0 for compatibility.
 # Advanced (for Contributors) {#sec-advanced}
 
 ## *base*
-- *base/*
 
 This folder contains base classes that are used in for *Application* and *PowerFacory* classes and the `ActiveProject` class.
 
 ### *base/folder.py*
-- *base/folder.py*
+
 
 This file contains the `Folder` class which provides functionality to interact with the *PowerFactory* database, such as getting objects and setting attributes of objects inside a folder in the *PowerFactory* database. To interact with *PowerFactory*, it holds the *PowerFactory* app as a class attribute.
 
 ### *base/active_project.py*
-- *base/active_project.py*
-
 The file contains the `ActiveProject` class that inherits from the `Folder` class and adds functionality specific to the active project in *PowerFactory*. The class `ActiveProjectCached` can be more performant than `ActiveProject` as it caches the properties, but it should be used only in one project (the caching fails after a different project was activated).
 
 ### *base/base.py*
-- *base/base.py*
-
 This file contains base classes for *PowerFactory* interface classes (see @sec-pf-classes). Instances of such classes usually hold one data attribute (the native *PowerFactory* object). In some use cases, numerous instances will have to be created (e.g. for all terminals in a network). Therefore, it is essential that these classes access and allocate their data efficiently. This is implemented in the `BaseObjectStatic` class using [slots](https://wiki.python.org/moin/UsingSlots). 
 
 The class `BaseChildStatic` inherits from `BaseObjectStatic` and adds functionality to inherit behavior from native *PowerFactory* objects (see @sec-pf-classes) by overloading the methods `__getattribute__` and `__setattr__`.
 
 
 ### *base/functional.py*
-- *base/functional.py*
-
 This is a functional interface to be used as a (limited) alternative to `ActiveProject` and `Folder`. 
 Performance can be improved as there are more restrictions on the input arguments (for example, only *PowerFactory* objects are accepted and not their path string).
 
 
 ## *pf_classes*
-- *pf_classes*
 
 The classes in the *pf_classes* folder usually overload the method `__new__` with the following boilerplate code (exemplified for `SynchronousMachine`):
 
@@ -156,11 +148,7 @@ The sole reason is to make type hints work.
 
 
 ## *engineering_helpers.py*
-- *engineering_helpers.py*
-
 These are generic helper functions in the electrical and power engineering domain.
 
 ## *exceptions.py*
-- *exceptions.py*
-
 This is a collection of custom exceptions of *powfacpy*. Custom exceptions can provide more information on what goes wrong and are easier to catch for any python code that uses *powfacpy*.  

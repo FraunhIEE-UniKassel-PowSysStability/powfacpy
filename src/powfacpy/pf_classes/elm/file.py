@@ -14,6 +14,8 @@ from powfacpy.base.active_project import ActiveProjectCached
 
 class MeasurementFile(ElmBase):
 
+    __slots__ = ()
+
     def __init__(self, obj: ElmFile) -> None:
         super().__init__(obj)
         self._obj: ElmFile
