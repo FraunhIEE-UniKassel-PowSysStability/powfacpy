@@ -184,6 +184,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Study Cases</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -233,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This tutorial gives an overview of the interaction with the <em>PowerFactory</em> database using <em>powfacpy</em>. The methods introduced in this tutorial serve as a basis to do more complex things and to write more readable code using less lines of code. Furthermore, the error messages <em>powfacpy</em> provides are a great help when debugging larger scripts or in larger projects that use the python API of <em>PowerFactory</em>.</p>
 <p>For a complete list of classes and methods, please have a look at the <em>API</em> Chapter of the documentation or at the source code.</p>
 <p>Similar to using the Python API of <em>PowerFactory</em> directly, we first need to import the powerfactory module from <em>PowerFactory</em>’s installation directory (in case you want to access PowerFactory externally using IPython/Jupyter) and get the application.</p>
-<div id="b463a4cd" class="cell" data-execution_count="2">
+<div id="4c130b30" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -246,8 +252,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then import <em>powfacpy</em> and create an instance of class <code>ActiveProject</code> (with argument <code>app</code>). This interface class is mainly used to interact with the active project in the <em>PowerFactory</em> database as we will see below.</p>
-<div id="98cb81ba" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
+<div id="a4b3bf94" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy <span class="im">import</span> ActiveProject</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -255,7 +261,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note that <code>pfp</code> has an attribute <code>app</code> that can be used similar to the <code>app</code> variable we loaded from the <code>powerfactory</code> module.</p>
 <p>The <em>PowerFactory</em> project used in this tutorial can be found in the powfacpy repository under *tests_input_tests.pfd*.</p>
 <p>Here are two ways to 1. show the PowerFactory application and 2. activate a project:</p>
-<div id="18acab2a" class="cell" data-execution_count="4">
+<div id="7596a57b" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy\powfacpy_tests_copy_where_tests_run"</span></span>
@@ -273,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="accessing-objects" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Accessing Objects</h1>
 <p>Let’s access an object from the <em>PowerFactory</em> database. When using <code>app</code>, we would use the methods <code>app.GetProjectFolder</code>, <code>app.GetChildren</code> or <code>app.GetContents</code>. Instead, we use <code>act_prj.get_obj</code> with the path of the object (<strong>relative to the folder of the active project</strong>) as an argument:</p>
-<div id="47fa8441" class="cell" data-execution_count="6">
+<div id="db1df2e5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mv_terminal <span class="op">=</span> act_prj.get_obj(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\Terminal MV"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -287,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p><code>act_prj.get_obj</code> also differs in other ways from <code>app.GetContents</code> and <code>app.GetCalcRelevantObjects</code>. You can set a condition for the objects that you want to access, which is best described by an example:</p>
-<div id="176ed000" class="cell" data-execution_count="7">
+<div id="edcebc66" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hv_terminals <span class="op">=</span> act_prj.get_obj(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\*.ElmTerm"</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    condition<span class="op">=</span><span class="kw">lambda</span> x: x.uknom <span class="op">&gt;</span> <span class="dv">50</span>,</span>
@@ -295,7 +301,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>First of all, we use a wildcard (<code>*.ElmTerm</code>) to access all terminals in the <code>Grid</code> folder. The <code>condition</code> argument is a function that defines a certain condition the objects have to fulfill and returns a boolean value. In this case, the input argument <code>x</code> is an <code>ElmTerm</code> and <code>x.uknom &gt; 50</code> gets its attribute <code>uknom</code> (nominal voltage) and checks whether it is larger than 50 (kV). Using this <code>.uknom</code> notation is equivalent to using <code>getattr(x, "uknom")</code>, which is a python method that returns an attribute of any object (also <em>PowerFactory</em> objects). You can also define more complex functions, such as <code>lambda x: x.uknom &gt; 50 and x.uknom &lt; 200</code> to access terminals between 50 and 200 kV.</p>
 <p>It is also possible to include subfolders in the search for objects:</p>
-<div id="6880d773" class="cell" data-execution_count="8">
+<div id="40fc3d91" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>terminals <span class="op">=</span> act_prj.get_obj(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\*.ElmTerm"</span>, include_subfolders<span class="op">=</span><span class="va">True</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -311,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>PFPathError: ’wrong_object_name*’ does not exist in ’_baseModelData’</p>
 <p>This can be turned off by setting the optional argument <code>error_if_non_existent=False</code>, then an empty list will be returned.</p>
 <p>If you want to access objects in a folder many times and don’t want to use the whole path relative to the active project every time, you can also specifiy a parent folder where the search path starts (this can also be more performant):</p>
-<div id="c5ce22c4" class="cell" data-execution_count="9">
+<div id="e318c301" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>grid_folder <span class="op">=</span> act_prj.get_obj(</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid"</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)[<span class="dv">0</span>]</span>
@@ -320,27 +326,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>hv_terminal <span class="op">=</span> act_prj.get_obj(<span class="st">"Terminal HV 1"</span>, parent_folder<span class="op">=</span>grid_folder)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can also use brackets to call <code>get_obj</code> (the <code>ActiveProject</code> class defines a <code>__getitem__</code> method that calls <code>get_obj</code> without optional arguments):</p>
-<div id="c2b9feae" class="cell" data-execution_count="10">
+<div id="e619069a" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>terminals <span class="op">=</span> act_prj[</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\*.ElmTerm"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The <code>get_obj</code> command can become verbose with many keyword arguments. This can be inconvenient, for example when you have to call the method many times with the same arguments. <code>powfacpy</code> provides the <code>get_object_partial</code> method which returns a <code>Callable</code>. This way you can define new variations of <code>get_obj</code>:</p>
-<div id="2a84ea51" class="cell" data-execution_count="11">
+<div id="329f813c" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>get_obj_subf <span class="op">=</span> act_prj.get_obj_partial(include_subfolders<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This can now be used with further arguments of 'get_obj' as follows (and will always assume 'include_subfolders=True'):</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>terminals <span class="op">=</span> get_obj_subf(<span class="st">"*.ElmTerm"</span>, parent_folder<span class="op">=</span>grid_folder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Under the hood the <code>partial</code> function from the built-in <code>functools</code> module of Python is used (it is actually pretty simple to do the above with any Python method/function). Note that for the commonly required inclusion of subfolders in the search there is actually a separate method <code>get_obj_including_subfolders</code> available (another alternative for network objects in <code>get_calc_relevant_obj</code> as described below).</p>
 <p>An alternative to <code>act_prj.get_obj</code> is <code>act_prj.get_unique_obj</code>. Use this function if you want to access a single unique object (i.e.&nbsp;an object that you expect to only exist once) from the database and want to avoid the <code>[0]</code> (which is easily forgotten).</p>
-<div id="241bf425" class="cell" data-execution_count="12">
+<div id="df97596b" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>terminal_1 <span class="op">=</span> act_prj.get_unique_obj(</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>get_unique_obj</code> will throw an error if the specified path is not attributable to a single unique object (i.e.&nbsp;also when two or more objects are found).</p>
 <p>Finally, yet another alternative for getting network objects is <code>get_calc_relevant_obj</code>: <em>powfacpy</em> wraps the <code>GetCalcRelevenatObjects</code> method and adds optional arguments, similar to <code>get_obj</code>:</p>
-<div id="f76b4d32" class="cell" data-execution_count="13">
+<div id="54da7da2" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>terminals <span class="op">=</span> act_prj.get_calc_relevant_obj(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ElmTerm"</span>, error_if_non_existent<span class="op">=</span><span class="va">False</span>, includeOutOfService<span class="op">=</span><span class="dv">0</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -349,7 +355,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="accessing-project-folders-and-data" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Accessing Project Folders and Data</h1>
 <p>The <code>ActiveProject</code> class defines a number of properties to directly access relevant project folders (under the hood, the <code>GetProjectFolder</code> and <code>GetDataFolder</code> methods are used). Here are some examples (you may just type <code>act_prj.folder</code> and your IDE will autocomplete all the properties):</p>
-<div id="355d4b63" class="cell" data-execution_count="14">
+<div id="ad32990c" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>act_prj.study_cases_folder  <span class="co"># This is a getter property returning StudyCases.IntPrjfolder</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>act_prj.network_model_folder</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>act_prj.zones_folder</span>
@@ -361,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>To get all active grids/networks (ElmNet) use:</p>
-<div id="88870be2" class="cell" data-execution_count="15">
+<div id="7faa9c5e" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>active_networks <span class="op">=</span> act_prj.get_active_networks()</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># act_prj.app.GetCalcRelevantObjects(".ElmNet") also returns the summary grid in the study case which is usually not desired.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -369,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="getting-objects-from-the-active-study-case" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Getting Objects from the Active Study Case</h1>
 <p>The native <code>GetFromStudyCase</code> method returns the first object found that satisfies the criteria or creates a new object in the active study case. This is a common source of errors when more than one object satisfies the criteria and this goes unnoticed (this often happens for example when users work on the same project with different language settings). You can use the <em>powfacpy</em> method instead which prints a warning or raises an error if the the object found is not unique:</p>
-<div id="dbb0b28d" class="cell" data-execution_count="16">
+<div id="6fcc5717" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>results_obj <span class="op">=</span> act_prj.get_from_study_case(<span class="st">"ElmRes"</span>, if_not_unique<span class="op">=</span><span class="st">"warning"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\docs\tutorials\..\..\src\powfacpy\base\active_project.py:174: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\test_active_project_interface\Study Case 1'. Make sure that the correct *.ElmRes object is used.
@@ -380,13 +386,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="type-hints" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Type Hints</h1>
 <p>Type hints are used in Python to improve the readability and code completion, but do not actually affect the excuted code (except when you do static type checking). They are often seen in function/method definitions and are preceded by a <em>colon</em>, e.g.:</p>
-<div id="f009de84" class="cell" data-execution_count="17">
+<div id="b17dd9ea" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add(a: <span class="bu">int</span>, b: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> a <span class="op">+</span> b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This means that the function expects two input arguments of type integer and returns an integer. <em>powfacpy</em> defines protocol classes for (almost) all <em>PowerFactory</em> classes (more than 200) from the scripting reference (with very few exceptions) and a few additional classes (such as ‘IntSite’ which is not mentioned in the scripting reference).</p>
 <p>In the following example a type hint is used (‘:ElmTerm’). Your IDE will then autocomplete all attributes (methods and data) of the variable ‘terminal’:</p>
-<div id="f7b28338" class="cell" data-execution_count="18">
+<div id="f930a69b" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> ElmTerm</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>terminal: ElmTerm <span class="op">=</span> act_prj.get_unique_obj(</span>
@@ -405,26 +411,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>Note that this also works with lists:</p>
-<div id="5e271e5f" class="cell" data-execution_count="19">
+<div id="68e9185c" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>terminals: <span class="bu">list</span>[ElmTerm] <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"ElmTerm"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="setting-and-getting-object-attributes" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Setting and Getting Object Attributes</h1>
 <p>How about setting data in the database? You can set attributes of an object as follows:</p>
-<div id="7a84e6ae" class="cell" data-execution_count="20">
+<div id="37646875" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>act_prj.set_attr(</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\Terminal MV"</span>,</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"uknom"</span>: <span class="dv">33</span>, <span class="st">"outserv"</span>: <span class="dv">0</span>},</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So with only one command we set the attributes “uknom” and “outserv” of the terminal. This saves time and is also very readable code. Note that the method <code>set_attr</code> accepts the path (string) but also a <em>PowerFactory</em> object. For example, we could also use the object <code>mv_terminal</code> that we loaded above:</p>
-<div id="6c456acd" class="cell" data-execution_count="21">
+<div id="d14ab6a1" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>act_prj.set_attr(mv_terminal, {<span class="st">"uknom"</span>: <span class="dv">33</span>, <span class="st">"outserv"</span>: <span class="dv">0</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This applies to many other methods in <code>powfacpy</code>. Loading the object only once and then using the object can be more efficient than using the path string many times.</p>
 <p>If you want to get an attribute of an object, write:</p>
-<div id="79ff1941" class="cell" data-execution_count="22">
+<div id="5125a76a" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>nominal_voltage <span class="op">=</span> act_prj.get_attr(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_active_project_interface\Grid\Terminal MV"</span>,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"uknom"</span>,</span>
@@ -443,13 +449,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="creating-objects-and-directories" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Creating Objects and Directories</h1>
 <p>If you want to create a new object, use:</p>
-<div id="3d252502" class="cell" data-execution_count="23">
+<div id="819ea249" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_class_protocols <span class="im">import</span> BlkDef, IntPrjfolder</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>new_obj: BlkDef <span class="op">=</span> act_prj.create_by_path(<span class="vs">r"Library\Dynamic Models\dummy.BlkDef"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This will create an object of class “BlkDef” with the name “dummy” in the folder “LibraryModels”. You can also use</p>
-<div id="f968896c" class="cell" data-execution_count="24">
+<div id="7c203c57" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>new_obj: BlkDef <span class="op">=</span> act_prj.create_in_folder(</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"dummy.BlkDef"</span>, <span class="vs">r"Library\Dynamic Models"</span>, overwrite<span class="op">=</span><span class="va">True</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -463,7 +469,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>which will overwrite the former object (this avoids that <em>PowerFactory</em> creates <em>dummy(1), dummy(2), …</em> every time the code is run). <code>overwrite=True</code> is the default setting.</p>
 <p>To create a directory, i.e.&nbsp;a nested folder structure, use</p>
-<div id="e049a9d1" class="cell" data-execution_count="25">
+<div id="8522b692" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>act_prj.create_directory(</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"New Study Case\Cases Normal Opration"</span>, parent_folder<span class="op">=</span><span class="st">"Study Cases"</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -475,13 +481,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="copying-objects" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Copying Objects</h1>
 <p>The method <code>copy_obj</code> can be seen as a method that uses <code>get_obj</code> as a first step to access objects and then copies them to a target folder under the hood. Therefore, <code>copy_obj</code> shares many (optional) input arguments with <code>get_obj</code> to first get the objects to be copied. Additionally, a target folder is required. For example, to copy all objects from a source folder to a target folder, write</p>
-<div id="95255b01" class="cell" data-execution_count="26">
+<div id="61e50d88" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>source_folder <span class="op">=</span> <span class="vs">r"Library\Dynamic Models\TestDummyFolder"</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>target_folder <span class="op">=</span> <span class="vs">r"Library\Dynamic Models\TestCopyMultiple"</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>new_copied_objects <span class="op">=</span> act_prj.copy_obj(<span class="st">"*"</span>, target_folder, parent_folder<span class="op">=</span>source_folder)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that <code>parent folder</code> is an optional argument (used for the <strong>source</strong>), so you could also specify the full object path as the first argument instead of using <code>*</code> (similar to <code>get_obj</code>). To select certain objects from the source folder, you can use optional arguments like <code>condition</code> or <code>include_subfolders</code>, also similar to the <code>get_obj</code> method. The method also accepts a list of <em>PowerFactory</em> objects:</p>
-<div id="474f7bf5" class="cell" data-execution_count="27">
+<div id="33dd2a06" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>list_of_objects_to_copy <span class="op">=</span> act_prj.get_obj(<span class="st">"*"</span>, parent_folder<span class="op">=</span>source_folder)</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>target_folder_obj <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Library\Dynamic Models\TestCopyMultiple"</span>)</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>new_copied_objects <span class="op">=</span> act_prj.copy_obj(</span>
@@ -490,7 +496,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Note that the target folder object (instead of a path string) is used (second argument).</p>
 <p>If you want to copy a single object, use <code>copy_single_obj</code>. You have the option to give it a new name (<code>loc_name</code> attribute):</p>
-<div id="f67e7dbe" class="cell" data-execution_count="28">
+<div id="9ec77ab5" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>new_copy <span class="op">=</span> act_prj.copy_single_obj(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Library\Dynamic Models\Linear_interpolation"</span>,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Library\Dynamic Models\TestCopy"</span>,</span>
@@ -502,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="moving-objects" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Moving Objects</h1>
 <p>The syntax to move objects is similar to copying:</p>
-<div id="f9c85a34" class="cell" data-execution_count="29">
+<div id="8637d34c" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiple objects</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>source_folder <span class="op">=</span> <span class="vs">r"Library\Dynamic Models\TestCopy"</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>target_folder <span class="op">=</span> <span class="vs">r"Library\Dynamic Models\TestCopyMultiple"</span></span>
@@ -520,7 +526,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="deleting-objects" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Deleting Objects</h1>
 <p>Deleting objects works in a similar fashion, because under the hood it uses <code>get_obj</code> and deletes the returned objects in the second step.</p>
-<div id="3be51a6b" class="cell" data-execution_count="30">
+<div id="3fa331cd" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>act_prj.delete_obj(</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"to_be_deleted*"</span>,</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    parent_folder<span class="op">=</span><span class="vs">r"Library\Dynamic Models\TestDelete"</span>,</span>
@@ -529,7 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And of course you could also use <em>PowerFactory</em> objects as an input:</p>
-<div id="65b89ace" class="cell" data-execution_count="31">
+<div id="42c46b44" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>objects_in_folder <span class="op">=</span> act_prj.get_obj(</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"to_be_deleted*"</span>,</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    parent_folder<span class="op">=</span><span class="vs">r"Library\Dynamic Models\TestDelete"</span>,</span>
@@ -539,7 +545,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>act_prj.delete_obj(objects_in_folder, error_if_non_existent<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can also delete all objects in a folder:</p>
-<div id="5a6fc199" class="cell" data-execution_count="32">
+<div id="c9c72f47" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>act_prj.clear_folder(<span class="st">"Library\Dynamic Models\TestDelete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -547,7 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="10"><span class="header-section-number">10</span> Further Useful Methods</h1>
 <p>Further helpful methods are briefly described in the following. <code>get_upstream_obj</code> returns an upsream object that meets a condition (i.e.&nbsp;the method goes upwards in the folder hierarchy until a parent object is found that meets the condition).</p>
 <p>Here this is used to find the grid that contains a given object:</p>
-<div id="c7b3c101" class="cell" data-execution_count="33">
+<div id="cdcb0202" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>obj <span class="op">=</span> act_prj.get_unique_obj(</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model\Network Data\test_database_interface\Grid\Voltage source ctrl\Frequency"</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -565,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>There are more methods to get the path of an object:</p>
-<div id="3e31e4b4" class="cell" data-execution_count="34">
+<div id="a5a860e2" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(act_prj.get_path_of_object(grid))  <span class="co"># path inside project</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(act_prj.get_path_of_obj_with_class_names(grid))</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(act_prj.get_full_path_of_object(grid))  <span class="co"># full path in database</span></span>
@@ -585,7 +591,7 @@ Network Model.IntPrjfolder\Network Data.IntPrjfolder\test_database_interface\Gri
 <section id="the-folder-class" class="level1" data-number="11">
 <h1 data-number="11"><span class="header-section-number">11</span> The Folder Class</h1>
 <p>Most of the functionality described above is not limited to the folder of the active project, but can be used with any folder in the database. The class ‘Folder’ can be used with any folder. Path input arguments are then relative to that folder (and not to the active project as above, unless of course a ‘parent_folder’ is specified):</p>
-<div id="db45a03e" class="cell" data-execution_count="35">
+<div id="17f34210" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.folder <span class="im">import</span> Folder</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>network_data_folder <span class="op">=</span> Folder(<span class="vs">r"Network Model\Network Data"</span>, app)</span>
@@ -602,7 +608,7 @@ Network Model.IntPrjfolder\Network Data.IntPrjfolder\test_database_interface\Gri
 </div>
 </div>
 <p>Note that ‘Folder’ instances are iterable. For example, you can use a for-loop to iterate through the (direct) children of the folder:</p>
-<div id="833c9ce4" class="cell" data-execution_count="36">
+<div id="2136b515" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="bu">object</span> <span class="kw">in</span> network_data_folder:</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(network_data_folder.get_path_of_object(<span class="bu">object</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

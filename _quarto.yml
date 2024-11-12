@@ -17,7 +17,7 @@ website:
       - text: Tutorials
         href: docs/tutorials/overview.qmd 
       - text: Docs
-        href: docs/docs/overview.qmd   
+        href: docs/docs/overview.qmd 
     tools:
       - icon: github
         href: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy  
@@ -29,13 +29,14 @@ website:
         - docs/tutorials/getting_started.qmd
         - docs/tutorials/simulation_and_plotting.qmd
         - docs/tutorials/study_cases.qmd
+        - docs/tutorials/network_matrices_and_pandapower_interface.qmd
     - title: "Docs" 
       style: "docked"
       contents:
         - docs/docs/overview.qmd
         - docs/docs/structure_of_powfacpy.qmd  
         - docs/docs/how_to_contribute.qmd
-        - docs/docs/release_notes.qmd 
+        - docs/docs/release_notes.qmd    
 format:
   html:
     theme: cosmo
@@ -48,3 +49,14 @@ execute:
 theme:
   light: flatly
   dark: darkly
+
+quartodoc:
+  package: powfacpy
+  title: "API"
+  source_dir: ./src
+  sections:
+    - title: API
+      desc: ""
+      contents:
+        - result_variables
+        - applications.caching
