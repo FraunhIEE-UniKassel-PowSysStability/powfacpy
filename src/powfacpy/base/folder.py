@@ -656,8 +656,8 @@ class Folder(BaseObjectStatic):
     ##################
     def copy_obj(
         self,
-        obj_or_path: Union[PFGeneral, str],
-        target_folder: Union[PFGeneral, Folder, str],
+        obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
+        target_folder: Union[PFGeneral, Folder],
         overwrite: bool = True,
         condition: Callable = None,
         parent_folder: Union[PFGeneral, Folder, str] = None,
@@ -672,7 +672,7 @@ class Folder(BaseObjectStatic):
 
         Args:
             obj_or_path (Union[PFGeneral, str]):
-                Objects to be copied (get_object is used)
+                Objects to be copied (get_obj is used for strings)
 
             target_folder (Union[PFGeneral, Folder, str]):
                 Folder to which objects are copied
@@ -733,7 +733,7 @@ class Folder(BaseObjectStatic):
 
         Args:
             obj_or_path (Union[PFGeneral, str]):
-                Object to be copied (get_unique_object is used)
+                Object to be copied (get_unique_obj is used for strings)
 
             target_folder (Union[PFGeneral, Folder, str]):
                 Folder to which object is copied
@@ -796,7 +796,7 @@ class Folder(BaseObjectStatic):
 
     def move_obj(
         self,
-        obj_or_path: Union[PFGeneral, str],
+        obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
         target_folder: Union[PFGeneral, Folder, str],
         overwrite: bool = True,
         condition: Callable = None,
@@ -804,7 +804,37 @@ class Folder(BaseObjectStatic):
         error_if_non_existent: bool = True,
         include_subfolders: bool = False,
     ) -> int:
+        """Move object(s) to 'target_folder'.
 
+        Uses 'get_obj' to get the objects under 'obj_or_path'. Target must be in the active project.
+
+        See also 'move_single_obj'.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Objects to be moved (get_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which objects are moved
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            condition (Callable, optional):
+                Condition used in 'get_obj' for the source objects . Defaults to None.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be moved. Defaults to  None (i.e. '_folder'/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            bool: 0 on success, 1 on error
+        """
         obj = self._handle_pf_object_or_path_input(
             obj_or_path,
             condition=condition,
@@ -831,6 +861,34 @@ class Folder(BaseObjectStatic):
         error_if_non_existent: bool = True,
         include_subfolders: bool = False,
     ) -> int:
+        """Move single PF object to 'target_folder'.
+
+        Uses 'get_obj' to get the objects under 'obj_or_path'. Target must be in the active project.
+
+        See also 'move_obj'.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Object to be moved (get_unique_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which objects are moved
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be moved. Defaults to  None (i.e. '_folder'/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            bool: 0 on success, 1 on error
+        """
 
         obj = self._handle_single_pf_object_or_path_input(
             obj_or_path,
@@ -1374,6 +1432,36 @@ class Folder(BaseObjectStatic):
         obj_str = obj.GetFullName()
         return PFStringManipulation.truncate_beginning(obj_str, active_project_path)
 
+    def get_path_of_object_in_current_user(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -> str:
+        """Get path relative to current (active) user without class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+        Returns:
+            str: path
+        """
+        obj = self.get_path_of_object_in_current_user_with_class_names(obj)
+        return PFStringManipulation.remove_class_names(obj)
+
+    def get_path_of_object_in_current_user_with_class_names(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -> str:
+        """Get path relative to current (active) user including class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+        Returns:
+            str: path
+        """
+        active_user_path = self.get_current_user().GetFullName()
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        obj_str = obj.GetFullName()
+        return PFStringManipulation.truncate_beginning(obj_str, active_user_path)
+
     def _replace_special_PF_characters_in_path_string(self, path: str) -> str:
         """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)' in path with their actual directories."""
         if "$(ExtDataDir)" in path:
@@ -1453,3 +1541,6 @@ class Folder(BaseObjectStatic):
             return active_project
         else:
             raise powfacpy.exceptions.PFNotActiveError("a project")
+
+    def get_current_user(self):
+        return self.__class__.app.GetCurrentUser()

@@ -328,19 +328,36 @@ def test_copy_single_obj(act_prj: ActiveProject, activate_powfacpy_test_project)
 
 
 def test_move_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
-    folder_copy_from = r"Library\Dynamic Models\TestCopyFrom"
-    folder_copy_to = r"Library\Dynamic Models\TestCopyTo"
+    folder_move_from = r"Library\Dynamic Models\TestCopyFrom"
+    folder_move_to = r"Library\Dynamic Models\TestCopyTo"
 
-    act_prj.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
-    copied_objects = act_prj.move_obj(
-        "*", folder_copy_to, parent_folder=folder_copy_from
-    )
-    moved_objects = act_prj.get_obj("*", parent_folder=folder_copy_to)
+    act_prj.delete_obj("*", parent_folder=folder_move_to, error_if_non_existent=False)
+    success = act_prj.move_obj("*", folder_move_to, parent_folder=folder_move_from)
+    moved_objects = act_prj.get_obj("*", parent_folder=folder_move_to)
+    assert success == 0
     assert len(moved_objects) == 2
     empty_objects = act_prj.get_obj(
-        "*", parent_folder=folder_copy_from, error_if_non_existent=False
+        "*", parent_folder=folder_move_from, error_if_non_existent=False
     )
     assert len(empty_objects) == 0
+    # Undo changes
+    act_prj.move_obj(moved_objects, target_folder=folder_move_from)
+
+
+def test_move_single_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
+    folder_move_from = r"Library\Dynamic Models\TestCopyFrom"
+    folder_move_to = r"Library\Dynamic Models\TestCopyTo"
+
+    act_prj.delete_obj("*", parent_folder=folder_move_to, error_if_non_existent=False)
+    obj_to_move = act_prj.get_obj("*", parent_folder=folder_move_from)[0]
+    success = act_prj.move_single_obj(
+        obj_to_move, folder_move_to, parent_folder=folder_move_from
+    )
+    moved_objects = act_prj.get_obj("*", parent_folder=folder_move_to)
+    assert success == 0
+    assert len(moved_objects) == 1
+    # Undo changes
+    act_prj.move_single_obj(obj_to_move, target_folder=folder_move_from)
 
 
 def test_handle_single_pf_object_or_path_input(
@@ -499,8 +516,8 @@ def test_get_calc_relevant_obj(act_prj: ActiveProject, activate_powfacpy_test_pr
 
 
 if __name__ == "__main__":
-    # pytest.main([r"tests\base\test_active_project.py::test_copy_obj"])
-    pytest.main([r"tests"])
+    pytest.main([r"tests\base\test_active_project.py"])
+    # pytest.main([r"tests"])
     # pytest.main([r"tests\applications\test_results.py"])
     # pytest.main([r"tests\pf_classes"])
     # pytest.main([r"tests"])
