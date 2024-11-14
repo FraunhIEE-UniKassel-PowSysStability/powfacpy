@@ -15,3 +15,7 @@ class ApplicationBase:
             self.act_prj: ActiveProjectCached = ActiveProjectCached(pf_app)
         else:
             self.act_prj: ActiveProject = ActiveProject(pf_app)
+
+    @property
+    def app(self):
+        return self.act_prj.__class__.app

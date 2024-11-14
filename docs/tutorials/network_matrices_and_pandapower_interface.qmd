@@ -1,0 +1,231 @@
+---
+title: Network Matrices and Pandapower Interface
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+sys.path.append(r"..\..\src")
+
+import matplotlib
+matplotlib.rcParams.update({"axes.grid" : True}) # add grid by default
+```
+
+This tutorial shows how to access network matrices (such as the *admittance matrix* of the *load flow Jacobian*). *PowerFactory* does not allow this access directly, so the dataset is first exported to the [*pandapower* format](https://pandapower.readthedocs.io/en/stable/index.html). The matrices can then be extracted from this format.
+
+You can learn more from the *pandapower* documentation:
+
+- [*PowerFactory* to *pandapower* converter](https://pandapower.readthedocs.io/en/stable/converter/powerfactory.html)
+- [Tutorial on network matrices](https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb)
+
+::: {.callout-warning}
+Note that not all networks elements/components are supported by pandapower (see the [list of supported components](https://pandapower.readthedocs.io/en/stable/converter/powerfactory.html)) and the functionality shown in this tutorial may not be applicable to some *PowerFactory* datasets.
+
+:::
+
+## Imports and Project Activation
+First we import some packages and activate the *PowerFactory* project from which we want to export the dataset (the *IEEE 39 bus system* example) and get the network matrices.
+
+```{python}
+import os
+
+import numpy as np
+from icecream import ic
+import pandas as pd
+import pandapower as pp
+
+from powfacpy.base.active_project import ActiveProject
+from powfacpy.pf_classes.protocols import PFApp
+
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+)  # you may use a different directory
+# Get the PF app
+import powerfactory
+
+app = powerfactory.GetApplication()
+
+pf_app: PFApp = powerfactory.GetApplication()
+act_prj = ActiveProject(pf_app)
+act_prj.app.Show()
+act_prj.app.ActivateProject(
+    "powfacpy\\39_bus_new_england_copy_where_tests_run"
+)  # You may change the project path.
+act_prj.activate_study_case("Study Cases\\2.1 Simulation Fault Bus 16 Stable")
+```
+
+## Export Dataset to Pandapower
+The dataset can be exported to *pandapower* format using the `pf_project_to_pandapower` function. It requires the *PowerFactory* app and the path to the project as inpit arguments.
+
+```{python}
+from powfacpy.applications.pandapower_interface import PandapowerInterface
+
+try:
+    act_prj.app.Hide()
+    ppi = PandapowerInterface(app)
+    net = ppi.pf_project_to_pandapower()
+finally:
+    act_prj.app.Show()
+net
+```
+
+`net` gives an overview of the exported network components and result tables (*pandapower* result format). *PandaPower* is based on *pandas* dataframes. You can query for example the data of the buses using:
+
+```{python}
+net.bus
+```
+
+Note that the `name` column is filled with the `loc_name` attributes of the *PowerFactory* objects. `name` can be used as a mapping to the respective *PowerFactory* object only if the `loc_name` of all objects of a certain class are unique (e.g. no `ElmTerm` instances have the same `loc_name`). The `Database` interface can be used to enumerate euqivalent names of calculation relevant objects in the *PowerFactory* database. 
+
+```{python}
+from powfacpy.applications.database import Database
+
+try:
+    act_prj.app.Hide()
+    dbi = Database(app)
+    dbi.make_loc_name_of_calc_relevant_objects_unique()
+    net = ppi.pf_project_to_pandapower()
+finally:
+    act_prj.app.Show()
+```
+
+To test whether the exported dataset is feasible, we can run a power flow using *pandapower*:
+
+```{python}
+pp.runpp(net)
+```
+
+The follwoing shows how to access the results for a certain bus.
+
+```{python}
+bus_name = "Bus 05"
+index_of_element = net.bus[net.bus["name"] == bus_name].index[0]
+net.res_bus.iloc[index_of_element]
+```
+
+## Network Matrices
+### Admittance Matrix
+We can no exctract the *Ybus* (i.e admittance) matrix. By default, the returned *numpy* matrix is sparse, so we create a dense matrix for printing.
+
+```{python}
+Yb = ppi.get_Ybus_matrix(net)
+
+print(Yb.todense())
+```
+
+This does not provide any information about the correspoinding nodes of the rows and columns. The function `get_Ybus_frame` provides this information.
+
+```{python}
+df = ppi.get_Ybus_frame(net)
+df
+```
+
+The names in the labels correspond to the `loc_name` attributes of the *PowerFactory* objects. Provided that the names are unique, we can also replace them with the actual *PowerFactory* objects (this can be more convenient to query data, but printing the frame is ugly because the full path is used in the labels) using the `PandasInterface` of *powfacpy*.
+
+```{python}
+from powfacpy.applications.pandas_interface import PandasInterface
+
+pdi = PandasInterface(app)
+
+df = pdi.replace_loc_name_with_pf_objects_in_labels(
+    df, "ElmTerm", index_and_column_labels_are_equal=True
+)
+df
+```
+
+### Connectivity (Adjacency) Matrix
+The connectivty matrix (also called adjacency matrix) is a symmetric matrix that has entries $1$ (or True) for connected nodes and $0$ (or False) for nodes that are not connected. 
+
+```{python}
+ppi.get_connectivity_frame(net)
+```
+
+To get boolean values instead of zero and one, use `ppi.get_connectivity_frame(net, boolean=True)`.
+
+## Load Flow Jacobian
+The load flow Jacobian matrix can be exported as well.
+
+```{python}
+net._ppc["internal"]["J"].todense()
+```
+
+An explanation of the Jacobian matrix entries is provided in [the pandapower tutorial](https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb) that was mentioned above already.
+
+## Format Comparison {#sec-format-comparison}
+The dataformats of *pandapower* and *PowerFactory* are not fully compatibel. An overview and functionality to rudimentally validate the exported data is presented in the following.
+
+Remember the exported dataset in *pandapower* format:
+
+```{python}
+net
+```
+
+There are a few things to consider here (not everthing is relevant for this example):
+
+- *bus* consideres all terminals, even those that are not energized
+- *gen* are *PV*-controlled generators (active power and voltage)
+- *sgen* are *PQ*-controlled generators
+- *ext_grid* are generators/external grids which act as slack buses
+- *switch* considers only breakers/switches for branches, i.e. between buses or between buses and branch elements like lines and transformers (i.e. switches connecting generators are not considered for example)
+
+## Validation
+*powfacpy* offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in *PowerFactory* was used for the export. We can check the difference between both datasets by using `get_difference_between_pf_and_pandapower_dataset`. We artificially set (and later undo) a deviation in the *pandapower* dataset. A *Dataframe* with the divergent parameters is returned.
+
+```{python}
+from pandas import DataFrame
+
+
+try:
+
+    pf_app.Hide()
+    net["bus"].loc[0, "vn_kv"] = net["bus"].loc[0, "vn_kv"] + 1
+
+    divergent_parameters = ppi.get_difference_between_pf_and_pandapower_dataset(net)
+    net["bus"].loc[0, "vn_kv"] = net["bus"].loc[0, "vn_kv"] - 1
+
+
+
+finally:
+
+    pf_app.Show()
+
+
+
+divergent_parameters
+```
+
+`get_difference_between_pf_and_pandapower_dataset` assumes default settings for the units in the *PowerFactory* project (see *Settings\Units*).
+
+As mentioned, only a subset of classes and parameters is validated. The following maping is used:
+
+```{python}
+ppi.get_pandapower_2_pf_class_mapping()
+```
+
+The parameter mapping is defined in `get_pandapower_2_pf_parameter_mapping`. It is best understood by looking at the source code and we use *python's* `inspect` module to print the method. The mapping is either between the *pandapower parameter strings or between a *pandapower* parameter string and and a callable with the *PowerFactory* object as argument and returning the parameter value (used for example to get paraeters from the *type* object). 
+
+```{python}
+import inspect
+
+print(f"{inspect.getsource(ppi.get_pandapower_2_pf_parameter_mapping)}")
+```
+
+```{python}
+#| echo: false
+# from pandapower.converter.powerfactory.validate import validate_pf_conversion
+
+# diff = validate_pf_conversion(net)
+```
+

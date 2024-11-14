@@ -39,7 +39,7 @@ app = powerfactory.GetApplication()
 Then import *powfacpy* and create an instance of class `ActiveProject` (with argument `app`). This interface class is mainly used to interact with the active project in the *PowerFactory* database as we will see below. 
 
 ```{python}
-from powfacpy.base.active_project import ActiveProject
+from powfacpy import ActiveProject
 
 
 act_prj = ActiveProject(app)
@@ -342,14 +342,12 @@ The syntax to move objects is similar to copying:
 # Multiple objects
 source_folder = r"Library\Dynamic Models\TestCopy"
 target_folder = r"Library\Dynamic Models\TestCopyMultiple"
-new_copied_objects = act_prj.move_obj("*", target_folder, parent_folder=source_folder)
+act_prj.move_obj("*", target_folder, parent_folder=source_folder)
 
 # Single object
 source_folder = r"Library\Dynamic Models\TestCopyMultiple"
 target_folder = r"Library\Dynamic Models\TestCopy"
-new_copied_objects = act_prj.move_single_obj(
-    "new_dummy_name", target_folder, parent_folder=source_folder
-)
+act_prj.move_single_obj("dummy", target_folder, parent_folder=source_folder)
 ```
 
 # Deleting Objects

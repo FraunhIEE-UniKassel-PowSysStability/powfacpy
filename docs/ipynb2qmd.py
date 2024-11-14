@@ -1,3 +1,6 @@
+"""Convert from .ipynb to .qmd (or reverse)
+"""
+
 import glob, os
 import subprocess
 

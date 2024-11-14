@@ -42,7 +42,7 @@ pip install powfacpy
 simon.eberlein@iee.fraunhofer.de
 
 # Contribute
-Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. IF you want to contribute to the code base, please have a look at [How to contribute](docs/how_to_contribute.qmd).
+Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. If you want to contribute to the code base, please have a look at [How to contribute](docs/how_to_contribute.qmd).
 
 # About
 *powfacpy* is an open source package which is mainly developed at Fraunhofer IEE and not associated with *DIgSILENT*.

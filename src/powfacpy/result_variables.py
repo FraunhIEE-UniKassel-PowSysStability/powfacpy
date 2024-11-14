@@ -1,7 +1,7 @@
 """
 This module provides enumeration classes for results variables of 'Elm' classes (network elements). This is convenient to get results variable strings and supports code completion in your IDE. If you hover over a variable, it's unit and description will be shown.  
 
-This file is automatically created using the .txt files in '.\result_variables' and using the module 'results_varaibles_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
+This file is automatically created using the .txt files in '.\\result_variables\\' and using the module 'results_variables_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
 
 Currently, the following 'Elm' classes are supported: 
 

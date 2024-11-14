@@ -313,7 +313,7 @@ class ActiveProject(Folder):
             folder_type (str): The folder of the active user ('user') or the global library ('global library') can be accessed.
 
         Raises:
-            TypeError: Invalid folder_tpe input
+            TypeError: Invalid folder_type input
 
         Returns:
             PFGeneral: first level folder
