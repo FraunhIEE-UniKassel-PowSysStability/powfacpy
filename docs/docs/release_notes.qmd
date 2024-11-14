@@ -19,4 +19,4 @@ number-sections: false
 - The format of the website was changed from *sphinx* to *quarto*
 - Functionality:
   - Interface for network topology was added
-  - Interfaces to several single *PowerFactory* classes was added (see [*powfacpy/pf_classes/*](../../src/powfacpy/pf_classes/))
+  - Interfaces to several single *PowerFactory* classes was added (see *src/powfacpy/pf_classes/*)
