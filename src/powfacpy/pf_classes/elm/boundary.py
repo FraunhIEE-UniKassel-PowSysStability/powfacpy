@@ -41,16 +41,41 @@ class Boundary(ElmBase, GroupingBase):
         for elm in excluded_elms:
             self._obj.AddCubicle(elm.GetCubicle(0), 1)
 
-    def get_average_frequency(self, simulation_results, source):
+    def get_average_frequency(
+        self,
+        simulation_results: pd.DataFrame,
+        source: str = "terminals",
+        ignored_elms: list[PFGeneral] | None = None,
+    ) -> float:
+        """Get the average frequency inside the boundary.
+
+        Args:
+            simulation_results (pd.DataFrame): Simulation results (exported using the 'Results' interface)
+            source (str, optional): Frequency measurement source. Options:
+                - 'terminal' (ElmTerm, default)
+                - 'pll' (StaPll)
+                - 'sm' (ElmSym)
+            ignored_elms (list[PFGeneral] | None, optional): sources (e.g. ElmTerm/StaPll objects) that are not included. Defaults to None.
+
+        Returns:
+            float: Average frequency
+        """
+
+        def remove_ignored(elms: list):
+            if ignored_elms:
+                return [elm for elm in elms if not elm in ignored_elms]
+            else:
+                return elms
+
         pfres = Results(cached=True)
         if source == "pll":
-            plls_in_boundary = self.get_phase_locked_loops()
+            plls_in_boundary = remove_ignored(self.get_phase_locked_loops())
             return pfres.get_simulation_results_from_dataframe(
                 simulation_results, plls_in_boundary, "s:fmeas"
             ).mean(1)
         elif source == "sm":
-            synchronous_machines_in_boundary = self.get_internal_elms(
-                lambda x: x.GetClassName() == "ElmSym"
+            synchronous_machines_in_boundary = remove_ignored(
+                self.get_internal_elms(lambda x: x.GetClassName() == "ElmSym")
             )
             return pfres.get_simulation_results_from_dataframe(
                 simulation_results,
@@ -58,8 +83,8 @@ class Boundary(ElmBase, GroupingBase):
                 RMS_BAL.ElmSym.s_xspeed.value,
             ).mean(1)
         elif source == "terminal":
-            terminals_in_boundary = self.get_internal_elms(
-                lambda x: x.GetClassName() == "ElmTerm"
+            terminals_in_boundary = remove_ignored(
+                self.get_internal_elms(lambda x: x.GetClassName() == "ElmTerm")
             )
             return pfres.get_simulation_results_from_dataframe(
                 simulation_results, terminals_in_boundary, RMS_BAL.ElmTerm.m_fe.value
