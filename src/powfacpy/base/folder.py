@@ -495,8 +495,8 @@ class Folder(BaseObjectStatic):
         """Create an object by specifying its path (including the class at the end) and return the object.
 
         Args:
-            path (str): path including class name at th end
-            overwrite (bool, optional): Overwrite extisting object. Defaults to True.
+            path (str): path including class name at the end.
+            overwrite (bool, optional): Overwrite existing object. Defaults to True.
 
         Raises:
             TypeError: If 'path' is not a string
