@@ -15,6 +15,7 @@ from powfacpy.pf_classes.protocols import (
     PFApp,
     ComInc,
     ComSim,
+    IntEvt,
 )
 
 
@@ -129,6 +130,13 @@ class DynamicSimulation(ApplicationBase):
         )
         self.act_prj.set_attr(event_obj, params)
         return event_obj
+
+    def clear_all_dyn_sim_events(self) -> None:
+        """Clear all dynamic simulation events."""
+        event_folder: IntEvt = (
+            self.act_prj.get_events_folder_from_initial_conditions_calc()
+        )
+        self.act_prj.clear_folder(event_folder)
 
     def create_event(
         self, name_incl_class, params={}, parent_folder=None, overwrite=True
