@@ -6,211 +6,211 @@ from typing import Protocol
 class PFGeneral(Protocol):
   """Class with general methods (see Section 'General Methods' in scripting reference. All other classes (except for PFApp) inherit from this class). 
   """
-  def GetCubicle(*args):
-    ...
-
-  def GetZeroImpedance(*args):
-    ...
-
-  def MarkInGraphics(*args):
-    ...
-
-  def SetAttributeLength(*args):
-    ...
-
-  def SetAttributes(*args):
-    ...
-
-  def GetAttributeType(*args):
-    ...
-
-  def IsInFeeder(*args):
-    ...
-
-  def HasResults(*args):
-    ...
-
-  def GetUnom(*args):
-    ...
-
-  def ReportUnusedObjects(*args):
-    ...
-
-  def PasteCopy(*args):
-    ...
-
-  def IsDeleted(*args):
-    ...
-
-  def ShowModalSelectTree(*args):
-    ...
-
-  def GetSupplyingTrfstations(*args):
-    ...
-
-  def GetChildren(*args):
-    ...
-
-  def GetClassName(*args):
-    ...
-
-  def CreateObject(*args):
-    ...
-
-  def ReportNonAsciiCharacters(*args):
+  def GetContents(*args):
     ...
 
   def Delete(*args):
     ...
 
-  def GetFullName(*args):
-    ...
-
-  def IsNetworkDataFolder(*args):
-    ...
-
-  def SetAttribute(*args):
-    ...
-
-  def SwitchOff(*args):
-    ...
-
-  def ReplaceNonAsciiCharacters(*args):
-    ...
-
-  def ContainsNonAsciiCharacters(*args):
-    ...
-
-  def GetOwner(*args):
-    ...
-
-  def SearchObject(*args):
-    ...
-
-  def WriteChangesToDb(*args):
-    ...
-
-  def GetCombinedProjectSource(*args):
-    ...
-
-  def GetImpedance(*args):
-    ...
-
-  def GetOperator(*args):
-    ...
-
-  def Isolate(*args):
-    ...
-
-  def IsReducible(*args):
-    ...
-
-  def IsHidden(*args):
-    ...
-
-  def PurgeUnusedObjects(*args):
-    ...
-
-  def IsOutOfService(*args):
-    ...
-
-  def GetNode(*args):
-    ...
-
-  def GetReferences(*args):
-    ...
-
-  def GetControlledNode(*args):
-    ...
-
-  def IsCalcRelevant(*args):
-    ...
-
-  def IsObjectModifiedByVariation(*args):
-    ...
-
-  def GetParent(*args):
-    ...
-
-  def GetConnectedElements(*args):
-    ...
-
-  def GetInom(*args):
-    ...
-
-  def SwitchOn(*args):
-    ...
-
-  def IsEnergized(*args):
-    ...
-
-  def HasAttribute(*args):
-    ...
-
-  def IsObjectActive(*args):
-    ...
-
-  def Energize(*args):
-    ...
-
-  def GetRegion(*args):
-    ...
-
-  def IsNode(*args):
-    ...
-
-  def SetAttributeShape(*args):
-    ...
-
-  def GetAttributeLength(*args):
-    ...
-
-  def GetAttributes(*args):
-    ...
-
-  def GetContents(*args):
-    ...
-
-  def GetSystemGrounding(*args):
-    ...
-
-  def GetAttribute(*args):
-    ...
-
-  def CopyData(*args):
-    ...
-
-  def IsEarthed(*args):
-    ...
-
-  def IsShortCircuited(*args):
-    ...
-
-  def Move(*args):
-    ...
-
-  def ShowEditDialog(*args):
-    ...
-
-  def GetConnectionCount(*args):
-    ...
-
   def AddCopy(*args):
-    ...
-
-  def GetAttributeShape(*args):
-    ...
-
-  def GetAttributeUnit(*args):
     ...
 
   def GetSupplyingSubstations(*args):
     ...
 
+  def CopyData(*args):
+    ...
+
+  def GetChildren(*args):
+    ...
+
+  def PurgeUnusedObjects(*args):
+    ...
+
   def GetSupplyingTransformers(*args):
     ...
 
+  def GetAttributeUnit(*args):
+    ...
+
+  def HasResults(*args):
+    ...
+
+  def MarkInGraphics(*args):
+    ...
+
+  def GetOwner(*args):
+    ...
+
+  def GetZeroImpedance(*args):
+    ...
+
+  def GetReferences(*args):
+    ...
+
+  def IsEnergized(*args):
+    ...
+
+  def ReplaceNonAsciiCharacters(*args):
+    ...
+
+  def IsObjectActive(*args):
+    ...
+
+  def GetAttributeShape(*args):
+    ...
+
+  def HasAttribute(*args):
+    ...
+
+  def ShowModalSelectTree(*args):
+    ...
+
+  def SetAttributeShape(*args):
+    ...
+
   def GetAttributeDescription(*args):
+    ...
+
+  def SetAttributeLength(*args):
+    ...
+
+  def IsHidden(*args):
+    ...
+
+  def Energize(*args):
+    ...
+
+  def GetImpedance(*args):
+    ...
+
+  def IsCalcRelevant(*args):
+    ...
+
+  def SetAttribute(*args):
+    ...
+
+  def ReportNonAsciiCharacters(*args):
+    ...
+
+  def GetAttributes(*args):
+    ...
+
+  def GetSupplyingTrfstations(*args):
+    ...
+
+  def PasteCopy(*args):
+    ...
+
+  def WriteChangesToDb(*args):
+    ...
+
+  def GetRegion(*args):
+    ...
+
+  def GetSystemGrounding(*args):
+    ...
+
+  def ReportUnusedObjects(*args):
+    ...
+
+  def IsNode(*args):
+    ...
+
+  def IsObjectModifiedByVariation(*args):
+    ...
+
+  def GetClassName(*args):
+    ...
+
+  def SwitchOn(*args):
+    ...
+
+  def GetControlledNode(*args):
+    ...
+
+  def GetAttributeLength(*args):
+    ...
+
+  def GetCubicle(*args):
+    ...
+
+  def GetAttributeType(*args):
+    ...
+
+  def Isolate(*args):
+    ...
+
+  def GetParent(*args):
+    ...
+
+  def GetNode(*args):
+    ...
+
+  def IsInFeeder(*args):
+    ...
+
+  def SearchObject(*args):
+    ...
+
+  def ShowEditDialog(*args):
+    ...
+
+  def ContainsNonAsciiCharacters(*args):
+    ...
+
+  def GetAttribute(*args):
+    ...
+
+  def SwitchOff(*args):
+    ...
+
+  def IsOutOfService(*args):
+    ...
+
+  def IsShortCircuited(*args):
+    ...
+
+  def CreateObject(*args):
+    ...
+
+  def GetInom(*args):
+    ...
+
+  def GetCombinedProjectSource(*args):
+    ...
+
+  def SetAttributes(*args):
+    ...
+
+  def GetOperator(*args):
+    ...
+
+  def IsEarthed(*args):
+    ...
+
+  def IsDeleted(*args):
+    ...
+
+  def Move(*args):
+    ...
+
+  def GetConnectionCount(*args):
+    ...
+
+  def GetConnectedElements(*args):
+    ...
+
+  def IsNetworkDataFolder(*args):
+    ...
+
+  def GetFullName(*args):
+    ...
+
+  def GetUnom(*args):
+    ...
+
+  def IsReducible(*args):
     ...
 
 class PFApp(Protocol):
@@ -41103,6 +41103,114 @@ class EvtStep(PFGeneral):
   "Execution Time: Absolute"
   tottime: float
   "Time"
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class IntFilvers(PFGeneral):
+  build: int
+  "Build"
+  charact: list
+  "Charact."
+  codepage: list
+  "File created by PowerFactory: Text encoding"
+  fold_id: object
+  "In Folder"
+  inum: int
+  "File created by PowerFactory: Objects included"
+  licinfo: list
+  "(DIGSIDONGLE only) Licence information"
+  loc_name: str
+  "File created by PowerFactory: Date and Time"
+  newpath: object
+  "Select Path: New Path"
+  oid_: int
+  "ObjectID"
+  orgpath: str
+  "Select Path: Original Path"
+  pfversion: str
+  "File created by PowerFactory: Version"
+  pid_: int
+  "ProjectID"
+  prjName: str
+  "Original Project Name"
+  root_id: object
+  "Original Location"
+  tid_: int
+  "TimeID"
+  type: int
+  "File created by PowerFactory: Type:Complete Data:Project Snapshot"
+  version: int
+  "Internal Version No."
+
+
+  def AttributeType(*args):
+    ...
+
+  def HasReferences(*args):
+    ...
+
+  def __getattr__(*args):
+    ...
+
+
+
+class IntTemplate(PFGeneral):
+  cType: str
+  "Type"
+  charact: list
+  "Charact."
+  chr_name: str
+  "Characteristic Name"
+  contents: list
+  "Contents"
+  cpHeadFold: object
+  "Head Folder"
+  dat_src: str
+  "Data source"
+  dataExtDesc: list
+  "Description"
+  dataExtUnit: list
+  "Unit"
+  desc: list
+  "Description"
+  fold_id: object
+  "In Folder"
+  for_name: str
+  "Foreign Key"
+  gnrl_modby: str
+  "Object modified by"
+  gnrl_modif: int
+  "Object modified"
+  iSchemeStatus: int
+  "Scheme Status"
+  loc_name: str
+  "Name"
+  oid_: int
+  "ObjectID"
+  pid_: int
+  "ProjectID"
+  root_id: object
+  "Original Location"
+  share: int
+  "Sharing"
+  tid_: int
+  "TimeID"
+  typemetadata_changeLog: list
+  "Change Log"
+  typemetadata_key: list
+  "Type Key"
+  typemetadata_version: list
+  "Version"
 
 
   def AttributeType(*args):
