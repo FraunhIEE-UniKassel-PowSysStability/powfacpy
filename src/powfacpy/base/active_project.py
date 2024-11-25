@@ -582,7 +582,7 @@ class ActiveProject(Folder):
 
 
 class ActiveProjectCached(ActiveProject):
-    """Caches the properties. Should be used only in one project (the caching fails after a different project is activated)."""
+    """Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated)."""
 
     @cached_property
     def _obj(self):
