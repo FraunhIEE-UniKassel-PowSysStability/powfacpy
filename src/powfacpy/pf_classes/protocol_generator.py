@@ -47,6 +47,8 @@ missing_classes_that_are_not_in_scripting_reference = [
     "EvtTrigger",
     "EvtStep",
     "IntScan",
+    "IntFilvers",
+    "IntTemplate",
 ]
 
 
@@ -87,7 +89,7 @@ class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
         pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(
             pf_class_names
         )
-        ic(pf_class_objects_not_found)
+        print(pf_class_objects_not_found)
         try:
             self.app.Hide()
             with open(
