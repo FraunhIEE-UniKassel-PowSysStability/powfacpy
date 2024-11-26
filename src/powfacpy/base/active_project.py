@@ -35,7 +35,7 @@ class ActiveProject(Folder):
 
     app: PFApp
 
-    def __init__(self: IntPrj, pf_app: PFApp | None | bool = False):
+    def __init__(self, pf_app: PFApp | None | bool = False):
         if pf_app:
             self.__class__.app = pf_app
         elif pf_app is None:
