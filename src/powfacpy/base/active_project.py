@@ -572,6 +572,22 @@ class ActiveProject(Folder):
                 initial_study_case.Activate()
         return imported_project
 
+    def import_dz_file(
+        self, file_path: str, target_folder: PFGeneral | None = None
+    ) -> list:
+        """Import a .dz file (e.g. a template)
+
+        Args:
+            file_path (str): path of .dz file
+            target_folder (PFGeneral | None, optional): target folder. Defaults to None (active project).
+
+        Returns:
+            list: [int errorCode, list importedObjects]
+        """
+        if target_folder is None:
+            target_folder = self.get_active_project()
+        return self.app.ImportDz(target_folder, file_path)
+
     def set_time_using_year(self, year):
         settime: SetTime = self.get_from_study_case("SetTime")
         average_seconds_per_year = 31556952
