@@ -575,7 +575,7 @@ class ActiveProject(Folder):
     def import_dz_file(
         self, file_path: str, target_folder: PFGeneral | None = None
     ) -> list:
-        """Import a .dz file (e.g. a template)
+        """Import a .dz file (e.g. a template).
 
         Args:
             file_path (str): path of .dz file
