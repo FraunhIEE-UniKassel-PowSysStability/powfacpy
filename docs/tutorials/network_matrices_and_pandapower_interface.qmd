@@ -87,7 +87,7 @@ net
 net.bus
 ```
 
-Note that the `name` column is filled with the `loc_name` attributes of the *PowerFactory* objects. `name` can be used as a mapping to the respective *PowerFactory* object only if the `loc_name` of all objects of a certain class are unique (e.g. no `ElmTerm` instances have the same `loc_name`). The `Database` interface can be used to enumerate euqivalent names of calculation relevant objects in the *PowerFactory* database. 
+Note that the `name` column is filled with the `loc_name` attributes of the *PowerFactory* objects. `name` can be used as a mapping to the respective *PowerFactory* object only if the `loc_name` of all objects of a certain class are unique (e.g. no `ElmTerm` instances have the same `loc_name`). The `Database` interface can be used to enumerate equivalent names of calculation relevant objects in the *PowerFactory* database. 
 
 ```{python}
 from powfacpy.applications.database import Database
@@ -107,7 +107,7 @@ To test whether the exported dataset is feasible, we can run a power flow using 
 pp.runpp(net)
 ```
 
-The follwoing shows how to access the results for a certain bus.
+The following shows how to access the results for a certain bus.
 
 ```{python}
 bus_name = "Bus 05"
@@ -152,7 +152,7 @@ df
 ```
 
 ### Connectivity (Adjacency) Matrix
-The connectivty matrix (also called adjacency matrix) is a symmetric matrix that has entries $1$ (or True) for connected nodes and $0$ (or False) for nodes that are not connected. 
+The connectivity matrix (also called adjacency matrix) is a symmetric matrix that has entries $1$ (or True) for connected nodes and $0$ (or False) for nodes that are not connected. 
 
 ```{python}
 ppi.get_connectivity_frame(net)
@@ -170,7 +170,7 @@ net._ppc["internal"]["J"].todense()
 An explanation of the Jacobian matrix entries is provided in [the pandapower tutorial](https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb) that was mentioned above already.
 
 ## Format Comparison {#sec-format-comparison}
-The dataformats of *pandapower* and *PowerFactory* are not fully compatibel. An overview and functionality to rudimentally validate the exported data is presented in the following.
+The dataformats of *pandapower* and *PowerFactory* are not fully compatible. An overview and functionality to rudimentary validate the exported data is presented in the following.
 
 Remember the exported dataset in *pandapower* format:
 
@@ -178,16 +178,35 @@ Remember the exported dataset in *pandapower* format:
 net
 ```
 
-There are a few things to consider here (not everthing is relevant for this example):
+There are a few things to consider here (not everything is relevant for this example):
 
-- *bus* consideres all terminals, even those that are not energized
+- *bus* considers all terminals, even those that are not energized
 - *gen* are *PV*-controlled generators (active power and voltage)
 - *sgen* are *PQ*-controlled generators
 - *ext_grid* are generators/external grids which act as slack buses
 - *switch* considers only breakers/switches for branches, i.e. between buses or between buses and branch elements like lines and transformers (i.e. switches connecting generators are not considered for example)
 
+
 ## Validation
-*powfacpy* offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in *PowerFactory* was used for the export. We can check the difference between both datasets by using `get_difference_between_pf_and_pandapower_dataset`. We artificially set (and later undo) a deviation in the *pandapower* dataset. A *Dataframe* with the divergent parameters is returned.
+### Using *pandapower*
+*pandapower* has a function `validate_pf_conversion` (due to a [bug in *pandapower*](https://github.com/e2nIEE/pandapower/issues/2363) this function fails if load flow results are initially present) which compares load flow results and returns the differences. 
+
+```{python}
+from pandapower.converter.powerfactory.validate import validate_pf_conversion
+
+try:
+    act_prj.app.Hide()
+    net = ppi.pf_project_to_pandapower()
+    all_diffs = validate_pf_conversion(net)
+finally:
+    act_prj.app.Show()
+all_diffs
+```
+
+### Using *powfacpy*
+*powfacpy* offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in *PowerFactory* was used for the export. We can check the difference between both datasets by using `get_difference_between_pf_and_pandapower_dataset`. 
+
+We artificially set (and later undo) a deviation in the *pandapower* dataset here. A *Dataframe* with the divergent parameters is returned.
 
 ```{python}
 from pandas import DataFrame
@@ -207,24 +226,17 @@ divergent_parameters
 
 `get_difference_between_pf_and_pandapower_dataset` assumes default settings for the units in the *PowerFactory* project (see *Settings\Units*).
 
-As mentioned, only a subset of classes and parameters is validated. The following maping is used:
+As mentioned, only a subset of classes and parameters is validated. The following mapping is used:
 
 ```{python}
 ppi.get_pandapower_2_pf_class_mapping()
 ```
 
-The parameter mapping is defined in `get_pandapower_2_pf_parameter_mapping`. It is best understood by looking at the source code and we use *python's* `inspect` module to print the method. The mapping is either between the *pandapower parameter strings or between a *pandapower* parameter string and and a callable with the *PowerFactory* object as argument and returning the parameter value (used for example to get paraeters from the *type* object). 
+The parameter mapping is defined in `get_pandapower_2_pf_parameter_mapping`. It is best understood by looking at the source code and we use *python's* `inspect` module to print the method. The mapping is either between the *pandapower parameter strings or between a *pandapower* parameter string and and a callable with the *PowerFactory* object as argument and returning the parameter value (used for example to get parameters from the *type* object). 
 
 ```{python}
 import inspect
 
 print(f"{inspect.getsource(ppi.get_pandapower_2_pf_parameter_mapping)}")
-```
-
-```{python}
-#| echo: false
-# from pandapower.converter.powerfactory.validate import validate_pf_conversion
-
-# diff = validate_pf_conversion(net)
 ```
 
