@@ -243,7 +243,11 @@ window.Quarto = {
   </ul></li>
   <li><a href="#load-flow-jacobian" id="toc-load-flow-jacobian" class="nav-link" data-scroll-target="#load-flow-jacobian"><span class="header-section-number">4</span> Load Flow Jacobian</a></li>
   <li><a href="#sec-format-comparison" id="toc-sec-format-comparison" class="nav-link" data-scroll-target="#sec-format-comparison"><span class="header-section-number">5</span> Format Comparison</a></li>
-  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">6</span> Validation</a></li>
+  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">6</span> Validation</a>
+  <ul class="collapse">
+  <li><a href="#using-pandapower" id="toc-using-pandapower" class="nav-link" data-scroll-target="#using-pandapower"><span class="header-section-number">6.1</span> Using <em>pandapower</em></a></li>
+  <li><a href="#using-powfacpy" id="toc-using-powfacpy" class="nav-link" data-scroll-target="#using-powfacpy"><span class="header-section-number">6.2</span> Using <em>powfacpy</em></a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/network_matrices_and_pandapower_interface.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/network_matrices_and_pandapower_interface.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -291,7 +295,7 @@ Warning
 <section id="imports-and-project-activation" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="imports-and-project-activation"><span class="header-section-number">1</span> Imports and Project Activation</h2>
 <p>First we import some packages and activate the <em>PowerFactory</em> project from which we want to export the dataset (the <em>IEEE 39 bus system</em> example) and get the network matrices.</p>
-<div id="77b26165" class="cell" data-execution_count="2">
+<div id="fd6b3a58" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -328,7 +332,7 @@ Warning
 <section id="export-dataset-to-pandapower" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="export-dataset-to-pandapower"><span class="header-section-number">2</span> Export Dataset to Pandapower</h2>
 <p>The dataset can be exported to <em>pandapower</em> format using the <code>pf_project_to_pandapower</code> function. It requires the <em>PowerFactory</em> app and the path to the project as inpit arguments.</p>
-<div id="d331b33d" class="cell" data-execution_count="3">
+<div id="98e4f755" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.pandapower_interface <span class="im">import</span> PandapowerInterface</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -358,7 +362,7 @@ Warning
 </div>
 </div>
 <p><code>net</code> gives an overview of the exported network components and result tables (<em>pandapower</em> result format). <em>PandaPower</em> is based on <em>pandas</em> dataframes. You can query for example the data of the buses using:</p>
-<div id="1de11f02" class="cell" data-execution_count="4">
+<div id="e8bae91f" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>net.bus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -854,8 +858,8 @@ Warning
 </div>
 </div>
 </div>
-<p>Note that the <code>name</code> column is filled with the <code>loc_name</code> attributes of the <em>PowerFactory</em> objects. <code>name</code> can be used as a mapping to the respective <em>PowerFactory</em> object only if the <code>loc_name</code> of all objects of a certain class are unique (e.g.&nbsp;no <code>ElmTerm</code> instances have the same <code>loc_name</code>). The <code>Database</code> interface can be used to enumerate euqivalent names of calculation relevant objects in the <em>PowerFactory</em> database.</p>
-<div id="d3416b97" class="cell" data-execution_count="5">
+<p>Note that the <code>name</code> column is filled with the <code>loc_name</code> attributes of the <em>PowerFactory</em> objects. <code>name</code> can be used as a mapping to the respective <em>PowerFactory</em> object only if the <code>loc_name</code> of all objects of a certain class are unique (e.g.&nbsp;no <code>ElmTerm</code> instances have the same <code>loc_name</code>). The <code>Database</code> interface can be used to enumerate equivalent names of calculation relevant objects in the <em>PowerFactory</em> database.</p>
+<div id="fee0f5d2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.database <span class="im">import</span> Database</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -867,7 +871,7 @@ Warning
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    act_prj.app.Show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To test whether the exported dataset is feasible, we can run a power flow using <em>pandapower</em>:</p>
-<div id="5e0838c8" class="cell" data-execution_count="6">
+<div id="8b8acae8" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pp.runpp(net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>numba cannot be imported and numba functions are disabled.
@@ -876,16 +880,16 @@ Please install numba to gain a massive speedup.
 (or if you prefer slow execution, set the flag numba=False to avoid this warning!)</code></pre>
 </div>
 </div>
-<p>The follwoing shows how to access the results for a certain bus.</p>
-<div id="20574b69" class="cell" data-execution_count="7">
+<p>The following shows how to access the results for a certain bus.</p>
+<div id="2d4bf5a6" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bus_name <span class="op">=</span> <span class="st">"Bus 05"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>index_of_element <span class="op">=</span> net.bus[net.bus[<span class="st">"name"</span>] <span class="op">==</span> bus_name].index[<span class="dv">0</span>]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>net.res_bus.iloc[index_of_element]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>vm_pu         0.993429
-va_degree   -17.826741
-p_mw          0.000000
-q_mvar        0.000000
+<pre><code>vm_pu        1.005311
+va_degree   -8.611863
+p_mw         0.000000
+q_mvar       0.000000
 Name: 2, dtype: float64</code></pre>
 </div>
 </div>
@@ -894,8 +898,8 @@ Name: 2, dtype: float64</code></pre>
 <h2 data-number="3" class="anchored" data-anchor-id="network-matrices"><span class="header-section-number">3</span> Network Matrices</h2>
 <section id="admittance-matrix" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="admittance-matrix"><span class="header-section-number">3.1</span> Admittance Matrix</h3>
-<p>We can no exctract the <em>Ybus</em> (i.e admittance) matrix. By default, the returned <em>numpy</em> matrix is sparse, so we create a dense matrix for printing.</p>
-<div id="a9b93a1f" class="cell" data-execution_count="8">
+<p>We can no extract the <em>Ybus</em> (i.e admittance) matrix. By default, the returned <em>numpy</em> matrix is sparse, so we create a dense matrix for printing.</p>
+<div id="e4ef46c6" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Yb <span class="op">=</span> ppi.get_Ybus_matrix(net)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Yb.todense())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -921,11 +925,18 @@ Name: 2, dtype: float64</code></pre>
     0.         +68.22446097j   0.         -69.9300725j ]]</code></pre>
 </div>
 </div>
-<p>This does not provide any information about the correspoinding nodes of the rows and columns. The function <code>get_Ybus_frame</code> provides this information.</p>
-<div id="f543b9c0" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ppi.get_Ybus_frame(net)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The base apparent power is <code>net._ppc["baseMVA"]</code>.</p>
+<div id="7f0b3280" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>net._ppc[<span class="st">"baseMVA"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>100.0</code></pre>
+</div>
+</div>
+<p>This does not provide any information about the corresponding nodes of the rows and columns. The function <code>get_Ybus_frame</code> provides this information.</p>
+<div id="7c2e9c6f" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ppi.get_Ybus_frame(net)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -2620,16 +2631,16 @@ Name: 2, dtype: float64</code></pre>
 </div>
 </div>
 <p>The names in the labels correspond to the <code>loc_name</code> attributes of the <em>PowerFactory</em> objects. Provided that the names are unique, we can also replace them with the actual <em>PowerFactory</em> objects (this can be more convenient to query data, but printing the frame is ugly because the full path is used in the labels) using the <code>PandasInterface</code> of <em>powfacpy</em>.</p>
-<div id="69dfac98" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.pandas_interface <span class="im">import</span> PandasInterface</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pdi <span class="op">=</span> PandasInterface(app)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pdi.replace_loc_name_with_pf_objects_in_labels(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    df, <span class="st">"ElmTerm"</span>, index_and_column_labels_are_equal<span class="op">=</span><span class="va">True</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="10">
+<div id="218e6b1d" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.pandas_interface <span class="im">import</span> PandasInterface</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pdi <span class="op">=</span> PandasInterface(app)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pdi.replace_loc_name_with_pf_objects_in_labels(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    df, <span class="st">"ElmTerm"</span>, index_and_column_labels_are_equal<span class="op">=</span><span class="va">True</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -4326,10 +4337,10 @@ Name: 2, dtype: float64</code></pre>
 </section>
 <section id="connectivity-adjacency-matrix" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="connectivity-adjacency-matrix"><span class="header-section-number">3.2</span> Connectivity (Adjacency) Matrix</h3>
-<p>The connectivty matrix (also called adjacency matrix) is a symmetric matrix that has entries <span class="math inline">\(1\)</span> (or True) for connected nodes and <span class="math inline">\(0\)</span> (or False) for nodes that are not connected.</p>
-<div id="a4245fa3" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ppi.get_connectivity_frame(net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="11">
+<p>The connectivity matrix (also called adjacency matrix) is a symmetric matrix that has entries <span class="math inline">\(1\)</span> (or True) for connected nodes and <span class="math inline">\(0\)</span> (or False) for nodes that are not connected.</p>
+<div id="355926ec" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ppi.get_connectivity_frame(net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -6029,33 +6040,33 @@ Name: 2, dtype: float64</code></pre>
 <section id="load-flow-jacobian" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="load-flow-jacobian"><span class="header-section-number">4</span> Load Flow Jacobian</h2>
 <p>The load flow Jacobian matrix can be exported as well.</p>
-<div id="775e4ff5" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>net._ppc[<span class="st">"internal"</span>][<span class="st">"J"</span>].todense()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>matrix([[  45.8949493 ,    0.        ,    0.        , ...,    0.        ,
+<div id="2be92c1f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>net._ppc[<span class="st">"internal"</span>][<span class="st">"J"</span>].todense()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>matrix([[  46.27299714,    0.        ,    0.        , ...,    0.        ,
             0.        ,    0.        ],
-        [   0.        ,   55.09383474,    0.        , ...,    0.        ,
+        [   0.        ,   55.13147079,    0.        , ...,    0.        ,
             0.        ,    0.        ],
-        [   0.        ,    0.        ,   68.67960514, ...,    0.        ,
+        [   0.        ,    0.        ,   68.76043932, ...,    0.        ,
             0.        ,    0.        ],
         ...,
-        [   0.        ,    0.        ,    0.        , ...,   68.09509815,
+        [   0.        ,    0.        ,    0.        , ...,   68.46350509,
             0.        ,    0.        ],
         [   0.        ,    0.        ,    0.        , ...,    0.        ,
-          175.22586366, -108.24983318],
+          175.44651958, -108.38492993],
         [   0.        ,    0.        ,    0.        , ...,    0.        ,
-         -108.82089506,  253.01002898]])</code></pre>
+         -108.95141063,  253.3137705 ]])</code></pre>
 </div>
 </div>
 <p>An explanation of the Jacobian matrix entries is provided in <a href="https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb">the pandapower tutorial</a> that was mentioned above already.</p>
 </section>
 <section id="sec-format-comparison" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="sec-format-comparison"><span class="header-section-number">5</span> Format Comparison</h2>
-<p>The dataformats of <em>pandapower</em> and <em>PowerFactory</em> are not fully compatibel. An overview and functionality to rudimentally validate the exported data is presented in the following.</p>
+<p>The dataformats of <em>pandapower</em> and <em>PowerFactory</em> are not fully compatible. An overview and functionality to rudimentary validate the exported data is presented in the following.</p>
 <p>Remember the exported dataset in <em>pandapower</em> format:</p>
-<div id="8924e4ae" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>net</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div id="64fe0ab8" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>net</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>This pandapower network includes the following parameter tables:
    - bus (39 elements)
    - load (19 elements)
@@ -6074,9 +6085,9 @@ Name: 2, dtype: float64</code></pre>
    - res_switch (92 elements)</code></pre>
 </div>
 </div>
-<p>There are a few things to consider here (not everthing is relevant for this example):</p>
+<p>There are a few things to consider here (not everything is relevant for this example):</p>
 <ul>
-<li><em>bus</em> consideres all terminals, even those that are not energized</li>
+<li><em>bus</em> considers all terminals, even those that are not energized</li>
 <li><em>gen</em> are <em>PV</em>-controlled generators (active power and voltage)</li>
 <li><em>sgen</em> are <em>PQ</em>-controlled generators</li>
 <li><em>ext_grid</em> are generators/external grids which act as slack buses</li>
@@ -6085,29 +6096,240 @@ Name: 2, dtype: float64</code></pre>
 </section>
 <section id="validation" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="validation"><span class="header-section-number">6</span> Validation</h2>
-<p><em>powfacpy</em> offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in <em>PowerFactory</em> was used for the export. We can check the difference between both datasets by using <code>get_difference_between_pf_and_pandapower_dataset</code>. We artificially set (and later undo) a deviation in the <em>pandapower</em> dataset. A <em>Dataframe</em> with the divergent parameters is returned.</p>
-<div id="adbac782" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    pf_app.Hide()</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">=</span> net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    divergent_parameters <span class="op">=</span> ppi.get_difference_between_pf_and_pandapower_dataset(net)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">=</span> net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    pf_app.Show()</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>divergent_parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<section id="using-pandapower" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="using-pandapower"><span class="header-section-number">6.1</span> Using <em>pandapower</em></h3>
+<p><em>pandapower</em> has a function <code>validate_pf_conversion</code> (due to a <a href="https://github.com/e2nIEE/pandapower/issues/2363">bug in <em>pandapower</em></a> this function fails if load flow results are initially present) which compares load flow results and returns the differences.</p>
+<div id="4ec820f8" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandapower.converter.powerfactory.validate <span class="im">import</span> validate_pf_conversion</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    act_prj.app.Hide()</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    net <span class="op">=</span> ppi.pf_project_to_pandapower()</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    all_diffs <span class="op">=</span> validate_pf_conversion(net)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    act_prj.app.Show()</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>all_diffs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>numba cannot be imported and numba functions are disabled.
+Probably the execution is slow.
+Please install numba to gain a massive speedup.
+(or if you prefer slow execution, set the flag numba=False to avoid this warning!)</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>{'gen_p_diff_is': 0    5.388387e-09
+ 1    4.945377e-09
+ 2    4.474373e-09
+ 3    4.093181e-09
+ 4    1.336514e-08
+ 5    5.883180e-09
+ 6    6.877826e-09
+ 7    5.005631e-09
+ 8    1.286480e-09
+ dtype: float64,
+ 'gen_q_diff_is': 0   -2.083226e-06
+ 1    3.592809e-06
+ 2    4.891156e-07
+ 3    8.703502e-07
+ 4    2.590304e-06
+ 5   -3.025984e-06
+ 6    4.997291e-07
+ 7    1.573084e-06
+ 8    1.078504e-06
+ dtype: float64,
+ 'diff_vm': 0     3.273652e-10
+ 1     3.792675e-10
+ 2     4.445266e-10
+ 3     3.405922e-10
+ 4     4.944194e-10
+ 5     0.000000e+00
+ 6     5.642413e-10
+ 7    -5.276244e-10
+ 8     6.057386e-10
+ 9     4.731771e-13
+ 10    5.251650e-10
+ 11    3.384428e-10
+ 12    6.859113e-11
+ 13    1.212996e-09
+ 14    2.106224e-10
+ 15    3.113954e-12
+ 16    2.887468e-12
+ 17    2.709610e-12
+ 18   -9.434165e-11
+ 19   -1.941558e-10
+ 20   -4.588552e-12
+ 21    1.137668e-10
+ 22    2.069172e-10
+ 23    1.420402e-10
+ 24    1.683644e-10
+ 25    1.896134e-10
+ 26    8.532441e-11
+ 27    1.678047e-10
+ 28    9.517276e-11
+ 29    2.566169e-12
+ 30    2.665645e-12
+ 31    1.697997e-11
+ 32    5.274048e-11
+ 33    1.442846e-12
+ 34   -1.537577e-10
+ 35    1.285860e-12
+ 36   -3.145495e-10
+ 37   -3.624547e-10
+ 38    2.042588e-12
+ dtype: float64,
+ 'diff_va': 0     1.304982e-07
+ 1     1.302316e-07
+ 2     1.289775e-07
+ 3     1.278345e-07
+ 4     1.286948e-07
+ 6     1.255758e-07
+ 7     1.161739e-07
+ 8     1.243239e-07
+ 9    -5.807801e-08
+ 10    1.254398e-07
+ 11    1.264527e-07
+ 12    1.247388e-07
+ 13    8.781482e-08
+ 14    1.243416e-07
+ 15   -9.149473e-08
+ 16    4.317915e-08
+ 17    4.192848e-07
+ 18    1.243799e-07
+ 19    1.254547e-07
+ 20    1.242053e-07
+ 21    1.232096e-07
+ 22    1.205033e-07
+ 23    1.239574e-07
+ 24    1.253273e-07
+ 25    1.186066e-07
+ 26    1.160292e-07
+ 27    1.186790e-07
+ 28    1.149743e-07
+ 29    2.239051e-07
+ 30    1.987250e-07
+ 31    1.261071e-07
+ 32    1.272867e-07
+ 33    1.284375e-07
+ 34    1.298370e-07
+ 35    1.555340e-07
+ 36    1.286402e-07
+ 37    1.290296e-07
+ 38    2.881649e-07
+ dtype: float64,
+ 'line_diff': line_idx
+ 0.0    -5.486274e-08
+ 1.0    -3.848447e-08
+ 2.0     5.150175e-08
+ 3.0     4.950124e-09
+ 4.0    -2.555277e-08
+ 5.0    -2.813976e-08
+ 6.0    -4.895908e-08
+ 7.0    -3.372673e-08
+ 8.0     2.410916e-07
+ 9.0     2.494204e-08
+ 10.0    1.323967e-08
+ 11.0    1.526548e-08
+ 12.0   -1.335349e-08
+ 13.0    7.175417e-08
+ 14.0    3.785601e-09
+ 15.0    3.613629e-08
+ 16.0    3.060013e-07
+ 17.0   -1.907252e-08
+ 18.0    1.125300e-07
+ 19.0    6.683110e-08
+ 20.0   -4.926240e-08
+ 21.0    3.236828e-08
+ 22.0    2.751826e-08
+ 23.0   -1.696872e-07
+ 24.0   -5.957075e-08
+ 25.0    9.428253e-08
+ 26.0    2.416888e-07
+ 27.0    2.474493e-08
+ 28.0    1.238902e-07
+ 29.0    3.017591e-08
+ 30.0   -1.673648e-07
+ 31.0    1.269711e-07
+ 32.0   -2.066877e-08
+ 33.0   -6.853013e-08
+ dtype: float64,
+ 'trafo_diff': 0     1.519593e-07
+ 1     3.987872e-08
+ 2    -3.555784e-08
+ 3     4.051851e-08
+ 4    -1.647721e-08
+ 5    -1.595604e-07
+ 6     6.224103e-08
+ 7     2.759654e-08
+ 8     1.979973e-08
+ 9     3.799485e-09
+ 10    1.862674e-09
+ 11   -9.592382e-08
+ dtype: float64,
+ 'load_p_diff_is': 0     0.000000e+00
+ 1    -5.684342e-14
+ 2    -2.842171e-14
+ 3     0.000000e+00
+ 4     0.000000e+00
+ 5     0.000000e+00
+ 6    -2.842171e-14
+ 7     5.684342e-14
+ 8     0.000000e+00
+ 9     0.000000e+00
+ 10    2.842171e-14
+ 11   -1.136868e-13
+ 12    0.000000e+00
+ 13   -8.881784e-16
+ 14   -1.136868e-13
+ 15    0.000000e+00
+ 16   -5.684342e-14
+ 17   -5.684342e-14
+ 18    0.000000e+00
+ dtype: float64,
+ 'load_q_diff_is': 0     0.000000e+00
+ 1    -3.552714e-15
+ 2    -7.105427e-15
+ 3     0.000000e+00
+ 4     0.000000e+00
+ 5     0.000000e+00
+ 6     3.552714e-15
+ 7    -7.105427e-15
+ 8     0.000000e+00
+ 9     2.842171e-14
+ 10    1.421085e-14
+ 11   -5.684342e-14
+ 12    0.000000e+00
+ 13   -1.421085e-14
+ 14   -1.421085e-14
+ 15   -1.421085e-14
+ 16   -7.105427e-15
+ 17    2.842171e-14
+ 18    2.842171e-14
+ dtype: float64,
+ 'ext_grid_p_diff': 0    6.027543e-07
+ dtype: float64,
+ 'ext_grid_q_diff': 0    0.000001
+ dtype: float64}</code></pre>
+</div>
+</div>
+</section>
+<section id="using-powfacpy" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="using-powfacpy"><span class="header-section-number">6.2</span> Using <em>powfacpy</em></h3>
+<p><em>powfacpy</em> offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in <em>PowerFactory</em> was used for the export. We can check the difference between both datasets by using <code>get_difference_between_pf_and_pandapower_dataset</code>.</p>
+<p>We artificially set (and later undo) a deviation in the <em>pandapower</em> dataset here. A <em>Dataframe</em> with the divergent parameters is returned.</p>
+<div id="0851d057" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    pf_app.Hide()</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">=</span> net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    divergent_parameters <span class="op">=</span> ppi.get_difference_between_pf_and_pandapower_dataset(net)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">=</span> net[<span class="st">"bus"</span>].loc[<span class="dv">0</span>, <span class="st">"vn_kv"</span>] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    pf_app.Show()</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>divergent_parameters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -6138,21 +6360,21 @@ Name: 2, dtype: float64</code></pre>
 </div>
 </div>
 <p><code>get_difference_between_pf_and_pandapower_dataset</code> assumes default settings for the units in the <em>PowerFactory</em> project (see *Settings).</p>
-<p>As mentioned, only a subset of classes and parameters is validated. The following maping is used:</p>
-<div id="8dbb20ca" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ppi.get_pandapower_2_pf_class_mapping()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<p>As mentioned, only a subset of classes and parameters is validated. The following mapping is used:</p>
+<div id="9471ff10" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ppi.get_pandapower_2_pf_class_mapping()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>{'bus': ['ElmTerm'],
  'line': ['ElmLne'],
  'trafo': ['ElmTr2', 'ElmTr3'],
  'impedance': ['ElmZpu', 'ElmSind']}</code></pre>
 </div>
 </div>
-<p>The parameter mapping is defined in <code>get_pandapower_2_pf_parameter_mapping</code>. It is best understood by looking at the source code and we use <em>python’s</em> <code>inspect</code> module to print the method. The mapping is either between the <em>pandapower parameter strings or between a </em>pandapower* parameter string and and a callable with the <em>PowerFactory</em> object as argument and returning the parameter value (used for example to get paraeters from the <em>type</em> object).</p>
-<div id="db6ad4da" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>inspect<span class="sc">.</span>getsource(ppi.get_pandapower_2_pf_parameter_mapping)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The parameter mapping is defined in <code>get_pandapower_2_pf_parameter_mapping</code>. It is best understood by looking at the source code and we use <em>python’s</em> <code>inspect</code> module to print the method. The mapping is either between the <em>pandapower parameter strings or between a </em>pandapower* parameter string and and a callable with the <em>PowerFactory</em> object as argument and returning the parameter value (used for example to get parameters from the <em>type</em> object).</p>
+<div id="18272565" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>inspect<span class="sc">.</span>getsource(ppi.get_pandapower_2_pf_parameter_mapping)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    def get_pandapower_2_pf_parameter_mapping(
         self,
@@ -6218,6 +6440,7 @@ Name: 2, dtype: float64</code></pre>
 </div>
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
