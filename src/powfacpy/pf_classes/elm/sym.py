@@ -43,7 +43,8 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         return obj.typ_id.J * obj.ngnum
 
     def get_averaged_internal_reactance(self) -> float:
-        """If the machine is not symmetrical, the average of the d-and q-axis internal reactances is used. For example, for a 6th order model, one has xG =0.5(x''d + x''q ).
+        """Get average of the d-and q-axis internal reactances:
+        xG = 0.5 (x''d + x''q)
 
         Returns:
             float: internal reactance [pu]
