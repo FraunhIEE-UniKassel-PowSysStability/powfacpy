@@ -35,7 +35,7 @@ class ActiveProject(Folder):
 
     app: PFApp
 
-    def __init__(self: IntPrj, pf_app: PFApp | None | bool = False):
+    def __init__(self, pf_app: PFApp | None | bool = False):
         if pf_app:
             self.__class__.app = pf_app
         elif pf_app is None:
@@ -571,6 +571,22 @@ class ActiveProject(Folder):
                 initial_project.Activate()
                 initial_study_case.Activate()
         return imported_project
+
+    def import_dz_file(
+        self, file_path: str, target_folder: PFGeneral | None = None
+    ) -> list:
+        """Import a .dz file (e.g. a template).
+
+        Args:
+            file_path (str): path of .dz file
+            target_folder (PFGeneral | None, optional): target folder. Defaults to None (active project).
+
+        Returns:
+            list: [int errorCode, list importedObjects]
+        """
+        if target_folder is None:
+            target_folder = self.get_active_project()
+        return self.app.ImportDz(target_folder, file_path)
 
     def set_time_using_year(self, year):
         settime: SetTime = self.get_from_study_case("SetTime")
