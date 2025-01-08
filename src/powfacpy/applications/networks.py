@@ -36,6 +36,7 @@ class Networks(ApplicationBase):
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
+                error_if_non_existent = False
             )
         else:
             return terminal.GetCalcRelevantCubicles()
