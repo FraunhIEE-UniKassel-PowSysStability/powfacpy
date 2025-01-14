@@ -36,7 +36,7 @@ class Networks(ApplicationBase):
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
-                error_if_non_existent = False
+                error_if_non_existent=False
             )
         else:
             return terminal.GetCalcRelevantCubicles()
@@ -100,5 +100,5 @@ class Networks(ApplicationBase):
     def get_parent_grid(self, obj_or_path):
         obj_or_path = self.act_prj._handle_single_pf_object_or_path_input(obj_or_path)
         return self.act_prj.get_upstream_obj(
-            obj_or_path, lambda x: x.GetClassName == "IntNet"
+            obj_or_path, lambda x: x.GetClassName() == "ElmNet"
         )
