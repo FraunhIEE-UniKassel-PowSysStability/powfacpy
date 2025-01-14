@@ -99,4 +99,4 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
 
     def get_parent_grid(self, obj_or_path):
         obj_or_path = self._handle_single_pf_object_or_path_input(obj_or_path)
-        return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName == "IntNet")
+        return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName() == "ElmNet")
