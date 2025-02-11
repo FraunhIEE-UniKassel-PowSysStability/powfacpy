@@ -82,7 +82,7 @@ class Networks(ApplicationBase):
             new_name=new_name,
             overwrite=True,
         )
-        graphical_net_objects = self.get_obj(
+        graphical_net_objects = self.act_prj.get_obj(
             "*.IntGrf", parent_folder=new_network_diagram, include_subfolders=True
         )
         for graphical_net_obj in graphical_net_objects:
