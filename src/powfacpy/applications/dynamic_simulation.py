@@ -4,6 +4,7 @@ from warnings import warn
 from os import getcwd, remove
 
 import pandas as pd
+from icecream import ic
 
 import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
@@ -333,6 +334,17 @@ class DynamicSimulation(ApplicationBase):
                 complete_row[(array_num - 1) * 2] = row[0]
                 complete_row[(array_num - 1) * 2 + 1] = row[1]
                 dsl_obj.SetAttribute(attrib, complete_row)
+    @staticmethod
+    def set_dsl_obj_array_from_pandas_series(
+        dsl_obj, series: pd.Series, array_num: int | None = None
+    ) -> None:
+        rows = [
+            [float(time), float(value)]
+            for time, value in zip(series.index.values, series.values)
+        ]
+        DynamicSimulation.set_dsl_obj_array(
+            dsl_obj, rows, array_num=array_num, size_included_in_array=False
+        )
 
     @staticmethod
     def get_dsl_obj_array(dsl_obj, array_num=None, size_included_in_array=True):
