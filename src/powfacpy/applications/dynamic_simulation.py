@@ -308,7 +308,9 @@ class DynamicSimulation(ApplicationBase):
         return ["oarray_", "array_", "matrix", "omatrix"]
 
     @staticmethod
-    def set_dsl_obj_array(dsl_obj, rows, array_num=None, size_included_in_array=True):
+    def set_dsl_obj_array(
+        dsl_obj, rows: list, array_num: int | None = None, size_included_in_array=True
+    ) -> None:
         """Set the array of a DSL object ('Advanced 1' tab).
         The array_num specifies which array is set (if None,
         all arrays/colums are set).
@@ -327,13 +329,14 @@ class DynamicSimulation(ApplicationBase):
                 attrib = "matrix:" + str(row_num + 1)
             else:
                 attrib = "matrix:" + str(row_num)
-            if not array_num:
+            if array_num is None:
                 dsl_obj.SetAttribute(attrib, row)
             else:
                 complete_row = dsl_obj.GetAttribute(attrib)
                 complete_row[(array_num - 1) * 2] = row[0]
                 complete_row[(array_num - 1) * 2 + 1] = row[1]
-                dsl_obj.SetAttribute(attrib, complete_row)
+                dsl_obj.SetAttribute(attrib, list(complete_row))
+
     @staticmethod
     def set_dsl_obj_array_from_pandas_series(
         dsl_obj, series: pd.Series, array_num: int | None = None
