@@ -36,6 +36,7 @@ class Networks(ApplicationBase):
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
+                error_if_non_existent=False
             )
         else:
             return terminal.GetCalcRelevantCubicles()
@@ -81,7 +82,7 @@ class Networks(ApplicationBase):
             new_name=new_name,
             overwrite=True,
         )
-        graphical_net_objects = self.get_obj(
+        graphical_net_objects = self.act_prj.get_obj(
             "*.IntGrf", parent_folder=new_network_diagram, include_subfolders=True
         )
         for graphical_net_obj in graphical_net_objects:
@@ -99,5 +100,5 @@ class Networks(ApplicationBase):
     def get_parent_grid(self, obj_or_path):
         obj_or_path = self.act_prj._handle_single_pf_object_or_path_input(obj_or_path)
         return self.act_prj.get_upstream_obj(
-            obj_or_path, lambda x: x.GetClassName == "IntNet"
+            obj_or_path, lambda x: x.GetClassName() == "ElmNet"
         )

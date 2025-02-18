@@ -41,6 +41,7 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
+                error_if_non_existent=False
             )
         else:
             return terminal.GetCalcRelevantCubicles()
@@ -99,4 +100,4 @@ class PFNetworkInterface(powfacpy.PFActiveProject):
 
     def get_parent_grid(self, obj_or_path):
         obj_or_path = self._handle_single_pf_object_or_path_input(obj_or_path)
-        return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName == "IntNet")
+        return self.get_upstream_obj(obj_or_path, lambda x: x.GetClassName() == "ElmNet")
