@@ -3,7 +3,7 @@ This module provides an interface to import/export data in CGMES format.
 """
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_classes.protocols import PFApp, CimArchive
+from powfacpy.pf_classes.protocols import PFApp, CimArchive, ElmNet
 
 
 class CGMES(ApplicationBase):
@@ -13,7 +13,8 @@ class CGMES(ApplicationBase):
         self, pf_app: PFApp | None | bool = False, cached: bool = False
     ) -> None:
         super().__init__(pf_app, cached)
-        self.archive_name: str = "cgmes_archive"
+        self.import_archive_name: str = "archive_imported"
+        self.export_archive_name: str = "archive_exported"
         self.file_to_archive_tool: str = "cgmes_file_to_archive"
         self.archive_to_file_tool_name: str = "cgmes_archive_to_file"
         self.archive_to_grid_tool_name: str = "cgmes_archive_to_grid"
@@ -45,21 +46,24 @@ class CGMES(ApplicationBase):
             use_existing=True,
         )
         file_to_archive_tool.iopt_target = 2
-        archive = self._create_archive(name="_".join([self.archive_name, name]))
+        archive = self._create_archive(name=name)
         file_to_archive_tool.targetPath = archive
         file_to_archive_tool.fileName = file_path
         file_to_archive_tool.Execute()
         return archive
 
-    def _convert_archive_to_grid(self, cim_archive) -> None:
+    def _convert_archive_to_grid(self, cim_archive: CimArchive) -> ElmNet:
         """Convert a PowerFactory .CimArchive to a grid. Returns None."""
+        grid = self.act_prj.create_in_folder(
+            "temp_grid.ElmNet", self.act_prj.network_data_folder
+        )
         cim_to_grid_tool = self._create_cim_to_grid_tool()
         cim_to_grid_tool.sourcePath = cim_archive
         cim_to_grid_tool.dependencies = None
         cim_to_grid_tool.partial = 0
-        # cim_to_grid_tool.pGrid = [grid] # TODO find out if grid has to be given
+        cim_to_grid_tool.pGrid = [grid]  # TODO find out if grid has to be given
         cim_to_grid_tool.Execute()
-        return None
+        return grid
 
     def cgmes_import(self, input_path: str):
         """Converts CGMES .zip files to a PowerFactory grid.
@@ -70,9 +74,8 @@ class CGMES(ApplicationBase):
         Returns:
             None
         """
-        archive = self._convert_file_to_archive(input_path, "imported")
-        self._convert_archive_to_grid(archive)
-        return None
+        archive = self._convert_file_to_archive(input_path, self.import_archive_name)
+        return self._convert_archive_to_grid(archive)
 
     def update_profiles(self, update_file_path: str, base_archive: CimArchive | str):
         """Includes new SSH (and DL) profiles into an already imported grid.
@@ -86,7 +89,7 @@ class CGMES(ApplicationBase):
         """
         base_archive = self.act_prj._handle_single_pf_object_or_path_input(base_archive)
         update_profiles_archive = self._convert_file_to_archive(
-            update_file_path, "imported_profiles_for_update"
+            update_file_path, self.import_archive_name+"_update"
         )
         cim_to_grid_tool = self._create_cim_to_grid_tool()
         cim_to_grid_tool.sourcePath = update_profiles_archive
@@ -123,7 +126,10 @@ class CGMES(ApplicationBase):
     def _create_archive(self, name):
         """Create a PowerFactory .CimArchive object. Returns the .CimArchive object."""
         archive = self.act_prj.create_in_folder(
-            name + ".CimArchive", self.archive_folder, use_existing=False, overwrite=True
+            name + ".CimArchive",
+            self.archive_folder,
+            use_existing=False,
+            overwrite=True,
         )
         return archive
 
@@ -160,7 +166,7 @@ class CGMES(ApplicationBase):
         grid_to_cim_tool.iopt_target = 1  # existing archive
         archive = self._create_archive(
             name="_".join(
-                [self.archive_name, "exported", selected_profiles.replace(" ", "_")]
+                [self.export_archive_name, selected_profiles.replace(" ", "_")]
             )
         )
         grid_to_cim_tool.targetPath = archive
