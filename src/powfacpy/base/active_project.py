@@ -89,10 +89,6 @@ class ActiveProject(Folder):
         return self.__class__.app.GetProjectFolder("templ")
 
     @property
-    def cim_folder(self):
-        return self.__class__.app.GetProjectFolder("cim")
-
-    @property
     def zones_folder(self):
         return self.__class__.app.GetDataFolder("ElmZone")
 

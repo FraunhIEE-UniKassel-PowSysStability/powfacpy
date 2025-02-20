@@ -14,7 +14,6 @@ class CGMES(ApplicationBase):
     ) -> None:
         super().__init__(pf_app, cached)
         self.archive_name: str = "cgmes_archive"
-        self.archive_folder_name: str = "cgmes_archive_folder"
         self.file_to_archive_tool: str = "cgmes_file_to_archive"
         self.archive_to_file_tool_name: str = "cgmes_archive_to_file"
         self.archive_to_grid_tool_name: str = "cgmes_archive_to_grid"
@@ -22,6 +21,10 @@ class CGMES(ApplicationBase):
         self.exported_zip_name: str = "cgmes_profiles"
         self.cgmes_version: str = "CGMES 3.0.0"
         self._all_profiles: str = "eq tp ssh sc sv dy dl gl"
+
+    @property
+    def archive_folder(self):
+        return self.act_prj.app.GetProjectFolder("cim")
 
     # Import methods
 
@@ -117,22 +120,10 @@ class CGMES(ApplicationBase):
         grid_to_cim_tool.version = self.cgmes_version
         return grid_to_cim_tool
 
-    def _get_archive_folder(self):
-        """Get or create the folder for PowerFactory .CimArchive objects. Returns the folder."""
-        archive_folder = self.act_prj.create_in_folder(
-            self.archive_folder_name + ".IntPrjfolder",
-            self.act_prj.app.GetActiveProject(),
-            use_existing=True,
-            overwrite=False,
-        )
-        archive_folder.iopt_typ = "cim"
-        return archive_folder
-
     def _create_archive(self, name):
         """Create a PowerFactory .CimArchive object. Returns the .CimArchive object."""
-        archive_folder = self._get_archive_folder()
         archive = self.act_prj.create_in_folder(
-            name + ".CimArchive", archive_folder, use_existing=False, overwrite=True
+            name + ".CimArchive", self.archive_folder, use_existing=False, overwrite=True
         )
         return archive
 
