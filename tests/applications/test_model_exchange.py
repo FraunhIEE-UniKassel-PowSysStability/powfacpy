@@ -1,4 +1,5 @@
 import os
+import zipfile
 import glob
 import importlib
 import sys
@@ -11,7 +12,6 @@ sys.path.insert(0, r".\src")
 import powfacpy
 import powfacpy.applications.model_exchange
 from powfacpy.applications.model_exchange import CGMES
-
 
 importlib.reload(powfacpy)
 
@@ -34,7 +34,8 @@ def _get_loadflow_results(pfcgmes: CGMES):
 
 
 def _clear_output_path(output_path):
-    _ = [os.remove(file) for file in glob.glob(os.path.join(output_path, "*"))]
+    if os.path.isdir(output_path):
+        _ = [os.remove(file) for file in glob.glob(os.path.join(output_path, "*"))]
     return None
 
 
@@ -73,26 +74,47 @@ def _assert_that_steady_state_changed(u1: dict, u2: dict):
     assert np.abs((u1 - u2) / u1).max() > 0.01
 
 
+def _convert_xml_names_to_profile_names(names):
+    return [x.split('_')[-2] for x in names] 
+
+def _assert_profiles_in_list(profiles_list, profiles_to_check):
+    assert len(profiles_list) == len(profiles_to_check) 
+    assert all(s in profiles_list for s in profiles_to_check)
+
 def test_cgmes_export(pfcgmes: CGMES, activate_powfacpy_test_project):
+    
     OUTPUT_PATH = os.path.abspath(r".\tests\tests_output\cgmes_export")
     _clear_output_path(OUTPUT_PATH)
-    # TODO create assertion
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
+    file = os.listdir(OUTPUT_PATH)
+    assert 'cgmes_profiles.zip' in file
+    with zipfile.ZipFile('\\'.join([OUTPUT_PATH]+file), 'r') as zip_file:
+        zip_contents = zip_file.namelist()
+    profiles = _convert_xml_names_to_profile_names(zip_contents)
+    _assert_profiles_in_list(profiles, ['EQ', 'TP', 'SSH', 'SV', 'DY', 'DL', 'GL', 'SC'])
+
     _clear_output_path(OUTPUT_PATH)
-    # TODO create assertion
+    assert not os.listdir(OUTPUT_PATH) # assert folder is empty
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh", as_zip=False)
+    profiles = _convert_xml_names_to_profile_names(os.listdir(OUTPUT_PATH))
+    _assert_profiles_in_list(profiles, ['SSH'])
     _clear_output_path(OUTPUT_PATH)
-    # TODO create assertion
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=False)
+    profiles = _convert_xml_names_to_profile_names(os.listdir(OUTPUT_PATH))
+    _assert_profiles_in_list(profiles, ['EQ', 'TP', 'SSH', 'SV', 'DY', 'DL', 'GL', 'SC'])
     _clear_output_path(OUTPUT_PATH)
-    # TODO create assertion
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh eq", as_zip=True)
+    file = os.listdir(OUTPUT_PATH)
+    assert len(file) == 1
+    with zipfile.ZipFile('\\'.join([OUTPUT_PATH]+file), 'r') as zip_file:
+        zip_contents = zip_file.namelist()
+    profiles = _convert_xml_names_to_profile_names(zip_contents)
+    _assert_profiles_in_list(profiles, ['EQ', 'SSH'])
     _clear_output_path(OUTPUT_PATH)
-    # TODO create assertion
 
 
 def test_cgmes_export_import(pfcgmes: CGMES, activate_powfacpy_test_project):
