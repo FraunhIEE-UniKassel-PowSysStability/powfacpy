@@ -210,7 +210,7 @@ class CGMES(ApplicationBase):
         """Exports selected CGMES profiles of active grid.
         Args:
             output_path (str): Path to desired output folder (without file name).
-            selected_profiles (str): String with CGMES profiles to be exported, separeted by single spaces (e.g. 'ssh dl', 'tp'). 'all' selects all profiles.
+            selected_profiles (str): String with CGMES profiles to be exported, separeted by single spaces (e.g. 'ssh dl' or 'tp'). 'all' selects all profiles.
             as_zip (bool): save as .zip file if as_zip, else save as .xml files.
 
         Returns:
