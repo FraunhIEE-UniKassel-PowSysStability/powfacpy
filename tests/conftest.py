@@ -58,8 +58,12 @@ def create_copy_of_test_project(
 ) -> IntPrj:
     user = act_prj.app.GetCurrentUser()
     powfacpy_folder_path = settings["path to powfacpy folder in PowerFactory database"]
+    full_path_to_project_in_pf = [
+        settings["path to powfacpy folder in PowerFactory database"], 
+        project_name_in_powfacpy_folder]
+    full_path_to_project_in_pf = '\\'.join([x for x in full_path_to_project_in_pf if not x is None])
     project_for_testing = act_prj.get_unique_obj(
-        rf"{powfacpy_folder_path}\{project_name_in_powfacpy_folder}",
+        full_path_to_project_in_pf,
         parent_folder=user,
         include_subfolders=False,
     )

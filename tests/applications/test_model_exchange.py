@@ -1,4 +1,5 @@
 import os
+import zipfile
 import glob
 import importlib
 import sys
@@ -11,7 +12,6 @@ sys.path.insert(0, r".\src")
 import powfacpy
 import powfacpy.applications.model_exchange
 from powfacpy.applications.model_exchange import CGMES
-
 
 importlib.reload(powfacpy)
 
@@ -34,7 +34,8 @@ def _get_loadflow_results(pfcgmes: CGMES):
 
 
 def _clear_output_path(output_path):
-    _ = [os.remove(file) for file in glob.glob(os.path.join(output_path, "*"))]
+    if os.path.isdir(output_path):
+        _ = [os.remove(file) for file in glob.glob(os.path.join(output_path, "*"))]
     return None
 
 
@@ -42,7 +43,7 @@ def _get_output_path():
     return os.path.abspath(r".\tests\tests_output\cgmes_export")
 
 
-def _activate_new_study_case_and_grid(pfcgmes: CGMES):
+def _create_and_activate_new_study_case(pfcgmes: CGMES):
     pfcgmes.act_prj.app.GetActiveStudyCase().Deactivate()
     new_study_case = pfcgmes.act_prj.create_in_folder(
         "New Study Case.IntCase",
@@ -50,12 +51,6 @@ def _activate_new_study_case_and_grid(pfcgmes: CGMES):
         overwrite=True,
     )
     new_study_case.Activate()
-    new_grid = pfcgmes.act_prj.create_in_folder(
-        "New Grid.ElmNet",
-        r"Network Model\Network Data\test_model_exchange_interfaces",
-        overwrite=True,
-    )
-    new_grid.Activate()
     return new_study_case
 
 
@@ -73,32 +68,61 @@ def _assert_that_steady_state_changed(u1: dict, u2: dict):
     assert np.abs((u1 - u2) / u1).max() > 0.01
 
 
+def _convert_xml_names_to_profile_names(names):
+    return [x.split("_")[-2] for x in names]
+
+
+def _assert_profiles_in_list(profiles_list, profiles_to_check):
+    assert len(profiles_list) == len(profiles_to_check)
+    assert all(s in profiles_list for s in profiles_to_check)
+
+
 def test_cgmes_export(pfcgmes: CGMES, activate_powfacpy_test_project):
+
     OUTPUT_PATH = os.path.abspath(r".\tests\tests_output\cgmes_export")
-    clear_output_path = lambda: [
-        os.remove(file) for file in glob.glob(os.path.join(OUTPUT_PATH, "*"))
-    ]
-    clear_output_path()
-    # TODO create assertion
+    _clear_output_path(OUTPUT_PATH)
 
+    # export all as zip
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
-    clear_output_path()
-    # TODO create assertion
+    file = os.listdir(OUTPUT_PATH)
+    assert "cgmes_profiles.zip" in file
+    with zipfile.ZipFile("\\".join([OUTPUT_PATH] + file), "r") as zip_file:
+        zip_contents = zip_file.namelist()
+    profiles = _convert_xml_names_to_profile_names(zip_contents)
+    _assert_profiles_in_list(
+        profiles, ["EQ", "TP", "SSH", "SV", "DY", "DL", "GL", "SC"]
+    )
 
+    # clear folder
+    _clear_output_path(OUTPUT_PATH)
+    assert not os.listdir(OUTPUT_PATH)
+
+    # export ssh
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh", as_zip=False)
-    clear_output_path()
-    # TODO create assertion
+    profiles = _convert_xml_names_to_profile_names(os.listdir(OUTPUT_PATH))
+    _assert_profiles_in_list(profiles, ["SSH"])
+    _clear_output_path(OUTPUT_PATH)
 
+    # export all
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=False)
-    clear_output_path()
-    # TODO create assertion
+    profiles = _convert_xml_names_to_profile_names(os.listdir(OUTPUT_PATH))
+    _assert_profiles_in_list(
+        profiles, ["EQ", "TP", "SSH", "SV", "DY", "DL", "GL", "SC"]
+    )
+    _clear_output_path(OUTPUT_PATH)
 
+    # export ssh eq as zip
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh eq", as_zip=True)
-    clear_output_path()
-    # TODO create assertion
+    file = os.listdir(OUTPUT_PATH)
+    assert len(file) == 1
+    with zipfile.ZipFile("\\".join([OUTPUT_PATH] + file), "r") as zip_file:
+        zip_contents = zip_file.namelist()
+    profiles = _convert_xml_names_to_profile_names(zip_contents)
+    _assert_profiles_in_list(profiles, ["EQ", "SSH"])
+    _clear_output_path(OUTPUT_PATH)
 
 
-def test_cgmes_export_import(pfcgmes: CGMES, activate_powfacpy_test_project):
+def test_cgmes_export_then_import(pfcgmes: CGMES, activate_powfacpy_test_project):
     OUTPUT_PATH = _get_output_path()
     _clear_output_path(OUTPUT_PATH)
 
@@ -109,8 +133,9 @@ def test_cgmes_export_import(pfcgmes: CGMES, activate_powfacpy_test_project):
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
 
-    _ = _activate_new_study_case_and_grid(pfcgmes)
-    pfcgmes.cgmes_import(OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip")
+    _ = _create_and_activate_new_study_case(pfcgmes)
+    grid = pfcgmes.cgmes_import(OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip")
+    grid.Activate()
 
     voltages_after, active_powers_after = _get_loadflow_results(pfcgmes)
 
@@ -122,39 +147,53 @@ def test_cgmes_update_profiles(pfcgmes: CGMES, activate_powfacpy_test_project):
     OUTPUT_PATH = _get_output_path()
     _clear_output_path(OUTPUT_PATH)
 
-    study_case_source = pfcgmes.act_prj.get_unique_obj(
+    reference_model_study_case = pfcgmes.act_prj.get_unique_obj(
         r"Study Cases\test_model_exchange_interfaces\Study Case"
     )
-    study_case_source.Activate()
+    reference_model_study_case.Activate()
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
 
-    study_case_destination = _activate_new_study_case_and_grid(pfcgmes)
-    pfcgmes.cgmes_import(OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip")
+    new_model_study_case = _create_and_activate_new_study_case(pfcgmes)
+    grid = pfcgmes.cgmes_import(OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip")
+    grid.Activate()
 
-    voltages_source_before_changes, active_powers_source_before_changes = (
+    # create change in reference model
+
+    reference_model_study_case.Activate()
+    reference_model_voltages_before_changes, reference_model_powers_before_changes = (
         _get_loadflow_results(pfcgmes)
     )
-    study_case_source.Activate()
-    for load in pfcgmes.act_prj.get_obj("*.ElmLod", include_subfolders=True):
+    for load in pfcgmes.act_prj.get_calc_relevant_obj("*.ElmLod"):
         load.qlini = 0
-    voltages_source, active_powers_source = _get_loadflow_results(pfcgmes)
+    reference_model_voltages_after_changes, reference_model_powers_after_changes = (
+        _get_loadflow_results(pfcgmes)
+    )
 
-    _assert_that_steady_state_changed(voltages_source_before_changes, voltages_source)
+    _assert_that_steady_state_changed(
+        reference_model_voltages_before_changes, reference_model_voltages_after_changes
+    )
 
     pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh dl", as_zip=True)
-    study_case_destination.Activate()
+
+    # update new model
+
+    new_model_study_case.Activate()
+
     base_archive = pfcgmes.act_prj.get_unique_obj(
-        r"cgmes_archive_folder\cgmes_archive_imported"
+        pfcgmes.import_archive_name, parent_folder=pfcgmes.archive_folder
     )
+
     pfcgmes.update_profiles(
         OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip", base_archive
     )
-    voltages_destination, active_powers_destination = _get_loadflow_results(pfcgmes)
+    new_model_voltages, new_model_powers = _get_loadflow_results(pfcgmes)
 
-    for load in pfcgmes.act_prj.get_obj("*.ElmLod", include_subfolders=True):
+    for load in pfcgmes.act_prj.get_calc_relevant_obj("*.ElmLod"):
         assert load.qlini == 0
-    _compare_loadflow_results(voltages_source, voltages_destination)
-    _compare_loadflow_results(active_powers_source, active_powers_destination)
+    _compare_loadflow_results(
+        reference_model_voltages_after_changes, new_model_voltages
+    )
+    _compare_loadflow_results(reference_model_powers_after_changes, new_model_powers)
 
 
 if __name__ == "__main__":

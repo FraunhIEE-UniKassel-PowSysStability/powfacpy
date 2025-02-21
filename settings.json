@@ -1,0 +1,7 @@
+{
+    "local path to PowerFactory application": "C:\\Program Files\\DIgSILENT\\PowerFactory 2024 SP4\\Python\\3.10",
+    "path to powfacpy folder in PowerFactory database": "powfacpy",
+    "PowerFactory password": null,
+    "PowerFactory username": null,
+    "PowerFactory command line arguments for GetApplication": null
+}

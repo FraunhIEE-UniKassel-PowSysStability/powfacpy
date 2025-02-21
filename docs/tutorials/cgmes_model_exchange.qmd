@@ -1,0 +1,229 @@
+---
+title: 'CGMES handling with model exchange interface '
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+
+sys.path.append(r"..\..\src")
+from powfacpy.applications.model_exchange import CGMES
+from powfacpy.applications.study_cases import StudyCases
+```
+
+**The tutorials have been moved to the [website](https://fraunhiee-unikassel-powsysstability.github.io/powfacpy/docs/tutorials/overview.html). The version here is no longer maintained.**
+
+# About CGMES 
+
+CGMES stands for *Common Grid Model Exchange Standard*. It is a standard developed to facilitate the exchange of grid models and data among different stakeholders in the power system industry, such as utilities, system operators, and software vendors.
+
+CGMES is structured using several profiles, each contained in a separate file. An exemplary seleciton of profiles is given in @tbl-cgmesProfiles.
+
+| Abbreviation | Description                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| SSH          | Steady State Hypothesis (steady state Load Flow Data with changeable parameters)               |
+| EQ           | Equipment Model                                                                                |
+| TP           | Topology profile: contains all topology objects, i.e. how equipment is electrically connected. |
+| SV           | State Variables                                                                                |
+| DL           | Diagram Layout                                                                                 |
+
+: Subselection of CGMES profiles {#tbl-cgmesProfiles}
+
+For more information on CGMES, visit the following links: 
+[Video](https://www.youtube.com/watch?v=4OfoYUBAv1c), [ENTSO-E website](https://www.entsoe.eu/data/cim/cim-for-grid-models-exchange/), and [Document](https://eepublicdownloads.entsoe.eu/clean-documents/CIM_documents/Grid_Model_CIM/140528_ENTSOE_CGMES_v2.4.14.pdf).
+
+# Model exchange interface
+
+The model exchange application of powfacpy contains functionalities to import and export CGMES data, as well as to update an existing CGMES grid with new data, for example from an SSH file.
+
+This tutorials demonstrates how to 
+
+- Import CGMES
+- Export CGMES
+- Update CGMES using SSH and DL
+
+First, activate the PowerFactory project as outlined in the *getting started* tutorial.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2024 SP4\Python\3.10"
+)  # you may use a different directory
+
+# Get the PF app
+import powerfactory
+import powfacpy
+
+app = powerfactory.GetApplication()
+app.ActivateProject(
+    r"powfacpy\powfacpy_tests_copy_where_tests_run"
+)  # You may change the project path.
+
+app.Show()
+```
+
+Get powfacpy objects
+
+```{python}
+pfcgmes = CGMES(app)
+pfp = pfcgmes.act_prj
+```
+
+Activate study case
+
+```{python}
+study_case = pfp.get_unique_obj(r'Study Cases\test_model_exchange_interfaces\Study Case')
+study_case.Activate()
+```
+
+The following grid exists in that project. 
+
+![Grid for export](figures/cgmes_grid.png){#fig-cgmesgrid}
+
+# Export to CGMES
+
+First, let's export this grid to CGMES. The function `cgmes_export()` exports the active grid to `OUTPUT_PATH`.
+
+```{python}
+OUTPUT_PATH = r'..\tests\tests_output\cgmes_export'
+
+pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
+```
+
+Here we can see the exported file.
+
+![Exported ZIP file with all CGMES profiles](figures/cgmes_zip_all_exported.png){#fig-cgmesZipAll}
+
+It is a .zip file, because we configured `as_zip=True`.
+
+We can also get the separate files directly into the folder by setting `as_zip=False`.
+Additionally **we can choose which profiles to export**:
+
+```{python}
+pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh dl sv", as_zip=False)
+```
+
+Now we exported the .xml files (not zipped) and only got SSH, DL and SV:
+
+![Selected profiles, unzipped](figures/cgmes_nozip.png){#fig-cgmesNoZip}
+
+# Import from CGMES
+
+Now we could import our grid into another simulation software. 
+
+Here, we'll demonstrate this by switching to a different study case and importing the grid again.
+
+```{python}
+study_case.Deactivate()
+
+new_study_case = pfp.create_in_folder(
+    "New Study Case.IntCase",
+    study_case.GetParent(),
+    overwrite=True,
+)
+new_study_case.Activate()
+```
+
+Then import the previously exported CGMES files using `cgmes_import()` 
+
+```{python}
+new_grid = pfcgmes.cgmes_import(
+    OUTPUT_PATH + "\\" 
+    + pfcgmes.exported_zip_name # default name that pfcgmes uses for exported zip file
+    + ".zip"
+)
+```
+
+```{python}
+new_grid.Activate()
+```
+
+The imorted grid will have the same name as the original.
+
+Import location is the root of the network data folder.
+It has a different folder structure than the original and a library folder with model types is imported with the grid.
+
+![Structure of imported grid](figures/cgmes_structure_after_import.png){#fig-structureAfterImport}
+
+But the resulting grid model still looks the same as the original:
+
+![Imported grid](figures/cgmes_reimported.png){#fig-cgmesReimportedGrid}
+
+# Update model with external data
+
+Using CGMES, we can update a model using external data (e.g. SSH and DL). 
+
+In this case, we will think of `study_case` as some external reference model. We will change its data and update `new_study_case` using CGMES.
+
+```{python}
+study_case.Activate()
+```
+
+All our loads have reactive power setpoints. 
+
+![Original reactive power setpoints of loads](figures_cgmes_qset.png){#fig-qSetOrig}
+
+Let's change them in the reference model. We will set them to 0, just as an example.
+
+```{python}
+pfp.app.Hide()
+
+reference_grid = pfp.get_unique_obj(r'Network Model\Network Data\test_model_exchange_interfaces\Grid')
+for load in pfcgmes.act_prj.get_obj("*.ElmLod", include_subfolders=True, parent_folder=reference_grid):
+    load.qlini = 0
+
+pfp.app.Show()
+```
+
+Now the reactive power of all loads in the reference model are 0:
+
+![new reactive power in reference model](figures/cgmes_new_q.png){#fig-cgmesNewQ}
+
+While in the new model it is still like it was before:
+
+![Reactive power in imported model](figures/cgmes_original_q.png){#fig-cgmesOriginalQ}
+
+To update our new model with the change in reference model, we first export the reference model's changes to CGMES using the SSH and DL profiles.
+
+```{python}
+pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh dl", as_zip=True)
+```
+
+Then we take this to our new model.
+
+```{python}
+new_study_case.Activate()
+```
+
+We need to supply the CIM archive that we used to import the new model. It is used as a base archive and needed for the update.
+
+```{python}
+base_archive = pfcgmes.act_prj.get_unique_obj(
+    pfcgmes.import_archive_name, parent_folder=pfcgmes.archive_folder
+)
+```
+
+And by running `update_profiles()` we can update our new model.
+
+```{python}
+pfcgmes.update_profiles(
+    update_file_path=OUTPUT_PATH + "\\" + pfcgmes.exported_zip_name + ".zip", 
+     base_archive=base_archive
+)
+```
+
+Now, the changes made in the reference model are also present in our new model.
+
+![Changes to reference model were transferred to new model](figures/cgmes_new_q.png){#fig-cgmesNewQ2}
+
