@@ -37,6 +37,7 @@ def _clear_output_path(output_path):
     _ = [os.remove(file) for file in glob.glob(os.path.join(output_path, "*"))]
     return None
 
+
 def _get_output_path():
     return os.path.abspath(r".\tests\tests_output\cgmes_export")
 
@@ -73,6 +74,7 @@ def _assert_that_steady_state_changed(u1: dict, u2: dict):
     assert np.abs((u1 - u2) / u1).max() > 0.01
 
 
+@pytest.mark.skip(reason="deprecated")
 def test_cgmes_export(pfcgmes, activate_powfacpy_test_project):
     OUTPUT_PATH = os.path.abspath(r".\tests\tests_output\cgmes_export")
     _clear_output_path(OUTPUT_PATH)
@@ -95,6 +97,7 @@ def test_cgmes_export(pfcgmes, activate_powfacpy_test_project):
     # TODO create assertion
 
 
+@pytest.mark.skip(reason="deprecated")
 def test_cgmes_export_import(pfcgmes, activate_powfacpy_test_project):
     OUTPUT_PATH = _get_output_path()
     _clear_output_path(OUTPUT_PATH)
@@ -115,6 +118,7 @@ def test_cgmes_export_import(pfcgmes, activate_powfacpy_test_project):
     _compare_loadflow_results(active_powers_before, active_powers_after)
 
 
+@pytest.mark.skip(reason="deprecated")
 def test_cgmes_update_profiles(pfcgmes, activate_powfacpy_test_project):
     OUTPUT_PATH = _get_output_path()
     _clear_output_path(OUTPUT_PATH)
