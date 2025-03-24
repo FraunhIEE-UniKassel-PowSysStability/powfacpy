@@ -42,7 +42,9 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         obj = self._obj
         return obj.typ_id.J * obj.ngnum
 
-    def get_averaged_internal_reactance(self) -> float:
+    def get_averaged_internal_reactance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -> float:
         """Get average of the d-and q-axis internal reactances:
         xG = 0.5 (x''d + x''q)
 
@@ -50,10 +52,17 @@ class SynchronousMachine(ElmBase, SinglePortBase):
             float: internal reactance [pu]
         """
         typ: TypSym = self._obj.typ_id
-        return 0.5 * (typ.xdss + typ.xqss)
+        x = 0.5 * (typ.xdss + typ.xqss)
+        if base_apparent_power_MVA is None:
+            return x
+        else:
+            return x / (self.ratedS / base_apparent_power_MVA)
 
-    def get_averaged_internal_susceptance(self) -> float:
-        return 1 / self.get_averaged_internal_reactance()
+    def get_averaged_internal_susceptance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -> float:
+        return 1 / self.get_averaged_internal_reactance(base_apparent_power_MVA)
+
 
     @staticmethod
     def get_cgmes_mapping():
