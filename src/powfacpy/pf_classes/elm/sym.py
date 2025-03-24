@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmSym, TypSym
+from powfacpy.pf_classes.protocols import ElmSym, TypSym, ElmTerm
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase, SinglePortBase
 from powfacpy.result_variables import ResVar
+
+LDF = ResVar.LF_Bal
 
 
 class SynchronousMachine(ElmBase, SinglePortBase):
@@ -63,6 +65,20 @@ class SynchronousMachine(ElmBase, SinglePortBase):
     ) -> float:
         return 1 / self.get_averaged_internal_reactance(base_apparent_power_MVA)
 
+    def get_approximate_internal_voltage(self) -> complex:
+        """Get approximate internal voltage from power supply, terminal voltage and internal reactance.
+
+        This is for example one way a system operator could approximate the internal voltage based on measurements at the point of connection.
+
+        Returns:
+            complex: approximate internal voltage
+        """
+        p = self._obj.GetAttribute(LDF.ElmSym.m_Psum_bus1.value) / self.ratedS
+        q = self._obj.GetAttribute(LDF.ElmSym.m_Qsum_bus1.value) / self.ratedS
+        terminal: ElmTerm = self._obj.bus1.cterm
+        u_bus = terminal.GetAttribute("m:ur") + 1j * terminal.GetAttribute("m:ui")
+        x = self.get_averaged_internal_reactance()
+        return u_bus + (q * x + 1j * p * x) / u_bus
 
     @staticmethod
     def get_cgmes_mapping():
