@@ -44,7 +44,6 @@ class PandasInterface(ApplicationBase):
         Returns:
             pd.DataFrame: Frame with updated labels
         """
-        ic(df.columns.get_level_values(0))
         if only_calc_relevant:
             all_objs = [
                 self.app.GetCalcRelevantObjects(obj + ".ElmTerm")[0]
