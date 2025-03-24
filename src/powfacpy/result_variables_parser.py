@@ -78,7 +78,7 @@ class ResultVariablesParser:
         module_docstring = f"""\"\"\"
 This module provides enumeration classes for results variables of 'Elm' classes (network elements). This is convenient to get results variable strings and supports code completion in your IDE. If you hover over a variable, it's unit and description will be shown.  
 
-This file is automatically created using the .txt files in '\{self.path_pf_res_var_txt_files}' and using the module 'results_varaibles_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
+This file is automatically created using the .txt files in '\{self.path_pf_res_var_txt_files}' and using the module 'results_variables_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
 
 Currently, the following 'Elm' classes are supported: \n
 """
@@ -86,7 +86,7 @@ Currently, the following 'Elm' classes are supported: \n
         for res_var_file in pf_res_var_files:
             module_docstring += res_var_file.split(".")[0] + "\n"
         module_docstring += (
-            "\nThe follwing simulation types/result variable types are supported:\n\n"
+            "\nThe following simulation types/result variable types are supported:\n\n"
         )
         for (
             pf_simtype,
@@ -128,7 +128,7 @@ Currently, the following 'Elm' classes are supported: \n
     def write_variable_line(self, line, used_attr, out_file):
         """Write one variable to the output python file.
         Splits the line (that was read in) according to two (or more) empty spaces, that separate attribute, unit (optional) and description.
-        The same attributes can occur several times in the simualtion type in the .txt file, so alreay used attributes ('used_attr') are ignored.
+        The same attributes can occur several times in the simulation type in the .txt file, so already used attributes ('used_attr') are ignored.
         """
         attr_and_unit_and_description = line.split("  ")
         attr_with_underscores_instead_of_colon = attr_and_unit_and_description[
