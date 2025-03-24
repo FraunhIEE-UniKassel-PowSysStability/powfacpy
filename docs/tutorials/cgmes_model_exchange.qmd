@@ -120,7 +120,7 @@ Now we exported the .xml files (not zipped) and only got SSH, DL and SV:
 
 # Import from CGMES
 
-Now we could import our grid into another simulation software. Here, we just import again to *Powerfactory*. 
+Now we could import our grid into another simulation software. Here, we just import again to *PowerFactory*. 
 
 We'll demonstrate this by switching to a different study case and importing the grid again.
 
