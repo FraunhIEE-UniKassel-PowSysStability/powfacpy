@@ -28,7 +28,9 @@ class Networks(ApplicationBase):
                 return cubicle
         if not new_cubicle_name:
             new_cubicle_name = "Cub_" + str(len(cubicles) + 1)
-        return self.act_prj.create_in_folder(new_cubicle_name + ".StaCubic", terminal)
+        return self.act_prj.create_in_folder(
+            new_cubicle_name + ".StaCubic", terminal, overwrite=False
+        )
 
     def get_cubicles_of_terminal(self, terminal, only_calc_relevant=False):
         if not only_calc_relevant:
