@@ -13,6 +13,7 @@ import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy import PFStringManipulation
 from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
+from powfacpy.result_variables import ResVar
 
 
 class Results(ApplicationBase):
@@ -546,6 +547,70 @@ class Results(ApplicationBase):
       (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
       _get_time_variable_name_from_elmres (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/)."""
             )
+
+    @staticmethod
+    def get_result_variable_description(
+        obj_or_class: PFGeneral | str, variable: str, simulation_type: str = "RMS_Bal"
+    ) -> str:
+        """Get result variable description provided by PowerFactory.
+
+        Args:
+            obj_or_class (PFGeneral | str): PF object or PF class
+            variable (str): Variable (of obj)
+            simulation_type (str, optional): Simulation type, e.g. 'Basic', 'LF_Bal', 'LF_Unbal', 'RMS_Bal', 'RMS_Unbal', 'EMT', 'Sensitivities_Bal'. Defaults to "RMS_Bal".
+
+        Returns:
+            str: The varible description
+        """
+        if not isinstance(obj_or_class, str):
+            obj_or_class = obj_or_class.GetClassName()
+        variable = variable.replace(":", "_")
+        return (
+            ResVar.__dict__[simulation_type]
+            .__dict__[obj_or_class]
+            .__dict__[variable]
+            .__doc__
+        )
+
+    def get_result_variables_descriptions_from_dataframe(
+        self, df_simulation_results: pd.DataFrame, simulation_type: str = "RMS_Bal"
+    ) -> dict:
+        """Get result variable description provided by PowerFactory for all the results in a DataFrame.
+
+        Args:
+            df_simulation_results (pd.DataFrame): Simulation results (generated with 'export_to_pandas')
+            simulation_type (str, optional): Simulation type, e.g. 'Basic', 'LF_Bal', 'LF_Unbal', 'RMS_Bal', 'RMS_Unbal', 'EMT', 'Sensitivities_Bal'. Defaults to "RMS_Bal".
+
+        Returns:
+            dict: The varible descriptions for each class
+        """
+        objs_and_vars = []
+        for obj, var in df_simulation_results.columns:
+            if isinstance(obj, str):
+                path = self.truncate_paths_until + obj
+                obj = self.act_prj.get_unique_obj(path, error_if_non_existent=False)
+                if obj:
+                    objs_and_vars.append((obj.GetClassName(), var))
+        objs_and_vars = set(objs_and_vars)
+        classes_and_vars_descriptions = {}
+        for pf_class, var in objs_and_vars:
+            class_and_description = (
+                f"{pf_class} ({self.app.GetClassDescription(pf_class)})"
+            )
+            vars_desc_of_class = classes_and_vars_descriptions.get(
+                class_and_description
+            )
+            if not vars_desc_of_class:
+                classes_and_vars_descriptions[class_and_description] = {}
+            try:
+                classes_and_vars_descriptions[class_and_description][var] = (
+                    self.get_result_variable_description(
+                        pf_class, var, simulation_type=simulation_type
+                    )
+                )
+            except KeyError:
+                warn(f"The variable {var} of the class {pf_class} was not found")
+        return classes_and_vars_descriptions
 
     def get_list_with_results_of_variable_from_elmres(
         self, obj, variable, results_obj=None, load_elmres=True

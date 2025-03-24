@@ -124,5 +124,12 @@ def test_export_to_pandas(activate_powfacpy_test_project, pfri: Results):
     df = pfri.export_to_pandas()
 
 
+def test_get_result_variable_description(activate_powfacpy_test_project, pfri: Results):
+    assert (
+        pfri.get_result_variable_description("ElmArea", "c_cosgen", "RMS_Bal")
+        == "Generators, Power Factor"
+    )
+
+
 if __name__ == "__main__":
     pytest.main(([r"tests\applications\test_results.py"]))
