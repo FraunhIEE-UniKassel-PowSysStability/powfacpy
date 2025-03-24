@@ -34,7 +34,7 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         return typ.sgn * obj.ngnum
 
     @property
-    def H_in_pu_based_on_Snom(self) -> float:
+    def H_in_seconds_based_on_Snom(self) -> float:
         "Inertia constant [s]"
         return self._obj.typ_id.h
 
@@ -79,6 +79,13 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         u_bus = terminal.GetAttribute("m:ur") + 1j * terminal.GetAttribute("m:ui")
         x = self.get_averaged_internal_reactance()
         return u_bus + (q * x + 1j * p * x) / u_bus
+
+    def get_H_in_seconds(self, base_apparent_power_MVA: float | None = None) -> float:
+        "Inertia constant [s]"
+        if base_apparent_power_MVA is None:
+            return self._obj.typ_id.h
+        else:
+            return self._obj.typ_id.h * (self.ratedS / base_apparent_power_MVA)
 
     @staticmethod
     def get_cgmes_mapping():
