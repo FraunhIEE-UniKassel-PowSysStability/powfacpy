@@ -43,15 +43,15 @@ For more information on CGMES, visit the following links:
 
 # Model exchange interface
 
-The model exchange application of powfacpy contains functionalities to import and export CGMES data, as well as to update an existing CGMES grid with new data, for example from an SSH file.
+The model exchange application of *powfacpy* contains functionalities to import and export CGMES data, as well as to update an existing CGMES grid with new data, for example from an SSH file.
 
 This tutorials demonstrates how to 
 
 - Import CGMES
 - Export CGMES
-- Update CGMES using SSH and DL
+- Update CGMES using SSH and DL profiles
 
-First, activate the PowerFactory project as outlined in the *getting started* tutorial.
+First, activate the *PowerFactory* project as outlined in the *getting started* tutorial.
 
 ```{python}
 # If you use IPython/Jupyter:
@@ -73,14 +73,14 @@ app.ActivateProject(
 app.Show()
 ```
 
-Get powfacpy objects
+Get *powfacpy* objects (CGMES interface class and `ActiveProject`)
 
 ```{python}
 pfcgmes = CGMES(app)
 pfp = pfcgmes.act_prj
 ```
 
-Activate study case
+Activate the study case:
 
 ```{python}
 study_case = pfp.get_unique_obj(r'Study Cases\test_model_exchange_interfaces\Study Case')
@@ -107,7 +107,7 @@ Here we can see the exported file.
 
 It is a .zip file, because we configured `as_zip=True`.
 
-We can also get the separate files directly into the folder by setting `as_zip=False`.
+We can also export the separate files directly into the folder by setting `as_zip=False`.
 Additionally **we can choose which profiles to export**:
 
 ```{python}
@@ -120,9 +120,9 @@ Now we exported the .xml files (not zipped) and only got SSH, DL and SV:
 
 # Import from CGMES
 
-Now we could import our grid into another simulation software. 
+Now we could import our grid into another simulation software. Here, we just import again to *Powerfactory*. 
 
-Here, we'll demonstrate this by switching to a different study case and importing the grid again.
+We'll demonstrate this by switching to a different study case and importing the grid again.
 
 ```{python}
 study_case.Deactivate()
@@ -149,10 +149,10 @@ new_grid = pfcgmes.cgmes_import(
 new_grid.Activate()
 ```
 
-The imorted grid will have the same name as the original.
+The imported grid will have the same name as the original.
 
 Import location is the root of the network data folder.
-It has a different folder structure than the original and a library folder with model types is imported with the grid.
+The imported grid has a different folder structure than the original and a library folder with model types is imported together with the grid.
 
 ![Structure of imported grid](figures/cgmes_structure_after_import.png){#fig-structureAfterImport}
 
@@ -164,7 +164,7 @@ But the resulting grid model still looks the same as the original:
 
 Using CGMES, we can update a model using external data (e.g. SSH and DL). 
 
-In this case, we will think of `study_case` as some external reference model. We will change its data and update `new_study_case` using CGMES.
+In this case, we will think of `study_case` as some external reference model. We will change its data and update `new_study_case` accordingly using CGMES.
 
 ```{python}
 study_case.Activate()
