@@ -38,6 +38,7 @@ class Networks(ApplicationBase):
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
+                error_if_non_existent=False
             )
         else:
             return terminal.GetCalcRelevantCubicles()
@@ -64,6 +65,8 @@ class Networks(ApplicationBase):
         new_name,
         parent_folder=None,
         error_if_non_existent=True,
+        overwrite=True,
+        use_existing=False,
     ):
         """Copying a grid is not trivial in PF because the graphical network objects need to be copied and assigned manually as this is not done automatically."""
         grid_to_be_copied = self.act_prj._handle_single_pf_object_or_path_input(
@@ -72,7 +75,8 @@ class Networks(ApplicationBase):
         new_grid = self.act_prj.copy_single_obj(
             grid_to_be_copied,
             target_folder,
-            overwrite=True,
+            overwrite=overwrite,
+            use_existing=use_existing,
             new_name=new_name,
             parent_folder=parent_folder,
             error_if_non_existent=error_if_non_existent,
@@ -81,9 +85,10 @@ class Networks(ApplicationBase):
             grid_to_be_copied.pDiagram,
             self.act_prj.app.GetProjectFolder("dia"),
             new_name=new_name,
-            overwrite=True,
+            overwrite=overwrite,
+            use_existing=use_existing,
         )
-        graphical_net_objects = self.get_obj(
+        graphical_net_objects = self.act_prj.get_obj(
             "*.IntGrf", parent_folder=new_network_diagram, include_subfolders=True
         )
         for graphical_net_obj in graphical_net_objects:
@@ -101,5 +106,5 @@ class Networks(ApplicationBase):
     def get_parent_grid(self, obj_or_path):
         obj_or_path = self.act_prj._handle_single_pf_object_or_path_input(obj_or_path)
         return self.act_prj.get_upstream_obj(
-            obj_or_path, lambda x: x.GetClassName == "IntNet"
+            obj_or_path, lambda x: x.GetClassName() == "ElmNet"
         )

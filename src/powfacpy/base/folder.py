@@ -721,6 +721,7 @@ class Folder(BaseObjectStatic):
         obj_or_path: Union[PFGeneral, str],
         target_folder: Union[PFGeneral, Folder, str],
         overwrite: bool = True,
+        use_existing: bool = False,
         new_name: str = None,
         parent_folder: Union[PFGeneral, Folder, str] = None,
         error_if_non_existent: bool = True,
@@ -740,6 +741,11 @@ class Folder(BaseObjectStatic):
 
             overwrite (bool, optional):
                 Overwrite existing objects. Defaults to True.
+
+            use_existing (bool, optional):
+                If an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
+                If use_existing is True and an object with the same name exists, the method just returns the existing object.
+                Defaults to False.
 
             new_name (str, optional):
                 New name (if different to original). Defaults to None.
@@ -762,7 +768,15 @@ class Folder(BaseObjectStatic):
             error_if_non_existent=error_if_non_existent,
         )
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
-        if overwrite:
+        if use_existing:
+            existing_obj = self.get_unique_obj(
+                obj.GetAttribute("loc_name"),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+            if existing_obj:
+                return existing_obj
+        elif overwrite:
             if not new_name:
                 self.delete_obj(
                     obj.GetAttribute("loc_name"),
@@ -777,14 +791,6 @@ class Folder(BaseObjectStatic):
                     include_subfolders=False,
                     error_if_non_existent=False,
                 )
-        else:
-            existing_obj = self.get_unique_obj(
-                obj.GetAttribute("loc_name"),
-                parent_folder=target_folder,
-                error_if_non_existent=False,
-            )
-            if existing_obj:
-                return existing_obj
         if new_name:
             return target_folder.AddCopy(obj, new_name)
         else:
