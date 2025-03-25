@@ -89,7 +89,7 @@ study_case.Activate()
 
 The following grid exists in that project. 
 
-![Grid for export](figures/cgmes_grid.png){#fig-cgmesgrid}
+![Grid for export](../../tutorials/figures/cgmes_grid.png){#fig-cgmesgrid}
 
 # Export to CGMES
 
@@ -103,7 +103,7 @@ pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
 
 Here we can see the exported file.
 
-![Exported ZIP file with all CGMES profiles](figures/cgmes_zip_all_exported.png){#fig-cgmesZipAll}
+![Exported ZIP file with all CGMES profiles](../../tutorials/figures/cgmes_zip_all_exported.png){#fig-cgmesZipAll}
 
 It is a .zip file, because we configured `as_zip=True`.
 
@@ -116,7 +116,7 @@ pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="ssh dl sv", as_zip=False)
 
 Now we exported the .xml files (not zipped) and only got SSH, DL and SV:
 
-![Selected profiles, unzipped](figures/cgmes_nozip.png){#fig-cgmesNoZip}
+![Selected profiles, unzipped](../../tutorials/figures/cgmes_nozip.png){#fig-cgmesNoZip}
 
 # Import from CGMES
 
@@ -154,11 +154,11 @@ The imported grid will have the same name as the original.
 Import location is the root of the network data folder.
 The imported grid has a different folder structure than the original and a library folder with model types is imported together with the grid.
 
-![Structure of imported grid](figures/cgmes_structure_after_import.png){#fig-structureAfterImport}
+![Structure of imported grid](../../tutorials/figures/cgmes_structure_after_import.png){#fig-structureAfterImport}
 
 But the resulting grid model still looks the same as the original:
 
-![Imported grid](figures/cgmes_reimported.png){#fig-cgmesReimportedGrid}
+![Imported grid](../../tutorials/figures/cgmes_reimported.png){#fig-cgmesReimportedGrid}
 
 # Update model with external data
 
@@ -172,7 +172,7 @@ study_case.Activate()
 
 All our loads have reactive power setpoints. 
 
-![Original reactive power setpoints of loads](figures_cgmes_qset.png){#fig-qSetOrig}
+![Original reactive power setpoints of loads](../../tutorials/figures_cgmes_qset.png){#fig-qSetOrig}
 
 Let's change them in the reference model. We will set them to 0, just as an example.
 
@@ -188,11 +188,11 @@ pfp.app.Show()
 
 Now the reactive power of all loads in the reference model are 0:
 
-![new reactive power in reference model](figures/cgmes_new_q.png){#fig-cgmesNewQ}
+![new reactive power in reference model](../../tutorials/figures/cgmes_new_q.png){#fig-cgmesNewQ}
 
 While in the new model it is still like it was before:
 
-![Reactive power in imported model](figures/cgmes_original_q.png){#fig-cgmesOriginalQ}
+![Reactive power in imported model](../../tutorials/figures/cgmes_original_q.png){#fig-cgmesOriginalQ}
 
 To update our new model with the change in reference model, we first export the reference model's changes to CGMES using the SSH and DL profiles.
 
@@ -225,5 +225,5 @@ pfcgmes.update_profiles(
 
 Now, the changes made in the reference model are also present in our new model.
 
-![Changes to reference model were transferred to new model](figures/cgmes_new_q.png){#fig-cgmesNewQ2}
+![Changes to reference model were transferred to new model](../../tutorials/figures/cgmes_new_q.png){#fig-cgmesNewQ2}
 
