@@ -1,0 +1,248 @@
+---
+title: Topology and Groupings
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+sys.path.append(r"..\..\src")
+
+import matplotlib
+matplotlib.rcParams.update({"axes.grid" : True}) # add grid by default
+```
+
+This tutorial focuses on network topologies, specifically the organization of network elements into boundaries, zones and areas. The main topics covered include:
+
+- Creating and using boundaries
+- Creating and using zones
+- Creating and using areas
+- Additional useful methods of *powfacpy* for groupings (boundaries, areas, zones)
+
+
+First, we activate the PowerFactory project of the *IEEE 39 bus system* example, create a copy of a stable study case and activate it.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+)  # you may use a different directory
+# Get the PF app
+import powerfactory
+from powfacpy.base.active_project import ActiveProject
+from powfacpy.pf_classes.protocols import PFApp
+
+app = powerfactory.GetApplication()
+
+pf_app: PFApp = powerfactory.GetApplication()
+act_prj = ActiveProject(pf_app)
+act_prj.app.Show()
+act_prj.app.ActivateProject(
+    "powfacpy\\39_bus_new_england_copy_where_tests_run"
+)  # You may change the project path.
+study_case = act_prj.copy_single_obj("Study Cases\\2.3 Simulation Fault Bus 31 Stable", "Study Cases", new_name="Topology tutorial")
+study_case.Activate()
+act_prj.create_variation("Topology tutorial")
+```
+
+There are various classes to group network objects in *PowerFactory* including
+- areas (ElmArea),
+- zones (ElmZone),
+- boundaries (ElmBoundary).
+
+Areas and zones are very similar. One of their disadvantages is that it is not possible for one network element to be part of more than one area/zone. Boundaries on the other hand are more flexible and there is no such restriction, i.e. one element can be included in more than one boundary. Note also that the zone/area classes provide a method to define a boundary (`DefineBoundary`) that includes their internal elements. More information can be found in the *PowerFactory* manual in the chapter on *Grouping Objects*.
+
+We will examine an example in which the terminals of the IEEE 39 bus system are categorized into several regions. Each terminal is assigned to a specific region. These regions have been preselected based on coherency identification, as referenced in @khalilDynamicCoherencyIdentification2016. The configuration includes one large region and several smaller regions, as detailed in the following list of elements.
+
+```{python}
+coherent_regions_terminals = [
+    [
+        "Bus 02",
+        "Bus 03",
+        "Bus 04",
+        "Bus 05",
+        "Bus 06",
+        "Bus 07",
+        "Bus 08",
+        "Bus 10",
+        "Bus 11",
+        "Bus 12",
+        "Bus 13",
+        "Bus 14",
+        "Bus 15",
+        "Bus 16",
+        "Bus 17",
+        "Bus 18",
+        "Bus 19",
+        "Bus 20",
+        "Bus 21",
+        "Bus 22",
+        "Bus 23",
+        "Bus 24",
+        "Bus 25",
+        "Bus 26",
+        "Bus 27",
+        "Bus 28",
+        "Bus 29",
+        "Bus 32",
+        "Bus 33",
+        "Bus 34",
+        "Bus 35",
+        "Bus 37",
+        "Bus 38",
+    ],
+    ["Bus 01", "Bus 09", "Bus 39"],
+    ["Bus 31"],
+    ["Bus 36"],
+    ["Bus 30"],
+]
+```
+
+# Boundaries
+We will use the `Topology` class of *powfacpy* to create the regions. The lists with terminal names in `coherent_regions_terminals` assigned above are iterated and the method `create_boundary_using_intermediate_zone` is used, which creates a boundary by creating a zone in an intermediate step (first creating a zone is a convenient way to create a boundary). The method allows to exclude elements. In the example below, all loads (`ElmLod`) are excluded from the boundaries.
+
+```{python}
+from powfacpy.applications.topology import Topology
+from powfacpy.pf_classes.elm.boundary import Boundary
+
+try:
+    app.Hide()
+    act_prj.clear_folder(act_prj.boundaries_folder)
+    topo = Topology()
+    boundaries: list[Boundary] = []
+    for n, terminals in enumerate(coherent_regions_terminals):
+        terminal_objs = [act_prj.get_calc_relevant_obj(term + ".ElmTerm")[0] for term in terminals]
+        boundary = topo.create_boundary_using_intermediate_zone(
+            "Region " + str(n+1),
+            terminal_objs,
+            exclude_node_elms=lambda x: x.GetClassName() == "ElmLod",
+            color=n+2,
+        )
+        boundaries.append(Boundary(boundary))
+finally:
+    app.Show()
+```
+
+::: {.callout-warning}
+Note that the method `create_boundary_using_intermediate_zone` might change existing zones in the network model if their elements are included in the boundary (because elements can only be part of one zone). To avoid this use 'create_boundary_without_changing_initial_zones' instead.
+
+:::
+
+The objects of class `Boundary` are stored in the `boundaries` list in the loop above. The `Boundary` class of *powfacpy* offers some convenient methods, for example to visualize the interior of (all) boundaries in the single line diagram.
+
+```{python}
+from powfacpy.applications.plots import Plots
+from os import getcwd
+
+pf_plt = Plots(app)
+pf_plt.set_active_graphics_page("Grid")
+boundary_1 = boundaries[0]
+boundary_1.show_boundary_interior_regions_in_network_graphic()
+```
+
+The regions are now illustrated in the single line diagram. Apparently, loads are excluded from the interior of the boundaries. 
+![single_line_diagram_with_boundaries](figures/single_line_diagram_with_boundaries.png)
+
+We will now crate plots showing the active and reactive power exchange of the boundaries as well as the frequencies of the terminals.
+
+```{python}
+from powfacpy.result_variables import ResVar
+
+RMS_BAL = ResVar.RMS_Bal
+
+try:
+    app.Hide()
+    pf_plt.clear_plot_pages()
+    for n, boundary in enumerate(boundaries):
+        pf_plt.set_active_plot("Active power", "Boundaries")
+        pf_plt.plot(boundary.obj, 
+                    boundary.get_P_exchange_res_var_rms_bal())
+        pf_plt.set_active_plot("Reactive power", "Boundaries")
+        pf_plt.plot(boundary.obj,  
+                    boundary.get_Q_exchange_res_var_rms_bal())
+        
+        pf_plt.set_active_plot("Frequency", "Terminal frequencies")
+        for term in coherent_regions_terminals[n]:
+            terminal_obj = act_prj.get_calc_relevant_obj(term + ".ElmTerm")[0]
+            pf_plt.plot(terminal_obj, RMS_BAL.ElmTerm.m_fehz.value, color=n+2)
+finally:
+    app.Show()            
+```
+
+Executing an RMS simulation gives the following results. As shown in the frequency plot, the frequencies at coherent terminals oscillate in phase. 
+
+```{python}
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
+pfds = DynamicSimulation(app)
+pfds.initialize_and_run_sim(param_simulation={"tstop": 10})
+```
+
+![power-exchange-regions](figures/power-exchange-regions.png)
+
+![frequencies-coherent-terminals](figures/frequencies-coherent-terminals.png)
+
+# Zones
+The topology class also allows to create zones. For example a zone for the first region in `coherent_regions_terminals` can be created as follows:
+
+```{python}
+from powfacpy.pf_classes.elm.zone import Zone
+
+terminal_objs_of_region_1 = [act_prj.get_calc_relevant_obj(term+".ElmTerm")[0] for term in coherent_regions_terminals[0]]
+zone_obj = topo.create_zone("Region 1", terminal_objs_of_region_1)
+```
+
+The `Zone` class of *powfacpy* can then be used to display zones in the single line diagram. 
+
+```{python}
+zone_1 = Zone(zone_obj)
+zone_1.show_zones_in_network_graphic()
+```
+
+# Areas
+The `ElmArea` class of *PowerFactory* is very similar to the `ElmZone` class and so is the `Area` class of *powfacpy* compared to the `Zone` class.
+
+```{python}
+from powfacpy.pf_classes.elm.area import Area
+
+area_obj = topo.create_area("Region 1", terminal_objs_of_region_1)
+area_1 = Area(zone_obj)
+area_1.show_areas_in_network_graphic()
+```
+
+# Common Methods of Grouping Classes
+Classes of *powfacpy* that group objects (like `Boundary`, `Zone` and `Area`) have common methods which are defined in the abstract base class `GroupingBase`. Here are some examples using the zone and boundary instances created above.
+
+```{python}
+try:
+    app.Hide()
+    
+    # All internal elements
+    elms = boundary_1.get_all_internal_elms()
+    elms = zone_1.get_all_internal_elms()
+
+    # Get internal elements with condition
+    elms = boundary_1.get_internal_elms(condition=lambda x: x.GetClassName()=="ElmTerm" and x.uknom > 300)
+    elms = zone_1.get_internal_elms(condition=lambda x: x.GetClassName()=="ElmTerm" and x.uknom > 300)
+    
+    # Get internal elements of class
+    elms = boundary_1.get_internal_elms_of_class("ElmLne")
+    elms = zone_1.get_internal_elms_of_class("ElmLne")
+    
+    # Get results variable for active power exchange in RMS simulations
+    p_res_var = boundary_1.get_P_exchange_res_var_rms_bal()
+    p_res_var = zone_1.get_P_exchange_res_var_rms_bal()
+    
+finally:
+    app.Show()
+```
+
