@@ -22,3 +22,5 @@ This [tutorial](network_matrices_and_pandapower_interface.qmd) demonstrates how 
 ## Topology and Groupings
 The [tutorial on topology and groupings](topology_and_groupings.qmd) focuses on the grouping of network elements into boundaries, zones and areas.
 
+## CGMES Model Exchange
+In the [cgmes model exchange tutorial](cgmes_model_exchange.qmd) you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.
