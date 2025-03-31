@@ -30,3 +30,13 @@ class DiagramColorScheme(ElmBase):
         self._obj.cUseColouring = 1
         self._obj.cGroup = 1
         self._obj.cColouring = 20
+
+    def show_zones(self) -> None:
+        self._obj.cUseColouring = 1
+        self._obj.cGroup = 4
+        self._obj.cColouring = 18
+
+    def show_areas(self) -> None:
+        self._obj.cUseColouring = 1
+        self._obj.cGroup = 4
+        self._obj.cColouring = 25
