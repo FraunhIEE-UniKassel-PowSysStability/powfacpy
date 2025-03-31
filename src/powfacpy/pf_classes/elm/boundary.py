@@ -36,10 +36,19 @@ class Boundary(ElmBase, GroupingBase):
         return self._obj.GetInterior()
 
     def exclude_node_elms_by_condition(self, condition: Callable) -> list[PFGeneral]:
+        """Exclude elements from the interior of the boundary by adding their cubicle to the boundary.
+
+        Args:
+            condition (Callable): Condition to select the elements to be excluded among all interior elements (e.g. `lambda x: x.GetClassName() == "ElmLod" to exclude all ElmLod)
+
+        Returns:
+            list[PFGeneral]: Elements that were excluded
+        """
         act_prj = ActiveProjectCached()
         excluded_elms = act_prj.get_by_condition(self._obj.GetInterior(), condition)
         for elm in excluded_elms:
             self._obj.AddCubicle(elm.GetCubicle(0), 1)
+        return excluded_elms
 
     def get_average_frequency(
         self,
@@ -91,7 +100,8 @@ class Boundary(ElmBase, GroupingBase):
             ).mean(1)
 
     @staticmethod
-    def show_boundary_interior_regions_in_network_graphic():
+    def show_boundary_interior_regions_in_network_graphic() -> None:
+        """Shows interior regions of all boundaries in the single line diagram."""
         act_prj = ActiveProjectCached()
         setcolscheme = act_prj.get_diagram_color_scheme()
         DiagramColorScheme(setcolscheme).show_boundary_interior_regions()
