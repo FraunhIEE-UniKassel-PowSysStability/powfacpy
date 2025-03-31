@@ -39,7 +39,7 @@ pip install powfacpy
 ```
 
 # Contact
-simon.eberlein@iee.fraunhofer.de
+simon.eberlein@iee.fraunhofer.de or open an issue.
 
 # Contribute
 Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. If you want to contribute to the code base, please have a look at [How to contribute](docs/how_to_contribute.qmd).
