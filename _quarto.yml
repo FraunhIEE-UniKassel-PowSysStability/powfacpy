@@ -30,6 +30,7 @@ website:
         - docs/tutorials/simulation_and_plotting.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/network_matrices_and_pandapower_interface.qmd
+        - docs/tutorials/cgmes_model_exchange.qmd
     - title: "Docs" 
       style: "docked"
       contents:
