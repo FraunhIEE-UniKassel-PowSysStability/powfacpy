@@ -258,7 +258,7 @@ class Folder(BaseObjectStatic):
         parent_folder: Union[PFGeneral, Folder, str] = None,
         error_if_non_existent: bool = True,
         include_subfolders: bool = False,
-    ) -> PFGeneral:
+    ) -> PFGeneral | None:
         """Get unique PowerFactory object under 'path'.
 
         Use this method if you want to access one single unique object.
@@ -320,7 +320,7 @@ class Folder(BaseObjectStatic):
         parent_folder: Union[PFGeneral, Folder, str] = None,
         error_if_non_existent: bool = True,
         include_subfolders: bool = False,
-    ) -> PFGeneral:
+    ) -> PFGeneral | None:
         """DEPRECATED: Use 'get_unique_obj' instead.
 
         Get unique PowerFactory object under 'path'.
@@ -1499,7 +1499,7 @@ class Folder(BaseObjectStatic):
 
     @staticmethod
     def get_loc_name_with_class(
-        objects: Union[PFGeneral, list[PFGeneral]]
+        objects: Union[PFGeneral, list[PFGeneral]],
     ) -> Union[str, list[str]]:
         """Get local name (loc_name) including class.
 
