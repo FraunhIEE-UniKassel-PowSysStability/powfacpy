@@ -5,6 +5,13 @@ number-sections: false
 ---
 
 
+## v0.3.7
+- New features for topology (boundaries, areas,...) and CGMES model exchange (see tutorials)
+- bugfixes
+  - get_vacant_cubicle
+  - rearrange_Y_bus_frame
+  - get_average_internal_susceptance
+
 ## v0.3.0
 - Structural changes: 
   - In this version, the structure of *powfacpy* has changed fundamentally
