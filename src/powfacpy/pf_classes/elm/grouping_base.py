@@ -16,6 +16,15 @@ class GroupingBase(ABC):
         result_variables: str | list[str],
         results_obj: ElmRes | None = None,
     ) -> None:
+        """Add results variable for internal elements selected by 'condition'.
+
+        Args:
+            condition_for_elms (Callable): Condition to select elements, e.g. 'lambda x: x.GetClassName() = "ElmTerm"'
+
+            result_variables (str | list[str]): Results variable name(s).
+
+            results_obj (ElmRes | None, optional): Results object where variables are added. Defaults to None ('get_from_study_case' is used).
+        """
         act_prj = ActiveProjectCached()
         if not results_obj:
             results_obj = act_prj.get_from_study_case("ElmRes")
@@ -26,6 +35,14 @@ class GroupingBase(ABC):
             act_prj.add_results_variable(elm, result_variables, results_obj)
 
     def get_internal_elms(self, condition: Callable | None = None) -> list[PFGeneral]:
+        """Get internal elements with optional condition.
+
+        Args:
+            condition_for_elms (Callable): Condition to select elements, e.g. 'lambda x: x.GetClassName() = "ElmTerm"'
+
+        Returns:
+            list[PFGeneral]: list of network elements.
+        """
         elms = self.get_all_internal_elms()
         if condition:
             act_prj = ActiveProjectCached()
@@ -35,7 +52,12 @@ class GroupingBase(ABC):
     def get_internal_elms_of_class(self, class_name: str) -> list[PFGeneral]:
         return self.get_internal_elms(lambda x: x.GetClassName() == class_name)
 
-    def get_phase_locked_loops(self):
+    def get_phase_locked_loops(self) -> list[StaPll]:
+        """Get all internal phase-locked loops (StaPll) objects (i.e. PLLs that measure at internal terminals).
+
+        Returns:
+            list[StaPll]: List of internal PLLs.
+        """
         act_prj = ActiveProjectCached()
         all_plls: list[StaPll] = act_prj.get_calc_relevant_obj("*.StaPll")
         internal_terminals = set(self.get_internal_elms_of_class("ElmTerm"))
@@ -43,4 +65,9 @@ class GroupingBase(ABC):
 
     @abstractmethod
     def get_all_internal_elms(self) -> list[PFGeneral]:
+        """Get all internal elements (to be implemented in concrete class)
+
+        Returns:
+            list[PFGeneral]: list of all internal elements.
+        """
         pass

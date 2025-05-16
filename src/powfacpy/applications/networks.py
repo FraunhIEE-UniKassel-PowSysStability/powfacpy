@@ -1,5 +1,6 @@
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_class_protocols import PFApp
+from powfacpy.pf_class_protocols import PFApp, StaCubic
+from powfacpy.pf_classes.protocols import ElmTerm
 
 
 class Networks(ApplicationBase):
@@ -10,7 +11,9 @@ class Networks(ApplicationBase):
     ) -> None:
         super().__init__(pf_app, cached)
 
-    def get_vacant_cubicle_of_terminal(self, terminal, new_cubicle_name=None):
+    def get_vacant_cubicle_of_terminal(
+        self, terminal, new_cubicle_name=None
+    ) -> StaCubic:
         """Gets the first vacant cubicle found in a terminal (i.e. nothing is connected
         to this cubicle).
         If there is no vacant cubicle, a new cubicle is created.
@@ -27,16 +30,30 @@ class Networks(ApplicationBase):
                     cubicle.loc_name = new_cubicle_name
                 return cubicle
         if not new_cubicle_name:
-            new_cubicle_name = "Cub_" + str(len(cubicles) + 1)
-        return self.act_prj.create_in_folder(new_cubicle_name + ".StaCubic", terminal)
+            cubicle_already_exists = True
+            cub_num = len(cubicles) + 1
+            while cubicle_already_exists is not None:
+                new_cubicle_name = "Cub_" + str(cub_num)
+                cubicle_already_exists = self.act_prj.get_unique_obj(
+                    new_cubicle_name,
+                    parent_folder=terminal,
+                    error_if_non_existent=False,
+                )
+                cub_num += 1
+        return self.act_prj.create_in_folder(
+            new_cubicle_name + ".StaCubic", terminal, overwrite=False
+        )
 
-    def get_cubicles_of_terminal(self, terminal, only_calc_relevant=False):
+    def get_cubicles_of_terminal(
+        self, terminal: ElmTerm, only_calc_relevant=False
+    ) -> list[StaCubic]:
         if not only_calc_relevant:
+            # GetConnectedCubicles() does not return vacant cubicles so it cannot cannot be used to get all cubicles
             return self.act_prj.get_obj(
                 "*",
                 parent_folder=terminal,
                 condition=lambda x: x.GetClassName() == "StaCubic",
-                error_if_non_existent=False
+                error_if_non_existent=False,
             )
         else:
             return terminal.GetCalcRelevantCubicles()

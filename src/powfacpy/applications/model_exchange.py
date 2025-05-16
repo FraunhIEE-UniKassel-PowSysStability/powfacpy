@@ -213,6 +213,9 @@ class CGMES(ApplicationBase):
         Returns:
             None
         """
+        print(
+            "Info: The CGMES export can trigger error messages in the PowerFactory output window, but these do not usually affect the correctness of the exported data."
+        )
         archive = self._convert_grid_to_archive(selected_profiles=selected_profiles)
         self._convert_archive_to_file(archive, output_path, as_zip=as_zip)
         return None

@@ -5,19 +5,18 @@ Tutorial on internal data structure and matrices of pandapower: https://github.c
 
 from abc import abstractmethod
 from typing import Callable
+import copy
 
 import pandapower as pp
 from pandapower.converter.powerfactory.validate import validate_pf_conversion
 import pandas as pd
 import numpy as np
-import copy
+from numpy.typing import ArrayLike
 from icecream import ic
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_classes.protocols import (
-    PFGeneral,
-    PFApp,
-)
+from powfacpy.applications.pandas_interface import PandasInterface
+from powfacpy.pf_classes.protocols import PFGeneral, PFApp, ElmTerm
 
 
 class PandapowerInterface(ApplicationBase):
@@ -92,6 +91,34 @@ class PandapowerInterface(ApplicationBase):
             Yb.todense(), columns=matrix_index_labels, index=matrix_index_labels
         )
 
+    def rearrange_Ybus_frame(
+        self, y_bus: pd.DataFrame, bus_objs: ElmTerm
+    ) -> pd.DataFrame:
+        """Rearrange admittance matrix dataframe in order of 'bus_obj'.
+
+        Args:
+            y_bus (pd.DataFrame): Admittance matrix frame (labels are terminal names)
+            bus_objs (ElmTerm): Terminals in new order.
+
+        Returns:
+            pd.DataFrame: Rearranged admittance matrix frame.
+        """
+        pdi = PandasInterface()
+        columns = copy.deepcopy(y_bus.columns)
+        y_bus = pdi.replace_loc_name_with_pf_objects_in_labels(
+            y_bus,
+            "ElmTerm",
+            index_and_column_labels_are_equal=True,
+        )
+        order = [
+            int(np.where(y_bus.columns.get_level_values(0) == bus)[0])
+            for bus in bus_objs
+        ]
+        y_bus.iloc[:, :] = rearrange_matrix_rows_and_cols(y_bus.to_numpy(), order)
+        y_bus.columns = columns[order]
+        y_bus.index = y_bus.columns
+        return y_bus
+
     def get_imaginary_Ybus_matrix(
         self, net: pp.pandapowerNet, return_deepcopy=True
     ) -> np.matrix:
@@ -110,7 +137,6 @@ class PandapowerInterface(ApplicationBase):
             return np.imag(self.get_Ybus_matrix(net))
 
     def get_admittance_matrix_labels(self, net: pp.pandapowerNet):
-        pd2ppc_lookups = net._pd2ppc_lookups["bus"]
         matrix_index_labels = [None] * net._ppc["internal"]["Ybus"].shape[0]
         for ybus_idx in range(len(matrix_index_labels)):
             bus_idx = np.argmax(net._pd2ppc_lookups["bus"] == ybus_idx)
@@ -302,3 +328,9 @@ class PandapowerInterface(ApplicationBase):
                 "xft_pu": lambda x: (x.xrea * x.Sn) / (x.ucn**2),
             },
         }
+
+
+def rearrange_matrix_rows_and_cols(
+    matrix: ArrayLike, index_order: ArrayLike
+) -> np.array:
+    return matrix[index_order, :][:, index_order]

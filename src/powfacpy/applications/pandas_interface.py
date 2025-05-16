@@ -2,6 +2,8 @@
 
 import pandas as pd
 
+from icecream import ic
+
 from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_classes.protocols import (
@@ -42,15 +44,29 @@ class PandasInterface(ApplicationBase):
         Returns:
             pd.DataFrame: Frame with updated labels
         """
-        separator = f".{class_name},"
-        all_objs = separator.join(df.columns.get_level_values(level).to_list())
         if only_calc_relevant:
-            all_objs = self.app.GetCalcRelevantObjects(all_objs)
+            all_objs = [
+                self.app.GetCalcRelevantObjects(obj + ".ElmTerm")[0]
+                for obj in df.columns.get_level_values(0)
+            ]
         else:
-            all_objs = self.act_prj.get_obj(all_objs, include_subfolders=True)
+            all_objs = [
+                self.act_prj.get_unique_obj(obj + ".ElmTerm", include_subfolders=True)
+                for obj in df.columns.get_level_values(0)
+            ]
         df.columns = all_objs
         if not index_and_column_labels_are_equal:
-            all_objs = separator.join(df.index.get_level_values(level).to_list())
-            all_objs = self.app.GetCalcRelevantObjects(all_objs)
+            if only_calc_relevant:
+                all_objs = [
+                    self.app.GetCalcRelevantObjects(obj + ".ElmTerm")[0]
+                    for obj in df.index.get_level_values(0)
+                ]
+            else:
+                all_objs = [
+                    self.act_prj.get_unique_obj(
+                        obj + ".ElmTerm", include_subfolders=True
+                    )
+                    for obj in df.index.get_level_values(0)
+                ]
         df.index = all_objs
         return df

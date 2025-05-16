@@ -1,5 +1,5 @@
 from powfacpy.result_variables import ResVar
-from powfacpy.pf_classes.protocols import PFGeneral, ElmZone
+from powfacpy.pf_classes.protocols import PFGeneral, ElmZone, ElmArea
 from powfacpy.applications.topology import Topology
 from powfacpy.base.active_project import ActiveProject
 import sys
@@ -20,6 +20,18 @@ def create_zone(
     )
     zone = topo.create_zone("South-East", terminals)
     return zone, terminals
+
+
+@pytest.fixture(scope="function")
+def create_area(
+    act_prj: ActiveProject, activate_39_bus_new_england_test_project
+) -> tuple[ElmArea, list[PFGeneral]]:
+    topo = Topology()
+    terminals = act_prj.get_calc_relevant_obj(
+        "Bus 36.ElmTerm, Bus 23.ElmTerm, Bus 22.ElmTerm, Bus 35.ElmTerm"
+    )
+    area = topo.create_area("South-East", terminals)
+    return area, terminals
 
 
 def test_create_boundary(create_zone):

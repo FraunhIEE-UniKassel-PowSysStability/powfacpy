@@ -353,6 +353,29 @@ df_sim_res = pfres.export_to_pandas(
 df_sim_res.head(3)
 ```
 
+Another helpful method to make your exported data more descriptive is `get_result_variable_description`:
+
+```{python}
+pfres.get_result_variable_description(sm_objs[0], RMS_bal.ElmSym.s_P1.value, simulation_type="RMS_Bal")
+```
+
+This returns the variable description provided by *PowerFactory* and can be used in labels as well.
+
+You can also extract variable descriptions for all columns of the results *DataFrame* and format the dictionary with the `json` package: 
+
+```{python}
+import json
+
+classes_and_vars_descriptions = (
+    pfres.get_result_variables_descriptions_from_dataframe(
+        df_sim_res, simulation_type="RMS_Bal"
+    )
+)
+print(json.dumps(classes_and_vars_descriptions, indent=2))
+```
+
+The descriptions can help users less familiar with *PowerFactory* understand the exported simulation results.
+
 ## Export to CSV Format
 We can also export simulation results from PowerFactory to a csv file. The syntax is very simlar to the export to pandas:
 

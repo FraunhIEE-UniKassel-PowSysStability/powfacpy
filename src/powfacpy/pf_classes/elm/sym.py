@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmSym, TypSym
+from powfacpy.pf_classes.protocols import ElmSym, TypSym, ElmTerm
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase, SinglePortBase
 from powfacpy.result_variables import ResVar
+
+LDF = ResVar.LF_Bal
 
 
 class SynchronousMachine(ElmBase, SinglePortBase):
@@ -32,7 +34,7 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         return typ.sgn * obj.ngnum
 
     @property
-    def H_in_pu_based_on_Snom(self) -> float:
+    def H_in_seconds_based_on_Snom(self) -> float:
         "Inertia constant [s]"
         return self._obj.typ_id.h
 
@@ -42,7 +44,9 @@ class SynchronousMachine(ElmBase, SinglePortBase):
         obj = self._obj
         return obj.typ_id.J * obj.ngnum
 
-    def get_averaged_internal_reactance(self) -> float:
+    def get_averaged_internal_reactance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -> float:
         """Get average of the d-and q-axis internal reactances:
         xG = 0.5 (x''d + x''q)
 
@@ -50,10 +54,38 @@ class SynchronousMachine(ElmBase, SinglePortBase):
             float: internal reactance [pu]
         """
         typ: TypSym = self._obj.typ_id
-        return 0.5 * (typ.xdss + typ.xqss)
+        x = 0.5 * (typ.xdss + typ.xqss)
+        if base_apparent_power_MVA is None:
+            return x
+        else:
+            return x / (self.ratedS / base_apparent_power_MVA)
 
-    def get_averaged_internal_susceptance(self) -> float:
-        return 1 / self.get_averaged_internal_reactance()
+    def get_averaged_internal_susceptance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -> float:
+        return 1 / self.get_averaged_internal_reactance(base_apparent_power_MVA)
+
+    def get_approximate_internal_voltage(self) -> complex:
+        """Get approximate internal voltage from power supply, terminal voltage and internal reactance.
+
+        This is for example one way a system operator could approximate the internal voltage based on measurements at the point of connection.
+
+        Returns:
+            complex: approximate internal voltage
+        """
+        p = self._obj.GetAttribute(LDF.ElmSym.m_Psum_bus1.value) / self.ratedS
+        q = self._obj.GetAttribute(LDF.ElmSym.m_Qsum_bus1.value) / self.ratedS
+        terminal: ElmTerm = self._obj.bus1.cterm
+        u_bus = terminal.GetAttribute("m:ur") + 1j * terminal.GetAttribute("m:ui")
+        x = self.get_averaged_internal_reactance()
+        return u_bus + (q * x + 1j * p * x) / u_bus
+
+    def get_H_in_seconds(self, base_apparent_power_MVA: float | None = None) -> float:
+        "Inertia constant [s]"
+        if base_apparent_power_MVA is None:
+            return self._obj.typ_id.h
+        else:
+            return self._obj.typ_id.h * (self.ratedS / base_apparent_power_MVA)
 
     @staticmethod
     def get_cgmes_mapping():

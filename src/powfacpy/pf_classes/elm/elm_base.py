@@ -25,7 +25,7 @@ class SinglePortBase(ABC):
 
     @property
     def terminal(self):
-        return self.bus1
+        return self.bus1.cterm
 
     @property
     def p(self):

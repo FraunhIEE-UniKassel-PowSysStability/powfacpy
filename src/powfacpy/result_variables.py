@@ -1,7 +1,7 @@
 """
 This module provides enumeration classes for results variables of 'Elm' classes (network elements). This is convenient to get results variable strings and supports code completion in your IDE. If you hover over a variable, it's unit and description will be shown.  
 
-This file is automatically created using the .txt files in '.\\result_variables\\' and using the module 'results_variables_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
+This file is automatically created using the .txt files in '\.\result_variables' and using the module 'results_varaibles_parser'. The .txt files are created by copying from the output window of PF (manually) using the printed results variables when clicking on 'Variable List' in an .IntMon file of an 'Elm' class.
 
 Currently, the following 'Elm' classes are supported: 
 
@@ -31,6 +31,7 @@ ElmVscmono
 ElmXnet
 ElmZone
 ElmZpu
+StaPll
 
 The follwing simulation types/result variable types are supported:
 
@@ -1637,6 +1638,17 @@ class ResVar:
       r_cpSupplyTransformer = "r:cpSupplyTransformer", "Supplying Transformer"
       r_cpSupplyTrfStation = "r:cpSupplyTrfStation", "Supplying Secondary Substation"
       r_cpSupplySubstation = "r:cpSupplySubstation", "Supplying Substation"
+
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
+      b_loc_name = "b:loc_name", "Name"
+      e_loc_name = "e:loc_name", "Name"
+      e_outserv = "e:outserv", "Out of Service"
+      e_nphase = "e:nphase", "No. of phases"
+      e_measuredPh = "e:measuredPh", "Measured phase"
+      e_pbusbar = "e:pbusbar", "StaBar,ElmTerm,StaCubic, Measurement point"
+      r_pbusbar = "r:pbusbar", "StaBar,ElmTerm,StaCubic, Measurement point"
 
 
   class LF_Bal:
@@ -6747,6 +6759,10 @@ class ResVar:
       e_ciDistAll = "e:ciDistAll", "Distance from infeed in number of buses including switches"
       e_ciDistAllRoot = "e:ciDistAllRoot", "Distance from first infeed in number of buses including switches"
       r_cpFeed = "r:cpFeed", "Feeder"
+
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
 
 
   class LF_Unbal:
@@ -28055,6 +28071,10 @@ class ResVar:
       n_phiu0i0_bus1 = "n:phiu0i0:bus1", "deg, Angle between Voltage and Current in zero-sequence system"
       n_phiu0i0_bus2 = "n:phiu0i0:bus2", "deg, Angle between Voltage and Current in zero-sequence system"
 
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
+
 
   class RMS_Bal:
 
@@ -31377,6 +31397,41 @@ class ResVar:
       e_bi2_pu = "e:bi2_pu", "p.u., Susceptance i"
       e_gj2_pu = "e:gj2_pu", "p.u., Conductance j"
       e_bj2_pu = "e:bj2_pu", "p.u., Susceptance j"
+
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
+      s_uR = "s:uR", "p.u., IN, Input voltage, real part, continuous, double"
+      s_uI = "s:uI", "p.u., IN, Input voltage, imaginary part, continuous, double"
+      s_fref = "s:fref", "p.u., IN, Reference frequency, continuous, double"
+      s_Fmeas = "s:Fmeas", "Hz, OUT, Measured frequency, continuous, double"
+      s_fmeas = "s:fmeas", "p.u., OUT, Measured frequency, continuous, double"
+      s_cosphi = "s:cosphi", "OUT, cos(phi), continuous, double"
+      s_sinphi = "s:sinphi", "OUT, sin(phi), continuous, double"
+      s_xpi = "s:xpi", "STATE, State variable (PI-controller), continuous, double"
+      s_xphi = "s:xphi", "rad, STATE, State variable (integrator), continuous, double"
+      s_xpi_dt = "s:xpi:dt", "/s, d/dt, State variable (PI-controller), derivative, continuous, double"
+      s_xphi_dt = "s:xphi:dt", "rad/s, d/dt, State variable (integrator), derivative continuous, double"
+      s_umag = "s:umag", "p.u., SIGS, Voltage magnitude, continuous, double"
+      c_Phi = "c:Phi", "deg, Voltage angle"
+      c_dphi = "c:dphi", "rad, dphi"
+      c_vd = "c:vd", "p.u., vd"
+      c_vq = "c:vq", "p.u., vq"
+      c_dwlim = "c:dwlim", "rad/s, dwlim"
+      c_dwmax = "c:dwmax", "rad/s, Upper angular frequency deviation limit"
+      c_dwmin = "c:dwmin", "rad/s, Lower angular frequency deviation limit"
+      c_frnom = "c:frnom", "Hz, Nominal frequency"
+      c_hpi = "c:hpi", "rad/s, Nominal angular frequency"
+      c_umin = "c:umin", "p.u., Blocking voltage"
+      e_iAstabint = "e:iAstabint", "A-stable integration algorithm"
+      e_Kp = "e:Kp", "PI proportional gain"
+      e_Ki = "e:Ki", "PI integration gain"
+      e_fmax = "e:fmax", "p.u., Upper frequency limit"
+      e_fmin = "e:fmin", "p.u., Lower frequency limit"
+      e_i_norm = "e:i_norm", "Input voltage normalisation"
+      e_i_block = "e:i_block", "Voltage dependent blocking"
+      e_i_dw = "e:i_dw", "Set the angular frequency deviation to zero when blocked"
+      e_umin = "e:umin", "p.u., Blocking voltage"
 
 
   class RMS_Unbal:
@@ -40751,6 +40806,47 @@ class ResVar:
       e_gj2_pu = "e:gj2_pu", "p.u., Conductance j"
       e_bj2_pu = "e:bj2_pu", "p.u., Susceptance j"
 
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
+      s_uR_A = "s:uR_A", "p.u., IN, Input voltage, phase a, real part, continuous, double"
+      s_uR_B = "s:uR_B", "p.u., IN, Input voltage, phase b, real part, continuous, double"
+      s_uR_C = "s:uR_C", "p.u., IN, Input voltage, phase c, real part, continuous, double"
+      s_uI_A = "s:uI_A", "p.u., IN, Input voltage, phase a, imaginary part, continuous, double"
+      s_uI_B = "s:uI_B", "p.u., IN, Input voltage, phase b, imaginary part, continuous, double"
+      s_uI_C = "s:uI_C", "p.u., IN, Input voltage, phase c, imaginary part, continuous, double"
+      s_fref = "s:fref", "p.u., IN, Reference frequency, continuous, double"
+      s_Fmeas = "s:Fmeas", "Hz, OUT, Measured frequency, continuous, double"
+      s_fmeas = "s:fmeas", "p.u., OUT, Measured frequency, continuous, double"
+      s_cosphi = "s:cosphi", "OUT, cos(phi), continuous, double"
+      s_sinphi = "s:sinphi", "OUT, sin(phi), continuous, double"
+      s_xpi = "s:xpi", "STATE, State variable (PI-controller), continuous, double"
+      s_xphi = "s:xphi", "rad, STATE, State variable (integrator), continuous, double"
+      s_phiref = "s:phiref", "rad, STATE, State variable, continuous, double"
+      s_xpi_dt = "s:xpi:dt", "/s, d/dt, State variable (PI-controller), derivative, continuous, double"
+      s_xphi_dt = "s:xphi:dt", "rad/s, d/dt, State variable (integrator), derivative continuous, double"
+      s_phiref_dt = "s:phiref:dt", "rad/s, d/dt, State variable, derivative, continuous, double"
+      s_umag = "s:umag", "p.u., SIGS, Voltage magnitude, continuous, double"
+      c_Phi = "c:Phi", "deg, Voltage angle"
+      c_dphi = "c:dphi", "rad, dphi"
+      c_vd = "c:vd", "p.u., vd"
+      c_vq = "c:vq", "p.u., vq"
+      c_dwlim = "c:dwlim", "rad/s, dwlim"
+      c_dwmax = "c:dwmax", "rad/s, Upper angular frequency deviation limit"
+      c_dwmin = "c:dwmin", "rad/s, Lower angular frequency deviation limit"
+      c_frnom = "c:frnom", "Hz, Nominal frequency"
+      c_hpi = "c:hpi", "rad/s, Nominal angular frequency"
+      c_umin = "c:umin", "p.u., Blocking voltage"
+      e_iAstabint = "e:iAstabint", "A-stable integration algorithm"
+      e_Kp = "e:Kp", "PI proportional gain"
+      e_Ki = "e:Ki", "PI integration gain"
+      e_fmax = "e:fmax", "p.u., Upper frequency limit"
+      e_fmin = "e:fmin", "p.u., Lower frequency limit"
+      e_i_norm = "e:i_norm", "Input voltage normalisation"
+      e_i_block = "e:i_block", "Voltage dependent blocking"
+      e_i_dw = "e:i_dw", "Set the angular frequency deviation to zero when blocked"
+      e_umin = "e:umin", "p.u., Blocking voltage"
+
 
   class EMT:
 
@@ -46009,6 +46105,46 @@ class ResVar:
       e_r0_pu_ji = "e:r0_pu_ji", "p.u., Real Part"
       e_x0_pu_ji = "e:x0_pu_ji", "p.u., Imaginary Part"
 
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+
+      s_u_a = "s:u_a", "p.u., IN, Input voltage, phase a, continuous, double"
+      s_u_b = "s:u_b", "p.u., IN, Input voltage, phase b, continuous, double"
+      s_u_c = "s:u_c", "p.u., IN, Input voltage, phase c, continuous, double"
+      s_Fmeas = "s:Fmeas", "Hz, OUT, Measured frequency, continuous, double"
+      s_fmeas = "s:fmeas", "p.u., OUT, Measured frequency, continuous, double"
+      s_cosphi = "s:cosphi", "OUT, cos(phi), continuous, double"
+      s_sinphi = "s:sinphi", "OUT, sin(phi), continuous, double"
+      s_xpi = "s:xpi", "STATE, State variable (PI-controller), continuous, double"
+      s_xphi = "s:xphi", "rad, STATE, State variable (integrator), continuous, double"
+      s_xpi_dt = "s:xpi:dt", "/s, d/dt, State variable (PI-controller), derivative, continuous, double"
+      s_xphi_dt = "s:xphi:dt", "rad/s, d/dt, State variable (integrator), derivative continuous, double"
+      s_umag = "s:umag", "p.u., SIGS, Voltage magnitude (input), continuous, double"
+      c_Phi = "c:Phi", "deg, Voltage angle"
+      c_dphi = "c:dphi", "rad, dphi"
+      c_vd = "c:vd", "p.u., vd"
+      c_vq = "c:vq", "p.u., vq"
+      c_dwlim = "c:dwlim", "rad/s, dwlim"
+      c_dwmax = "c:dwmax", "rad/s, Upper angular frequency deviation limit"
+      c_dwmin = "c:dwmin", "rad/s, Lower angular frequency deviation limit"
+      c_frnom = "c:frnom", "Hz, Nominal frequency"
+      c_hpi = "c:hpi", "rad/s, Nominal angular frequency"
+      c_valpha_in = "c:valpha_in", "p.u., Voltage input, alpha-component"
+      c_vbeta_in = "c:vbeta_in", "p.u., Voltage input, beta-component"
+      c_umin = "c:umin", "p.u., Blocking voltage"
+      e_i_model = "e:i_model", "PLL based on"
+      e_Kp = "e:Kp", "PI proportional gain"
+      e_Ki = "e:Ki", "PI integration gain"
+      e_Ksogi = "e:Ksogi", "SOGI proportional gain"
+      e_T1 = "e:T1", "ms, Low-pass filter time constant"
+      e_fmax = "e:fmax", "p.u., Upper frequency limit"
+      e_fmin = "e:fmin", "p.u., Lower frequency limit"
+      e_i_norm = "e:i_norm", "Input voltage normalisation"
+      e_i_block = "e:i_block", "Voltage dependent blocking"
+      e_umin = "e:umin", "p.u., Blocking voltage"
+      e_i_notch = "e:i_notch", "Notch filter for oscillations at double nominal angular frequency"
+      e_bw = "e:bw", "rad/s, Bandwidth"
+
 
   class Sensitivities_Bal:
 
@@ -50156,3 +50292,7 @@ class ResVar:
       c_Qlossld = "c:Qlossld", "Mvar, Reactive-Losses (load)"
       c_Plossnld = "c:Plossnld", "MW, Losses (no load)"
       c_Qlossnld = "c:Qlossnld", "Mvar, Reactive-Losses (no load)"
+
+    class StaPll(Enum):
+      _init_ = 'value __doc__'
+

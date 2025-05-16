@@ -20,13 +20,11 @@ from powfacpy.applications.model_exchange import CGMES
 from powfacpy.applications.study_cases import StudyCases
 ```
 
-**The tutorials have been moved to the [website](https://fraunhiee-unikassel-powsysstability.github.io/powfacpy/docs/tutorials/overview.html). The version here is no longer maintained.**
-
 # About CGMES 
 
 CGMES stands for *Common Grid Model Exchange Standard*. It is a standard developed to facilitate the exchange of grid models and data among different stakeholders in the power system industry, such as utilities, system operators, and software vendors.
 
-CGMES is structured using several profiles, each contained in a separate file. An exemplary seleciton of profiles is given in @tbl-cgmesProfiles.
+CGMES is structured using several profiles, each contained in a separate file. An exemplary selection of profiles is given in @tbl-cgmesProfiles.
 
 | Abbreviation | Description                                                                                    |
 | ------------ | ---------------------------------------------------------------------------------------------- |
@@ -96,7 +94,7 @@ The following grid exists in that project.
 First, let's export this grid to CGMES. The function `cgmes_export()` exports the active grid to `OUTPUT_PATH`.
 
 ```{python}
-OUTPUT_PATH = r'..\tests\tests_output\cgmes_export'
+OUTPUT_PATH = r"..\..\tests\tests_output\cgmes_export"
 
 pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles="all", as_zip=True)
 ```

@@ -211,6 +211,8 @@ class ActiveProject(Folder):
     ) -> list[PFGeneral]:
         """Wraps the method 'GetCalcRelevantObjects' (see PF scripting reference) and adds optional arguments similar to 'get_obj'.
 
+        Warning: If 'obj_str' contains several objects separated by comma, the order of the returned objects may differ from the order in the string.
+
         Args:
             obj_str (str): name including class of object(s) (NOT their path)
 
@@ -218,13 +220,11 @@ class ActiveProject(Folder):
 
             error_if_non_existent (bool, optional): See get_obj. Defaults to True.
 
-            From scripting reference:
+            includeOutOfService (int, optional): Flag whether to include out of service objects. Defaults to 1. (Copied from scripting reference)
 
-            includeOutOfService (int, optional): Flag whether to include out of service objects. Defaults to 1.
+            topoElementsOnly (int, optional): Flag to filter for topology relevant objects only. Defaults to 0. (Copied from scripting reference)
 
-            topoElementsOnly (int, optional): Flag to filter for topology relevant objects only. Defaults to 0.
-
-            bAcSchemes (int, optional): Flag to include hidden objects in active schemes. Defaults to 0.
+            bAcSchemes (int, optional): Flag to include hidden objects in active schemes. Defaults to 0. (Copied from scripting reference)
 
         Returns:
             list[PFGeneral]: Found object(s)

@@ -1,0 +1,4470 @@
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:nphase                No. of phases   
+e:measuredPh            Measured phase  
+e:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:nphase                No. of phases   
+e:measuredPh            Measured phase  
+e:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+b:loc_name              Name    
+
+Element Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:nphase                No. of phases   
+e:measuredPh            Measured phase  
+e:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Scenario Parameter:
+
+e:loc_name              Name    
+e:outserv               Out of Service  
+e:nphase                No. of phases   
+e:measuredPh            Measured phase  
+e:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+r:pbusbar        StaBar,ElmTerm,StaCubic        Measurement point       
+
+Load Flow AC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow AC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit VDE/IEC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR             p.u.   IN      Input voltage, real part        continuous, double      
+s:uI             p.u.   IN      Input voltage, imaginary part   continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:xpi:dt          /s    d/dt    State variable (PI-controller), derivative      continuous, double      
+s:xphi:dt        rad/s  d/dt    State variable (integrator), derivative continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+e:iAstabint             A-stable integration algorithm  
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:i_dw                  Set the angular frequency deviation to zero when blocked        
+e:umin           p.u.   Blocking voltage        
+
+Scenario Parameter:
+
+e:iAstabint             A-stable integration algorithm  
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:i_dw                  Set the angular frequency deviation to zero when blocked        
+e:umin           p.u.   Blocking voltage        
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation RMS unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR_A           p.u.   IN      Input voltage, phase a, real part       continuous, double      
+s:uR_B           p.u.   IN      Input voltage, phase b, real part       continuous, double      
+s:uR_C           p.u.   IN      Input voltage, phase c, real part       continuous, double      
+s:uI_A           p.u.   IN      Input voltage, phase a, imaginary part  continuous, double      
+s:uI_B           p.u.   IN      Input voltage, phase b, imaginary part  continuous, double      
+s:uI_C           p.u.   IN      Input voltage, phase c, imaginary part  continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:phiref         rad    STATE   State variable  continuous, double      
+s:xpi:dt          /s    d/dt    State variable (PI-controller), derivative      continuous, double      
+s:xphi:dt        rad/s  d/dt    State variable (integrator), derivative continuous, double      
+s:phiref:dt      rad/s  d/dt    State variable, derivative      continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+e:iAstabint             A-stable integration algorithm  
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:i_dw                  Set the angular frequency deviation to zero when blocked        
+e:umin           p.u.   Blocking voltage        
+
+Scenario Parameter:
+
+e:iAstabint             A-stable integration algorithm  
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:i_dw                  Set the angular frequency deviation to zero when blocked        
+e:umin           p.u.   Blocking voltage        
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:i_model               PLL based on    
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:Ksogi                 SOGI proportional gain  
+e:T1             ms     Low-pass filter time constant   
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:umin           p.u.   Blocking voltage        
+e:i_notch               Notch filter for oscillations at double nominal angular frequency       
+e:bw             rad/s  Bandwidth       
+
+Scenario Parameter:
+
+e:i_model               PLL based on    
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:Ksogi                 SOGI proportional gain  
+e:T1             ms     Low-pass filter time constant   
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:umin           p.u.   Blocking voltage        
+e:i_notch               Notch filter for oscillations at double nominal angular frequency       
+e:bw             rad/s  Bandwidth       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Simulation EMT unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:u_a            p.u.   IN      Input voltage, phase a  continuous, double      
+s:u_b            p.u.   IN      Input voltage, phase b  continuous, double      
+s:u_c            p.u.   IN      Input voltage, phase c  continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:xpi:dt          /s    d/dt    State variable (PI-controller), derivative      continuous, double      
+s:xphi:dt        rad/s  d/dt    State variable (integrator), derivative continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude (input)       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:valpha_in      p.u.   Voltage input, alpha-component  
+c:vbeta_in       p.u.   Voltage input, beta-component   
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+e:i_model               PLL based on    
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:Ksogi                 SOGI proportional gain  
+e:T1             ms     Low-pass filter time constant   
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:umin           p.u.   Blocking voltage        
+e:i_notch               Notch filter for oscillations at double nominal angular frequency       
+e:bw             rad/s  Bandwidth       
+
+Scenario Parameter:
+
+e:i_model               PLL based on    
+e:Kp                    PI proportional gain    
+e:Ki                    PI integration gain     
+e:Ksogi                 SOGI proportional gain  
+e:T1             ms     Low-pass filter time constant   
+e:fmax           p.u.   Upper frequency limit   
+e:fmin           p.u.   Lower frequency limit   
+e:i_norm                Input voltage normalisation     
+e:i_block               Voltage dependent blocking      
+e:umin           p.u.   Blocking voltage        
+e:i_notch               Notch filter for oscillations at double nominal angular frequency       
+e:bw             rad/s  Bandwidth       
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Quality/Harmonics unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Protection unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow AC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Reliability unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Description balanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+
+Scenario Parameter:
+
+e:gnrl_modif            Object modified 
+e:gnrl_modby            Object modified by      
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Description unbalanced:
+----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+
+Scenario Parameter:
+
+e:chr_name              Characteristic Name     
+e:dat_src               Data source     
+e:for_name              Foreign Key     
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit Complete balanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit Complete unbalanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit ANSI unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+State Estimation unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit IEC 61363 unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Generation Adequacy unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. balanced:
+----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Tie Open Point Opt. unbalanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC balanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Short-Circuit DC unbalanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data balanced:
+-------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Basic Data unbalanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors AC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis AC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC balanced:
+---------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Load Flow DC unbalanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Sensitivities / Distribution Factors DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC balanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Contingency Analysis DC unbalanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Voltage Profile Optimisation unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Capacitor Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Frequency Sweep unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR             p.u.   IN      Input voltage, real part        continuous, double      
+s:uI             p.u.   IN      Input voltage, imaginary part   continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:xpi:dt          /s    d/dt    State variable (PI-controller), derivative      continuous, double      
+s:xphi:dt        rad/s  d/dt    State variable (integrator), derivative continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Modal/Eigenvalue Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR_A           p.u.   IN      Input voltage, phase a, real part       continuous, double      
+s:uR_B           p.u.   IN      Input voltage, phase b, real part       continuous, double      
+s:uR_C           p.u.   IN      Input voltage, phase c, real part       continuous, double      
+s:uI_A           p.u.   IN      Input voltage, phase a, imaginary part  continuous, double      
+s:uI_B           p.u.   IN      Input voltage, phase b, imaginary part  continuous, double      
+s:uI_C           p.u.   IN      Input voltage, phase c, imaginary part  continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:phiref         rad    STATE   State variable  continuous, double      
+s:xpi:dt          /s    d/dt    State variable (PI-controller), derivative      continuous, double      
+s:xphi:dt        rad/s  d/dt    State variable (integrator), derivative continuous, double      
+s:phiref:dt      rad/s  d/dt    State variable, derivative      continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Arc-Flash Analysis unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Power Flow DC unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR             p.u.   IN      Input voltage, real part        continuous, double      
+s:uI             p.u.   IN      Input voltage, imaginary part   continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Backbone Calculation unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR_A           p.u.   IN      Input voltage, phase a, real part       continuous, double      
+s:uR_B           p.u.   IN      Input voltage, phase b, real part       continuous, double      
+s:uR_C           p.u.   IN      Input voltage, phase c, real part       continuous, double      
+s:uI_A           p.u.   IN      Input voltage, phase a, imaginary part  continuous, double      
+s:uI_B           p.u.   IN      Input voltage, phase b, imaginary part  continuous, double      
+s:uI_C           p.u.   IN      Input voltage, phase c, imaginary part  continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:phiref         rad    STATE   State variable  continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal RCS Placement unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR             p.u.   IN      Input voltage, real part        continuous, double      
+s:uI             p.u.   IN      Input voltage, imaginary part   continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Motor Starting Calculation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR_A           p.u.   IN      Input voltage, phase a, real part       continuous, double      
+s:uR_B           p.u.   IN      Input voltage, phase b, real part       continuous, double      
+s:uR_C           p.u.   IN      Input voltage, phase c, real part       continuous, double      
+s:uI_A           p.u.   IN      Input voltage, phase a, imaginary part  continuous, double      
+s:uI_B           p.u.   IN      Input voltage, phase b, imaginary part  continuous, double      
+s:uI_C           p.u.   IN      Input voltage, phase c, imaginary part  continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:phiref         rad    STATE   State variable  continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR             p.u.   IN      Input voltage, real part        continuous, double      
+s:uI             p.u.   IN      Input voltage, imaginary part   continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Cable Analysis unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+s:uR_A           p.u.   IN      Input voltage, phase a, real part       continuous, double      
+s:uR_B           p.u.   IN      Input voltage, phase b, real part       continuous, double      
+s:uR_C           p.u.   IN      Input voltage, phase c, real part       continuous, double      
+s:uI_A           p.u.   IN      Input voltage, phase a, imaginary part  continuous, double      
+s:uI_B           p.u.   IN      Input voltage, phase b, imaginary part  continuous, double      
+s:uI_C           p.u.   IN      Input voltage, phase c, imaginary part  continuous, double      
+s:fref           p.u.   IN      Reference frequency     continuous, double      
+s:Fmeas          Hz     OUT     Measured frequency      continuous, double      
+s:fmeas          p.u.   OUT     Measured frequency      continuous, double      
+s:cosphi                OUT     cos(phi)        continuous, double      
+s:sinphi                OUT     sin(phi)        continuous, double      
+s:xpi                   STATE   State variable (PI-controller)  continuous, double      
+s:xphi           rad    STATE   State variable (integrator)     continuous, double      
+s:phiref         rad    STATE   State variable  continuous, double      
+s:umag           p.u.   SIGS    Voltage magnitude       continuous, double      
+
+Calculation Parameter:
+
+c:Phi            deg    Voltage angle   
+c:dphi           rad    dphi    
+c:vd             p.u.   vd      
+c:vq             p.u.   vq      
+c:dwlim          rad/s  dwlim   
+c:dwmax          rad/s  Upper angular frequency deviation limit 
+c:dwmin          rad/s  Lower angular frequency deviation limit 
+c:frnom          Hz     Nominal frequency       
+c:hpi            rad/s  Nominal angular frequency       
+c:umin           p.u.   Blocking voltage        
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+OPF with Contingencies DC unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Manual Restoration unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation AC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Quasi-Dynamic Simulation DC unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ balanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request D-A-CH-CZ unbalanced:
+---------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Phase Balance Optimisation unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation balanced:
+---------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+User defined calculation unbalanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request BDEW/VDE unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow DC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic Load Flow AC unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics balanced:
+------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Characteristics unbalanced:
+--------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension balanced:
+-----------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Data Extension unbalanced:
+-------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF AC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC balanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF DC unbalanced:
+-------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC balanced:
+------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Probabilistic OPF with Contingencies DC unbalanced:
+--------------------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version balanced:
+----------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Version unbalanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment AC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC balanced:
+---------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Unit Commitment DC unbalanced:
+-----------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis balanced:
+----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Hosting Capacity Analysis unbalanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Connection Request VDE 4110 unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios balanced:
+------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Scenarios unbalanced:
+--------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis balanced:
+-----------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Power Park Energy Analysis unbalanced:
+-------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement balanced:
+------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Optimal Equipment Placement unbalanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation balanced:
+--------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Techno-Economical Calculation unbalanced:
+----------------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow balanced:
+------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+
+
+
+Low Voltage Load Flow unbalanced:
+--------------------------------
+
+Currents, Voltages and Powers:
+
+
+
+Bus Results:
+
+
+
+Signals:
+
+
+
+Calculation Parameter:
+
+
+
+Element Parameter:
+
+
+
+Scenario Parameter:
+
+
+
+Type Parameter:
+
+
+
+Reference Parameter:
+

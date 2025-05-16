@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from powfacpy.pf_classes.protocols import ElmZone, PFGeneral
+from powfacpy.pf_classes.protocols import ElmArea, ElmZone, PFGeneral
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.result_variables import ResVar
@@ -11,19 +11,19 @@ RMS_BAL = ResVar.RMS_Bal
 LF_BAL = ResVar.LF_Bal
 
 
-class ZoneStatic(ElmBase, GroupingBase):
+class AreaStatic(ElmBase, GroupingBase):
 
     __slots__ = ()
 
-    def __init__(self, obj: ElmZone) -> None:
+    def __init__(self, obj: ElmArea) -> None:
         super().__init__(obj)
-        self._obj: ElmZone
+        self._obj: ElmArea
 
-    def __new__(cls, *args, **kwargs) -> ElmZone | Zone:
+    def __new__(cls, *args, **kwargs) -> ElmArea | Area:
         """Implemented only to add type hints for the instance.
 
         Returns:
-            ElmZone | Zone: New instance
+            ElmArea | Area: New instance
         """
         instance = super().__new__(cls)
         return instance
@@ -37,28 +37,28 @@ class ZoneStatic(ElmBase, GroupingBase):
         return self._obj.GetObjs(class_name)
 
     @staticmethod
-    def show_zones_in_network_graphic() -> None:
+    def show_areas_in_network_graphic() -> None:
         """Shows interior regions of all areas in the single line diagram."""
         act_prj = ActiveProjectCached()
         setcolscheme = act_prj.get_diagram_color_scheme()
-        DiagramColorScheme(setcolscheme).show_zones()
+        DiagramColorScheme(setcolscheme).show_areas()
 
     @staticmethod
     def get_P_exchange_res_var_lf_bal() -> str:
-        return LF_BAL.ElmZone.c_InterP.value
+        return LF_BAL.ElmArea.c_InterP.value
 
     @staticmethod
     def get_Q_exchange_res_var_lf_bal() -> str:
-        return LF_BAL.ElmZone.c_InterQ.value
+        return LF_BAL.ElmArea.c_InterQ.value
 
     @staticmethod
     def get_P_exchange_res_var_rms_bal() -> str:
-        return RMS_BAL.ElmZone.c_Pinter.value
+        return RMS_BAL.ElmArea.c_Pinter.value
 
     @staticmethod
     def get_Q_exchange_res_var_rms_bal() -> str:
-        return RMS_BAL.ElmZone.c_Qinter.value
+        return RMS_BAL.ElmArea.c_Qinter.value
 
 
-class Zone(ZoneStatic):
+class Area(AreaStatic):
     pass

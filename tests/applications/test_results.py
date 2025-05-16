@@ -28,14 +28,14 @@ def test_export_to_csv(activate_powfacpy_test_project, pfri: Results):
     study_case_2 = pfri.act_prj.get_unique_obj(
         r"Study Cases\test_results_interface\Export Simulation 2.IntCase"
     )
-    pfdi = powfacpy.PFDynSimInterface(pfri.act_prj.app)
+    pfdi = DynamicSimulation(pfri.act_prj.app)
     elmres_list = []
     terminal_hv_1 = pfri.act_prj.get_unique_obj(
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 2"
     )
     for case in [study_case_1, study_case_2]:
         case.Activate()
-        pfdi.add_results_variable(terminal_hv_1, "m:u1")
+        pfri.act_prj.add_results_variable(terminal_hv_1, "m:u1")
         pfdi.initialize_and_run_sim()
         elmres_list.append(pfri.act_prj.get_from_study_case("ElmRes"))
     study_case_1.Activate()
@@ -122,6 +122,13 @@ def test_export_to_pandas(activate_powfacpy_test_project, pfri: Results):
     assert len(df.columns) == nr_of_columns
 
     df = pfri.export_to_pandas()
+
+
+def test_get_result_variable_description(activate_powfacpy_test_project, pfri: Results):
+    assert (
+        pfri.get_result_variable_description("ElmArea", "c_cosgen", "RMS_Bal")
+        == "Generators, Power Factor"
+    )
 
 
 if __name__ == "__main__":

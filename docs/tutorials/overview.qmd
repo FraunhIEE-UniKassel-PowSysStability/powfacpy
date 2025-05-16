@@ -16,9 +16,11 @@ The [tutorial](simulation_and_plotting.qmd) shows how to conveniently simulate a
 ## Study Cases
 The [study cases tutorial](study_cases.qmd) illustrates how to automatically create study cases for parameter studies. 
 
-
 ## Network Matrices and *Pandapower* Interface
 This [tutorial](network_matrices_and_pandapower_interface.qmd) demonstrates how to export network matrices such as admittance or Jacobian matrix using the *Pandapower* interface as an intermediate step.
 
-## CGMES model exchange
+## Topology and Groupings
+The [tutorial on topology and groupings](topology_and_groupings.qmd) focuses on the grouping of network elements into boundaries, zones and areas.
+
+## CGMES Model Exchange
 In the [cgmes model exchange tutorial](cgmes_model_exchange.qmd) you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.
