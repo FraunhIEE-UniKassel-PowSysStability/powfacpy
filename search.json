@@ -315,7 +315,18 @@
     "href": "docs/docs/release_notes.html",
     "title": "Release Notes",
     "section": "",
-    "text": "Structural changes:\n\nIn this version, the structure of powfacpy has changed fundamentally\nPlease have a look at Structure of powfacpy to understand the new structure and why the restructuring was necessary\nInstead of PFBaseInterface the class ActiveProject from base/active_project should be used\nInterfaces for plotting, case study, etc. are now found under applications/.\nAll former interface classes can still be used, but their files are located in a folder called deprecated and you will get deprecation warnings\n\nThere should be few breaking changes. Some of the known are:\n\nThe labels of the result export to pandas have changed (see the tutorial)\nThe name of the method export_results_of_study_cases of the class PFStudyCases has changed to export_results_of_study_cases_to_csv\n\nblack formatter was introduced as the standard formatter for python code\nThe format of the website was changed from sphinx to quarto\nFunctionality:\n\nInterface for network topology was added\nInterfaces to several single PowerFactory classes was added (see src/powfacpy/pf_classes/)",
+    "text": "New features for topology (boundaries, areas,…) and CGMES model exchange (see tutorials)\nbugfixes\n\nget_vacant_cubicle\nrearrange_Y_bus_frame\nget_average_internal_susceptance",
+    "crumbs": [
+      "Docs",
+      "Release Notes"
+    ]
+  },
+  {
+    "objectID": "docs/docs/release_notes.html#v0.3.7",
+    "href": "docs/docs/release_notes.html#v0.3.7",
+    "title": "Release Notes",
+    "section": "",
+    "text": "New features for topology (boundaries, areas,…) and CGMES model exchange (see tutorials)\nbugfixes\n\nget_vacant_cubicle\nrearrange_Y_bus_frame\nget_average_internal_susceptance",
     "crumbs": [
       "Docs",
       "Release Notes"
@@ -325,8 +336,8 @@
     "objectID": "docs/docs/release_notes.html#v0.3.0",
     "href": "docs/docs/release_notes.html#v0.3.0",
     "title": "Release Notes",
-    "section": "",
-    "text": "Structural changes:\n\nIn this version, the structure of powfacpy has changed fundamentally\nPlease have a look at Structure of powfacpy to understand the new structure and why the restructuring was necessary\nInstead of PFBaseInterface the class ActiveProject from base/active_project should be used\nInterfaces for plotting, case study, etc. are now found under applications/.\nAll former interface classes can still be used, but their files are located in a folder called deprecated and you will get deprecation warnings\n\nThere should be few breaking changes. Some of the known are:\n\nThe labels of the result export to pandas have changed (see the tutorial)\nThe name of the method export_results_of_study_cases of the class PFStudyCases has changed to export_results_of_study_cases_to_csv\n\nblack formatter was introduced as the standard formatter for python code\nThe format of the website was changed from sphinx to quarto\nFunctionality:\n\nInterface for network topology was added\nInterfaces to several single PowerFactory classes was added (see src/powfacpy/pf_classes/)",
+    "section": "v0.3.0",
+    "text": "v0.3.0\n\nStructural changes:\n\nIn this version, the structure of powfacpy has changed fundamentally\nPlease have a look at Structure of powfacpy to understand the new structure and why the restructuring was necessary\nInstead of PFBaseInterface the class ActiveProject from base/active_project should be used\nInterfaces for plotting, case study, etc. are now found under applications/.\nAll former interface classes can still be used, but their files are located in a folder called deprecated and you will get deprecation warnings\n\nThere should be few breaking changes. Some of the known are:\n\nThe labels of the result export to pandas have changed (see the tutorial)\nThe name of the method export_results_of_study_cases of the class PFStudyCases has changed to export_results_of_study_cases_to_csv\n\nblack formatter was introduced as the standard formatter for python code\nThe format of the website was changed from sphinx to quarto\nFunctionality:\n\nInterface for network topology was added\nInterfaces to several single PowerFactory classes was added (see src/powfacpy/pf_classes/)",
     "crumbs": [
       "Docs",
       "Release Notes"
