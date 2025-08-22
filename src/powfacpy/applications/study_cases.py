@@ -289,7 +289,7 @@ class StudyCases(ApplicationBase):
         else:
             self.parent_folder_study_cases = self.act_prj.app.GetProjectFolder("study")
             self.parent_folder_scenarios = self.act_prj.app.GetProjectFolder("scen")
-            self.parent_folder_scenarios = self.act_prj.app.GetProjectFolder("scheme")
+            self.parent_folder_variations = self.act_prj.app.GetProjectFolder("scheme")
 
     def get_study_cases_parent_folder(self) -> IntFolder | IntPrjfolder:
         """Get folder where study cases are created.
