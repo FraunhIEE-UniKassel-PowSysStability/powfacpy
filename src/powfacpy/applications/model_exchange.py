@@ -3,8 +3,8 @@ This module provides an interface to import/export data in CGMES format.
 """
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_classes.protocols import PFApp, CimArchive, ElmNet
-
+from powfacpy.pf_classes.protocols import PFApp, CimArchive, ElmNet, PFGeneral
+from typing import Union
 
 class CGMES(ApplicationBase):
     """Interface for CGMES integration in PowerFactory."""
@@ -99,9 +99,9 @@ class CGMES(ApplicationBase):
             file.loc_name.split("_")[-2]
             for file in update_profiles_archive.GetContents()
         ]
-        self._set_profiles_of_cim_tool(cim_to_grid_tool, self._all_profiles, False)
+        self._set_profiles_of_cim_tool(cim_to_grid_tool, profiles=self._all_profiles, state=False)
         self._set_profiles_of_cim_tool(
-            cim_to_grid_tool, " ".join(profiles_in_update_file), True
+            cim_to_grid_tool, profiles=" ".join(profiles_in_update_file), state=True
         )
         # cim_to_grid_tool.pGrid = [grid] # TODO find out if grid has to be given
         cim_to_grid_tool.Execute()
@@ -138,7 +138,7 @@ class CGMES(ApplicationBase):
         Args:
             cim_tool (str): .ComCimtogrid or .ComGridtocim tool.
             profiles (str): String of CGMES profiles to be set in the tool, separeted by single spaces (e.g. 'ssh dl').
-            state (bool): State to set the selected prfiles to (True=checked, False=unchecked).
+            state (bool): State to set the selected profiles to (True=checked, False=unchecked).
         Returns:
             None
         """
@@ -173,6 +173,24 @@ class CGMES(ApplicationBase):
         grid_to_cim_tool.Execute()
         return archive
 
+
+    def _set_attr_as_list_or_single(self, obj: PFGeneral, attr:str, val: Union[list, str, float]):
+        """Some attributes need to be set wrapped inside lists in older PF versions, while they must not be lists in newer versions. 
+
+        This function parses the value accordingly.
+
+        Args:
+            obj (PFGeneral): object
+            attr (str): attribute to be set
+            val (Union[list, str, float]): value to be set
+        """        
+        attr_is_list = isinstance(obj.GetAttribute(attr), list)
+        val_is_list = isinstance(val, list)
+        if attr_is_list and not val_is_list:
+            val = [val]
+        self.act_prj.set_attr(obj, {attr: val})
+
+
     def _convert_archive_to_file(self, archive, output_path: str, as_zip: bool = True):
         """Convert a PowerFactory .CimArchive object to a file. Returns None.
         Args:
@@ -189,12 +207,10 @@ class CGMES(ApplicationBase):
             self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
-        cim_export_tool.targetFolder = [output_path]
+        self._set_attr_as_list_or_single(cim_export_tool, "targetFolder", output_path)            
         if as_zip:
             cim_export_tool.zipModels = 0
-            cim_export_tool.archiveName = [
-                self.exported_zip_name,
-            ]
+            self._set_attr_as_list_or_single(cim_export_tool, "archiveName", self.exported_zip_name)
         else:
             cim_export_tool.zipModels = 2
         cim_export_tool.sourcePath = archive
