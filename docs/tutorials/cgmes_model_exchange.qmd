@@ -56,7 +56,7 @@ First, activate the *PowerFactory* project as outlined in the *getting started* 
 import sys
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2024 SP4\Python\3.10"
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.11"
 )  # you may use a different directory
 
 # Get the PF app

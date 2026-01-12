@@ -8,6 +8,7 @@ format:
 jupyter: python3
 ---
 
+
 ```{python}
 #| echo: false
 #| output: false
@@ -25,7 +26,7 @@ Let's again set up *PowerFactory* and create an instance of *powfacpy*'s `Plots`
 import sys
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
 )  # you may use a different directory
 # Get the PF app
 import powerfactory
@@ -45,6 +46,7 @@ study_case = pfplt.act_prj.activate_study_case(
 ```
 
 # Plotting Inside *PowerFactory*
+## Plotting Simulation Results
 
 In *PowerFactory*, monitored result variables (to be later plotted or exported) need to be specified before the simulation. The easiest way to plot results using *powfacpy* is to simply use the method `plot` before the simulation, which automaticallly adds a variable to the monitored variables and plots it as soon as the simulation has run.
 
@@ -157,6 +159,38 @@ pfplt.copy_graphics_board_content(study_case_1, study_case_2, "*.GrpPage")
 
 This copies all plot pages (class GrpPage) of Study Case 1 to Study Case 2. The target study case argument can also be a list of cases. Or we can use the method `copy_graphics_board_content_to_all_study_cases` to target all study cases or all cases in a certain folder.
 
+## Plotting from Pandas DataFrame
+If you want to display external data in a plot inside *PowerFactory*, you can use the method `plot_from_pandas_using_comtrade`. This method takes a pandas DataFrame as input and plots it in the active plot. The DataFrame must have a time index and columns for each variable to be plotted.
+
+Let's create such a DataFrame.
+
+```{python}
+import pandas as pd
+import numpy as np
+
+t = np.arange(0, 0.1, 0.0005)
+df = pd.DataFrame(    {
+        "time": t,
+        "voltage": np.sin(2*np.pi*50*t)+ 1j*np.sin(2*np.pi*50*t),
+        "current": np.cos(2*np.pi*50*t),})
+df.set_index("time", inplace=True)
+df.plot()
+```
+
+And we plot the two variables inside *PowerFactory*.
+
+```{python}
+from pandas.api.types import is_complex_dtype
+
+pfplt.set_active_plot("Test from df", "Test from df")
+for col in df.columns:
+    if is_complex_dtype(df[col]):
+        df[col + "_real"] = np.real(df[col])
+        df[col + "_imag"] = np.imag(df[col]) 
+        del df[col]
+pfplt.plot_from_pandas_using_comtrade(df)
+```
+
 # Getting Objects from the Initial Conditions Calculation (ComInc)
 A common source of error is that users access wrong objects from the active study case without noticing. For example, they access a `Results Object (ElmRes)` which they assume to be used in their time-domain simulation, but actually multiple `ElmRes` objects exist in the study case and the `Initial Conditions Calculation (ComInc)` uses a different one to store simualion results.
 
@@ -234,7 +268,7 @@ import matplotlib.pyplot as plt
 
 p_g_01 = pfres.get_simulation_results_from_dataframe(
     df_sim_res,
-    g_01,  # accepts using PF objects of their path inside the active project)
+    g_01,  # accepts using PF objects or their path inside the active project)
     RMS_bal.ElmSym.s_P1.value,
 )
 p_g_01.plot(grid=True)
@@ -412,4 +446,12 @@ plt.grid()
 ```
 
 *Pyplot* is used by default, but you can specify a different plot interface using the optional argument `plot_interface`.
+
+# Exporting Curves of Plot to Pandas DataFrame
+It is also possible to directly export curves from a plot to a pandas DataFrame. This is useful if you have created a plot in *PowerFactory* and want to analyze the data further using pandas.
+
+```{python}
+pfplt.set_active_plot("Plot 1", "Plot page 1")
+pfplt.export_curves_to_pandas_dataframe()
+```
 
