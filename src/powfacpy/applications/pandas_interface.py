@@ -1,7 +1,8 @@
 "Interface to pandas package."
 
 import pandas as pd
-
+import numpy as np
+from pandas.api.types import is_complex_dtype
 from icecream import ic
 
 from powfacpy.pf_classes.protocols import PFApp
@@ -69,4 +70,22 @@ class PandasInterface(ApplicationBase):
                     for obj in df.index.get_level_values(0)
                 ]
         df.index = all_objs
+        return df
+
+    @staticmethod
+    def separate_complex_columns_into_real_and_imaginary(
+        df: pd.DataFrame, real_suffix: str = "_real", imag_suffix: str = "_imag"
+    ) -> pd.DataFrame:
+        """Separates complex columns into real and imaginary parts.
+
+        Args:
+            df (pd.DataFrame): DataFrame with complex columns.
+            real_suffix (str, optional): Suffix for real part columns (added to original column label). Defaults to "_real".
+            imag_suffix (str, optional): Suffix for imaginary part columns. Defaults to "_imag".
+        """
+        for col in df.columns:
+            if is_complex_dtype(df[col]):
+                df[col + real_suffix] = np.real(df[col])
+                df[col + imag_suffix] = np.imag(df[col])
+                del df[col]
         return df
