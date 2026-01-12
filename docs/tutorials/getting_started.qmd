@@ -28,7 +28,7 @@ Similar to using the Python API of *PowerFactory* directly, we first need to imp
 import sys
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+    "C:\\Program Files\\DIgSILENT\\PowerFactory 2025 SP3\\Python\\3.13"
 )  # you may use a different directory
 # Get the PF app
 import powerfactory
@@ -40,7 +40,6 @@ Then import *powfacpy* and create an instance of class `ActiveProject` (with arg
 
 ```{python}
 from powfacpy import ActiveProject
-
 
 act_prj = ActiveProject(app)
 ```
@@ -125,6 +124,8 @@ returns
 
 PFPathError: 'wrong_object_name*' does not exist in '\user\powfacpy_base\Network Model\Network Data'
 
+Catching such errors early in your development can save some headache and time for debugging.
+
 This can be turned off by setting the optional argument `error_if_non_existent=False`, then an empty list will be returned.
 
 If you want to access objects in a folder many times and don't want to use the whole path relative to the active project every time, you can also specifiy a parent folder where the search path starts (this can also be more performant):
@@ -170,7 +171,10 @@ Finally,  yet another alternative for getting network objects is `get_calc_relev
 
 ```{python}
 terminals = act_prj.get_calc_relevant_obj(
-    "ElmTerm", error_if_non_existent=False, includeOutOfService=0
+    "ElmTerm", 
+    error_if_non_existent=False, 
+    condition=lambda x: x.uknom > 100, 
+    includeOutOfService=0
 )
 ```
 
@@ -215,10 +219,10 @@ In the following example a type hint is used (':ElmTerm'). Your IDE will then au
 ```{python}
 from powfacpy.pf_classes.protocols import ElmTerm
 
-terminal: ElmTerm = act_prj.get_unique_obj(
+hv_terminal: ElmTerm = act_prj.get_unique_obj(
     r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
 )
-terminal.uknom
+hv_terminal.uknom
 ```
 
 Any modern IDE should autocomplete your code while writing:
@@ -249,6 +253,17 @@ act_prj.set_attr(mv_terminal, {"uknom": 33, "outserv": 0})
 ```
 
 This applies to many other methods in `powfacpy`. Loading the object only once and then using the object can be more efficient than using the path string many times.
+
+Sometimes you want to quickly apply a few changes to attributes of objects for some testing and later retain the original values. If you use `set_attr_resettable`, every time you call this method, the original values of the attributes are stored in a stack. You can then use `reset_stored_attr` to reset the attributes to their original values.
+
+
+```{python}
+act_prj.set_attr_resettable(mv_terminal, {"uknom": 35, "outserv": 1})
+act_prj.set_attr_resettable(hv_terminal, {"outserv": 1})
+print(f"New values:{mv_terminal.uknom, mv_terminal.outserv, hv_terminal.outserv}")
+act_prj.reset_stored_attr()
+print(f"Original values: {mv_terminal.uknom, mv_terminal.outserv, hv_terminal.outserv}")
+```
 
 If you want to get an attribute of an object, write: 
 
@@ -283,7 +298,6 @@ This will create an object of class "BlkDef" with the name "dummy" in the folder
 new_obj: BlkDef = act_prj.create_in_folder(
     "dummy.BlkDef", r"Library\Dynamic Models", overwrite=True
 )
-
 
 # Or equivalent:
 models_folder: IntPrjfolder = act_prj.get_unique_obj(r"Library\Dynamic Models")
@@ -382,7 +396,7 @@ act_prj.clear_folder("Library\Dynamic Models\TestDelete")
 
 # Further Useful Methods
 Further helpful methods are briefly described in the following.
-`get_upstream_obj` returns an upsream object that meets a condition (i.e. the method goes upwards in the folder hierarchy until a parent object is found that meets the condition).
+`get_upstream_obj` returns an upstream object that meets a condition (i.e. the method goes upwards in the folder hierarchy until a parent object is found that meets the condition).
 
 Here this is used to find the grid that contains a given object:
 
