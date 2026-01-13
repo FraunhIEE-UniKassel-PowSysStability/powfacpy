@@ -1,10 +1,14 @@
-"""Plotting interface.
-"""
+"""Plotting interface."""
 
+from cProfile import label
 from os import getcwd
+from os import makedirs
+from os.path import exists
 
 from matplotlib import pyplot
 import pandas
+from icecream import ic
+from comtraderecord import comtradeWriter
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_class_protocols import (
@@ -24,6 +28,7 @@ from powfacpy.pf_class_protocols import (
     PFApp,
 )
 import powfacpy
+from powfacpy.applications.results import Results
 
 
 class Plots(ApplicationBase):
@@ -527,14 +532,66 @@ class Plots(ApplicationBase):
         intcomtrade = self.act_prj.create_comtrade_obj(
             file_path, parent_folder=parent_folder_comtrade
         )
+        # for var in variables:
         self.plot_monitored_variables(
-            intcomtrade,
+            None,
             variables,
             graphics_page=graphics_page,
             plot=plot,
             results_obj=intcomtrade,
             **kwargs,
         )
+
+    def plot_from_pandas_using_comtrade(
+        self,
+        df: pandas.DataFrame,
+        graphics_page: str | GrpPage | SetVipage = None,
+        plot: VisPlot | PltLinebarplot | PltVectorplot = None,
+        comtrade_file_dir: str | None = None,
+        comtrade_file_name: str | None = None,
+    ) -> str:
+        """Plot data from a pandas DataFrame inside PF using the COMTRADE format as an intermediate step.
+
+        Args:
+            df (pandas.DataFrame): Frame with time index and columns (labels must be single index) for each variable to be plotted.
+            graphics_page (str | GrpPage | SetVipage, optional): target grapics page. Defaults to None (active page is used).
+            plot (VisPlot | PltLinebarplot | PltVectorplot, optional): target plot. Defaults to None (active is used).
+            comtrade_file_dir (str | None, optional): directory to store COMTRADE file. Defaults to None (project dir is used).
+            comtrade_file_name (str | None, optional): Name of COMTRADE file. Defaults to None (name is created from plot name).
+
+        Returns:
+            str: path of the created COMTRADE file (without extension).
+        """
+        if comtrade_file_dir is None:
+            directory = self.act_prj.get_project_directory() + "\\comtrade_files"
+            if not exists(directory):
+                makedirs(directory)
+        if comtrade_file_name is None:
+            comtrade_file_name = (
+                f"{self.active_graphics_page.loc_name}_{self.active_plot.loc_name}_0"
+            )
+        while exists(f"{directory}\\{comtrade_file_name}.cfg"):
+            comtrade_file_name = (
+                f"{comtrade_file_name[:-1]}{str(int(comtrade_file_name[-1]) + 1)}"
+            )
+        recData = [df.iloc[:, n].to_numpy() for n in range(df.shape[1])]
+        cmtr_write = comtradeWriter("testRec", recData)
+        cmtr_write.filename = f"{directory}\\{comtrade_file_name}"
+        cmtr_write.setChannelID(df.columns.to_list())
+        cmtr_write.createFile()
+        # PF only accepts comtrade standard from 1999, so the first line needs to be changed.
+        with open(cmtr_write.filename + ".cfg") as f:
+            lines = f.readlines()
+        lines[0] = "HSBT,,1999\n"
+        with open(cmtr_write.filename + ".cfg", "w") as f:
+            f.writelines(lines)
+        self.plot_from_comtrade(
+            cmtr_write.filename + ".cfg",
+            df.columns.to_list(),
+            graphics_page=graphics_page,
+            plot=plot,
+        )
+        return cmtr_write.filename
 
     def plot_from_csv_using_elm_file(
         self, file_path: str, variable: str, **kwargs
@@ -624,6 +681,7 @@ class Plots(ApplicationBase):
         self,
         plot: VisPlot | PltLinebarplot | PltVectorplot = None,
         adjust_result_file=True,
+        curves: list[int] | None = None,
     ) -> dict[str, list]:
         """Get dictionary with all curve table attributes (keys) and
         list with the attributes values for each curve (values) of a plot (i.e. its data series).
@@ -634,6 +692,8 @@ class Plots(ApplicationBase):
             adjust_result_file (bool, optional): please see get_curve_table_attributes_referring_to_data_source
             for a detailed description . Defaults to True.
 
+            curves (list[int] | None, optional): If not None, only the attributes of the curves with the given indices are returned.
+
         Returns:
             dict[str, list]: curve table attributes
         """
@@ -643,7 +703,9 @@ class Plots(ApplicationBase):
             )
         )
         attributes_referring_to_visualisation_visualization = (
-            self.get_curve_table_attributes_referring_to_visualization(plot=plot)
+            self.get_curve_table_attributes_referring_to_visualization(
+                plot=plot, curves=curves
+            )
         )
         return {
             **attributes_referring_to_data_source,
@@ -654,6 +716,7 @@ class Plots(ApplicationBase):
         self,
         plot: VisPlot | PltLinebarplot | PltVectorplot = None,
         adjust_result_file: bool = True,
+        curves: list[int] | None = None,
     ) -> dict:
         """Get the curve table attributes referring to the data source
         of the curves from a plot (i.e. its data series).
@@ -679,6 +742,8 @@ class Plots(ApplicationBase):
                 "userSelectedResultFile" is used. Note that there is a bug in
                 PF so that "autoSelectedResultFile" is always empty as described
                 below.
+
+            curves (list[int] | None, optional): If not None, only the attributes of the curves with the given indices are returned.
 
         Returns:
             dict:
@@ -716,10 +781,15 @@ class Plots(ApplicationBase):
             attributes["curveTableResultFile"] = data_series.GetAttribute(
                 "curveTableResultFile"
             )
+        if curves is not None:
+            for key, value in attributes.items():
+                attributes[key] = [value[curve] for curve in curves]
         return attributes
 
     def get_curve_table_attributes_referring_to_visualization(
-        self, plot: VisPlot | PltLinebarplot | PltVectorplot | None = None
+        self,
+        plot: VisPlot | PltLinebarplot | PltVectorplot | None = None,
+        curves: list[int] | None = None,
     ) -> dict[str, object]:
         """Get the curve table attributes of a plot  (i.e. its data series)
         that refer to the visualisation.
@@ -728,8 +798,8 @@ class Plots(ApplicationBase):
           - keys: attribute names
           - values: lists with the values for each curve
 
-        Use this method if the data sources of the curves are of interest.
-        If further attributes on the data sources are of interest, see also the
+        Use this method if the attributes relevant for visualization of the curves are of interest.
+        If further attributes on are of interest, see also the
         methods:
           - get_curve_table_attributes
           - get_curve_table_attributes_referring_to_data_source
@@ -756,6 +826,9 @@ class Plots(ApplicationBase):
         )
         for attr in attributes.keys():
             attributes[attr] = data_series.GetAttribute(attr)
+        if curves is not None:
+            for key, value in attributes.items():
+                attributes[key] = [value[curve] for curve in curves]
         return attributes
 
     def set_curve_table_attributes(
@@ -822,16 +895,53 @@ class Plots(ApplicationBase):
         )
         self.set_curve_table_attributes(curve_table_attr)
 
-    def export_active_page(self, format: str = "pdf", path: str = getcwd()) -> None:
+    def export_active_page(
+        self, format: str = "pdf", path: str = getcwd()
+    ) -> tuple[str, int]:
         """Export active page (e.g. to pdf) using the 'ComWr' object.
 
         Args:
             format (str, optional): Export format. Defaults to 'pdf'.
             path (str, optional): Export path. Defaults to current working directory (getcwd()).
+
+        Returns
+            tuple[str, int]: The path of the exported graphic and returned value of the PF 'comwr' object (0: successful export, 1: not successful)
         """
         self.active_graphics_page.Show()
         comwr = self.act_prj.get_from_study_case("ComWr")
-        self.act_prj.set_attr(
-            comwr, {"iopt_rd": format, "iopt_savas": 0, "f": path + "." + format}
+        path = path + "." + format
+        self.act_prj.set_attr(comwr, {"iopt_rd": format, "iopt_savas": 0, "f": path})
+        return path, comwr.Execute()
+
+    def export_curves_to_pandas_dataframe(
+        self,
+        plot: VisPlot | PltLinebarplot | PltVectorplot | None = None,
+        curves: list[int] | None = None,
+    ) -> pandas.DataFrame:
+        """Export data of curves from a plot to a pandas DataFrame.
+
+        This methods is only applicable to curves from ElmRes objects.
+
+        Args:
+            plot (VisPlot | PltLinebarplot | PltVectorplot, optional): Plot object. Defaults to None (active plot is used).
+
+            curves (list[int] | None, optional): If not None, only the curves with the given indices are exported. Defaults to None (all curves are exported).
+
+        Returns:
+            pandas.DataFrame: DataFrame with time and curve values.
+        """
+        if plot is not None:
+            self.set_active_plot(plot)
+        curve_attr = self.get_curve_table_attributes_referring_to_data_source(
+            curves=curves
         )
-        comwr.Execute()
+        pfri = Results(self.act_prj.app)
+        return pfri.export_to_pandas(
+            list_of_results_objs=curve_attr["curveTableResultFile"],
+            elements=curve_attr["curveTableElement"],
+            variables=curve_attr["curveTableVariable"],
+        )
+
+    def set_shown_page_as_active_page(self) -> GrpPage:
+        """Set the page currently show in the PF GUI as the 'active_graphics_page'. Note that the 'active_plot' attribute is not affected."""
+        self.active_graphics_page = self.get_or_create_graphics_board().GetActivePage()
