@@ -3,11 +3,13 @@ from itertools import product
 from os import getcwd, makedirs
 from os.path import join
 
+import numpy as np
 from icecream import ic
 
 import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_class_protocols import (
+    PFGeneral,
     ElmNet,
     IntCase,
     IntScenario,
@@ -34,8 +36,8 @@ class StudyCases(ApplicationBase):
         "Active grids for each study case (can be multiple for each). If only one is given, the same grid is active in every case."
         self.parameter_values: dict[str, list[Any]] = {}
         "Dictionary with parameters names (keys) and lists with parameter values for each case (values)."
-        self.parameter_paths: dict[str, str] = {}
-        "Dictionary with parameter names (keys) and their path."
+        self.parameter_paths: dict[str, str] | dict[str, tuple[PFGeneral, str]] = {}
+        "Dictionary with parameter names as keys and their path or and object, attribute tuple as values)."
         self.hierarchy: list[str] = []
         "Hierarchy of folders (named after the parameters) where case/scenario/variation objects are located."
         self.omitted_combinations: list[dict[str, list]] = []
@@ -58,6 +60,8 @@ class StudyCases(ApplicationBase):
         "If True, numbering is added to the case names."
         self.anonymous_parameters: list[str] = []
         "Parameters for which names are not used in folder/case name strings (only the parameter values are used)."
+        self.study_cases_names: list[str] = []
+        "Names of study cases. If not specified, names are automatically created from parameters and values."
         self.ignore_parameters_that_are_none_in_names: bool = True
         "If True, parameters with value None are ignored in names (of cases etc.)."
         self.overwrite_study_cases: bool = True
@@ -85,6 +89,8 @@ class StudyCases(ApplicationBase):
         according to 'hierarchy') using parameter-value strings for the
         study cases (and folder names).
         """
+        if not self.parameter_values:
+            raise AttributeError("Please set the attribute 'parameter_values'.")
         if reactivate_initially_activated_study_case:
             initially_active_case = self.act_prj.app.GetActiveStudyCase()
         self._study_cases = []
@@ -95,24 +101,26 @@ class StudyCases(ApplicationBase):
             )
         for case_num in range(number_of_cases):
             folder_path = self.get_folder_path(case_num)
-            parameter_values_string = self.get_case_params_value_string(
-                case_num, omitted_parameters=self.hierarchy
-            )
+            if self.study_cases_names:
+                case_name = self.study_cases_names[case_num]
+            else:
+                case_name = self.get_case_params_value_string(
+                    case_num, omitted_parameters=self.hierarchy
+                )
             if self.consecutively_number_case_names:
-                parameter_values_string = str(case_num) + " " + parameter_values_string
-            self._study_cases.append(
-                self._create_study_case(parameter_values_string, folder_path)
-            )
+                case_name = str(case_num) + " " + case_name
+
+            self._study_cases.append(self._create_study_case(case_name, folder_path))
             self.activate_grids(case_num)
             if self.add_scenario_to_each_case:
-                scen = self._create_scenario(parameter_values_string, folder_path)
+                scen = self._create_scenario(case_name, folder_path)
             if self.add_variation_to_each_case:
-                self._create_variation(parameter_values_string, folder_path)
+                self._create_variation(case_name, folder_path)
             self._set_parameters(case_num)
             if self.add_scenario_to_each_case:
                 scen.Save()
         if reactivate_initially_activated_study_case and initially_active_case:
-            initially_active_case = self.act_prj.app.GetActiveStudyCase()
+            initially_active_case.Activate()
 
     def get_folder_path(self, case_num: int) -> str | None:
         """Get folder path (inside parent folder) of a case.
@@ -132,6 +140,7 @@ class StudyCases(ApplicationBase):
                 parameter_value = self.get_value_of_parameter_for_case(
                     par_name, case_num
                 )
+                default_val = self.ignored_default_parameters_in_names.get(par_name)
                 if (
                     parameter_value is not None
                     or not self.ignore_parameters_that_are_none_in_names
@@ -168,7 +177,7 @@ class StudyCases(ApplicationBase):
         """
         case_num = self._handle_case_input(case_obj_or_case_num)
         values = self.parameter_values[par_name]
-        if isinstance(values, (list, tuple)):
+        if isinstance(values, (list, tuple, np.ndarray)):
             try:
                 return values[case_num]
             except IndexError:
@@ -556,7 +565,7 @@ class StudyCases(ApplicationBase):
         Args:
             name (str): name of study case object without class (e.g. parameter-value pairs)
 
-            folder_path (str): relativ to 'self.get_study_cases_parent_folder'
+            folder_path (str): relative to 'self.get_study_cases_parent_folder'
 
         Returns:
             IntCase: Created study case object
@@ -634,10 +643,18 @@ class StudyCases(ApplicationBase):
         and values specified in 'self.parameter_values'.
         """
         case_num = self._handle_case_input(case_obj_or_case_num)
-        for par_name, path in self.parameter_paths.items():
+        for par_name, path_or_obj_attr_tuple in self.parameter_paths.items():
             value = self.get_value_of_parameter_for_case(par_name, case_num)
             if value is not None:
-                self.act_prj.set_attr_by_path(path, value)
+                if isinstance(path_or_obj_attr_tuple, str):
+                    self.act_prj.set_attr_by_path(path_or_obj_attr_tuple, value)
+
+                else:
+                    # ic(par_name, value, path_or_obj_attr_tuple)
+                    self.act_prj.set_attr(
+                        path_or_obj_attr_tuple[0], {path_or_obj_attr_tuple[1]: value}
+                    )
+                    # raise Exception
 
     def _filter_omitted_combinations(
         self,
@@ -649,7 +666,7 @@ class StudyCases(ApplicationBase):
         The difficulty is the handling of the 'all' case. In this case, the combination with any value of a parameter is omitted, but combinations of the remaining parameters must be allowed.
 
         Args:
-            values_of_all_parameters_for_case (list | tuple): paramert values for specific case
+            values_of_all_parameters_for_case (list | tuple): parameter values for specific case
 
             original_parameter_values (dict[str, Any]): original values BEFORE permutation is applied.
 
