@@ -25,6 +25,7 @@ from powfacpy.pf_class_protocols import (
     SetPrj,
     SetFilt,
 )
+from powfacpy.exceptions import PFNonExistingObjectError
 
 
 class Folder(BaseObjectStatic):
@@ -167,7 +168,7 @@ class Folder(BaseObjectStatic):
 
             condition (Callable, optional): filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110; defaults to None
 
-            parent_folder (Union[PFGeneral, Folder, str], optional): specify a parent folder/container (or its path) from where the search is started ('path' is then relativ to 'parent_folder'); defaults to _folder/the active project folder for instances of PFActiveProject
+            parent_folder (Union[PFGeneral, Folder, str], optional): specify a parent folder/container (or its path) from where the search is started ('path' is then relative to 'parent_folder'); defaults to _folder/the active project folder for instances of PFActiveProject
 
             error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
 
@@ -491,7 +492,9 @@ class Folder(BaseObjectStatic):
     ##################
     # Create
     ##################
-    def create_by_path(self, path: str, overwrite: bool = True) -> PFGeneral:
+    def create_by_path(
+        self, path: str, overwrite: bool = True, use_existing: bool = False
+    ) -> PFGeneral:
         """Create an object by specifying its path (including the class at the end) and return the object.
 
         Args:
@@ -512,7 +515,9 @@ class Folder(BaseObjectStatic):
         except AttributeError:
             raise TypeError("The argument 'path' must be of type string.")
         folder = self.get_unique_obj(folder_path)
-        return self.create_in_folder(obj_name_incl_class, folder, overwrite=overwrite)
+        return self.create_in_folder(
+            obj_name_incl_class, folder, overwrite=overwrite, use_existing=use_existing
+        )
 
     def create_in_folder(
         self,
@@ -1054,12 +1059,12 @@ class Folder(BaseObjectStatic):
 
         Args:
             obj (Union[PFGeneral, str]): PF object
-            params (dict): atttributes and their values (e.g. {'parameter1':value1, 'parameter2':value2,..})
+            params (dict): attributes and their values (e.g. {'parameter1':value1, 'parameter2':value2,..})
             parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
 
         Raises:
             powfacpy.PFAttributeTypeError: If the type of an attribute value is wrong
-            powfacpy.PFAttributeError: If an object does not have th especified attribute
+            powfacpy.PFAttributeError: If an object does not have the specified attribute
         """
         obj = self._handle_single_pf_object_or_path_input(
             obj, parent_folder=parent_folder
@@ -1185,9 +1190,7 @@ class Folder(BaseObjectStatic):
             return []
         else:
             # head, tail = os_path.split(path)
-            raise powfacpy.exceptions.PFNonExistingObjectError(
-                parent_folder, path, condition=True
-            )
+            raise PFNonExistingObjectError(parent_folder, path, condition=True)
 
     def _handle_pf_object_or_path_input(
         self,
