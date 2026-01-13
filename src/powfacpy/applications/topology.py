@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from typing import Callable
 
 from icecream import ic
 
-from powfacpy.pf_classes.elm.boundary import Boundary
+import powfacpy.pf_classes.elm.boundary
+from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_classes.protocols import (
     PFApp,
@@ -102,7 +105,7 @@ class Topology(ApplicationBase):
             if parent_folder:
                 parent_folder.Move(boundary)
             if exclude_node_elms:
-                boundary = Boundary(boundary)
+                boundary = powfacpy.pf_classes.elm.boundary.Boundary(boundary)
                 boundary.exclude_node_elms_by_condition(exclude_node_elms)
                 boundary = boundary._obj
             boundary.icolor = color
@@ -153,7 +156,7 @@ class Topology(ApplicationBase):
                 )
             boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
             if exclude_node_elms:
-                boundary = Boundary(boundary)
+                boundary = powfacpy.pf_classes.elm.boundary.Boundary(boundary)
                 boundary.exclude_node_elms_by_condition(exclude_node_elms)
             cubicles = boundary.cubicles
             orientations = boundary.ciorient
@@ -169,3 +172,85 @@ class Topology(ApplicationBase):
             if parent_folder:
                 parent_folder.Move(boundary)
         return boundary
+
+    def create_boundary_from_bus_branch(
+        self,
+        name: str,
+        bus_branch: dict,
+        to_branch: bool = True,
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -> ElmBoundary:
+        """Create a boundary by specifying buses (terminals) and branches (connected to the buses).
+
+        Args:
+            name (str): name of boundary
+
+            bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+            to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): Parent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+        Returns:
+            ElmBoundary: The boundary created.
+        """
+        if to_branch:
+            to_branch = 0
+        else:
+            to_branch = 1
+        if parent_folder is None:
+            parent_folder = self.act_prj.boundaries_folder
+        boundary = self.act_prj.create_in_folder(
+            name + ".ElmBoundary", parent_folder, overwrite=overwrite
+        )
+        for term, branches in bus_branch.items():
+            term = Terminal(self.act_prj._handle_single_pf_object_or_path_input(term))
+            for branch in branches:
+                branch = self.act_prj._handle_single_pf_object_or_path_input(branch)
+                cub = term.get_cubicle_of_connected_elm(branch)
+                boundary.AddCubicle(cub, to_branch)
+        boundary.icolor = color
+        return boundary
+
+    def create_zone_from_boundary_bus_branch(
+        self,
+        name: str,
+        bus_branch: dict,
+        to_branch: bool = True,
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -> ElmZone:
+        """Create a zone via intermediate boundary and by specifying buses (terminals) and branches (connected to the buses).
+
+        Args:
+            name (str): name of zone
+
+            bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+            to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): Parent folder where zone is created. Defaults to None (i.e. default zone folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+        Returns:
+            ElmZone: _description_
+        """
+        boundary = powfacpy.pf_classes.elm.boundary.Boundary(
+            self.create_boundary_from_bus_branch(
+                name, bus_branch, to_branch=to_branch, overwrite=False
+            )
+        )
+        zone = boundary.create_zone(
+            name, parent_folder, color=color, overwrite=overwrite
+        )
+        boundary._obj.Delete()
+        return zone
