@@ -3,8 +3,9 @@ Base classes for elm.
 """
 
 from abc import ABC
-from powfacpy.pf_classes.protocols import PFGeneral
+from powfacpy.pf_classes.protocols import PFGeneral, ElmNet
 from powfacpy.base.base import BaseChildStatic
+from powfacpy.base.active_project import ActiveProject
 
 
 class ElmBase(BaseChildStatic):
@@ -18,6 +19,12 @@ class ElmBase(BaseChildStatic):
 
     def set_into_service(self):
         self._obj.outserv = 0
+
+    def get_parent_grid(self) -> ElmNet:
+        act_prj = ActiveProject()
+        return act_prj.get_upstream_obj(
+            self._obj, lambda x: x.GetClassName() == "ElmNet"
+        )
 
 
 class SinglePortBase(ABC):
