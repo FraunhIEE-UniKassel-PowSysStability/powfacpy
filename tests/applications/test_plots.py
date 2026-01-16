@@ -5,6 +5,9 @@ from os import remove, getcwd
 import pytest
 from matplotlib import pyplot
 
+import powfacpy.applications
+import powfacpy.applications.dynamic_simulation
+
 sys.path.insert(0, r".\src")
 import powfacpy
 from powfacpy.applications.plots import Plots
@@ -156,7 +159,7 @@ def test_clear_curves_by_index_from_active_plot(
         r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",
         "s:u0",
     )
-    pfdi = powfacpy.PFDynSimInterface(pfplt.act_prj.app)
+    pfdi = powfacpy.applications.dynamic_simulation.DynamicSimulation(pfplt.act_prj.app)
     pfdi.initialize_and_run_sim()
     # Clear the last curve
     pfplt.clear_curves_by_index_from_active_plot(slice(-1, 1, -1))
