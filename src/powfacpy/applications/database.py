@@ -251,14 +251,16 @@ class Database(ApplicationBase):
 
     def make_loc_name_unique(
         self,
-        pf_classes: list,
+        pf_classes: list = ["Elm*"],
         objs: Iterable[PFGeneral] | None = None,
         suffix_separator: str = "_",
     ) -> dict[str, int]:
         """Change duplicate loc_name of calculation relevant objects of the same class to ensure that they are unique. Number the loc_name with a suffix '_n' where n is the count. Useful for example when loc_name are used as keys in a dict or labels in DataFrames (e.g. when exporting to pandapower format).
 
         Args:
-            pf_classes (Iterable[str] | str, optional): Classes to be considered. Defaults to "Elm*".
+            pf_classes (Iterable[str] | str, optional): Classes to be considered. Defaults to ["Elm*"].
+            objs (Iterable[PFGeneral] | None): Selection ob objects to be considered. Defaults to None (all calculation relevant). 
+            suffix_separator (str): Suffix used to change duplicate names. Defaults to "_".
 
         Returns:
             dict[str, int]:
