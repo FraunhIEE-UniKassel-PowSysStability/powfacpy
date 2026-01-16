@@ -4,7 +4,8 @@ from typing import Callable
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.applications.results import Results
-from powfacpy.pf_classes.protocols import ElmBoundary, PFGeneral
+import powfacpy.applications.topology
+from powfacpy.pf_classes.protocols import ElmBoundary, PFGeneral, ElmZone, ElmNet
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.pf_classes.set.colscheme import DiagramColorScheme
@@ -98,6 +99,34 @@ class Boundary(ElmBase, GroupingBase):
             return pfres.get_simulation_results_from_dataframe(
                 simulation_results, terminals_in_boundary, RMS_BAL.ElmTerm.m_fe.value
             ).mean(1)
+
+    def create_zone(
+        self,
+        name: str | None = None,
+        parent_folder: str | None = None,
+        color: int | None = None,
+        overwrite: bool = True,
+    ) -> ElmZone:
+        """Create Zone based on boundary
+
+        Args:
+            name (str | None, optional): Name of Zone. Defaults to None (same as boundary).
+            parent_folder (str | None, optional): parent folder. Defaults to None (zone project folder).
+            color (int | None, optional): color of zone. Defaults to None.
+            overwrite (bool, optional): If true, any existing zone object with same name is overwritten. Defaults to True.
+
+        Returns:
+            ElmZone: Created zone object
+        """
+        terms = self.get_internal_elms_of_class("ElmTerm")
+        topo = powfacpy.applications.topology.Topology(cached=True)
+        if name is None:
+            name = self._obj.loc_name
+        if color is None:
+            color = self.icolor
+        return topo.create_zone(
+            name, terms, parent_folder=parent_folder, color=color, overwrite=overwrite
+        )
 
     @staticmethod
     def show_boundary_interior_regions_in_network_graphic() -> None:

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Callable
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, StaPll
+from powfacpy.pf_classes.protocols import ElmGenstat, PFGeneral, ElmRes, StaPll
 
 
 class GroupingBase(ABC):
@@ -62,6 +62,17 @@ class GroupingBase(ABC):
         all_plls: list[StaPll] = act_prj.get_calc_relevant_obj("*.StaPll")
         internal_terminals = set(self.get_internal_elms_of_class("ElmTerm"))
         return [pll for pll in all_plls if pll.pbusbar in internal_terminals]
+
+    def get_converters(self) -> list:
+        return self.get_internal_elms(
+            lambda x: x.GetClassName() in ["ElmGenstat", "ElmPvsys", "ElmVsc"]
+        )
+
+    def get_grid_forming_converters(self) -> list:
+        return [conv for conv in self.get_converters() if conv.ctrlStruct == 1]
+
+    def get_grid_following_converters(self) -> list:
+        return [conv for conv in self.get_converters() if conv.ctrlStruct == 0]
 
     @abstractmethod
     def get_all_internal_elms(self) -> list[PFGeneral]:

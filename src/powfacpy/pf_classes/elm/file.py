@@ -52,7 +52,8 @@ class MeasurementFile(ElmBase):
         act_prj = ActiveProjectCached()
         if not csv_file_dir:
             csv_file_dir_with_special_chars = (
-                "$(ExtDataDir)\\"
+                act_prj.get_project_directory()
+                + "\\"
                 + self.get_path_of_elmfile_data_inside_external_data_directory()
             )
             csv_file_dir = act_prj._replace_special_PF_characters_in_path_string(

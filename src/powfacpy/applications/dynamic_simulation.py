@@ -70,7 +70,7 @@ class DynamicSimulation(ApplicationBase):
     ) -> pd.DataFrame:
         """Get the eigenvalues of the current state of the system.
 
-        Uses the modal analysis command (ComMod) to calculate the eigenvalues. Eigenvectors and participation factors are omitted). The operating point of the current simulation time is used.
+        Uses the modal analysis command (ComMod) to calculate the eigenvalues (Eigenvectors and participation factors are omitted). The operating point of the current simulation time is used.
         Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.
 
         Args:

@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 from powfacpy.pf_classes.protocols import SetColscheme, PFGeneral
-from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.result_variables import ResVar
+from powfacpy.base.base import BaseChildStatic
 
 RMS_BAL = ResVar.RMS_Bal
 LF_BAL = ResVar.LF_Bal
 
 
-class DiagramColorScheme(ElmBase):
+class DiagramColorScheme(BaseChildStatic):
 
     __slots__ = ()
 

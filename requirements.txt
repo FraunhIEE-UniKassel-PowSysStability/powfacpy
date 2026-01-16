@@ -4,3 +4,4 @@ matplotlib==3.8.4
 pandas==2.2.2
 pytest==8.3.4
 jsondiff==2.2.1
+comtraderecord == 1.0.2

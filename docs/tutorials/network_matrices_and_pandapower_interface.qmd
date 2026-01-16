@@ -8,6 +8,7 @@ format:
 jupyter: python3
 ---
 
+
 ```{python}
 #| echo: false
 #| output: false
@@ -50,7 +51,7 @@ from powfacpy.pf_classes.protocols import PFApp
 import sys
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
 )  # you may use a different directory
 # Get the PF app
 import powerfactory
@@ -95,7 +96,7 @@ from powfacpy.applications.database import Database
 try:
     act_prj.app.Hide()
     dbi = Database(app)
-    dbi.make_loc_name_of_calc_relevant_objects_unique()
+    dbi.make_loc_name_unique()
     net = ppi.pf_project_to_pandapower()
 finally:
     act_prj.app.Show()
@@ -122,7 +123,7 @@ We can no extract the *Ybus* (i.e admittance) matrix. By default, the returned *
 ```{python}
 Yb = ppi.get_Ybus_matrix(net)
 
-print(Yb.todense())
+print(Yb)
 ```
 
 The base apparent power is `net._ppc["baseMVA"]`.

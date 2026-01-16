@@ -87,9 +87,10 @@ class PandapowerInterface(ApplicationBase):
         """
         Yb = self.get_Ybus_matrix(net)
         matrix_index_labels = self.get_admittance_matrix_labels(net)
-        return pd.DataFrame(
-            Yb.todense(), columns=matrix_index_labels, index=matrix_index_labels
-        )
+        return pd.DataFrame(Yb, columns=matrix_index_labels, index=matrix_index_labels)
+        # return pd.DataFrame(
+        #     Yb.todense(), columns=matrix_index_labels, index=matrix_index_labels
+        # )
 
     def rearrange_Ybus_frame(
         self, y_bus: pd.DataFrame, bus_objs: ElmTerm

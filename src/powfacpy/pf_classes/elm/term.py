@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Callable
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmTerm, PFGeneral, StaPll
+from powfacpy.pf_classes.protocols import ElmTerm, PFGeneral, StaCubic, StaPll
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
@@ -29,12 +29,48 @@ class Terminal(ElmBase):
         instance = super().__new__(cls)
         return instance
 
+    def get_cubicle_of_connected_elm(self, elm: PFGeneral) -> StaCubic:
+        for cub in self._obj.GetConnectedCubicles():
+            if cub.GetBranch() == elm:
+                return cub
+
+    def get_connected_elements(
+        self, only_calc_relevant: bool = False, condition: Callable | None = None
+    ) -> list[PFGeneral]:
+        """Get all elements connected to terminal.
+
+        Args:
+            only_calc_relevant (bool, optional): Only calculation relevant elements are considered. Defaults to False.
+            condition (Callable | None, optional): Condition to select elements. Defaults to None.
+
+        Returns:
+            list[PFGeneral]: Connected elements
+        """
+        if only_calc_relevant:
+            cubs = self._obj.GetCalcRelevantCubicles()
+        else:
+            cubs = self._obj.GetConnectedCubicles()
+        if condition is None:
+            return [cub.obj_id for cub in cubs]
+        else:
+            return [cub.obj_id for cub in cubs if condition(cub.obj_id)]
+
     def add_phase_locked_loop(
         self,
         folder: PFGeneral | None = None,
         monitor_frequency_pu: bool = False,
         monitor_frequency_Hz: bool = False,
     ) -> StaPll:
+        """Add a PLL to monitor the frequency.
+
+        Args:
+            folder (PFGeneral | None, optional): parent folder. Defaults to None (parent grid folder is used).
+            monitor_frequency_pu (bool, optional): monitor frequency in pu. Defaults to False.
+            monitor_frequency_Hz (bool, optional): monitor frequency in Hz. Defaults to False.
+
+        Returns:
+            StaPll: Created PLL object
+        """
         act_prj = ActiveProjectCached()
         if not folder:
             parent_grid = act_prj.get_upstream_obj(

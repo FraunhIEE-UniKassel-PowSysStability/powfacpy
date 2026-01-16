@@ -5,6 +5,7 @@ import pytest
 sys.path.insert(0, r".\src")
 import powfacpy
 from powfacpy.applications.study_cases import StudyCases
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
 import importlib
 
 importlib.reload(powfacpy)
@@ -295,7 +296,7 @@ def test_export_results_of_study_cases_to_csv(
     pfsc.clear_parent_folders()
     pfsc.base_study_case = r"Study Cases\test_case_studies\base_study_case"
     pfsc.create_cases()
-    pfds = powfacpy.PFDynSimInterface(pfsc.act_prj.app)
+    pfds = DynamicSimulation(pfsc.act_prj.app)
     cases, case_numbers = pfsc.get_study_cases_from_string(
         "p HV load >= 1 and q HV load > 0", return_case_numbers=True
     )
