@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.28">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../docs/tutorials/simulation_and_plotting.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b9197cbe6dce745ee4f4b73487b41930.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b02963f547e5a3a91d4e2e620940cacb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -247,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Parameter studies are organized in study cases, operation scenarios and variations in PowerFactory. This tutorials shows how to create parameter studies with ease and fully automated using the study cases interface of <em>powfacpy</em>.</p>
 <p>First, we activate the PowerFactory project as in the <em>getting started</em> tutorial.</p>
 <div id="a6d72013" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
@@ -262,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="er">\</span><span class="vs">powfacpy_tests_copy_where_tests_run"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>0</code></pre>
 </div>
@@ -272,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We use the class <code>StudyCases</code>. This class inherits from <code>PFActiveProject</code>, so all methods from that class are available. We want to create study case with various values for the active and reactive power of a load.</p>
 <p>First we set the attribute <code>parameter_values</code> and define a dictionary with parameter names and a list of values. Each element in the lists is used in one study case.</p>
 <div id="3925ca0d" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.study_cases <span class="im">import</span> StudyCases</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.study_cases <span class="im">import</span> StudyCases</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pfsc <span class="op">=</span> StudyCases(app)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -282,25 +283,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"p HV load"</span>: [<span class="dv">1</span>,   <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>],</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"q HV load"</span>: [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>], </span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: on</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here we have defined four study cases and in the first case <code>p HV load</code> equals 1 and <code>q HV load</code> equals -1. The parameter names must not contain *?=“,~|()! as these characters cannot be used for names of objects in PF.</p>
 <p>Next we connect the variables to the PF database by defining a dictionary with paths in the attribute <code>parameter_paths</code> using the same parameter names as keys. The paths include the attribute name (e.g.&nbsp;<code>plini</code> which is the active power of the load).</p>
 <div id="e5c813ad" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfsc.parameter_paths <span class="op">=</span> {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfsc.parameter_paths <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"p HV load"</span>: <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2</span><span class="dv">\G</span><span class="vs">eneral Load HV</span><span class="er">\</span><span class="vs">plini"</span>,  <span class="co"># This is one string split over several lines</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"q HV load"</span>: <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data"</span></span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2</span><span class="dv">\G</span><span class="vs">eneral Load HV</span><span class="er">\</span><span class="vs">qlini"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Finally we define the active grids. For now, we assume that for all cases exactly one grid is active (we look at more complicated cases later).</p>
 <div id="df464b9e" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfsc.active_grids <span class="op">=</span> <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfsc.active_grids <span class="op">=</span> <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now let’s create the study cases (and corresponding operation scenarios) in a new folder named ‘Autocreated’:</p>
 <div id="24dbc194" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pfsc.parent_folder_study_cases <span class="op">=</span> pfsc.act_prj.create_in_folder(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pfsc.parent_folder_study_cases <span class="op">=</span> pfsc.act_prj.create_in_folder(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Autocreated.IntFolder"</span>, folder<span class="op">=</span>pfsc.act_prj.study_cases_folder</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pfsc.parent_folder_scenarios <span class="op">=</span> pfsc.act_prj.create_in_folder(</span>
@@ -308,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively, just use</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pfsc.set_parent_folders_for_cases_scenarios_variations(<span class="st">"Autocreated"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This creates the following study cases in the ‘Autocreated’ folder:</p>
 <p><img src="figures/cases_1.png" class="img-fluid"></p>
@@ -316,8 +317,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="figures/scenarios_1.png" class="img-fluid"></p>
 <p>For more complicated case studies with further parameters, it is advisable to structure the cases in folders. We define the attribute <code>hierarchy</code> using a list (in this case with onl yone item) of parameter names that corresponds to folder directories.</p>
 <div id="7ea23932" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pfsc.hierarchy <span class="op">=</span> [<span class="st">"q HV load"</span>]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pfsc.hierarchy <span class="op">=</span> [<span class="st">"q HV load"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now <code>q HV load</code> is used for the folder names and not in the study case name.</p>
 <p><img src="figures/cases_2.png" class="img-fluid"></p>
@@ -327,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="2"><span class="header-section-number">2</span> Advanced Parameter Study</h1>
 <p>Let’s take a look at a more complex parameter study.</p>
 <div id="cf90a478" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn auto formatting off for readability of parameter_values</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn auto formatting off for readability of parameter_values</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># fmt: off</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pfsc <span class="op">=</span> StudyCases(app)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pfsc.parameter_values <span class="op">=</span> {</span>
@@ -341,23 +342,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"q HV load"</span>: <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2</span><span class="dv">\G</span><span class="vs">eneral Load HV</span><span class="er">\</span><span class="vs">qlini"</span>,</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>pfsc.active_grids <span class="op">=</span> <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="ch">\t</span><span class="vs">est_case_studies</span><span class="dv">\G</span><span class="vs">rid 2"</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>pfsc.set_parent_folders_for_cases_scenarios_variations(<span class="st">"Autocreated"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>pfsc.set_parent_folders_for_cases_scenarios_variations(<span class="st">"Autocreated"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>An additional parameter <code>control</code> is defined. Note that there is no parameter path defined for this parameter. The parameter can be seen as a placeholder for the study cases structure and to do more complicated things than simply setting an attribute of a PF object later (we’ll see below).</p>
 <p>By default, study cases and operation scenarios are created. If variations should be created in addition, use:</p>
 <div id="8a1cf482" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pfsc.add_variation_to_each_case <span class="op">=</span> <span class="va">True</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pfsc.add_variation_to_each_case <span class="op">=</span> <span class="va">True</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This can be necessary because some parameters, like attributes of DSL objects, are stored in variants and not in operation scenarios. Let’s again create the study cases.</p>
 <div id="070320e6" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pfsc.hierarchy <span class="op">=</span> [<span class="st">"control"</span>, <span class="st">"q HV load"</span>]</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pfsc.hierarchy <span class="op">=</span> [<span class="st">"control"</span>, <span class="st">"q HV load"</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pfsc.create_cases()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This creates the following structure in the network variations (as well as in the scenarios and study cases):</p>
 <p><img src="figures/variations_3.png" class="img-fluid"></p>
 <p>Let’s set further parameters, add plots (using plot interface) and simulate (using dyn. simulation interface) for each study case. The study case objects are stored in the <code>study_cases</code> attribute. We can iterate through the cases and set parameters depending on the previously defined <code>control</code> parameter.</p>
 <div id="60c4e89c" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>pfpi <span class="op">=</span> Plots(app)</span>
@@ -381,7 +382,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    pfpi.set_active_plot(<span class="st">"Reactive current"</span>, <span class="st">"WPP"</span>)</span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    pfpi.plot(dsl_controller_obj, <span class="st">"s:Iqcmd"</span>)</span>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    pfds.initialize_and_run_sim()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    pfds.initialize_and_run_sim()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s walk through this piece of code. The plotting and simulation interfaces are instantiated and a DSL object is assigned to be used later.</p>
 <p>It is iterated through the study cases objects (and case numbers) and each study case is activated. Then the controller parameters are set. The value of the <code>control</code> parameter is obtained using the method <code>get_value_of_parameter_for_case</code> and the controller parameters are set depending on the controller type (<code>A</code> or <code>B</code>). This provides the flexibility to adjust the study cases depending on previously defined parameters in any way (e.g.&nbsp;set parameters, activate grids, …). And all settings are stored in the previously defined operation scenarios/variations.</p>
@@ -391,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="3"><span class="header-section-number">3</span> Compare Study Cases</h1>
 <p>It is often required to compare the results of cases. In the following, we use the previously defined cases to compare the simulation results for cases where the parameter <code>p HV load</code> equals 1 (note that you may have to “Rebuild” <img src="figures/rebuild_button.png" class="img-fluid"> the plot in the upper left for PF to show it correctly):</p>
 <div id="5b0f41e7" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a study case where results from other cases are compared in a plot</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a study case where results from other cases are compared in a plot</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>study_case_comparison <span class="op">=</span> pfsc.act_prj.create_by_path(</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Study Cases</span><span class="dv">\A</span><span class="vs">utocreated</span><span class="er">\</span><span class="vs">Comparison</span><span class="dv">.</span><span class="vs">IntCase"</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -416,24 +417,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        )</span>
 <span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="st">"Iq setpoint ("</span> <span class="op">+</span> case_label <span class="op">+</span> <span class="st">")"</span></span>
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        pfpi.plot(dsl_controller_obj, <span class="st">"s:Iqcmd"</span>, results_obj<span class="op">=</span>results_obj, label<span class="op">=</span>label)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>        pfpi.plot(dsl_controller_obj, <span class="st">"s:Iqcmd"</span>, results_obj<span class="op">=</span>results_obj, label<span class="op">=</span>label)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This creates a plot with legend:</p>
 <p><img src="figures/legend_1.png" class="img-fluid"></p>
 <p>Let’s walk through the code. After creating a study case where the results are compared in a plot, it is again iterated through all cases. For cases where <code>p HV load</code> has a certain value, the result object is fetched. Next we want to create a label for the curve in the plot. We use the method <code>get_case_params_value_string</code> with certain options for the delimiter and the equals symbol (here we have more options than for PF object names, i.e.&nbsp;<code>=</code> and <code>|</code> are allowed). Moreover, the parameter <code>p HV load</code> is omitted because it is the same for all compared cases (i.e.&nbsp;1, see condition). Further information on the variable is added to the label and the curve is finally added to the plot.</p>
 <p>An alternative to iterating through all study cases is to get certain cases using the method <code>get_study_cases</code>:</p>
 <div id="88c992d4" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>study_cases_p_HV_load_equals_1 <span class="op">=</span> pfsc.get_study_cases({<span class="st">"p HV load"</span>: <span class="kw">lambda</span> x: x <span class="op">==</span> <span class="dv">1</span>})</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>study_cases_p_HV_load_equals_1 <span class="op">=</span> pfsc.get_study_cases({<span class="st">"p HV load"</span>: <span class="kw">lambda</span> x: x <span class="op">==</span> <span class="dv">1</span>})</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> study_case_obj <span class="kw">in</span> study_cases_p_HV_load_equals_1:</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do something with the specific cases</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># do something with the specific cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>get_study_cases</code> takes a dictionary as input, where lambda functions with conditions for parameters are defined. Note that the methods <code>get_value_of_parameter_for_case</code> and <code>get_case_params_value_string</code> also work with study case objects as inputs instead of case numbers.</p>
 <p>A very convenient yet powerful alternative to ‘get_study_cases’ especially for complicated conditionals is ‘get_study_cases_from_string’. This method simply accepts a string which can contain complicated conditionals:</p>
 <div id="9e097e9d" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>study_cases_from_conditionals <span class="op">=</span> pfsc.get_study_cases_from_string(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>study_cases_from_conditionals <span class="op">=</span> pfsc.get_study_cases_from_string(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"p HV load &gt;= 2 and (control == 'A' or q HV load != 1)"</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>That makes it very easy to plot and compare certain cases.</p>
 </section>
@@ -441,7 +442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="4"><span class="header-section-number">4</span> Permutation</h1>
 <p>It is also possible to create study cases for the permutation of the parameters (i.e.&nbsp;all combinations). This is achieved with the method <code>apply_permutation</code>. Define the parameter values first (and also the hierarchy if applicable) and then call the method. Make sure that the PF application is hidden to improve the performance (if not hidden, this can take minutes and otherwise only seconds - the ‘try-finally’ block ensures that the app is always shown in the end even if an exception is thrown):</p>
 <div id="46c89d0c" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    pfsc <span class="op">=</span> StudyCases(app)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    pfsc.act_prj.app.Hide()</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    pfsc.parameter_values <span class="op">=</span> {</span>
@@ -459,12 +460,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    pfsc.clear_parent_folders()</span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    pfsc.create_cases()</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    pfsc.act_prj.app.Show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    pfsc.act_prj.app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>apply_permutation</code> irreversibly replaces the values in <code>parameter_values</code> with the permutation.</p>
 <p>It may be desirable to use the permutation but omit certain combinations. These omitted combinations can be defined in a list of dictionaries and used as a keyword argument as follows (note that we clear the parent folders from the formerly created objects first):</p>
 <div id="28a0eafd" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    omitted_combinations <span class="op">=</span> [</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"q HV load"</span>: [<span class="dv">1</span>], <span class="st">"control 2"</span>: [<span class="st">"R"</span>]},</span>
@@ -474,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    pfsc.clear_parent_folders()</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    pfsc.create_cases()</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The first dictionary causes any combinations where “q HV load” is 1 and “control 2” is “R” to be omitted (these cases will not be created when <code>create_cases</code> is called). In the second dictionary, the keyword “all” is used. This means that all combinations with this parameter are omitted.</p>
 </section>
@@ -539,13 +540,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

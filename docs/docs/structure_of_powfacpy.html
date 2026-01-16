@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.28">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../docs/docs/overview.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-b9197cbe6dce745ee4f4b73487b41930.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-b02963f547e5a3a91d4e2e620940cacb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -309,14 +310,14 @@ Figure&nbsp;1
 </ul>
 <p>This is a collection of interface classes that refer directly to individual classes in the <em>PowerFactory</em> database. The classes “inherit” (more details in <a href="#sec-advanced" class="quarto-xref">Section&nbsp;2</a>) from the classes in the <em>PowerFactory</em> database and add further functionality. For example, the <code>SynchronousMachine</code> class (in <em>pf_classes/elm/sym</em>) has all data and functionality (as described in the <em>python scripting reference</em> of <em>PowerFactory</em>) of <em>PowerFactory</em>’s <em>ElmSym</em> class, but adds further functionality (e.g.&nbsp;a secure way of getting the rated apparent power, which considers the number of parallel machines).</p>
 <p>The classes in the <em>PowerFactory</em> database can be grouped based on the first three letters and the remaining part of their names (e.g.&nbsp;<em>Elm</em> + <em>Sym</em>, where <em>Elm</em> is common to all network element classes and <em>Sym</em> is short for <em>synchronous machine</em>). This is reflected by the subfolders (<em>elm</em>, <em>sta</em>, <em>set</em>, etc.) which contain the interface classes for each subgroup. The files in the subfolders are named accordingly, but the full names are used for the classes in the files (e.g.&nbsp;<em>sym.py</em> in the <em>elm</em> folder contains the class <code>SynchronousMachine</code>) to distinguish the class names from the protocol classes (see below). To create an instance, an instance of the native <em>PowerFactory</em> class must be provided, as in the following example:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.sym <span class="im">import</span> SynchronousMachine</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.sym <span class="im">import</span> SynchronousMachine</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject()</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sm_pf_native <span class="op">=</span> act_prj.get_calc_relevant_object(<span class="st">"SM 01.ElmSym"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sm <span class="op">=</span> SynchronousMachine(sm_pf_native)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sm.Disconnect() <span class="co"># Method from native PF object</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sm.get_averaged_internal_reactance() <span class="co"># Method from powfacpy.pf_classes.elm.sym</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sm.get_averaged_internal_reactance() <span class="co"># Method from powfacpy.pf_classes.elm.sym</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In addition, <em>pf_classes/protocols.py</em> contains protocol classes for (almost) all classes from the <em>PowerFactory</em> database (automatically created, see <em>protocol_generator.py</em>). They are used for type hints for example, as explained in the <a href="../../docs/tutorials/getting_started.html">Getting Started Tutorial</a>.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -324,7 +325,7 @@ Figure&nbsp;1
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Protocols
+<span class="screen-reader-only">Warning</span>Protocols
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -345,7 +346,7 @@ Protocols
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
+<span class="screen-reader-only">Tip</span>Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -394,14 +395,14 @@ Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
 <section id="pf_classes" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="pf_classes"><span class="header-section-number">2.2</span> <em>pf_classes</em></h2>
 <p>The classes in the <em>pf_classes</em> folder usually overload the method <code>__new__</code> with the following boilerplate code (exemplified for <code>SynchronousMachine</code>):</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__new__</span>(cls, <span class="op">*</span>args, <span class="op">**</span>kwargs) <span class="op">-&gt;</span> ElmSym <span class="op">|</span> SynchronousMachine:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__new__</span>(cls, <span class="op">*</span>args, <span class="op">**</span>kwargs) <span class="op">-&gt;</span> ElmSym <span class="op">|</span> SynchronousMachine:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Implemented only to add type hints for the created instance.</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">            ElmSym | SynchronousMachine: New instance</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        instance <span class="op">=</span> <span class="bu">super</span>().<span class="fu">__new__</span>(cls)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> instance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> instance</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The sole reason is to make type hints work.</p>
 </section>
 <section id="engineering_helpers.py" class="level2" data-number="2.3">
@@ -468,13 +469,14 @@ Comparison of <em>PowerFactory</em> classes and <em>Applications</em>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
