@@ -61,7 +61,7 @@ class CGMES(ApplicationBase):
         cim_to_grid_tool.sourcePath = cim_archive
         cim_to_grid_tool.dependencies = None
         cim_to_grid_tool.partial = 0
-        cim_to_grid_tool.pGrid = [grid]  # TODO find out if grid has to be given
+        # cim_to_grid_tool.pGrid = [grid]  # TODO find out if grid has to be given
         cim_to_grid_tool.Execute()
         return grid
 
@@ -89,7 +89,7 @@ class CGMES(ApplicationBase):
         """
         base_archive = self.act_prj._handle_single_pf_object_or_path_input(base_archive)
         update_profiles_archive = self._convert_file_to_archive(
-            update_file_path, self.import_archive_name+"_update"
+            update_file_path, self.import_archive_name + "_update"
         )
         cim_to_grid_tool = self._create_cim_to_grid_tool()
         cim_to_grid_tool.sourcePath = update_profiles_archive
@@ -189,12 +189,10 @@ class CGMES(ApplicationBase):
             self.act_prj.app.GetActiveStudyCase(),
             use_existing=True,
         )
-        cim_export_tool.targetFolder = [output_path]
+        cim_export_tool.targetFolder = output_path  # [output_path]
         if as_zip:
             cim_export_tool.zipModels = 0
-            cim_export_tool.archiveName = [
-                self.exported_zip_name,
-            ]
+            cim_export_tool.archiveName = self.exported_zip_name
         else:
             cim_export_tool.zipModels = 2
         cim_export_tool.sourcePath = archive
