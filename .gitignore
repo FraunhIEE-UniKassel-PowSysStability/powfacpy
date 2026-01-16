@@ -15,3 +15,5 @@ venv/
 /_freeze/
 src/powfacpy/pf_classes/protocols_old.py
 src/powfacpy/grouping.py
+
+**/*.quarto_ipynb
