@@ -8,6 +8,7 @@ from icecream import ic
 
 import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
+from powfacpy.applications.results import Results
 from powfacpy.pf_class_protocols import (
     PFGeneral,
     ElmNet,
@@ -140,7 +141,6 @@ class StudyCases(ApplicationBase):
                 parameter_value = self.get_value_of_parameter_for_case(
                     par_name, case_num
                 )
-                default_val = self.ignored_default_parameters_in_names.get(par_name)
                 if (
                     parameter_value is not None
                     or not self.ignore_parameters_that_are_none_in_names
@@ -527,7 +527,7 @@ class StudyCases(ApplicationBase):
         makedirs(export_dir, exist_ok=True)
 
         csv_files_full_paths = []
-        pfri = powfacpy.PFResultsInterface(self.act_prj.app)
+        pfri = Results(self.act_prj.app)
         for case_num, case in zip(case_numbers, study_cases):
             case.Activate()
             elmres: ElmRes = self.act_prj.get_from_study_case(results_obj)
