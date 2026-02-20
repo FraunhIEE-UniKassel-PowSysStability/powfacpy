@@ -1,0 +1,261 @@
+---
+title: Parameter Studies
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+
+sys.path.append(r"..\..\src")
+```
+
+# Introduction
+
+This tutorial shows how to perform parameter studies in a concise and structured way and to generate targeted parameter modifications with minimal code. Compared to the 'Study Cases' tutorial, the focus is not on creating study cases, variations and operation scenarios, but rather on the parameter sets. 
+
+First, we activate the PowerFactory project, i.e. the *IEEE 39 bus system*.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
+)  # you may use a different directory
+
+# Get the PF app
+import powerfactory
+import powfacpy
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(
+    r"powfacpy\39_bus_new_england_copy_where_tests_run"
+)  # You may change the project path.
+```
+
+We create a copy of the study case that simulates a fault at bus 16 and clear all result variables.
+
+```{python}
+from powfacpy.base.active_project import ActiveProject
+
+act_prj = ActiveProject(app)
+act_prj.create_study_case("Parameter Study", r"Study Cases\2.1 Simulation Fault Bus 16 Stable", parent_folder=r"Study Cases\powfacpy")
+act_prj.clear_results_variables()
+```
+
+We get all synchronous machines and their types and their rotor speed as monitored result varibales.
+
+```{python}
+from powfacpy.result_variables import ResVar
+RMS_BAL = ResVar.RMS_Bal
+
+try:
+    app.Hide()
+    synchronous_machines = act_prj.get_calc_relevant_obj("ElmSym")
+    synchronous_machines.sort(key=lambda x: x.loc_name)
+    synchronous_machine_types = [sm.typ_id for sm in synchronous_machines]
+    act_prj.add_results_variable(synchronous_machines, RMS_BAL.ElmSym.s_speed.value)
+finally:
+    app.Show()
+synchronous_machines    
+```
+
+# Definition of Variants
+
+
+We define the parameter sets to be simulated by instantiating the `Variant` class. This class provides a concise and structured way to generate targeted parameter modifications with minimal code. Two representative examples are outlined below.
+
+---
+
+**Variant 1**: *“All SM (H, mult.)”*
+
+This variant modifies the inertia constant (`tag`) of all synchronous machine (SM) types. The original inertia values are scaled multiplicatively by factors ranging from 0.6 to 1.4, distributed over four equidistant steps.
+
+The first plot below illustrates the resulting inertia constants for all SM types across these scaling factors.
+
+Note that, in addition to multiplicative scaling, the `Variant` class also supports alternative modification schemes, such as additive offsets to the original parameter values.
+
+---
+
+**Variant 2**: *"All SM (H, grad.)"*
+
+The second variant also targets the inertia constants but applies a gradient distribution (`var.variation_type = "gradient"`).
+
+As shown in the second plot below:
+
+* The inertia of the first generator (Gen 01) is varied from 6 to 10.
+* The inertia of the last generator (Gen 10) is varied from 10 to 6.
+* etc.
+
+This creates a linear gradient across the generator fleet while preserving the overall average inertia of the system (though relative to the nominal power of the generators).
+
+
+```{python}
+from powfacpy.applications.parameter_studies import Variant
+
+try:
+    app.Hide()
+    
+    variants = []
+
+    var = Variant(app)
+    var.name = "All SM (H, mult.)"
+    var.objs_and_attr = [synchronous_machine_types, "tag"]
+    var.par_range = [0.6, 1.4]
+    var.steps = 4
+    var.value_calculation = "multiply" # other options are e.g. "add"
+    var.initialize()
+    variants.append(var)
+    
+    var = Variant(act_prj.app)
+    var.name = "All SM (H, grad.)"
+    var.objs_and_attr = [synchronous_machine_types, "tag"]
+    var.par_range = [6, 10]
+    var.steps = 4
+    var.value_calculation = "equal"
+    var.variation_type = "gradient"
+    var.initialize()
+    variants.append(var)
+
+finally:
+    app.Show()    
+```
+
+```{python}
+import matplotlib.pyplot as plt
+
+plt.rcParams.update({"axes.grid" : True})
+for var in variants:
+    plt.figure()
+    for sm, h_values in var.values.items():
+        plt.plot(h_values, linestyle='--', marker='x', label=sm[0].loc_name)
+    plt.xticks(
+        ticks=list(range(len(var.names_for_each_value  ))),
+        labels=var.names_for_each_value,
+    )
+    plt.xticks(rotation=90)
+    plt.ylabel("Inertia [s]")
+    plt.subplots_adjust(bottom=0.3)    
+    plt.title(var.name)
+    plt.legend()
+```
+
+# The `ParameterStudy` Class
+
+
+The `ParameterStudy` class offers an interface to several `Variants`.
+
+```{python}
+from powfacpy.applications.parameter_studies import ParameterStudy
+from powfacpy.result_variables import ResVar
+RMS_BAL = ResVar.RMS_Bal
+
+try:
+    app.Hide()
+    parstudy = ParameterStudy()
+    parstudy.variants = variants
+    parstudy.initialize()
+finally:
+    app.Show()   
+```
+
+As shown in the plot below, the values of the parameter sets of both variants can be accessed and compared.
+
+```{python}
+for sm, h_values in parstudy.values.items():
+    plt.plot(h_values, linestyle='--', marker='x', label=sm[0].loc_name)
+simulation_names = parstudy.get_all_names()    
+plt.xticks(
+    ticks=list(range(len(simulation_names))),
+    labels=simulation_names,
+)
+plt.xticks(rotation=90)
+plt.ylabel("Inertia [s]")
+plt.subplots_adjust(bottom=0.3)    
+plt.legend()    
+```
+
+We can now iterate all parameters sets and perform any kind of simulation or calculation. The values for each step are automatically set in *PowerFactory*.
+
+```{python}
+try:
+    app.Hide()
+    for values, sim_name in parstudy.step_generator():
+        print(sim_name)
+        print(values)
+        # perform any kind of calculation
+    parstudy.set_default_values()     
+finally:
+    app.Show()
+```
+
+You can also set the parameters for a specific simulation by specifiying the name of the variant and the step:
+
+```{python}
+parstudy.set_values_in_pf("All SM (H, grad.)", 3)
+```
+
+For dynamic (RMS or EMT) simulations, a dedicated utility function is available that automatically executes the simulation for all defined parameter sets and returns the corresponding time-domain results.
+
+```{python}
+try:
+    app.Hide()
+    sim_res_time_domain = parstudy.execute_dynamic_simulations()
+    
+finally:
+    app.Show()
+```
+
+We can access the results using the simulation name.
+
+```{python}
+sim_res_time_domain.keys() # simulation names
+```
+
+```{python}
+sim_res_time_domain['All SM (H, mult.)=0.600']
+```
+
+# Analysis of Simulation Results
+
+We now want to find out the maximum rotor speed of any generator in each simulation. 
+
+```{python}
+from powfacpy.applications.results import Results
+
+try:
+    app.Hide()
+    pfres = Results(app)
+    pfres.pf_objects_in_labels = True
+    max_frequency = {}
+    for sim_name, sim_res in sim_res_time_domain.items():
+        max_frequency[sim_name] = pfres.get_simulation_results_from_dataframe(sim_res, synchronous_machines, RMS_BAL.ElmSym.s_speed.value).max(0).max()
+finally:
+    app.Show()
+max_frequency    
+```
+
+The result is illustrated in the plot below. The mutiplication has a stronger influence than the gradient distribution.
+
+```{python}
+plt.plot(max_frequency.values(), linestyle='--', marker='o')
+plt.xticks(
+    ticks=list(range(len(max_frequency.keys()))),
+    labels=max_frequency.keys(),
+)
+plt.xticks(rotation=90)
+plt.ylabel("Maximum frequency [pu]")
+plt.subplots_adjust(bottom=0.3)
+```
+
