@@ -55,7 +55,6 @@ class Topology(ApplicationBase):
         area: ElmArea = self.act_prj.create_in_folder(
             name + ".ElmArea", parent_folder, overwrite=overwrite
         )
-
         area.icolor = color
         for elm in elms:
             elm.cpArea = area

@@ -259,7 +259,7 @@ class Database(ApplicationBase):
 
         Args:
             pf_classes (Iterable[str] | str, optional): Classes to be considered. Defaults to ["Elm*"].
-            objs (Iterable[PFGeneral] | None): Selection ob objects to be considered. Defaults to None (all calculation relevant). 
+            objs (Iterable[PFGeneral] | None): Selection ob objects to be considered. Defaults to None (all calculation relevant).
             suffix_separator (str): Suffix used to change duplicate names. Defaults to "_".
 
         Returns:
@@ -313,7 +313,7 @@ class DatabaseDict(dict, ApplicationBase):
 
     def __init__(
         self,
-        database_dict,
+        database_dict: dict,
         pf_app: PFApp | None | bool = False,
         cached: bool = False,
     ) -> None:
