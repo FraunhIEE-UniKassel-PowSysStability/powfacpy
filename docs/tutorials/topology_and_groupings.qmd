@@ -8,6 +8,7 @@ format:
 jupyter: python3
 ---
 
+
 ```{python}
 #| echo: false
 #| output: false
@@ -35,7 +36,7 @@ First, we activate the PowerFactory project of the *IEEE 39 bus system* example,
 import sys
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2023 SP5\Python\3.11"
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
 )  # you may use a different directory
 # Get the PF app
 import powerfactory
@@ -138,6 +139,21 @@ Note that the method `create_boundary_using_intermediate_zone` might change exis
 
 :::
 
+It is also possible to create boundaries by specifiying the terminals and branches of their borders (e.g. lines). We first create a dictionary where the keys are the terminals and the values are lists with the branch elements (actually we specify their path):
+
+```{python}
+bus_branch = {
+    r"Network Model\Network Data\Grid\Bus 14": [
+        r"Network Model\Network Data\Grid\Line 04 - 14",
+        r"Network Model\Network Data\Grid\Line 13 - 14",
+    ],
+    r"Network Model\Network Data\Grid\Bus 16": [
+        r"Network Model\Network Data\Grid\Line 16 - 17"
+    ],
+}
+topo.create_boundary_from_bus_branch("Split West", bus_branch)
+```
+
 The objects of class `Boundary` are stored in the `boundaries` list in the loop above. The `Boundary` class of *powfacpy* offers some convenient methods, for example to visualize the interior of (all) boundaries in the single line diagram.
 
 ```{python}
@@ -153,7 +169,7 @@ boundary_1.show_boundary_interior_regions_in_network_graphic()
 The regions are now illustrated in the single line diagram. Apparently, loads are excluded from the interior of the boundaries. 
 ![single_line_diagram_with_boundaries](figures/single_line_diagram_with_boundaries.png)
 
-We will now crate plots showing the active and reactive power exchange of the boundaries as well as the frequencies of the terminals.
+We will now create plots showing the active and reactive power exchange of the boundaries as well as the frequencies of the terminals.
 
 ```{python}
 from powfacpy.result_variables import ResVar
