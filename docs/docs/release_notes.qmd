@@ -5,6 +5,18 @@ number-sections: false
 ---
 
 
+
+## v0.4.1
+- add tutorial on performance and benchmarking
+- add tutorial on parameter studies
+
+## v0.4.0
+- New class interfaces for DSL models (block definitions, slots, ...)
+- Add COMTRADE interface for plotting
+- New (preliminary) interface for static calculations (power flow,..)
+- New convenient method to set attributes and later reset their original value
+- Possibility to get certain converter types (grid-forming, grid-following) inside groupings (zones, boundaries,..) 
+
 ## v0.3.7
 - New features for topology (boundaries, areas,...) and CGMES model exchange (see tutorials)
 - bugfixes
