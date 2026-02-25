@@ -101,7 +101,7 @@ class PFResultsInterface(powfacpy.PFActiveProject):
 
         Example (export a selection of results variables):
           voltage_source = pfbi.get_unique_obj(r'Network Model\\Network Data\\test_plot_interface\\Grid 1\\AC Voltage Source')
-          control_model = pfbi.get_unique_obj('Network Model\\Network Data\\test_plot_interface\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
+          control_model = pfbi.get_unique_obj('Network Model\\Network Data\\test_plot_interface\\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
           objects =   [voltage_source, voltage_source, control_model]
           variables = ['m:Qsum:bus1',  'm:Psum:bus1',  's:Ipcmd'    ]
           elmres_list = [pfbi.app.GetFromStudyCase('ElmRes'),]*len(variables)

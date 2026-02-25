@@ -188,7 +188,8 @@ class DynamicSimulation(ApplicationBase):
         """
         Returns a dictionary with the parameter names (of the block definition)
         and values of all dsl models inside a composite model.
-        dsl lookup varibales (e.g. 'array_*', 'omatrix_*',.. ) are ignored.
+
+        dsl lookup variables (e.g. 'array_*', 'omatrix_*',.. ) are ignored.
 
         Arguments:
           composite_model: ElmComp or its path
@@ -257,7 +258,8 @@ class DynamicSimulation(ApplicationBase):
         """
         Set the parameters of the dsl models (i.e. of its block definition) in
         a composite model.
-        Arguments:
+
+        Args:
           composite_model: ElmComp or its path
           models_params_dict: dictionary with model parameters and values
           single_dict_for_all_dsl_models:
