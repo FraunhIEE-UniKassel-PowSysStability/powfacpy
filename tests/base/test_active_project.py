@@ -261,7 +261,7 @@ def test_copy_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     copied_objects = act_prj.copy_obj(
         "*", folder_copy_to, parent_folder=folder_copy_from
     )
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
     # test that the copied objects are returned and not the initial objects to be copied
     obj_to_be_copied = act_prj.get_obj("*", parent_folder=folder_copy_from)
     for idx, obj in enumerate(obj_to_be_copied):
@@ -273,13 +273,13 @@ def test_copy_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     copied_objects = act_prj.copy_obj(
         "*", folder_copy_to, parent_folder=folder_copy_from
     )
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
 
     objects_to_copy = act_prj.get_obj("*", parent_folder=folder_copy_from)
     copied_objects = act_prj.copy_obj(objects_to_copy, folder_copy_to, overwrite=False)
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
     all_objects_in_folder = act_prj.get_obj("*", parent_folder=folder_copy_to)
-    assert len(all_objects_in_folder) == 4
+    assert len(all_objects_in_folder) == 6
 
     act_prj.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     objects_to_copy = act_prj.get_obj("*", parent_folder=folder_copy_from)[0]
@@ -302,6 +302,18 @@ def test_copy_single_obj(act_prj: ActiveProject, activate_powfacpy_test_project)
     )
     copied_obj_from_folder = act_prj.get_unique_obj(
         "new_dummy_name", parent_folder=folder_copy_to
+    )
+    assert copied_object == copied_obj_from_folder
+
+    copied_object = act_prj.copy_single_obj(
+        "dummy3.TypMdl",
+        folder_copy_to,
+        parent_folder=folder_copy_from,
+        new_name="new_dummy_name",
+    )
+    # expected behavior is that new_dummy_name1.TypMdl is created because new_dummy_name.BlkDef already exists
+    copied_obj_from_folder = act_prj.get_unique_obj(
+        "new_dummy_name1.TypMdl", parent_folder=folder_copy_to
     )
     assert copied_object == copied_obj_from_folder
 
@@ -335,7 +347,7 @@ def test_move_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     success = act_prj.move_obj("*", folder_move_to, parent_folder=folder_move_from)
     moved_objects = act_prj.get_obj("*", parent_folder=folder_move_to)
     assert success == 0
-    assert len(moved_objects) == 2
+    assert len(moved_objects) == 3
     empty_objects = act_prj.get_obj(
         "*", parent_folder=folder_move_from, error_if_non_existent=False
     )

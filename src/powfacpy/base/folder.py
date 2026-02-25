@@ -711,7 +711,9 @@ class Folder(BaseObjectStatic):
         if overwrite:
             for object_to_be_copied in obj:
                 self.delete_obj(
-                    object_to_be_copied.GetAttribute("loc_name"),
+                    object_to_be_copied.GetAttribute("loc_name")
+                    + "."
+                    + object_to_be_copied.GetClassName(),
                     parent_folder=target_folder,
                     error_if_non_existent=False,
                 )
@@ -775,7 +777,7 @@ class Folder(BaseObjectStatic):
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if use_existing:
             existing_obj = self.get_unique_obj(
-                obj.GetAttribute("loc_name"),
+                obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
                 parent_folder=target_folder,
                 error_if_non_existent=False,
             )
@@ -784,14 +786,14 @@ class Folder(BaseObjectStatic):
         elif overwrite:
             if not new_name:
                 self.delete_obj(
-                    obj.GetAttribute("loc_name"),
+                    obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
                     parent_folder=target_folder,
                     include_subfolders=False,
                     error_if_non_existent=False,
                 )
             else:
                 self.delete_obj(
-                    f"{new_name}.*",
+                    f"{new_name}.{obj.GetClassName()}",
                     parent_folder=target_folder,
                     include_subfolders=False,
                     error_if_non_existent=False,
@@ -857,7 +859,9 @@ class Folder(BaseObjectStatic):
         if overwrite:
             for object_to_be_copied in obj:
                 self.delete_obj(
-                    object_to_be_copied.GetAttribute("loc_name"),
+                    object_to_be_copied.GetAttribute("loc_name")
+                    + "."
+                    + object_to_be_copied.GetClassName(),
                     parent_folder=target_folder,
                     error_if_non_existent=False,
                 )
@@ -910,7 +914,7 @@ class Folder(BaseObjectStatic):
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if overwrite:
             self.delete_obj(
-                obj.GetAttribute("loc_name"),
+                obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
                 parent_folder=target_folder,
                 error_if_non_existent=False,
             )
