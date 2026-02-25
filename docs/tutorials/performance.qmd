@@ -234,6 +234,12 @@ finally:
 Note that any *powfacpy* application can be initialized with the `ActiveProjectCached` class. For example, use `pfds = DynamicSimulation(cached=True)` and the `pfds.act_prj` attribute will be an instance of the class  `ActiveProjectCached` instead of `ActiveProject`.   
 
 
+# Further Reported Performance Improvements
+This is a collection of potential performance improvements reported by users that cannot be reliably benchmarked or reproduced, since the internal behavior of *PowerFactory* is not transparent:
+
+- Deactivating and reactivating (large) projects
+
+
 # Conclusion
 
 The benchmarks suggest the following practical measures to improve performance:
