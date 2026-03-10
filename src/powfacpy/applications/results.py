@@ -467,7 +467,10 @@ class Results(ApplicationBase):
             return var_name
 
     def replace_object_aliases(self, obj_name: str) -> str:
-        """Replace 'obj_name' with corresponding entry in 'self.obj_aliases'. If no such key exists in 'self.obj_aliases', 'obj_name' is returned.
+        """
+        Replace 'obj_name' with corresponding entry in 'self.obj_aliases'.
+
+        If no such key exists in 'self.obj_aliases', 'obj_name' is returned.
 
         Args:
             obj_name (str): Original name (key in 'self.obj_aliases')
@@ -506,9 +509,8 @@ class Results(ApplicationBase):
             variables = [variables]
 
         obj_and_vars = []
+        objs = self.act_prj._handle_pf_object_or_path_input(objs)
         if self.multi_index_labels:
-            if self.pf_objects_in_labels:
-                objs = self.act_prj._handle_pf_object_or_path_input(objs)
             for obj in objs:
                 if not self.pf_objects_in_labels:
                     obj = self._format_path_of_obj_inside_active_project(
