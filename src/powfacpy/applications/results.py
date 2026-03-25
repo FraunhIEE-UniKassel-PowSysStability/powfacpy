@@ -14,6 +14,7 @@ from powfacpy.applications.application_base import ApplicationBase
 from powfacpy import PFStringManipulation
 from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
+from powfacpy.exceptions import PFNotActiveError
 
 
 class Results(ApplicationBase):
@@ -22,12 +23,17 @@ class Results(ApplicationBase):
         self, pf_app: PFApp | None | bool = False, cached: bool = False
     ) -> None:
         super().__init__(pf_app, cached)
-        self.truncate_paths_until: str = (
-            self.act_prj.get_path_of_object_in_active_project(
-                self.act_prj.network_data_folder
-            )
-            + "\\"
-        )  # = 'Network Model\Network Data\'
+
+        try:
+            self.truncate_paths_until: str = (
+                self.act_prj.get_path_of_object_in_active_project(
+                    self.act_prj.network_data_folder
+                )
+                + "\\"
+            )  # = 'Network Model\Network Data\'
+        except AttributeError:
+            raise PFNotActiveError("a project")
+
         "Paths (inside network data folder) will be truncated (e.g. when exported to pandas/csv)."
         self.multi_index_labels: bool = True
         "If True, multi index column labels are used (object, variable) in pandas format. If false, single index labels are used (path of object and variable strings are concatenated). Default is True."
