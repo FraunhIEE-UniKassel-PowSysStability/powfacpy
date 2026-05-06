@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from powfacpy.pf_classes.protocols import SetColscheme, PFGeneral
+from powfacpy.base.active_project import ActiveProjectCached
+from powfacpy.pf_classes.protocols import IntCase, SetColscheme, PFGeneral
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.result_variables import ResVar
 from powfacpy.base.base import BaseChildStatic
@@ -26,17 +27,33 @@ class DiagramColorScheme(BaseChildStatic):
         instance = super().__new__(cls)
         return instance
 
-    def show_boundary_interior_regions(self) -> None:
+    def show_boundary_interior_regions(
+        self, reactivate_study_case: bool = True
+    ) -> None:
         self._obj.cUseColouring = 1
         self._obj.cGroup = 1
         self._obj.cColouring = 20
+        if reactivate_study_case:
+            self.reactivate_study_case()
 
-    def show_zones(self) -> None:
-        self._obj.cUseColouring = 1
-        self._obj.cGroup = 4
-        self._obj.cColouring = 18
+    def show_zones(self, reactivate_study_case: bool = True) -> None:
+        self._obj.SetAttribute("cUseColouring", 1)
+        self._obj.SetAttribute("cGroup", 4)
+        self._obj.SetAttribute("cColouring", 18)
+        if reactivate_study_case:
+            self.reactivate_study_case()
 
-    def show_areas(self) -> None:
+    def show_areas(self, reactivate_study_case: bool = True) -> None:
         self._obj.cUseColouring = 1
         self._obj.cGroup = 4
         self._obj.cColouring = 25
+        if reactivate_study_case:
+            self.reactivate_study_case()
+
+    @staticmethod
+    def reactivate_study_case() -> None:
+        """
+        The PF GUI might not react to the new settings. A reliable way to update the GUI is to reactivate the study case.
+        """
+        act_prj = ActiveProjectCached()
+        act_prj.reactivate_study_case()
