@@ -51,6 +51,13 @@ class Boundary(ElmBase, GroupingBase):
             self._obj.AddCubicle(elm.GetCubicle(0), 1)
         return excluded_elms
 
+    def get_all_groupings_of_same_type(self) -> list[ElmBoundary]:
+        act_prj = ActiveProjectCached()
+        return act_prj.get_calc_relevant_obj("ElmBoundary")
+
+    def get_all_powfacpy_groupings_of_same_type(self) -> list[Boundary]:
+        return [Boundary(z) for z in self.get_all_groupings_of_same_type()]
+
     def get_average_frequency(
         self,
         simulation_results: pd.DataFrame,
@@ -129,11 +136,15 @@ class Boundary(ElmBase, GroupingBase):
         )
 
     @staticmethod
-    def show_boundary_interior_regions_in_network_graphic() -> None:
+    def show_boundary_interior_regions_in_network_graphic(
+        reactivate_study_case: bool = True,
+    ) -> None:
         """Shows interior regions of all boundaries in the single line diagram."""
         act_prj = ActiveProjectCached()
         setcolscheme = act_prj.get_diagram_color_scheme()
-        DiagramColorScheme(setcolscheme).show_boundary_interior_regions()
+        DiagramColorScheme(setcolscheme).show_boundary_interior_regions(
+            reactivate_study_case
+        )
 
     @staticmethod
     def get_P_exchange_res_var_rms_bal() -> str:
