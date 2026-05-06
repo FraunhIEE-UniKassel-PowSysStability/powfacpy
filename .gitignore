@@ -16,5 +16,8 @@ venv/
 src/powfacpy/pf_classes/protocols_old.py
 src/powfacpy/grouping.py
 uv.lock
+*.html
+site_libs/
+
 
 **/*.quarto_ipynb

@@ -1,6 +1,9 @@
 project:
   type: website
-
+  render:
+  - docs/**/*.qmd
+  resources:
+    - docs/api
 metadata-files:
   - _sidebar.yml
   
@@ -18,6 +21,8 @@ website:
         href: docs/tutorials/overview.qmd 
       - text: Docs
         href: docs/docs/overview.qmd 
+      - text: API
+        href: docs/api/api.qmd
     tools:
       - icon: github
         href: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy  
@@ -54,13 +59,4 @@ theme:
   light: flatly
   dark: darkly
 
-quartodoc:
-  package: powfacpy
-  title: "API"
-  source_dir: ./src
-  sections:
-    - title: API
-      desc: ""
-      contents:
-        - result_variables
-        - applications.caching
+
