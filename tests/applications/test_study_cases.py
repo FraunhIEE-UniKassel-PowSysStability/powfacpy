@@ -3,12 +3,9 @@ import sys
 import pytest
 
 sys.path.insert(0, r".\src")
-import powfacpy
+
 from powfacpy.applications.study_cases import StudyCases
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
-import importlib
-
-importlib.reload(powfacpy)
 
 
 @pytest.fixture

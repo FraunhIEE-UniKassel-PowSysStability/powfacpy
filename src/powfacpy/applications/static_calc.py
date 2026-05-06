@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 from icecream import ic
 
-import powfacpy
+
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import ElmSecctrl, PFGeneral, PFApp
@@ -36,7 +36,7 @@ class StaticCalc(ApplicationBase):
             when_invalid (str, optional): If load flow results are invalid, 'error' (raises exception), 'warning' raises warning, 'execute' executes load flow and raises exception if results are invalid. Defaults to "error".
 
         Raises:
-            powfacpy.exceptions.PFInvalidLoadFlow: When load flow results are invalid and 'when_invalid'= 'error' or 'execute' and results are invalid.
+            PFInvalidLoadFlow: When load flow results are invalid and 'when_invalid'= 'error' or 'execute' and results are invalid.
 
         Returns:
             bool: True only when results are valid.

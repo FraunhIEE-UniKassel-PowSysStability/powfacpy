@@ -2,16 +2,19 @@ from __future__ import annotations
 from warnings import warn
 from typing import Union, Callable
 from os import path as os_path
-from warnings import warn
 from functools import cached_property
 from collections.abc import Iterable
 
 from icecream import ic
 
-import powfacpy
-from powfacpy.base.folder import Folder
+import powfacpy.base.folder
 from powfacpy.base.string_manipulation import PFStringManipulation
-import powfacpy.exceptions
+from powfacpy.exceptions import (
+    PFNoActiveStudyCaseError,
+    PFNotActiveError,
+    PFInvalidLoadFlow,
+    PFAttributeNotSetError,
+)
 from powfacpy.pf_class_protocols import (
     PFApp,
     PFGeneral,
@@ -33,7 +36,7 @@ from powfacpy.pf_class_protocols import (
 )
 
 
-class ActiveProject(Folder):
+class ActiveProject(powfacpy.base.folder.Folder):
     """Interface to the currently active project."""
 
     app: PFApp
@@ -179,7 +182,7 @@ class ActiveProject(Folder):
             error_if_no_active_case (bool, optional): If True, raise exception if no case is active. If False, return none. Defaults to True.
 
         Raises:
-            powfacpy.PFNoActiveStudyCaseError: When no case is active.
+            PFNoActiveStudyCaseError: When no case is active.
 
         Returns:
             IntCase: The active study case | None
@@ -188,7 +191,7 @@ class ActiveProject(Folder):
         if case or not error_if_no_active_case:
             return case
         else:
-            raise powfacpy.exceptions.PFNoActiveStudyCaseError()
+            raise PFNoActiveStudyCaseError()
 
     def get_from_study_case(
         self,
@@ -208,7 +211,7 @@ class ActiveProject(Folder):
             if_no_study_case (str, optional): Warn ('warning') or raise exception ('error') if no study case is active. Defaults to "error".
 
         Raises:
-            powfacpy.PFNoActiveStudyCaseError: No study case activated
+            PFNoActiveStudyCaseError: No study case activated
             TypeError: More than one object was found
 
         Returns:
@@ -222,7 +225,7 @@ class ActiveProject(Folder):
                     "No study case activated. PowerFactory creates object of class_name in tmp folder, outside any study case."
                 )
             elif if_no_study_case == "error":
-                raise powfacpy.exceptions.PFNoActiveStudyCaseError()
+                raise PFNoActiveStudyCaseError()
 
         if if_not_unique and self.is_pf_class(class_name):
             class_name = "*." + class_name
@@ -240,6 +243,11 @@ class ActiveProject(Folder):
                         f"The returned {class_name} object is not unique in its folder / in its study case: '{parent_path}'."
                     )
         return obj
+
+    def reactivate_study_case(self) -> None:
+        case = self.get_active_study_case()
+        case.Deactivate()
+        case.Activate()
 
     def get_results_obj_from_initial_conditions_calc(self) -> ElmRes:
         """Get results object (ElmRes) from the initial conditions calculation object (ComInc).
@@ -439,7 +447,7 @@ class ActiveProject(Folder):
             grid for grid in grids if not grid.GetParent().GetClassName() == "IntCase"
         ]
         if error_if_no_network_is_active and not grids:
-            raise powfacpy.exceptions.PFNotActiveError("a network (ElmNet).")
+            raise PFNotActiveError("a network (ElmNet).")
         return grids
 
     def get_diagram_color_scheme(self) -> SetColscheme:
@@ -727,6 +735,35 @@ class ActiveProject(Folder):
         self.set_attr(comldf, params=params)
         return comldf.Execute()
 
+    def has_valid_load_flow_results(self) -> bool:
+        return self.app.IsLdfValid() != 0
+
+    def check_load_flow_results(self, when_invalid: str = "error") -> bool:
+        """
+        Check whether load flow results in PF are present and valid and raise exception, warning or execute load flow if not.
+
+        Args:
+            when_invalid (str, optional): If load flow results are invalid, 'error' (raises exception), 'warning' raises warning, 'execute' executes load flow and raises exception if results are invalid. Defaults to "error".
+
+        Raises:
+            PFInvalidLoadFlow: When load flow results are invalid and 'when_invalid'= 'error' or 'execute' and results are invalid.
+
+        Returns:
+            bool: True only when results are valid.
+        """
+        if self.app.IsLdfValid() != 0:
+            return True
+        if when_invalid == "execute":
+            valid = self.execute_load_flow()
+            if valid != 0:
+                raise PFInvalidLoadFlow()
+            return True
+        elif when_invalid == "warning":
+            warn(f"No valid load flow results.", UserWarning)
+            return False
+        else:
+            raise PFInvalidLoadFlow()
+
     def mark_in_graphics(
         self, elms: list[PFGeneral] | PFGeneral, searchOpenedDiagramsOnly: int = 0
     ) -> None:
@@ -743,7 +780,7 @@ class ActiveProject(Folder):
             A method uses self.active_case and active_case is None.
         """
         if not possibly_not_secified_attr:
-            raise powfacpy.exceptions.PFAttributeNotSetError(attribute_description)
+            raise PFAttributeNotSetError(attribute_description)
         else:
             raise AttributeError(error_message)
 
@@ -801,8 +838,10 @@ class ActiveProject(Folder):
         """Import a project (.pfd file)
 
         Args:
-            file_path (str): Windows path
+            file_path (str): Windows path. Don't use relative paths.
+
             target_folder_in_active_user (str | PFGeneral | None, optional): Target folder for project import in active user. Defaults to None.
+
             keep_current_project_activated (bool, optional): If True, the initial project and study case remain active.If False, the imported project will be active after import. Defaults to True.
 
         Returns:

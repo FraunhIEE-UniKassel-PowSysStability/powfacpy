@@ -6,9 +6,9 @@ from os import getcwd, remove
 import pandas as pd
 from icecream import ic
 
-import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_classes.protocols import (
+    ElmComp,
     PFGeneral,
     ComMod,
     ElmRes,
@@ -17,6 +17,10 @@ from powfacpy.pf_classes.protocols import (
     ComInc,
     ComSim,
     IntEvt,
+)
+from powfacpy.exceptions import (
+    PFInconsistentParamValueOfDSLModelInCompositeModel,
+    PFObjectAttributeTypeError,
 )
 
 
@@ -171,9 +175,7 @@ class DynamicSimulation(ApplicationBase):
                 return parameter_names[0].split(",")
         except AttributeError:
             msg = "Attribute 'typ_id' is of type 'None'"
-            raise powfacpy.exceptions.PFObjectAttributeTypeError(
-                dsl_model, msg, self.act_prj
-            )
+            raise PFObjectAttributeTypeError(dsl_model, msg, self.act_prj)
 
     def get_dsl_models_inside_composite_model(self, composite_model):
         return self.act_prj.get_obj(
@@ -182,14 +184,16 @@ class DynamicSimulation(ApplicationBase):
 
     def get_parameters_of_dsl_models_in_composite_model(
         self,
-        composite_model,
-        single_dict_for_all_dsl_models=False,
+        composite_model: ElmComp,
+        single_dict_for_all_dsl_models: bool = False,
     ):
         """
         Returns a dictionary with the parameter names (of the block definition)
         and values of all dsl models inside a composite model.
 
         dsl lookup variables (e.g. 'array_*', 'omatrix_*',.. ) are ignored.
+
+        TODO: this method should be in the CompositeModel class
 
         Arguments:
           composite_model: ElmComp or its path
@@ -234,7 +238,7 @@ class DynamicSimulation(ApplicationBase):
                                 all_models_params_dict[param_name]
                                 != parameter_names_and_values[param_name]
                             ):
-                                raise powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel(
+                                raise PFInconsistentParamValueOfDSLModelInCompositeModel(
                                     param_name, composite_model
                                 )
                     all_models_params_dict = {
@@ -254,7 +258,7 @@ class DynamicSimulation(ApplicationBase):
         composite_model,
         models_params_dict,
         single_dict_for_all_dsl_models=False,
-    ):
+    ) -> None:
         """
         Set the parameters of the dsl models (i.e. of its block definition) in
         a composite model.

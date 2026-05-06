@@ -4,14 +4,11 @@ from os import getcwd
 import pytest
 
 sys.path.insert(0, r".\src")
-import powfacpy
+
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.exceptions import PFNoActiveStudyCaseError
-import importlib
-
-importlib.reload(powfacpy)
 
 
 @pytest.fixture

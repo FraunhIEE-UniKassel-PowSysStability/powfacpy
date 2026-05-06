@@ -13,8 +13,6 @@ from functools import partial
 
 from icecream import ic
 
-import powfacpy
-import powfacpy.exceptions
 from powfacpy.base.base import BaseObjectStatic, BaseChildStatic
 from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_class_protocols import (
@@ -25,7 +23,14 @@ from powfacpy.pf_class_protocols import (
     SetPrj,
     SetFilt,
 )
-from powfacpy.exceptions import PFNonExistingObjectError
+from powfacpy.exceptions import (
+    PFNonExistingObjectError,
+    PFNotActiveError,
+    PFAttributeError,
+    PFAttributeTypeError,
+    PFPathError,
+    PFPathInputError,
+)
 
 
 class Folder(BaseObjectStatic):
@@ -443,7 +448,7 @@ class Folder(BaseObjectStatic):
             condition (Callable): e.g. lambda function
 
         Raises:
-            powfacpy.PFAttributeError: If 'condition' queries attributes which an item in 'objects' does not have.
+            PFAttributeError: If 'condition' queries attributes which an item in 'objects' does not have.
             TypeError: ToDo
 
         Returns:
@@ -464,7 +469,7 @@ class Folder(BaseObjectStatic):
                     if condition(obj):
                         objects_true.append(obj)
                 except AttributeError as e:
-                    raise powfacpy.exceptions.PFAttributeError(obj, e, self)
+                    raise PFAttributeError(obj, e, self)
                 except TypeError as e:
                     object_str = self.get_path_of_object(obj)
                     raise TypeError(
@@ -803,6 +808,38 @@ class Folder(BaseObjectStatic):
         else:
             return target_folder.AddCopy(obj)
 
+    def copy_project(
+        self,
+        project_or_path_in_current_user: PFGeneral | str | None = None,
+        target_folder_or_path_in_current_user: PFGeneral | str | None = None,
+        overwrite: bool = True,
+        use_existing: bool = False,
+        new_name: str = None,
+        error_if_non_existent: bool = True,
+    ) -> IntPrj:
+        user = self.app.GetCurrentUser()
+        if project_or_path_in_current_user is None:
+            project_or_path_in_current_user: IntPrj = self.app.GetActiveProject()
+        elif isinstance(project_or_path_in_current_user, str):
+            project_or_path_in_current_user: IntPrj = self.get_unique_obj(
+                project_or_path_in_current_user, parent_folder=user
+            )
+        project_or_path_in_current_user.Deactivate()
+        if target_folder_or_path_in_current_user is None:
+            target_folder_or_path_in_current_user = user
+        elif isinstance(target_folder_or_path_in_current_user, str):
+            target_folder_or_path_in_current_user = self.get_unique_obj(
+                target_folder_or_path_in_current_user, parent_folder=user
+            )
+        return self.copy_single_obj(
+            project_or_path_in_current_user,
+            target_folder=target_folder_or_path_in_current_user,
+            overwrite=overwrite,
+            use_existing=use_existing,
+            new_name=new_name,
+            error_if_non_existent=error_if_non_existent,
+        )
+
     ##################
     # Move
     ##################
@@ -1017,7 +1054,7 @@ class Folder(BaseObjectStatic):
                 - parent folder of object. Defaults to None.
 
         Raises:
-            powfacpy.PFAttributeError: If ojbect does not have the specified attribute
+            PFAttributeError: If ojbect does not have the specified attribute
 
         Returns:
             Union[int|float|str|PFGeneral|list]: Attribute value
@@ -1036,7 +1073,7 @@ class Folder(BaseObjectStatic):
                     attr_values[attribute] = obj.GetAttribute(attribute)
                 return attr_values
         except AttributeError as e:
-            raise powfacpy.exceptions.PFAttributeError(obj, e, self)
+            raise PFAttributeError(obj, e, self)
 
     def get_attr_by_path(
         self, path_with_attr: str
@@ -1067,8 +1104,8 @@ class Folder(BaseObjectStatic):
             parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
 
         Raises:
-            powfacpy.PFAttributeTypeError: If the type of an attribute value is wrong
-            powfacpy.PFAttributeError: If an object does not have the specified attribute
+            PFAttributeTypeError: If the type of an attribute value is wrong
+            PFAttributeError: If an object does not have the specified attribute
         """
         obj = self._handle_single_pf_object_or_path_input(
             obj, parent_folder=parent_folder
@@ -1077,9 +1114,9 @@ class Folder(BaseObjectStatic):
             try:
                 obj.SetAttribute(attr, value)
             except TypeError as e:
-                raise powfacpy.exceptions.PFAttributeTypeError(obj, attr, e, self)
+                raise PFAttributeTypeError(obj, attr, e, self)
             except AttributeError as e:
-                raise powfacpy.exceptions.PFAttributeError(obj, e, self)
+                raise PFAttributeError(obj, e, self)
 
     def set_attr_by_path(
         self, path_with_attr: str, value: Union[int | float | str | PFGeneral | list]
@@ -1167,7 +1204,7 @@ class Folder(BaseObjectStatic):
             exists_bool, existing_path, non_existing_child = self.path_exists(
                 path, parent_folder, return_info=True
             )
-            raise powfacpy.exceptions.PFPathError(non_existing_child, existing_path)
+            raise PFPathError(non_existing_child, existing_path)
 
     def _handle_condition_of_obj_not_met(
         self,
@@ -1185,7 +1222,7 @@ class Folder(BaseObjectStatic):
             error_if_non_existent (bool): raise exception
 
         Raises:
-            powfacpy.PFNonExistingObjectError: If 'error_if_non_existent' is True
+            PFNonExistingObjectError: If 'error_if_non_existent' is True
 
         Returns:
             list | None: empty list
@@ -1336,7 +1373,7 @@ class Folder(BaseObjectStatic):
 
         splitted_path = path.split("\\")
         if path[0] == "\\" or not splitted_path:
-            raise powfacpy.exceptions.PFPathInputError(path)
+            raise PFPathInputError(path)
         existing_path = ""
         child = parent
         for child_name in splitted_path:
@@ -1553,7 +1590,7 @@ class Folder(BaseObjectStatic):
         if active_project:
             return active_project
         else:
-            raise powfacpy.exceptions.PFNotActiveError("a project")
+            raise PFNotActiveError("a project")
 
     def get_current_user(self):
         return self.__class__.app.GetCurrentUser()

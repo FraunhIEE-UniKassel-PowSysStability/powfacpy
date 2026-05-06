@@ -4,7 +4,7 @@ from typing import Callable
 
 from icecream import ic
 
-import powfacpy.pf_classes.elm.boundary
+from powfacpy.pf_classes.elm.boundary import Boundary
 from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_classes.protocols import (
@@ -104,7 +104,7 @@ class Topology(ApplicationBase):
             if parent_folder:
                 parent_folder.Move(boundary)
             if exclude_node_elms:
-                boundary = powfacpy.pf_classes.elm.boundary.Boundary(boundary)
+                boundary = Boundary(boundary)
                 boundary.exclude_node_elms_by_condition(exclude_node_elms)
                 boundary = boundary._obj
             boundary.icolor = color
@@ -155,7 +155,7 @@ class Topology(ApplicationBase):
                 )
             boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
             if exclude_node_elms:
-                boundary = powfacpy.pf_classes.elm.boundary.Boundary(boundary)
+                boundary = Boundary(boundary)
                 boundary.exclude_node_elms_by_condition(exclude_node_elms)
             cubicles = boundary.cubicles
             orientations = boundary.ciorient
@@ -243,7 +243,7 @@ class Topology(ApplicationBase):
         Returns:
             ElmZone: _description_
         """
-        boundary = powfacpy.pf_classes.elm.boundary.Boundary(
+        boundary = Boundary(
             self.create_boundary_from_bus_branch(
                 name, bus_branch, to_branch=to_branch, overwrite=False
             )

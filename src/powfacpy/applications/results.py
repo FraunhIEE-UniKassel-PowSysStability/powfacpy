@@ -9,9 +9,9 @@ import pandas as pd
 from icecream import ic
 
 sys.path.insert(0, r".\src")
-import powfacpy
+
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy import PFStringManipulation
+from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
 from powfacpy.exceptions import PFNotActiveError
@@ -38,7 +38,7 @@ class Results(ApplicationBase):
         self.multi_index_labels: bool = True
         "If True, multi index column labels are used (object, variable) in pandas format. If false, single index labels are used (path of object and variable strings are concatenated). Default is True."
         self.pf_objects_in_labels: bool = False
-        "If, True PowerFactory objects are used in multi index column labels in pandas. If false, their path string is used. Only relevant if 'multi_index_labels' is True. Default is False."
+        "If True, PowerFactory objects are used in multi index column labels in pandas. If false, their path string is used. Only relevant if 'multi_index_labels' is True. Default is False."
         self.variable_aliases: dict[str, str] = {}
         self.obj_aliases: dict[str, str] = {}
 
@@ -113,7 +113,7 @@ class Results(ApplicationBase):
         else:
             if not results_obj:
                 if not self.act_prj.app.GetActiveStudyCase():
-                    raise powfacpy.exceptions.PFNotActiveError("study case")
+                    raise PFNotActiveError("study case")
                 comres.pResult = self.act_prj.get_from_study_case("ElmRes")
             else:
                 comres.pResult = self.act_prj._handle_single_pf_object_or_path_input(

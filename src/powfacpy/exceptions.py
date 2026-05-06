@@ -4,8 +4,8 @@ from __future__ import annotations
 """
 import sys
 
-sys.path.insert(0, r".\src")
-import powfacpy
+import powfacpy.base.active_project
+from powfacpy.base.string_manipulation import PFStringManipulation
 
 
 class PFInterfaceError(Exception):
@@ -19,7 +19,12 @@ class PFInterfaceError(Exception):
 class PFAttributeError(PFInterfaceError):
     """Attempt to access an invalid attribute of a PF object."""
 
-    def __init__(self, obj, msg_raised, pf_active_project: powfacpy.PFActiveProject):
+    def __init__(
+        self,
+        obj,
+        msg_raised,
+        pf_active_project: powfacpy.base.active_project.ActiveProject,
+    ):
         if obj:
             object_str = pf_active_project.get_path_of_object(obj)
         else:
@@ -69,10 +74,8 @@ class PFNonExistingObjectError(PFInterfaceError):
     """Attempt to access PF object (optional: with a specific condition) that does not exist."""
 
     def __init__(self, folder, obj, condition=False, include_subfolders=False):
-        folder_str = powfacpy.PFStringManipulation.remove_html_tags_from_path(
-            str(folder)
-        )
-        folder_str = powfacpy.PFStringManipulation.remove_class_names(folder_str)
+        folder_str = PFStringManipulation.remove_html_tags_from_path(str(folder))
+        folder_str = PFStringManipulation.remove_class_names(folder_str)
         if include_subfolders:
             msg_subfolder = " (and its subfolders)"
         else:
@@ -136,4 +139,18 @@ class PFInconsistentParamValueOfDSLModelInCompositeModel(PFInterfaceError):
             "Therefore, creating a single dictionary with correct parameter "
             "values for all DSL models is not possible."
         )
+        super().__init__(self.message)
+
+
+class PFInvalidCondition(PFInterfaceError):
+
+    def __init__(self, msg="") -> None:
+        self.message = f"No object found that satisfies condition. {msg}"
+        super().__init__(self.message)
+
+
+class PFInvalidLoadFlow(PFInterfaceError):
+
+    def __init__(self, msg="") -> None:
+        self.message = f"No valid load flow results. {msg}"
         super().__init__(self.message)

@@ -9,11 +9,7 @@ import numpy as np
 
 sys.path.insert(0, r".\src")
 
-import powfacpy
-import powfacpy.applications.model_exchange
 from powfacpy.applications.model_exchange import CGMES
-
-importlib.reload(powfacpy)
 
 
 @pytest.fixture
