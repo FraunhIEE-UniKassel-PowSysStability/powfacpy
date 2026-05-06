@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_classes.elm.boundary API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_classes.elm.boundary</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary"><code class="flex name class">
+<span>class <span class="ident">Boundary</span></span>
+<span>(</span><span>obj: ElmBoundary)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Boundary(ElmBase, GroupingBase):
+
+    __slots__ = ()
+
+    def __init__(self, obj: ElmBoundary) -&gt; None:
+        super().__init__(obj)
+        self._obj: ElmBoundary
+
+    def __new__(cls, *args, **kwargs) -&gt; ElmBoundary | Boundary:
+        &#34;&#34;&#34;Implemented only to add type hints for the created instance.
+
+        Returns:
+            ElmBoundary | Boundary: New instance
+        &#34;&#34;&#34;
+        instance = super().__new__(cls)
+        return instance
+
+    def get_all_internal_elms(
+        self,
+    ) -&gt; list[PFGeneral]:
+        return self._obj.GetInterior()
+
+    def exclude_node_elms_by_condition(self, condition: Callable) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Exclude elements from the interior of the boundary by adding their cubicle to the boundary.
+
+        Args:
+            condition (Callable): Condition to select the elements to be excluded among all interior elements (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod)
+
+        Returns:
+            list[PFGeneral]: Elements that were excluded
+        &#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        excluded_elms = act_prj.get_by_condition(self._obj.GetInterior(), condition)
+        for elm in excluded_elms:
+            self._obj.AddCubicle(elm.GetCubicle(0), 1)
+        return excluded_elms
+
+    def get_all_groupings_of_same_type(self) -&gt; list[ElmBoundary]:
+        act_prj = ActiveProjectCached()
+        return act_prj.get_calc_relevant_obj(&#34;ElmBoundary&#34;)
+
+    def get_all_powfacpy_groupings_of_same_type(self) -&gt; list[Boundary]:
+        return [Boundary(z) for z in self.get_all_groupings_of_same_type()]
+
+    def get_average_frequency(
+        self,
+        simulation_results: pd.DataFrame,
+        source: str = &#34;terminals&#34;,
+        ignored_elms: list[PFGeneral] | None = None,
+    ) -&gt; float:
+        &#34;&#34;&#34;Get the average frequency inside the boundary.
+
+        Args:
+            simulation_results (pd.DataFrame): Simulation results (exported using the &#39;Results&#39; interface)
+            source (str, optional): Frequency measurement source. Options:
+                - &#39;terminal&#39; (ElmTerm, default)
+                - &#39;pll&#39; (StaPll)
+                - &#39;sm&#39; (ElmSym)
+            ignored_elms (list[PFGeneral] | None, optional): sources (e.g. ElmTerm/StaPll objects) that are not included. Defaults to None.
+
+        Returns:
+            float: Average frequency
+        &#34;&#34;&#34;
+
+        def remove_ignored(elms: list):
+            if ignored_elms:
+                return [elm for elm in elms if not elm in ignored_elms]
+            else:
+                return elms
+
+        pfres = Results(cached=True)
+        if source == &#34;pll&#34;:
+            plls_in_boundary = remove_ignored(self.get_phase_locked_loops())
+            return pfres.get_simulation_results_from_dataframe(
+                simulation_results, plls_in_boundary, &#34;s:fmeas&#34;
+            ).mean(1)
+        elif source == &#34;sm&#34;:
+            synchronous_machines_in_boundary = remove_ignored(
+                self.get_internal_elms(lambda x: x.GetClassName() == &#34;ElmSym&#34;)
+            )
+            return pfres.get_simulation_results_from_dataframe(
+                simulation_results,
+                synchronous_machines_in_boundary,
+                RMS_BAL.ElmSym.s_xspeed.value,
+            ).mean(1)
+        elif source == &#34;terminal&#34;:
+            terminals_in_boundary = remove_ignored(
+                self.get_internal_elms(lambda x: x.GetClassName() == &#34;ElmTerm&#34;)
+            )
+            return pfres.get_simulation_results_from_dataframe(
+                simulation_results, terminals_in_boundary, RMS_BAL.ElmTerm.m_fe.value
+            ).mean(1)
+
+    def create_zone(
+        self,
+        name: str | None = None,
+        parent_folder: str | None = None,
+        color: int | None = None,
+        overwrite: bool = True,
+    ) -&gt; ElmZone:
+        &#34;&#34;&#34;Create Zone based on boundary
+
+        Args:
+            name (str | None, optional): Name of Zone. Defaults to None (same as boundary).
+            parent_folder (str | None, optional): parent folder. Defaults to None (zone project folder).
+            color (int | None, optional): color of zone. Defaults to None.
+            overwrite (bool, optional): If true, any existing zone object with same name is overwritten. Defaults to True.
+
+        Returns:
+            ElmZone: Created zone object
+        &#34;&#34;&#34;
+        terms = self.get_internal_elms_of_class(&#34;ElmTerm&#34;)
+        topo = powfacpy.applications.topology.Topology(cached=True)
+        if name is None:
+            name = self._obj.loc_name
+        if color is None:
+            color = self.icolor
+        return topo.create_zone(
+            name, terms, parent_folder=parent_folder, color=color, overwrite=overwrite
+        )
+
+    @staticmethod
+    def show_boundary_interior_regions_in_network_graphic(
+        reactivate_study_case: bool = True,
+    ) -&gt; None:
+        &#34;&#34;&#34;Shows interior regions of all boundaries in the single line diagram.&#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        setcolscheme = act_prj.get_diagram_color_scheme()
+        DiagramColorScheme(setcolscheme).show_boundary_interior_regions(
+            reactivate_study_case
+        )
+
+    @staticmethod
+    def get_P_exchange_res_var_rms_bal() -&gt; str:
+        return RMS_BAL.ElmZone.c_Pinter.value
+
+    @staticmethod
+    def get_Q_exchange_res_var_rms_bal() -&gt; str:
+        return RMS_BAL.ElmZone.c_Qinter.value</code></pre>
+</details>
+<div class="desc"><p>Base child class (in object oriented sense - not like in GetParent()) to be used in combination with instances of PF objects (stored in '_obj'). The '<strong>getattribute</strong>' and '<strong>setattr</strong>' methods are overloaded to resemble the behavior of inheriting from the PF object. That means that all methods/data attributes of '_obj' are available and further attributes/methods can be added by any class that inherits from 'BaseChildStatic'.</p>
+<p>In addition, functionality is added to cache attributes and methods (the data is stored in '_obj' because 'BaseChildStatic' is static, i.e. it has no '<strong>dict</strong>' attribute because of the static slots).</p>
+<p>'<strong>slots</strong>' is required to inherit the slots from 'BaseObjectStatic' (i.e. '<strong>slots</strong> = "_obj"').</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.elm_base.ElmBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmBase">ElmBase</a></li>
+<li><a title="powfacpy.base.base.BaseChildStatic" href="../../base/base.html#powfacpy.base.base.BaseChildStatic">BaseChildStatic</a></li>
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="../../base/base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+<li><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.get_P_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_P_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_P_exchange_res_var_rms_bal() -&gt; str:
+    return RMS_BAL.ElmZone.c_Pinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.get_Q_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_Q_exchange_res_var_rms_bal() -&gt; str:
+    return RMS_BAL.ElmZone.c_Qinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.show_boundary_interior_regions_in_network_graphic"><code class="name flex">
+<span>def <span class="ident">show_boundary_interior_regions_in_network_graphic</span></span>(<span>reactivate_study_case: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def show_boundary_interior_regions_in_network_graphic(
+    reactivate_study_case: bool = True,
+) -&gt; None:
+    &#34;&#34;&#34;Shows interior regions of all boundaries in the single line diagram.&#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    setcolscheme = act_prj.get_diagram_color_scheme()
+    DiagramColorScheme(setcolscheme).show_boundary_interior_regions(
+        reactivate_study_case
+    )</code></pre>
+</details>
+<div class="desc"><p>Shows interior regions of all boundaries in the single line diagram.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.create_zone"><code class="name flex">
+<span>def <span class="ident">create_zone</span></span>(<span>self,<br>name: str | None = None,<br>parent_folder: str | None = None,<br>color: int | None = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmZone" href="../protocols.html#powfacpy.pf_classes.protocols.ElmZone">ElmZone</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_zone(
+    self,
+    name: str | None = None,
+    parent_folder: str | None = None,
+    color: int | None = None,
+    overwrite: bool = True,
+) -&gt; ElmZone:
+    &#34;&#34;&#34;Create Zone based on boundary
+
+    Args:
+        name (str | None, optional): Name of Zone. Defaults to None (same as boundary).
+        parent_folder (str | None, optional): parent folder. Defaults to None (zone project folder).
+        color (int | None, optional): color of zone. Defaults to None.
+        overwrite (bool, optional): If true, any existing zone object with same name is overwritten. Defaults to True.
+
+    Returns:
+        ElmZone: Created zone object
+    &#34;&#34;&#34;
+    terms = self.get_internal_elms_of_class(&#34;ElmTerm&#34;)
+    topo = powfacpy.applications.topology.Topology(cached=True)
+    if name is None:
+        name = self._obj.loc_name
+    if color is None:
+        color = self.icolor
+    return topo.create_zone(
+        name, terms, parent_folder=parent_folder, color=color, overwrite=overwrite
+    )</code></pre>
+</details>
+<div class="desc"><p>Create Zone based on boundary</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str | None</code>, optional</dt>
+<dd>Name of Zone. Defaults to None (same as boundary).</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>str | None</code>, optional</dt>
+<dd>parent folder. Defaults to None (zone project folder).</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>int | None</code>, optional</dt>
+<dd>color of zone. Defaults to None.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If true, any existing zone object with same name is overwritten. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmZone</code></dt>
+<dd>Created zone object</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.exclude_node_elms_by_condition"><code class="name flex">
+<span>def <span class="ident">exclude_node_elms_by_condition</span></span>(<span>self, condition: Callable) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def exclude_node_elms_by_condition(self, condition: Callable) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Exclude elements from the interior of the boundary by adding their cubicle to the boundary.
+
+    Args:
+        condition (Callable): Condition to select the elements to be excluded among all interior elements (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod)
+
+    Returns:
+        list[PFGeneral]: Elements that were excluded
+    &#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    excluded_elms = act_prj.get_by_condition(self._obj.GetInterior(), condition)
+    for elm in excluded_elms:
+        self._obj.AddCubicle(elm.GetCubicle(0), 1)
+    return excluded_elms</code></pre>
+</details>
+<div class="desc"><p>Exclude elements from the interior of the boundary by adding their cubicle to the boundary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>condition</code></strong> :&ensp;<code>Callable</code></dt>
+<dd>Condition to select the elements to be excluded among all interior elements (e.g. `lambda x: x.GetClassName() == "ElmLod" to exclude all ElmLod)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>Elements that were excluded</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.boundary.Boundary.get_average_frequency"><code class="name flex">
+<span>def <span class="ident">get_average_frequency</span></span>(<span>self,<br>simulation_results: pd.DataFrame,<br>source: str = 'terminals',<br>ignored_elms: list[PFGeneral] | None = None) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_average_frequency(
+    self,
+    simulation_results: pd.DataFrame,
+    source: str = &#34;terminals&#34;,
+    ignored_elms: list[PFGeneral] | None = None,
+) -&gt; float:
+    &#34;&#34;&#34;Get the average frequency inside the boundary.
+
+    Args:
+        simulation_results (pd.DataFrame): Simulation results (exported using the &#39;Results&#39; interface)
+        source (str, optional): Frequency measurement source. Options:
+            - &#39;terminal&#39; (ElmTerm, default)
+            - &#39;pll&#39; (StaPll)
+            - &#39;sm&#39; (ElmSym)
+        ignored_elms (list[PFGeneral] | None, optional): sources (e.g. ElmTerm/StaPll objects) that are not included. Defaults to None.
+
+    Returns:
+        float: Average frequency
+    &#34;&#34;&#34;
+
+    def remove_ignored(elms: list):
+        if ignored_elms:
+            return [elm for elm in elms if not elm in ignored_elms]
+        else:
+            return elms
+
+    pfres = Results(cached=True)
+    if source == &#34;pll&#34;:
+        plls_in_boundary = remove_ignored(self.get_phase_locked_loops())
+        return pfres.get_simulation_results_from_dataframe(
+            simulation_results, plls_in_boundary, &#34;s:fmeas&#34;
+        ).mean(1)
+    elif source == &#34;sm&#34;:
+        synchronous_machines_in_boundary = remove_ignored(
+            self.get_internal_elms(lambda x: x.GetClassName() == &#34;ElmSym&#34;)
+        )
+        return pfres.get_simulation_results_from_dataframe(
+            simulation_results,
+            synchronous_machines_in_boundary,
+            RMS_BAL.ElmSym.s_xspeed.value,
+        ).mean(1)
+    elif source == &#34;terminal&#34;:
+        terminals_in_boundary = remove_ignored(
+            self.get_internal_elms(lambda x: x.GetClassName() == &#34;ElmTerm&#34;)
+        )
+        return pfres.get_simulation_results_from_dataframe(
+            simulation_results, terminals_in_boundary, RMS_BAL.ElmTerm.m_fe.value
+        ).mean(1)</code></pre>
+</details>
+<div class="desc"><p>Get the average frequency inside the boundary.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>simulation_results</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Simulation results (exported using the 'Results' interface)</dd>
+<dt><strong><code>source</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Frequency measurement source. Options:
+- 'terminal' (ElmTerm, default)
+- 'pll' (StaPll)
+- 'sm' (ElmSym)</dd>
+<dt><strong><code>ignored_elms</code></strong> :&ensp;<code>list[PFGeneral] | None</code>, optional</dt>
+<dd>sources (e.g. ElmTerm/StaPll objects) that are not included. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Average frequency</dd>
+</dl></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></b></code>:
+<ul class="hlist">
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms">add_results_variable_for_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class">are_internal_elms_with_same_class</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type">get_all_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms">get_all_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type">get_all_powfacpy_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms">get_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops">get_phase_locked_loops</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs" href="grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs">get_total_inertia_of_synchronous_machines_in_MWs</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.pf_classes.elm" href="index.html">powfacpy.pf_classes.elm</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_classes.elm.boundary.Boundary" href="#powfacpy.pf_classes.elm.boundary.Boundary">Boundary</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.create_zone" href="#powfacpy.pf_classes.elm.boundary.Boundary.create_zone">create_zone</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.exclude_node_elms_by_condition" href="#powfacpy.pf_classes.elm.boundary.Boundary.exclude_node_elms_by_condition">exclude_node_elms_by_condition</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.get_P_exchange_res_var_rms_bal" href="#powfacpy.pf_classes.elm.boundary.Boundary.get_P_exchange_res_var_rms_bal">get_P_exchange_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.get_Q_exchange_res_var_rms_bal" href="#powfacpy.pf_classes.elm.boundary.Boundary.get_Q_exchange_res_var_rms_bal">get_Q_exchange_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.get_average_frequency" href="#powfacpy.pf_classes.elm.boundary.Boundary.get_average_frequency">get_average_frequency</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.boundary.Boundary.show_boundary_interior_regions_in_network_graphic" href="#powfacpy.pf_classes.elm.boundary.Boundary.show_boundary_interior_regions_in_network_graphic">show_boundary_interior_regions_in_network_graphic</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

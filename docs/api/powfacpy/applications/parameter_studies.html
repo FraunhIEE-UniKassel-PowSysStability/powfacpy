@@ -1,0 +1,1446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.parameter_studies API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.parameter_studies</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.format_sig_no_sci"><code class="name flex">
+<span>def <span class="ident">format_sig_no_sci</span></span>(<span>x, sig=3) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def format_sig_no_sci(x, sig=3) -&gt; str:
+    &#34;&#34;&#34;Format figure to three significant digits&#34;&#34;&#34;
+    if x == 0:
+        return &#34;0&#34;
+
+    # Determine digits before decimal
+    digits = int(math.floor(math.log10(abs(x)))) + 1
+    decimals = max(sig - digits, 0)
+
+    return f&#34;{x:.{decimals}f}&#34;</code></pre>
+</details>
+<div class="desc"><p>Format figure to three significant digits</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy"><code class="flex name class">
+<span>class <span class="ident">ParameterStudy</span></span>
+<span>(</span><span>pf_app=False, cached=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ParameterStudy(ApplicationBase):
+    &#34;&#34;&#34;Parameter studies using Variants.&#34;&#34;&#34;
+
+    def __init__(self, pf_app=False, cached=False) -&gt; None:
+        super().__init__(pf_app, cached)
+        self.variants: list[Variant]
+        &#34;Variants considered in this study&#34;
+        self.all_objs_and_attr: list
+        &#34;List of tuples with all PF objects and attributes of all variants &#34;
+        # self.results_variables: list
+        # &#34;List of tuples with PF objects and their monitored results variables&#34;
+        self.default_values: dict
+        &#34;Default values (values) of PF objects, attributes (keys)&#34;
+        self.values: dict
+        &#34;List of values for all variants (values) of PFobjects, attributes (keys)&#34;
+        self.preprocessing_variant: None | Callable = None
+        &#34;&#34;&#34;Function that is called before each variant is simulated. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+        - &#34;variant&#34;: variant
+        - &#34;var_num&#34;: current variant number
+        - &#34;sim_num&#34;: current total simulation number
+        &#34;&#34;&#34;
+        self.preprocessing_step: None | Callable = None
+        &#34;&#34;&#34;Function that is called at each step of the variants BEFORE the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+        - &#34;variant&#34;: variant
+        - &#34;var_num&#34;: current variant number
+        - &#34;sim_num&#34;: current total simulation number
+        - &#34;step_num&#34;: current step number
+        &#34;&#34;&#34;
+        self.postprocessing_step: None | Callable = None
+        &#34;&#34;&#34;Function that is called at each step of the variants AFTER the simulation. Must be defined as a function with one input argument. 
+        This argument is a dict that gives access to the following data:
+        - &#34;sim_res&#34;: DataFrame with simulation results of step
+        - &#34;variant&#34;: variant
+        - &#34;var_num&#34;: current variant number
+        - &#34;sim_num&#34;: current total simulation number
+        - &#34;step_num&#34;: current step number
+        
+        IMPORTANT: If the simulation results are changed, the function must return them.
+        &#34;&#34;&#34;
+        self.default_values: dict = {}
+        &#34;Default values (values) for PF objects, attributes (keys).&#34;
+
+    def initialize(self) -&gt; None:
+        if not self.default_values:
+            self.default_values = self.get_default_values()
+        self.values = self.get_all_values()
+
+    def get_all_objs_and_attr(self, sort: bool = True, cache: bool = False) -&gt; list:
+        &#34;&#34;&#34;Get list of tuples with all PF objects and their attribute.
+
+        Args:
+            cache (bool, optional): If True, the list is stored in &#39;self.all_objs_and_attr&#39;. Defaults to False.
+
+        Returns:
+            list: list of tuples with all PF objects and their attribute
+        &#34;&#34;&#34;
+        all_objs_and_attr = []
+        for var in self.variants:
+            all_objs_and_attr += var.get_list_of_objs_and_attr()
+        all_objs_and_attr = list(set(all_objs_and_attr))
+        if sort:
+
+            def sort_key(x) -&gt; str:
+                if isinstance(x[0], str):
+                    return x[0]
+                else:
+                    return x[0].loc_name
+
+            all_objs_and_attr.sort(key=sort_key)
+        if cache:
+            self.all_objs_and_attr = all_objs_and_attr
+        return all_objs_and_attr
+
+    def get_current_values_of_all_attr_in_pf(self) -&gt; dict[tuple, Any]:
+        &#34;&#34;&#34;Get the current (in PF) attribute values of all PF objects.
+
+        Returns:
+            dict: PF objects, attributes (keys) and attribute values (values)
+        &#34;&#34;&#34;
+        all_objs_and_attr = self.get_all_objs_and_attr()
+        return {
+            (obj, attr): obj.GetAttribute(attr)
+            for obj, attr in all_objs_and_attr
+            if not isinstance(obj, str)
+        }
+
+    def get_all_values(self) -&gt; dict:
+        &#34;&#34;&#34;Get values of PF object attributes for all variants.
+
+        Returns:
+            dict: Tuple of PF object, attribute (keys) and (flat) list of attribute values for all variants (values).
+        &#34;&#34;&#34;
+        all_values = {k: [] for k in self.get_all_objs_and_attr()}
+        for obj_and_attr, values in all_values.items():
+            for var in self.variants:
+                val = var.values.get(obj_and_attr)
+                if val is not None:
+                    values += list(val)
+                else:  # use default value
+                    values += [self.default_values[obj_and_attr]] * var.steps
+        all_values = {k: np.array(v) for k, v in all_values.items()}
+        return all_values
+
+    def step_generator(
+        self, set_values_in_pf: bool = True
+    ) -&gt; Generator[tuple[dict, str]]:
+        for variant in self.variants:
+            for step_num, name in enumerate(variant.names_for_each_value):
+                values = {}
+                for (obj, attr), vals in variant.values.items():
+                    value = vals[step_num]
+                    values[(obj, attr)] = value
+                    if set_values_in_pf and not isinstance(obj, str):
+                        obj.SetAttribute(attr, value)
+                yield values, name
+
+    def execute_dynamic_simulations(
+        self,
+    ) -&gt; dict:
+        &#34;&#34;&#34;Execute dynamic simulations for all steps of all variants. Allows functions calls for pre- and postprocessing (the functions take all local variables as input arguments).
+
+        Args:
+            sample_time (float): resample simulation results
+
+        Returns:
+            dict: simulation result DataFrames (values) of all simulations (keys are names of simulations)
+        &#34;&#34;&#34;
+        pfds = DynamicSimulation()
+        pfri = Results()
+        pfri.pf_objects_in_labels = True
+        all_sim_res = {}
+        sim_num = 0
+        self.set_default_values()
+        for variant in self.variants:
+            try:
+                self.execute_preprocessing_variant(locals())
+                for step_num, name in enumerate(variant.names_for_each_value):
+                    self.execute_preprocessing_step(locals())
+                    variant.execute_preprocessing_step(locals())
+                    for (obj, attr), val in variant.values.items():
+                        if not isinstance(obj, str):
+                            obj.SetAttribute(attr, val[step_num])
+                    pfds.initialize_and_run_sim()
+                    sim_res = pfri.export_to_pandas()
+                    sim_res_processed = variant.execute_postprocessing_step(locals())
+                    if sim_res_processed is not None:
+                        sim_res = sim_res_processed
+                    sim_res_processed = self.execute_postprocessing_step(locals())
+                    if sim_res_processed is not None:
+                        sim_res = sim_res_processed
+                    all_sim_res[name] = sim_res
+                    sim_num += 1
+            finally:
+                variant.set_default_values()
+        return all_sim_res
+
+    def get_values_of_variant(
+        self,
+        variant: Variant | int | str,
+        step_num: int | None = None,
+    ) -&gt; dict:
+        &#34;&#34;&#34;Get the attribute values of all PF objects for one of the variants.
+
+        Args:
+            variant (Variant | int | str): The variant instance, the variant index or the variant name.
+            step_num (int | None, optional): If given, only the value of this step is returned. Defaults to None.
+
+        Returns:
+            dict: Tuple of PF objects, attributes (keys) and attribute values (values)
+        &#34;&#34;&#34;
+        variant = self.get_variant(variant)
+        if step_num is not None:
+            return {
+                (obj, attr): values[step_num]
+                for (obj, attr), values in variant.values.items()
+            }
+        else:
+            return {
+                (obj, attr): values for (obj, attr), values in variant.values.items()
+            }
+
+    def set_values_in_pf(
+        self,
+        variant: Variant | int | str,
+        step_num: int,
+        reset_default_values: bool = True,
+    ) -&gt; None:  # TODO use above for simulations
+        &#34;&#34;&#34;Set attribute values of all PF objects of a variant in PowerFactory for a certain step number.
+
+        Args:
+            variant (Variant | int | str): The variant instance, the variant index or the variant name.
+            step_num (int): step number
+            reset_default_values (bool, optional): If True, all the default values are initially reset. Defaults to True.
+        &#34;&#34;&#34;
+        if reset_default_values:
+            self.set_default_values()
+        variant = self.get_variant(variant)
+        variant.set_values_in_pf(step_num)
+
+    def set_default_values(self) -&gt; None:
+        &#34;&#34;&#34;Set default values of all variants.&#34;&#34;&#34;
+        [var.set_default_values() for var in self.variants]
+
+    def get_default_values(self) -&gt; dict:
+        &#34;&#34;&#34;Get all default attribute values of all variants.
+
+        Returns:
+            dict: tuple of PF object, attribute (keys) and attribute values (values)
+        &#34;&#34;&#34;
+        default_values = {}
+        for var in self.variants:
+            default_values.update(var.default_values)
+        return default_values
+
+    def get_variant(self, variant: Variant | int | str) -&gt; Variant:
+        &#34;&#34;&#34;Get variant.
+
+        Args:
+            variant (Variant | int | str): If the input is the variant instance already, just returns it. If it is an int it is assumed to be the index. If at is a string it is assumed to be the name.
+
+        Returns:
+            Variant: variant
+        &#34;&#34;&#34;
+        if isinstance(variant, Variant):
+            return variant
+        elif isinstance(variant, int):
+            return self.variants[variant]
+        elif isinstance(variant, str):
+            return [var for var in self.variants if var.name == variant][0]
+
+    def execute_preprocessing_variant(self, pre_post_process_dict) -&gt; None:
+        if self.preprocessing_variant is not None:
+            self.preprocessing_variant(pre_post_process_dict)
+
+    def execute_preprocessing_step(self, pre_post_process_dict) -&gt; None:
+        if self.preprocessing_step is not None:
+            self.preprocessing_step(pre_post_process_dict)
+
+    def execute_postprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+        if self.postprocessing_step is not None:
+            return self.postprocessing_step(pre_post_process_dict)
+        else:
+            return pre_post_process_dict[&#34;sim_res&#34;]
+
+    def get_all_names(self) -&gt; list[str]:
+        &#34;&#34;&#34;Get names of all simulations/steps.
+
+        Returns:
+            list[str]: list of names
+        &#34;&#34;&#34;
+        names = []
+        for variant in self.variants:
+            for name in variant.names_for_each_value:
+                names.append(name)
+        return names</code></pre>
+</details>
+<div class="desc"><p>Parameter studies using Variants.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.all_objs_and_attr"><code class="name">var <span class="ident">all_objs_and_attr</span></code></dt>
+<dd>
+<div class="desc"><p>List of tuples with all PF objects and attributes of all variants</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.default_values"><code class="name">var <span class="ident">default_values</span></code></dt>
+<dd>
+<div class="desc"><p>Default values (values) for PF objects, attributes (keys).</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.postprocessing_step"><code class="name">var <span class="ident">postprocessing_step</span></code></dt>
+<dd>
+<div class="desc"><p>Function that is called at each step of the variants AFTER the simulation. Must be defined as a function with one input argument.
+This argument is a dict that gives access to the following data:
+- "sim_res": DataFrame with simulation results of step
+- "variant": variant
+- "var_num": current variant number
+- "sim_num": current total simulation number
+- "step_num": current step number</p>
+<p>IMPORTANT: If the simulation results are changed, the function must return them.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_step"><code class="name">var <span class="ident">preprocessing_step</span></code></dt>
+<dd>
+<div class="desc"><p>Function that is called at each step of the variants BEFORE the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+- "variant": variant
+- "var_num": current variant number
+- "sim_num": current total simulation number
+- "step_num": current step number</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_variant"><code class="name">var <span class="ident">preprocessing_variant</span></code></dt>
+<dd>
+<div class="desc"><p>Function that is called before each variant is simulated. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+- "variant": variant
+- "var_num": current variant number
+- "sim_num": current total simulation number</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"><p>List of values for all variants (values) of PFobjects, attributes (keys)</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.variants"><code class="name">var <span class="ident">variants</span></code></dt>
+<dd>
+<div class="desc"><p>Variants considered in this study</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.execute_dynamic_simulations"><code class="name flex">
+<span>def <span class="ident">execute_dynamic_simulations</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_dynamic_simulations(
+    self,
+) -&gt; dict:
+    &#34;&#34;&#34;Execute dynamic simulations for all steps of all variants. Allows functions calls for pre- and postprocessing (the functions take all local variables as input arguments).
+
+    Args:
+        sample_time (float): resample simulation results
+
+    Returns:
+        dict: simulation result DataFrames (values) of all simulations (keys are names of simulations)
+    &#34;&#34;&#34;
+    pfds = DynamicSimulation()
+    pfri = Results()
+    pfri.pf_objects_in_labels = True
+    all_sim_res = {}
+    sim_num = 0
+    self.set_default_values()
+    for variant in self.variants:
+        try:
+            self.execute_preprocessing_variant(locals())
+            for step_num, name in enumerate(variant.names_for_each_value):
+                self.execute_preprocessing_step(locals())
+                variant.execute_preprocessing_step(locals())
+                for (obj, attr), val in variant.values.items():
+                    if not isinstance(obj, str):
+                        obj.SetAttribute(attr, val[step_num])
+                pfds.initialize_and_run_sim()
+                sim_res = pfri.export_to_pandas()
+                sim_res_processed = variant.execute_postprocessing_step(locals())
+                if sim_res_processed is not None:
+                    sim_res = sim_res_processed
+                sim_res_processed = self.execute_postprocessing_step(locals())
+                if sim_res_processed is not None:
+                    sim_res = sim_res_processed
+                all_sim_res[name] = sim_res
+                sim_num += 1
+        finally:
+            variant.set_default_values()
+    return all_sim_res</code></pre>
+</details>
+<div class="desc"><p>Execute dynamic simulations for all steps of all variants. Allows functions calls for pre- and postprocessing (the functions take all local variables as input arguments).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>sample_time</code></strong> :&ensp;<code>float</code></dt>
+<dd>resample simulation results</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>simulation result DataFrames (values) of all simulations (keys are names of simulations)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.execute_postprocessing_step"><code class="name flex">
+<span>def <span class="ident">execute_postprocessing_step</span></span>(<span>self, pre_post_process_dict: dict) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_postprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+    if self.postprocessing_step is not None:
+        return self.postprocessing_step(pre_post_process_dict)
+    else:
+        return pre_post_process_dict[&#34;sim_res&#34;]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_step"><code class="name flex">
+<span>def <span class="ident">execute_preprocessing_step</span></span>(<span>self, pre_post_process_dict) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_preprocessing_step(self, pre_post_process_dict) -&gt; None:
+    if self.preprocessing_step is not None:
+        self.preprocessing_step(pre_post_process_dict)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_variant"><code class="name flex">
+<span>def <span class="ident">execute_preprocessing_variant</span></span>(<span>self, pre_post_process_dict) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_preprocessing_variant(self, pre_post_process_dict) -&gt; None:
+    if self.preprocessing_variant is not None:
+        self.preprocessing_variant(pre_post_process_dict)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_all_names"><code class="name flex">
+<span>def <span class="ident">get_all_names</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_all_names(self) -&gt; list[str]:
+    &#34;&#34;&#34;Get names of all simulations/steps.
+
+    Returns:
+        list[str]: list of names
+    &#34;&#34;&#34;
+    names = []
+    for variant in self.variants:
+        for name in variant.names_for_each_value:
+            names.append(name)
+    return names</code></pre>
+</details>
+<div class="desc"><p>Get names of all simulations/steps.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>list of names</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_all_objs_and_attr"><code class="name flex">
+<span>def <span class="ident">get_all_objs_and_attr</span></span>(<span>self, sort: bool = True, cache: bool = False) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_all_objs_and_attr(self, sort: bool = True, cache: bool = False) -&gt; list:
+    &#34;&#34;&#34;Get list of tuples with all PF objects and their attribute.
+
+    Args:
+        cache (bool, optional): If True, the list is stored in &#39;self.all_objs_and_attr&#39;. Defaults to False.
+
+    Returns:
+        list: list of tuples with all PF objects and their attribute
+    &#34;&#34;&#34;
+    all_objs_and_attr = []
+    for var in self.variants:
+        all_objs_and_attr += var.get_list_of_objs_and_attr()
+    all_objs_and_attr = list(set(all_objs_and_attr))
+    if sort:
+
+        def sort_key(x) -&gt; str:
+            if isinstance(x[0], str):
+                return x[0]
+            else:
+                return x[0].loc_name
+
+        all_objs_and_attr.sort(key=sort_key)
+    if cache:
+        self.all_objs_and_attr = all_objs_and_attr
+    return all_objs_and_attr</code></pre>
+</details>
+<div class="desc"><p>Get list of tuples with all PF objects and their attribute.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>cache</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If True, the list is stored in 'self.all_objs_and_attr'. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>list of tuples with all PF objects and their attribute</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_all_values"><code class="name flex">
+<span>def <span class="ident">get_all_values</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_all_values(self) -&gt; dict:
+    &#34;&#34;&#34;Get values of PF object attributes for all variants.
+
+    Returns:
+        dict: Tuple of PF object, attribute (keys) and (flat) list of attribute values for all variants (values).
+    &#34;&#34;&#34;
+    all_values = {k: [] for k in self.get_all_objs_and_attr()}
+    for obj_and_attr, values in all_values.items():
+        for var in self.variants:
+            val = var.values.get(obj_and_attr)
+            if val is not None:
+                values += list(val)
+            else:  # use default value
+                values += [self.default_values[obj_and_attr]] * var.steps
+    all_values = {k: np.array(v) for k, v in all_values.items()}
+    return all_values</code></pre>
+</details>
+<div class="desc"><p>Get values of PF object attributes for all variants.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Tuple of PF object, attribute (keys) and (flat) list of attribute values for all variants (values).</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_current_values_of_all_attr_in_pf"><code class="name flex">
+<span>def <span class="ident">get_current_values_of_all_attr_in_pf</span></span>(<span>self) ‑> dict[tuple, typing.Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_current_values_of_all_attr_in_pf(self) -&gt; dict[tuple, Any]:
+    &#34;&#34;&#34;Get the current (in PF) attribute values of all PF objects.
+
+    Returns:
+        dict: PF objects, attributes (keys) and attribute values (values)
+    &#34;&#34;&#34;
+    all_objs_and_attr = self.get_all_objs_and_attr()
+    return {
+        (obj, attr): obj.GetAttribute(attr)
+        for obj, attr in all_objs_and_attr
+        if not isinstance(obj, str)
+    }</code></pre>
+</details>
+<div class="desc"><p>Get the current (in PF) attribute values of all PF objects.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>PF objects, attributes (keys) and attribute values (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_default_values"><code class="name flex">
+<span>def <span class="ident">get_default_values</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_default_values(self) -&gt; dict:
+    &#34;&#34;&#34;Get all default attribute values of all variants.
+
+    Returns:
+        dict: tuple of PF object, attribute (keys) and attribute values (values)
+    &#34;&#34;&#34;
+    default_values = {}
+    for var in self.variants:
+        default_values.update(var.default_values)
+    return default_values</code></pre>
+</details>
+<div class="desc"><p>Get all default attribute values of all variants.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>tuple of PF object, attribute (keys) and attribute values (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_values_of_variant"><code class="name flex">
+<span>def <span class="ident">get_values_of_variant</span></span>(<span>self,<br>variant: <a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a> | int | str,<br>step_num: int | None = None) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_values_of_variant(
+    self,
+    variant: Variant | int | str,
+    step_num: int | None = None,
+) -&gt; dict:
+    &#34;&#34;&#34;Get the attribute values of all PF objects for one of the variants.
+
+    Args:
+        variant (Variant | int | str): The variant instance, the variant index or the variant name.
+        step_num (int | None, optional): If given, only the value of this step is returned. Defaults to None.
+
+    Returns:
+        dict: Tuple of PF objects, attributes (keys) and attribute values (values)
+    &#34;&#34;&#34;
+    variant = self.get_variant(variant)
+    if step_num is not None:
+        return {
+            (obj, attr): values[step_num]
+            for (obj, attr), values in variant.values.items()
+        }
+    else:
+        return {
+            (obj, attr): values for (obj, attr), values in variant.values.items()
+        }</code></pre>
+</details>
+<div class="desc"><p>Get the attribute values of all PF objects for one of the variants.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>variant</code></strong> :&ensp;<code>Variant | int | str</code></dt>
+<dd>The variant instance, the variant index or the variant name.</dd>
+<dt><strong><code>step_num</code></strong> :&ensp;<code>int | None</code>, optional</dt>
+<dd>If given, only the value of this step is returned. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Tuple of PF objects, attributes (keys) and attribute values (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.get_variant"><code class="name flex">
+<span>def <span class="ident">get_variant</span></span>(<span>self,<br>variant: <a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a> | int | str) ‑> <a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_variant(self, variant: Variant | int | str) -&gt; Variant:
+    &#34;&#34;&#34;Get variant.
+
+    Args:
+        variant (Variant | int | str): If the input is the variant instance already, just returns it. If it is an int it is assumed to be the index. If at is a string it is assumed to be the name.
+
+    Returns:
+        Variant: variant
+    &#34;&#34;&#34;
+    if isinstance(variant, Variant):
+        return variant
+    elif isinstance(variant, int):
+        return self.variants[variant]
+    elif isinstance(variant, str):
+        return [var for var in self.variants if var.name == variant][0]</code></pre>
+</details>
+<div class="desc"><p>Get variant.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>variant</code></strong> :&ensp;<code>Variant | int | str</code></dt>
+<dd>If the input is the variant instance already, just returns it. If it is an int it is assumed to be the index. If at is a string it is assumed to be the name.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a></code></dt>
+<dd>variant</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.initialize"><code class="name flex">
+<span>def <span class="ident">initialize</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize(self) -&gt; None:
+    if not self.default_values:
+        self.default_values = self.get_default_values()
+    self.values = self.get_all_values()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.set_default_values"><code class="name flex">
+<span>def <span class="ident">set_default_values</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_default_values(self) -&gt; None:
+    &#34;&#34;&#34;Set default values of all variants.&#34;&#34;&#34;
+    [var.set_default_values() for var in self.variants]</code></pre>
+</details>
+<div class="desc"><p>Set default values of all variants.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.set_values_in_pf"><code class="name flex">
+<span>def <span class="ident">set_values_in_pf</span></span>(<span>self,<br>variant: <a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a> | int | str,<br>step_num: int,<br>reset_default_values: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_values_in_pf(
+    self,
+    variant: Variant | int | str,
+    step_num: int,
+    reset_default_values: bool = True,
+) -&gt; None:  # TODO use above for simulations
+    &#34;&#34;&#34;Set attribute values of all PF objects of a variant in PowerFactory for a certain step number.
+
+    Args:
+        variant (Variant | int | str): The variant instance, the variant index or the variant name.
+        step_num (int): step number
+        reset_default_values (bool, optional): If True, all the default values are initially reset. Defaults to True.
+    &#34;&#34;&#34;
+    if reset_default_values:
+        self.set_default_values()
+    variant = self.get_variant(variant)
+    variant.set_values_in_pf(step_num)</code></pre>
+</details>
+<div class="desc"><p>Set attribute values of all PF objects of a variant in PowerFactory for a certain step number.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>variant</code></strong> :&ensp;<code>Variant | int | str</code></dt>
+<dd>The variant instance, the variant index or the variant name.</dd>
+<dt><strong><code>step_num</code></strong> :&ensp;<code>int</code></dt>
+<dd>step number</dd>
+<dt><strong><code>reset_default_values</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If True, all the default values are initially reset. Defaults to True.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.ParameterStudy.step_generator"><code class="name flex">
+<span>def <span class="ident">step_generator</span></span>(<span>self, set_values_in_pf: bool = True) ‑> Generator[tuple[dict, str], None, None]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def step_generator(
+    self, set_values_in_pf: bool = True
+) -&gt; Generator[tuple[dict, str]]:
+    for variant in self.variants:
+        for step_num, name in enumerate(variant.names_for_each_value):
+            values = {}
+            for (obj, attr), vals in variant.values.items():
+                value = vals[step_num]
+                values[(obj, attr)] = value
+                if set_values_in_pf and not isinstance(obj, str):
+                    obj.SetAttribute(attr, value)
+            yield values, name</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant"><code class="flex name class">
+<span>class <span class="ident">Variant</span></span>
+<span>(</span><span>pf_app=False, cached=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Variant(ApplicationBase):
+    &#34;&#34;&#34;Create variations for parameter studies (not to confuse with the  variation (IntScheme) class of PF).&#34;&#34;&#34;
+
+    @property
+    def min(self) -&gt; float:
+        return self.par_range[0]
+
+    @property
+    def max(self) -&gt; float:
+        return self.par_range[1]
+
+    @property
+    def objs(self) -&gt; list:
+        &#34;Shortcut to get all PF objects&#34;
+        if isinstance(self.objs_and_attr, list):
+            return self.objs_and_attr[0]
+        elif isinstance(self.objs_and_attr, dict):
+            return list(self.objs_and_attr.keys())
+
+    @property
+    def number_of_objs(self) -&gt; int:
+        return len(self.objs)
+
+    def __init__(self, pf_app=False, cached=False) -&gt; None:
+        super().__init__(pf_app, cached)
+
+        # Settings
+        self.name: str
+        &#34;Name of variation&#34;
+        self.objs_and_attr: dict[PFGeneral, str] | list
+        &#34;The PF objects and their attributes to which the parameter variants are applied. Can be a dict with objects (keys) and attributes (values) or a list where the first element is a list of objects and the second element is the attribute (which is shared by all objects).&#34;
+        self.par_range: list[float]
+        &#34;The parameter range.&#34;
+        self.steps: int
+        &#34;The number of steps (in the parameter range).&#34;
+        self.value_calculation: str = &#34;equal&#34;
+        &#34;Specifies how the values are calculated. Options are &#39;equal&#39;, &#39;multiply&#39;, &#39;add&#39;. &#39;equal&#39; means that the values are just set in PF. &#39;multiply&#39; means that the attribute values are calculated by multiplying by the default value. &#39;add&#39; means the attribute values are calculated by adding to the default value.&#34;
+        self.variation_type: str = &#34;const&#34;
+        &#34;Specifies how the parameter values are set for the various PF objects. &#39;const&#39; means that the same parameter value is set for all PF objects. &#39;gradient&#39; means that there is a gradient for values that starts at the first object and ends at the last.&#34;
+
+        self.preprocessing_step: Callable | None = None
+        &#34;&#34;&#34;Function that is called at each step before the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+        - &#34;variant&#34;: variant
+        - &#34;var_num&#34;: current variant number
+        - &#34;step_num&#34;: current step number
+        - &#34;sim_num&#34;: current total simulation number
+        &#34;&#34;&#34;
+        self.postprocessing_step: Callable | None = None
+        &#34;&#34;&#34;Function that is called at each step after the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+        - &#34;sim_res&#34;: DataFrame with simulation results of step
+        - &#34;variant&#34;: variant
+        - &#34;var_num&#34;: current variant number
+        - &#34;sim_num&#34;: current total simulation number
+        - &#34;step_num&#34;: current step number
+        
+        IMPORTANT: If the simulation results are changed, the function must return them.        
+        &#34;&#34;&#34;
+        self.default_values: dict = {}
+        &#34;Default values (values) for PF objects, attributes (keys).&#34;
+
+        # Autsomatically assigned attributes
+        self.values: dict
+        &#34;List of values (values) of PF objects, attributes (keys) for all parameter sets&#34;
+        self.names_for_each_value: list[str] = []
+
+    def initialize(self) -&gt; None:
+        if not self.default_values:  # Use current values in PF
+            self.default_values.update(self.get_current_values_of_all_attr_in_pf())
+        self.values = self.get_values()
+        self.names_for_each_value = self.get_name_for_each_step()
+
+    def get_name_for_each_step(self, use_calculated_vales: bool = False) -&gt; list[str]:
+        &#34;&#34;&#34;Get a list of names for each steps. The names consist of &#39;self.name&#39; and the value of the step (if the values of the targeted PF objects differ, the value of the first object in &#39;self.values&#39; is used).
+
+        Args:
+            use_calculated_vales (bool): If True, the calculated values are used, else the values as specified by the user are used. Relevant if self.value_calculation is &#39;multiply&#39; or &#39;add. Defaults to False.
+
+        Returns:
+            list[str]: list of names
+        &#34;&#34;&#34;
+        if self.value_calculation in [&#34;multiply&#34;, &#34;add&#34;] and not use_calculated_vales:
+            # To get the values as specified by the user, the values are calculated as if &#39;self.value_calculation = &#34;equal&#34;&#39;
+            value_calculation = self.value_calculation
+            self.value_calculation = &#34;equal&#34;
+            values = list(self.get_values().values())[0]
+            self.value_calculation = value_calculation
+        else:
+            values = list(self.values.values())[0]
+        return [
+            f&#34;{self.name}={format_sig_no_sci(val)}&#34; for val in values
+        ]  # Format numerics
+
+    def get_values(self) -&gt; dict[PFGeneral, Any]:
+        &#34;&#34;&#34;Get the values of each PF object for each step.
+
+        Returns:
+            dict[PFGeneral, Any]: PF objects, attributes (keys) and list of values (values)
+        &#34;&#34;&#34;
+        if self.variation_type == &#34;const&#34;:  # values for all objects are the same
+            values = np.broadcast_to(
+                np.linspace(self.min, self.max, self.steps),
+                (self.number_of_objs, self.steps),
+            )
+        elif self.variation_type == &#34;gradient&#34;:  # calculate gradients
+            grad_start_objs = np.linspace(self.min, self.max, self.number_of_objs)
+            values = np.array(
+                [
+                    np.linspace(grad_start_objs[n], grad_start_objs[-n - 1], self.steps)
+                    for n in range(len(grad_start_objs))
+                ]
+            )
+        # create dict (keys are obj, attr and values are their values at each step)
+        if isinstance(self.objs_and_attr, list):
+            values = {
+                (obj, self.objs_and_attr[1]): values[n, :]
+                for n, obj in enumerate(self.objs_and_attr[0])
+            }
+        else:
+            values = {
+                (obj, attr): values[n, :]
+                for n, (obj, attr) in enumerate(self.objs_and_attr.items())
+            }
+        # multiply or add to default values
+        if self.value_calculation == &#34;multiply&#34;:
+            values = {k: v * self.default_values[k] for k, v in values.items()}
+        elif self.value_calculation == &#34;add&#34;:
+            values = {k: v + self.default_values[k] for k, v in values.items()}
+        return values
+
+    def get_list_of_objs_and_attr(self) -&gt; list:
+        &#34;&#34;&#34;Get list of obj, attr tuples.
+
+        Returns:
+            list: list of obj, attr tuples
+        &#34;&#34;&#34;
+        if isinstance(self.objs_and_attr, list):
+            return [(obj, self.objs_and_attr[1]) for obj in self.objs_and_attr[0]]
+        else:
+            return list(self.objs_and_attr.items())
+
+    def get_current_values_of_all_attr_in_pf(self) -&gt; dict:
+        &#34;&#34;&#34;Get the current (in PF) attribute values of all PF objects.
+
+        Returns:
+            dict: PF objects, attributes (keys) and attribute values (values)
+        &#34;&#34;&#34;
+        return {
+            (obj, attr): obj.GetAttribute(attr)
+            for obj, attr in self.get_list_of_objs_and_attr()
+            if not isinstance(obj, str)
+        }
+
+    def set_values_in_pf(self, step_num: int) -&gt; None:
+        &#34;&#34;&#34;Set the attribute values of the step in PF
+
+        Args:
+            step_num (int): step number
+        &#34;&#34;&#34;
+        for (obj, attr), values in self.get_values().items():
+            if not isinstance(obj, str):
+                obj.SetAttribute(attr, values[step_num])
+
+    def set_default_values(self) -&gt; None:
+        &#34;&#34;&#34;Reset the default attribute values in PF.&#34;&#34;&#34;
+        for (obj, attr), val in self.default_values.items():
+            if not isinstance(obj, str):
+                obj.SetAttribute(attr, val)
+
+    def execute_preprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+        if self.preprocessing_step is not None:
+            self.preprocessing_step(pre_post_process_dict)
+
+    def execute_postprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+        if self.postprocessing_step is not None:
+            return self.postprocessing_step(pre_post_process_dict)
+        else:
+            return pre_post_process_dict[&#34;sim_res&#34;]</code></pre>
+</details>
+<div class="desc"><p>Create variations for parameter studies (not to confuse with the
+variation (IntScheme) class of PF).</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.Variant.default_values"><code class="name">var <span class="ident">default_values</span></code></dt>
+<dd>
+<div class="desc"><p>Default values (values) for PF objects, attributes (keys).</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.max"><code class="name">prop <span class="ident">max</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def max(self) -&gt; float:
+    return self.par_range[1]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.min"><code class="name">prop <span class="ident">min</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def min(self) -&gt; float:
+    return self.par_range[0]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.name"><code class="name">var <span class="ident">name</span></code></dt>
+<dd>
+<div class="desc"><p>Name of variation</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.number_of_objs"><code class="name">prop <span class="ident">number_of_objs</span> : int</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def number_of_objs(self) -&gt; int:
+    return len(self.objs)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.objs"><code class="name">prop <span class="ident">objs</span> : list</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def objs(self) -&gt; list:
+    &#34;Shortcut to get all PF objects&#34;
+    if isinstance(self.objs_and_attr, list):
+        return self.objs_and_attr[0]
+    elif isinstance(self.objs_and_attr, dict):
+        return list(self.objs_and_attr.keys())</code></pre>
+</details>
+<div class="desc"><p>Shortcut to get all PF objects</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.objs_and_attr"><code class="name">var <span class="ident">objs_and_attr</span></code></dt>
+<dd>
+<div class="desc"><p>The PF objects and their attributes to which the parameter variants are applied. Can be a dict with objects (keys) and attributes (values) or a list where the first element is a list of objects and the second element is the attribute (which is shared by all objects).</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.par_range"><code class="name">var <span class="ident">par_range</span></code></dt>
+<dd>
+<div class="desc"><p>The parameter range.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.postprocessing_step"><code class="name">var <span class="ident">postprocessing_step</span></code></dt>
+<dd>
+<div class="desc"><p>Function that is called at each step after the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+- "sim_res": DataFrame with simulation results of step
+- "variant": variant
+- "var_num": current variant number
+- "sim_num": current total simulation number
+- "step_num": current step number</p>
+<p>IMPORTANT: If the simulation results are changed, the function must return them.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.preprocessing_step"><code class="name">var <span class="ident">preprocessing_step</span></code></dt>
+<dd>
+<div class="desc"><p>Function that is called at each step before the simulation. Must be defined as a function with one input argument. This argument is a dict that gives access to the following data:
+- "variant": variant
+- "var_num": current variant number
+- "step_num": current step number
+- "sim_num": current total simulation number</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.steps"><code class="name">var <span class="ident">steps</span></code></dt>
+<dd>
+<div class="desc"><p>The number of steps (in the parameter range).</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.value_calculation"><code class="name">var <span class="ident">value_calculation</span></code></dt>
+<dd>
+<div class="desc"><p>Specifies how the values are calculated. Options are 'equal', 'multiply', 'add'. 'equal' means that the values are just set in PF. 'multiply' means that the attribute values are calculated by multiplying by the default value. 'add' means the attribute values are calculated by adding to the default value.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.values"><code class="name">var <span class="ident">values</span></code></dt>
+<dd>
+<div class="desc"><p>List of values (values) of PF objects, attributes (keys) for all parameter sets</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.variation_type"><code class="name">var <span class="ident">variation_type</span></code></dt>
+<dd>
+<div class="desc"><p>Specifies how the parameter values are set for the various PF objects. 'const' means that the same parameter value is set for all PF objects. 'gradient' means that there is a gradient for values that starts at the first object and ends at the last.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.parameter_studies.Variant.execute_postprocessing_step"><code class="name flex">
+<span>def <span class="ident">execute_postprocessing_step</span></span>(<span>self, pre_post_process_dict: dict) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_postprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+    if self.postprocessing_step is not None:
+        return self.postprocessing_step(pre_post_process_dict)
+    else:
+        return pre_post_process_dict[&#34;sim_res&#34;]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.execute_preprocessing_step"><code class="name flex">
+<span>def <span class="ident">execute_preprocessing_step</span></span>(<span>self, pre_post_process_dict: dict) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def execute_preprocessing_step(self, pre_post_process_dict: dict) -&gt; None:
+    if self.preprocessing_step is not None:
+        self.preprocessing_step(pre_post_process_dict)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.get_current_values_of_all_attr_in_pf"><code class="name flex">
+<span>def <span class="ident">get_current_values_of_all_attr_in_pf</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_current_values_of_all_attr_in_pf(self) -&gt; dict:
+    &#34;&#34;&#34;Get the current (in PF) attribute values of all PF objects.
+
+    Returns:
+        dict: PF objects, attributes (keys) and attribute values (values)
+    &#34;&#34;&#34;
+    return {
+        (obj, attr): obj.GetAttribute(attr)
+        for obj, attr in self.get_list_of_objs_and_attr()
+        if not isinstance(obj, str)
+    }</code></pre>
+</details>
+<div class="desc"><p>Get the current (in PF) attribute values of all PF objects.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>PF objects, attributes (keys) and attribute values (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.get_list_of_objs_and_attr"><code class="name flex">
+<span>def <span class="ident">get_list_of_objs_and_attr</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_list_of_objs_and_attr(self) -&gt; list:
+    &#34;&#34;&#34;Get list of obj, attr tuples.
+
+    Returns:
+        list: list of obj, attr tuples
+    &#34;&#34;&#34;
+    if isinstance(self.objs_and_attr, list):
+        return [(obj, self.objs_and_attr[1]) for obj in self.objs_and_attr[0]]
+    else:
+        return list(self.objs_and_attr.items())</code></pre>
+</details>
+<div class="desc"><p>Get list of obj, attr tuples.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>list of obj, attr tuples</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.get_name_for_each_step"><code class="name flex">
+<span>def <span class="ident">get_name_for_each_step</span></span>(<span>self, use_calculated_vales: bool = False) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_name_for_each_step(self, use_calculated_vales: bool = False) -&gt; list[str]:
+    &#34;&#34;&#34;Get a list of names for each steps. The names consist of &#39;self.name&#39; and the value of the step (if the values of the targeted PF objects differ, the value of the first object in &#39;self.values&#39; is used).
+
+    Args:
+        use_calculated_vales (bool): If True, the calculated values are used, else the values as specified by the user are used. Relevant if self.value_calculation is &#39;multiply&#39; or &#39;add. Defaults to False.
+
+    Returns:
+        list[str]: list of names
+    &#34;&#34;&#34;
+    if self.value_calculation in [&#34;multiply&#34;, &#34;add&#34;] and not use_calculated_vales:
+        # To get the values as specified by the user, the values are calculated as if &#39;self.value_calculation = &#34;equal&#34;&#39;
+        value_calculation = self.value_calculation
+        self.value_calculation = &#34;equal&#34;
+        values = list(self.get_values().values())[0]
+        self.value_calculation = value_calculation
+    else:
+        values = list(self.values.values())[0]
+    return [
+        f&#34;{self.name}={format_sig_no_sci(val)}&#34; for val in values
+    ]  # Format numerics</code></pre>
+</details>
+<div class="desc"><p>Get a list of names for each steps. The names consist of 'self.name' and the value of the step (if the values of the targeted PF objects differ, the value of the first object in 'self.values' is used).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>use_calculated_vales</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If True, the calculated values are used, else the values as specified by the user are used. Relevant if self.value_calculation is 'multiply' or 'add. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>list of names</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.get_values"><code class="name flex">
+<span>def <span class="ident">get_values</span></span>(<span>self) ‑> dict[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>, typing.Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_values(self) -&gt; dict[PFGeneral, Any]:
+    &#34;&#34;&#34;Get the values of each PF object for each step.
+
+    Returns:
+        dict[PFGeneral, Any]: PF objects, attributes (keys) and list of values (values)
+    &#34;&#34;&#34;
+    if self.variation_type == &#34;const&#34;:  # values for all objects are the same
+        values = np.broadcast_to(
+            np.linspace(self.min, self.max, self.steps),
+            (self.number_of_objs, self.steps),
+        )
+    elif self.variation_type == &#34;gradient&#34;:  # calculate gradients
+        grad_start_objs = np.linspace(self.min, self.max, self.number_of_objs)
+        values = np.array(
+            [
+                np.linspace(grad_start_objs[n], grad_start_objs[-n - 1], self.steps)
+                for n in range(len(grad_start_objs))
+            ]
+        )
+    # create dict (keys are obj, attr and values are their values at each step)
+    if isinstance(self.objs_and_attr, list):
+        values = {
+            (obj, self.objs_and_attr[1]): values[n, :]
+            for n, obj in enumerate(self.objs_and_attr[0])
+        }
+    else:
+        values = {
+            (obj, attr): values[n, :]
+            for n, (obj, attr) in enumerate(self.objs_and_attr.items())
+        }
+    # multiply or add to default values
+    if self.value_calculation == &#34;multiply&#34;:
+        values = {k: v * self.default_values[k] for k, v in values.items()}
+    elif self.value_calculation == &#34;add&#34;:
+        values = {k: v + self.default_values[k] for k, v in values.items()}
+    return values</code></pre>
+</details>
+<div class="desc"><p>Get the values of each PF object for each step.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[PFGeneral, Any]</code></dt>
+<dd>PF objects, attributes (keys) and list of values (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.initialize"><code class="name flex">
+<span>def <span class="ident">initialize</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize(self) -&gt; None:
+    if not self.default_values:  # Use current values in PF
+        self.default_values.update(self.get_current_values_of_all_attr_in_pf())
+    self.values = self.get_values()
+    self.names_for_each_value = self.get_name_for_each_step()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.set_default_values"><code class="name flex">
+<span>def <span class="ident">set_default_values</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_default_values(self) -&gt; None:
+    &#34;&#34;&#34;Reset the default attribute values in PF.&#34;&#34;&#34;
+    for (obj, attr), val in self.default_values.items():
+        if not isinstance(obj, str):
+            obj.SetAttribute(attr, val)</code></pre>
+</details>
+<div class="desc"><p>Reset the default attribute values in PF.</p></div>
+</dd>
+<dt id="powfacpy.applications.parameter_studies.Variant.set_values_in_pf"><code class="name flex">
+<span>def <span class="ident">set_values_in_pf</span></span>(<span>self, step_num: int) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_values_in_pf(self, step_num: int) -&gt; None:
+    &#34;&#34;&#34;Set the attribute values of the step in PF
+
+    Args:
+        step_num (int): step number
+    &#34;&#34;&#34;
+    for (obj, attr), values in self.get_values().items():
+        if not isinstance(obj, str):
+            obj.SetAttribute(attr, values[step_num])</code></pre>
+</details>
+<div class="desc"><p>Set the attribute values of the step in PF</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>step_num</code></strong> :&ensp;<code>int</code></dt>
+<dd>step number</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="powfacpy.applications.parameter_studies.format_sig_no_sci" href="#powfacpy.applications.parameter_studies.format_sig_no_sci">format_sig_no_sci</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.parameter_studies.ParameterStudy" href="#powfacpy.applications.parameter_studies.ParameterStudy">ParameterStudy</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.all_objs_and_attr" href="#powfacpy.applications.parameter_studies.ParameterStudy.all_objs_and_attr">all_objs_and_attr</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.default_values" href="#powfacpy.applications.parameter_studies.ParameterStudy.default_values">default_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.execute_dynamic_simulations" href="#powfacpy.applications.parameter_studies.ParameterStudy.execute_dynamic_simulations">execute_dynamic_simulations</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.execute_postprocessing_step" href="#powfacpy.applications.parameter_studies.ParameterStudy.execute_postprocessing_step">execute_postprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_step" href="#powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_step">execute_preprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_variant" href="#powfacpy.applications.parameter_studies.ParameterStudy.execute_preprocessing_variant">execute_preprocessing_variant</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_all_names" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_all_names">get_all_names</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_all_objs_and_attr" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_all_objs_and_attr">get_all_objs_and_attr</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_all_values" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_all_values">get_all_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_current_values_of_all_attr_in_pf" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_current_values_of_all_attr_in_pf">get_current_values_of_all_attr_in_pf</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_default_values" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_default_values">get_default_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_values_of_variant" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_values_of_variant">get_values_of_variant</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.get_variant" href="#powfacpy.applications.parameter_studies.ParameterStudy.get_variant">get_variant</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.initialize" href="#powfacpy.applications.parameter_studies.ParameterStudy.initialize">initialize</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.postprocessing_step" href="#powfacpy.applications.parameter_studies.ParameterStudy.postprocessing_step">postprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_step" href="#powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_step">preprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_variant" href="#powfacpy.applications.parameter_studies.ParameterStudy.preprocessing_variant">preprocessing_variant</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.set_default_values" href="#powfacpy.applications.parameter_studies.ParameterStudy.set_default_values">set_default_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.set_values_in_pf" href="#powfacpy.applications.parameter_studies.ParameterStudy.set_values_in_pf">set_values_in_pf</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.step_generator" href="#powfacpy.applications.parameter_studies.ParameterStudy.step_generator">step_generator</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.values" href="#powfacpy.applications.parameter_studies.ParameterStudy.values">values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.ParameterStudy.variants" href="#powfacpy.applications.parameter_studies.ParameterStudy.variants">variants</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.parameter_studies.Variant" href="#powfacpy.applications.parameter_studies.Variant">Variant</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.default_values" href="#powfacpy.applications.parameter_studies.Variant.default_values">default_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.execute_postprocessing_step" href="#powfacpy.applications.parameter_studies.Variant.execute_postprocessing_step">execute_postprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.execute_preprocessing_step" href="#powfacpy.applications.parameter_studies.Variant.execute_preprocessing_step">execute_preprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.get_current_values_of_all_attr_in_pf" href="#powfacpy.applications.parameter_studies.Variant.get_current_values_of_all_attr_in_pf">get_current_values_of_all_attr_in_pf</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.get_list_of_objs_and_attr" href="#powfacpy.applications.parameter_studies.Variant.get_list_of_objs_and_attr">get_list_of_objs_and_attr</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.get_name_for_each_step" href="#powfacpy.applications.parameter_studies.Variant.get_name_for_each_step">get_name_for_each_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.get_values" href="#powfacpy.applications.parameter_studies.Variant.get_values">get_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.initialize" href="#powfacpy.applications.parameter_studies.Variant.initialize">initialize</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.max" href="#powfacpy.applications.parameter_studies.Variant.max">max</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.min" href="#powfacpy.applications.parameter_studies.Variant.min">min</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.name" href="#powfacpy.applications.parameter_studies.Variant.name">name</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.number_of_objs" href="#powfacpy.applications.parameter_studies.Variant.number_of_objs">number_of_objs</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.objs" href="#powfacpy.applications.parameter_studies.Variant.objs">objs</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.objs_and_attr" href="#powfacpy.applications.parameter_studies.Variant.objs_and_attr">objs_and_attr</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.par_range" href="#powfacpy.applications.parameter_studies.Variant.par_range">par_range</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.postprocessing_step" href="#powfacpy.applications.parameter_studies.Variant.postprocessing_step">postprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.preprocessing_step" href="#powfacpy.applications.parameter_studies.Variant.preprocessing_step">preprocessing_step</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.set_default_values" href="#powfacpy.applications.parameter_studies.Variant.set_default_values">set_default_values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.set_values_in_pf" href="#powfacpy.applications.parameter_studies.Variant.set_values_in_pf">set_values_in_pf</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.steps" href="#powfacpy.applications.parameter_studies.Variant.steps">steps</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.value_calculation" href="#powfacpy.applications.parameter_studies.Variant.value_calculation">value_calculation</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.values" href="#powfacpy.applications.parameter_studies.Variant.values">values</a></code></li>
+<li><code><a title="powfacpy.applications.parameter_studies.Variant.variation_type" href="#powfacpy.applications.parameter_studies.Variant.variation_type">variation_type</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

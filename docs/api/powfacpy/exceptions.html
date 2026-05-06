@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.exceptions API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.exceptions</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.exceptions.PFAttributeError"><code class="flex name class">
+<span>class <span class="ident">PFAttributeError</span></span>
+<span>(</span><span>obj,<br>msg_raised,<br>pf_active_project: <a title="powfacpy.base.active_project.ActiveProject" href="base/active_project.html#powfacpy.base.active_project.ActiveProject">ActiveProject</a>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFAttributeError(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to access an invalid attribute of a PF object.&#34;&#34;&#34;
+
+    def __init__(
+        self,
+        obj,
+        msg_raised,
+        pf_active_project: powfacpy.base.active_project.ActiveProject,
+    ):
+        if obj:
+            object_str = pf_active_project.get_path_of_object(obj)
+        else:
+            object_str = str(obj)  # e.g. when obj is &#39;None&#39;
+        self.message = f&#34;Unexpected attribute of object &#39;{object_str}&#39;: {msg_raised}.&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to access an invalid attribute of a PF object.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFAttributeNotSetError"><code class="flex name class">
+<span>class <span class="ident">PFAttributeNotSetError</span></span>
+<span>(</span><span>attribute_description)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFAttributeNotSetError(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to access an attribute of a powfacpy class instance,
+    but it was not specified.
+    &#34;&#34;&#34;
+
+    def __init__(self, attribute_description):
+        self.message = (
+            f&#34;Attempt to access {attribute_description}, &#34; &#34;but it was not set.&#34;
+        )
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to access an attribute of a powfacpy class instance,
+but it was not specified.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFAttributeTypeError"><code class="flex name class">
+<span>class <span class="ident">PFAttributeTypeError</span></span>
+<span>(</span><span>obj, attr, msg_raised, pf_active_project)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFAttributeTypeError(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to set an invalid type for the attribute of a PF object.&#34;&#34;&#34;
+
+    def __init__(self, obj, attr, msg_raised, pf_active_project):
+        object_str = pf_active_project.get_path_of_object(obj)
+        self.message = f&#34;The attribute &#39;{attr}&#39; of the object &#39;{object_str}&#39; is of unexpected type: {msg_raised}.&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to set an invalid type for the attribute of a PF object.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError"><code class="flex name class">
+<span>class <span class="ident">PFCaseStudyParameterValueDefinitionError</span></span>
+<span>(</span><span>par_name, values)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFCaseStudyParameterValueDefinitionError(PFInterfaceError):
+    &#34;&#34;&#34;Number of parameter values is not the same for every parameter.&#34;&#34;&#34;
+
+    def __init__(self, par_name, values):
+        self.message = (
+            f&#34;Incorrect number of values defined for parameter &#39;{par_name}&#39;. &#34;
+            f&#34;Only {len(values)} values were defined.&#34;
+        )
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Number of parameter values is not the same for every parameter.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel"><code class="flex name class">
+<span>class <span class="ident">PFInconsistentParamValueOfDSLModelInCompositeModel</span></span>
+<span>(</span><span>param_name, composite_model)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFInconsistentParamValueOfDSLModelInCompositeModel(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to create a dictionary with parameter names and values of DSL
+    models in a composite model, but the DSL models have different values for
+    the same parameter.
+    &#34;&#34;&#34;
+
+    def __init__(self, param_name, composite_model):
+        self.message = (
+            f&#34;The parameter &#39;{param_name}&#39; takes on different values in &#34;
+            f&#34;the DSL models of the composite model &#39;{composite_model}&#39;. &#34;
+            &#34;Therefore, creating a single dictionary with correct parameter &#34;
+            &#34;values for all DSL models is not possible.&#34;
+        )
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to create a dictionary with parameter names and values of DSL
+models in a composite model, but the DSL models have different values for
+the same parameter.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFInterfaceError"><code class="flex name class">
+<span>class <span class="ident">PFInterfaceError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFInterfaceError(Exception):
+    &#34;&#34;&#34;There should always be a base class (that inherits
+    from &#39;Exception&#39;) for all custom errors/exceptions.
+    &#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<div class="desc"><p>There should always be a base class (that inherits
+from 'Exception') for all custom errors/exceptions.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFAttributeError" href="#powfacpy.exceptions.PFAttributeError">PFAttributeError</a></li>
+<li><a title="powfacpy.exceptions.PFAttributeNotSetError" href="#powfacpy.exceptions.PFAttributeNotSetError">PFAttributeNotSetError</a></li>
+<li><a title="powfacpy.exceptions.PFAttributeTypeError" href="#powfacpy.exceptions.PFAttributeTypeError">PFAttributeTypeError</a></li>
+<li><a title="powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError" href="#powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError">PFCaseStudyParameterValueDefinitionError</a></li>
+<li><a title="powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel" href="#powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel">PFInconsistentParamValueOfDSLModelInCompositeModel</a></li>
+<li><a title="powfacpy.exceptions.PFInvalidCondition" href="#powfacpy.exceptions.PFInvalidCondition">PFInvalidCondition</a></li>
+<li><a title="powfacpy.exceptions.PFInvalidLoadFlow" href="#powfacpy.exceptions.PFInvalidLoadFlow">PFInvalidLoadFlow</a></li>
+<li><a title="powfacpy.exceptions.PFNoActiveStudyCaseError" href="#powfacpy.exceptions.PFNoActiveStudyCaseError">PFNoActiveStudyCaseError</a></li>
+<li><a title="powfacpy.exceptions.PFNonExistingObjectError" href="#powfacpy.exceptions.PFNonExistingObjectError">PFNonExistingObjectError</a></li>
+<li><a title="powfacpy.exceptions.PFNotActiveError" href="#powfacpy.exceptions.PFNotActiveError">PFNotActiveError</a></li>
+<li><a title="powfacpy.exceptions.PFObjectAttributeTypeError" href="#powfacpy.exceptions.PFObjectAttributeTypeError">PFObjectAttributeTypeError</a></li>
+<li><a title="powfacpy.exceptions.PFPathError" href="#powfacpy.exceptions.PFPathError">PFPathError</a></li>
+<li><a title="powfacpy.exceptions.PFPathInputError" href="#powfacpy.exceptions.PFPathInputError">PFPathInputError</a></li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFInvalidCondition"><code class="flex name class">
+<span>class <span class="ident">PFInvalidCondition</span></span>
+<span>(</span><span>msg='')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFInvalidCondition(PFInterfaceError):
+
+    def __init__(self, msg=&#34;&#34;) -&gt; None:
+        self.message = f&#34;No object found that satisfies condition. {msg}&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>There should always be a base class (that inherits
+from 'Exception') for all custom errors/exceptions.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFInvalidLoadFlow"><code class="flex name class">
+<span>class <span class="ident">PFInvalidLoadFlow</span></span>
+<span>(</span><span>msg='')</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFInvalidLoadFlow(PFInterfaceError):
+
+    def __init__(self, msg=&#34;&#34;) -&gt; None:
+        self.message = f&#34;No valid load flow results. {msg}&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>There should always be a base class (that inherits
+from 'Exception') for all custom errors/exceptions.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFNoActiveStudyCaseError"><code class="flex name class">
+<span>class <span class="ident">PFNoActiveStudyCaseError</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFNoActiveStudyCaseError(PFInterfaceError):
+    &#34;&#34;&#34;No active study case found.&#34;&#34;&#34;
+
+    def __init__(self):
+        self.message = &#34;No active study case found. Please activate one.&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>No active study case found.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFNonExistingObjectError"><code class="flex name class">
+<span>class <span class="ident">PFNonExistingObjectError</span></span>
+<span>(</span><span>folder, obj, condition=False, include_subfolders=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFNonExistingObjectError(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to access PF object (optional: with a specific condition) that does not exist.&#34;&#34;&#34;
+
+    def __init__(self, folder, obj, condition=False, include_subfolders=False):
+        folder_str = PFStringManipulation.remove_html_tags_from_path(str(folder))
+        folder_str = PFStringManipulation.remove_class_names(folder_str)
+        if include_subfolders:
+            msg_subfolder = &#34; (and its subfolders)&#34;
+        else:
+            msg_subfolder = &#34;&#34;
+        msg = f&#34;The folder &#39;{folder_str}&#39;{msg_subfolder} does not contain any object or path named &#39;{obj}&#39;&#34;
+        if condition:
+            msg = msg + &#34; with specified condition&#34;
+        self.message = msg
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to access PF object (optional: with a specific condition) that does not exist.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFNotActiveError"><code class="flex name class">
+<span>class <span class="ident">PFNotActiveError</span></span>
+<span>(</span><span>obj_str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFNotActiveError(PFInterfaceError):
+    &#34;&#34;&#34;Unexpected inactive PF object.&#34;&#34;&#34;
+
+    def __init__(self, obj_str):
+        self.message = f&#34;Please activate {obj_str}.&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Unexpected inactive PF object.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFObjectAttributeTypeError"><code class="flex name class">
+<span>class <span class="ident">PFObjectAttributeTypeError</span></span>
+<span>(</span><span>obj, msg_raised, pf_active_project)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFObjectAttributeTypeError(PFInterfaceError):
+    &#34;&#34;&#34;Unexpected type of a PF object attribute (e.g. &#39;None&#39; type).&#34;&#34;&#34;
+
+    def __init__(self, obj, msg_raised, pf_active_project):
+        object_str = pf_active_project.get_path_of_object(obj)
+        self.message = f&#34;Unexpected attribute of object &#39;{object_str}&#39;: {msg_raised}.&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Unexpected type of a PF object attribute (e.g. 'None' type).</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFPathError"><code class="flex name class">
+<span>class <span class="ident">PFPathError</span></span>
+<span>(</span><span>non_existing_child, existing_path)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFPathError(PFInterfaceError):
+    &#34;&#34;&#34;Attempt to access invalid path in PF database.&#34;&#34;&#34;
+
+    def __init__(self, non_existing_child, existing_path):
+        self.message = f&#34;&#39;{non_existing_child}&#39; does not exist in &#39;{existing_path}&#39;&#34;
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Attempt to access invalid path in PF database.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="powfacpy.exceptions.PFPathInputError"><code class="flex name class">
+<span>class <span class="ident">PFPathInputError</span></span>
+<span>(</span><span>path)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFPathInputError(PFInterfaceError):
+    &#34;&#34;&#34;Invalid input for a PF path.&#34;&#34;&#34;
+
+    def __init__(self, path):
+        self.message = (
+            f&#34;The path &#39;{path}&#39; is invalid or empty. Please don&#39;t start &#34;
+            + f&#34;the path with &#39;\\&#39;.&#34;
+        )
+        super().__init__(self.message)</code></pre>
+</details>
+<div class="desc"><p>Invalid input for a PF path.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy" href="index.html">powfacpy</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFAttributeError" href="#powfacpy.exceptions.PFAttributeError">PFAttributeError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFAttributeNotSetError" href="#powfacpy.exceptions.PFAttributeNotSetError">PFAttributeNotSetError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFAttributeTypeError" href="#powfacpy.exceptions.PFAttributeTypeError">PFAttributeTypeError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError" href="#powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError">PFCaseStudyParameterValueDefinitionError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel" href="#powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel">PFInconsistentParamValueOfDSLModelInCompositeModel</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFInterfaceError" href="#powfacpy.exceptions.PFInterfaceError">PFInterfaceError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFInvalidCondition" href="#powfacpy.exceptions.PFInvalidCondition">PFInvalidCondition</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFInvalidLoadFlow" href="#powfacpy.exceptions.PFInvalidLoadFlow">PFInvalidLoadFlow</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFNoActiveStudyCaseError" href="#powfacpy.exceptions.PFNoActiveStudyCaseError">PFNoActiveStudyCaseError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFNonExistingObjectError" href="#powfacpy.exceptions.PFNonExistingObjectError">PFNonExistingObjectError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFNotActiveError" href="#powfacpy.exceptions.PFNotActiveError">PFNotActiveError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFObjectAttributeTypeError" href="#powfacpy.exceptions.PFObjectAttributeTypeError">PFObjectAttributeTypeError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFPathError" href="#powfacpy.exceptions.PFPathError">PFPathError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.exceptions.PFPathInputError" href="#powfacpy.exceptions.PFPathInputError">PFPathInputError</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

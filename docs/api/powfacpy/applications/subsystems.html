@@ -1,0 +1,1352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.subsystems API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.subsystems</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystem"><code class="flex name class">
+<span>class <span class="ident">SubSystem</span></span>
+<span>(</span><span>grouping: ElmAreaOrZone, pf_app=False, cached=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystem(Zone, ApplicationBase):
+    &#34;&#34;&#34;Subsystem of a larger power system. This is the grouping class of powfacpy to extend the functionality of zones and areas in PowerFactory.&#34;&#34;&#34;
+
+    @property
+    def name(self) -&gt; str:
+        return self._obj.loc_name
+
+    @property
+    def load_flow(self) -&gt; SubSystemLoadFlow:
+        if self._load_flow is None:
+            self._load_flow = SubSystemLoadFlow(self)
+        return self._load_flow
+
+    @property
+    def topology(self) -&gt; SubSystemTopology:
+        if self._topology is None:
+            self._topology = SubSystemTopology(self)
+        return self._topology
+
+    @property
+    def dynamic_models(self) -&gt; SubSystemDynamicModels:
+        if self._dynamic_models is None:
+            self._dynamic_models = SubSystemDynamicModels(self)
+        return self._dynamic_models
+
+    def __init__(self, grouping: ElmAreaOrZone, pf_app=False, cached=False) -&gt; None:
+        class_name = grouping.GetClassName()
+        if class_name == &#34;ElmZone&#34;:
+            super(SubSystem, self).__init__(grouping)
+        else:
+            Area.__init__(grouping, pf_app, cached)
+        ApplicationBase.__init__(self, pf_app, cached)
+        self._load_flow: SubSystemLoadFlow | None = None
+        self._topology: SubSystemTopology | None = None
+        self._dynamic_models: SubSystemDynamicModels | None = None
+
+    def __eq__(self, other) -&gt; bool:
+        return self._obj == other._obj
+
+    def __hash__(self) -&gt; int:
+        return hash(self._obj)
+
+    def get_load_flow_state(
+        self, execute_load_flow: bool = True, format: str | None = &#34;pandas&#34;
+    ) -&gt; SubSystemLoadFlow:
+        self._load_flow: SubSystemLoadFlow = SubSystemLoadFlow(self)
+        return self._load_flow.get_load_flow_state(
+            execute_load_flow=execute_load_flow, format=format
+        )</code></pre>
+</details>
+<div class="desc"><p>Subsystem of a larger power system. This is the grouping class of powfacpy to extend the functionality of zones and areas in PowerFactory.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.zone.Zone" href="../pf_classes/elm/zone.html#powfacpy.pf_classes.elm.zone.Zone">Zone</a></li>
+<li><a title="powfacpy.pf_classes.elm.zone.ZoneStatic" href="../pf_classes/elm/zone.html#powfacpy.pf_classes.elm.zone.ZoneStatic">ZoneStatic</a></li>
+<li><a title="powfacpy.pf_classes.elm.elm_base.ElmBase" href="../pf_classes/elm/elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmBase">ElmBase</a></li>
+<li><a title="powfacpy.base.base.BaseChildStatic" href="../base/base.html#powfacpy.base.base.BaseChildStatic">BaseChildStatic</a></li>
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="../base/base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+<li><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase">AreaZoneBase</a></li>
+<li><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystem.dynamic_models"><code class="name">prop <span class="ident">dynamic_models</span> : <a title="powfacpy.applications.subsystems.SubSystemDynamicModels" href="#powfacpy.applications.subsystems.SubSystemDynamicModels">SubSystemDynamicModels</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dynamic_models(self) -&gt; SubSystemDynamicModels:
+    if self._dynamic_models is None:
+        self._dynamic_models = SubSystemDynamicModels(self)
+    return self._dynamic_models</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystem.load_flow"><code class="name">prop <span class="ident">load_flow</span> : <a title="powfacpy.applications.subsystems.SubSystemLoadFlow" href="#powfacpy.applications.subsystems.SubSystemLoadFlow">SubSystemLoadFlow</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def load_flow(self) -&gt; SubSystemLoadFlow:
+    if self._load_flow is None:
+        self._load_flow = SubSystemLoadFlow(self)
+    return self._load_flow</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystem.name"><code class="name">prop <span class="ident">name</span> : str</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def name(self) -&gt; str:
+    return self._obj.loc_name</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystem.topology"><code class="name">prop <span class="ident">topology</span> : <a title="powfacpy.applications.subsystems.SubSystemTopology" href="#powfacpy.applications.subsystems.SubSystemTopology">SubSystemTopology</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def topology(self) -&gt; SubSystemTopology:
+    if self._topology is None:
+        self._topology = SubSystemTopology(self)
+    return self._topology</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystem.get_load_flow_state"><code class="name flex">
+<span>def <span class="ident">get_load_flow_state</span></span>(<span>self, execute_load_flow: bool = True, format: str | None = 'pandas') ‑> <a title="powfacpy.applications.subsystems.SubSystemLoadFlow" href="#powfacpy.applications.subsystems.SubSystemLoadFlow">SubSystemLoadFlow</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_load_flow_state(
+    self, execute_load_flow: bool = True, format: str | None = &#34;pandas&#34;
+) -&gt; SubSystemLoadFlow:
+    self._load_flow: SubSystemLoadFlow = SubSystemLoadFlow(self)
+    return self._load_flow.get_load_flow_state(
+        execute_load_flow=execute_load_flow, format=format
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="powfacpy.pf_classes.elm.zone.Zone" href="../pf_classes/elm/zone.html#powfacpy.pf_classes.elm.zone.Zone">Zone</a></b></code>:
+<ul class="hlist">
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.add_results_variable_for_elms" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms">add_results_variable_for_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.are_internal_elms_with_same_class" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class">are_internal_elms_with_same_class</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_all_groupings_of_same_type" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type">get_all_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_all_internal_elms" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms">get_all_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_all_powfacpy_groupings_of_same_type" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type">get_all_powfacpy_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_internal_elms" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms">get_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_phase_locked_loops" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops">get_phase_locked_loops</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.get_total_inertia_of_synchronous_machines_in_MWs" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs">get_total_inertia_of_synchronous_machines_in_MWs</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.load_flow_power_exchange_with_in_MVA" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_power_exchange_with_in_MVA">load_flow_power_exchange_with_in_MVA</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.merge" href="../pf_classes/elm/grouping_base.html#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.merge">merge</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.zone.Zone.show_zones_in_network_graphic" href="../pf_classes/elm/zone.html#powfacpy.pf_classes.elm.zone.ZoneStatic.show_zones_in_network_graphic">show_zones_in_network_graphic</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer"><code class="flex name class">
+<span>class <span class="ident">SubSystemContainer</span></span>
+<span>(</span><span>subsystems: list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>] | list[ElmZone],<br>pf_app=False,<br>cached=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystemContainer(ApplicationBase):
+    &#34;&#34;&#34;Container for multiple subsystems, e.g. to analyze the power exchange between them.&#34;&#34;&#34;
+
+    @property
+    def subsystems(self) -&gt; list[SubSystem]:
+        return self._subsystems
+
+    @property
+    def elm_zones(self) -&gt; list[ElmZone]:
+        # replace with pf grouping object
+        return [subs._obj for subs in self._subsystems]
+
+    @property
+    def names(self) -&gt; list[str]:
+        return [subs._obj.loc_name for subs in self._subsystems]
+
+    @property
+    def num_subsystems(self) -&gt; int:
+        return len(self._subsystems)
+
+    @property
+    def power_exchange(self) -&gt; pd.DataFrame:
+        if self._power_exchange is None:
+            self.get_power_exchange_in_MVA()
+        return self._power_exchange
+
+    @property
+    def total_power_loads(self) -&gt; np.ndarray:
+        return np.array([subs.total_power_loads for subs in self._subsystems])
+
+    @property
+    def total_power_generation(self) -&gt; np.ndarray:
+        return np.array([subs.total_power_generation for subs in self._subsystems])
+
+    def __init__(
+        self, subsystems: list[SubSystem] | list[ElmZone], pf_app=False, cached=False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+        if not isinstance(subsystems[0], SubSystem):
+            subsystems = [SubSystem(subsys) for subsys in subsystems]
+        self._subsystems = subsystems
+        self._power_exchange: pd.DataFrame | None = None
+        self._attributes_with_values_for_each_subsystem: list[str] = [&#34;_subsystems&#34;]
+        self._attributes_depending_on_all_subsystems: list[str] = [&#34;_power_exchange&#34;]
+
+    def __getitem__(self, key) -&gt; SubSystem:
+        return self._subsystems[key]
+
+    def __iter__(self) -&gt; Iterator[SubSystem]:
+        return iter(self._subsystems)
+
+    def __len__(self) -&gt; None:
+        return len(self._subsystems)
+
+    def delete_subsystem(self, subsystem: int | SubSystem) -&gt; None:
+        &#34;&#34;&#34;Delete subsystem from the container.
+
+        Ensure that all attributes of the container that depend on the subsystems are updated/reset accordingly (e.g. power exchange matrix, total loads/generation etc.).
+
+        Args:
+            subsystem (int | SubSystem): subsystem or its index in the container to be deleted
+        &#34;&#34;&#34;
+        subsystem = self._subsystem_input_to_index(subsystem)
+        for attr in self._attributes_with_values_for_each_subsystem:
+            val = self.__getattribute__(attr)
+            if val:
+                if isinstance(val, np.ndarray):
+                    val = np.delete(val, subsystem, axis=0)
+                else:
+                    del val[subsystem]
+                self.__setattr__(attr, val)
+        for attr in self._attributes_depending_on_all_subsystems:
+            self.__setattr__(attr, None)
+
+    def subsys_to_indices(self, subsys: list[SubSystem]) -&gt; list[int]:
+        &#34;&#34;&#34;Get indices of subsystems.
+
+        Args:
+            subsys (list[SubSystem]): subsystems
+
+        Returns:
+            list[int]: Indices
+        &#34;&#34;&#34;
+        return get_indices(subsys, self._subsystems)
+
+    def get_index_of_subsystem(self, subsys: SubSystem) -&gt; int:
+        return self._subsystems.index(subsys)
+
+    def get_power_exchange_in_MVA(
+        self,
+        execute_load_flow: bool = True,
+        format: str = &#34;dataframe&#34;,
+        value_no_exchange=np.nan + 0j,
+    ) -&gt; np.array | pd.DataFrame:
+        &#34;&#34;&#34;Get power exchange between subsystems in MVA.
+
+        Args:
+            execute_load_flow (bool, optional): If true, execute load flow first to ensure that results are present. Defaults to True.
+            format (str, optional): If &#34;dataframe&#34;, return a pandas DataFrame; otherwise, return a numpy array. Defaults to &#34;dataframe&#34;.
+            value_no_exchange (_type_, optional): The value to use for no exchange between subsystems that are not connected. Defaults to np.nan+0j.
+
+        Returns:
+            np.array | pd.DataFrame: power exchange.
+        &#34;&#34;&#34;
+        if execute_load_flow:
+            self.act_prj.execute_load_flow()
+        s_exchange = np.full(
+            (self.num_subsystems, self.num_subsystems), value_no_exchange
+        )
+        for m, z1 in enumerate(self.elm_zones):
+            for n, z2 in enumerate(self.elm_zones[m + 1 :]):
+                if z1.CalculateInterchangeTo(z2) &gt; 0:
+                    s_exchange[m, m + n + 1] = z1.GetAttribute(
+                        &#34;c:Pinter&#34;
+                    ) + 1j * z1.GetAttribute(&#34;c:Qinter&#34;)
+                    s_exchange[m + n + 1, m] = -s_exchange[m, m + n + 1]
+        labels = self.names
+        self._power_exchange = pd.DataFrame(s_exchange, index=labels, columns=labels)
+        self._attributes_depending_on_all_subsystems.append(&#34;_power_exchange&#34;)
+        if format == &#34;dataframe&#34;:
+            return self._power_exchange
+        else:
+            return s_exchange
+
+    def get_neighboring_subsystems_in_container(
+        self, subsystem: int | SubSystem | ElmZone
+    ) -&gt; list[SubSystem]:
+        &#34;&#34;&#34;Get neighbors of &#39;subsystem&#39; in container.
+
+        Args:
+            subsystem (int | SubSystem): subsystem or its index in the container for which the neighbors should be found.
+
+        Returns:
+            list[SubSystem]: List of neighboring subsystems.
+        &#34;&#34;&#34;
+        subsystem = self._handle_subsystem_input(subsystem)
+        self.act_prj.check_load_flow_results(when_invalid=&#34;execute&#34;)
+        return [
+            self._subsystems[n]
+            for n, subs in enumerate(self._subsystems)
+            if not subs == subsystem
+            and subsystem._obj.CalculateInterchangeTo(subs._obj) &gt; 0
+        ]
+
+    def get_load_flow_state(
+        self,
+        execute_load_flow: bool = True,
+    ) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Get load flow state of all subsystems in the container.
+
+         Args:
+            execute_load_flow (bool, optional): If true, execute load flow first to ensure that results are present. Defaults to True.
+
+        Returns:
+            pd.DataFrame: Load flow state of all subsystems in the container.
+        &#34;&#34;&#34;
+        if execute_load_flow:
+            self.act_prj.execute_load_flow()
+        return pd.concat(
+            [
+                subs.get_load_flow_state(execute_load_flow=False, format=&#34;pandas&#34;)
+                for subs in self._subsystems
+            ],
+            axis=0,
+        )
+
+    def _handle_subsystem_input(
+        self, subsystem: int | SubSystem | ElmZone
+    ) -&gt; SubSystem:
+        if not isinstance(subsystem, SubSystem):
+            if isinstance(subsystem, int):
+                subsystem = self._subsystems[subsystem]
+            else:
+                subsystem = SubSystem(subsystem)
+        return subsystem
+
+    def _subsystem_input_to_index(self, subsystem: int | SubSystem) -&gt; int:
+        &#34;&#34;&#34;Get index of subsystem.
+
+        Args:
+            subsystem (int | SubSystem): Subsystem or its index in the container. If the index is provided, it is returned as is; if the subsystem is provided, its index in the container is returned.
+
+        Returns:
+            int: Index of the subsystem in the container.
+        &#34;&#34;&#34;
+        if isinstance(subsystem, SubSystem):
+            subsystem = self._subsystems.index(subsystem)
+        return subsystem</code></pre>
+</details>
+<div class="desc"><p>Container for multiple subsystems, e.g. to analyze the power exchange between them.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.elm_zones"><code class="name">prop <span class="ident">elm_zones</span> : list[ElmZone]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def elm_zones(self) -&gt; list[ElmZone]:
+    # replace with pf grouping object
+    return [subs._obj for subs in self._subsystems]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.names"><code class="name">prop <span class="ident">names</span> : list[str]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def names(self) -&gt; list[str]:
+    return [subs._obj.loc_name for subs in self._subsystems]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.num_subsystems"><code class="name">prop <span class="ident">num_subsystems</span> : int</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def num_subsystems(self) -&gt; int:
+    return len(self._subsystems)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.power_exchange"><code class="name">prop <span class="ident">power_exchange</span> : pd.DataFrame</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def power_exchange(self) -&gt; pd.DataFrame:
+    if self._power_exchange is None:
+        self.get_power_exchange_in_MVA()
+    return self._power_exchange</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.subsystems"><code class="name">prop <span class="ident">subsystems</span> : list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def subsystems(self) -&gt; list[SubSystem]:
+    return self._subsystems</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.total_power_generation"><code class="name">prop <span class="ident">total_power_generation</span> : np.ndarray</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def total_power_generation(self) -&gt; np.ndarray:
+    return np.array([subs.total_power_generation for subs in self._subsystems])</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.total_power_loads"><code class="name">prop <span class="ident">total_power_loads</span> : np.ndarray</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def total_power_loads(self) -&gt; np.ndarray:
+    return np.array([subs.total_power_loads for subs in self._subsystems])</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.delete_subsystem"><code class="name flex">
+<span>def <span class="ident">delete_subsystem</span></span>(<span>self,<br>subsystem: int | <a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_subsystem(self, subsystem: int | SubSystem) -&gt; None:
+    &#34;&#34;&#34;Delete subsystem from the container.
+
+    Ensure that all attributes of the container that depend on the subsystems are updated/reset accordingly (e.g. power exchange matrix, total loads/generation etc.).
+
+    Args:
+        subsystem (int | SubSystem): subsystem or its index in the container to be deleted
+    &#34;&#34;&#34;
+    subsystem = self._subsystem_input_to_index(subsystem)
+    for attr in self._attributes_with_values_for_each_subsystem:
+        val = self.__getattribute__(attr)
+        if val:
+            if isinstance(val, np.ndarray):
+                val = np.delete(val, subsystem, axis=0)
+            else:
+                del val[subsystem]
+            self.__setattr__(attr, val)
+    for attr in self._attributes_depending_on_all_subsystems:
+        self.__setattr__(attr, None)</code></pre>
+</details>
+<div class="desc"><p>Delete subsystem from the container.</p>
+<p>Ensure that all attributes of the container that depend on the subsystems are updated/reset accordingly (e.g. power exchange matrix, total loads/generation etc.).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>subsystem</code></strong> :&ensp;<code>int | SubSystem</code></dt>
+<dd>subsystem or its index in the container to be deleted</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.get_index_of_subsystem"><code class="name flex">
+<span>def <span class="ident">get_index_of_subsystem</span></span>(<span>self,<br>subsys: <a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_index_of_subsystem(self, subsys: SubSystem) -&gt; int:
+    return self._subsystems.index(subsys)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.get_load_flow_state"><code class="name flex">
+<span>def <span class="ident">get_load_flow_state</span></span>(<span>self, execute_load_flow: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_load_flow_state(
+    self,
+    execute_load_flow: bool = True,
+) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Get load flow state of all subsystems in the container.
+
+     Args:
+        execute_load_flow (bool, optional): If true, execute load flow first to ensure that results are present. Defaults to True.
+
+    Returns:
+        pd.DataFrame: Load flow state of all subsystems in the container.
+    &#34;&#34;&#34;
+    if execute_load_flow:
+        self.act_prj.execute_load_flow()
+    return pd.concat(
+        [
+            subs.get_load_flow_state(execute_load_flow=False, format=&#34;pandas&#34;)
+            for subs in self._subsystems
+        ],
+        axis=0,
+    )</code></pre>
+</details>
+<div class="desc"><p>Get load flow state of all subsystems in the container.</p>
+<p>Args:
+execute_load_flow (bool, optional): If true, execute load flow first to ensure that results are present. Defaults to True.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Load flow state of all subsystems in the container.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.get_neighboring_subsystems_in_container"><code class="name flex">
+<span>def <span class="ident">get_neighboring_subsystems_in_container</span></span>(<span>self,<br>subsystem: int | <a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a> | ElmZone) ‑> list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_neighboring_subsystems_in_container(
+    self, subsystem: int | SubSystem | ElmZone
+) -&gt; list[SubSystem]:
+    &#34;&#34;&#34;Get neighbors of &#39;subsystem&#39; in container.
+
+    Args:
+        subsystem (int | SubSystem): subsystem or its index in the container for which the neighbors should be found.
+
+    Returns:
+        list[SubSystem]: List of neighboring subsystems.
+    &#34;&#34;&#34;
+    subsystem = self._handle_subsystem_input(subsystem)
+    self.act_prj.check_load_flow_results(when_invalid=&#34;execute&#34;)
+    return [
+        self._subsystems[n]
+        for n, subs in enumerate(self._subsystems)
+        if not subs == subsystem
+        and subsystem._obj.CalculateInterchangeTo(subs._obj) &gt; 0
+    ]</code></pre>
+</details>
+<div class="desc"><p>Get neighbors of 'subsystem' in container.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>subsystem</code></strong> :&ensp;<code>int | SubSystem</code></dt>
+<dd>subsystem or its index in the container for which the neighbors should be found.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>]</code></dt>
+<dd>List of neighboring subsystems.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.get_power_exchange_in_MVA"><code class="name flex">
+<span>def <span class="ident">get_power_exchange_in_MVA</span></span>(<span>self,<br>execute_load_flow: bool = True,<br>format: str = 'dataframe',<br>value_no_exchange=(nan+0j)) ‑> np.array | pd.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_power_exchange_in_MVA(
+    self,
+    execute_load_flow: bool = True,
+    format: str = &#34;dataframe&#34;,
+    value_no_exchange=np.nan + 0j,
+) -&gt; np.array | pd.DataFrame:
+    &#34;&#34;&#34;Get power exchange between subsystems in MVA.
+
+    Args:
+        execute_load_flow (bool, optional): If true, execute load flow first to ensure that results are present. Defaults to True.
+        format (str, optional): If &#34;dataframe&#34;, return a pandas DataFrame; otherwise, return a numpy array. Defaults to &#34;dataframe&#34;.
+        value_no_exchange (_type_, optional): The value to use for no exchange between subsystems that are not connected. Defaults to np.nan+0j.
+
+    Returns:
+        np.array | pd.DataFrame: power exchange.
+    &#34;&#34;&#34;
+    if execute_load_flow:
+        self.act_prj.execute_load_flow()
+    s_exchange = np.full(
+        (self.num_subsystems, self.num_subsystems), value_no_exchange
+    )
+    for m, z1 in enumerate(self.elm_zones):
+        for n, z2 in enumerate(self.elm_zones[m + 1 :]):
+            if z1.CalculateInterchangeTo(z2) &gt; 0:
+                s_exchange[m, m + n + 1] = z1.GetAttribute(
+                    &#34;c:Pinter&#34;
+                ) + 1j * z1.GetAttribute(&#34;c:Qinter&#34;)
+                s_exchange[m + n + 1, m] = -s_exchange[m, m + n + 1]
+    labels = self.names
+    self._power_exchange = pd.DataFrame(s_exchange, index=labels, columns=labels)
+    self._attributes_depending_on_all_subsystems.append(&#34;_power_exchange&#34;)
+    if format == &#34;dataframe&#34;:
+        return self._power_exchange
+    else:
+        return s_exchange</code></pre>
+</details>
+<div class="desc"><p>Get power exchange between subsystems in MVA.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>execute_load_flow</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If true, execute load flow first to ensure that results are present. Defaults to True.</dd>
+<dt><strong><code>format</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>If "dataframe", return a pandas DataFrame; otherwise, return a numpy array. Defaults to "dataframe".</dd>
+<dt><strong><code>value_no_exchange</code></strong> :&ensp;<code>_type_</code>, optional</dt>
+<dd>The value to use for no exchange between subsystems that are not connected. Defaults to np.nan+0j.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.array | pd.DataFrame</code></dt>
+<dd>power exchange.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemContainer.subsys_to_indices"><code class="name flex">
+<span>def <span class="ident">subsys_to_indices</span></span>(<span>self,<br>subsys: list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>]) ‑> list[int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def subsys_to_indices(self, subsys: list[SubSystem]) -&gt; list[int]:
+    &#34;&#34;&#34;Get indices of subsystems.
+
+    Args:
+        subsys (list[SubSystem]): subsystems
+
+    Returns:
+        list[int]: Indices
+    &#34;&#34;&#34;
+    return get_indices(subsys, self._subsystems)</code></pre>
+</details>
+<div class="desc"><p>Get indices of subsystems.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>subsys</code></strong> :&ensp;<code>list[<a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>]</code></dt>
+<dd>subsystems</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[int]</code></dt>
+<dd>Indices</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemDynamicModels"><code class="flex name class">
+<span>class <span class="ident">SubSystemDynamicModels</span></span>
+<span>(</span><span>parent: Subsystem)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystemDynamicModels:
+    &#34;&#34;&#34;Subsystem dynamic models (e.g. synchronous machines, governors, controllers).&#34;&#34;&#34;
+
+    @cached_property
+    def synchronous_machines(self) -&gt; SubSystemTopology:
+        if self._synchronous_machines is None:
+            self._synchronous_machines = SubSystemSynchronousMachines(self)
+        return self._synchronous_machines
+
+    def __init__(self, parent: Subsystem) -&gt; None:
+        self.parent = parent
+        self._synchronous_machines: SubSystemSynchronousMachines | None = None</code></pre>
+</details>
+<div class="desc"><p>Subsystem dynamic models (e.g. synchronous machines, governors, controllers).</p></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemDynamicModels.synchronous_machines"><code class="name">var <span class="ident">synchronous_machines</span> : <a title="powfacpy.applications.subsystems.SubSystemTopology" href="#powfacpy.applications.subsystems.SubSystemTopology">SubSystemTopology</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def synchronous_machines(self) -&gt; SubSystemTopology:
+    if self._synchronous_machines is None:
+        self._synchronous_machines = SubSystemSynchronousMachines(self)
+    return self._synchronous_machines</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemLoadFlow"><code class="flex name class">
+<span>class <span class="ident">SubSystemLoadFlow</span></span>
+<span>(</span><span>parent: Subsystem)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystemLoadFlow:
+    &#34;&#34;&#34;Load (power) flow properties of subsystem.&#34;&#34;&#34;
+
+    def __init__(self, parent: Subsystem) -&gt; None:
+        self.parent = parent
+        self.total_power_loads: complex
+        self.total_power_generation: complex
+        self.total_power_exchange: complex
+
+    def get_load_flow_state(
+        self, execute_load_flow: bool = True, format: str | None = &#34;pandas&#34;
+    ) -&gt; None:
+        &#34;&#34;&#34;Get load flow results of subsystem.
+
+        Includes total load/generation, power exchange etc.
+
+        Args:
+            execute_load_flow (bool, optional): _description_. Defaults to True.
+            format (str | None, optional): Format of the returned results. Options are &#39;pandas&#39;, &#39;dict&#39; or None. Defaults to &#34;pandas&#34;.
+        &#34;&#34;&#34;
+        if execute_load_flow:
+            self.parent.act_prj.execute_load_flow()
+        self.total_power_loads = self.parent.load_flow_total_power_loads_in_MVA()
+        self.total_power_generation = (
+            self.parent.load_flow_total_power_generation_in_MVA()
+        )
+        self.total_power_exchange = self.parent.load_flow_total_power_exchange_in_MVA()
+        if format is None:
+            return None
+        elif format == &#34;pandas&#34;:
+            return pd.DataFrame(
+                {
+                    &#34;total_power_loads&#34;: self.total_power_loads,
+                    &#34;total_power_generation&#34;: self.total_power_generation,
+                    &#34;total_power_exchange&#34;: self.total_power_exchange,
+                },
+                index=[self.parent.name],
+            )
+        elif format == &#34;dict&#34;:
+            return {
+                &#34;total_power_loads&#34;: self.total_power_loads,
+                &#34;total_power_generation&#34;: self.total_power_generation,
+                &#34;total_power_exchange&#34;: self.total_power_exchange,
+            }</code></pre>
+</details>
+<div class="desc"><p>Load (power) flow properties of subsystem.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemLoadFlow.get_load_flow_state"><code class="name flex">
+<span>def <span class="ident">get_load_flow_state</span></span>(<span>self, execute_load_flow: bool = True, format: str | None = 'pandas') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_load_flow_state(
+    self, execute_load_flow: bool = True, format: str | None = &#34;pandas&#34;
+) -&gt; None:
+    &#34;&#34;&#34;Get load flow results of subsystem.
+
+    Includes total load/generation, power exchange etc.
+
+    Args:
+        execute_load_flow (bool, optional): _description_. Defaults to True.
+        format (str | None, optional): Format of the returned results. Options are &#39;pandas&#39;, &#39;dict&#39; or None. Defaults to &#34;pandas&#34;.
+    &#34;&#34;&#34;
+    if execute_load_flow:
+        self.parent.act_prj.execute_load_flow()
+    self.total_power_loads = self.parent.load_flow_total_power_loads_in_MVA()
+    self.total_power_generation = (
+        self.parent.load_flow_total_power_generation_in_MVA()
+    )
+    self.total_power_exchange = self.parent.load_flow_total_power_exchange_in_MVA()
+    if format is None:
+        return None
+    elif format == &#34;pandas&#34;:
+        return pd.DataFrame(
+            {
+                &#34;total_power_loads&#34;: self.total_power_loads,
+                &#34;total_power_generation&#34;: self.total_power_generation,
+                &#34;total_power_exchange&#34;: self.total_power_exchange,
+            },
+            index=[self.parent.name],
+        )
+    elif format == &#34;dict&#34;:
+        return {
+            &#34;total_power_loads&#34;: self.total_power_loads,
+            &#34;total_power_generation&#34;: self.total_power_generation,
+            &#34;total_power_exchange&#34;: self.total_power_exchange,
+        }</code></pre>
+</details>
+<div class="desc"><p>Get load flow results of subsystem.</p>
+<p>Includes total load/generation, power exchange etc.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>execute_load_flow</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd><em>description</em>. Defaults to True.</dd>
+<dt><strong><code>format</code></strong> :&ensp;<code>str | None</code>, optional</dt>
+<dd>Format of the returned results. Options are 'pandas', 'dict' or None. Defaults to "pandas".</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines"><code class="flex name class">
+<span>class <span class="ident">SubSystemSynchronousMachines</span></span>
+<span>(</span><span>parent: Subsystem)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystemSynchronousMachines:
+    &#34;&#34;&#34;Synchronnous machines and their controllers in the subsystem.&#34;&#34;&#34;
+
+    @cached_property
+    def root_subsystem(self) -&gt; list[ElmTerm]:
+        return self.parent.parent
+
+    @cached_property
+    def synchronous_machines(self) -&gt; list[ElmTerm]:
+        return self.root_subsystem.get_internal_elms_of_class(&#34;ElmSym&#34;)
+
+    @cached_property
+    def synchronous_machines_powfacpy(self) -&gt; list[SynchronousMachine]:
+        &#34;&#34;&#34;Get synchronous machines as powfacpy objects.&#34;&#34;&#34;
+        return [SynchronousMachine(sm) for sm in self.synchronous_machines]
+
+    @cached_property
+    def governors(self) -&gt; list[ElmTerm]:
+        &#34;&#34;&#34;Get governors&#34;&#34;&#34;
+        return [
+            sm.get_governor(error_if_non_existent=False)
+            for sm in self.synchronous_machines_powfacpy
+        ]
+
+    @cached_property
+    def avrs(self) -&gt; list[ElmTerm]:
+        &#34;&#34;&#34;Get automatic voltage regulators (AVR)&#34;&#34;&#34;
+        return [
+            sm.get_avr(error_if_non_existent=False)
+            for sm in self.synchronous_machines_powfacpy
+        ]
+
+    @cached_property
+    def pss(self) -&gt; list[ElmDsl]:
+        &#34;&#34;&#34;Get power system stabilizers (PSS)&#34;&#34;&#34;
+        return [
+            sm.get_pss(error_if_non_existent=False)
+            for sm in self.synchronous_machines_powfacpy
+        ]
+
+    def __init__(self, parent: Subsystem) -&gt; None:
+        self.parent = parent
+
+    def get_governor_info(
+        self,
+        average: str | None = &#34;apparent_power_weighted&#34;,
+    ) -&gt; None:
+        return get_dsl_models_info_sorted_by_block_definition(
+            self.governors,
+            parent_elms=self.synchronous_machines,
+            average=average,
+        )
+
+    def get_avr_info(
+        self,
+        average: str | None = &#34;apparent_power_weighted&#34;,
+    ) -&gt; None:
+        return get_dsl_models_info_sorted_by_block_definition(
+            self.avrs,
+            parent_elms=self.synchronous_machines,
+            average=average,
+        )
+
+    def get_pss_info(
+        self,
+        average: str | None = &#34;apparent_power_weighted&#34;,
+    ) -&gt; None:
+        return get_dsl_models_info_sorted_by_block_definition(
+            self.pss,
+            parent_elms=self.synchronous_machines,
+            average=average,
+        )</code></pre>
+</details>
+<div class="desc"><p>Synchronnous machines and their controllers in the subsystem.</p></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.avrs"><code class="name">var <span class="ident">avrs</span> : list[ElmTerm]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def avrs(self) -&gt; list[ElmTerm]:
+    &#34;&#34;&#34;Get automatic voltage regulators (AVR)&#34;&#34;&#34;
+    return [
+        sm.get_avr(error_if_non_existent=False)
+        for sm in self.synchronous_machines_powfacpy
+    ]</code></pre>
+</details>
+<div class="desc"><p>Get automatic voltage regulators (AVR)</p></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.governors"><code class="name">var <span class="ident">governors</span> : list[ElmTerm]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def governors(self) -&gt; list[ElmTerm]:
+    &#34;&#34;&#34;Get governors&#34;&#34;&#34;
+    return [
+        sm.get_governor(error_if_non_existent=False)
+        for sm in self.synchronous_machines_powfacpy
+    ]</code></pre>
+</details>
+<div class="desc"><p>Get governors</p></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.pss"><code class="name">var <span class="ident">pss</span> : list[ElmDsl]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def pss(self) -&gt; list[ElmDsl]:
+    &#34;&#34;&#34;Get power system stabilizers (PSS)&#34;&#34;&#34;
+    return [
+        sm.get_pss(error_if_non_existent=False)
+        for sm in self.synchronous_machines_powfacpy
+    ]</code></pre>
+</details>
+<div class="desc"><p>Get power system stabilizers (PSS)</p></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.root_subsystem"><code class="name">var <span class="ident">root_subsystem</span> : list[ElmTerm]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def root_subsystem(self) -&gt; list[ElmTerm]:
+    return self.parent.parent</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines"><code class="name">var <span class="ident">synchronous_machines</span> : list[ElmTerm]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def synchronous_machines(self) -&gt; list[ElmTerm]:
+    return self.root_subsystem.get_internal_elms_of_class(&#34;ElmSym&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines_powfacpy"><code class="name">var <span class="ident">synchronous_machines_powfacpy</span> : list[SynchronousMachine]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def synchronous_machines_powfacpy(self) -&gt; list[SynchronousMachine]:
+    &#34;&#34;&#34;Get synchronous machines as powfacpy objects.&#34;&#34;&#34;
+    return [SynchronousMachine(sm) for sm in self.synchronous_machines]</code></pre>
+</details>
+<div class="desc"><p>Get synchronous machines as powfacpy objects.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_avr_info"><code class="name flex">
+<span>def <span class="ident">get_avr_info</span></span>(<span>self, average: str | None = 'apparent_power_weighted') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_avr_info(
+    self,
+    average: str | None = &#34;apparent_power_weighted&#34;,
+) -&gt; None:
+    return get_dsl_models_info_sorted_by_block_definition(
+        self.avrs,
+        parent_elms=self.synchronous_machines,
+        average=average,
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_governor_info"><code class="name flex">
+<span>def <span class="ident">get_governor_info</span></span>(<span>self, average: str | None = 'apparent_power_weighted') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_governor_info(
+    self,
+    average: str | None = &#34;apparent_power_weighted&#34;,
+) -&gt; None:
+    return get_dsl_models_info_sorted_by_block_definition(
+        self.governors,
+        parent_elms=self.synchronous_machines,
+        average=average,
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_pss_info"><code class="name flex">
+<span>def <span class="ident">get_pss_info</span></span>(<span>self, average: str | None = 'apparent_power_weighted') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_pss_info(
+    self,
+    average: str | None = &#34;apparent_power_weighted&#34;,
+) -&gt; None:
+    return get_dsl_models_info_sorted_by_block_definition(
+        self.pss,
+        parent_elms=self.synchronous_machines,
+        average=average,
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemTopology"><code class="flex name class">
+<span>class <span class="ident">SubSystemTopology</span></span>
+<span>(</span><span>parent: Subsystem)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SubSystemTopology:
+
+    @cached_property
+    def terminals(self) -&gt; list[ElmTerm]:
+        return self.parent.get_internal_elms_of_class(&#34;ElmTerm&#34;)
+
+    @cached_property
+    def lines(self) -&gt; list[ElmLne]:
+        return self.parent.get_internal_elms_of_class(&#34;ElmLne&#34;)
+
+    def __init__(self, parent: Subsystem) -&gt; None:
+        self.parent = parent
+
+    def get_indices_of_terminals(self, terminals_superset: list[ElmTerm]) -&gt; list[int]:
+        &#34;&#34;&#34;Get indices of the terminals inside the subsystem in a terminal superset (e.g. all terminals of the whole system).
+
+        Args:
+            terminals_superset (list[ElmTerm]): Superset of terminals
+
+        Returns:
+            list[int]: list of indices of the terminals inside the subsystem in the terminal superset
+        &#34;&#34;&#34;
+        return get_indices(self.terminals, terminals_superset)
+
+    def is_neighbor(self, grouping: ElmAreaOrZone | AreaOrZone | SubSystem) -&gt; bool:
+        &#34;&#34;&#34;Check if another subsystem/grouping is physically connected to this subsystem (by calculating the power exchange).
+
+        Args:
+            grouping (ElmAreaOrZone | AreaOrZone | Subsystem): Potential neighboring subsystem/grouping
+
+        Returns:
+            bool: true if the other subsystem/grouping is a neighbor, false otherwise
+        &#34;&#34;&#34;
+        if isinstance(grouping, SubSystem):
+            grouping = grouping._obj
+        return self.parent.is_neighbor(grouping)</code></pre>
+</details>
+<div class="desc"></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemTopology.lines"><code class="name">var <span class="ident">lines</span> : list[ElmLne]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def lines(self) -&gt; list[ElmLne]:
+    return self.parent.get_internal_elms_of_class(&#34;ElmLne&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemTopology.terminals"><code class="name">var <span class="ident">terminals</span> : list[ElmTerm]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@cached_property
+def terminals(self) -&gt; list[ElmTerm]:
+    return self.parent.get_internal_elms_of_class(&#34;ElmTerm&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.subsystems.SubSystemTopology.get_indices_of_terminals"><code class="name flex">
+<span>def <span class="ident">get_indices_of_terminals</span></span>(<span>self, terminals_superset: list[ElmTerm]) ‑> list[int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_indices_of_terminals(self, terminals_superset: list[ElmTerm]) -&gt; list[int]:
+    &#34;&#34;&#34;Get indices of the terminals inside the subsystem in a terminal superset (e.g. all terminals of the whole system).
+
+    Args:
+        terminals_superset (list[ElmTerm]): Superset of terminals
+
+    Returns:
+        list[int]: list of indices of the terminals inside the subsystem in the terminal superset
+    &#34;&#34;&#34;
+    return get_indices(self.terminals, terminals_superset)</code></pre>
+</details>
+<div class="desc"><p>Get indices of the terminals inside the subsystem in a terminal superset (e.g. all terminals of the whole system).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>terminals_superset</code></strong> :&ensp;<code>list[ElmTerm]</code></dt>
+<dd>Superset of terminals</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[int]</code></dt>
+<dd>list of indices of the terminals inside the subsystem in the terminal superset</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.subsystems.SubSystemTopology.is_neighbor"><code class="name flex">
+<span>def <span class="ident">is_neighbor</span></span>(<span>self,<br>grouping: ElmAreaOrZone | AreaOrZone | <a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a>) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_neighbor(self, grouping: ElmAreaOrZone | AreaOrZone | SubSystem) -&gt; bool:
+    &#34;&#34;&#34;Check if another subsystem/grouping is physically connected to this subsystem (by calculating the power exchange).
+
+    Args:
+        grouping (ElmAreaOrZone | AreaOrZone | Subsystem): Potential neighboring subsystem/grouping
+
+    Returns:
+        bool: true if the other subsystem/grouping is a neighbor, false otherwise
+    &#34;&#34;&#34;
+    if isinstance(grouping, SubSystem):
+        grouping = grouping._obj
+    return self.parent.is_neighbor(grouping)</code></pre>
+</details>
+<div class="desc"><p>Check if another subsystem/grouping is physically connected to this subsystem (by calculating the power exchange).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>grouping</code></strong> :&ensp;<code>ElmAreaOrZone | AreaOrZone | Subsystem</code></dt>
+<dd>Potential neighboring subsystem/grouping</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>true if the other subsystem/grouping is a neighbor, false otherwise</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystem" href="#powfacpy.applications.subsystems.SubSystem">SubSystem</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystem.dynamic_models" href="#powfacpy.applications.subsystems.SubSystem.dynamic_models">dynamic_models</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystem.get_load_flow_state" href="#powfacpy.applications.subsystems.SubSystem.get_load_flow_state">get_load_flow_state</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystem.load_flow" href="#powfacpy.applications.subsystems.SubSystem.load_flow">load_flow</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystem.name" href="#powfacpy.applications.subsystems.SubSystem.name">name</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystem.topology" href="#powfacpy.applications.subsystems.SubSystem.topology">topology</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystemContainer" href="#powfacpy.applications.subsystems.SubSystemContainer">SubSystemContainer</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.delete_subsystem" href="#powfacpy.applications.subsystems.SubSystemContainer.delete_subsystem">delete_subsystem</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.elm_zones" href="#powfacpy.applications.subsystems.SubSystemContainer.elm_zones">elm_zones</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.get_index_of_subsystem" href="#powfacpy.applications.subsystems.SubSystemContainer.get_index_of_subsystem">get_index_of_subsystem</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.get_load_flow_state" href="#powfacpy.applications.subsystems.SubSystemContainer.get_load_flow_state">get_load_flow_state</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.get_neighboring_subsystems_in_container" href="#powfacpy.applications.subsystems.SubSystemContainer.get_neighboring_subsystems_in_container">get_neighboring_subsystems_in_container</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.get_power_exchange_in_MVA" href="#powfacpy.applications.subsystems.SubSystemContainer.get_power_exchange_in_MVA">get_power_exchange_in_MVA</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.names" href="#powfacpy.applications.subsystems.SubSystemContainer.names">names</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.num_subsystems" href="#powfacpy.applications.subsystems.SubSystemContainer.num_subsystems">num_subsystems</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.power_exchange" href="#powfacpy.applications.subsystems.SubSystemContainer.power_exchange">power_exchange</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.subsys_to_indices" href="#powfacpy.applications.subsystems.SubSystemContainer.subsys_to_indices">subsys_to_indices</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.subsystems" href="#powfacpy.applications.subsystems.SubSystemContainer.subsystems">subsystems</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.total_power_generation" href="#powfacpy.applications.subsystems.SubSystemContainer.total_power_generation">total_power_generation</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemContainer.total_power_loads" href="#powfacpy.applications.subsystems.SubSystemContainer.total_power_loads">total_power_loads</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystemDynamicModels" href="#powfacpy.applications.subsystems.SubSystemDynamicModels">SubSystemDynamicModels</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystemDynamicModels.synchronous_machines" href="#powfacpy.applications.subsystems.SubSystemDynamicModels.synchronous_machines">synchronous_machines</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystemLoadFlow" href="#powfacpy.applications.subsystems.SubSystemLoadFlow">SubSystemLoadFlow</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystemLoadFlow.get_load_flow_state" href="#powfacpy.applications.subsystems.SubSystemLoadFlow.get_load_flow_state">get_load_flow_state</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines">SubSystemSynchronousMachines</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.avrs" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.avrs">avrs</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_avr_info" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_avr_info">get_avr_info</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_governor_info" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_governor_info">get_governor_info</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_pss_info" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.get_pss_info">get_pss_info</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.governors" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.governors">governors</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.pss" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.pss">pss</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.root_subsystem" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.root_subsystem">root_subsystem</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines">synchronous_machines</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines_powfacpy" href="#powfacpy.applications.subsystems.SubSystemSynchronousMachines.synchronous_machines_powfacpy">synchronous_machines_powfacpy</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.applications.subsystems.SubSystemTopology" href="#powfacpy.applications.subsystems.SubSystemTopology">SubSystemTopology</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.subsystems.SubSystemTopology.get_indices_of_terminals" href="#powfacpy.applications.subsystems.SubSystemTopology.get_indices_of_terminals">get_indices_of_terminals</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemTopology.is_neighbor" href="#powfacpy.applications.subsystems.SubSystemTopology.is_neighbor">is_neighbor</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemTopology.lines" href="#powfacpy.applications.subsystems.SubSystemTopology.lines">lines</a></code></li>
+<li><code><a title="powfacpy.applications.subsystems.SubSystemTopology.terminals" href="#powfacpy.applications.subsystems.SubSystemTopology.terminals">terminals</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

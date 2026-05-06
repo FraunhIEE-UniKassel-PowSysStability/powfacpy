@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_classes.elm.grouping_base API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_classes.elm.grouping_base</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase"><code class="flex name class">
+<span>class <span class="ident">AreaZoneBase</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AreaZoneBase(GroupingBase):
+    &#34;&#34;&#34;Abstract base class for Areas and Zones. Those classes basically offer the same functionality ibn PF.&#34;&#34;&#34;
+
+    @property
+    def total_power_loads(self) -&gt; complex:
+        return self._obj.GetAttribute(&#34;c:LoadP&#34;) + 1j * self._obj.GetAttribute(
+            &#34;c:LoadQ&#34;
+        )
+
+    def is_neighbor(self, grouping: AreaOrZone | ElmAreaOrZone) -&gt; bool:
+        grouping = self._get_elm_input(grouping)
+        interchange_flag = self._obj.CalculateInterchangeTo(grouping)
+        if interchange_flag &gt; 0:
+            return True
+        elif interchange_flag == 0:
+            return False
+        elif self._obj == grouping:
+            raise ValueError(
+                f&#34;Potential neighbor is equal to grouping (&#39;{self._obj.loc_name}&#39;)&#34;
+            )
+        else:
+            raise PFInvalidLoadFlow()
+
+    def get_neighbors(
+        self, groupings: list[AreaZoneBase] | list[ElmAreaOrZone] | None = None
+    ) -&gt; list[AreaZoneBase] | list[ElmAreaOrZone]:
+        if groupings is None:
+            groupings = self.get_all_groupings_of_same_type()
+        groupings = [self._get_elm_input(g) for g in groupings]
+        return [g for g in groupings if not g == self._obj and self.is_neighbor(g)]
+
+    # Load flow
+    def load_flow_power_exchange_with_in_MVA(
+        self, grouping: ElmAreaOrZone | AreaOrZone, return_value_no_exchange=np.nan
+    ) -&gt; complex:
+        &#34;&#34;&#34;Get load flow apparent power exchange (in MVA) with other grouping.
+
+        Args:
+            grouping (ElmAreaOrZone | AreaOrZone): other grouping
+            return_value_no_exchange (_type_, optional): return value when there is no connection. Defaults to np.nan.
+
+        Returns:
+            complex: load flow apparent power exchange (in MVA) if connected
+        &#34;&#34;&#34;
+        grouping = self._get_elm_input(grouping)
+        interchange_flag = self._obj.CalculateInterchangeTo(grouping)
+        if interchange_flag &gt; 0:
+            return self._obj.GetAttribute(&#34;c:Pinter&#34;) + 1j * self._obj.GetAttribute(
+                &#34;c:Qinter&#34;
+            )
+        elif interchange_flag == 0:
+            return return_value_no_exchange
+        else:
+            raise PFInvalidLoadFlow()
+
+    def load_flow_total_power_loads_in_MVA(self) -&gt; complex:
+        try:
+            return self._obj.GetAttribute(
+                LF.ElmZone.c_TotLoadP.value
+            ) + 1j * self._obj.GetAttribute(LF.ElmZone.c_TotLoadQ.value)
+        except AttributeError:
+            raise PFInvalidLoadFlow()
+
+    def load_flow_total_power_generation_in_MVA(self) -&gt; complex:
+        try:
+            return self._obj.GetAttribute(
+                LF.ElmZone.c_TotgenP.value
+            ) + 1j * self._obj.GetAttribute(LF.ElmZone.c_TotgenQ.value)
+        except AttributeError:
+            raise PFInvalidLoadFlow()
+
+    @abstractmethod
+    def _get_elm_input(self, input: AreaOrZone | ElmAreaOrZone) -&gt; ElmAreaOrZone:
+        &#34;&#34;&#34;Handle Zone/Area or ElmZone/ElmAre input and always return ElmZone/ElmArea.&#34;&#34;&#34;
+        pass
+
+    @abstractmethod
+    def _get_powfacpy_obj_input(self, input: AreaOrZone | ElmAreaOrZone) -&gt; AreaOrZone:
+        &#34;&#34;&#34;Handle Zone/Area or ElmZone/ElmAre input and always return Zone/Area.&#34;&#34;&#34;
+        pass
+
+    @abstractmethod
+    def merge(self, grouping_to_merge: GroupingBase) -&gt; ElmAreaOrZone:
+        &#34;&#34;&#34;Merge another grouping of same type into current grouping. The other grouping is deleted after merging.
+
+        Args:
+            grouping_to_merge (GroupingBase): grouping to merge (must be of same type as self)
+
+        Returns:
+            ElmAreaOrZone: merged grouping (as ElmArea or ElmZone)
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<div class="desc"><p>Abstract base class for Areas and Zones. Those classes basically offer the same functionality ibn PF.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.area.AreaStatic" href="area.html#powfacpy.pf_classes.elm.area.AreaStatic">AreaStatic</a></li>
+<li><a title="powfacpy.pf_classes.elm.zone.ZoneStatic" href="zone.html#powfacpy.pf_classes.elm.zone.ZoneStatic">ZoneStatic</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.total_power_loads"><code class="name">prop <span class="ident">total_power_loads</span> : complex</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def total_power_loads(self) -&gt; complex:
+    return self._obj.GetAttribute(&#34;c:LoadP&#34;) + 1j * self._obj.GetAttribute(
+        &#34;c:LoadQ&#34;
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.get_neighbors"><code class="name flex">
+<span>def <span class="ident">get_neighbors</span></span>(<span>self,<br>groupings: list[<a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase">AreaZoneBase</a>] | list[ElmAreaOrZone] | None = None) ‑> list[<a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase">AreaZoneBase</a>] | list[ElmAreaOrZone]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_neighbors(
+    self, groupings: list[AreaZoneBase] | list[ElmAreaOrZone] | None = None
+) -&gt; list[AreaZoneBase] | list[ElmAreaOrZone]:
+    if groupings is None:
+        groupings = self.get_all_groupings_of_same_type()
+    groupings = [self._get_elm_input(g) for g in groupings]
+    return [g for g in groupings if not g == self._obj and self.is_neighbor(g)]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.is_neighbor"><code class="name flex">
+<span>def <span class="ident">is_neighbor</span></span>(<span>self, grouping: AreaOrZone | ElmAreaOrZone) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_neighbor(self, grouping: AreaOrZone | ElmAreaOrZone) -&gt; bool:
+    grouping = self._get_elm_input(grouping)
+    interchange_flag = self._obj.CalculateInterchangeTo(grouping)
+    if interchange_flag &gt; 0:
+        return True
+    elif interchange_flag == 0:
+        return False
+    elif self._obj == grouping:
+        raise ValueError(
+            f&#34;Potential neighbor is equal to grouping (&#39;{self._obj.loc_name}&#39;)&#34;
+        )
+    else:
+        raise PFInvalidLoadFlow()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_power_exchange_with_in_MVA"><code class="name flex">
+<span>def <span class="ident">load_flow_power_exchange_with_in_MVA</span></span>(<span>self, grouping: ElmAreaOrZone | AreaOrZone, return_value_no_exchange=nan) ‑> complex</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_flow_power_exchange_with_in_MVA(
+    self, grouping: ElmAreaOrZone | AreaOrZone, return_value_no_exchange=np.nan
+) -&gt; complex:
+    &#34;&#34;&#34;Get load flow apparent power exchange (in MVA) with other grouping.
+
+    Args:
+        grouping (ElmAreaOrZone | AreaOrZone): other grouping
+        return_value_no_exchange (_type_, optional): return value when there is no connection. Defaults to np.nan.
+
+    Returns:
+        complex: load flow apparent power exchange (in MVA) if connected
+    &#34;&#34;&#34;
+    grouping = self._get_elm_input(grouping)
+    interchange_flag = self._obj.CalculateInterchangeTo(grouping)
+    if interchange_flag &gt; 0:
+        return self._obj.GetAttribute(&#34;c:Pinter&#34;) + 1j * self._obj.GetAttribute(
+            &#34;c:Qinter&#34;
+        )
+    elif interchange_flag == 0:
+        return return_value_no_exchange
+    else:
+        raise PFInvalidLoadFlow()</code></pre>
+</details>
+<div class="desc"><p>Get load flow apparent power exchange (in MVA) with other grouping.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>grouping</code></strong> :&ensp;<code>ElmAreaOrZone | AreaOrZone</code></dt>
+<dd>other grouping</dd>
+<dt><strong><code>return_value_no_exchange</code></strong> :&ensp;<code>_type_</code>, optional</dt>
+<dd>return value when there is no connection. Defaults to np.nan.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>complex</code></dt>
+<dd>load flow apparent power exchange (in MVA) if connected</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_generation_in_MVA"><code class="name flex">
+<span>def <span class="ident">load_flow_total_power_generation_in_MVA</span></span>(<span>self) ‑> complex</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_flow_total_power_generation_in_MVA(self) -&gt; complex:
+    try:
+        return self._obj.GetAttribute(
+            LF.ElmZone.c_TotgenP.value
+        ) + 1j * self._obj.GetAttribute(LF.ElmZone.c_TotgenQ.value)
+    except AttributeError:
+        raise PFInvalidLoadFlow()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_loads_in_MVA"><code class="name flex">
+<span>def <span class="ident">load_flow_total_power_loads_in_MVA</span></span>(<span>self) ‑> complex</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_flow_total_power_loads_in_MVA(self) -&gt; complex:
+    try:
+        return self._obj.GetAttribute(
+            LF.ElmZone.c_TotLoadP.value
+        ) + 1j * self._obj.GetAttribute(LF.ElmZone.c_TotLoadQ.value)
+    except AttributeError:
+        raise PFInvalidLoadFlow()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.merge"><code class="name flex">
+<span>def <span class="ident">merge</span></span>(<span>self,<br>grouping_to_merge: <a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a>) ‑> ElmAreaOrZone</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def merge(self, grouping_to_merge: GroupingBase) -&gt; ElmAreaOrZone:
+    &#34;&#34;&#34;Merge another grouping of same type into current grouping. The other grouping is deleted after merging.
+
+    Args:
+        grouping_to_merge (GroupingBase): grouping to merge (must be of same type as self)
+
+    Returns:
+        ElmAreaOrZone: merged grouping (as ElmArea or ElmZone)
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Merge another grouping of same type into current grouping. The other grouping is deleted after merging.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>grouping_to_merge</code></strong> :&ensp;<code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></code></dt>
+<dd>grouping to merge (must be of same type as self)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmAreaOrZone</code></dt>
+<dd>merged grouping (as ElmArea or ElmZone)</dd>
+</dl></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></b></code>:
+<ul class="hlist">
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms">add_results_variable_for_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class">are_internal_elms_with_same_class</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type">get_all_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms">get_all_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type">get_all_powfacpy_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms">get_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops">get_phase_locked_loops</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs">get_total_inertia_of_synchronous_machines_in_MWs</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase"><code class="flex name class">
+<span>class <span class="ident">GroupingBase</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GroupingBase(ABC):
+    &#34;&#34;&#34;Base class for groupings (ElmZone, ElmArea, ElmBoundary). Provides a common interface (e.g. to get internal elements).&#34;&#34;&#34;
+
+    __slots__ = ()
+
+    def __eq__(self, other: GroupingBase) -&gt; bool:
+        if not isinstance(other, GroupingBase):
+            return False
+        return self._obj == other._obj
+
+    def add_results_variable_for_elms(
+        self,
+        condition_for_elms: Callable,
+        result_variables: str | list[str],
+        results_obj: ElmRes | None = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Add results variable for internal elements selected by &#39;condition&#39;.
+
+        Args:
+            condition_for_elms (Callable): Condition to select elements, e.g. &#39;lambda x: x.GetClassName() = &#34;ElmTerm&#34;&#39;
+
+            result_variables (str | list[str]): Results variable name(s).
+
+            results_obj (ElmRes | None, optional): Results object where variables are added. Defaults to None (&#39;get_from_study_case&#39; is used).
+        &#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        if not results_obj:
+            results_obj = act_prj.get_from_study_case(&#34;ElmRes&#34;)
+        else:
+            results_obj = act_prj._handle_single_pf_object_or_path_input(results_obj)
+        elms = self.get_internal_elms(condition_for_elms)
+        for elm in elms:
+            act_prj.add_results_variable(elm, result_variables, results_obj)
+
+    def get_internal_elms(self, condition: Callable | None = None) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Get internal elements with optional condition.
+
+        Args:
+            condition_for_elms (Callable): Condition to select elements, e.g. &#39;lambda x: x.GetClassName() = &#34;ElmTerm&#34;&#39;
+
+        Returns:
+            list[PFGeneral]: list of network elements.
+        &#34;&#34;&#34;
+        elms = self.get_all_internal_elms()
+        if condition:
+            act_prj = ActiveProjectCached()
+            elms = act_prj.get_by_condition(elms, condition)
+        return elms
+
+    def get_internal_elms_of_class(self, class_name: str) -&gt; list[PFGeneral]:
+        return self.get_internal_elms(lambda x: x.GetClassName() == class_name)
+
+    def get_network_elements_of_plant_models(
+        self,
+        elm_objs: list[str] | list[PFGeneral],
+        condition: Callable,
+    ) -&gt; dict:
+        elm_objs = list(elm_objs)
+        if isinstance(elm_objs[0], str):
+            objs = []
+            for cls in elm_objs:
+                objs += self.get_internal_elms_of_class(cls)
+            elm_objs = objs
+        obj_netelm = {}
+        for obj in elm_objs:
+            obj = convert_pf_obj_to_powfacpy(obj)
+            netelm = obj.get_network_elements_of_plant_model(
+                condition, error_if_non_existent=False
+            )
+            obj_netelm[obj._obj] = netelm
+        return obj_netelm
+
+    def get_network_elements_of_plant_models_sorted_by_block_definition(
+        self,
+        elm_objs: list[str] | list[PFGeneral],
+        condition: Callable,
+    ) -&gt; dict:
+        obj_netelm = self.get_network_elements_of_plant_models(elm_objs, condition)
+        blkdef_elm = {}
+        for obj, netelms in obj_netelm.items():
+            for netelm in netelms:
+                blkdef = netelm.typ_id
+                val = blkdef_elm.get(blkdef)
+                if not val:
+                    blkdef_elm[blkdef] = {&#34;elm&#34;: [], &#34;elmdsl&#34;: []}
+                blkdef_elm[blkdef][&#34;elm&#34;].append(obj)
+                blkdef_elm[blkdef][&#34;elmdsl&#34;].append(netelm)
+        return blkdef_elm
+
+    def get_total_inertia_of_synchronous_machines_in_MWs(self) -&gt; float:
+        &#34;&#34;&#34;Sum of inertia of internal synchronous machines in MWs&#34;&#34;&#34;
+        sms = self.get_internal_elms_of_class(&#34;ElmSym&#34;)
+        return np.sum([SynchronousMachine(sm).H_in_MWs for sm in sms])
+
+    def get_phase_locked_loops(self) -&gt; list[StaPll]:
+        &#34;&#34;&#34;Get all internal phase-locked loops (StaPll) objects (i.e. PLLs that measure at internal terminals).
+
+        Returns:
+            list[StaPll]: List of internal PLLs.
+        &#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        all_plls: list[StaPll] = act_prj.get_calc_relevant_obj(&#34;*.StaPll&#34;)
+        internal_terminals = set(self.get_internal_elms_of_class(&#34;ElmTerm&#34;))
+        return [pll for pll in all_plls if pll.pbusbar in internal_terminals]
+
+    def get_converters(self) -&gt; list:
+        return self.get_internal_elms(
+            lambda x: x.GetClassName() in [&#34;ElmGenstat&#34;, &#34;ElmPvsys&#34;, &#34;ElmVsc&#34;]
+        )
+
+    def get_grid_forming_converters(self) -&gt; list:
+        return [conv for conv in self.get_converters() if conv.ctrlStruct == 1]
+
+    def get_grid_following_converters(self) -&gt; list:
+        return [conv for conv in self.get_converters() if conv.ctrlStruct == 0]
+
+    def is_internal_elm(self, elm: PFGeneral) -&gt; bool:
+        class_elm = elm.GetClassName()
+        all_elm_of_class = self.get_internal_elms_of_class(class_elm)
+        return elm in all_elm_of_class
+
+    def are_internal_elms(self, elms: list[PFGeneral]) -&gt; bool:
+        all_elms = self.get_all_internal_elms()
+        return set(elms).issubset(all_elms)
+
+    def are_internal_elms_with_same_class(self, elms: list[PFGeneral]) -&gt; bool:
+        &#34;&#34;&#34;Checks whether all network elements in &#39;elms&#39; (which MUST all be of the same class) are internal elements.
+
+        Args:
+            elms (list[PFGeneral]): list of network elements of same class
+
+        Returns:
+            bool: True if all elements are included
+        &#34;&#34;&#34;
+        class_of_elms = elms[0].GetClassName()
+        all_elm_of_class = self.get_internal_elms_of_class(class_of_elms)
+        return set(elms).issubset(all_elm_of_class)
+
+    # Load flow
+    def load_flow_total_power_exchange_in_MVA(self) -&gt; complex:
+        return (
+            self._obj.GetAttribute(&#34;c:Pinter&#34;) + self._obj.GetAttribute(&#34;c:Qinter&#34;) * 1j
+        )
+
+    @abstractmethod
+    def get_all_internal_elms(self) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Get all internal elements (to be implemented in concrete class)
+
+        Returns:
+            list[PFGeneral]: list of all internal elements.
+        &#34;&#34;&#34;
+        pass
+
+    @abstractmethod
+    def get_all_groupings_of_same_type(self) -&gt; list:
+        &#34;&#34;&#34;Get all calculation relevant groupings of the same type (Zone class returns ElmZone, Area class returns...)
+
+        Returns:
+            list: alls groupings of same type
+        &#34;&#34;&#34;
+        pass
+
+    @abstractmethod
+    def get_all_powfacpy_groupings_of_same_type(self) -&gt; list:
+        &#34;&#34;&#34;Get all calculation relevant groupings of the same type (Zone class returns Zone, Area class returns...)
+
+        Difference to &#39;get_all_groupings_of_same_type&#39; is that e.g. Zones instead ElmZone are returned
+
+        Returns:
+            list: alls groupings of same type
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<div class="desc"><p>Base class for groupings (ElmZone, ElmArea, ElmBoundary). Provides a common interface (e.g. to get internal elements).</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.boundary.Boundary" href="boundary.html#powfacpy.pf_classes.elm.boundary.Boundary">Boundary</a></li>
+<li><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase">AreaZoneBase</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms"><code class="name flex">
+<span>def <span class="ident">add_results_variable_for_elms</span></span>(<span>self,<br>condition_for_elms: Callable,<br>result_variables: str | list[str],<br>results_obj: ElmRes | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_results_variable_for_elms(
+    self,
+    condition_for_elms: Callable,
+    result_variables: str | list[str],
+    results_obj: ElmRes | None = None,
+) -&gt; None:
+    &#34;&#34;&#34;Add results variable for internal elements selected by &#39;condition&#39;.
+
+    Args:
+        condition_for_elms (Callable): Condition to select elements, e.g. &#39;lambda x: x.GetClassName() = &#34;ElmTerm&#34;&#39;
+
+        result_variables (str | list[str]): Results variable name(s).
+
+        results_obj (ElmRes | None, optional): Results object where variables are added. Defaults to None (&#39;get_from_study_case&#39; is used).
+    &#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    if not results_obj:
+        results_obj = act_prj.get_from_study_case(&#34;ElmRes&#34;)
+    else:
+        results_obj = act_prj._handle_single_pf_object_or_path_input(results_obj)
+    elms = self.get_internal_elms(condition_for_elms)
+    for elm in elms:
+        act_prj.add_results_variable(elm, result_variables, results_obj)</code></pre>
+</details>
+<div class="desc"><p>Add results variable for internal elements selected by 'condition'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>condition_for_elms</code></strong> :&ensp;<code>Callable</code></dt>
+<dd>Condition to select elements, e.g. 'lambda x: x.GetClassName() = "ElmTerm"'</dd>
+<dt><strong><code>result_variables</code></strong> :&ensp;<code>str | list[str]</code></dt>
+<dd>Results variable name(s).</dd>
+<dt><strong><code>results_obj</code></strong> :&ensp;<code>ElmRes | None</code>, optional</dt>
+<dd>Results object where variables are added. Defaults to None ('get_from_study_case' is used).</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms"><code class="name flex">
+<span>def <span class="ident">are_internal_elms</span></span>(<span>self, elms: list[PFGeneral]) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def are_internal_elms(self, elms: list[PFGeneral]) -&gt; bool:
+    all_elms = self.get_all_internal_elms()
+    return set(elms).issubset(all_elms)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class"><code class="name flex">
+<span>def <span class="ident">are_internal_elms_with_same_class</span></span>(<span>self, elms: list[PFGeneral]) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def are_internal_elms_with_same_class(self, elms: list[PFGeneral]) -&gt; bool:
+    &#34;&#34;&#34;Checks whether all network elements in &#39;elms&#39; (which MUST all be of the same class) are internal elements.
+
+    Args:
+        elms (list[PFGeneral]): list of network elements of same class
+
+    Returns:
+        bool: True if all elements are included
+    &#34;&#34;&#34;
+    class_of_elms = elms[0].GetClassName()
+    all_elm_of_class = self.get_internal_elms_of_class(class_of_elms)
+    return set(elms).issubset(all_elm_of_class)</code></pre>
+</details>
+<div class="desc"><p>Checks whether all network elements in 'elms' (which MUST all be of the same class) are internal elements.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>elms</code></strong> :&ensp;<code>list[PFGeneral]</code></dt>
+<dd>list of network elements of same class</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if all elements are included</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type"><code class="name flex">
+<span>def <span class="ident">get_all_groupings_of_same_type</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def get_all_groupings_of_same_type(self) -&gt; list:
+    &#34;&#34;&#34;Get all calculation relevant groupings of the same type (Zone class returns ElmZone, Area class returns...)
+
+    Returns:
+        list: alls groupings of same type
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Get all calculation relevant groupings of the same type (Zone class returns ElmZone, Area class returns&hellip;)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>alls groupings of same type</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms"><code class="name flex">
+<span>def <span class="ident">get_all_internal_elms</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def get_all_internal_elms(self) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Get all internal elements (to be implemented in concrete class)
+
+    Returns:
+        list[PFGeneral]: list of all internal elements.
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Get all internal elements (to be implemented in concrete class)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>list of all internal elements.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type"><code class="name flex">
+<span>def <span class="ident">get_all_powfacpy_groupings_of_same_type</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abstractmethod
+def get_all_powfacpy_groupings_of_same_type(self) -&gt; list:
+    &#34;&#34;&#34;Get all calculation relevant groupings of the same type (Zone class returns Zone, Area class returns...)
+
+    Difference to &#39;get_all_groupings_of_same_type&#39; is that e.g. Zones instead ElmZone are returned
+
+    Returns:
+        list: alls groupings of same type
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Get all calculation relevant groupings of the same type (Zone class returns Zone, Area class returns&hellip;)</p>
+<p>Difference to 'get_all_groupings_of_same_type' is that e.g. Zones instead ElmZone are returned</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>alls groupings of same type</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_converters"><code class="name flex">
+<span>def <span class="ident">get_converters</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_converters(self) -&gt; list:
+    return self.get_internal_elms(
+        lambda x: x.GetClassName() in [&#34;ElmGenstat&#34;, &#34;ElmPvsys&#34;, &#34;ElmVsc&#34;]
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_following_converters"><code class="name flex">
+<span>def <span class="ident">get_grid_following_converters</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_grid_following_converters(self) -&gt; list:
+    return [conv for conv in self.get_converters() if conv.ctrlStruct == 0]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_forming_converters"><code class="name flex">
+<span>def <span class="ident">get_grid_forming_converters</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_grid_forming_converters(self) -&gt; list:
+    return [conv for conv in self.get_converters() if conv.ctrlStruct == 1]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms"><code class="name flex">
+<span>def <span class="ident">get_internal_elms</span></span>(<span>self, condition: Callable | None = None) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_internal_elms(self, condition: Callable | None = None) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Get internal elements with optional condition.
+
+    Args:
+        condition_for_elms (Callable): Condition to select elements, e.g. &#39;lambda x: x.GetClassName() = &#34;ElmTerm&#34;&#39;
+
+    Returns:
+        list[PFGeneral]: list of network elements.
+    &#34;&#34;&#34;
+    elms = self.get_all_internal_elms()
+    if condition:
+        act_prj = ActiveProjectCached()
+        elms = act_prj.get_by_condition(elms, condition)
+    return elms</code></pre>
+</details>
+<div class="desc"><p>Get internal elements with optional condition.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>condition_for_elms</code></strong> :&ensp;<code>Callable</code></dt>
+<dd>Condition to select elements, e.g. 'lambda x: x.GetClassName() = "ElmTerm"'</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>list of network elements.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms_of_class"><code class="name flex">
+<span>def <span class="ident">get_internal_elms_of_class</span></span>(<span>self, class_name: str) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_internal_elms_of_class(self, class_name: str) -&gt; list[PFGeneral]:
+    return self.get_internal_elms(lambda x: x.GetClassName() == class_name)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models"><code class="name flex">
+<span>def <span class="ident">get_network_elements_of_plant_models</span></span>(<span>self, elm_objs: list[str] | list[PFGeneral], condition: Callable) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_network_elements_of_plant_models(
+    self,
+    elm_objs: list[str] | list[PFGeneral],
+    condition: Callable,
+) -&gt; dict:
+    elm_objs = list(elm_objs)
+    if isinstance(elm_objs[0], str):
+        objs = []
+        for cls in elm_objs:
+            objs += self.get_internal_elms_of_class(cls)
+        elm_objs = objs
+    obj_netelm = {}
+    for obj in elm_objs:
+        obj = convert_pf_obj_to_powfacpy(obj)
+        netelm = obj.get_network_elements_of_plant_model(
+            condition, error_if_non_existent=False
+        )
+        obj_netelm[obj._obj] = netelm
+    return obj_netelm</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models_sorted_by_block_definition"><code class="name flex">
+<span>def <span class="ident">get_network_elements_of_plant_models_sorted_by_block_definition</span></span>(<span>self, elm_objs: list[str] | list[PFGeneral], condition: Callable) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_network_elements_of_plant_models_sorted_by_block_definition(
+    self,
+    elm_objs: list[str] | list[PFGeneral],
+    condition: Callable,
+) -&gt; dict:
+    obj_netelm = self.get_network_elements_of_plant_models(elm_objs, condition)
+    blkdef_elm = {}
+    for obj, netelms in obj_netelm.items():
+        for netelm in netelms:
+            blkdef = netelm.typ_id
+            val = blkdef_elm.get(blkdef)
+            if not val:
+                blkdef_elm[blkdef] = {&#34;elm&#34;: [], &#34;elmdsl&#34;: []}
+            blkdef_elm[blkdef][&#34;elm&#34;].append(obj)
+            blkdef_elm[blkdef][&#34;elmdsl&#34;].append(netelm)
+    return blkdef_elm</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops"><code class="name flex">
+<span>def <span class="ident">get_phase_locked_loops</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.StaPll" href="../protocols.html#powfacpy.pf_classes.protocols.StaPll">StaPll</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_phase_locked_loops(self) -&gt; list[StaPll]:
+    &#34;&#34;&#34;Get all internal phase-locked loops (StaPll) objects (i.e. PLLs that measure at internal terminals).
+
+    Returns:
+        list[StaPll]: List of internal PLLs.
+    &#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    all_plls: list[StaPll] = act_prj.get_calc_relevant_obj(&#34;*.StaPll&#34;)
+    internal_terminals = set(self.get_internal_elms_of_class(&#34;ElmTerm&#34;))
+    return [pll for pll in all_plls if pll.pbusbar in internal_terminals]</code></pre>
+</details>
+<div class="desc"><p>Get all internal phase-locked loops (StaPll) objects (i.e. PLLs that measure at internal terminals).</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[StaPll]</code></dt>
+<dd>List of internal PLLs.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs"><code class="name flex">
+<span>def <span class="ident">get_total_inertia_of_synchronous_machines_in_MWs</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_total_inertia_of_synchronous_machines_in_MWs(self) -&gt; float:
+    &#34;&#34;&#34;Sum of inertia of internal synchronous machines in MWs&#34;&#34;&#34;
+    sms = self.get_internal_elms_of_class(&#34;ElmSym&#34;)
+    return np.sum([SynchronousMachine(sm).H_in_MWs for sm in sms])</code></pre>
+</details>
+<div class="desc"><p>Sum of inertia of internal synchronous machines in MWs</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.is_internal_elm"><code class="name flex">
+<span>def <span class="ident">is_internal_elm</span></span>(<span>self, elm: PFGeneral) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_internal_elm(self, elm: PFGeneral) -&gt; bool:
+    class_elm = elm.GetClassName()
+    all_elm_of_class = self.get_internal_elms_of_class(class_elm)
+    return elm in all_elm_of_class</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.grouping_base.GroupingBase.load_flow_total_power_exchange_in_MVA"><code class="name flex">
+<span>def <span class="ident">load_flow_total_power_exchange_in_MVA</span></span>(<span>self) ‑> complex</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_flow_total_power_exchange_in_MVA(self) -&gt; complex:
+    return (
+        self._obj.GetAttribute(&#34;c:Pinter&#34;) + self._obj.GetAttribute(&#34;c:Qinter&#34;) * 1j
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.pf_classes.elm" href="index.html">powfacpy.pf_classes.elm</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase">AreaZoneBase</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.get_neighbors" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.get_neighbors">get_neighbors</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.is_neighbor" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.is_neighbor">is_neighbor</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_power_exchange_with_in_MVA" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_power_exchange_with_in_MVA">load_flow_power_exchange_with_in_MVA</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_generation_in_MVA" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_generation_in_MVA">load_flow_total_power_generation_in_MVA</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_loads_in_MVA" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.load_flow_total_power_loads_in_MVA">load_flow_total_power_loads_in_MVA</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.merge" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.merge">merge</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.total_power_loads" href="#powfacpy.pf_classes.elm.grouping_base.AreaZoneBase.total_power_loads">total_power_loads</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase">GroupingBase</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.add_results_variable_for_elms">add_results_variable_for_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms">are_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.are_internal_elms_with_same_class">are_internal_elms_with_same_class</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_groupings_of_same_type">get_all_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_internal_elms">get_all_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_all_powfacpy_groupings_of_same_type">get_all_powfacpy_groupings_of_same_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_converters" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_converters">get_converters</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_following_converters" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_following_converters">get_grid_following_converters</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_forming_converters" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_grid_forming_converters">get_grid_forming_converters</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms">get_internal_elms</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms_of_class" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_internal_elms_of_class">get_internal_elms_of_class</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models">get_network_elements_of_plant_models</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models_sorted_by_block_definition" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_network_elements_of_plant_models_sorted_by_block_definition">get_network_elements_of_plant_models_sorted_by_block_definition</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_phase_locked_loops">get_phase_locked_loops</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.get_total_inertia_of_synchronous_machines_in_MWs">get_total_inertia_of_synchronous_machines_in_MWs</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.is_internal_elm" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.is_internal_elm">is_internal_elm</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.grouping_base.GroupingBase.load_flow_total_power_exchange_in_MVA" href="#powfacpy.pf_classes.elm.grouping_base.GroupingBase.load_flow_total_power_exchange_in_MVA">load_flow_total_power_exchange_in_MVA</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

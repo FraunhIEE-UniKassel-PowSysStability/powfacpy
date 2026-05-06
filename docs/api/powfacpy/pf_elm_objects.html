@@ -1,0 +1,1586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_elm_objects API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_elm_objects</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="powfacpy.pf_elm_objects.create_elm_object"><code class="name flex">
+<span>def <span class="ident">create_elm_object</span></span>(<span>pf_elm_object) ‑> <a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_elm_object(pf_elm_object) -&gt; PFElm:
+    class_name: str = pf_elm_object.GetClassName()
+    elm_class: PFGeneral = elm_classes.get(class_name)
+    if elm_class:
+        return elm_class(pf_elm_object)
+    else:
+        return PFElm(pf_elm_object)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Area"><code class="flex name class">
+<span>class <span class="ident">Area</span></span>
+<span>(</span><span>pf_obj: ElmArea)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Area(PFElm):
+
+    def __init__(self, pf_obj: ElmArea) -&gt; None:
+        self.pf_obj: ElmArea = pf_obj
+
+    def get_P_exchange_res_var_lf_bal() -&gt; str:
+        return lf_bal.ElmArea.c_InterP.value
+
+    def get_Q_exchange_res_var_lf_bal() -&gt; str:
+        return lf_bal.ElmArea.c_InterQ.value
+
+    def get_P_exchange_res_var_rms_bal() -&gt; str:
+        return rms_bal.ElmArea.c_Pinter.value
+
+    def get_Q_exchange_res_var_rms_bal() -&gt; str:
+        return rms_bal.ElmArea.c_Qinter.value</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_P_exchange_res_var_lf_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_exchange_res_var_lf_bal() -&gt; str:
+    return lf_bal.ElmArea.c_InterP.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_P_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_exchange_res_var_rms_bal() -&gt; str:
+    return rms_bal.ElmArea.c_Pinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_exchange_res_var_lf_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_exchange_res_var_lf_bal() -&gt; str:
+    return lf_bal.ElmArea.c_InterQ.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_exchange_res_var_rms_bal() -&gt; str:
+    return rms_bal.ElmArea.c_Qinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Line"><code class="flex name class">
+<span>class <span class="ident">Line</span></span>
+<span>(</span><span>pf_obj: ElmLne)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Line(PFElm):
+
+    def __init__(self, pf_obj: ElmLne) -&gt; None:
+        self.pf_obj: ElmLne = pf_obj
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return [self.pf_obj.bus1.cterm, self.pf_obj.bus2.cterm]
+
+    def get_P_res_var_lf_bal(self, bus_index: int | slice = slice(0, None)):
+        return [lf_bal.ElmLne.m_Psum_bus1.value, lf_bal.ElmLne.m_Psum_bus2.value][
+            bus_index
+        ]
+
+    def get_Q_res_var_lf_bal(self, bus_index: int | slice = slice(0, None)):
+        return [lf_bal.ElmLne.m_Qsum_bus1.value, lf_bal.ElmLne.m_Qsum_bus2.value][
+            bus_index
+        ]
+
+    def get_P_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+        return [rms_bal.ElmLne.m_Psum_bus1.value, rms_bal.ElmLne.m_Psum_bus2.value][
+            bus_index
+        ]
+
+    def get_Q_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+        return [rms_bal.ElmLne.m_Qsum_bus1.value, rms_bal.ElmLne.m_Qsum_bus2.value][
+            bus_index
+        ]</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Line.get_P_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_P_res_var_lf_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_res_var_lf_bal(self, bus_index: int | slice = slice(0, None)):
+    return [lf_bal.ElmLne.m_Psum_bus1.value, lf_bal.ElmLne.m_Psum_bus2.value][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Line.get_P_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_P_res_var_rms_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+    return [rms_bal.ElmLne.m_Psum_bus1.value, rms_bal.ElmLne.m_Psum_bus2.value][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Line.get_Q_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_res_var_lf_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_res_var_lf_bal(self, bus_index: int | slice = slice(0, None)):
+    return [lf_bal.ElmLne.m_Qsum_bus1.value, lf_bal.ElmLne.m_Qsum_bus2.value][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Line.get_Q_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_res_var_rms_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+    return [rms_bal.ElmLne.m_Qsum_bus1.value, rms_bal.ElmLne.m_Qsum_bus2.value][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Line.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return [self.pf_obj.bus1.cterm, self.pf_obj.bus2.cterm]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.PFElm"><code class="flex name class">
+<span>class <span class="ident">PFElm</span></span>
+<span>(</span><span>pf_obj)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFElm(ABC, PFGeneral):
+
+    def __init__(self, pf_obj) -&gt; None:
+        self.pf_obj: PFGeneral = pf_obj
+
+    def set_out_of_service(self):
+        self.pf_obj.outserv = 1
+
+    def set_into_service(self):
+        self.pf_obj.outserv = 0
+
+    def get_bus_index_of_terminal(self, connected_terminal: ElmTerm):
+        self.get_connected_elms_ordered().index(connected_terminal)</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.Area" href="#powfacpy.pf_elm_objects.Area">Area</a></li>
+<li><a title="powfacpy.pf_elm_objects.Line" href="#powfacpy.pf_elm_objects.Line">Line</a></li>
+<li><a title="powfacpy.pf_elm_objects.Site" href="#powfacpy.pf_elm_objects.Site">Site</a></li>
+<li><a title="powfacpy.pf_elm_objects.StaticGenerator" href="#powfacpy.pf_elm_objects.StaticGenerator">StaticGenerator</a></li>
+<li><a title="powfacpy.pf_elm_objects.SynchronousMachine" href="#powfacpy.pf_elm_objects.SynchronousMachine">SynchronousMachine</a></li>
+<li><a title="powfacpy.pf_elm_objects.Terminal" href="#powfacpy.pf_elm_objects.Terminal">Terminal</a></li>
+<li><a title="powfacpy.pf_elm_objects.Transformer2Winding" href="#powfacpy.pf_elm_objects.Transformer2Winding">Transformer2Winding</a></li>
+<li><a title="powfacpy.pf_elm_objects.Transformer3Winding" href="#powfacpy.pf_elm_objects.Transformer3Winding">Transformer3Winding</a></li>
+<li><a title="powfacpy.pf_elm_objects.Zone" href="#powfacpy.pf_elm_objects.Zone">Zone</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.PFElm.get_bus_index_of_terminal"><code class="name flex">
+<span>def <span class="ident">get_bus_index_of_terminal</span></span>(<span>self, connected_terminal: ElmTerm)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_bus_index_of_terminal(self, connected_terminal: ElmTerm):
+    self.get_connected_elms_ordered().index(connected_terminal)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.PFElm.set_into_service"><code class="name flex">
+<span>def <span class="ident">set_into_service</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_into_service(self):
+    self.pf_obj.outserv = 0</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.PFElm.set_out_of_service"><code class="name flex">
+<span>def <span class="ident">set_out_of_service</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_out_of_service(self):
+    self.pf_obj.outserv = 1</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Site"><code class="flex name class">
+<span>class <span class="ident">Site</span></span>
+<span>(</span><span>pf_obj: ElmSite)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Site(PFElm):
+    &#34;&#34;&#34;Network components including Substations and Branches can be grouped together within a “Site” (ElmSite). This may include Elements such as substations / busbars at different voltage levels.
+    (from manual)
+    &#34;&#34;&#34;
+
+    def __init__(self, pf_obj: ElmSite) -&gt; None:
+        self.pf_obj: ElmSite = pf_obj
+
+    def get_substations(self):
+        return self.get_obj(
+            &#34;*.ElmSubstat&#34;,
+            parent_folder=self.pf_obj,
+            condition=lambda x: x.GetClassName() == &#34;ElmSubstat&#34;,
+        )
+
+    def set_area_of_substations(self, area: ElmArea):
+        for ss in self.get_substations():
+            ss.pArea = area
+
+    def set_zone_of_substations(self, zone: ElmZone):
+        for ss in self.get_substations():
+            ss.pZone = zone</code></pre>
+</details>
+<div class="desc"><p>Network components including Substations and Branches can be grouped together within a “Site” (ElmSite). This may include Elements such as substations / busbars at different voltage levels.
+(from manual)</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Site.get_substations"><code class="name flex">
+<span>def <span class="ident">get_substations</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_substations(self):
+    return self.get_obj(
+        &#34;*.ElmSubstat&#34;,
+        parent_folder=self.pf_obj,
+        condition=lambda x: x.GetClassName() == &#34;ElmSubstat&#34;,
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Site.set_area_of_substations"><code class="name flex">
+<span>def <span class="ident">set_area_of_substations</span></span>(<span>self, area: ElmArea)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_area_of_substations(self, area: ElmArea):
+    for ss in self.get_substations():
+        ss.pArea = area</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Site.set_zone_of_substations"><code class="name flex">
+<span>def <span class="ident">set_zone_of_substations</span></span>(<span>self, zone: ElmZone)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_zone_of_substations(self, zone: ElmZone):
+    for ss in self.get_substations():
+        ss.pZone = zone</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm"><code class="flex name class">
+<span>class <span class="ident">StandardLoadFlowElm</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StandardLoadFlowElm(ABC):
+
+    def __init__(self) -&gt; None:
+        self.pf_obj: ElmSym | ElmGenstat
+
+    ############################
+    # S
+    ############################
+    @property
+    def S_nom(self) -&gt; float:
+        return self.pf_obj.sgn
+
+    @S_nom.setter
+    def S_nom(self, S_nom: float):
+        self.pf_obj.sgn = S_nom
+
+    @property
+    def S(self) -&gt; float:
+        return math.sqrt(self.P**2 + self.Q**2)
+
+    @property
+    def s_pu(self) -&gt; float:
+        return math.sqrt(self.P**2 + self.Q**2) / self.S_nom
+
+    def scale_s(self, factor: float):
+        self.scale_p(factor)
+        self.scale_q(factor)
+
+    ############################
+    # P
+    ############################
+    @property
+    def P(self) -&gt; float:
+        return self.pf_obj.pgini
+
+    @P.setter
+    def P(self, P: float):
+        self.pf_obj.pgini = P
+
+    @property
+    def p_pu(self) -&gt; float:
+        return self.pf_obj.pgini / self.S_nom
+
+    @p_pu.setter
+    def p_pu(self, p_pu: float) -&gt; None:
+        self.pf_obj.pgini = p_pu * self.S_nom
+
+    @property
+    def P_max(self) -&gt; float:
+        return self.pf_obj.Pmax_uc
+
+    @property
+    def p_max_pu(self) -&gt; float:
+        return self.P_max / self.S_nom
+
+    @property
+    def P_min(self) -&gt; float:
+        return self.pf_obj.Pmin_uc
+
+    @property
+    def p_min_pu(self) -&gt; float:
+        return self.P_min / self.S_nom
+
+    def get_P_margin(self) -&gt; tuple[float, float]:
+        return self.P_min - self.P, self.P_max - self.P
+
+    def get_p_margin_pu(self) -&gt; tuple[float, float]:
+        return self.p_min_pu - self.p_pu, self.p_max_pu - self.p_pu
+
+    def scale_p(self, factor: float):
+        self.pf_obj.pgini *= factor
+
+    def set_p_and_adapt_limits(self, p_pu):
+        self.pf_obj.pgini = p_pu
+        P_MW = p_pu * self.pf_obj.typ_id.sgn
+        if P_MW &gt; self.pf_obj.Pmax_uc:
+            self.pf_obj.Pmax_uc = P_MW
+        elif P_MW &lt; self.pf_obj.Pmin_uc:
+            self.pf_obj.Pmin_uc = P_MW
+
+    ############################
+    # Q
+    ############################
+    @property
+    def Q(self) -&gt; float:
+        return self.pf_obj.qgini
+
+    @Q.setter
+    def Q(self, Q: float) -&gt; None:
+        self.pf_obj.qgini = Q
+
+    @property
+    def q_pu(self) -&gt; float:
+        return self.pf_obj.qgini / self.S_nom
+
+    @q_pu.setter
+    def q_pu(self, q_pu: float) -&gt; None:
+        self.pf_obj.qgini = q_pu * self.S_nom
+
+    @property
+    def Q_max(self) -&gt; float:
+        return self.pf_obj.cQ_max
+
+    @property
+    def q_max_pu(self) -&gt; float:
+        return self.pf_obj.cQ_min
+
+    @property
+    def Q_min(self) -&gt; float:
+        return self.pf_obj.Qmin_uc
+
+    @property
+    def q_min_pu(self) -&gt; float:
+        return self.pf_obj.q_min
+
+    def get_Q_margin(self) -&gt; tuple[float, float]:
+        return self.Q_min - self.Q, self.Q_max - self.Q
+
+    def get_q_margin_pu(self) -&gt; tuple[float, float]:
+        return self.q_min_pu - self.q_pu, self.q_max_pu - self.q_pu
+
+    def scale_q(self, factor: float):
+        self.pf_obj.qgini *= factor
+
+    def set_q_and_adapt_limits(self, q_pu):
+        self.pf_obj.qgini = q_pu
+        if q_pu &gt; self.pf_obj.qmax:
+            self.pf_obj.q_max = q_pu
+        elif q_pu &gt; self.pf_obj.qmin:
+            self.pf_obj.q_min = q_pu
+
+    ############################
+    # U
+    ############################
+    @property
+    def u(self, u_pu: float):
+        return self.pf_obj.usetp
+
+    @u.setter
+    def u(self, u_pu: float):
+        self.pf_obj.usetp = u_pu
+
+    def set_dispatch_input_mode(self, mode):
+        self.mode_inp = mode</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.StaticGenerator" href="#powfacpy.pf_elm_objects.StaticGenerator">StaticGenerator</a></li>
+<li><a title="powfacpy.pf_elm_objects.SynchronousMachine" href="#powfacpy.pf_elm_objects.SynchronousMachine">SynchronousMachine</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.P"><code class="name">prop <span class="ident">P</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def P(self) -&gt; float:
+    return self.pf_obj.pgini</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.P_max"><code class="name">prop <span class="ident">P_max</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def P_max(self) -&gt; float:
+    return self.pf_obj.Pmax_uc</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.P_min"><code class="name">prop <span class="ident">P_min</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def P_min(self) -&gt; float:
+    return self.pf_obj.Pmin_uc</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q"><code class="name">prop <span class="ident">Q</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def Q(self) -&gt; float:
+    return self.pf_obj.qgini</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_max"><code class="name">prop <span class="ident">Q_max</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def Q_max(self) -&gt; float:
+    return self.pf_obj.cQ_max</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_min"><code class="name">prop <span class="ident">Q_min</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def Q_min(self) -&gt; float:
+    return self.pf_obj.Qmin_uc</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.S"><code class="name">prop <span class="ident">S</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def S(self) -&gt; float:
+    return math.sqrt(self.P**2 + self.Q**2)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.S_nom"><code class="name">prop <span class="ident">S_nom</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def S_nom(self) -&gt; float:
+    return self.pf_obj.sgn</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_max_pu"><code class="name">prop <span class="ident">p_max_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def p_max_pu(self) -&gt; float:
+    return self.P_max / self.S_nom</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_min_pu"><code class="name">prop <span class="ident">p_min_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def p_min_pu(self) -&gt; float:
+    return self.P_min / self.S_nom</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_pu"><code class="name">prop <span class="ident">p_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def p_pu(self) -&gt; float:
+    return self.pf_obj.pgini / self.S_nom</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_max_pu"><code class="name">prop <span class="ident">q_max_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def q_max_pu(self) -&gt; float:
+    return self.pf_obj.cQ_min</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_min_pu"><code class="name">prop <span class="ident">q_min_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def q_min_pu(self) -&gt; float:
+    return self.pf_obj.q_min</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_pu"><code class="name">prop <span class="ident">q_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def q_pu(self) -&gt; float:
+    return self.pf_obj.qgini / self.S_nom</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.s_pu"><code class="name">prop <span class="ident">s_pu</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def s_pu(self) -&gt; float:
+    return math.sqrt(self.P**2 + self.Q**2) / self.S_nom</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.u"><code class="name">prop <span class="ident">u</span></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def u(self, u_pu: float):
+    return self.pf_obj.usetp</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_P_margin"><code class="name flex">
+<span>def <span class="ident">get_P_margin</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_margin(self) -&gt; tuple[float, float]:
+    return self.P_min - self.P, self.P_max - self.P</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_Q_margin"><code class="name flex">
+<span>def <span class="ident">get_Q_margin</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_margin(self) -&gt; tuple[float, float]:
+    return self.Q_min - self.Q, self.Q_max - self.Q</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_p_margin_pu"><code class="name flex">
+<span>def <span class="ident">get_p_margin_pu</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_p_margin_pu(self) -&gt; tuple[float, float]:
+    return self.p_min_pu - self.p_pu, self.p_max_pu - self.p_pu</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_q_margin_pu"><code class="name flex">
+<span>def <span class="ident">get_q_margin_pu</span></span>(<span>self) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_q_margin_pu(self) -&gt; tuple[float, float]:
+    return self.q_min_pu - self.q_pu, self.q_max_pu - self.q_pu</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_p"><code class="name flex">
+<span>def <span class="ident">scale_p</span></span>(<span>self, factor: float)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def scale_p(self, factor: float):
+    self.pf_obj.pgini *= factor</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_q"><code class="name flex">
+<span>def <span class="ident">scale_q</span></span>(<span>self, factor: float)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def scale_q(self, factor: float):
+    self.pf_obj.qgini *= factor</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_s"><code class="name flex">
+<span>def <span class="ident">scale_s</span></span>(<span>self, factor: float)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def scale_s(self, factor: float):
+    self.scale_p(factor)
+    self.scale_q(factor)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_dispatch_input_mode"><code class="name flex">
+<span>def <span class="ident">set_dispatch_input_mode</span></span>(<span>self, mode)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_dispatch_input_mode(self, mode):
+    self.mode_inp = mode</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_p_and_adapt_limits"><code class="name flex">
+<span>def <span class="ident">set_p_and_adapt_limits</span></span>(<span>self, p_pu)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_p_and_adapt_limits(self, p_pu):
+    self.pf_obj.pgini = p_pu
+    P_MW = p_pu * self.pf_obj.typ_id.sgn
+    if P_MW &gt; self.pf_obj.Pmax_uc:
+        self.pf_obj.Pmax_uc = P_MW
+    elif P_MW &lt; self.pf_obj.Pmin_uc:
+        self.pf_obj.Pmin_uc = P_MW</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_q_and_adapt_limits"><code class="name flex">
+<span>def <span class="ident">set_q_and_adapt_limits</span></span>(<span>self, q_pu)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_q_and_adapt_limits(self, q_pu):
+    self.pf_obj.qgini = q_pu
+    if q_pu &gt; self.pf_obj.qmax:
+        self.pf_obj.q_max = q_pu
+    elif q_pu &gt; self.pf_obj.qmin:
+        self.pf_obj.q_min = q_pu</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StaticGenerator"><code class="flex name class">
+<span>class <span class="ident">StaticGenerator</span></span>
+<span>(</span><span>pf_obj: ElmGenstat)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StaticGenerator(PFElm, StandardLoadFlowElm):
+
+    def __init__(self, pf_obj: ElmGenstat) -&gt; None:
+        self.pf_obj: ElmGenstat = pf_obj
+
+    def set_short_circuit_impedance_uk(self, uk) -&gt; None:
+        self.pf_obj.uk = uk
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return [self.pf_obj.bus1.cterm]</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm">StandardLoadFlowElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.StaticGenerator.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return [self.pf_obj.bus1.cterm]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.StaticGenerator.set_short_circuit_impedance_uk"><code class="name flex">
+<span>def <span class="ident">set_short_circuit_impedance_uk</span></span>(<span>self, uk) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_short_circuit_impedance_uk(self, uk) -&gt; None:
+    self.pf_obj.uk = uk</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.SynchronousMachine"><code class="flex name class">
+<span>class <span class="ident">SynchronousMachine</span></span>
+<span>(</span><span>pf_obj: ElmSym)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SynchronousMachine(PFElm, StandardLoadFlowElm):
+
+    def __init__(self, pf_obj: ElmSym) -&gt; None:
+        self.pf_obj: ElmSym = pf_obj
+
+    @property
+    def S_nom(self) -&gt; float:
+        return self.pf_obj.typ_id.sgn
+
+    @S_nom.setter
+    def S_nom(self, S_nom: float) -&gt; None:
+        &#34;&#34;&#34;
+        Changes type
+
+        Args:
+            s (_type_): _description_
+        &#34;&#34;&#34;
+        self.pf_obj.typ_id.sgn = S_nom
+
+    def set_local_controller_mode_for_load_flow(self, mode):
+        self.av_mode = mode
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return [self.pf_obj.bus1]</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm">StandardLoadFlowElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.SynchronousMachine.S_nom"><code class="name">prop <span class="ident">S_nom</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def S_nom(self) -&gt; float:
+    return self.pf_obj.typ_id.sgn</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.SynchronousMachine.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return [self.pf_obj.bus1]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.SynchronousMachine.set_local_controller_mode_for_load_flow"><code class="name flex">
+<span>def <span class="ident">set_local_controller_mode_for_load_flow</span></span>(<span>self, mode)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_local_controller_mode_for_load_flow(self, mode):
+    self.av_mode = mode</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Terminal"><code class="flex name class">
+<span>class <span class="ident">Terminal</span></span>
+<span>(</span><span>pf_obj: ElmTerm)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Terminal(PFElm):
+
+    def __init__(self, pf_obj: ElmTerm) -&gt; None:
+        self.pf_obj: ElmTerm = pf_obj
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return self.pf_obj.GetConnectedElements()</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Terminal.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return self.pf_obj.GetConnectedElements()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Transformer2Winding"><code class="flex name class">
+<span>class <span class="ident">Transformer2Winding</span></span>
+<span>(</span><span>pf_obj: ElmTr2)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Transformer2Winding(PFElm):
+
+    def __init__(self, pf_obj: ElmTr2) -&gt; None:
+        self.pf_obj: ElmTr2 = pf_obj
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return [self.pf_obj.bushv.cterm, self.pf_obj.buslv.cterm]
+
+    def get_P_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+        return [rms_bal.ElmTr2.m_Psum_bushv.value, rms_bal.ElmTr2.m_Psum_buslv][
+            bus_index
+        ]
+
+    def get_Q_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+        return [rms_bal.ElmTr2.m_Qsum_bushv.value, rms_bal.ElmTr2.m_Qsum_buslv.value][
+            bus_index
+        ]</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Transformer2Winding.get_P_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_P_res_var_rms_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_P_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+    return [rms_bal.ElmTr2.m_Psum_bushv.value, rms_bal.ElmTr2.m_Psum_buslv][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Transformer2Winding.get_Q_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_res_var_rms_bal</span></span>(<span>self, bus_index: int | slice = slice(0, None, None))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Q_res_var_rms_bal(self, bus_index: int | slice = slice(0, None)):
+    return [rms_bal.ElmTr2.m_Qsum_bushv.value, rms_bal.ElmTr2.m_Qsum_buslv.value][
+        bus_index
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Transformer2Winding.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return [self.pf_obj.bushv.cterm, self.pf_obj.buslv.cterm]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Transformer3Winding"><code class="flex name class">
+<span>class <span class="ident">Transformer3Winding</span></span>
+<span>(</span><span>pf_obj: ElmTr3)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Transformer3Winding(PFElm):
+
+    def __init__(self, pf_obj: ElmTr3) -&gt; None:
+        self.pf_obj: ElmTr3 = pf_obj
+
+    def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+        return [
+            self.pf_obj.bushv.cterm,
+            self.pf_obj.busmv.cterm,
+            self.pf_obj.buslv.cterm,
+        ]</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Transformer3Winding.get_connected_elms_ordered"><code class="name flex">
+<span>def <span class="ident">get_connected_elms_ordered</span></span>(<span>self) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connected_elms_ordered(self) -&gt; list[PFGeneral]:
+    return [
+        self.pf_obj.bushv.cterm,
+        self.pf_obj.busmv.cterm,
+        self.pf_obj.buslv.cterm,
+    ]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Zone"><code class="flex name class">
+<span>class <span class="ident">Zone</span></span>
+<span>(</span><span>pf_obj: ElmZone)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Zone(PFElm):
+
+    def __init__(self, pf_obj: ElmZone) -&gt; None:
+        self.pf_obj: ElmZone = pf_obj
+
+    @staticmethod
+    def get_P_exchange_res_var_lf_bal() -&gt; str:
+        return lf_bal.ElmZone.c_InterP.value
+
+    @staticmethod
+    def get_Q_exchange_res_var_lf_bal() -&gt; str:
+        return lf_bal.ElmZone.c_InterQ.value
+
+    @staticmethod
+    def get_P_exchange_res_var_rms_bal() -&gt; str:
+        return rms_bal.ElmZone.c_Pinter.value
+
+    @staticmethod
+    def get_Q_exchange_res_var_rms_bal() -&gt; str:
+        return rms_bal.ElmZone.c_Qinter.value
+
+    def add_results_variable_F_rms_bal_of_all_terminals(
+        self, pfp: ActiveProject
+    ) -&gt; None:
+        for terminal in self.pf_obj.GetBuses():
+            pfp.add_results_variable(terminal, rms_bal.ElmTerm.m_fehz.value)
+
+    def add_results_variable_f_rms_bal_of_all_terminals(
+        self, pfp: ActiveProject
+    ) -&gt; None:
+        for terminal in self.pf_obj.GetBuses():
+            pfp.add_results_variable(terminal, rms_bal.ElmTerm.m_fe.value)</code></pre>
+</details>
+<div class="desc"><p>Helper class that provides a standard way to create an ABC using
+inheritance.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></li>
+<li>abc.ABC</li>
+<li><a title="powfacpy.pf_classes.protocols.PFGeneral" href="pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></li>
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_P_exchange_res_var_lf_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_P_exchange_res_var_lf_bal() -&gt; str:
+    return lf_bal.ElmZone.c_InterP.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_P_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_P_exchange_res_var_rms_bal() -&gt; str:
+    return rms_bal.ElmZone.c_Pinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_lf_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_exchange_res_var_lf_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_Q_exchange_res_var_lf_bal() -&gt; str:
+    return lf_bal.ElmZone.c_InterQ.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_rms_bal"><code class="name flex">
+<span>def <span class="ident">get_Q_exchange_res_var_rms_bal</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_Q_exchange_res_var_rms_bal() -&gt; str:
+    return rms_bal.ElmZone.c_Qinter.value</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_elm_objects.Zone.add_results_variable_F_rms_bal_of_all_terminals"><code class="name flex">
+<span>def <span class="ident">add_results_variable_F_rms_bal_of_all_terminals</span></span>(<span>self, pfp: ActiveProject) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_results_variable_F_rms_bal_of_all_terminals(
+    self, pfp: ActiveProject
+) -&gt; None:
+    for terminal in self.pf_obj.GetBuses():
+        pfp.add_results_variable(terminal, rms_bal.ElmTerm.m_fehz.value)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_elm_objects.Zone.add_results_variable_f_rms_bal_of_all_terminals"><code class="name flex">
+<span>def <span class="ident">add_results_variable_f_rms_bal_of_all_terminals</span></span>(<span>self, pfp: ActiveProject) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_results_variable_f_rms_bal_of_all_terminals(
+    self, pfp: ActiveProject
+) -&gt; None:
+    for terminal in self.pf_obj.GetBuses():
+        pfp.add_results_variable(terminal, rms_bal.ElmTerm.m_fe.value)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy" href="index.html">powfacpy</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.create_elm_object" href="#powfacpy.pf_elm_objects.create_elm_object">create_elm_object</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Area" href="#powfacpy.pf_elm_objects.Area">Area</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_lf_bal">get_P_exchange_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Area.get_P_exchange_res_var_rms_bal">get_P_exchange_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_lf_bal">get_Q_exchange_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Area.get_Q_exchange_res_var_rms_bal">get_Q_exchange_res_var_rms_bal</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Line" href="#powfacpy.pf_elm_objects.Line">Line</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Line.get_P_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Line.get_P_res_var_lf_bal">get_P_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Line.get_P_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Line.get_P_res_var_rms_bal">get_P_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Line.get_Q_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Line.get_Q_res_var_lf_bal">get_Q_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Line.get_Q_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Line.get_Q_res_var_rms_bal">get_Q_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Line.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.Line.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.PFElm" href="#powfacpy.pf_elm_objects.PFElm">PFElm</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.PFElm.get_bus_index_of_terminal" href="#powfacpy.pf_elm_objects.PFElm.get_bus_index_of_terminal">get_bus_index_of_terminal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.PFElm.set_into_service" href="#powfacpy.pf_elm_objects.PFElm.set_into_service">set_into_service</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.PFElm.set_out_of_service" href="#powfacpy.pf_elm_objects.PFElm.set_out_of_service">set_out_of_service</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Site" href="#powfacpy.pf_elm_objects.Site">Site</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Site.get_substations" href="#powfacpy.pf_elm_objects.Site.get_substations">get_substations</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Site.set_area_of_substations" href="#powfacpy.pf_elm_objects.Site.set_area_of_substations">set_area_of_substations</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Site.set_zone_of_substations" href="#powfacpy.pf_elm_objects.Site.set_zone_of_substations">set_zone_of_substations</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm">StandardLoadFlowElm</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.P" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.P">P</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.P_max" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.P_max">P_max</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.P_min" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.P_min">P_min</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.Q">Q</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_max" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_max">Q_max</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_min" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.Q_min">Q_min</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.S" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.S">S</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.S_nom" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.S_nom">S_nom</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_P_margin" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.get_P_margin">get_P_margin</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_Q_margin" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.get_Q_margin">get_Q_margin</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_p_margin_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.get_p_margin_pu">get_p_margin_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.get_q_margin_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.get_q_margin_pu">get_q_margin_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_max_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.p_max_pu">p_max_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_min_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.p_min_pu">p_min_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.p_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.p_pu">p_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_max_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.q_max_pu">q_max_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_min_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.q_min_pu">q_min_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.q_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.q_pu">q_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.s_pu" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.s_pu">s_pu</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_p" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_p">scale_p</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_q" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_q">scale_q</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_s" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.scale_s">scale_s</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_dispatch_input_mode" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.set_dispatch_input_mode">set_dispatch_input_mode</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_p_and_adapt_limits" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.set_p_and_adapt_limits">set_p_and_adapt_limits</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.set_q_and_adapt_limits" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.set_q_and_adapt_limits">set_q_and_adapt_limits</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StandardLoadFlowElm.u" href="#powfacpy.pf_elm_objects.StandardLoadFlowElm.u">u</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.StaticGenerator" href="#powfacpy.pf_elm_objects.StaticGenerator">StaticGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.StaticGenerator.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.StaticGenerator.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.StaticGenerator.set_short_circuit_impedance_uk" href="#powfacpy.pf_elm_objects.StaticGenerator.set_short_circuit_impedance_uk">set_short_circuit_impedance_uk</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.SynchronousMachine" href="#powfacpy.pf_elm_objects.SynchronousMachine">SynchronousMachine</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.SynchronousMachine.S_nom" href="#powfacpy.pf_elm_objects.SynchronousMachine.S_nom">S_nom</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.SynchronousMachine.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.SynchronousMachine.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.SynchronousMachine.set_local_controller_mode_for_load_flow" href="#powfacpy.pf_elm_objects.SynchronousMachine.set_local_controller_mode_for_load_flow">set_local_controller_mode_for_load_flow</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Terminal" href="#powfacpy.pf_elm_objects.Terminal">Terminal</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Terminal.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.Terminal.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Transformer2Winding" href="#powfacpy.pf_elm_objects.Transformer2Winding">Transformer2Winding</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Transformer2Winding.get_P_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Transformer2Winding.get_P_res_var_rms_bal">get_P_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Transformer2Winding.get_Q_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Transformer2Winding.get_Q_res_var_rms_bal">get_Q_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Transformer2Winding.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.Transformer2Winding.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Transformer3Winding" href="#powfacpy.pf_elm_objects.Transformer3Winding">Transformer3Winding</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Transformer3Winding.get_connected_elms_ordered" href="#powfacpy.pf_elm_objects.Transformer3Winding.get_connected_elms_ordered">get_connected_elms_ordered</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_elm_objects.Zone" href="#powfacpy.pf_elm_objects.Zone">Zone</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_elm_objects.Zone.add_results_variable_F_rms_bal_of_all_terminals" href="#powfacpy.pf_elm_objects.Zone.add_results_variable_F_rms_bal_of_all_terminals">add_results_variable_F_rms_bal_of_all_terminals</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Zone.add_results_variable_f_rms_bal_of_all_terminals" href="#powfacpy.pf_elm_objects.Zone.add_results_variable_f_rms_bal_of_all_terminals">add_results_variable_f_rms_bal_of_all_terminals</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_lf_bal">get_P_exchange_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Zone.get_P_exchange_res_var_rms_bal">get_P_exchange_res_var_rms_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_lf_bal" href="#powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_lf_bal">get_Q_exchange_res_var_lf_bal</a></code></li>
+<li><code><a title="powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_rms_bal" href="#powfacpy.pf_elm_objects.Zone.get_Q_exchange_res_var_rms_bal">get_Q_exchange_res_var_rms_bal</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

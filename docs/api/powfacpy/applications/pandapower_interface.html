@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.pandapower_interface API documentation</title>
+<meta name="description" content="Interface with pandapower.
+Tutorial on internal data structure and matrices of pandapower: …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.pandapower_interface</code></h1>
+</header>
+<section id="section-intro">
+<p>Interface with pandapower.
+Tutorial on internal data structure and matrices of pandapower: <a href="https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb">https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb</a></p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="powfacpy.applications.pandapower_interface.rearrange_matrix_rows_and_cols"><code class="name flex">
+<span>def <span class="ident">rearrange_matrix_rows_and_cols</span></span>(<span>matrix: <class 'collections.abc.Buffer'> | numpy._typing._array_like._SupportsArray[numpy.dtype[typing.Any]] | numpy._typing._nested_sequence._NestedSequence[numpy._typing._array_like._SupportsArray[numpy.dtype[typing.Any]]] | complex | bytes | str | numpy._typing._nested_sequence._NestedSequence[complex | bytes | str],<br>index_order: <class 'collections.abc.Buffer'> | numpy._typing._array_like._SupportsArray[numpy.dtype[typing.Any]] | numpy._typing._nested_sequence._NestedSequence[numpy._typing._array_like._SupportsArray[numpy.dtype[typing.Any]]] | complex | bytes | str | numpy._typing._nested_sequence._NestedSequence[complex | bytes | str]) ‑> <built-in function array></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rearrange_matrix_rows_and_cols(
+    matrix: ArrayLike, index_order: ArrayLike
+) -&gt; np.array:
+    return matrix[index_order, :][:, index_order]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface"><code class="flex name class">
+<span>class <span class="ident">PandapowerInterface</span></span>
+<span>(</span><span>pf_app: <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a> | None | bool = False,<br>cached: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PandapowerInterface(ApplicationBase):
+
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+
+    def pf_project_to_pandapower(
+        self, project_path_in_user: str = None, json_path: str = None
+    ) -&gt; pp.auxiliary.pandapowerNet:
+        &#34;&#34;&#34;
+        Convert PowerFactory network to pandapower format.
+
+        see pandapower docs: https://pandapower.readthedocs.io//en//v2.13.1//converter//powerfactory.html
+
+        The method &#39;from_pfd&#39; that is used deactivates the currently active PF project, so it is reactivated.
+
+        Arguments:
+            project_path_in_user (str): path of the project in PowerFactory database relative to user
+
+            json_path (str): path of exported pandapower json file
+
+        Returns:
+            pp.auxiliary.pandapowerNet: pandapower network
+        &#34;&#34;&#34;
+        active_project = self.act_prj.app.GetActiveProject()
+        if project_path_in_user is None:
+            project_path_in_user = self.act_prj.get_path_of_object_in_current_user(
+                active_project
+            )
+        net = pp.converter.powerfactory.from_pfd(
+            self.app, prj_name=project_path_in_user, path_dst=json_path
+        )
+        if active_project:
+            active_project.Activate()
+        return net
+
+    def get_Ybus_matrix(self, net: pp.pandapowerNet, return_deepcopy=True) -&gt; np.matrix:
+        &#34;&#34;&#34;
+        Get admittance matrix (sparse).
+
+        If internal bus-branch model does not exist yet, a power flow must be executed.
+
+        Arguments:
+            net: pandapower network
+            return_deepcopy: If True, a deepcopy of the matrix stored in &#39;net&#39; is returned.
+
+        Returns:
+            np.matrix: admittance matrix
+        &#34;&#34;&#34;
+        if not net._ppc or net._ppc[&#34;internal&#34;][&#34;Ybus&#34;].size == 0:
+            pp.runpp(net)
+        # Due to bug
+        Y_bus = np.array(copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]).todense())
+        np.fill_diagonal(Y_bus, 0)
+        Y_bus = Y_bus - np.diag(np.sum(Y_bus, axis=0).reshape(-1))
+        return Y_bus
+        # if return_deepcopy:
+        #     return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Ybus&#34;])
+        # else:
+        #     return net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]
+
+    def get_Ybus_frame(self, net: pp.pandapowerNet) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Get Dataframe with admittance matrix and row (column) labels according to the &#39;loc_name&#39; of the terminal objects.
+
+        Args:
+            net (pp.pandapowerNet): pandapower dataset (exported from PF)
+
+        Returns:
+            pd.DataFrame: admittance matrix
+        &#34;&#34;&#34;
+        Yb = self.get_Ybus_matrix(net)
+        matrix_index_labels = self.get_admittance_matrix_labels(net)
+        return pd.DataFrame(Yb, columns=matrix_index_labels, index=matrix_index_labels)
+        # return pd.DataFrame(
+        #     Yb.todense(), columns=matrix_index_labels, index=matrix_index_labels
+        # )
+
+    def rearrange_Ybus_frame(
+        self, y_bus: pd.DataFrame, bus_objs: ElmTerm
+    ) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Rearrange admittance matrix dataframe in order of &#39;bus_obj&#39;.
+
+        Args:
+            y_bus (pd.DataFrame): Admittance matrix frame (labels are terminal names)
+            bus_objs (ElmTerm): Terminals in new order.
+
+        Returns:
+            pd.DataFrame: Rearranged admittance matrix frame.
+        &#34;&#34;&#34;
+        pdi = PandasInterface()
+        columns = copy.deepcopy(y_bus.columns)
+        y_bus = pdi.replace_loc_name_with_pf_objects_in_labels(
+            y_bus,
+            &#34;ElmTerm&#34;,
+            index_and_column_labels_are_equal=True,
+        )
+        order = [
+            int(np.where(y_bus.columns.get_level_values(0) == bus)[0])
+            for bus in bus_objs
+        ]
+        y_bus.iloc[:, :] = rearrange_matrix_rows_and_cols(y_bus.to_numpy(), order)
+        y_bus.columns = columns[order]
+        y_bus.index = y_bus.columns
+        return y_bus
+
+    def get_imaginary_Ybus_matrix(
+        self, net: pp.pandapowerNet, return_deepcopy=True
+    ) -&gt; np.matrix:
+        &#34;&#34;&#34;Get imaginary part of admittance matrix (sparse).
+
+        Args:
+            net (pp.pandapowerNet): pandapower dataset (exported from PF)
+            return_deepcopy (bool, optional): _description_. Defaults to True.
+
+        Returns:
+            np.matrix: imaginary part of admittance matrix (sparse)
+        &#34;&#34;&#34;
+        if return_deepcopy:
+            return copy.deepcopy(np.imag(self.get_Ybus_matrix(net)))
+        else:
+            return np.imag(self.get_Ybus_matrix(net))
+
+    def get_admittance_matrix_labels(self, net: pp.pandapowerNet):
+        matrix_index_labels = [None] * net._ppc[&#34;internal&#34;][&#34;Ybus&#34;].shape[0]
+        for ybus_idx in range(len(matrix_index_labels)):
+            bus_idx = np.argmax(net._pd2ppc_lookups[&#34;bus&#34;] == ybus_idx)
+            matrix_index_labels[ybus_idx] = net.bus.iloc[bus_idx, :][&#34;name&#34;]
+        return matrix_index_labels
+
+    def get_Bbus_matrix(self, net: pp.pandapowerNet, return_deepcopy=True) -&gt; np.matrix:
+        &#34;&#34;&#34;
+        Get Bbus matrix  (sparse) used for dc power flow.
+
+        If internal bus-branch model for dc power flow does not exist yet, a dc power flow must be executed.
+
+        Arguments:
+        - net: pandapower network
+        &#34;&#34;&#34;
+        if not net._ppc or not net._ppc[&#34;internal&#34;][&#34;Bbus&#34;].size == 0:
+            pp.rundcpp(net)
+        if return_deepcopy:
+            return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Bbus&#34;])
+        else:
+            return net._ppc[&#34;internal&#34;][&#34;Bbus&#34;]
+
+    def get_jacobian_matrix(
+        self, net: pp.pandapowerNet, return_deepcopy=True
+    ) -&gt; np.matrix:
+        &#34;&#34;&#34;
+        Get load flow jacobian matrix.
+
+        Arguments:
+        - net: pandapower network
+        &#34;&#34;&#34;
+        if not net._ppc:
+            pp.runpp(net)
+        if return_deepcopy:
+            return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;J&#34;])
+        else:
+            return net._ppc[&#34;internal&#34;][&#34;J&#34;]
+
+    def get_connectivity_matrix(
+        self, net: pp.pandapowerNet, boolean: bool = False
+    ) -&gt; np.array:
+        &#34;&#34;&#34;Get the connectivity (also called adjacency) matrix.
+
+        Indices of connected nodes are True. The connectivity matrix is the admittance matrix where nonzero entries are True, other entries are False.
+
+        Args:
+            net (pp.pandapowerNet): pandapower dataset
+
+        Returns:
+            np.array[bool]: Connectivity matrix.
+        &#34;&#34;&#34;
+        Ybus = net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]
+        if not boolean:
+            connect_mat = np.full(Ybus.shape, 0)
+            connect_mat[np.array(Ybus.todense() != 0)] = 1
+        else:
+            connect_mat = np.full(Ybus.shape, False)
+            connect_mat[np.array(Ybus.todense() != 0)] = True
+        return connect_mat
+
+    def get_connectivity_frame(
+        self, net: pp.pandapowerNet, boolean: bool = False
+    ) -&gt; pd.DataFrame:
+        con_mat = self.get_connectivity_matrix(net, boolean=boolean)
+        matrix_index_labels = self.get_admittance_matrix_labels(net)
+        return pd.DataFrame(
+            con_mat, columns=matrix_index_labels, index=matrix_index_labels
+        )
+
+    def get_difference_between_pf_and_pandapower_dataset(
+        self,
+        net: pp.auxiliary.pandapowerNet,
+    ) -&gt; pd.DataFrame | None:
+        &#34;&#34;&#34;
+        Get difference between pandapower dataset (exported from PF) and the original PF.
+
+        Assumes default settings for units in the PF project (see Settings/Units). Note that only a small subset of classes and parameters is checked (see &#39;get_pandapower_2_pf_parameter_mapping&#39; and &#39;get_pandapower_2_pf_class_mapping&#39;)
+
+        Args:
+            net (pp.auxiliary.pandapowerNet): pandapower dataset (exported from PF)
+
+        Returns:
+            pd.DataFrame | None: Dataframe with differences. None if there are no differences
+        &#34;&#34;&#34;
+        pandapower_2_pf_class_mapping = self.get_pandapower_2_pf_class_mapping()
+        pandapower_2_pf_parameter_mapping = self.get_pandapower_2_pf_parameter_mapping()
+        differing_objects = {
+            &#34;name&#34;: [],
+            &#34;pf_class&#34;: [],
+            &#34;pp_parameter&#34;: [],
+            &#34;pf_value&#34;: [],
+            &#34;pp_value&#34;: [],
+        }
+        for pp_class, pf_classes in pandapower_2_pf_class_mapping.items():
+            df_pp_class = net[pp_class].set_index(&#34;name&#34;)
+            for pf_class in pf_classes:
+                pf_objects: list[PFGeneral] = self.app.GetCalcRelevantObjects(
+                    f&#34;*.{pf_class}&#34;
+                )
+                for pp_param, pf_param in pandapower_2_pf_parameter_mapping[
+                    pf_class
+                ].items():
+                    for pf_obj in pf_objects:
+                        if isinstance(pf_param, str):
+                            pf_value = getattr(pf_obj, pf_param)
+                        else:
+                            pf_value = pf_param(pf_obj)
+                        pp_value = df_pp_class.loc[pf_obj.loc_name, pp_param]
+                        if not (pf_value == pp_value):
+                            differing_objects[&#34;name&#34;].append(pf_obj.loc_name)
+                            differing_objects[&#34;pf_class&#34;].append(pf_obj.GetClassName())
+                            differing_objects[&#34;pp_parameter&#34;].append(pp_param)
+                            differing_objects[&#34;pf_value&#34;].append(pf_value)
+                            differing_objects[&#34;pp_value&#34;].append(pp_value)
+        if not differing_objects[&#34;name&#34;]:
+            return None
+        else:
+            return pd.DataFrame(differing_objects)
+
+    def get_pandapower_2_pf_class_mapping(self) -&gt; dict[str, list[str]]:
+        &#34;&#34;&#34;Get mapping between pandapower classes (components) and PowerFactory classes.
+
+        Returns:
+            dict[str, list[str]]: Mapping. Note that the values are lists because one pandapower class can have multiple corresponding pf classes.
+        &#34;&#34;&#34;
+        return {
+            &#34;bus&#34;: [&#34;ElmTerm&#34;],
+            &#34;line&#34;: [&#34;ElmLne&#34;],
+            &#34;trafo&#34;: [&#34;ElmTr2&#34;, &#34;ElmTr3&#34;],
+            &#34;impedance&#34;: [&#34;ElmZpu&#34;, &#34;ElmSind&#34;],
+        }
+
+    def get_pandapower_2_pf_parameter_mapping(
+        self,
+    ) -&gt; dict[str, dict[str, str | Callable]]:
+        &#34;&#34;&#34;Get parameter mapping between pandapower and PowerFactory.
+
+        Only a small subset of all the parameters is currently implemented.
+
+        Returns:
+            dict[str, dict[str, str | Callable]]: For each pf class, a mapping between the pandapower and the pf parameter is provided. The pf parameter can be a string or a callable (input is the pf object; used for example to access a parameter of the type).
+        &#34;&#34;&#34;
+        return {
+            &#34;ElmTerm&#34;: {
+                &#34;vn_kv&#34;: &#34;uknom&#34;,
+            },
+            &#34;ElmLne&#34;: {
+                &#34;length_km&#34;: &#34;dline&#34;,
+                &#34;parallel&#34;: &#34;nlnum&#34;,
+                &#34;r_ohm_per_km&#34;: lambda x: x.typ_id.rline,
+                &#34;x_ohm_per_km&#34;: lambda x: x.typ_id.xline,
+                &#34;c_nf_per_km&#34;: lambda x: x.typ_id.cline
+                * 1000  # from micro to nano
+                * x.typ_id.frnom  # nominal frequency is adapted to 50 Hz by pandapower
+                / 50.0,
+                &#34;g_us_per_km&#34;: lambda x: x.typ_id.gline,
+            },
+            &#34;ElmTr2&#34;: {
+                &#34;sn_mva&#34;: lambda x: x.typ_id.strn,
+                &#34;parallel&#34;: &#34;ntnum&#34;,
+                &#34;vn_hv_kv&#34;: lambda x: x.typ_id.utrn_h,
+                &#34;vn_lv_kv&#34;: lambda x: x.typ_id.utrn_l,
+                &#34;vk_percent&#34;: lambda x: x.typ_id.uktr,
+                &#34;vkr_percent&#34;: lambda x: x.typ_id.uktrr,
+            },
+            &#34;ElmTr3&#34;: {
+                &#34;parallel&#34;: &#34;nt3nm&#34;,
+                &#34;sn_hv_mva&#34;: lambda x: x.typ_id.strn3_h,
+                &#34;sn_mv_mva&#34;: lambda x: x.typ_id.strn3_m,
+                &#34;sn_lv_mva&#34;: lambda x: x.typ_id.strn3_l,
+                &#34;vn_hv_kv&#34;: lambda x: x.typ_id.utrn3_h,
+                &#34;vn_mv_kv&#34;: lambda x: x.typ_id.utrn3_m,
+                &#34;vn_lv_kv&#34;: lambda x: x.typ_id.utrn3_l,
+                &#34;vk_hv_percent&#34;: lambda x: x.typ_id.uktr3_h,
+                &#34;vk_mv_percent&#34;: lambda x: x.typ_id.uktr3_m,
+                &#34;vk_lv_percent&#34;: lambda x: x.typ_id.uktr3_l,
+                &#34;vkr_hv_percent&#34;: lambda x: x.typ_id.uktrr3_h,
+                &#34;vkr_mv_percent&#34;: lambda x: x.typ_id.uktrr3_m,
+                &#34;vkr_lv_percent&#34;: lambda x: x.typ_id.uktrr3_l,
+            },
+            &#34;ElmZpu&#34;: {
+                &#34;sn_mva&#34;: &#34;Sn&#34;,
+                &#34;rft_pu&#34;: &#34;r_pu&#34;,
+                &#34;xft_pu&#34;: &#34;x_pu&#34;,
+            },
+            &#34;ElmSind&#34;: {
+                &#34;sn_mva&#34;: &#34;Sn&#34;,
+                &#34;rft_pu&#34;: lambda x: (x.rrea * x.Sn) / (x.ucn**2),
+                &#34;xft_pu&#34;: lambda x: (x.xrea * x.Sn) / (x.ucn**2),
+            },
+        }</code></pre>
+</details>
+<div class="desc"><p>Base class for applications. Allows to create versions with
+- ActiveProjectCached (recommended when only one project stays active)
+- or ActiveProject (recommended when the active project may change)</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Bbus_matrix"><code class="name flex">
+<span>def <span class="ident">get_Bbus_matrix</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, return_deepcopy=True) ‑> numpy.matrix</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Bbus_matrix(self, net: pp.pandapowerNet, return_deepcopy=True) -&gt; np.matrix:
+    &#34;&#34;&#34;
+    Get Bbus matrix  (sparse) used for dc power flow.
+
+    If internal bus-branch model for dc power flow does not exist yet, a dc power flow must be executed.
+
+    Arguments:
+    - net: pandapower network
+    &#34;&#34;&#34;
+    if not net._ppc or not net._ppc[&#34;internal&#34;][&#34;Bbus&#34;].size == 0:
+        pp.rundcpp(net)
+    if return_deepcopy:
+        return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Bbus&#34;])
+    else:
+        return net._ppc[&#34;internal&#34;][&#34;Bbus&#34;]</code></pre>
+</details>
+<div class="desc"><p>Get Bbus matrix
+(sparse) used for dc power flow.</p>
+<p>If internal bus-branch model for dc power flow does not exist yet, a dc power flow must be executed.</p>
+<p>Arguments:
+- net: pandapower network</p></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_frame"><code class="name flex">
+<span>def <span class="ident">get_Ybus_frame</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Ybus_frame(self, net: pp.pandapowerNet) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Get Dataframe with admittance matrix and row (column) labels according to the &#39;loc_name&#39; of the terminal objects.
+
+    Args:
+        net (pp.pandapowerNet): pandapower dataset (exported from PF)
+
+    Returns:
+        pd.DataFrame: admittance matrix
+    &#34;&#34;&#34;
+    Yb = self.get_Ybus_matrix(net)
+    matrix_index_labels = self.get_admittance_matrix_labels(net)
+    return pd.DataFrame(Yb, columns=matrix_index_labels, index=matrix_index_labels)
+    # return pd.DataFrame(
+    #     Yb.todense(), columns=matrix_index_labels, index=matrix_index_labels
+    # )</code></pre>
+</details>
+<div class="desc"><p>Get Dataframe with admittance matrix and row (column) labels according to the 'loc_name' of the terminal objects.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>net</code></strong> :&ensp;<code>pp.pandapowerNet</code></dt>
+<dd>pandapower dataset (exported from PF)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>admittance matrix</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_matrix"><code class="name flex">
+<span>def <span class="ident">get_Ybus_matrix</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, return_deepcopy=True) ‑> numpy.matrix</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_Ybus_matrix(self, net: pp.pandapowerNet, return_deepcopy=True) -&gt; np.matrix:
+    &#34;&#34;&#34;
+    Get admittance matrix (sparse).
+
+    If internal bus-branch model does not exist yet, a power flow must be executed.
+
+    Arguments:
+        net: pandapower network
+        return_deepcopy: If True, a deepcopy of the matrix stored in &#39;net&#39; is returned.
+
+    Returns:
+        np.matrix: admittance matrix
+    &#34;&#34;&#34;
+    if not net._ppc or net._ppc[&#34;internal&#34;][&#34;Ybus&#34;].size == 0:
+        pp.runpp(net)
+    # Due to bug
+    Y_bus = np.array(copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]).todense())
+    np.fill_diagonal(Y_bus, 0)
+    Y_bus = Y_bus - np.diag(np.sum(Y_bus, axis=0).reshape(-1))
+    return Y_bus
+    # if return_deepcopy:
+    #     return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;Ybus&#34;])
+    # else:
+    #     return net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]</code></pre>
+</details>
+<div class="desc"><p>Get admittance matrix (sparse).</p>
+<p>If internal bus-branch model does not exist yet, a power flow must be executed.</p>
+<h2 id="arguments">Arguments</h2>
+<p>net: pandapower network
+return_deepcopy: If True, a deepcopy of the matrix stored in 'net' is returned.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.matrix</code></dt>
+<dd>admittance matrix</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_admittance_matrix_labels"><code class="name flex">
+<span>def <span class="ident">get_admittance_matrix_labels</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_admittance_matrix_labels(self, net: pp.pandapowerNet):
+    matrix_index_labels = [None] * net._ppc[&#34;internal&#34;][&#34;Ybus&#34;].shape[0]
+    for ybus_idx in range(len(matrix_index_labels)):
+        bus_idx = np.argmax(net._pd2ppc_lookups[&#34;bus&#34;] == ybus_idx)
+        matrix_index_labels[ybus_idx] = net.bus.iloc[bus_idx, :][&#34;name&#34;]
+    return matrix_index_labels</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_frame"><code class="name flex">
+<span>def <span class="ident">get_connectivity_frame</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, boolean: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connectivity_frame(
+    self, net: pp.pandapowerNet, boolean: bool = False
+) -&gt; pd.DataFrame:
+    con_mat = self.get_connectivity_matrix(net, boolean=boolean)
+    matrix_index_labels = self.get_admittance_matrix_labels(net)
+    return pd.DataFrame(
+        con_mat, columns=matrix_index_labels, index=matrix_index_labels
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_matrix"><code class="name flex">
+<span>def <span class="ident">get_connectivity_matrix</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, boolean: bool = False) ‑> <built-in function array></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connectivity_matrix(
+    self, net: pp.pandapowerNet, boolean: bool = False
+) -&gt; np.array:
+    &#34;&#34;&#34;Get the connectivity (also called adjacency) matrix.
+
+    Indices of connected nodes are True. The connectivity matrix is the admittance matrix where nonzero entries are True, other entries are False.
+
+    Args:
+        net (pp.pandapowerNet): pandapower dataset
+
+    Returns:
+        np.array[bool]: Connectivity matrix.
+    &#34;&#34;&#34;
+    Ybus = net._ppc[&#34;internal&#34;][&#34;Ybus&#34;]
+    if not boolean:
+        connect_mat = np.full(Ybus.shape, 0)
+        connect_mat[np.array(Ybus.todense() != 0)] = 1
+    else:
+        connect_mat = np.full(Ybus.shape, False)
+        connect_mat[np.array(Ybus.todense() != 0)] = True
+    return connect_mat</code></pre>
+</details>
+<div class="desc"><p>Get the connectivity (also called adjacency) matrix.</p>
+<p>Indices of connected nodes are True. The connectivity matrix is the admittance matrix where nonzero entries are True, other entries are False.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>net</code></strong> :&ensp;<code>pp.pandapowerNet</code></dt>
+<dd>pandapower dataset</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.array[bool]</code></dt>
+<dd>Connectivity matrix.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_difference_between_pf_and_pandapower_dataset"><code class="name flex">
+<span>def <span class="ident">get_difference_between_pf_and_pandapower_dataset</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet) ‑> pandas.core.frame.DataFrame | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_difference_between_pf_and_pandapower_dataset(
+    self,
+    net: pp.auxiliary.pandapowerNet,
+) -&gt; pd.DataFrame | None:
+    &#34;&#34;&#34;
+    Get difference between pandapower dataset (exported from PF) and the original PF.
+
+    Assumes default settings for units in the PF project (see Settings/Units). Note that only a small subset of classes and parameters is checked (see &#39;get_pandapower_2_pf_parameter_mapping&#39; and &#39;get_pandapower_2_pf_class_mapping&#39;)
+
+    Args:
+        net (pp.auxiliary.pandapowerNet): pandapower dataset (exported from PF)
+
+    Returns:
+        pd.DataFrame | None: Dataframe with differences. None if there are no differences
+    &#34;&#34;&#34;
+    pandapower_2_pf_class_mapping = self.get_pandapower_2_pf_class_mapping()
+    pandapower_2_pf_parameter_mapping = self.get_pandapower_2_pf_parameter_mapping()
+    differing_objects = {
+        &#34;name&#34;: [],
+        &#34;pf_class&#34;: [],
+        &#34;pp_parameter&#34;: [],
+        &#34;pf_value&#34;: [],
+        &#34;pp_value&#34;: [],
+    }
+    for pp_class, pf_classes in pandapower_2_pf_class_mapping.items():
+        df_pp_class = net[pp_class].set_index(&#34;name&#34;)
+        for pf_class in pf_classes:
+            pf_objects: list[PFGeneral] = self.app.GetCalcRelevantObjects(
+                f&#34;*.{pf_class}&#34;
+            )
+            for pp_param, pf_param in pandapower_2_pf_parameter_mapping[
+                pf_class
+            ].items():
+                for pf_obj in pf_objects:
+                    if isinstance(pf_param, str):
+                        pf_value = getattr(pf_obj, pf_param)
+                    else:
+                        pf_value = pf_param(pf_obj)
+                    pp_value = df_pp_class.loc[pf_obj.loc_name, pp_param]
+                    if not (pf_value == pp_value):
+                        differing_objects[&#34;name&#34;].append(pf_obj.loc_name)
+                        differing_objects[&#34;pf_class&#34;].append(pf_obj.GetClassName())
+                        differing_objects[&#34;pp_parameter&#34;].append(pp_param)
+                        differing_objects[&#34;pf_value&#34;].append(pf_value)
+                        differing_objects[&#34;pp_value&#34;].append(pp_value)
+    if not differing_objects[&#34;name&#34;]:
+        return None
+    else:
+        return pd.DataFrame(differing_objects)</code></pre>
+</details>
+<div class="desc"><p>Get difference between pandapower dataset (exported from PF) and the original PF.</p>
+<p>Assumes default settings for units in the PF project (see Settings/Units). Note that only a small subset of classes and parameters is checked (see 'get_pandapower_2_pf_parameter_mapping' and 'get_pandapower_2_pf_class_mapping')</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>net</code></strong> :&ensp;<code>pp.auxiliary.pandapowerNet</code></dt>
+<dd>pandapower dataset (exported from PF)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame | None</code></dt>
+<dd>Dataframe with differences. None if there are no differences</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_imaginary_Ybus_matrix"><code class="name flex">
+<span>def <span class="ident">get_imaginary_Ybus_matrix</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, return_deepcopy=True) ‑> numpy.matrix</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_imaginary_Ybus_matrix(
+    self, net: pp.pandapowerNet, return_deepcopy=True
+) -&gt; np.matrix:
+    &#34;&#34;&#34;Get imaginary part of admittance matrix (sparse).
+
+    Args:
+        net (pp.pandapowerNet): pandapower dataset (exported from PF)
+        return_deepcopy (bool, optional): _description_. Defaults to True.
+
+    Returns:
+        np.matrix: imaginary part of admittance matrix (sparse)
+    &#34;&#34;&#34;
+    if return_deepcopy:
+        return copy.deepcopy(np.imag(self.get_Ybus_matrix(net)))
+    else:
+        return np.imag(self.get_Ybus_matrix(net))</code></pre>
+</details>
+<div class="desc"><p>Get imaginary part of admittance matrix (sparse).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>net</code></strong> :&ensp;<code>pp.pandapowerNet</code></dt>
+<dd>pandapower dataset (exported from PF)</dd>
+<dt><strong><code>return_deepcopy</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd><em>description</em>. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.matrix</code></dt>
+<dd>imaginary part of admittance matrix (sparse)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_jacobian_matrix"><code class="name flex">
+<span>def <span class="ident">get_jacobian_matrix</span></span>(<span>self, net: pandapower.auxiliary.pandapowerNet, return_deepcopy=True) ‑> numpy.matrix</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_jacobian_matrix(
+    self, net: pp.pandapowerNet, return_deepcopy=True
+) -&gt; np.matrix:
+    &#34;&#34;&#34;
+    Get load flow jacobian matrix.
+
+    Arguments:
+    - net: pandapower network
+    &#34;&#34;&#34;
+    if not net._ppc:
+        pp.runpp(net)
+    if return_deepcopy:
+        return copy.deepcopy(net._ppc[&#34;internal&#34;][&#34;J&#34;])
+    else:
+        return net._ppc[&#34;internal&#34;][&#34;J&#34;]</code></pre>
+</details>
+<div class="desc"><p>Get load flow jacobian matrix.</p>
+<p>Arguments:
+- net: pandapower network</p></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_class_mapping"><code class="name flex">
+<span>def <span class="ident">get_pandapower_2_pf_class_mapping</span></span>(<span>self) ‑> dict[str, list[str]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_pandapower_2_pf_class_mapping(self) -&gt; dict[str, list[str]]:
+    &#34;&#34;&#34;Get mapping between pandapower classes (components) and PowerFactory classes.
+
+    Returns:
+        dict[str, list[str]]: Mapping. Note that the values are lists because one pandapower class can have multiple corresponding pf classes.
+    &#34;&#34;&#34;
+    return {
+        &#34;bus&#34;: [&#34;ElmTerm&#34;],
+        &#34;line&#34;: [&#34;ElmLne&#34;],
+        &#34;trafo&#34;: [&#34;ElmTr2&#34;, &#34;ElmTr3&#34;],
+        &#34;impedance&#34;: [&#34;ElmZpu&#34;, &#34;ElmSind&#34;],
+    }</code></pre>
+</details>
+<div class="desc"><p>Get mapping between pandapower classes (components) and PowerFactory classes.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[str, list[str]]</code></dt>
+<dd>Mapping. Note that the values are lists because one pandapower class can have multiple corresponding pf classes.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_parameter_mapping"><code class="name flex">
+<span>def <span class="ident">get_pandapower_2_pf_parameter_mapping</span></span>(<span>self) ‑> dict[str, dict[str, str | Callable]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_pandapower_2_pf_parameter_mapping(
+    self,
+) -&gt; dict[str, dict[str, str | Callable]]:
+    &#34;&#34;&#34;Get parameter mapping between pandapower and PowerFactory.
+
+    Only a small subset of all the parameters is currently implemented.
+
+    Returns:
+        dict[str, dict[str, str | Callable]]: For each pf class, a mapping between the pandapower and the pf parameter is provided. The pf parameter can be a string or a callable (input is the pf object; used for example to access a parameter of the type).
+    &#34;&#34;&#34;
+    return {
+        &#34;ElmTerm&#34;: {
+            &#34;vn_kv&#34;: &#34;uknom&#34;,
+        },
+        &#34;ElmLne&#34;: {
+            &#34;length_km&#34;: &#34;dline&#34;,
+            &#34;parallel&#34;: &#34;nlnum&#34;,
+            &#34;r_ohm_per_km&#34;: lambda x: x.typ_id.rline,
+            &#34;x_ohm_per_km&#34;: lambda x: x.typ_id.xline,
+            &#34;c_nf_per_km&#34;: lambda x: x.typ_id.cline
+            * 1000  # from micro to nano
+            * x.typ_id.frnom  # nominal frequency is adapted to 50 Hz by pandapower
+            / 50.0,
+            &#34;g_us_per_km&#34;: lambda x: x.typ_id.gline,
+        },
+        &#34;ElmTr2&#34;: {
+            &#34;sn_mva&#34;: lambda x: x.typ_id.strn,
+            &#34;parallel&#34;: &#34;ntnum&#34;,
+            &#34;vn_hv_kv&#34;: lambda x: x.typ_id.utrn_h,
+            &#34;vn_lv_kv&#34;: lambda x: x.typ_id.utrn_l,
+            &#34;vk_percent&#34;: lambda x: x.typ_id.uktr,
+            &#34;vkr_percent&#34;: lambda x: x.typ_id.uktrr,
+        },
+        &#34;ElmTr3&#34;: {
+            &#34;parallel&#34;: &#34;nt3nm&#34;,
+            &#34;sn_hv_mva&#34;: lambda x: x.typ_id.strn3_h,
+            &#34;sn_mv_mva&#34;: lambda x: x.typ_id.strn3_m,
+            &#34;sn_lv_mva&#34;: lambda x: x.typ_id.strn3_l,
+            &#34;vn_hv_kv&#34;: lambda x: x.typ_id.utrn3_h,
+            &#34;vn_mv_kv&#34;: lambda x: x.typ_id.utrn3_m,
+            &#34;vn_lv_kv&#34;: lambda x: x.typ_id.utrn3_l,
+            &#34;vk_hv_percent&#34;: lambda x: x.typ_id.uktr3_h,
+            &#34;vk_mv_percent&#34;: lambda x: x.typ_id.uktr3_m,
+            &#34;vk_lv_percent&#34;: lambda x: x.typ_id.uktr3_l,
+            &#34;vkr_hv_percent&#34;: lambda x: x.typ_id.uktrr3_h,
+            &#34;vkr_mv_percent&#34;: lambda x: x.typ_id.uktrr3_m,
+            &#34;vkr_lv_percent&#34;: lambda x: x.typ_id.uktrr3_l,
+        },
+        &#34;ElmZpu&#34;: {
+            &#34;sn_mva&#34;: &#34;Sn&#34;,
+            &#34;rft_pu&#34;: &#34;r_pu&#34;,
+            &#34;xft_pu&#34;: &#34;x_pu&#34;,
+        },
+        &#34;ElmSind&#34;: {
+            &#34;sn_mva&#34;: &#34;Sn&#34;,
+            &#34;rft_pu&#34;: lambda x: (x.rrea * x.Sn) / (x.ucn**2),
+            &#34;xft_pu&#34;: lambda x: (x.xrea * x.Sn) / (x.ucn**2),
+        },
+    }</code></pre>
+</details>
+<div class="desc"><p>Get parameter mapping between pandapower and PowerFactory.</p>
+<p>Only a small subset of all the parameters is currently implemented.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict[str, dict[str, str | Callable]]</code></dt>
+<dd>For each pf class, a mapping between the pandapower and the pf parameter is provided. The pf parameter can be a string or a callable (input is the pf object; used for example to access a parameter of the type).</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.pf_project_to_pandapower"><code class="name flex">
+<span>def <span class="ident">pf_project_to_pandapower</span></span>(<span>self, project_path_in_user: str = None, json_path: str = None) ‑> pandapower.auxiliary.pandapowerNet</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pf_project_to_pandapower(
+    self, project_path_in_user: str = None, json_path: str = None
+) -&gt; pp.auxiliary.pandapowerNet:
+    &#34;&#34;&#34;
+    Convert PowerFactory network to pandapower format.
+
+    see pandapower docs: https://pandapower.readthedocs.io//en//v2.13.1//converter//powerfactory.html
+
+    The method &#39;from_pfd&#39; that is used deactivates the currently active PF project, so it is reactivated.
+
+    Arguments:
+        project_path_in_user (str): path of the project in PowerFactory database relative to user
+
+        json_path (str): path of exported pandapower json file
+
+    Returns:
+        pp.auxiliary.pandapowerNet: pandapower network
+    &#34;&#34;&#34;
+    active_project = self.act_prj.app.GetActiveProject()
+    if project_path_in_user is None:
+        project_path_in_user = self.act_prj.get_path_of_object_in_current_user(
+            active_project
+        )
+    net = pp.converter.powerfactory.from_pfd(
+        self.app, prj_name=project_path_in_user, path_dst=json_path
+    )
+    if active_project:
+        active_project.Activate()
+    return net</code></pre>
+</details>
+<div class="desc"><p>Convert PowerFactory network to pandapower format.</p>
+<p>see pandapower docs: <a href="https://pandapower.readthedocs.io//en//v2.13.1//converter//powerfactory.html">https://pandapower.readthedocs.io//en//v2.13.1//converter//powerfactory.html</a></p>
+<p>The method 'from_pfd' that is used deactivates the currently active PF project, so it is reactivated.</p>
+<h2 id="arguments">Arguments</h2>
+<p>project_path_in_user (str): path of the project in PowerFactory database relative to user</p>
+<p>json_path (str): path of exported pandapower json file</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pp.auxiliary.pandapowerNet</code></dt>
+<dd>pandapower network</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.pandapower_interface.PandapowerInterface.rearrange_Ybus_frame"><code class="name flex">
+<span>def <span class="ident">rearrange_Ybus_frame</span></span>(<span>self,<br>y_bus: pandas.core.frame.DataFrame,<br>bus_objs: <a title="powfacpy.pf_classes.protocols.ElmTerm" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmTerm">ElmTerm</a>) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rearrange_Ybus_frame(
+    self, y_bus: pd.DataFrame, bus_objs: ElmTerm
+) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Rearrange admittance matrix dataframe in order of &#39;bus_obj&#39;.
+
+    Args:
+        y_bus (pd.DataFrame): Admittance matrix frame (labels are terminal names)
+        bus_objs (ElmTerm): Terminals in new order.
+
+    Returns:
+        pd.DataFrame: Rearranged admittance matrix frame.
+    &#34;&#34;&#34;
+    pdi = PandasInterface()
+    columns = copy.deepcopy(y_bus.columns)
+    y_bus = pdi.replace_loc_name_with_pf_objects_in_labels(
+        y_bus,
+        &#34;ElmTerm&#34;,
+        index_and_column_labels_are_equal=True,
+    )
+    order = [
+        int(np.where(y_bus.columns.get_level_values(0) == bus)[0])
+        for bus in bus_objs
+    ]
+    y_bus.iloc[:, :] = rearrange_matrix_rows_and_cols(y_bus.to_numpy(), order)
+    y_bus.columns = columns[order]
+    y_bus.index = y_bus.columns
+    return y_bus</code></pre>
+</details>
+<div class="desc"><p>Rearrange admittance matrix dataframe in order of 'bus_obj'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>y_bus</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Admittance matrix frame (labels are terminal names)</dd>
+<dt><strong><code>bus_objs</code></strong> :&ensp;<code>ElmTerm</code></dt>
+<dd>Terminals in new order.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Rearranged admittance matrix frame.</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="powfacpy.applications.pandapower_interface.rearrange_matrix_rows_and_cols" href="#powfacpy.applications.pandapower_interface.rearrange_matrix_rows_and_cols">rearrange_matrix_rows_and_cols</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface" href="#powfacpy.applications.pandapower_interface.PandapowerInterface">PandapowerInterface</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Bbus_matrix" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_Bbus_matrix">get_Bbus_matrix</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_frame" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_frame">get_Ybus_frame</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_matrix" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_Ybus_matrix">get_Ybus_matrix</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_admittance_matrix_labels" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_admittance_matrix_labels">get_admittance_matrix_labels</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_frame" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_frame">get_connectivity_frame</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_matrix" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_connectivity_matrix">get_connectivity_matrix</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_difference_between_pf_and_pandapower_dataset" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_difference_between_pf_and_pandapower_dataset">get_difference_between_pf_and_pandapower_dataset</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_imaginary_Ybus_matrix" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_imaginary_Ybus_matrix">get_imaginary_Ybus_matrix</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_jacobian_matrix" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_jacobian_matrix">get_jacobian_matrix</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_class_mapping" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_class_mapping">get_pandapower_2_pf_class_mapping</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_parameter_mapping" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.get_pandapower_2_pf_parameter_mapping">get_pandapower_2_pf_parameter_mapping</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.pf_project_to_pandapower" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.pf_project_to_pandapower">pf_project_to_pandapower</a></code></li>
+<li><code><a title="powfacpy.applications.pandapower_interface.PandapowerInterface.rearrange_Ybus_frame" href="#powfacpy.applications.pandapower_interface.PandapowerInterface.rearrange_Ybus_frame">rearrange_Ybus_frame</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

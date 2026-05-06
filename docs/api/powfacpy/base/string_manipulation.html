@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.base.string_manipulation API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.base.string_manipulation</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation"><code class="flex name class">
+<span>class <span class="ident">PFStringManipulation</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFStringManipulation:
+    &#34;&#34;&#34;Class to manipulate strings in the PF context.&#34;&#34;&#34;
+
+    @staticmethod
+    def replace_between_characters(
+        char1: str, char2: str, replacement: str, original: str
+    ):
+        &#34;&#34;&#34;Replace between &#39;char1&#39; and &#39;char2&#39; in &#39;original&#39; with &#39;replacement&#39;.
+
+        Example:
+          Calling
+            PFStringManipulation.replace_between_characters(
+              &#39;.&#39;,
+              &#39;\\&#39;,
+              &#39;\\&#39;,
+              &#39;username.IntUser\\pow.facpy.\\powfacpy.tests.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_base_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm&#39;
+          would give the output:
+            &#39;username\\pow.facpy\\powfacpy.tests\\Network Model\\Network Data\\test_base_interface\\Grid\\Terminal HV 1&#39;
+          Note the behavior when there are several &#39;.&#39; in between &#39;\\&#39;
+          -&gt; then the replacement starts after the last &#39;.&#39;
+        &#34;&#34;&#34;
+        new_string = &#34;&#34;
+        is_after_char_1 = False
+        string_between_char_1_occurrences = &#34;&#34;
+        for c in original:
+            if c == char1:
+                is_after_char_1 = True
+                new_string += string_between_char_1_occurrences
+                string_between_char_1_occurrences = &#34;&#34;
+            elif c == char2:
+                if is_after_char_1:
+                    new_string += replacement
+                else:
+                    new_string += c
+                string_between_char_1_occurrences = &#34;&#34;
+                is_after_char_1 = False
+            if is_after_char_1:
+                string_between_char_1_occurrences += c
+            elif not c == char2:
+                new_string += c
+        return new_string
+
+    @staticmethod
+    def remove_html_tags_from_path(path: str) -&gt; str:
+        return path[path.find(&#34;&gt;&#34;) + 1 : path.rfind(&#34;&lt;&#34;)]
+
+    @staticmethod
+    def remove_opening_html_tag_from_path(path: str) -&gt; str:
+        return path[path.find(&#34;&gt;&#34;) + 1 :]
+
+    @staticmethod
+    def remove_closing_html_tag_from_path(path: str) -&gt; str:
+        return path[0 : path.rfind(&#34;&lt;&#34;)]
+
+    @staticmethod
+    def remove_class_names(path: str) -&gt; str:
+        return PFStringManipulation.replace_between_characters(&#34;.&#34;, &#34;\\&#34;, &#34;\\&#34;, path)
+
+    @staticmethod
+    def truncate_until(original: str, string_pattern: str) -&gt; str:
+        &#34;&#34;&#34;Truncate all characters until (and including) the occurence of string_pattern in original.&#34;&#34;&#34;
+        return original[original.find(string_pattern) + len(string_pattern) :]
+
+    @staticmethod
+    def truncate_beginning(original: str, string_pattern: str) -&gt; str:
+        &#34;&#34;&#34;Truncate string_pattern if it occurs at the beginning of the
+        original string. Otherwise return original string.
+        &#34;&#34;&#34;
+        index_where_pattern_begins = original.find(string_pattern)
+        if index_where_pattern_begins == 0:
+            return original[len(string_pattern) + 1 :]
+        else:
+            return original
+
+    @staticmethod
+    def format_full_path(path: str, pf_app: PFApp) -&gt; str:
+        &#34;&#34;&#34;Takes the full path (including user and project) and returns the path relative to the currently active project. Deletes class information.
+
+        Examples:
+            ```
+            input path:  \\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
+            output: Network Model\\Network Data\\Grid\\Terminal 1
+            ```
+        &#34;&#34;&#34;
+        path = PFStringManipulation._get_path_inside_active_project_from_full_path(
+            path, pf_app
+        )
+        return PFStringManipulation.remove_class_names(path)
+
+    @staticmethod
+    def format_variable_name(name: str) -&gt; str:
+        &#34;&#34;&#34;Takes PF-generated csv export variable name and returns shortened version.
+        Example:
+          name: &#39;s:u0 in kV&#39;
+          output: &#39;s:u0&#39;
+        &#34;&#34;&#34;
+        return (
+            name.split(&#34; &#34;, 1)[0].replace(&#39;&#34;&#39;, &#34;&#34;).replace(&#34;\n&#34;, &#34;&#34;)
+        )  # get rid of description and quotation marks
+
+    @staticmethod
+    def handle_path(path: str):
+        &#34;&#34;&#34;Checks if path starts with &#39;\\&#39; (not accepted by most PF methods)
+        and if &#39;path&#39; is of type string.
+        &#34;&#34;&#34;
+        try:
+            if not path[0] == &#34;\\&#34;:
+                return path
+            else:
+                return path[1:]
+        except TypeError:
+            raise TypeError(&#34;Path must be of type string.&#34;)
+
+    @staticmethod
+    def replace_outside_or_inside_of_strings_in_a_string(
+        string: str, replacements: dict, outside=True
+    ):
+        &#34;&#34;&#34;This method replaces parts of a string but only in the sections
+        of the original string that are either outside of strings.
+
+        Example:
+        &#34;p HV load &gt;= 2 and &#39;This is a string inside the string&#39;&#34;
+        In this string the part &#39;This is a string inside the string&#39;
+        is a string inside the original string and no replacements are
+        made in this part.
+
+        Args:
+            string: The string that will be adjusted
+
+            replacements: key-value pairs of matching strings and their replacement
+        &#34;&#34;&#34;
+        if outside:
+            modulo_result = 0
+        else:
+            modulo_result = 1
+        string = PFStringManipulation.split_but_keep_delimiter(string, &#34;&#39;&#34;)
+        for n, part_of_string in enumerate(string):
+            if (
+                n % 2 == modulo_result
+            ):  # Even elemnts store the parts that are outside strings
+                for par_name, var_name in replacements.items():
+                    part_of_string = part_of_string.replace(par_name, var_name)
+                    string[n] = part_of_string
+        return &#34;&#34;.join(string).strip()
+
+    @staticmethod
+    def split_but_keep_delimiter(string: str, delimiter: str):
+        &#34;&#34;&#34;Uses the split() method to separate a string acoording
+        to a delimiter, but keeps the delimiter in the
+        separated strings (it is suprising that this is not optional
+        in the split() method).
+        Example:
+          split_but_keep_delimiter(
+            &#34;p HV load &gt;= 2 and (control 1 == &#39;A&#39; and control 2 != &#39;S&#39;)&#34;,
+            delimiter: &#34;&#39;&#34;)
+          returns
+            [&#34;p HV load &gt;= 2 and (control 1 == &#39;&#34;, &#34;A&#39;&#34;, &#34; and control 2 != &#39;&#34;, &#34;S&#39;&#34;, &#39;)&#39;]
+        &#34;&#34;&#34;
+        split_strings_list = [part + delimiter for part in string.split(delimiter)]
+        split_strings_list[-1] = split_strings_list[-1].rstrip(delimiter)
+        return split_strings_list
+
+    @staticmethod
+    def _get_path_inside_active_project_from_full_path(path: str, pf_app: PFApp) -&gt; str:
+        &#34;&#34;&#34;
+        Takes the full path (including user and project) and returns the path
+        relative to the currently active project.
+        Example:
+          input path:  \\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm&lt;/l3&gt;
+          output: Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
+        &#34;&#34;&#34;
+        project_name = pf_app.GetActiveProject().loc_name + &#34;.IntPrj\\&#34;
+        path = PFStringManipulation.truncate_until(path, project_name)
+        # In case a closing tag occurs at the end of the path &lt;/l3&gt; (e.g. when
+        # str() is called on a PF object) make sure this is removed.
+        if path and path[-1] == &#34;&gt;&#34;:
+            path = path[0 : path.rfind(&#34;&lt;&#34;)]
+        return path</code></pre>
+</details>
+<div class="desc"><p>Class to manipulate strings in the PF context.</p></div>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.format_full_path"><code class="name flex">
+<span>def <span class="ident">format_full_path</span></span>(<span>path: str,<br>pf_app: <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a>) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def format_full_path(path: str, pf_app: PFApp) -&gt; str:
+    &#34;&#34;&#34;Takes the full path (including user and project) and returns the path relative to the currently active project. Deletes class information.
+
+    Examples:
+        ```
+        input path:  \\username.IntUser\\powfacpy_base.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Terminal 1.ElmTerm
+        output: Network Model\\Network Data\\Grid\\Terminal 1
+        ```
+    &#34;&#34;&#34;
+    path = PFStringManipulation._get_path_inside_active_project_from_full_path(
+        path, pf_app
+    )
+    return PFStringManipulation.remove_class_names(path)</code></pre>
+</details>
+<div class="desc"><p>Takes the full path (including user and project) and returns the path relative to the currently active project. Deletes class information.</p>
+<h2 id="examples">Examples</h2>
+<pre><code>input path:  \username.IntUser\powfacpy_base.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Terminal 1.ElmTerm
+output: Network Model\Network Data\Grid\Terminal 1
+</code></pre></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.format_variable_name"><code class="name flex">
+<span>def <span class="ident">format_variable_name</span></span>(<span>name: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def format_variable_name(name: str) -&gt; str:
+    &#34;&#34;&#34;Takes PF-generated csv export variable name and returns shortened version.
+    Example:
+      name: &#39;s:u0 in kV&#39;
+      output: &#39;s:u0&#39;
+    &#34;&#34;&#34;
+    return (
+        name.split(&#34; &#34;, 1)[0].replace(&#39;&#34;&#39;, &#34;&#34;).replace(&#34;\n&#34;, &#34;&#34;)
+    )  # get rid of description and quotation marks</code></pre>
+</details>
+<div class="desc"><p>Takes PF-generated csv export variable name and returns shortened version.</p>
+<h2 id="example">Example</h2>
+<p>name: 's:u0 in kV'
+output: 's:u0'</p></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.handle_path"><code class="name flex">
+<span>def <span class="ident">handle_path</span></span>(<span>path: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def handle_path(path: str):
+    &#34;&#34;&#34;Checks if path starts with &#39;\\&#39; (not accepted by most PF methods)
+    and if &#39;path&#39; is of type string.
+    &#34;&#34;&#34;
+    try:
+        if not path[0] == &#34;\\&#34;:
+            return path
+        else:
+            return path[1:]
+    except TypeError:
+        raise TypeError(&#34;Path must be of type string.&#34;)</code></pre>
+</details>
+<div class="desc"><p>Checks if path starts with '' (not accepted by most PF methods)
+and if 'path' is of type string.</p></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.remove_class_names"><code class="name flex">
+<span>def <span class="ident">remove_class_names</span></span>(<span>path: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def remove_class_names(path: str) -&gt; str:
+    return PFStringManipulation.replace_between_characters(&#34;.&#34;, &#34;\\&#34;, &#34;\\&#34;, path)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.remove_closing_html_tag_from_path"><code class="name flex">
+<span>def <span class="ident">remove_closing_html_tag_from_path</span></span>(<span>path: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def remove_closing_html_tag_from_path(path: str) -&gt; str:
+    return path[0 : path.rfind(&#34;&lt;&#34;)]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.remove_html_tags_from_path"><code class="name flex">
+<span>def <span class="ident">remove_html_tags_from_path</span></span>(<span>path: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def remove_html_tags_from_path(path: str) -&gt; str:
+    return path[path.find(&#34;&gt;&#34;) + 1 : path.rfind(&#34;&lt;&#34;)]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.remove_opening_html_tag_from_path"><code class="name flex">
+<span>def <span class="ident">remove_opening_html_tag_from_path</span></span>(<span>path: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def remove_opening_html_tag_from_path(path: str) -&gt; str:
+    return path[path.find(&#34;&gt;&#34;) + 1 :]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.replace_between_characters"><code class="name flex">
+<span>def <span class="ident">replace_between_characters</span></span>(<span>char1: str, char2: str, replacement: str, original: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def replace_between_characters(
+    char1: str, char2: str, replacement: str, original: str
+):
+    &#34;&#34;&#34;Replace between &#39;char1&#39; and &#39;char2&#39; in &#39;original&#39; with &#39;replacement&#39;.
+
+    Example:
+      Calling
+        PFStringManipulation.replace_between_characters(
+          &#39;.&#39;,
+          &#39;\\&#39;,
+          &#39;\\&#39;,
+          &#39;username.IntUser\\pow.facpy.\\powfacpy.tests.IntPrj\\Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\test_base_interface\\Grid.ElmNet\\Terminal HV 1.ElmTerm&#39;
+      would give the output:
+        &#39;username\\pow.facpy\\powfacpy.tests\\Network Model\\Network Data\\test_base_interface\\Grid\\Terminal HV 1&#39;
+      Note the behavior when there are several &#39;.&#39; in between &#39;\\&#39;
+      -&gt; then the replacement starts after the last &#39;.&#39;
+    &#34;&#34;&#34;
+    new_string = &#34;&#34;
+    is_after_char_1 = False
+    string_between_char_1_occurrences = &#34;&#34;
+    for c in original:
+        if c == char1:
+            is_after_char_1 = True
+            new_string += string_between_char_1_occurrences
+            string_between_char_1_occurrences = &#34;&#34;
+        elif c == char2:
+            if is_after_char_1:
+                new_string += replacement
+            else:
+                new_string += c
+            string_between_char_1_occurrences = &#34;&#34;
+            is_after_char_1 = False
+        if is_after_char_1:
+            string_between_char_1_occurrences += c
+        elif not c == char2:
+            new_string += c
+    return new_string</code></pre>
+</details>
+<div class="desc"><p>Replace between 'char1' and 'char2' in 'original' with 'replacement'.</p>
+<h2 id="example">Example</h2>
+<p>Calling
+PFStringManipulation.replace_between_characters(
+'.',
+'',
+'',
+'username.IntUser\pow.facpy.\powfacpy.tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\test_base_interface\Grid.ElmNet\Terminal HV 1.ElmTerm'
+would give the output:
+'username\pow.facpy\powfacpy.tests\Network Model\Network Data\test_base_interface\Grid\Terminal HV 1'
+Note the behavior when there are several '.' in between ''
+-&gt; then the replacement starts after the last '.'</p></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string"><code class="name flex">
+<span>def <span class="ident">replace_outside_or_inside_of_strings_in_a_string</span></span>(<span>string: str, replacements: dict, outside=True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def replace_outside_or_inside_of_strings_in_a_string(
+    string: str, replacements: dict, outside=True
+):
+    &#34;&#34;&#34;This method replaces parts of a string but only in the sections
+    of the original string that are either outside of strings.
+
+    Example:
+    &#34;p HV load &gt;= 2 and &#39;This is a string inside the string&#39;&#34;
+    In this string the part &#39;This is a string inside the string&#39;
+    is a string inside the original string and no replacements are
+    made in this part.
+
+    Args:
+        string: The string that will be adjusted
+
+        replacements: key-value pairs of matching strings and their replacement
+    &#34;&#34;&#34;
+    if outside:
+        modulo_result = 0
+    else:
+        modulo_result = 1
+    string = PFStringManipulation.split_but_keep_delimiter(string, &#34;&#39;&#34;)
+    for n, part_of_string in enumerate(string):
+        if (
+            n % 2 == modulo_result
+        ):  # Even elemnts store the parts that are outside strings
+            for par_name, var_name in replacements.items():
+                part_of_string = part_of_string.replace(par_name, var_name)
+                string[n] = part_of_string
+    return &#34;&#34;.join(string).strip()</code></pre>
+</details>
+<div class="desc"><p>This method replaces parts of a string but only in the sections
+of the original string that are either outside of strings.</p>
+<p>Example:
+"p HV load &gt;= 2 and 'This is a string inside the string'"
+In this string the part 'This is a string inside the string'
+is a string inside the original string and no replacements are
+made in this part.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>string</code></strong></dt>
+<dd>The string that will be adjusted</dd>
+<dt><strong><code>replacements</code></strong></dt>
+<dd>key-value pairs of matching strings and their replacement</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.split_but_keep_delimiter"><code class="name flex">
+<span>def <span class="ident">split_but_keep_delimiter</span></span>(<span>string: str, delimiter: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def split_but_keep_delimiter(string: str, delimiter: str):
+    &#34;&#34;&#34;Uses the split() method to separate a string acoording
+    to a delimiter, but keeps the delimiter in the
+    separated strings (it is suprising that this is not optional
+    in the split() method).
+    Example:
+      split_but_keep_delimiter(
+        &#34;p HV load &gt;= 2 and (control 1 == &#39;A&#39; and control 2 != &#39;S&#39;)&#34;,
+        delimiter: &#34;&#39;&#34;)
+      returns
+        [&#34;p HV load &gt;= 2 and (control 1 == &#39;&#34;, &#34;A&#39;&#34;, &#34; and control 2 != &#39;&#34;, &#34;S&#39;&#34;, &#39;)&#39;]
+    &#34;&#34;&#34;
+    split_strings_list = [part + delimiter for part in string.split(delimiter)]
+    split_strings_list[-1] = split_strings_list[-1].rstrip(delimiter)
+    return split_strings_list</code></pre>
+</details>
+<div class="desc"><p>Uses the split() method to separate a string acoording
+to a delimiter, but keeps the delimiter in the
+separated strings (it is suprising that this is not optional
+in the split() method).</p>
+<h2 id="example">Example</h2>
+<p>split_but_keep_delimiter(
+"p HV load &gt;= 2 and (control 1 == 'A' and control 2 != 'S')",
+delimiter: "'")
+returns
+["p HV load &gt;= 2 and (control 1 == '", "A'", " and control 2 != '", "S'", ')']</p></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.truncate_beginning"><code class="name flex">
+<span>def <span class="ident">truncate_beginning</span></span>(<span>original: str, string_pattern: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def truncate_beginning(original: str, string_pattern: str) -&gt; str:
+    &#34;&#34;&#34;Truncate string_pattern if it occurs at the beginning of the
+    original string. Otherwise return original string.
+    &#34;&#34;&#34;
+    index_where_pattern_begins = original.find(string_pattern)
+    if index_where_pattern_begins == 0:
+        return original[len(string_pattern) + 1 :]
+    else:
+        return original</code></pre>
+</details>
+<div class="desc"><p>Truncate string_pattern if it occurs at the beginning of the
+original string. Otherwise return original string.</p></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFStringManipulation.truncate_until"><code class="name flex">
+<span>def <span class="ident">truncate_until</span></span>(<span>original: str, string_pattern: str) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def truncate_until(original: str, string_pattern: str) -&gt; str:
+    &#34;&#34;&#34;Truncate all characters until (and including) the occurence of string_pattern in original.&#34;&#34;&#34;
+    return original[original.find(string_pattern) + len(string_pattern) :]</code></pre>
+</details>
+<div class="desc"><p>Truncate all characters until (and including) the occurence of string_pattern in original.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator"><code class="flex name class">
+<span>class <span class="ident">PFTranslator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFTranslator:
+    &#34;&#34;&#34;Class to translate between languages.
+    Currently not used anywhere in powfacpy any more.
+    &#34;&#34;&#34;
+
+    @staticmethod
+    def get_default_result_object_name(language):
+        if language == &#34;en&#34;:
+            return &#34;All calculations.ElmRes&#34;
+        elif language == &#34;de&#34;:
+            return &#34;Alle Berechnungsarten.ElmRes&#34;
+
+    @staticmethod
+    def get_default_graphics_board_name(language):
+        if language == &#34;en&#34;:
+            return &#34;Graphics Board.SetDesktop&#34;
+        elif language == &#34;de&#34;:
+            return &#34;Grafiksammlung.SetDesktop&#34;
+
+    @staticmethod
+    def get_default_study_case_folder_name(language):
+        if language == &#34;en&#34;:
+            return &#34;Study Cases.IntPrjfolder&#34;
+        elif language == &#34;de&#34;:
+            return &#34;Berechnungsfälle.IntPrjfolder&#34;
+
+    @staticmethod
+    def get_default_operation_scenario_folder_path(language):
+        if language == &#34;en&#34;:
+            return r&#34;Network Model\Operation Scenarios&#34;
+        elif language == &#34;de&#34;:
+            return r&#34;Netzmodell\Betriebsfälle&#34;
+
+    @staticmethod
+    def get_default_variations_folder_path(language):
+        if language == &#34;en&#34;:
+            return r&#34;Network Model\Variations&#34;
+        elif language == &#34;de&#34;:
+            return r&#34;Netzmodell\Varianten&#34;
+
+    @staticmethod
+    def _get_language_dependent_name_from_studycase(
+        studycase, english_name, german_name
+    ):
+        studycase_contents = PFTranslator.get_name_with_ending(studycase.GetContents())
+        has_english_name = english_name in studycase_contents
+        has_german_name = german_name in studycase_contents
+        assert not (
+            has_english_name and has_german_name
+        ), &#34;Two redundant file versions: English and German named files exist.&#34;
+        if has_english_name:
+            return english_name
+        else:
+            return german_name
+
+    @staticmethod
+    def get_graphics_board_name_from_studycase(studycase):
+        name = PFTranslator._get_language_dependent_name_from_studycase(
+            studycase=studycase,
+            english_name=&#34;Graphics Board.SetDesktop&#34;,
+            german_name=&#34;Grafiksammlung.SetDesktop&#34;,
+        )
+        return name
+
+    @staticmethod
+    def get_result_object_name_from_studycase(studycase):
+        name = PFTranslator._get_language_dependent_name_from_studycase(
+            studycase=studycase,
+            english_name=&#34;All calculations.ElmRes&#34;,
+            german_name=&#34;Alle Berechnungsarten.ElmRes&#34;,
+        )
+        return name
+
+    @staticmethod
+    def get_name_with_ending(objects):
+        if not type(objects) == list:
+            objects = [objects]
+        return [x.GetFullName().split(&#34;\\&#34;)[-1] for x in objects]</code></pre>
+</details>
+<div class="desc"><p>Class to translate between languages.
+Currently not used anywhere in powfacpy any more.</p></div>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_default_graphics_board_name"><code class="name flex">
+<span>def <span class="ident">get_default_graphics_board_name</span></span>(<span>language)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_graphics_board_name(language):
+    if language == &#34;en&#34;:
+        return &#34;Graphics Board.SetDesktop&#34;
+    elif language == &#34;de&#34;:
+        return &#34;Grafiksammlung.SetDesktop&#34;</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_default_operation_scenario_folder_path"><code class="name flex">
+<span>def <span class="ident">get_default_operation_scenario_folder_path</span></span>(<span>language)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_operation_scenario_folder_path(language):
+    if language == &#34;en&#34;:
+        return r&#34;Network Model\Operation Scenarios&#34;
+    elif language == &#34;de&#34;:
+        return r&#34;Netzmodell\Betriebsfälle&#34;</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_default_result_object_name"><code class="name flex">
+<span>def <span class="ident">get_default_result_object_name</span></span>(<span>language)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_result_object_name(language):
+    if language == &#34;en&#34;:
+        return &#34;All calculations.ElmRes&#34;
+    elif language == &#34;de&#34;:
+        return &#34;Alle Berechnungsarten.ElmRes&#34;</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_default_study_case_folder_name"><code class="name flex">
+<span>def <span class="ident">get_default_study_case_folder_name</span></span>(<span>language)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_study_case_folder_name(language):
+    if language == &#34;en&#34;:
+        return &#34;Study Cases.IntPrjfolder&#34;
+    elif language == &#34;de&#34;:
+        return &#34;Berechnungsfälle.IntPrjfolder&#34;</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_default_variations_folder_path"><code class="name flex">
+<span>def <span class="ident">get_default_variations_folder_path</span></span>(<span>language)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_default_variations_folder_path(language):
+    if language == &#34;en&#34;:
+        return r&#34;Network Model\Variations&#34;
+    elif language == &#34;de&#34;:
+        return r&#34;Netzmodell\Varianten&#34;</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_graphics_board_name_from_studycase"><code class="name flex">
+<span>def <span class="ident">get_graphics_board_name_from_studycase</span></span>(<span>studycase)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_graphics_board_name_from_studycase(studycase):
+    name = PFTranslator._get_language_dependent_name_from_studycase(
+        studycase=studycase,
+        english_name=&#34;Graphics Board.SetDesktop&#34;,
+        german_name=&#34;Grafiksammlung.SetDesktop&#34;,
+    )
+    return name</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_name_with_ending"><code class="name flex">
+<span>def <span class="ident">get_name_with_ending</span></span>(<span>objects)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_name_with_ending(objects):
+    if not type(objects) == list:
+        objects = [objects]
+    return [x.GetFullName().split(&#34;\\&#34;)[-1] for x in objects]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.string_manipulation.PFTranslator.get_result_object_name_from_studycase"><code class="name flex">
+<span>def <span class="ident">get_result_object_name_from_studycase</span></span>(<span>studycase)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_result_object_name_from_studycase(studycase):
+    name = PFTranslator._get_language_dependent_name_from_studycase(
+        studycase=studycase,
+        english_name=&#34;All calculations.ElmRes&#34;,
+        german_name=&#34;Alle Berechnungsarten.ElmRes&#34;,
+    )
+    return name</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.base" href="index.html">powfacpy.base</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.base.string_manipulation.PFStringManipulation" href="#powfacpy.base.string_manipulation.PFStringManipulation">PFStringManipulation</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.format_full_path" href="#powfacpy.base.string_manipulation.PFStringManipulation.format_full_path">format_full_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.format_variable_name" href="#powfacpy.base.string_manipulation.PFStringManipulation.format_variable_name">format_variable_name</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.handle_path" href="#powfacpy.base.string_manipulation.PFStringManipulation.handle_path">handle_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.remove_class_names" href="#powfacpy.base.string_manipulation.PFStringManipulation.remove_class_names">remove_class_names</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.remove_closing_html_tag_from_path" href="#powfacpy.base.string_manipulation.PFStringManipulation.remove_closing_html_tag_from_path">remove_closing_html_tag_from_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.remove_html_tags_from_path" href="#powfacpy.base.string_manipulation.PFStringManipulation.remove_html_tags_from_path">remove_html_tags_from_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.remove_opening_html_tag_from_path" href="#powfacpy.base.string_manipulation.PFStringManipulation.remove_opening_html_tag_from_path">remove_opening_html_tag_from_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.replace_between_characters" href="#powfacpy.base.string_manipulation.PFStringManipulation.replace_between_characters">replace_between_characters</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string" href="#powfacpy.base.string_manipulation.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string">replace_outside_or_inside_of_strings_in_a_string</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.split_but_keep_delimiter" href="#powfacpy.base.string_manipulation.PFStringManipulation.split_but_keep_delimiter">split_but_keep_delimiter</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.truncate_beginning" href="#powfacpy.base.string_manipulation.PFStringManipulation.truncate_beginning">truncate_beginning</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFStringManipulation.truncate_until" href="#powfacpy.base.string_manipulation.PFStringManipulation.truncate_until">truncate_until</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="powfacpy.base.string_manipulation.PFTranslator" href="#powfacpy.base.string_manipulation.PFTranslator">PFTranslator</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_default_graphics_board_name" href="#powfacpy.base.string_manipulation.PFTranslator.get_default_graphics_board_name">get_default_graphics_board_name</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_default_operation_scenario_folder_path" href="#powfacpy.base.string_manipulation.PFTranslator.get_default_operation_scenario_folder_path">get_default_operation_scenario_folder_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_default_result_object_name" href="#powfacpy.base.string_manipulation.PFTranslator.get_default_result_object_name">get_default_result_object_name</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_default_study_case_folder_name" href="#powfacpy.base.string_manipulation.PFTranslator.get_default_study_case_folder_name">get_default_study_case_folder_name</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_default_variations_folder_path" href="#powfacpy.base.string_manipulation.PFTranslator.get_default_variations_folder_path">get_default_variations_folder_path</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_graphics_board_name_from_studycase" href="#powfacpy.base.string_manipulation.PFTranslator.get_graphics_board_name_from_studycase">get_graphics_board_name_from_studycase</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_name_with_ending" href="#powfacpy.base.string_manipulation.PFTranslator.get_name_with_ending">get_name_with_ending</a></code></li>
+<li><code><a title="powfacpy.base.string_manipulation.PFTranslator.get_result_object_name_from_studycase" href="#powfacpy.base.string_manipulation.PFTranslator.get_result_object_name_from_studycase">get_result_object_name_from_studycase</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

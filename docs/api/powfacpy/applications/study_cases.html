@@ -1,0 +1,1722 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.study_cases API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.study_cases</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.study_cases.StudyCases"><code class="flex name class">
+<span>class <span class="ident">StudyCases</span></span>
+<span>(</span><span>pf_app: <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a> | None | bool = False,<br>cached: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StudyCases(ApplicationBase):
+
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+
+        self.title: str = &#34;Case_Studies&#34;
+        &#34;Title of the case studies.&#34;
+
+        # Study Cases Definition
+        self.active_grids: ElmNet | list[ElmNet | list[ElmNet]] = None
+        &#34;Active grids for each study case (can be multiple for each). If only one is given, the same grid is active in every case.&#34;
+        self.parameter_values: dict[str, list[Any]] = {}
+        &#34;Dictionary with parameters names (keys) and lists with parameter values for each case (values).&#34;
+        self.parameter_paths: dict[str, str] | dict[str, tuple[PFGeneral, str]] = {}
+        &#34;Dictionary with parameter names as keys and their path or and object, attribute tuple as values).&#34;
+        self.hierarchy: list[str] = []
+        &#34;Hierarchy of folders (named after the parameters) where case/scenario/variation objects are located.&#34;
+        self.omitted_combinations: list[dict[str, list]] = []
+        &#34;Omitted parameter combinations (in permutation).&#34;
+        self.base_study_case: IntCase | str = None
+        &#34;Base study case (or its path) which is copied to create the cases.&#34;
+        self.parent_folder_study_cases: IntFolder | IntPrjfolder = None
+        &#34;Parent folder where study cases are created.&#34;
+        self.parent_folder_scenarios: IntFolder | IntPrjfolder = None
+        &#34;Parent folder where scenarios are created.&#34;
+        self.parent_folder_variations: IntFolder | IntPrjfolder = None
+        &#34;Parent folder where variations are created.&#34;
+
+        # Options
+        self.add_scenario_to_each_case: bool = True
+        &#34;If True, a corresponding scenario is created for each case.&#34;
+        self.add_variation_to_each_case: bool = False
+        &#34;If True, a corresponding variation is created for each case.&#34;
+        self.consecutively_number_case_names: bool = False
+        &#34;If True, numbering is added to the case names.&#34;
+        self.anonymous_parameters: list[str] = []
+        &#34;Parameters for which names are not used in folder/case name strings (only the parameter values are used).&#34;
+        self.study_cases_names: list[str] = []
+        &#34;Names of study cases. If not specified, names are automatically created from parameters and values.&#34;
+        self.ignore_parameters_that_are_none_in_names: bool = True
+        &#34;If True, parameters with value None are ignored in names (of cases etc.).&#34;
+        self.overwrite_study_cases: bool = True
+        &#34;If True, existing study cases are overwritten (e.g. when calling &#39;create_case&#39; one more time with the same settings).&#34;
+        self.delimiter: str = &#34; &#34;
+        &#34;Default delimiter used in parameter-value strings.&#34;
+
+        # Autocreated
+        self._study_cases: list[IntCase] = []
+        &#34;List of created study case objects when calling &#39;create_cases&#39;.&#34;
+
+    @property
+    def study_cases(self) -&gt; list[IntCase]:
+        &#34;&#34;&#34;List of created study case objects when calling &#39;create_cases&#39; (read-only).&#34;&#34;&#34;
+        return self._study_cases
+
+    def create_cases(
+        self, reactivate_initially_activated_study_case: bool = True
+    ) -&gt; None:
+        &#34;&#34;&#34;Create study cases.
+
+        Optionally create corresponding scenarios/variations (if add_scenario_to_each_case/add_variation_to_each_case is True).
+
+        Iterates through all cases and creates study cases (and folders
+        according to &#39;hierarchy&#39;) using parameter-value strings for the
+        study cases (and folder names).
+        &#34;&#34;&#34;
+        if not self.parameter_values:
+            raise AttributeError(&#34;Please set the attribute &#39;parameter_values&#39;.&#34;)
+        if reactivate_initially_activated_study_case:
+            initially_active_case = self.act_prj.app.GetActiveStudyCase()
+        self._study_cases = []
+        number_of_cases = len(next(iter(self.parameter_values.values())))
+        if self.base_study_case:
+            self.base_study_case = self.act_prj._handle_single_pf_object_or_path_input(
+                self.base_study_case
+            )
+        for case_num in range(number_of_cases):
+            folder_path = self.get_folder_path(case_num)
+            if self.study_cases_names:
+                case_name = self.study_cases_names[case_num]
+            else:
+                case_name = self.get_case_params_value_string(
+                    case_num, omitted_parameters=self.hierarchy
+                )
+            if self.consecutively_number_case_names:
+                case_name = str(case_num) + &#34; &#34; + case_name
+
+            self._study_cases.append(self._create_study_case(case_name, folder_path))
+            self.activate_grids(case_num)
+            if self.add_scenario_to_each_case:
+                scen = self._create_scenario(case_name, folder_path)
+            if self.add_variation_to_each_case:
+                self._create_variation(case_name, folder_path)
+            self._set_parameters(case_num)
+            if self.add_scenario_to_each_case:
+                scen.Save()
+        if reactivate_initially_activated_study_case and initially_active_case:
+            initially_active_case.Activate()
+
+    def get_folder_path(self, case_num: int) -&gt; str | None:
+        &#34;&#34;&#34;Get folder path (inside parent folder) of a case.
+
+        The path corresponds to parameter-value pairs specified
+        in &#39;self.hierarchy&#39;.
+
+        Args:
+          case_num (int): case number
+
+        Returns:
+          str | None: path of study case or None if there is no hierarchy
+        &#34;&#34;&#34;
+        if self.hierarchy:
+            folder_path = &#34;&#34;
+            for par_name in self.hierarchy:
+                parameter_value = self.get_value_of_parameter_for_case(
+                    par_name, case_num
+                )
+                if (
+                    parameter_value is not None
+                    or not self.ignore_parameters_that_are_none_in_names
+                ):
+                    add_to_string = str(parameter_value) + &#34;\\&#34;
+                    if not par_name in self.anonymous_parameters:
+                        add_to_string = par_name + &#34;_&#34; + add_to_string
+                    folder_path += add_to_string
+            if folder_path:
+                return folder_path[:-1]  # discard last &#34;\\&#34;&#34;
+        return None
+
+    def get_value_of_parameter_for_case(
+        self, par_name: str, case_obj_or_case_num: IntCase | int
+    ) -&gt; Any:
+        &#34;&#34;&#34;Get parameter value for a certain case.
+
+        Note that the values in &#39;parameter_values&#39; can be
+
+        - a list/tuple where each element corresponds to a case number
+        - or a single value which is used for all cases
+
+        Args:
+            par_name (str): Parameter name
+
+            case_obj_or_case_num (IntCase | int): Either the case number (int) or
+            a study case PF object (then the case number/index is derived first)
+
+        Raises:
+            PFCaseStudyParameterValueDefinitionError: If a value is not defined for a certain study case
+
+        Returns:
+            Any: a parameter value for a certain case.
+        &#34;&#34;&#34;
+        case_num = self._handle_case_input(case_obj_or_case_num)
+        values = self.parameter_values[par_name]
+        if isinstance(values, (list, tuple, np.ndarray)):
+            try:
+                return values[case_num]
+            except IndexError:
+                raise PFCaseStudyParameterValueDefinitionError(par_name, values)
+        else:
+            return values
+
+    def get_value_of_all_parameters_for_case(
+        self, case_obj_or_case_num: IntCase | int
+    ) -&gt; list[Any]:
+        &#34;&#34;&#34;Get the value of all paameters for a specific study case.
+
+        Args:
+            case_obj_or_case_num (IntCase | int): study case
+
+        Returns:
+            list[Any]: parameter values
+        &#34;&#34;&#34;
+        parameter_values = []
+        case_num = self._handle_case_input(case_obj_or_case_num)
+        for par_name in self.parameter_values.keys():
+            parameter_values.append(
+                self.get_value_of_parameter_for_case(par_name, case_num)
+            )
+        return parameter_values
+
+    def get_case_params_value_string(
+        self,
+        case_obj_or_case_num: IntCase | int,
+        omitted_parameters: list[str] = None,
+        delimiter: str = None,
+        equals_sign: str = None,
+        anonymous_parameters: list[str] = None,
+    ) -&gt; str:
+        &#34;&#34;&#34;Get parameter-value string for a case
+
+        Args:
+            case_obj_or_case_num (IntCase | int): study case
+
+            omitted_parameters (list[str], optional): parameters will not be considered. Defaults to None.
+
+            delimiter (str, optional): delimiter between parameter value pairs. Defaults to None.
+
+            equals_sign (str, optional): sign between parameter name and value. Defaults to None.
+
+            anonymous_parameters (list[str], optional): only the value of these parameters will be added (not their name). Defaults to None.
+
+        Returns:
+            str: Parameters and their values
+        &#34;&#34;&#34;
+        case_num = self._handle_case_input(case_obj_or_case_num)
+        if not delimiter:
+            delimiter = self.delimiter
+        if not equals_sign:
+            equals_sign = &#34; _ &#34;
+        parameter_values_string = &#34;&#34;
+        for par_name in self.parameter_values.keys():
+            if omitted_parameters is None or par_name not in omitted_parameters:
+                par_value = self.get_value_of_parameter_for_case(par_name, case_num)
+                if (
+                    par_value is not None
+                    or not self.ignore_parameters_that_are_none_in_names
+                ):
+                    add_to_string = str(par_value) + delimiter
+                    if anonymous_parameters is None:
+                        if par_name not in self.anonymous_parameters:
+                            add_to_string = par_name + equals_sign + add_to_string
+                    elif par_name not in anonymous_parameters:
+                        add_to_string = par_name + equals_sign + add_to_string
+                    parameter_values_string += add_to_string
+        # discard last delimiter
+        return parameter_values_string[: -len(delimiter)]
+
+    def activate_grids(self, case_num: int) -&gt; None:
+        &#34;&#34;&#34;Activate the corresponding grids of a study case.
+
+        If &#39;self.active_grids&#39; is a list/tuple, the items correspond to
+        each study case. If multiple grids are active for a case, list/tuples can be used in the elements in &#39;active_grids&#39;.
+        If &#39;self.active_grid&#39; is not a list/tuple, then one grid will be used
+        for all cases.
+
+        The grids can be PF objects or their paths.
+        &#34;&#34;&#34;
+        if isinstance(self.active_grids, (list, tuple)):
+            grids = self.active_grids[case_num]
+            if not isinstance(grids, (list, tuple)):
+                grids = [grids]
+            for grid in grids:
+                grid = self.act_prj._handle_single_pf_object_or_path_input(grid)
+                grid.Activate()
+        elif self.active_grids:
+            grid = self.act_prj._handle_single_pf_object_or_path_input(
+                self.active_grids
+            )
+            grid.Activate()
+
+    def set_parent_folders_for_cases_scenarios_variations(
+        self, folder_directory: str = &#34;&#34;
+    ) -&gt; None:
+        &#34;&#34;&#34;Set the parent folder for the cases, scenarios and variations (if the folders don&#39;t exist, a new folder is created).
+
+        Args:
+            folder_directory (str, optional):
+              directory of folders inside study case/scenarios/variations folder of the project. If it is an empty string, the default project folders are used (e.g. app.GetProjectFolder(&#34;study&#34;))
+        &#34;&#34;&#34;
+        if folder_directory:
+            self.parent_folder_study_cases = self.act_prj.create_directory(
+                folder_directory, self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+            )
+            self.parent_folder_scenarios = self.act_prj.create_directory(
+                folder_directory, self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+            )
+            self.parent_folder_variations = self.act_prj.create_directory(
+                folder_directory, self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)
+            )
+        else:
+            self.parent_folder_study_cases = self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+            self.parent_folder_scenarios = self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+            self.parent_folder_variations = self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)
+
+    def get_study_cases_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+        &#34;&#34;&#34;Get folder where study cases are created.
+
+        Returns:
+          IntFolder | IntPrjfolder: folder
+        &#34;&#34;&#34;
+        if not self.parent_folder_study_cases:
+            return self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+        else:
+            return self.parent_folder_study_cases
+
+    def get_scenarios_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+        &#34;&#34;&#34;Get folder where scenarios are created.
+
+        Returns:
+            IntFolder | IntPrjfolder: folder
+        &#34;&#34;&#34;
+        if not self.parent_folder_scenarios:
+            return self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+        else:
+            return self.parent_folder_scenarios
+
+    def get_variations_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+        &#34;&#34;&#34;Get folder where variations are created.
+
+        Returns:
+            IntFolder | IntPrjfolder: folder
+        &#34;&#34;&#34;
+        if not self.parent_folder_variations:
+            return self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)
+        else:
+            return self.parent_folder_variations
+
+    def clear_parent_folders(self):
+        &#34;&#34;&#34;Deletes all objects in the folders returned by
+        - self.get_study_cases_parent_folder
+        - self.get_scenarios_parent_folder
+        - self.get_variations_parent_folder
+        &#34;&#34;&#34;
+        parent_folders = [
+            self.get_study_cases_parent_folder(),
+            self.get_scenarios_parent_folder(),
+            self.get_variations_parent_folder(),
+        ]
+        for parent_folder in parent_folders:
+            if parent_folder:
+                self.act_prj.clear_folder(parent_folder)
+
+    def get_study_cases(
+        self,
+        conditions: dict[str, Callable] | Callable,
+        return_case_numbers: bool = False,
+    ) -&gt; list[IntCase] | tuple[list[IntCase], list[int]]:
+        &#34;&#34;&#34;Retrieve study case objects depending on parameter values.
+
+        Example 1:
+          get_study_cases({&#34;par1&#34;: lambda x: x == 2, &#34;par2&#34;: lambda x: x&gt;0})
+            This returns the study cases for which &#39;par1&#39; equals 2 and &#39;par2&#39; is
+            positive.
+
+        Example 2 (lambda function):
+          get_study_cases(lambda x: x[0] &gt;= 2 and x[2] == &#39;A&#39;)
+
+        Args:
+            conditions (dict[str, Callable] | Callable):
+              Either a dictionary with
+                keys: parameter names
+                values: Callables with boolean return value depending on
+                  parameter (key)
+
+              or a single Callable that accepts an iterable containing all
+                parameters.
+                Example: lambda x: x[0] &gt;= 2 and x[2] == &#39;A&#39;
+
+                Note that the order of the parameters in x must be the same as the
+                order of the keys in self.parameter_values.
+
+            return_case_numbers (bool, optional): If True, the case number are also returned. Defaults to False.
+
+        Raises:
+            ValueError: If &#39;callable&#39; is invalid.
+
+        Returns:
+            list[IntCase] | tuple[list[IntCase], list[int]]: study case objects and case numbers (optional)
+        &#34;&#34;&#34;
+        cases_objects = []
+        if return_case_numbers:
+            case_numbers = []
+        # Dictionary with conditions for parameters
+        if isinstance(conditions, dict):
+            for case_num, case_obj in enumerate(self._study_cases):
+                conditions_fullfiled = True
+                for parameter, condition in conditions.items():
+                    if not condition(
+                        self.get_value_of_parameter_for_case(parameter, case_num)
+                    ):
+                        conditions_fullfiled = False
+                        break
+                if conditions_fullfiled:
+                    cases_objects.append(case_obj)
+                    if return_case_numbers:
+                        case_numbers.append(case_num)
+        # Callables (e.g. lambda function for all parameters)
+        elif callable(conditions):
+            for case_num, case_obj in enumerate(self._study_cases):
+                parameter_values = self.get_value_of_all_parameters_for_case(case_num)
+                if conditions(parameter_values):
+                    cases_objects.append(case_obj)
+                    if return_case_numbers:
+                        case_numbers.append(case_num)
+        else:
+            raise ValueError(&#34;conditions must be a dictionary or a callable.&#34;)
+        if not return_case_numbers:
+            return cases_objects
+        else:
+            return cases_objects, case_numbers
+
+    def get_study_cases_from_string(
+        self, conditions: str, return_case_numbers: bool = False
+    ) -&gt; list[IntCase] | tuple[list[IntCase], list[int]]:
+        &#34;&#34;&#34;This method is another convenient way to get study cases according to conditions. The conditions are a simple lambda function argument string (see example below). This method is more convenient but less safe than &#39;self.get_study_cases&#39; because the conditions string is evaluated and a lambda function is created from it. Using eval() statements is generally not recommended due to unforeseeable behavior.
+        However, for convenience, it is used here.
+
+        Args:
+          conditions (str):
+            lambda function argument string:
+              Example: &#34;p HV load &gt;= 2 and (control 1 == &#39;A&#39; and control 2 != &#39;S&#39;)&#34;
+
+          return_case_numbers (bool): If True, not only study case objects, but also study case numbers (indexes) are returned as a tuple.
+
+        Returns:
+            list[IntCase] | tuple[list[IntCase], list[int]]: study case objects and case numbers (optional)
+        &#34;&#34;&#34;
+        # To create a lambda function from the conditions string, the parameter names need to be replaced by proper python variable names (e.g. &#34;p HV load&#34; is not a proper variable name because of the spaces). Therefore, a dict with the mapping  from parameter names to a list is required (e.g. {&#34;p HV load&#34;: x[0],..})
+        par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
+        # Then the parameter names are replaced in conditions. Note that there could be strings inside conditions which should not be considered: For example, if there is condition &#34;control == &#39;control A&#39;&#34;, then only the parameter name &#39;control&#39; should be replaced, not the value &#39;control A&#39; which also contains &#39;control&#39;, i.e x[0] == &#39;control A&#39;.
+        condition_strings_list = (
+            PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+                conditions, par_name_to_list_mapping
+            )
+        )
+        lambda_fun = &#34;lambda x: &#34; + &#34;&#34;.join(condition_strings_list).strip()
+        # Going back to example in the docstring, we now have a lambda function string that can be executed: &#34;lambda x: x[0] &gt;= 2 and (x[1] == &#39;A&#39; and x[2] != &#39;S&#39;)&#34;
+        lambda_fun = eval(lambda_fun)
+        cases = self.get_study_cases(
+            lambda_fun, return_case_numbers=return_case_numbers
+        )
+        return cases
+
+    def get_study_case_number(self, study_case: IntCase) -&gt; int:
+        &#34;&#34;&#34;Get the number (index) of a study case object.&#34;&#34;&#34;
+        return self._study_cases.index(study_case)
+
+    def apply_permutation(
+        self, omitted_combinations: list[dict[str, list]] = None
+    ) -&gt; None:
+        &#34;&#34;&#34;Replaces the values in &#39;parameter_values&#39; with the permutation of
+        their unique elements.
+
+        Use this method if you want to create cases of the permutation of all
+        parameters. Note that &#39;parameter_values&#39; is changed irreversibly.
+
+        Args:
+            omitted_combinations (list[dict[str, list]], optional): Parameter combinations that are omitted. Defaults to None.
+
+            Example:
+              omitted_combinations = [
+                {&#34;Par 1&#34;: [1, 0], &#34;Par 2&#34;: [&#34;R&#34;, &#34;T&#34;]},
+                {&#34;Par 3&#34;: [2], &#34;Par 1&#34;: &#34;all&#34;, &#34;Par 4&#34;: &#34;all&#34;},
+              ]
+              Note that the &#39;all&#39; keyword is used which means that all combiations with this parameter are omitted.
+        &#34;&#34;&#34;
+        if omitted_combinations:
+            self.omitted_combinations = omitted_combinations
+        # Make sure values are unique
+        for param_name in self.parameter_values.keys():
+            self.parameter_values[param_name] = list(
+                set(self.parameter_values[param_name])
+            )
+        # Use &#39;product&#39; to get iterable that returns permutation
+        permutation_iterable = product(*self.parameter_values.values())
+        # Clear values
+        original_parameter_values = self.parameter_values.copy()
+        for param_name in self.parameter_values.keys():
+            self.parameter_values[param_name] = []
+        # Copy values from iterable
+        for values_of_all_parameters_for_case in permutation_iterable:
+            if self.omitted_combinations:
+                values_of_all_parameters_for_case = self._filter_omitted_combinations(
+                    values_of_all_parameters_for_case, original_parameter_values
+                )
+            if values_of_all_parameters_for_case:
+                for param_num, param_name in enumerate(self.parameter_values.keys()):
+                    self.parameter_values[param_name].append(
+                        values_of_all_parameters_for_case[param_num]
+                    )
+
+    def export_results_of_study_cases_to_csv(
+        self,
+        export_dir: str = None,
+        study_cases: list[IntCase] = None,
+        case_numbers: list[int] = None,
+        results_obj: str = &#34;ElmRes&#34;,
+        results_variables: list[str] = None,
+        format_csv_file=True,
+    ) -&gt; list[str]:
+        &#34;&#34;&#34;Export the simulation results (ElmRes) of the study cases to csv files.
+        The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
+        Returns the full paths of the csv files.
+
+        Arguments:
+          - export_dir: directory for export (default is working directory)
+          - study_cases: study case objects
+          - case_numbers: corresponding study case numbers
+          - results_obj: string that is used in GetFromStudyCase to get the ElmRes object (e.g.
+            &#39;self.act_prj.app.GetFromStudyCase(&#34;ElmRes&#34;)&#39; )
+          - results_variables: if only specific variables should be export (see also
+              export_to_csv). By default all variables are exported.
+          - format_csv_file: see export_to_csv
+        &#34;&#34;&#34;
+        study_cases, case_numbers = self._handle_study_case_objects_case_numbers_input(
+            study_cases=study_cases, case_numbers=case_numbers
+        )
+
+        if not export_dir:
+            export_dir = getcwd() + &#34;\\&#34; + self.title
+        makedirs(export_dir, exist_ok=True)
+
+        csv_files_full_paths = []
+        pfri = Results(self.act_prj.app)
+        for case_num, case in zip(case_numbers, study_cases):
+            case.Activate()
+            elmres: ElmRes = self.act_prj.get_from_study_case(results_obj)
+            case_file_name = &#34;case&#34; + str(case_num)
+            pfri.export_to_csv(
+                export_dir,
+                case_file_name,
+                elmres,
+                variables=results_variables,
+                format_csv_file=format_csv_file,
+            )
+            csv_files_full_paths.append(join(export_dir, case_file_name + &#34;.csv&#34;))
+        return csv_files_full_paths
+
+    def _handle_case_input(self, case_obj_or_case_num: IntCase | int) -&gt; int:
+        &#34;&#34;&#34;Handle PF study case object (IntCase) or case number (int) input and return the case number.
+
+        If the input is a PF object, the corresponding case number is returned,
+        else simply the input (integer) is returned.
+
+        Args:
+            case_obj_or_case_num (IntCase | int): study case object (IntCase) or case number (int)
+
+        Returns:
+            int: case number
+        &#34;&#34;&#34;
+        if not isinstance(case_obj_or_case_num, int):
+            return self._study_cases.index(case_obj_or_case_num)
+        else:
+            return case_obj_or_case_num
+
+    def _create_study_case(self, name: str, folder_path: str) -&gt; IntCase:
+        &#34;&#34;&#34;Create a study case in the folder under &#39;folder_path&#39; and activates the case.
+
+        Args:
+            name (str): name of study case object without class (e.g. parameter-value pairs)
+
+            folder_path (str): relative to &#39;self.get_study_cases_parent_folder&#39;
+
+        Returns:
+            IntCase: Created study case object
+        &#34;&#34;&#34;
+        parent_folder_study_case = self.get_study_cases_parent_folder()
+        if folder_path:
+            parent_folder_study_case = self.act_prj.create_directory(
+                folder_path, parent_folder=parent_folder_study_case
+            )
+        if not self.base_study_case:
+            study_case_obj = self.act_prj.create_in_folder(
+                name + &#34;.IntCase&#34;,
+                parent_folder_study_case,
+                overwrite=self.overwrite_study_cases,
+            )
+        else:
+            study_case_obj = self.act_prj.copy_single_obj(
+                self.base_study_case,
+                parent_folder_study_case,
+                overwrite=self.overwrite_study_cases,
+                new_name=name,
+            )
+        study_case_obj.Activate()
+        self.act_prj.get_from_study_case(&#34;SetDesktop&#34;)
+        return study_case_obj
+
+    def _create_scenario(self, name: str, folder_path: str) -&gt; IntScenario:
+        &#34;&#34;&#34;Create scenario in folder under &#39;folder_path&#39;.
+
+        Args:
+            name (str): name of scenario (e.g. parameter-value pairs)
+
+            folder_path (str): relative to &#39;self.get_scenarios_parent_folder&#39;
+
+        Returns:
+            IntScenario: Created scenario
+        &#34;&#34;&#34;
+        parent_folder_scenario = self.get_scenarios_parent_folder()
+        if folder_path:
+            parent_folder_scenario = self.act_prj.create_directory(
+                folder_path, parent_folder=parent_folder_scenario
+            )
+        scenario_obj: IntScenario = self.act_prj.create_in_folder(
+            name + &#34;.IntScenario&#34;, parent_folder_scenario
+        )
+        scenario_obj.Activate()
+        scenario_obj.Save()
+        return scenario_obj
+
+    def _create_variation(self, name: str, folder_path: str) -&gt; IntScheme:
+        &#34;&#34;&#34;Create variation with the name &#39;name&#39; in folder under &#39;folder_path.
+
+        Args:
+            name (str): name of variation (e.g. parameter value pairs)
+            folder_path (str): relative to &#39;self.get_variations_parent_folder&#39;
+
+        Returns:
+            IntScheme: Created variation
+        &#34;&#34;&#34;
+        parent_folder_variation = self.get_variations_parent_folder()
+        if folder_path:
+            parent_folder_variation = self.act_prj.create_directory(
+                folder_path, parent_folder=parent_folder_variation
+            )
+        variation_obj = self.act_prj.create_in_folder(
+            name + &#34;.IntScheme&#34;, parent_folder_variation
+        )
+        activation_time = self.act_prj.app.GetStudyTimeObject().cTime
+        variation_obj.NewStage(name, int(activation_time), 1)
+        # variation_obj.Activate()
+        return variation_obj
+
+    def _set_parameters(self, case_obj_or_case_num: IntCase | int):
+        &#34;&#34;&#34;Set the parameters according to paths specified in &#39;self.parameter_paths&#39;
+        and values specified in &#39;self.parameter_values&#39;.
+        &#34;&#34;&#34;
+        case_num = self._handle_case_input(case_obj_or_case_num)
+        for par_name, path_or_obj_attr_tuple in self.parameter_paths.items():
+            value = self.get_value_of_parameter_for_case(par_name, case_num)
+            if value is not None:
+                if isinstance(path_or_obj_attr_tuple, str):
+                    self.act_prj.set_attr_by_path(path_or_obj_attr_tuple, value)
+
+                else:
+                    # ic(par_name, value, path_or_obj_attr_tuple)
+                    self.act_prj.set_attr(
+                        path_or_obj_attr_tuple[0], {path_or_obj_attr_tuple[1]: value}
+                    )
+                    # raise Exception
+
+    def _filter_omitted_combinations(
+        self,
+        values_of_all_parameters_for_case: list | tuple,
+        original_parameter_values: dict[str, Any],
+    ) -&gt; list | None:
+        &#34;&#34;&#34;Filter the parameter combinations that should be omitted. Returns the parameters if the combination is not omitted, otherwise returns None.
+
+        The difficulty is the handling of the &#39;all&#39; case. In this case, the combination with any value of a parameter is omitted, but combinations of the remaining parameters must be allowed.
+
+        Args:
+            values_of_all_parameters_for_case (list | tuple): parameter values for specific case
+
+            original_parameter_values (dict[str, Any]): original values BEFORE permutation is applied.
+
+        Returns:
+            list | None: parameters if the combination is not omitted, otherwise returns None
+        &#34;&#34;&#34;
+        # Create list from tuple because values might be changed/set to &#39;None&#39;
+        values_of_all_parameters_for_case = list(values_of_all_parameters_for_case)
+        for omitted_combination_dict in self.omitted_combinations:
+            is_omitted_combination = True
+            for param_num, param_name in enumerate(self.parameter_values.keys()):
+                if param_name in omitted_combination_dict:
+                    if omitted_combination_dict[param_name] == &#34;all&#34;:
+                        # If the parameter is &#39;all&#39;, then only one case should be created. The case where the value of the parameter takes on the value of the first entry in  original_parameter_values[param_name] is selected. This must be the case for all parameters that are set to &#39;all&#39;
+                        if not (
+                            original_parameter_values[param_name][0]
+                            == values_of_all_parameters_for_case[param_num]
+                        ):
+                            return False
+                        else:
+                            is_omitted_combination = False
+                            values_of_all_parameters_for_case[param_num] = None
+                    elif (
+                        not values_of_all_parameters_for_case[param_num]
+                        in omitted_combination_dict[param_name]
+                    ):
+                        is_omitted_combination = False
+                        break
+            if is_omitted_combination:
+                return False
+        return values_of_all_parameters_for_case
+
+    def _get_parameter_name_to_list_mapping(self) -&gt; dict[str, str]:
+        &#34;&#34;&#34;Returns a dictionary that maps the parameters to a string with a list including indexing.
+
+        Example:
+          If there are two parameters &#34;p HV load&#34; and &#34;control 1&#34;,
+          the dictionary is
+          {&#34;p HV load&#34;: &#34;x[0]&#34;, &#34;control 1&#34;: &#34;x[1]&#34;}
+          {&#34;p HV load&#34;: &#34;x[0]&#34;, &#34;control 1&#34;: &#34;x[1]&#34;}
+        &#34;&#34;&#34;
+        par_name_to_list_mapping = {}
+        for par_num, par_name in enumerate(self.parameter_values.keys()):
+            par_name_to_list_mapping[par_name] = &#34;x[&#34; + str(par_num) + &#34;]&#34;
+        return par_name_to_list_mapping
+
+    def _handle_study_case_objects_case_numbers_input(
+        self, study_cases: list[IntCase] = None, case_numbers: list[int] = None
+    ):
+        &#34;&#34;&#34;Handles input for study case objects and case numbers/indexes.
+        Always returns BOTH study case objects and case numbers, independent from
+        the input.
+        Arguments:
+          If only study_cases are provided, case_numbers are inferred.
+          If only case_numbers are provided, study_cases are inferred.
+          If none are provided, all study cases and case_numbers are returned.
+        &#34;&#34;&#34;
+        if not study_cases and not case_numbers:
+            # Use all study cases
+            study_cases = self._study_cases
+            case_numbers = range(len(study_cases))
+        elif not case_numbers:
+            case_numbers = [self.get_study_case_number(case) for case in study_cases]
+        elif not study_cases:
+            study_cases = [self._study_cases[case_num] for case_num in case_numbers]
+        return study_cases, case_numbers</code></pre>
+</details>
+<div class="desc"><p>Base class for applications. Allows to create versions with
+- ActiveProjectCached (recommended when only one project stays active)
+- or ActiveProject (recommended when the active project may change)</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.study_cases.StudyCases.active_grids"><code class="name">var <span class="ident">active_grids</span></code></dt>
+<dd>
+<div class="desc"><p>Active grids for each study case (can be multiple for each). If only one is given, the same grid is active in every case.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.add_scenario_to_each_case"><code class="name">var <span class="ident">add_scenario_to_each_case</span></code></dt>
+<dd>
+<div class="desc"><p>If True, a corresponding scenario is created for each case.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.add_variation_to_each_case"><code class="name">var <span class="ident">add_variation_to_each_case</span></code></dt>
+<dd>
+<div class="desc"><p>If True, a corresponding variation is created for each case.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.anonymous_parameters"><code class="name">var <span class="ident">anonymous_parameters</span></code></dt>
+<dd>
+<div class="desc"><p>Parameters for which names are not used in folder/case name strings (only the parameter values are used).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.base_study_case"><code class="name">var <span class="ident">base_study_case</span></code></dt>
+<dd>
+<div class="desc"><p>Base study case (or its path) which is copied to create the cases.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.consecutively_number_case_names"><code class="name">var <span class="ident">consecutively_number_case_names</span></code></dt>
+<dd>
+<div class="desc"><p>If True, numbering is added to the case names.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.delimiter"><code class="name">var <span class="ident">delimiter</span></code></dt>
+<dd>
+<div class="desc"><p>Default delimiter used in parameter-value strings.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.hierarchy"><code class="name">var <span class="ident">hierarchy</span></code></dt>
+<dd>
+<div class="desc"><p>Hierarchy of folders (named after the parameters) where case/scenario/variation objects are located.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.ignore_parameters_that_are_none_in_names"><code class="name">var <span class="ident">ignore_parameters_that_are_none_in_names</span></code></dt>
+<dd>
+<div class="desc"><p>If True, parameters with value None are ignored in names (of cases etc.).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.omitted_combinations"><code class="name">var <span class="ident">omitted_combinations</span></code></dt>
+<dd>
+<div class="desc"><p>Omitted parameter combinations (in permutation).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.overwrite_study_cases"><code class="name">var <span class="ident">overwrite_study_cases</span></code></dt>
+<dd>
+<div class="desc"><p>If True, existing study cases are overwritten (e.g. when calling 'create_case' one more time with the same settings).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.parameter_paths"><code class="name">var <span class="ident">parameter_paths</span></code></dt>
+<dd>
+<div class="desc"><p>Dictionary with parameter names as keys and their path or and object, attribute tuple as values).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.parameter_values"><code class="name">var <span class="ident">parameter_values</span></code></dt>
+<dd>
+<div class="desc"><p>Dictionary with parameters names (keys) and lists with parameter values for each case (values).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.parent_folder_scenarios"><code class="name">var <span class="ident">parent_folder_scenarios</span></code></dt>
+<dd>
+<div class="desc"><p>Parent folder where scenarios are created.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.parent_folder_study_cases"><code class="name">var <span class="ident">parent_folder_study_cases</span></code></dt>
+<dd>
+<div class="desc"><p>Parent folder where study cases are created.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.parent_folder_variations"><code class="name">var <span class="ident">parent_folder_variations</span></code></dt>
+<dd>
+<div class="desc"><p>Parent folder where variations are created.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.study_cases"><code class="name">prop <span class="ident">study_cases</span> : list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>]</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def study_cases(self) -&gt; list[IntCase]:
+    &#34;&#34;&#34;List of created study case objects when calling &#39;create_cases&#39; (read-only).&#34;&#34;&#34;
+    return self._study_cases</code></pre>
+</details>
+<div class="desc"><p>List of created study case objects when calling 'create_cases' (read-only).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.study_cases_names"><code class="name">var <span class="ident">study_cases_names</span></code></dt>
+<dd>
+<div class="desc"><p>Names of study cases. If not specified, names are automatically created from parameters and values.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.title"><code class="name">var <span class="ident">title</span></code></dt>
+<dd>
+<div class="desc"><p>Title of the case studies.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.study_cases.StudyCases.activate_grids"><code class="name flex">
+<span>def <span class="ident">activate_grids</span></span>(<span>self, case_num: int) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activate_grids(self, case_num: int) -&gt; None:
+    &#34;&#34;&#34;Activate the corresponding grids of a study case.
+
+    If &#39;self.active_grids&#39; is a list/tuple, the items correspond to
+    each study case. If multiple grids are active for a case, list/tuples can be used in the elements in &#39;active_grids&#39;.
+    If &#39;self.active_grid&#39; is not a list/tuple, then one grid will be used
+    for all cases.
+
+    The grids can be PF objects or their paths.
+    &#34;&#34;&#34;
+    if isinstance(self.active_grids, (list, tuple)):
+        grids = self.active_grids[case_num]
+        if not isinstance(grids, (list, tuple)):
+            grids = [grids]
+        for grid in grids:
+            grid = self.act_prj._handle_single_pf_object_or_path_input(grid)
+            grid.Activate()
+    elif self.active_grids:
+        grid = self.act_prj._handle_single_pf_object_or_path_input(
+            self.active_grids
+        )
+        grid.Activate()</code></pre>
+</details>
+<div class="desc"><p>Activate the corresponding grids of a study case.</p>
+<p>If 'self.active_grids' is a list/tuple, the items correspond to
+each study case. If multiple grids are active for a case, list/tuples can be used in the elements in 'active_grids'.
+If 'self.active_grid' is not a list/tuple, then one grid will be used
+for all cases.</p>
+<p>The grids can be PF objects or their paths.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.apply_permutation"><code class="name flex">
+<span>def <span class="ident">apply_permutation</span></span>(<span>self, omitted_combinations: list[dict[str, list]] = None) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def apply_permutation(
+    self, omitted_combinations: list[dict[str, list]] = None
+) -&gt; None:
+    &#34;&#34;&#34;Replaces the values in &#39;parameter_values&#39; with the permutation of
+    their unique elements.
+
+    Use this method if you want to create cases of the permutation of all
+    parameters. Note that &#39;parameter_values&#39; is changed irreversibly.
+
+    Args:
+        omitted_combinations (list[dict[str, list]], optional): Parameter combinations that are omitted. Defaults to None.
+
+        Example:
+          omitted_combinations = [
+            {&#34;Par 1&#34;: [1, 0], &#34;Par 2&#34;: [&#34;R&#34;, &#34;T&#34;]},
+            {&#34;Par 3&#34;: [2], &#34;Par 1&#34;: &#34;all&#34;, &#34;Par 4&#34;: &#34;all&#34;},
+          ]
+          Note that the &#39;all&#39; keyword is used which means that all combiations with this parameter are omitted.
+    &#34;&#34;&#34;
+    if omitted_combinations:
+        self.omitted_combinations = omitted_combinations
+    # Make sure values are unique
+    for param_name in self.parameter_values.keys():
+        self.parameter_values[param_name] = list(
+            set(self.parameter_values[param_name])
+        )
+    # Use &#39;product&#39; to get iterable that returns permutation
+    permutation_iterable = product(*self.parameter_values.values())
+    # Clear values
+    original_parameter_values = self.parameter_values.copy()
+    for param_name in self.parameter_values.keys():
+        self.parameter_values[param_name] = []
+    # Copy values from iterable
+    for values_of_all_parameters_for_case in permutation_iterable:
+        if self.omitted_combinations:
+            values_of_all_parameters_for_case = self._filter_omitted_combinations(
+                values_of_all_parameters_for_case, original_parameter_values
+            )
+        if values_of_all_parameters_for_case:
+            for param_num, param_name in enumerate(self.parameter_values.keys()):
+                self.parameter_values[param_name].append(
+                    values_of_all_parameters_for_case[param_num]
+                )</code></pre>
+</details>
+<div class="desc"><p>Replaces the values in 'parameter_values' with the permutation of
+their unique elements.</p>
+<p>Use this method if you want to create cases of the permutation of all
+parameters. Note that 'parameter_values' is changed irreversibly.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>omitted_combinations</code></strong> :&ensp;<code>list[dict[str, list]]</code>, optional</dt>
+<dd>Parameter combinations that are omitted. Defaults to None.</dd>
+</dl>
+<p>Example:
+omitted_combinations = [
+{"Par 1": [1, 0], "Par 2": ["R", "T"]},
+{"Par 3": [2], "Par 1": "all", "Par 4": "all"},
+]
+Note that the 'all' keyword is used which means that all combiations with this parameter are omitted.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.clear_parent_folders"><code class="name flex">
+<span>def <span class="ident">clear_parent_folders</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_parent_folders(self):
+    &#34;&#34;&#34;Deletes all objects in the folders returned by
+    - self.get_study_cases_parent_folder
+    - self.get_scenarios_parent_folder
+    - self.get_variations_parent_folder
+    &#34;&#34;&#34;
+    parent_folders = [
+        self.get_study_cases_parent_folder(),
+        self.get_scenarios_parent_folder(),
+        self.get_variations_parent_folder(),
+    ]
+    for parent_folder in parent_folders:
+        if parent_folder:
+            self.act_prj.clear_folder(parent_folder)</code></pre>
+</details>
+<div class="desc"><p>Deletes all objects in the folders returned by
+- self.get_study_cases_parent_folder
+- self.get_scenarios_parent_folder
+- self.get_variations_parent_folder</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.create_cases"><code class="name flex">
+<span>def <span class="ident">create_cases</span></span>(<span>self, reactivate_initially_activated_study_case: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_cases(
+    self, reactivate_initially_activated_study_case: bool = True
+) -&gt; None:
+    &#34;&#34;&#34;Create study cases.
+
+    Optionally create corresponding scenarios/variations (if add_scenario_to_each_case/add_variation_to_each_case is True).
+
+    Iterates through all cases and creates study cases (and folders
+    according to &#39;hierarchy&#39;) using parameter-value strings for the
+    study cases (and folder names).
+    &#34;&#34;&#34;
+    if not self.parameter_values:
+        raise AttributeError(&#34;Please set the attribute &#39;parameter_values&#39;.&#34;)
+    if reactivate_initially_activated_study_case:
+        initially_active_case = self.act_prj.app.GetActiveStudyCase()
+    self._study_cases = []
+    number_of_cases = len(next(iter(self.parameter_values.values())))
+    if self.base_study_case:
+        self.base_study_case = self.act_prj._handle_single_pf_object_or_path_input(
+            self.base_study_case
+        )
+    for case_num in range(number_of_cases):
+        folder_path = self.get_folder_path(case_num)
+        if self.study_cases_names:
+            case_name = self.study_cases_names[case_num]
+        else:
+            case_name = self.get_case_params_value_string(
+                case_num, omitted_parameters=self.hierarchy
+            )
+        if self.consecutively_number_case_names:
+            case_name = str(case_num) + &#34; &#34; + case_name
+
+        self._study_cases.append(self._create_study_case(case_name, folder_path))
+        self.activate_grids(case_num)
+        if self.add_scenario_to_each_case:
+            scen = self._create_scenario(case_name, folder_path)
+        if self.add_variation_to_each_case:
+            self._create_variation(case_name, folder_path)
+        self._set_parameters(case_num)
+        if self.add_scenario_to_each_case:
+            scen.Save()
+    if reactivate_initially_activated_study_case and initially_active_case:
+        initially_active_case.Activate()</code></pre>
+</details>
+<div class="desc"><p>Create study cases.</p>
+<p>Optionally create corresponding scenarios/variations (if add_scenario_to_each_case/add_variation_to_each_case is True).</p>
+<p>Iterates through all cases and creates study cases (and folders
+according to 'hierarchy') using parameter-value strings for the
+study cases (and folder names).</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.export_results_of_study_cases_to_csv"><code class="name flex">
+<span>def <span class="ident">export_results_of_study_cases_to_csv</span></span>(<span>self,<br>export_dir: str = None,<br>study_cases: list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>] = None,<br>case_numbers: list[int] = None,<br>results_obj: str = 'ElmRes',<br>results_variables: list[str] = None,<br>format_csv_file=True) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def export_results_of_study_cases_to_csv(
+    self,
+    export_dir: str = None,
+    study_cases: list[IntCase] = None,
+    case_numbers: list[int] = None,
+    results_obj: str = &#34;ElmRes&#34;,
+    results_variables: list[str] = None,
+    format_csv_file=True,
+) -&gt; list[str]:
+    &#34;&#34;&#34;Export the simulation results (ElmRes) of the study cases to csv files.
+    The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
+    Returns the full paths of the csv files.
+
+    Arguments:
+      - export_dir: directory for export (default is working directory)
+      - study_cases: study case objects
+      - case_numbers: corresponding study case numbers
+      - results_obj: string that is used in GetFromStudyCase to get the ElmRes object (e.g.
+        &#39;self.act_prj.app.GetFromStudyCase(&#34;ElmRes&#34;)&#39; )
+      - results_variables: if only specific variables should be export (see also
+          export_to_csv). By default all variables are exported.
+      - format_csv_file: see export_to_csv
+    &#34;&#34;&#34;
+    study_cases, case_numbers = self._handle_study_case_objects_case_numbers_input(
+        study_cases=study_cases, case_numbers=case_numbers
+    )
+
+    if not export_dir:
+        export_dir = getcwd() + &#34;\\&#34; + self.title
+    makedirs(export_dir, exist_ok=True)
+
+    csv_files_full_paths = []
+    pfri = Results(self.act_prj.app)
+    for case_num, case in zip(case_numbers, study_cases):
+        case.Activate()
+        elmres: ElmRes = self.act_prj.get_from_study_case(results_obj)
+        case_file_name = &#34;case&#34; + str(case_num)
+        pfri.export_to_csv(
+            export_dir,
+            case_file_name,
+            elmres,
+            variables=results_variables,
+            format_csv_file=format_csv_file,
+        )
+        csv_files_full_paths.append(join(export_dir, case_file_name + &#34;.csv&#34;))
+    return csv_files_full_paths</code></pre>
+</details>
+<div class="desc"><p>Export the simulation results (ElmRes) of the study cases to csv files.
+The csv files are named according to the study case number (e.g. case0.csv, case1.csv,..)
+Returns the full paths of the csv files.</p>
+<h2 id="arguments">Arguments</h2>
+<ul>
+<li>export_dir: directory for export (default is working directory)</li>
+<li>study_cases: study case objects</li>
+<li>case_numbers: corresponding study case numbers</li>
+<li>results_obj: string that is used in GetFromStudyCase to get the ElmRes object (e.g.
+'self.act_prj.app.GetFromStudyCase("ElmRes")' )</li>
+<li>results_variables: if only specific variables should be export (see also
+export_to_csv). By default all variables are exported.</li>
+<li>format_csv_file: see export_to_csv</li>
+</ul></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_case_params_value_string"><code class="name flex">
+<span>def <span class="ident">get_case_params_value_string</span></span>(<span>self,<br>case_obj_or_case_num: <a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a> | int,<br>omitted_parameters: list[str] = None,<br>delimiter: str = None,<br>equals_sign: str = None,<br>anonymous_parameters: list[str] = None) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_case_params_value_string(
+    self,
+    case_obj_or_case_num: IntCase | int,
+    omitted_parameters: list[str] = None,
+    delimiter: str = None,
+    equals_sign: str = None,
+    anonymous_parameters: list[str] = None,
+) -&gt; str:
+    &#34;&#34;&#34;Get parameter-value string for a case
+
+    Args:
+        case_obj_or_case_num (IntCase | int): study case
+
+        omitted_parameters (list[str], optional): parameters will not be considered. Defaults to None.
+
+        delimiter (str, optional): delimiter between parameter value pairs. Defaults to None.
+
+        equals_sign (str, optional): sign between parameter name and value. Defaults to None.
+
+        anonymous_parameters (list[str], optional): only the value of these parameters will be added (not their name). Defaults to None.
+
+    Returns:
+        str: Parameters and their values
+    &#34;&#34;&#34;
+    case_num = self._handle_case_input(case_obj_or_case_num)
+    if not delimiter:
+        delimiter = self.delimiter
+    if not equals_sign:
+        equals_sign = &#34; _ &#34;
+    parameter_values_string = &#34;&#34;
+    for par_name in self.parameter_values.keys():
+        if omitted_parameters is None or par_name not in omitted_parameters:
+            par_value = self.get_value_of_parameter_for_case(par_name, case_num)
+            if (
+                par_value is not None
+                or not self.ignore_parameters_that_are_none_in_names
+            ):
+                add_to_string = str(par_value) + delimiter
+                if anonymous_parameters is None:
+                    if par_name not in self.anonymous_parameters:
+                        add_to_string = par_name + equals_sign + add_to_string
+                elif par_name not in anonymous_parameters:
+                    add_to_string = par_name + equals_sign + add_to_string
+                parameter_values_string += add_to_string
+    # discard last delimiter
+    return parameter_values_string[: -len(delimiter)]</code></pre>
+</details>
+<div class="desc"><p>Get parameter-value string for a case</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>case_obj_or_case_num</code></strong> :&ensp;<code>IntCase | int</code></dt>
+<dd>study case</dd>
+<dt><strong><code>omitted_parameters</code></strong> :&ensp;<code>list[str]</code>, optional</dt>
+<dd>parameters will not be considered. Defaults to None.</dd>
+<dt><strong><code>delimiter</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>delimiter between parameter value pairs. Defaults to None.</dd>
+<dt><strong><code>equals_sign</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>sign between parameter name and value. Defaults to None.</dd>
+<dt><strong><code>anonymous_parameters</code></strong> :&ensp;<code>list[str]</code>, optional</dt>
+<dd>only the value of these parameters will be added (not their name). Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Parameters and their values</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_folder_path"><code class="name flex">
+<span>def <span class="ident">get_folder_path</span></span>(<span>self, case_num: int) ‑> str | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_folder_path(self, case_num: int) -&gt; str | None:
+    &#34;&#34;&#34;Get folder path (inside parent folder) of a case.
+
+    The path corresponds to parameter-value pairs specified
+    in &#39;self.hierarchy&#39;.
+
+    Args:
+      case_num (int): case number
+
+    Returns:
+      str | None: path of study case or None if there is no hierarchy
+    &#34;&#34;&#34;
+    if self.hierarchy:
+        folder_path = &#34;&#34;
+        for par_name in self.hierarchy:
+            parameter_value = self.get_value_of_parameter_for_case(
+                par_name, case_num
+            )
+            if (
+                parameter_value is not None
+                or not self.ignore_parameters_that_are_none_in_names
+            ):
+                add_to_string = str(parameter_value) + &#34;\\&#34;
+                if not par_name in self.anonymous_parameters:
+                    add_to_string = par_name + &#34;_&#34; + add_to_string
+                folder_path += add_to_string
+        if folder_path:
+            return folder_path[:-1]  # discard last &#34;\\&#34;&#34;
+    return None</code></pre>
+</details>
+<div class="desc"><p>Get folder path (inside parent folder) of a case.</p>
+<p>The path corresponds to parameter-value pairs specified
+in 'self.hierarchy'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>case_num</code></strong> :&ensp;<code>int</code></dt>
+<dd>case number</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str | None</code></dt>
+<dd>path of study case or None if there is no hierarchy</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_scenarios_parent_folder"><code class="name flex">
+<span>def <span class="ident">get_scenarios_parent_folder</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.IntFolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntFolder">IntFolder</a> | <a title="powfacpy.pf_classes.protocols.IntPrjfolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntPrjfolder">IntPrjfolder</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_scenarios_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+    &#34;&#34;&#34;Get folder where scenarios are created.
+
+    Returns:
+        IntFolder | IntPrjfolder: folder
+    &#34;&#34;&#34;
+    if not self.parent_folder_scenarios:
+        return self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+    else:
+        return self.parent_folder_scenarios</code></pre>
+</details>
+<div class="desc"><p>Get folder where scenarios are created.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>IntFolder | IntPrjfolder</code></dt>
+<dd>folder</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_study_case_number"><code class="name flex">
+<span>def <span class="ident">get_study_case_number</span></span>(<span>self,<br>study_case: <a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_study_case_number(self, study_case: IntCase) -&gt; int:
+    &#34;&#34;&#34;Get the number (index) of a study case object.&#34;&#34;&#34;
+    return self._study_cases.index(study_case)</code></pre>
+</details>
+<div class="desc"><p>Get the number (index) of a study case object.</p></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_study_cases"><code class="name flex">
+<span>def <span class="ident">get_study_cases</span></span>(<span>self,<br>conditions: dict[str, typing.Callable] | Callable,<br>return_case_numbers: bool = False) ‑> list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>] | tuple[list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>], list[int]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_study_cases(
+    self,
+    conditions: dict[str, Callable] | Callable,
+    return_case_numbers: bool = False,
+) -&gt; list[IntCase] | tuple[list[IntCase], list[int]]:
+    &#34;&#34;&#34;Retrieve study case objects depending on parameter values.
+
+    Example 1:
+      get_study_cases({&#34;par1&#34;: lambda x: x == 2, &#34;par2&#34;: lambda x: x&gt;0})
+        This returns the study cases for which &#39;par1&#39; equals 2 and &#39;par2&#39; is
+        positive.
+
+    Example 2 (lambda function):
+      get_study_cases(lambda x: x[0] &gt;= 2 and x[2] == &#39;A&#39;)
+
+    Args:
+        conditions (dict[str, Callable] | Callable):
+          Either a dictionary with
+            keys: parameter names
+            values: Callables with boolean return value depending on
+              parameter (key)
+
+          or a single Callable that accepts an iterable containing all
+            parameters.
+            Example: lambda x: x[0] &gt;= 2 and x[2] == &#39;A&#39;
+
+            Note that the order of the parameters in x must be the same as the
+            order of the keys in self.parameter_values.
+
+        return_case_numbers (bool, optional): If True, the case number are also returned. Defaults to False.
+
+    Raises:
+        ValueError: If &#39;callable&#39; is invalid.
+
+    Returns:
+        list[IntCase] | tuple[list[IntCase], list[int]]: study case objects and case numbers (optional)
+    &#34;&#34;&#34;
+    cases_objects = []
+    if return_case_numbers:
+        case_numbers = []
+    # Dictionary with conditions for parameters
+    if isinstance(conditions, dict):
+        for case_num, case_obj in enumerate(self._study_cases):
+            conditions_fullfiled = True
+            for parameter, condition in conditions.items():
+                if not condition(
+                    self.get_value_of_parameter_for_case(parameter, case_num)
+                ):
+                    conditions_fullfiled = False
+                    break
+            if conditions_fullfiled:
+                cases_objects.append(case_obj)
+                if return_case_numbers:
+                    case_numbers.append(case_num)
+    # Callables (e.g. lambda function for all parameters)
+    elif callable(conditions):
+        for case_num, case_obj in enumerate(self._study_cases):
+            parameter_values = self.get_value_of_all_parameters_for_case(case_num)
+            if conditions(parameter_values):
+                cases_objects.append(case_obj)
+                if return_case_numbers:
+                    case_numbers.append(case_num)
+    else:
+        raise ValueError(&#34;conditions must be a dictionary or a callable.&#34;)
+    if not return_case_numbers:
+        return cases_objects
+    else:
+        return cases_objects, case_numbers</code></pre>
+</details>
+<div class="desc"><p>Retrieve study case objects depending on parameter values.</p>
+<p>Example 1:
+get_study_cases({"par1": lambda x: x == 2, "par2": lambda x: x&gt;0})
+This returns the study cases for which 'par1' equals 2 and 'par2' is
+positive.</p>
+<p>Example 2 (lambda function):
+get_study_cases(lambda x: x[0] &gt;= 2 and x[2] == 'A')</p>
+<h2 id="args">Args</h2>
+<p>conditions (dict[str, Callable] | Callable):
+Either a dictionary with
+keys: parameter names
+values: Callables with boolean return value depending on
+parameter (key)</p>
+<p>or a single Callable that accepts an iterable containing all
+parameters.
+Example: lambda x: x[0] &gt;= 2 and x[2] == 'A'</p>
+<pre><code>Note that the order of the parameters in x must be the same as the
+order of the keys in self.parameter_values.
+</code></pre>
+<dl>
+<dt><strong><code>return_case_numbers</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If True, the case number are also returned. Defaults to False.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If 'callable' is invalid.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[IntCase] | tuple[list[IntCase], list[int]]</code></dt>
+<dd>study case objects and case numbers (optional)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_study_cases_from_string"><code class="name flex">
+<span>def <span class="ident">get_study_cases_from_string</span></span>(<span>self, conditions: str, return_case_numbers: bool = False) ‑> list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>] | tuple[list[<a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a>], list[int]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_study_cases_from_string(
+    self, conditions: str, return_case_numbers: bool = False
+) -&gt; list[IntCase] | tuple[list[IntCase], list[int]]:
+    &#34;&#34;&#34;This method is another convenient way to get study cases according to conditions. The conditions are a simple lambda function argument string (see example below). This method is more convenient but less safe than &#39;self.get_study_cases&#39; because the conditions string is evaluated and a lambda function is created from it. Using eval() statements is generally not recommended due to unforeseeable behavior.
+    However, for convenience, it is used here.
+
+    Args:
+      conditions (str):
+        lambda function argument string:
+          Example: &#34;p HV load &gt;= 2 and (control 1 == &#39;A&#39; and control 2 != &#39;S&#39;)&#34;
+
+      return_case_numbers (bool): If True, not only study case objects, but also study case numbers (indexes) are returned as a tuple.
+
+    Returns:
+        list[IntCase] | tuple[list[IntCase], list[int]]: study case objects and case numbers (optional)
+    &#34;&#34;&#34;
+    # To create a lambda function from the conditions string, the parameter names need to be replaced by proper python variable names (e.g. &#34;p HV load&#34; is not a proper variable name because of the spaces). Therefore, a dict with the mapping  from parameter names to a list is required (e.g. {&#34;p HV load&#34;: x[0],..})
+    par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
+    # Then the parameter names are replaced in conditions. Note that there could be strings inside conditions which should not be considered: For example, if there is condition &#34;control == &#39;control A&#39;&#34;, then only the parameter name &#39;control&#39; should be replaced, not the value &#39;control A&#39; which also contains &#39;control&#39;, i.e x[0] == &#39;control A&#39;.
+    condition_strings_list = (
+        PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+            conditions, par_name_to_list_mapping
+        )
+    )
+    lambda_fun = &#34;lambda x: &#34; + &#34;&#34;.join(condition_strings_list).strip()
+    # Going back to example in the docstring, we now have a lambda function string that can be executed: &#34;lambda x: x[0] &gt;= 2 and (x[1] == &#39;A&#39; and x[2] != &#39;S&#39;)&#34;
+    lambda_fun = eval(lambda_fun)
+    cases = self.get_study_cases(
+        lambda_fun, return_case_numbers=return_case_numbers
+    )
+    return cases</code></pre>
+</details>
+<div class="desc"><p>This method is another convenient way to get study cases according to conditions. The conditions are a simple lambda function argument string (see example below). This method is more convenient but less safe than 'self.get_study_cases' because the conditions string is evaluated and a lambda function is created from it. Using eval() statements is generally not recommended due to unforeseeable behavior.
+However, for convenience, it is used here.</p>
+<h2 id="args">Args</h2>
+<p>conditions (str):
+lambda function argument string:
+Example: "p HV load &gt;= 2 and (control 1 == 'A' and control 2 != 'S')"</p>
+<dl>
+<dt><strong><code>return_case_numbers</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If True, not only study case objects, but also study case numbers (indexes) are returned as a tuple.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[IntCase] | tuple[list[IntCase], list[int]]</code></dt>
+<dd>study case objects and case numbers (optional)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_study_cases_parent_folder"><code class="name flex">
+<span>def <span class="ident">get_study_cases_parent_folder</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.IntFolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntFolder">IntFolder</a> | <a title="powfacpy.pf_classes.protocols.IntPrjfolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntPrjfolder">IntPrjfolder</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_study_cases_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+    &#34;&#34;&#34;Get folder where study cases are created.
+
+    Returns:
+      IntFolder | IntPrjfolder: folder
+    &#34;&#34;&#34;
+    if not self.parent_folder_study_cases:
+        return self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+    else:
+        return self.parent_folder_study_cases</code></pre>
+</details>
+<div class="desc"><p>Get folder where study cases are created.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>IntFolder | IntPrjfolder</code></dt>
+<dd>folder</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_value_of_all_parameters_for_case"><code class="name flex">
+<span>def <span class="ident">get_value_of_all_parameters_for_case</span></span>(<span>self,<br>case_obj_or_case_num: <a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a> | int) ‑> list[typing.Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_value_of_all_parameters_for_case(
+    self, case_obj_or_case_num: IntCase | int
+) -&gt; list[Any]:
+    &#34;&#34;&#34;Get the value of all paameters for a specific study case.
+
+    Args:
+        case_obj_or_case_num (IntCase | int): study case
+
+    Returns:
+        list[Any]: parameter values
+    &#34;&#34;&#34;
+    parameter_values = []
+    case_num = self._handle_case_input(case_obj_or_case_num)
+    for par_name in self.parameter_values.keys():
+        parameter_values.append(
+            self.get_value_of_parameter_for_case(par_name, case_num)
+        )
+    return parameter_values</code></pre>
+</details>
+<div class="desc"><p>Get the value of all paameters for a specific study case.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>case_obj_or_case_num</code></strong> :&ensp;<code>IntCase | int</code></dt>
+<dd>study case</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[Any]</code></dt>
+<dd>parameter values</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_value_of_parameter_for_case"><code class="name flex">
+<span>def <span class="ident">get_value_of_parameter_for_case</span></span>(<span>self,<br>par_name: str,<br>case_obj_or_case_num: <a title="powfacpy.pf_classes.protocols.IntCase" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntCase">IntCase</a> | int) ‑> Any</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_value_of_parameter_for_case(
+    self, par_name: str, case_obj_or_case_num: IntCase | int
+) -&gt; Any:
+    &#34;&#34;&#34;Get parameter value for a certain case.
+
+    Note that the values in &#39;parameter_values&#39; can be
+
+    - a list/tuple where each element corresponds to a case number
+    - or a single value which is used for all cases
+
+    Args:
+        par_name (str): Parameter name
+
+        case_obj_or_case_num (IntCase | int): Either the case number (int) or
+        a study case PF object (then the case number/index is derived first)
+
+    Raises:
+        PFCaseStudyParameterValueDefinitionError: If a value is not defined for a certain study case
+
+    Returns:
+        Any: a parameter value for a certain case.
+    &#34;&#34;&#34;
+    case_num = self._handle_case_input(case_obj_or_case_num)
+    values = self.parameter_values[par_name]
+    if isinstance(values, (list, tuple, np.ndarray)):
+        try:
+            return values[case_num]
+        except IndexError:
+            raise PFCaseStudyParameterValueDefinitionError(par_name, values)
+    else:
+        return values</code></pre>
+</details>
+<div class="desc"><p>Get parameter value for a certain case.</p>
+<p>Note that the values in 'parameter_values' can be</p>
+<ul>
+<li>a list/tuple where each element corresponds to a case number</li>
+<li>or a single value which is used for all cases</li>
+</ul>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>par_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Parameter name</dd>
+<dt><strong><code>case_obj_or_case_num</code></strong> :&ensp;<code>IntCase | int</code></dt>
+<dd>Either the case number (int) or</dd>
+</dl>
+<p>a study case PF object (then the case number/index is derived first)</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PFCaseStudyParameterValueDefinitionError</code></dt>
+<dd>If a value is not defined for a certain study case</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Any</code></dt>
+<dd>a parameter value for a certain case.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.get_variations_parent_folder"><code class="name flex">
+<span>def <span class="ident">get_variations_parent_folder</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.IntFolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntFolder">IntFolder</a> | <a title="powfacpy.pf_classes.protocols.IntPrjfolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntPrjfolder">IntPrjfolder</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_variations_parent_folder(self) -&gt; IntFolder | IntPrjfolder:
+    &#34;&#34;&#34;Get folder where variations are created.
+
+    Returns:
+        IntFolder | IntPrjfolder: folder
+    &#34;&#34;&#34;
+    if not self.parent_folder_variations:
+        return self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)
+    else:
+        return self.parent_folder_variations</code></pre>
+</details>
+<div class="desc"><p>Get folder where variations are created.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>IntFolder | IntPrjfolder</code></dt>
+<dd>folder</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.study_cases.StudyCases.set_parent_folders_for_cases_scenarios_variations"><code class="name flex">
+<span>def <span class="ident">set_parent_folders_for_cases_scenarios_variations</span></span>(<span>self, folder_directory: str = '') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_parent_folders_for_cases_scenarios_variations(
+    self, folder_directory: str = &#34;&#34;
+) -&gt; None:
+    &#34;&#34;&#34;Set the parent folder for the cases, scenarios and variations (if the folders don&#39;t exist, a new folder is created).
+
+    Args:
+        folder_directory (str, optional):
+          directory of folders inside study case/scenarios/variations folder of the project. If it is an empty string, the default project folders are used (e.g. app.GetProjectFolder(&#34;study&#34;))
+    &#34;&#34;&#34;
+    if folder_directory:
+        self.parent_folder_study_cases = self.act_prj.create_directory(
+            folder_directory, self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+        )
+        self.parent_folder_scenarios = self.act_prj.create_directory(
+            folder_directory, self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+        )
+        self.parent_folder_variations = self.act_prj.create_directory(
+            folder_directory, self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)
+        )
+    else:
+        self.parent_folder_study_cases = self.act_prj.app.GetProjectFolder(&#34;study&#34;)
+        self.parent_folder_scenarios = self.act_prj.app.GetProjectFolder(&#34;scen&#34;)
+        self.parent_folder_variations = self.act_prj.app.GetProjectFolder(&#34;scheme&#34;)</code></pre>
+</details>
+<div class="desc"><p>Set the parent folder for the cases, scenarios and variations (if the folders don't exist, a new folder is created).</p>
+<h2 id="args">Args</h2>
+<p>folder_directory (str, optional):
+directory of folders inside study case/scenarios/variations folder of the project. If it is an empty string, the default project folders are used (e.g. app.GetProjectFolder("study"))</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.study_cases.StudyCases" href="#powfacpy.applications.study_cases.StudyCases">StudyCases</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.activate_grids" href="#powfacpy.applications.study_cases.StudyCases.activate_grids">activate_grids</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.active_grids" href="#powfacpy.applications.study_cases.StudyCases.active_grids">active_grids</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.add_scenario_to_each_case" href="#powfacpy.applications.study_cases.StudyCases.add_scenario_to_each_case">add_scenario_to_each_case</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.add_variation_to_each_case" href="#powfacpy.applications.study_cases.StudyCases.add_variation_to_each_case">add_variation_to_each_case</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.anonymous_parameters" href="#powfacpy.applications.study_cases.StudyCases.anonymous_parameters">anonymous_parameters</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.apply_permutation" href="#powfacpy.applications.study_cases.StudyCases.apply_permutation">apply_permutation</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.base_study_case" href="#powfacpy.applications.study_cases.StudyCases.base_study_case">base_study_case</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.clear_parent_folders" href="#powfacpy.applications.study_cases.StudyCases.clear_parent_folders">clear_parent_folders</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.consecutively_number_case_names" href="#powfacpy.applications.study_cases.StudyCases.consecutively_number_case_names">consecutively_number_case_names</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.create_cases" href="#powfacpy.applications.study_cases.StudyCases.create_cases">create_cases</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.delimiter" href="#powfacpy.applications.study_cases.StudyCases.delimiter">delimiter</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.export_results_of_study_cases_to_csv" href="#powfacpy.applications.study_cases.StudyCases.export_results_of_study_cases_to_csv">export_results_of_study_cases_to_csv</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_case_params_value_string" href="#powfacpy.applications.study_cases.StudyCases.get_case_params_value_string">get_case_params_value_string</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_folder_path" href="#powfacpy.applications.study_cases.StudyCases.get_folder_path">get_folder_path</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_scenarios_parent_folder" href="#powfacpy.applications.study_cases.StudyCases.get_scenarios_parent_folder">get_scenarios_parent_folder</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_study_case_number" href="#powfacpy.applications.study_cases.StudyCases.get_study_case_number">get_study_case_number</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_study_cases" href="#powfacpy.applications.study_cases.StudyCases.get_study_cases">get_study_cases</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_study_cases_from_string" href="#powfacpy.applications.study_cases.StudyCases.get_study_cases_from_string">get_study_cases_from_string</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_study_cases_parent_folder" href="#powfacpy.applications.study_cases.StudyCases.get_study_cases_parent_folder">get_study_cases_parent_folder</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_value_of_all_parameters_for_case" href="#powfacpy.applications.study_cases.StudyCases.get_value_of_all_parameters_for_case">get_value_of_all_parameters_for_case</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_value_of_parameter_for_case" href="#powfacpy.applications.study_cases.StudyCases.get_value_of_parameter_for_case">get_value_of_parameter_for_case</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.get_variations_parent_folder" href="#powfacpy.applications.study_cases.StudyCases.get_variations_parent_folder">get_variations_parent_folder</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.hierarchy" href="#powfacpy.applications.study_cases.StudyCases.hierarchy">hierarchy</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.ignore_parameters_that_are_none_in_names" href="#powfacpy.applications.study_cases.StudyCases.ignore_parameters_that_are_none_in_names">ignore_parameters_that_are_none_in_names</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.omitted_combinations" href="#powfacpy.applications.study_cases.StudyCases.omitted_combinations">omitted_combinations</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.overwrite_study_cases" href="#powfacpy.applications.study_cases.StudyCases.overwrite_study_cases">overwrite_study_cases</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.parameter_paths" href="#powfacpy.applications.study_cases.StudyCases.parameter_paths">parameter_paths</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.parameter_values" href="#powfacpy.applications.study_cases.StudyCases.parameter_values">parameter_values</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.parent_folder_scenarios" href="#powfacpy.applications.study_cases.StudyCases.parent_folder_scenarios">parent_folder_scenarios</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.parent_folder_study_cases" href="#powfacpy.applications.study_cases.StudyCases.parent_folder_study_cases">parent_folder_study_cases</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.parent_folder_variations" href="#powfacpy.applications.study_cases.StudyCases.parent_folder_variations">parent_folder_variations</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.set_parent_folders_for_cases_scenarios_variations" href="#powfacpy.applications.study_cases.StudyCases.set_parent_folders_for_cases_scenarios_variations">set_parent_folders_for_cases_scenarios_variations</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.study_cases" href="#powfacpy.applications.study_cases.StudyCases.study_cases">study_cases</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.study_cases_names" href="#powfacpy.applications.study_cases.StudyCases.study_cases_names">study_cases_names</a></code></li>
+<li><code><a title="powfacpy.applications.study_cases.StudyCases.title" href="#powfacpy.applications.study_cases.StudyCases.title">title</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

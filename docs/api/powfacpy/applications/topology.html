@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.topology API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.topology</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.topology.Topology"><code class="flex name class">
+<span>class <span class="ident">Topology</span></span>
+<span>(</span><span>pf_app: PFApp | None | bool = False, cached: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Topology(ApplicationBase):
+
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+
+    def create_zone(
+        self,
+        name: str,
+        elms: list[PFGeneral],
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -&gt; ElmZone:
+        if not parent_folder:
+            parent_folder = self.act_prj.zones_folder
+        zone: ElmZone = self.act_prj.create_in_folder(
+            name + &#34;.ElmZone&#34;, parent_folder, overwrite=overwrite
+        )
+
+        zone.icolor = color
+        for elm in elms:
+            elm.cpZone = zone
+        return zone
+
+    def create_area(
+        self,
+        name: str,
+        elms: list[PFGeneral],
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -&gt; ElmZone:
+        if not parent_folder:
+            parent_folder = self.act_prj.areas_folder
+        area: ElmArea = self.act_prj.create_in_folder(
+            name + &#34;.ElmArea&#34;, parent_folder, overwrite=overwrite
+        )
+        area.icolor = color
+        for elm in elms:
+            elm.cpArea = area
+        return area
+
+    def create_boundary_using_intermediate_zone(
+        self,
+        name: str,
+        elms: list[PFGeneral],
+        exclude_node_elms: Callable | None = None,
+        color: int = 2,
+        parent_folder: PFGeneral | str | None = None,
+        overwrite: bool = True,
+    ) -&gt; ElmBoundary:
+        &#34;&#34;&#34;Create boundary (ElmBoundary) that includes &#39;elms&#39;. A zone is created as an intermediate step.
+
+        Warning: If there are existing zones in the network model those might be changed if &#39;elms&#39; are included (because elements can only be part of one zone). To avoid this use &#39;create_boundary_without_changing_initial_zones&#39; instead.
+
+        Args:
+            name (str): Name of boundary created
+
+            elms (list[PFGeneral]): Network elements contained in boundary
+            exclude_node_elms (Callable | None, optional): Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod). Defaults to None.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+        Returns:
+            ElmBoundary: Boundary object created.
+        &#34;&#34;&#34;
+        if parent_folder:
+            parent_folder = self.act_prj._handle_single_pf_object_or_path_input(
+                parent_folder
+            )
+        else:
+            parent_folder = self.act_prj.boundaries_folder
+        dummy_zone = self.create_zone(name, elms)
+        try:
+            if overwrite:
+                self.act_prj.delete_obj(
+                    name, parent_folder=parent_folder, error_if_non_existent=False
+                )
+            boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
+            if parent_folder:
+                parent_folder.Move(boundary)
+            if exclude_node_elms:
+                boundary = Boundary(boundary)
+                boundary.exclude_node_elms_by_condition(exclude_node_elms)
+                boundary = boundary._obj
+            boundary.icolor = color
+        finally:
+            dummy_zone.Delete()
+        return boundary
+
+    def create_boundary_without_changing_initial_zones(
+        self,
+        name: str,
+        elms: list[PFGeneral],
+        exclude_node_elms: Callable | None = None,
+        color: int = 2,
+        parent_folder: PFGeneral | str | None = None,
+        overwrite: bool = True,
+    ) -&gt; ElmBoundary:
+        &#34;&#34;&#34;Create boundary (ElmBoundary) that includes &#39;elms&#39;. A zone is created as an intermediate step.
+
+        In comparison to &#39;create_boundary_using_intermediate_zone&#39;, this methods avoids altering existing zones by creating an intermediate variation.
+
+        Args:
+            name (str): Name of boundary created
+
+            elms (list[PFGeneral]): Network elements contained in boundary
+            exclude_node_elms (Callable | None, optional): Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod). Defaults to None.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+        Returns:
+            ElmBoundary: Boundary object created.
+        &#34;&#34;&#34;
+        if parent_folder:
+            parent_folder = self.act_prj._handle_single_pf_object_or_path_input(
+                parent_folder
+            )
+        else:
+            parent_folder = self.act_prj.boundaries_folder
+        variation = self.act_prj.create_variation(&#34;dummy&#34;)
+        dummy_zone: ElmZone = self.create_zone(&#34;dummy&#34;, elms)
+        try:
+            if overwrite:
+                self.act_prj.delete_obj(
+                    name, parent_folder=parent_folder, error_if_non_existent=False
+                )
+            boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
+            if exclude_node_elms:
+                boundary = Boundary(boundary)
+                boundary.exclude_node_elms_by_condition(exclude_node_elms)
+            cubicles = boundary.cubicles
+            orientations = boundary.ciorient
+        finally:
+            variation.Deactivate()
+            variation.Delete()
+            boundary = self.act_prj.create_in_folder(
+                name + &#34;.ElmBoundary&#34;, folder=parent_folder
+            )
+            for cub, orientation in zip(cubicles, orientations):
+                boundary.AddCubicle(cub, orientation)
+            boundary.icolor = color
+            if parent_folder:
+                parent_folder.Move(boundary)
+        return boundary
+
+    def create_boundary_from_bus_branch(
+        self,
+        name: str,
+        bus_branch: dict,
+        to_branch: bool = True,
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -&gt; ElmBoundary:
+        &#34;&#34;&#34;Create a boundary by specifying buses (terminals) and branches (connected to the buses).
+
+        Args:
+            name (str): name of boundary
+
+            bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+            to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): Parent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+        Returns:
+            ElmBoundary: The boundary created.
+        &#34;&#34;&#34;
+        if to_branch:
+            to_branch = 0
+        else:
+            to_branch = 1
+        if parent_folder is None:
+            parent_folder = self.act_prj.boundaries_folder
+        boundary = self.act_prj.create_in_folder(
+            name + &#34;.ElmBoundary&#34;, parent_folder, overwrite=overwrite
+        )
+        for term, branches in bus_branch.items():
+            term = Terminal(self.act_prj._handle_single_pf_object_or_path_input(term))
+            for branch in branches:
+                branch = self.act_prj._handle_single_pf_object_or_path_input(branch)
+                cub = term.get_cubicle_of_connected_elm(branch)
+                boundary.AddCubicle(cub, to_branch)
+        boundary.icolor = color
+        return boundary
+
+    def create_zone_from_boundary_bus_branch(
+        self,
+        name: str,
+        bus_branch: dict,
+        to_branch: bool = True,
+        color: int = 2,
+        parent_folder: str | PFGeneral = None,
+        overwrite: bool = True,
+    ) -&gt; ElmZone:
+        &#34;&#34;&#34;Create a zone via intermediate boundary and by specifying buses (terminals) and branches (connected to the buses).
+
+        Args:
+            name (str): name of zone
+
+            bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+            to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+            color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+            parent_folder (PFGeneral | str | None, optional): Parent folder where zone is created. Defaults to None (i.e. default zone folder).
+
+            overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+        Returns:
+            ElmZone: _description_
+        &#34;&#34;&#34;
+        boundary = Boundary(
+            self.create_boundary_from_bus_branch(
+                name, bus_branch, to_branch=to_branch, overwrite=False
+            )
+        )
+        zone = boundary.create_zone(
+            name, parent_folder, color=color, overwrite=overwrite
+        )
+        boundary._obj.Delete()
+        return zone</code></pre>
+</details>
+<div class="desc"><p>Base class for applications. Allows to create versions with
+- ActiveProjectCached (recommended when only one project stays active)
+- or ActiveProject (recommended when the active project may change)</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.topology.Topology.create_area"><code class="name flex">
+<span>def <span class="ident">create_area</span></span>(<span>self,<br>name: str,<br>elms: list[PFGeneral],<br>color: int = 2,<br>parent_folder: str | PFGeneral = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmZone" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmZone">ElmZone</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_area(
+    self,
+    name: str,
+    elms: list[PFGeneral],
+    color: int = 2,
+    parent_folder: str | PFGeneral = None,
+    overwrite: bool = True,
+) -&gt; ElmZone:
+    if not parent_folder:
+        parent_folder = self.act_prj.areas_folder
+    area: ElmArea = self.act_prj.create_in_folder(
+        name + &#34;.ElmArea&#34;, parent_folder, overwrite=overwrite
+    )
+    area.icolor = color
+    for elm in elms:
+        elm.cpArea = area
+    return area</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.topology.Topology.create_boundary_from_bus_branch"><code class="name flex">
+<span>def <span class="ident">create_boundary_from_bus_branch</span></span>(<span>self,<br>name: str,<br>bus_branch: dict,<br>to_branch: bool = True,<br>color: int = 2,<br>parent_folder: str | PFGeneral = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmBoundary" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmBoundary">ElmBoundary</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_boundary_from_bus_branch(
+    self,
+    name: str,
+    bus_branch: dict,
+    to_branch: bool = True,
+    color: int = 2,
+    parent_folder: str | PFGeneral = None,
+    overwrite: bool = True,
+) -&gt; ElmBoundary:
+    &#34;&#34;&#34;Create a boundary by specifying buses (terminals) and branches (connected to the buses).
+
+    Args:
+        name (str): name of boundary
+
+        bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+        to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+        color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+        parent_folder (PFGeneral | str | None, optional): Parent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+        overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+    Returns:
+        ElmBoundary: The boundary created.
+    &#34;&#34;&#34;
+    if to_branch:
+        to_branch = 0
+    else:
+        to_branch = 1
+    if parent_folder is None:
+        parent_folder = self.act_prj.boundaries_folder
+    boundary = self.act_prj.create_in_folder(
+        name + &#34;.ElmBoundary&#34;, parent_folder, overwrite=overwrite
+    )
+    for term, branches in bus_branch.items():
+        term = Terminal(self.act_prj._handle_single_pf_object_or_path_input(term))
+        for branch in branches:
+            branch = self.act_prj._handle_single_pf_object_or_path_input(branch)
+            cub = term.get_cubicle_of_connected_elm(branch)
+            boundary.AddCubicle(cub, to_branch)
+    boundary.icolor = color
+    return boundary</code></pre>
+</details>
+<div class="desc"><p>Create a boundary by specifying buses (terminals) and branches (connected to the buses).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of boundary</dd>
+<dt><strong><code>bus_branch</code></strong> :&ensp;<code>dict</code></dt>
+<dd>keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.</dd>
+<dt><strong><code>to_branch</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Direction of boundary is towards branch (or towards terminal). Defaults to True.</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Color of boundary shown in single line diagram. Defaults to 2.</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | str | None</code>, optional</dt>
+<dd>Parent folder where boundary is created. Defaults to None (i.e. default boundary folder).</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing boundary with same name. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmBoundary</code></dt>
+<dd>The boundary created.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.topology.Topology.create_boundary_using_intermediate_zone"><code class="name flex">
+<span>def <span class="ident">create_boundary_using_intermediate_zone</span></span>(<span>self,<br>name: str,<br>elms: list[PFGeneral],<br>exclude_node_elms: Callable | None = None,<br>color: int = 2,<br>parent_folder: PFGeneral | str | None = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmBoundary" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmBoundary">ElmBoundary</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_boundary_using_intermediate_zone(
+    self,
+    name: str,
+    elms: list[PFGeneral],
+    exclude_node_elms: Callable | None = None,
+    color: int = 2,
+    parent_folder: PFGeneral | str | None = None,
+    overwrite: bool = True,
+) -&gt; ElmBoundary:
+    &#34;&#34;&#34;Create boundary (ElmBoundary) that includes &#39;elms&#39;. A zone is created as an intermediate step.
+
+    Warning: If there are existing zones in the network model those might be changed if &#39;elms&#39; are included (because elements can only be part of one zone). To avoid this use &#39;create_boundary_without_changing_initial_zones&#39; instead.
+
+    Args:
+        name (str): Name of boundary created
+
+        elms (list[PFGeneral]): Network elements contained in boundary
+        exclude_node_elms (Callable | None, optional): Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod). Defaults to None.
+
+        color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+        parent_folder (PFGeneral | str | None, optional): PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+        overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+    Returns:
+        ElmBoundary: Boundary object created.
+    &#34;&#34;&#34;
+    if parent_folder:
+        parent_folder = self.act_prj._handle_single_pf_object_or_path_input(
+            parent_folder
+        )
+    else:
+        parent_folder = self.act_prj.boundaries_folder
+    dummy_zone = self.create_zone(name, elms)
+    try:
+        if overwrite:
+            self.act_prj.delete_obj(
+                name, parent_folder=parent_folder, error_if_non_existent=False
+            )
+        boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
+        if parent_folder:
+            parent_folder.Move(boundary)
+        if exclude_node_elms:
+            boundary = Boundary(boundary)
+            boundary.exclude_node_elms_by_condition(exclude_node_elms)
+            boundary = boundary._obj
+        boundary.icolor = color
+    finally:
+        dummy_zone.Delete()
+    return boundary</code></pre>
+</details>
+<div class="desc"><p>Create boundary (ElmBoundary) that includes 'elms'. A zone is created as an intermediate step.</p>
+<p>Warning: If there are existing zones in the network model those might be changed if 'elms' are included (because elements can only be part of one zone). To avoid this use 'create_boundary_without_changing_initial_zones' instead.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of boundary created</dd>
+<dt><strong><code>elms</code></strong> :&ensp;<code>list[PFGeneral]</code></dt>
+<dd>Network elements contained in boundary</dd>
+<dt><strong><code>exclude_node_elms</code></strong> :&ensp;<code>Callable | None</code>, optional</dt>
+<dd>Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == "ElmLod" to exclude all ElmLod). Defaults to None.</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Color of boundary shown in single line diagram. Defaults to 2.</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | str | None</code>, optional</dt>
+<dd>PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing boundary with same name. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmBoundary</code></dt>
+<dd>Boundary object created.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.topology.Topology.create_boundary_without_changing_initial_zones"><code class="name flex">
+<span>def <span class="ident">create_boundary_without_changing_initial_zones</span></span>(<span>self,<br>name: str,<br>elms: list[PFGeneral],<br>exclude_node_elms: Callable | None = None,<br>color: int = 2,<br>parent_folder: PFGeneral | str | None = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmBoundary" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmBoundary">ElmBoundary</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_boundary_without_changing_initial_zones(
+    self,
+    name: str,
+    elms: list[PFGeneral],
+    exclude_node_elms: Callable | None = None,
+    color: int = 2,
+    parent_folder: PFGeneral | str | None = None,
+    overwrite: bool = True,
+) -&gt; ElmBoundary:
+    &#34;&#34;&#34;Create boundary (ElmBoundary) that includes &#39;elms&#39;. A zone is created as an intermediate step.
+
+    In comparison to &#39;create_boundary_using_intermediate_zone&#39;, this methods avoids altering existing zones by creating an intermediate variation.
+
+    Args:
+        name (str): Name of boundary created
+
+        elms (list[PFGeneral]): Network elements contained in boundary
+        exclude_node_elms (Callable | None, optional): Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == &#34;ElmLod&#34; to exclude all ElmLod). Defaults to None.
+
+        color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+        parent_folder (PFGeneral | str | None, optional): PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).
+
+        overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+
+    Returns:
+        ElmBoundary: Boundary object created.
+    &#34;&#34;&#34;
+    if parent_folder:
+        parent_folder = self.act_prj._handle_single_pf_object_or_path_input(
+            parent_folder
+        )
+    else:
+        parent_folder = self.act_prj.boundaries_folder
+    variation = self.act_prj.create_variation(&#34;dummy&#34;)
+    dummy_zone: ElmZone = self.create_zone(&#34;dummy&#34;, elms)
+    try:
+        if overwrite:
+            self.act_prj.delete_obj(
+                name, parent_folder=parent_folder, error_if_non_existent=False
+            )
+        boundary: ElmBoundary = dummy_zone.DefineBoundary(0)
+        if exclude_node_elms:
+            boundary = Boundary(boundary)
+            boundary.exclude_node_elms_by_condition(exclude_node_elms)
+        cubicles = boundary.cubicles
+        orientations = boundary.ciorient
+    finally:
+        variation.Deactivate()
+        variation.Delete()
+        boundary = self.act_prj.create_in_folder(
+            name + &#34;.ElmBoundary&#34;, folder=parent_folder
+        )
+        for cub, orientation in zip(cubicles, orientations):
+            boundary.AddCubicle(cub, orientation)
+        boundary.icolor = color
+        if parent_folder:
+            parent_folder.Move(boundary)
+    return boundary</code></pre>
+</details>
+<div class="desc"><p>Create boundary (ElmBoundary) that includes 'elms'. A zone is created as an intermediate step.</p>
+<p>In comparison to 'create_boundary_using_intermediate_zone', this methods avoids altering existing zones by creating an intermediate variation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of boundary created</dd>
+<dt><strong><code>elms</code></strong> :&ensp;<code>list[PFGeneral]</code></dt>
+<dd>Network elements contained in boundary</dd>
+<dt><strong><code>exclude_node_elms</code></strong> :&ensp;<code>Callable | None</code>, optional</dt>
+<dd>Condition to select elements to be excluded from the interior (e.g. `lambda x: x.GetClassName() == "ElmLod" to exclude all ElmLod). Defaults to None.</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Color of boundary shown in single line diagram. Defaults to 2.</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | str | None</code>, optional</dt>
+<dd>PArent folder where boundary is created. Defaults to None (i.e. default boundary folder).</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing boundary with same name. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmBoundary</code></dt>
+<dd>Boundary object created.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.topology.Topology.create_zone"><code class="name flex">
+<span>def <span class="ident">create_zone</span></span>(<span>self,<br>name: str,<br>elms: list[PFGeneral],<br>color: int = 2,<br>parent_folder: str | PFGeneral = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmZone" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmZone">ElmZone</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_zone(
+    self,
+    name: str,
+    elms: list[PFGeneral],
+    color: int = 2,
+    parent_folder: str | PFGeneral = None,
+    overwrite: bool = True,
+) -&gt; ElmZone:
+    if not parent_folder:
+        parent_folder = self.act_prj.zones_folder
+    zone: ElmZone = self.act_prj.create_in_folder(
+        name + &#34;.ElmZone&#34;, parent_folder, overwrite=overwrite
+    )
+
+    zone.icolor = color
+    for elm in elms:
+        elm.cpZone = zone
+    return zone</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.topology.Topology.create_zone_from_boundary_bus_branch"><code class="name flex">
+<span>def <span class="ident">create_zone_from_boundary_bus_branch</span></span>(<span>self,<br>name: str,<br>bus_branch: dict,<br>to_branch: bool = True,<br>color: int = 2,<br>parent_folder: str | PFGeneral = None,<br>overwrite: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmZone" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmZone">ElmZone</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_zone_from_boundary_bus_branch(
+    self,
+    name: str,
+    bus_branch: dict,
+    to_branch: bool = True,
+    color: int = 2,
+    parent_folder: str | PFGeneral = None,
+    overwrite: bool = True,
+) -&gt; ElmZone:
+    &#34;&#34;&#34;Create a zone via intermediate boundary and by specifying buses (terminals) and branches (connected to the buses).
+
+    Args:
+        name (str): name of zone
+
+        bus_branch (dict): keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.
+
+        to_branch (bool, optional): Direction of boundary is towards branch (or towards terminal). Defaults to True.
+
+        color (int, optional): Color of boundary shown in single line diagram. Defaults to 2.
+
+        parent_folder (PFGeneral | str | None, optional): Parent folder where zone is created. Defaults to None (i.e. default zone folder).
+
+        overwrite (bool, optional): Overwrite existing boundary with same name. Defaults to True.
+    Returns:
+        ElmZone: _description_
+    &#34;&#34;&#34;
+    boundary = Boundary(
+        self.create_boundary_from_bus_branch(
+            name, bus_branch, to_branch=to_branch, overwrite=False
+        )
+    )
+    zone = boundary.create_zone(
+        name, parent_folder, color=color, overwrite=overwrite
+    )
+    boundary._obj.Delete()
+    return zone</code></pre>
+</details>
+<div class="desc"><p>Create a zone via intermediate boundary and by specifying buses (terminals) and branches (connected to the buses).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>name of zone</dd>
+<dt><strong><code>bus_branch</code></strong> :&ensp;<code>dict</code></dt>
+<dd>keys are the buses (terminals) as path strings or PF objects. Values are a list of one or more branch elements (e.g. lines) as path strings or PF objects which are connected with the bus.</dd>
+<dt><strong><code>to_branch</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Direction of boundary is towards branch (or towards terminal). Defaults to True.</dd>
+<dt><strong><code>color</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Color of boundary shown in single line diagram. Defaults to 2.</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | str | None</code>, optional</dt>
+<dd>Parent folder where zone is created. Defaults to None (i.e. default zone folder).</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing boundary with same name. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ElmZone</code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.topology.Topology" href="#powfacpy.applications.topology.Topology">Topology</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.topology.Topology.create_area" href="#powfacpy.applications.topology.Topology.create_area">create_area</a></code></li>
+<li><code><a title="powfacpy.applications.topology.Topology.create_boundary_from_bus_branch" href="#powfacpy.applications.topology.Topology.create_boundary_from_bus_branch">create_boundary_from_bus_branch</a></code></li>
+<li><code><a title="powfacpy.applications.topology.Topology.create_boundary_using_intermediate_zone" href="#powfacpy.applications.topology.Topology.create_boundary_using_intermediate_zone">create_boundary_using_intermediate_zone</a></code></li>
+<li><code><a title="powfacpy.applications.topology.Topology.create_boundary_without_changing_initial_zones" href="#powfacpy.applications.topology.Topology.create_boundary_without_changing_initial_zones">create_boundary_without_changing_initial_zones</a></code></li>
+<li><code><a title="powfacpy.applications.topology.Topology.create_zone" href="#powfacpy.applications.topology.Topology.create_zone">create_zone</a></code></li>
+<li><code><a title="powfacpy.applications.topology.Topology.create_zone_from_boundary_bus_branch" href="#powfacpy.applications.topology.Topology.create_zone_from_boundary_bus_branch">create_zone_from_boundary_bus_branch</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

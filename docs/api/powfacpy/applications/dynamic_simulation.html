@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.dynamic_simulation API documentation</title>
+<meta name="description" content="Module with interface for dynamic simulations (RMS/EMT)">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.dynamic_simulation</code></h1>
+</header>
+<section id="section-intro">
+<p>Module with interface for dynamic simulations (RMS/EMT)</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation"><code class="flex name class">
+<span>class <span class="ident">DynamicSimulation</span></span>
+<span>(</span><span>pf_app: <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a> | None | bool = False,<br>cached: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DynamicSimulation(ApplicationBase):
+    &#34;&#34;&#34;Dynamic simulation interface&#34;&#34;&#34;
+
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+
+    @property
+    def initialization_obj(self) -&gt; ComInc:
+        return self.act_prj.get_from_study_case(&#34;ComInc&#34;)
+
+    @property
+    def simulation_obj(self) -&gt; ComSim:
+        return self.act_prj.get_from_study_case(&#34;ComSim&#34;)
+
+    def initialize_sim(self, param=None):
+        &#34;&#34;&#34;
+        Initialize time domain simulation.
+        Parameters for &#39;ComInc&#39; command object can be specified in &#39;param&#39; dictionary.
+        &#34;&#34;&#34;
+        cominc = self.act_prj.app.GetFromStudyCase(&#34;ComInc&#34;)
+        if param is not None:
+            self.act_prj.set_attr(cominc, param)
+        cominc.Execute()
+
+    def run_sim(self, param=None):
+        &#34;&#34;&#34;
+        Perform dynamic simulation.
+        Parameters for &#39;ComSim&#39; command object can be specified in &#39;param&#39; dictionary.
+        &#34;&#34;&#34;
+        comsim = self.act_prj.app.GetFromStudyCase(&#34;ComSim&#34;)
+        if param is not None:
+            self.act_prj.set_attr(comsim, param)
+        comsim.Execute()
+
+    def initialize_and_run_sim(
+        self,
+        param_initialization: dict | None = None,
+        param_simulation: dict | None = None,
+    ):
+        &#34;&#34;&#34;Initialize and perform time domain simulation.&#34;&#34;&#34;
+        self.initialize_sim(param_initialization)
+        self.run_sim(param_simulation)
+
+    def get_eigenvalues_of_current_state(
+        self, commod_parameters: dict[str, object] = {}
+    ) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;Get the eigenvalues of the current state of the system.
+
+        Uses the modal analysis command (ComMod) to calculate the eigenvalues (Eigenvectors and participation factors are omitted). The operating point of the current simulation time is used.
+        Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.
+
+        Args:
+            commod_parameters (dict[str, str], optional): Additional parameter settings of modal analysis command (ComMod). Defaults to {}.
+
+        Returns:
+            pd.DataFrame: pandas DataFrame with columns &#34;real in 1/s&#34;, &#34;imag in rad/s&#34;
+        &#34;&#34;&#34;
+        commod: ComMod = self.act_prj.get_from_study_case(&#34;ComMod&#34;)
+        commod.iLeft = False
+        commod.iRight = False
+        commod.iPart = False
+        commod.initMode = 0
+        if commod_parameters:
+            self.act_prj.set_attr(commod, commod_parameters)
+        commod.Execute()
+
+        elmres: ElmRes = commod.ResultFile
+        comres: ComRes = self.act_prj.app.GetFromStudyCase(&#34;ComRes&#34;)
+        comres.pResult = elmres
+        comres.iopt_csel = 0  # export all variables
+        comres.f_name = getcwd() + &#34;\\temp.csv&#34;
+        comres.iopt_exp = 6  # export to csv format
+        try:
+            comres.Execute()
+            df = pd.read_csv(
+                comres.f_name, encoding=&#34;ISO-8859-1&#34;, header=[0, 1], index_col=0
+            )
+        finally:
+            remove(comres.f_name)
+        df.columns = [&#34;real in 1/s&#34;, &#34;imag in rad/s&#34;]
+        return df
+
+    def create_dyn_sim_event(
+        self,
+        name_incl_class: str,
+        params: dict[str, object] = {},
+        parent_folder: PFGeneral | str = None,
+        overwrite: bool = True,
+    ):
+        &#34;&#34;&#34;Creates an event for dynamic simulations (RMS/EMT) and sets the parameters in &#39;params&#39;.
+
+        Args:
+            name_incl_class (str): Event name including the class.
+
+            params (dict, optional): Paramter-values dictionary for created event object. Defaults to {}.
+
+            parent_folder (PFGeneral | str, optional): Folder where event is created. If None, the events folder from the initial conditions calculation (ComInc) is used. Defaults to None.
+
+            overwrite (bool, optional): Overwrite existing event with same name. Defaults to True.
+        &#34;&#34;&#34;
+        if not parent_folder:
+            parent_folder = (
+                self.act_prj.get_events_folder_from_initial_conditions_calc()
+            )
+        event_obj = self.act_prj.create_in_folder(
+            name_incl_class, parent_folder, overwrite=overwrite
+        )
+        self.act_prj.set_attr(event_obj, params)
+        return event_obj
+
+    def clear_all_dyn_sim_events(self) -&gt; None:
+        &#34;&#34;&#34;Clear all dynamic simulation events.&#34;&#34;&#34;
+        event_folder: IntEvt = (
+            self.act_prj.get_events_folder_from_initial_conditions_calc()
+        )
+        self.act_prj.clear_folder(event_folder)
+
+    def create_event(
+        self, name_incl_class, params={}, parent_folder=None, overwrite=True
+    ):
+        &#34;&#34;&#34;Creates an event and sets the parameters in &#39;params&#39;.
+
+        Arguments:
+          name_incl_class: Event name including the class.
+          params: Parameter-values dictionary.
+          parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
+          overwrite: Oerwrite existing event with same name.
+        &#34;&#34;&#34;
+        warn(
+            f&#34;{self.create_event.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.&#34;,
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.create_dyn_sim_event(
+            name_incl_class, params, parent_folder, overwrite
+        )
+
+    def get_dsl_model_parameter_names(self, dsl_model):
+        &#34;&#34;&#34;
+        Get the parameter names of the block definition (BlkDef)
+        of a dsl model.
+        &#34;&#34;&#34;
+        dsl_model = self.act_prj._handle_single_pf_object_or_path_input(dsl_model)
+        try:
+            parameter_names = dsl_model.typ_id.sParams
+            if parameter_names:
+                return parameter_names[0].split(&#34;,&#34;)
+        except AttributeError:
+            msg = &#34;Attribute &#39;typ_id&#39; is of type &#39;None&#39;&#34;
+            raise PFObjectAttributeTypeError(dsl_model, msg, self.act_prj)
+
+    def get_dsl_models_inside_composite_model(self, composite_model):
+        return self.act_prj.get_obj(
+            &#34;*.ElmDsl&#34;, parent_folder=composite_model, include_subfolders=True
+        )
+
+    def get_parameters_of_dsl_models_in_composite_model(
+        self,
+        composite_model: ElmComp,
+        single_dict_for_all_dsl_models: bool = False,
+    ):
+        &#34;&#34;&#34;
+        Returns a dictionary with the parameter names (of the block definition)
+        and values of all dsl models inside a composite model.
+
+        dsl lookup variables (e.g. &#39;array_*&#39;, &#39;omatrix_*&#39;,.. ) are ignored.
+
+        TODO: this method should be in the CompositeModel class
+
+        Arguments:
+          composite_model: ElmComp or its path
+
+          single_dict_for_all_dsl_models:
+            - If true, a single dictionary with the parameters of all dsl models is returned (no distinction is made between the dsl models).
+            This assumes that a parameter that occurs in several dsl
+            models has the same value.
+            Example: {&#34;a&#34;: 1, &#34;b&#34;:0, &#34;c&#34;:2}
+            - If false, the returned dictionary contains dictionaries for each dsl model.
+            Example:
+              {
+                &#34;controller_a&#34;: {&#34;a&#34;: 1, &#34;b&#34;:0}
+                &#34;controller_b&#34;: {&#34;a&#34;: 5, &#34;c&#34;:2}
+              }
+        &#34;&#34;&#34;
+        composite_model = self.act_prj._handle_single_pf_object_or_path_input(
+            composite_model
+        )
+        composite_model.SlotUpdate()
+        dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+        all_models_params_dict = {}
+        for dsl_model in dsl_models:
+            parameter_names_incl_dsl_lookup = self.get_dsl_model_parameter_names(
+                dsl_model
+            )
+            # Ignore dsl lookup arrays/matrices
+            parameter_names = []
+            if parameter_names_incl_dsl_lookup:
+                for parameter_name in parameter_names_incl_dsl_lookup:
+                    if not self.is_dsl_lookup_arrays_and_matrices_name(parameter_name):
+                        parameter_names.append(parameter_name)
+
+            if parameter_names:
+                parameter_names_and_values = self.act_prj.get_attr(
+                    dsl_model, parameter_names
+                )
+                if single_dict_for_all_dsl_models:
+                    for param_name in parameter_names:
+                        if param_name in all_models_params_dict:
+                            if (
+                                all_models_params_dict[param_name]
+                                != parameter_names_and_values[param_name]
+                            ):
+                                raise PFInconsistentParamValueOfDSLModelInCompositeModel(
+                                    param_name, composite_model
+                                )
+                    all_models_params_dict = {
+                        **all_models_params_dict,
+                        **parameter_names_and_values,
+                    }
+                else:
+                    all_models_params_dict[dsl_model.loc_name] = (
+                        parameter_names_and_values
+                    )
+            elif not single_dict_for_all_dsl_models:
+                all_models_params_dict[dsl_model.loc_name] = {}
+        return all_models_params_dict
+
+    def set_parameters_of_dsl_models_in_composite_model(
+        self,
+        composite_model,
+        models_params_dict,
+        single_dict_for_all_dsl_models=False,
+    ) -&gt; None:
+        &#34;&#34;&#34;
+        Set the parameters of the dsl models (i.e. of its block definition) in
+        a composite model.
+
+        Args:
+          composite_model: ElmComp or its path
+          models_params_dict: dictionary with model parameters and values
+          single_dict_for_all_dsl_models:
+            - If true, models_params_dict is a single dictionary that is used to set the parameters of all dsl models.
+            Example: {&#34;a&#34;: 1, &#34;b&#34;:0, &#34;c&#34;:2} -&gt; if a dsl model has an attribute (&#34;a&#34;,&#34;b&#34;,
+            &#34;c&#34;), the value is set, otherwise it is ignored.
+            - If false, models_params_dict contains dictionaries for each dsl model.
+            Example:
+              {
+              &#34;controller_a&#34;: {&#34;a&#34;: 1, &#34;b&#34;:0}
+              &#34;controller_b&#34;: {&#34;a&#34;: 5, &#34;c&#34;:2}
+              }
+        &#34;&#34;&#34;
+        composite_model = self.act_prj._handle_single_pf_object_or_path_input(
+            composite_model
+        )
+        if not single_dict_for_all_dsl_models:
+            for dsl_model, parameter_value_dict in models_params_dict.items():
+                dsl_model = self.act_prj.get_unique_obj(
+                    dsl_model + &#34;.ElmDsl&#34;,
+                    parent_folder=composite_model,
+                    include_subfolders=True,
+                )
+                self.act_prj.set_attr(dsl_model, parameter_value_dict)
+        else:
+            dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+            for dsl_model in dsl_models:
+                for param_name, value in models_params_dict.items():
+                    if dsl_model.HasAttribute(param_name):
+                        dsl_model.SetAttribute(param_name, value)
+
+    @staticmethod
+    def is_dsl_lookup_arrays_and_matrices_name(string: str):
+        &#34;&#34;&#34;
+        dsl has a special variable type for lookup tables. Such variables
+        are defined using certain variable names starting with e.g. &#39;array_&#39;.
+        &#34;&#34;&#34;
+        is_dsl_lookup = False
+        for (
+            dsl_lookup_name
+        ) in DynamicSimulation.get_dsl_lookup_arrays_and_matrices_names():
+            if dsl_lookup_name in string:
+                is_dsl_lookup = True
+        return is_dsl_lookup
+
+    @staticmethod
+    def get_dsl_lookup_arrays_and_matrices_names():
+        return [&#34;oarray_&#34;, &#34;array_&#34;, &#34;matrix&#34;, &#34;omatrix&#34;]
+
+    @staticmethod
+    def set_dsl_obj_array(
+        dsl_obj, rows: list, array_num: int | None = None, size_included_in_array=True
+    ) -&gt; None:
+        &#34;&#34;&#34;Set the array of a DSL object (&#39;Advanced 1&#39; tab).
+        The array_num specifies which array is set (if None,
+        all arrays/colums are set).
+        If size_included_in_array=True, the first row (where the size
+        of the array is specified) is included.
+        &#34;&#34;&#34;
+        if not size_included_in_array:
+            if not array_num:
+                dsl_obj.SetAttribute(&#34;matrix:0&#34;, [len(rows)] * len(rows[0]))
+            else:
+                complete_row = dsl_obj.GetAttribute(&#34;matrix:0&#34;)
+                complete_row[(array_num - 1) * 2] = len(rows)
+                dsl_obj.SetAttribute(&#34;matrix:0&#34;, complete_row)
+        for row_num, row in enumerate(rows):
+            if not size_included_in_array:
+                attrib = &#34;matrix:&#34; + str(row_num + 1)
+            else:
+                attrib = &#34;matrix:&#34; + str(row_num)
+            if array_num is None:
+                dsl_obj.SetAttribute(attrib, row)
+            else:
+                complete_row = dsl_obj.GetAttribute(attrib)
+                complete_row[(array_num - 1) * 2] = row[0]
+                complete_row[(array_num - 1) * 2 + 1] = row[1]
+                dsl_obj.SetAttribute(attrib, list(complete_row))
+
+    @staticmethod
+    def set_dsl_obj_array_from_pandas_series(
+        dsl_obj, series: pd.Series, array_num: int | None = None
+    ) -&gt; None:
+        rows = [
+            [float(time), float(value)]
+            for time, value in zip(series.index.values, series.values)
+        ]
+        DynamicSimulation.set_dsl_obj_array(
+            dsl_obj, rows, array_num=array_num, size_included_in_array=False
+        )
+
+    @staticmethod
+    def get_dsl_obj_array(dsl_obj, array_num=None, size_included_in_array=True):
+        &#34;&#34;&#34;Get the array of DSL object (&#39;Advanced 1&#39; tab).
+        The array_num specifies which array is returend (if None,
+        all arays/colmns are returned).
+        If size_included_in_array=True, the first row (where the size
+        of the array is spedified) is included.
+        &#34;&#34;&#34;
+        if not array_num:
+            number_of_rows = int(max(dsl_obj.GetAttribute(&#34;matrix:0&#34;))) + 1
+        else:
+            number_of_rows = (
+                int(dsl_obj.GetAttribute(&#34;matrix:0&#34;)[(array_num - 1) * 2]) + 1
+            )
+        array = []
+        for row_num in range(number_of_rows):
+            if row_num == 0 and not size_included_in_array:
+                continue
+            attrib = &#34;matrix:&#34; + str(row_num)
+            row = dsl_obj.GetAttribute(attrib)
+            if array_num:
+                row = [row[(array_num - 1) * 2], row[(array_num - 1) * 2 + 1]]
+            array.append(row)
+        return array</code></pre>
+</details>
+<div class="desc"><p>Dynamic simulation interface</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_lookup_arrays_and_matrices_names"><code class="name flex">
+<span>def <span class="ident">get_dsl_lookup_arrays_and_matrices_names</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_dsl_lookup_arrays_and_matrices_names():
+    return [&#34;oarray_&#34;, &#34;array_&#34;, &#34;matrix&#34;, &#34;omatrix&#34;]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_obj_array"><code class="name flex">
+<span>def <span class="ident">get_dsl_obj_array</span></span>(<span>dsl_obj, array_num=None, size_included_in_array=True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_dsl_obj_array(dsl_obj, array_num=None, size_included_in_array=True):
+    &#34;&#34;&#34;Get the array of DSL object (&#39;Advanced 1&#39; tab).
+    The array_num specifies which array is returend (if None,
+    all arays/colmns are returned).
+    If size_included_in_array=True, the first row (where the size
+    of the array is spedified) is included.
+    &#34;&#34;&#34;
+    if not array_num:
+        number_of_rows = int(max(dsl_obj.GetAttribute(&#34;matrix:0&#34;))) + 1
+    else:
+        number_of_rows = (
+            int(dsl_obj.GetAttribute(&#34;matrix:0&#34;)[(array_num - 1) * 2]) + 1
+        )
+    array = []
+    for row_num in range(number_of_rows):
+        if row_num == 0 and not size_included_in_array:
+            continue
+        attrib = &#34;matrix:&#34; + str(row_num)
+        row = dsl_obj.GetAttribute(attrib)
+        if array_num:
+            row = [row[(array_num - 1) * 2], row[(array_num - 1) * 2 + 1]]
+        array.append(row)
+    return array</code></pre>
+</details>
+<div class="desc"><p>Get the array of DSL object ('Advanced 1' tab).
+The array_num specifies which array is returend (if None,
+all arays/colmns are returned).
+If size_included_in_array=True, the first row (where the size
+of the array is spedified) is included.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.is_dsl_lookup_arrays_and_matrices_name"><code class="name flex">
+<span>def <span class="ident">is_dsl_lookup_arrays_and_matrices_name</span></span>(<span>string: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def is_dsl_lookup_arrays_and_matrices_name(string: str):
+    &#34;&#34;&#34;
+    dsl has a special variable type for lookup tables. Such variables
+    are defined using certain variable names starting with e.g. &#39;array_&#39;.
+    &#34;&#34;&#34;
+    is_dsl_lookup = False
+    for (
+        dsl_lookup_name
+    ) in DynamicSimulation.get_dsl_lookup_arrays_and_matrices_names():
+        if dsl_lookup_name in string:
+            is_dsl_lookup = True
+    return is_dsl_lookup</code></pre>
+</details>
+<div class="desc"><p>dsl has a special variable type for lookup tables. Such variables
+are defined using certain variable names starting with e.g. 'array_'.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array"><code class="name flex">
+<span>def <span class="ident">set_dsl_obj_array</span></span>(<span>dsl_obj, rows: list, array_num: int | None = None, size_included_in_array=True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def set_dsl_obj_array(
+    dsl_obj, rows: list, array_num: int | None = None, size_included_in_array=True
+) -&gt; None:
+    &#34;&#34;&#34;Set the array of a DSL object (&#39;Advanced 1&#39; tab).
+    The array_num specifies which array is set (if None,
+    all arrays/colums are set).
+    If size_included_in_array=True, the first row (where the size
+    of the array is specified) is included.
+    &#34;&#34;&#34;
+    if not size_included_in_array:
+        if not array_num:
+            dsl_obj.SetAttribute(&#34;matrix:0&#34;, [len(rows)] * len(rows[0]))
+        else:
+            complete_row = dsl_obj.GetAttribute(&#34;matrix:0&#34;)
+            complete_row[(array_num - 1) * 2] = len(rows)
+            dsl_obj.SetAttribute(&#34;matrix:0&#34;, complete_row)
+    for row_num, row in enumerate(rows):
+        if not size_included_in_array:
+            attrib = &#34;matrix:&#34; + str(row_num + 1)
+        else:
+            attrib = &#34;matrix:&#34; + str(row_num)
+        if array_num is None:
+            dsl_obj.SetAttribute(attrib, row)
+        else:
+            complete_row = dsl_obj.GetAttribute(attrib)
+            complete_row[(array_num - 1) * 2] = row[0]
+            complete_row[(array_num - 1) * 2 + 1] = row[1]
+            dsl_obj.SetAttribute(attrib, list(complete_row))</code></pre>
+</details>
+<div class="desc"><p>Set the array of a DSL object ('Advanced 1' tab).
+The array_num specifies which array is set (if None,
+all arrays/colums are set).
+If size_included_in_array=True, the first row (where the size
+of the array is specified) is included.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array_from_pandas_series"><code class="name flex">
+<span>def <span class="ident">set_dsl_obj_array_from_pandas_series</span></span>(<span>dsl_obj, series: pandas.core.series.Series, array_num: int | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def set_dsl_obj_array_from_pandas_series(
+    dsl_obj, series: pd.Series, array_num: int | None = None
+) -&gt; None:
+    rows = [
+        [float(time), float(value)]
+        for time, value in zip(series.index.values, series.values)
+    ]
+    DynamicSimulation.set_dsl_obj_array(
+        dsl_obj, rows, array_num=array_num, size_included_in_array=False
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialization_obj"><code class="name">prop <span class="ident">initialization_obj</span> : <a title="powfacpy.pf_classes.protocols.ComInc" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ComInc">ComInc</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def initialization_obj(self) -&gt; ComInc:
+    return self.act_prj.get_from_study_case(&#34;ComInc&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.simulation_obj"><code class="name">prop <span class="ident">simulation_obj</span> : <a title="powfacpy.pf_classes.protocols.ComSim" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ComSim">ComSim</a></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def simulation_obj(self) -&gt; ComSim:
+    return self.act_prj.get_from_study_case(&#34;ComSim&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.clear_all_dyn_sim_events"><code class="name flex">
+<span>def <span class="ident">clear_all_dyn_sim_events</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_all_dyn_sim_events(self) -&gt; None:
+    &#34;&#34;&#34;Clear all dynamic simulation events.&#34;&#34;&#34;
+    event_folder: IntEvt = (
+        self.act_prj.get_events_folder_from_initial_conditions_calc()
+    )
+    self.act_prj.clear_folder(event_folder)</code></pre>
+</details>
+<div class="desc"><p>Clear all dynamic simulation events.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.create_dyn_sim_event"><code class="name flex">
+<span>def <span class="ident">create_dyn_sim_event</span></span>(<span>self,<br>name_incl_class: str,<br>params: dict[str, object] = {},<br>parent_folder: <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | str = None,<br>overwrite: bool = True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_dyn_sim_event(
+    self,
+    name_incl_class: str,
+    params: dict[str, object] = {},
+    parent_folder: PFGeneral | str = None,
+    overwrite: bool = True,
+):
+    &#34;&#34;&#34;Creates an event for dynamic simulations (RMS/EMT) and sets the parameters in &#39;params&#39;.
+
+    Args:
+        name_incl_class (str): Event name including the class.
+
+        params (dict, optional): Paramter-values dictionary for created event object. Defaults to {}.
+
+        parent_folder (PFGeneral | str, optional): Folder where event is created. If None, the events folder from the initial conditions calculation (ComInc) is used. Defaults to None.
+
+        overwrite (bool, optional): Overwrite existing event with same name. Defaults to True.
+    &#34;&#34;&#34;
+    if not parent_folder:
+        parent_folder = (
+            self.act_prj.get_events_folder_from_initial_conditions_calc()
+        )
+    event_obj = self.act_prj.create_in_folder(
+        name_incl_class, parent_folder, overwrite=overwrite
+    )
+    self.act_prj.set_attr(event_obj, params)
+    return event_obj</code></pre>
+</details>
+<div class="desc"><p>Creates an event for dynamic simulations (RMS/EMT) and sets the parameters in 'params'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name_incl_class</code></strong> :&ensp;<code>str</code></dt>
+<dd>Event name including the class.</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Paramter-values dictionary for created event object. Defaults to {}.</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | str</code>, optional</dt>
+<dd>Folder where event is created. If None, the events folder from the initial conditions calculation (ComInc) is used. Defaults to None.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing event with same name. Defaults to True.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.create_event"><code class="name flex">
+<span>def <span class="ident">create_event</span></span>(<span>self, name_incl_class, params={}, parent_folder=None, overwrite=True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_event(
+    self, name_incl_class, params={}, parent_folder=None, overwrite=True
+):
+    &#34;&#34;&#34;Creates an event and sets the parameters in &#39;params&#39;.
+
+    Arguments:
+      name_incl_class: Event name including the class.
+      params: Parameter-values dictionary.
+      parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
+      overwrite: Oerwrite existing event with same name.
+    &#34;&#34;&#34;
+    warn(
+        f&#34;{self.create_event.__name__} will be deprecated. Please use the method create_dyn_sim_event instead.&#34;,
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return self.create_dyn_sim_event(
+        name_incl_class, params, parent_folder, overwrite
+    )</code></pre>
+</details>
+<div class="desc"><p>Creates an event and sets the parameters in 'params'.</p>
+<h2 id="arguments">Arguments</h2>
+<p>name_incl_class: Event name including the class.
+params: Parameter-values dictionary.
+parent_folder: If None, the events folder from the initial conditions calculation (ComInc) is used.
+overwrite: Oerwrite existing event with same name.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_model_parameter_names"><code class="name flex">
+<span>def <span class="ident">get_dsl_model_parameter_names</span></span>(<span>self, dsl_model)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dsl_model_parameter_names(self, dsl_model):
+    &#34;&#34;&#34;
+    Get the parameter names of the block definition (BlkDef)
+    of a dsl model.
+    &#34;&#34;&#34;
+    dsl_model = self.act_prj._handle_single_pf_object_or_path_input(dsl_model)
+    try:
+        parameter_names = dsl_model.typ_id.sParams
+        if parameter_names:
+            return parameter_names[0].split(&#34;,&#34;)
+    except AttributeError:
+        msg = &#34;Attribute &#39;typ_id&#39; is of type &#39;None&#39;&#34;
+        raise PFObjectAttributeTypeError(dsl_model, msg, self.act_prj)</code></pre>
+</details>
+<div class="desc"><p>Get the parameter names of the block definition (BlkDef)
+of a dsl model.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_models_inside_composite_model"><code class="name flex">
+<span>def <span class="ident">get_dsl_models_inside_composite_model</span></span>(<span>self, composite_model)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dsl_models_inside_composite_model(self, composite_model):
+    return self.act_prj.get_obj(
+        &#34;*.ElmDsl&#34;, parent_folder=composite_model, include_subfolders=True
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_eigenvalues_of_current_state"><code class="name flex">
+<span>def <span class="ident">get_eigenvalues_of_current_state</span></span>(<span>self, commod_parameters: dict[str, object] = {}) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_eigenvalues_of_current_state(
+    self, commod_parameters: dict[str, object] = {}
+) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;Get the eigenvalues of the current state of the system.
+
+    Uses the modal analysis command (ComMod) to calculate the eigenvalues (Eigenvectors and participation factors are omitted). The operating point of the current simulation time is used.
+    Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.
+
+    Args:
+        commod_parameters (dict[str, str], optional): Additional parameter settings of modal analysis command (ComMod). Defaults to {}.
+
+    Returns:
+        pd.DataFrame: pandas DataFrame with columns &#34;real in 1/s&#34;, &#34;imag in rad/s&#34;
+    &#34;&#34;&#34;
+    commod: ComMod = self.act_prj.get_from_study_case(&#34;ComMod&#34;)
+    commod.iLeft = False
+    commod.iRight = False
+    commod.iPart = False
+    commod.initMode = 0
+    if commod_parameters:
+        self.act_prj.set_attr(commod, commod_parameters)
+    commod.Execute()
+
+    elmres: ElmRes = commod.ResultFile
+    comres: ComRes = self.act_prj.app.GetFromStudyCase(&#34;ComRes&#34;)
+    comres.pResult = elmres
+    comres.iopt_csel = 0  # export all variables
+    comres.f_name = getcwd() + &#34;\\temp.csv&#34;
+    comres.iopt_exp = 6  # export to csv format
+    try:
+        comres.Execute()
+        df = pd.read_csv(
+            comres.f_name, encoding=&#34;ISO-8859-1&#34;, header=[0, 1], index_col=0
+        )
+    finally:
+        remove(comres.f_name)
+    df.columns = [&#34;real in 1/s&#34;, &#34;imag in rad/s&#34;]
+    return df</code></pre>
+</details>
+<div class="desc"><p>Get the eigenvalues of the current state of the system.</p>
+<p>Uses the modal analysis command (ComMod) to calculate the eigenvalues (Eigenvectors and participation factors are omitted). The operating point of the current simulation time is used.
+Then uses result export (ComRes) to export the eigenvalues to csv, which is then read to a pandas DataFrame.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>commod_parameters</code></strong> :&ensp;<code>dict[str, str]</code>, optional</dt>
+<dd>Additional parameter settings of modal analysis command (ComMod). Defaults to {}.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>pandas DataFrame with columns "real in 1/s", "imag in rad/s"</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_parameters_of_dsl_models_in_composite_model"><code class="name flex">
+<span>def <span class="ident">get_parameters_of_dsl_models_in_composite_model</span></span>(<span>self,<br>composite_model: <a title="powfacpy.pf_classes.protocols.ElmComp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.ElmComp">ElmComp</a>,<br>single_dict_for_all_dsl_models: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameters_of_dsl_models_in_composite_model(
+    self,
+    composite_model: ElmComp,
+    single_dict_for_all_dsl_models: bool = False,
+):
+    &#34;&#34;&#34;
+    Returns a dictionary with the parameter names (of the block definition)
+    and values of all dsl models inside a composite model.
+
+    dsl lookup variables (e.g. &#39;array_*&#39;, &#39;omatrix_*&#39;,.. ) are ignored.
+
+    TODO: this method should be in the CompositeModel class
+
+    Arguments:
+      composite_model: ElmComp or its path
+
+      single_dict_for_all_dsl_models:
+        - If true, a single dictionary with the parameters of all dsl models is returned (no distinction is made between the dsl models).
+        This assumes that a parameter that occurs in several dsl
+        models has the same value.
+        Example: {&#34;a&#34;: 1, &#34;b&#34;:0, &#34;c&#34;:2}
+        - If false, the returned dictionary contains dictionaries for each dsl model.
+        Example:
+          {
+            &#34;controller_a&#34;: {&#34;a&#34;: 1, &#34;b&#34;:0}
+            &#34;controller_b&#34;: {&#34;a&#34;: 5, &#34;c&#34;:2}
+          }
+    &#34;&#34;&#34;
+    composite_model = self.act_prj._handle_single_pf_object_or_path_input(
+        composite_model
+    )
+    composite_model.SlotUpdate()
+    dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+    all_models_params_dict = {}
+    for dsl_model in dsl_models:
+        parameter_names_incl_dsl_lookup = self.get_dsl_model_parameter_names(
+            dsl_model
+        )
+        # Ignore dsl lookup arrays/matrices
+        parameter_names = []
+        if parameter_names_incl_dsl_lookup:
+            for parameter_name in parameter_names_incl_dsl_lookup:
+                if not self.is_dsl_lookup_arrays_and_matrices_name(parameter_name):
+                    parameter_names.append(parameter_name)
+
+        if parameter_names:
+            parameter_names_and_values = self.act_prj.get_attr(
+                dsl_model, parameter_names
+            )
+            if single_dict_for_all_dsl_models:
+                for param_name in parameter_names:
+                    if param_name in all_models_params_dict:
+                        if (
+                            all_models_params_dict[param_name]
+                            != parameter_names_and_values[param_name]
+                        ):
+                            raise PFInconsistentParamValueOfDSLModelInCompositeModel(
+                                param_name, composite_model
+                            )
+                all_models_params_dict = {
+                    **all_models_params_dict,
+                    **parameter_names_and_values,
+                }
+            else:
+                all_models_params_dict[dsl_model.loc_name] = (
+                    parameter_names_and_values
+                )
+        elif not single_dict_for_all_dsl_models:
+            all_models_params_dict[dsl_model.loc_name] = {}
+    return all_models_params_dict</code></pre>
+</details>
+<div class="desc"><p>Returns a dictionary with the parameter names (of the block definition)
+and values of all dsl models inside a composite model.</p>
+<p>dsl lookup variables (e.g. 'array_<em>', 'omatrix_</em>',.. ) are ignored.</p>
+<p>TODO: this method should be in the CompositeModel class</p>
+<h2 id="arguments">Arguments</h2>
+<p>composite_model: ElmComp or its path</p>
+<p>single_dict_for_all_dsl_models:
+- If true, a single dictionary with the parameters of all dsl models is returned (no distinction is made between the dsl models).
+This assumes that a parameter that occurs in several dsl
+models has the same value.
+Example: {"a": 1, "b":0, "c":2}
+- If false, the returned dictionary contains dictionaries for each dsl model.
+Example:
+{
+"controller_a": {"a": 1, "b":0}
+"controller_b": {"a": 5, "c":2}
+}</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_and_run_sim"><code class="name flex">
+<span>def <span class="ident">initialize_and_run_sim</span></span>(<span>self,<br>param_initialization: dict | None = None,<br>param_simulation: dict | None = None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize_and_run_sim(
+    self,
+    param_initialization: dict | None = None,
+    param_simulation: dict | None = None,
+):
+    &#34;&#34;&#34;Initialize and perform time domain simulation.&#34;&#34;&#34;
+    self.initialize_sim(param_initialization)
+    self.run_sim(param_simulation)</code></pre>
+</details>
+<div class="desc"><p>Initialize and perform time domain simulation.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_sim"><code class="name flex">
+<span>def <span class="ident">initialize_sim</span></span>(<span>self, param=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def initialize_sim(self, param=None):
+    &#34;&#34;&#34;
+    Initialize time domain simulation.
+    Parameters for &#39;ComInc&#39; command object can be specified in &#39;param&#39; dictionary.
+    &#34;&#34;&#34;
+    cominc = self.act_prj.app.GetFromStudyCase(&#34;ComInc&#34;)
+    if param is not None:
+        self.act_prj.set_attr(cominc, param)
+    cominc.Execute()</code></pre>
+</details>
+<div class="desc"><p>Initialize time domain simulation.
+Parameters for 'ComInc' command object can be specified in 'param' dictionary.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.run_sim"><code class="name flex">
+<span>def <span class="ident">run_sim</span></span>(<span>self, param=None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run_sim(self, param=None):
+    &#34;&#34;&#34;
+    Perform dynamic simulation.
+    Parameters for &#39;ComSim&#39; command object can be specified in &#39;param&#39; dictionary.
+    &#34;&#34;&#34;
+    comsim = self.act_prj.app.GetFromStudyCase(&#34;ComSim&#34;)
+    if param is not None:
+        self.act_prj.set_attr(comsim, param)
+    comsim.Execute()</code></pre>
+</details>
+<div class="desc"><p>Perform dynamic simulation.
+Parameters for 'ComSim' command object can be specified in 'param' dictionary.</p></div>
+</dd>
+<dt id="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_parameters_of_dsl_models_in_composite_model"><code class="name flex">
+<span>def <span class="ident">set_parameters_of_dsl_models_in_composite_model</span></span>(<span>self, composite_model, models_params_dict, single_dict_for_all_dsl_models=False) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_parameters_of_dsl_models_in_composite_model(
+    self,
+    composite_model,
+    models_params_dict,
+    single_dict_for_all_dsl_models=False,
+) -&gt; None:
+    &#34;&#34;&#34;
+    Set the parameters of the dsl models (i.e. of its block definition) in
+    a composite model.
+
+    Args:
+      composite_model: ElmComp or its path
+      models_params_dict: dictionary with model parameters and values
+      single_dict_for_all_dsl_models:
+        - If true, models_params_dict is a single dictionary that is used to set the parameters of all dsl models.
+        Example: {&#34;a&#34;: 1, &#34;b&#34;:0, &#34;c&#34;:2} -&gt; if a dsl model has an attribute (&#34;a&#34;,&#34;b&#34;,
+        &#34;c&#34;), the value is set, otherwise it is ignored.
+        - If false, models_params_dict contains dictionaries for each dsl model.
+        Example:
+          {
+          &#34;controller_a&#34;: {&#34;a&#34;: 1, &#34;b&#34;:0}
+          &#34;controller_b&#34;: {&#34;a&#34;: 5, &#34;c&#34;:2}
+          }
+    &#34;&#34;&#34;
+    composite_model = self.act_prj._handle_single_pf_object_or_path_input(
+        composite_model
+    )
+    if not single_dict_for_all_dsl_models:
+        for dsl_model, parameter_value_dict in models_params_dict.items():
+            dsl_model = self.act_prj.get_unique_obj(
+                dsl_model + &#34;.ElmDsl&#34;,
+                parent_folder=composite_model,
+                include_subfolders=True,
+            )
+            self.act_prj.set_attr(dsl_model, parameter_value_dict)
+    else:
+        dsl_models = self.get_dsl_models_inside_composite_model(composite_model)
+        for dsl_model in dsl_models:
+            for param_name, value in models_params_dict.items():
+                if dsl_model.HasAttribute(param_name):
+                    dsl_model.SetAttribute(param_name, value)</code></pre>
+</details>
+<div class="desc"><p>Set the parameters of the dsl models (i.e. of its block definition) in
+a composite model.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>composite_model</code></strong></dt>
+<dd>ElmComp or its path</dd>
+<dt><strong><code>models_params_dict</code></strong></dt>
+<dd>dictionary with model parameters and values</dd>
+</dl>
+<p>single_dict_for_all_dsl_models:
+- If true, models_params_dict is a single dictionary that is used to set the parameters of all dsl models.
+Example: {"a": 1, "b":0, "c":2} -&gt; if a dsl model has an attribute ("a","b",
+"c"), the value is set, otherwise it is ignored.
+- If false, models_params_dict contains dictionaries for each dsl model.
+Example:
+{
+"controller_a": {"a": 1, "b":0}
+"controller_b": {"a": 5, "c":2}
+}</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation">DynamicSimulation</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.clear_all_dyn_sim_events" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.clear_all_dyn_sim_events">clear_all_dyn_sim_events</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.create_dyn_sim_event" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.create_dyn_sim_event">create_dyn_sim_event</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.create_event" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.create_event">create_event</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_lookup_arrays_and_matrices_names" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_lookup_arrays_and_matrices_names">get_dsl_lookup_arrays_and_matrices_names</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_model_parameter_names" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_model_parameter_names">get_dsl_model_parameter_names</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_models_inside_composite_model" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_models_inside_composite_model">get_dsl_models_inside_composite_model</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_obj_array" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_dsl_obj_array">get_dsl_obj_array</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_eigenvalues_of_current_state" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_eigenvalues_of_current_state">get_eigenvalues_of_current_state</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.get_parameters_of_dsl_models_in_composite_model" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.get_parameters_of_dsl_models_in_composite_model">get_parameters_of_dsl_models_in_composite_model</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialization_obj" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.initialization_obj">initialization_obj</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_and_run_sim" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_and_run_sim">initialize_and_run_sim</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_sim" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.initialize_sim">initialize_sim</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.is_dsl_lookup_arrays_and_matrices_name" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.is_dsl_lookup_arrays_and_matrices_name">is_dsl_lookup_arrays_and_matrices_name</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.run_sim" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.run_sim">run_sim</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array">set_dsl_obj_array</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array_from_pandas_series" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.set_dsl_obj_array_from_pandas_series">set_dsl_obj_array_from_pandas_series</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.set_parameters_of_dsl_models_in_composite_model" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.set_parameters_of_dsl_models_in_composite_model">set_parameters_of_dsl_models_in_composite_model</a></code></li>
+<li><code><a title="powfacpy.applications.dynamic_simulation.DynamicSimulation.simulation_obj" href="#powfacpy.applications.dynamic_simulation.DynamicSimulation.simulation_obj">simulation_obj</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

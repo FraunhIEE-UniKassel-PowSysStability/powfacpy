@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_classes.protocol_generator API documentation</title>
+<meta name="description" content="Create protocol classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_classes.protocol_generator</code></h1>
+</header>
+<section id="section-intro">
+<p>Create protocol classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module 'pf_class_protocols' which is used in powfacpy. If you run this module a new module is created ('pf_class_protocols_new'). You can then delete the old one and rename the new file.</p>
+<p>IMPORTANT: If you miss a class please add it to the 'missing_classes_that_are_not_in_scripting_reference' list below.</p>
+<p>This module is not used by other modules of powfacpy and has the sole purpose of creating the protocols.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_classes.protocol_generator.Empty"><code class="flex name class">
+<span>class <span class="ident">Empty</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Empty:
+    &#34;&#34;&#34;This empty class is used to get the generic attributes that every python object has (e.g. using &#39;dir(class_instance)&#39;).
+    For the PF class protocols, these attributes are not added to the protocol classes of the PowerFactory objects.
+    &#34;&#34;&#34;
+
+    pass</code></pre>
+</details>
+<div class="desc"><p>This empty class is used to get the generic attributes that every python object has (e.g. using 'dir(class_instance)').
+For the PF class protocols, these attributes are not added to the protocol classes of the PowerFactory objects.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator"><code class="flex name class">
+<span>class <span class="ident">PFClassesProtocolGenerator</span></span>
+<span>(</span><span>app)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PFClassesProtocolGenerator(ActiveProject):
+    &#34;&#34;&#34;Generate protocol classes for PF classes from the PF python scripting reference.&#34;&#34;&#34;
+
+    def __init__(self, app):
+        super().__init__(app)
+        self.indentation_increment: str = &#34;  &#34;
+        self.general_methods = self.get_general_methods()
+
+    def create_pf_class_protocols(self) -&gt; None:
+        &#34;&#34;&#34;Main method of this class.&#34;&#34;&#34;
+        pf_class_names = pfcpg.get_all_class_names_from_scripting_reference()
+        pf_class_names += missing_classes_that_are_not_in_scripting_reference
+        pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(
+            pf_class_names
+        )
+        print(pf_class_objects_not_found)
+        try:
+            self.app.Hide()
+            with open(
+                &#34;.\\src\\powfacpy\\pf_classes\\protocols_new.py&#34;, &#34;w&#34;
+            ) as out_file:
+                out_file.write(
+                    &#39;&#34;&#34;&#34;Protocol classes for (almost) all PowerFactory classes in the python scripting reference pdf file. Protocol classes are helpful for example for type hints where they can be used just like \&#39;normal\&#39; implementations of classes.\n&#34;&#34;&#34;\n\n&#39;
+                )
+                out_file.write(&#34;from typing import Protocol\n\n&#34;)
+                out_file.write(self.get_general_class_string())
+                for pf_obj in pf_class_objects:
+                    definition: str = pfcpg.get_class_definition(pf_obj)
+                    out_file.write(definition)
+                    data_attributes, methods = pfcpg.get_class_attribute_definitions(
+                        pf_obj
+                    )
+                    out_file.write(data_attributes + &#34;\n\n&#34;)
+                    out_file.write(methods + &#34;\n\n&#34;)
+        finally:
+            project.Deactivate()
+            project.Delete()
+            self.app.Show()
+
+    def get_all_class_names_from_scripting_reference(self) -&gt; list[str]:
+        &#34;&#34;&#34;Uses a .txt file to which the TOC of the python scripting reference pdf document was copied (includes the class names).
+        Iterates all words from the TOC and checks if they are PF class names.
+
+        Returns:
+            list[str]: PF class names
+        &#34;&#34;&#34;
+        pf_class_names = []
+        with open(
+            powfacpy_project_root_directory
+            + r&#34;\power_factory_objects\CopyOfObjectsInTableOfContentsOfScriptingReference.txt&#34;,
+            &#34;r&#34;,
+        ) as in_file:
+            for line in in_file:
+                words = line.split()
+                for word in words:
+                    if self.is_pf_class(word):
+                        pf_class_names.append(word)
+        return pf_class_names
+
+    def get_pf_objects(self, pf_class_names: list[str]) -&gt; list:
+        &#34;&#34;&#34;Get instances of the PF classes in &#39;pf_class_names&#39;.
+
+        Creates a new project and tries to create each class in one of the folders in the project. Some objects can only be created inside certain folders. Hence, the procedure is done twice to ensure that the folders are present (i.e. create folders in first run, use those folders to create the specific objects in the second run).
+        Finally, further objects that cannot be created in this way are added.
+
+        Args:
+            pf_class_names (list[str]): _description_
+
+        Returns:
+            pf_class_objects: list of powerfactory class instances/objects
+            pf_class_objects_not_found: list of objects that could not be found/created
+        &#34;&#34;&#34;
+        try:
+            self.app.Hide()
+            project = self.app.CreateProject(&#34;delete_this_project&#34;, &#34;grid&#34;)
+            project.Activate()
+
+            for n in range(2):
+                folders = self.get_obj(&#34;*&#34;, include_subfolders=True)
+                pf_class_objects = []
+                pf_class_objects_not_found = []
+                for pf_class in pf_class_names:
+                    for folder in folders:
+                        pf_class_obj = None
+                        try:
+                            pf_class_obj = self.create_in_folder(
+                                &#34;new.&#34; + pf_class, folder
+                            )
+                            if pf_class_obj:
+                                break  # break loop when successfully created an object
+                        except RuntimeError:  # CreateObject can raise runtime error
+                            pass
+                    if not pf_class_obj:
+                        pf_class_objects_not_found.append(pf_class)
+                    else:
+                        pf_class_objects.append(pf_class_obj)
+            # Insert some further objects
+            pf_class_objects.insert(0, self.app)
+            pf_class_objects.append(project)
+            pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+            pf_class_objects.append(self.get_active_user_folder())
+            pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+            pf_class_objects.append(self.get_first_level_folder(&#34;global library&#34;))
+            pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+        finally:
+            self.app.Show()
+        return pf_class_objects, pf_class_objects_not_found, project
+
+    def get_class_definition(self, pf_obj) -&gt; str:
+        &#34;&#34;&#34;Get string with the definition of a protocol class for a PF object.
+        Example: &#39;class ElmTr2(Protocol):&#39;
+
+        Args:
+            pf_obj: PF object
+
+        Returns:
+            str: class definition
+        &#34;&#34;&#34;
+        definition: str = &#34;&#34;
+        if not isinstance(pf_obj, type(self.app)):
+            class_name = pf_obj.GetClassName()
+            definition += &#34;class &#34; + class_name + &#34;(PFGeneral):\n&#34;
+        else:
+            class_name = &#34;PFApp&#34;
+            definition += &#34;class &#34; + class_name + &#34;(Protocol):\n&#34;
+
+        if hasattr(pf_obj, &#34;GetClassDescription&#34;):
+            class_description = self.app.GetClassDescription(
+                class_name
+            )  # It seems that GetClassDescription always retuns an empty string for every class
+            if class_description:
+                definition += (
+                    self.indentation_increment + &#39;&#34;&#34;&#34;&#39; + class_description + &#39;&#34;&#34;&#34;\n\n&#39;
+                )
+        return definition
+
+    def get_class_attribute_definitions(self, pf_obj) -&gt; str:
+        &#34;&#34;&#34;Get definitions of class attributes (data attributes and methods) of a PF object.
+
+        Args:
+            pf_obj: PF object
+
+        Returns:
+            str: definitions of all attributes of the class of the object
+        &#34;&#34;&#34;
+        class_attributes: set = (
+            set(dir(pf_obj)) - set(dir(Empty)) - self.general_methods
+        )  # omit attributes that all python objects have and general methods.
+        class_attributes = sorted(class_attributes)
+        data_attributes = &#34;&#34;
+        methods = &#34;&#34;
+        for attr in class_attributes:
+            # In rare cases, the attributes are named after python keywords - such names are not allowed in python classes and are omitted.
+            if hasattr(pf_obj, attr) and not keyword.iskeyword(attr):
+                if callable(getattr(pf_obj, attr)):
+                    # Due to lack of knowledge about the method arguments, the generic &#39;(*args)&#39; is used.
+                    methods += (
+                        self.indentation_increment
+                        + &#34;def &#34;
+                        + attr
+                        + &#34;(*args):\n&#34;
+                        + 2 * self.indentation_increment
+                        + &#34;...\n\n&#34;
+                    )
+                else:
+                    attribute_value = getattr(pf_obj, attr)
+                    attribute_type = type(attribute_value).__name__
+                    # The types &#34;DataObject&#34;, &#34;NoneType&#34; are replace with &#39;object&#39;
+                    # &#34;DataObject&#34; is replaced because powfacpy should not depend on an import of the powerfactory module (which is necessary for this type hint)
+                    # &#34;NoneType&#34; is not a helpful information
+                    if not attribute_type in [&#34;DataObject&#34;, &#34;NoneType&#34;]:
+                        data_attributes += (
+                            self.indentation_increment
+                            + attr
+                            + &#34;: &#34;
+                            + attribute_type
+                            + &#34;\n&#34;
+                        )
+                    else:
+                        data_attributes += (
+                            self.indentation_increment + attr + &#34;: object\n&#34;
+                        )
+                    if not isinstance(pf_obj, type(self.app)):
+                        attribute_description = pf_obj.GetAttributeDescription(attr)
+                        if attribute_description:
+                            # some characters need to be deleted (newlines, &#39;\xb0&#39; is not a unicode symbol)
+                            attribute_description = (
+                                attribute_description.replace(&#34;\n&#34;, &#34;&#34;)
+                                .replace(&#39;&#34;&#39;, &#34;&#34;)
+                                .replace(&#34;\xb0&#34;, &#34;&#34;)
+                            )
+                            data_attributes += (
+                                self.indentation_increment
+                                + &#39;&#34;&#39;
+                                + attribute_description
+                                + &#39;&#34;\n&#39;
+                            )
+        return data_attributes, methods
+
+    def get_general_class_string(self):
+        &#34;&#34;&#34;Add class with &#39;general methods&#39; (see Section &#39;General Methods&#39; in scripting reference). All other classes (except for PFApp) inherit from this class.&#34;&#34;&#34;
+        class_str = f&#39;class PFGeneral(Protocol):\n{self.indentation_increment}&#34;&#34;&#34;Class with general methods (see Section \&#39;General Methods\&#39; in scripting reference. All other classes (except for PFApp) inherit from this class). \n{self.indentation_increment}&#34;&#34;&#34;\n&#39;
+        for method in self.get_general_methods():
+            class_str += (
+                self.indentation_increment
+                + &#34;def &#34;
+                + method
+                + &#34;(*args):\n&#34;
+                + 2 * self.indentation_increment
+                + &#34;...\n\n&#34;
+            )
+        return class_str
+
+    def get_general_methods(self):
+        &#34;&#34;&#34;General methods from python scripting reference.&#34;&#34;&#34;
+        general_methods = &#34;AddCopy ContainsNonAsciiCharacters CopyData CreateObject Delete Energize GetAttribute GetAttributeDescription GetAttributeLength GetAttributes GetAttributeShape GetAttributeType GetAttributeUnit GetChildren GetClassName GetCombinedProjectSource GetConnectedElements GetConnectionCount GetContents GetControlledNode GetCubicle GetFullName GetImpedance GetInom GetNode GetOperator GetOwner GetParent GetReferences GetRegion GetSupplyingSubstations GetSupplyingTransformers GetSupplyingTrfstations GetSystemGrounding GetUnom GetZeroImpedance HasAttribute HasResults IsCalcRelevant IsDeleted IsEarthed IsEnergized IsHidden IsInFeeder IsNetworkDataFolder IsNode IsObjectActive IsObjectModifiedByVariation Isolate IsOutOfService IsReducible IsShortCircuited MarkInGraphics Move PasteCopy PurgeUnusedObjects ReplaceNonAsciiCharacters ReportNonAsciiCharacters ReportUnusedObjects SearchObject SetAttribute SetAttributeLength SetAttributes SetAttributeShape ShowEditDialog ShowModalSelectTree SwitchOff SwitchOn WriteChangesToDb&#34;
+        return set(general_methods.split())</code></pre>
+</details>
+<div class="desc"><p>Generate protocol classes for PF classes from the PF python scripting reference.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>Union[PFGeneral, str]</code></dt>
+<dd>folder object or path in active project (or in active user if no project is active)</dd>
+<dt><strong><code>pf_app</code></strong> :&ensp;<code>PFApp | None | bool</code>, optional</dt>
+<dd>Powerfactory app (returned by GetApplication). Defaults to False (does not default to None because None is returned by GetApplication if something goes wrong; Therefore, None should raise an exception).</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>When pf_app is None. See explanation of argument 'pf_app'.</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.base.active_project.ActiveProject" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject">ActiveProject</a></li>
+<li><a title="powfacpy.base.folder.Folder" href="../base/folder.html#powfacpy.base.folder.Folder">Folder</a></li>
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="../base/base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.create_pf_class_protocols"><code class="name flex">
+<span>def <span class="ident">create_pf_class_protocols</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_pf_class_protocols(self) -&gt; None:
+    &#34;&#34;&#34;Main method of this class.&#34;&#34;&#34;
+    pf_class_names = pfcpg.get_all_class_names_from_scripting_reference()
+    pf_class_names += missing_classes_that_are_not_in_scripting_reference
+    pf_class_objects, pf_class_objects_not_found, project = pfcpg.get_pf_objects(
+        pf_class_names
+    )
+    print(pf_class_objects_not_found)
+    try:
+        self.app.Hide()
+        with open(
+            &#34;.\\src\\powfacpy\\pf_classes\\protocols_new.py&#34;, &#34;w&#34;
+        ) as out_file:
+            out_file.write(
+                &#39;&#34;&#34;&#34;Protocol classes for (almost) all PowerFactory classes in the python scripting reference pdf file. Protocol classes are helpful for example for type hints where they can be used just like \&#39;normal\&#39; implementations of classes.\n&#34;&#34;&#34;\n\n&#39;
+            )
+            out_file.write(&#34;from typing import Protocol\n\n&#34;)
+            out_file.write(self.get_general_class_string())
+            for pf_obj in pf_class_objects:
+                definition: str = pfcpg.get_class_definition(pf_obj)
+                out_file.write(definition)
+                data_attributes, methods = pfcpg.get_class_attribute_definitions(
+                    pf_obj
+                )
+                out_file.write(data_attributes + &#34;\n\n&#34;)
+                out_file.write(methods + &#34;\n\n&#34;)
+    finally:
+        project.Deactivate()
+        project.Delete()
+        self.app.Show()</code></pre>
+</details>
+<div class="desc"><p>Main method of this class.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_all_class_names_from_scripting_reference"><code class="name flex">
+<span>def <span class="ident">get_all_class_names_from_scripting_reference</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_all_class_names_from_scripting_reference(self) -&gt; list[str]:
+    &#34;&#34;&#34;Uses a .txt file to which the TOC of the python scripting reference pdf document was copied (includes the class names).
+    Iterates all words from the TOC and checks if they are PF class names.
+
+    Returns:
+        list[str]: PF class names
+    &#34;&#34;&#34;
+    pf_class_names = []
+    with open(
+        powfacpy_project_root_directory
+        + r&#34;\power_factory_objects\CopyOfObjectsInTableOfContentsOfScriptingReference.txt&#34;,
+        &#34;r&#34;,
+    ) as in_file:
+        for line in in_file:
+            words = line.split()
+            for word in words:
+                if self.is_pf_class(word):
+                    pf_class_names.append(word)
+    return pf_class_names</code></pre>
+</details>
+<div class="desc"><p>Uses a .txt file to which the TOC of the python scripting reference pdf document was copied (includes the class names).
+Iterates all words from the TOC and checks if they are PF class names.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>PF class names</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_attribute_definitions"><code class="name flex">
+<span>def <span class="ident">get_class_attribute_definitions</span></span>(<span>self, pf_obj) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_class_attribute_definitions(self, pf_obj) -&gt; str:
+    &#34;&#34;&#34;Get definitions of class attributes (data attributes and methods) of a PF object.
+
+    Args:
+        pf_obj: PF object
+
+    Returns:
+        str: definitions of all attributes of the class of the object
+    &#34;&#34;&#34;
+    class_attributes: set = (
+        set(dir(pf_obj)) - set(dir(Empty)) - self.general_methods
+    )  # omit attributes that all python objects have and general methods.
+    class_attributes = sorted(class_attributes)
+    data_attributes = &#34;&#34;
+    methods = &#34;&#34;
+    for attr in class_attributes:
+        # In rare cases, the attributes are named after python keywords - such names are not allowed in python classes and are omitted.
+        if hasattr(pf_obj, attr) and not keyword.iskeyword(attr):
+            if callable(getattr(pf_obj, attr)):
+                # Due to lack of knowledge about the method arguments, the generic &#39;(*args)&#39; is used.
+                methods += (
+                    self.indentation_increment
+                    + &#34;def &#34;
+                    + attr
+                    + &#34;(*args):\n&#34;
+                    + 2 * self.indentation_increment
+                    + &#34;...\n\n&#34;
+                )
+            else:
+                attribute_value = getattr(pf_obj, attr)
+                attribute_type = type(attribute_value).__name__
+                # The types &#34;DataObject&#34;, &#34;NoneType&#34; are replace with &#39;object&#39;
+                # &#34;DataObject&#34; is replaced because powfacpy should not depend on an import of the powerfactory module (which is necessary for this type hint)
+                # &#34;NoneType&#34; is not a helpful information
+                if not attribute_type in [&#34;DataObject&#34;, &#34;NoneType&#34;]:
+                    data_attributes += (
+                        self.indentation_increment
+                        + attr
+                        + &#34;: &#34;
+                        + attribute_type
+                        + &#34;\n&#34;
+                    )
+                else:
+                    data_attributes += (
+                        self.indentation_increment + attr + &#34;: object\n&#34;
+                    )
+                if not isinstance(pf_obj, type(self.app)):
+                    attribute_description = pf_obj.GetAttributeDescription(attr)
+                    if attribute_description:
+                        # some characters need to be deleted (newlines, &#39;\xb0&#39; is not a unicode symbol)
+                        attribute_description = (
+                            attribute_description.replace(&#34;\n&#34;, &#34;&#34;)
+                            .replace(&#39;&#34;&#39;, &#34;&#34;)
+                            .replace(&#34;\xb0&#34;, &#34;&#34;)
+                        )
+                        data_attributes += (
+                            self.indentation_increment
+                            + &#39;&#34;&#39;
+                            + attribute_description
+                            + &#39;&#34;\n&#39;
+                        )
+    return data_attributes, methods</code></pre>
+</details>
+<div class="desc"><p>Get definitions of class attributes (data attributes and methods) of a PF object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pf_obj</code></strong></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>definitions of all attributes of the class of the object</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_definition"><code class="name flex">
+<span>def <span class="ident">get_class_definition</span></span>(<span>self, pf_obj) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_class_definition(self, pf_obj) -&gt; str:
+    &#34;&#34;&#34;Get string with the definition of a protocol class for a PF object.
+    Example: &#39;class ElmTr2(Protocol):&#39;
+
+    Args:
+        pf_obj: PF object
+
+    Returns:
+        str: class definition
+    &#34;&#34;&#34;
+    definition: str = &#34;&#34;
+    if not isinstance(pf_obj, type(self.app)):
+        class_name = pf_obj.GetClassName()
+        definition += &#34;class &#34; + class_name + &#34;(PFGeneral):\n&#34;
+    else:
+        class_name = &#34;PFApp&#34;
+        definition += &#34;class &#34; + class_name + &#34;(Protocol):\n&#34;
+
+    if hasattr(pf_obj, &#34;GetClassDescription&#34;):
+        class_description = self.app.GetClassDescription(
+            class_name
+        )  # It seems that GetClassDescription always retuns an empty string for every class
+        if class_description:
+            definition += (
+                self.indentation_increment + &#39;&#34;&#34;&#34;&#39; + class_description + &#39;&#34;&#34;&#34;\n\n&#39;
+            )
+    return definition</code></pre>
+</details>
+<div class="desc"><p>Get string with the definition of a protocol class for a PF object.
+Example: 'class ElmTr2(Protocol):'</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pf_obj</code></strong></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>class definition</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_class_string"><code class="name flex">
+<span>def <span class="ident">get_general_class_string</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_general_class_string(self):
+    &#34;&#34;&#34;Add class with &#39;general methods&#39; (see Section &#39;General Methods&#39; in scripting reference). All other classes (except for PFApp) inherit from this class.&#34;&#34;&#34;
+    class_str = f&#39;class PFGeneral(Protocol):\n{self.indentation_increment}&#34;&#34;&#34;Class with general methods (see Section \&#39;General Methods\&#39; in scripting reference. All other classes (except for PFApp) inherit from this class). \n{self.indentation_increment}&#34;&#34;&#34;\n&#39;
+    for method in self.get_general_methods():
+        class_str += (
+            self.indentation_increment
+            + &#34;def &#34;
+            + method
+            + &#34;(*args):\n&#34;
+            + 2 * self.indentation_increment
+            + &#34;...\n\n&#34;
+        )
+    return class_str</code></pre>
+</details>
+<div class="desc"><p>Add class with 'general methods' (see Section 'General Methods' in scripting reference). All other classes (except for PFApp) inherit from this class.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_methods"><code class="name flex">
+<span>def <span class="ident">get_general_methods</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_general_methods(self):
+    &#34;&#34;&#34;General methods from python scripting reference.&#34;&#34;&#34;
+    general_methods = &#34;AddCopy ContainsNonAsciiCharacters CopyData CreateObject Delete Energize GetAttribute GetAttributeDescription GetAttributeLength GetAttributes GetAttributeShape GetAttributeType GetAttributeUnit GetChildren GetClassName GetCombinedProjectSource GetConnectedElements GetConnectionCount GetContents GetControlledNode GetCubicle GetFullName GetImpedance GetInom GetNode GetOperator GetOwner GetParent GetReferences GetRegion GetSupplyingSubstations GetSupplyingTransformers GetSupplyingTrfstations GetSystemGrounding GetUnom GetZeroImpedance HasAttribute HasResults IsCalcRelevant IsDeleted IsEarthed IsEnergized IsHidden IsInFeeder IsNetworkDataFolder IsNode IsObjectActive IsObjectModifiedByVariation Isolate IsOutOfService IsReducible IsShortCircuited MarkInGraphics Move PasteCopy PurgeUnusedObjects ReplaceNonAsciiCharacters ReportNonAsciiCharacters ReportUnusedObjects SearchObject SetAttribute SetAttributeLength SetAttributes SetAttributeShape ShowEditDialog ShowModalSelectTree SwitchOff SwitchOn WriteChangesToDb&#34;
+    return set(general_methods.split())</code></pre>
+</details>
+<div class="desc"><p>General methods from python scripting reference.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_pf_objects"><code class="name flex">
+<span>def <span class="ident">get_pf_objects</span></span>(<span>self, pf_class_names: list[str]) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_pf_objects(self, pf_class_names: list[str]) -&gt; list:
+    &#34;&#34;&#34;Get instances of the PF classes in &#39;pf_class_names&#39;.
+
+    Creates a new project and tries to create each class in one of the folders in the project. Some objects can only be created inside certain folders. Hence, the procedure is done twice to ensure that the folders are present (i.e. create folders in first run, use those folders to create the specific objects in the second run).
+    Finally, further objects that cannot be created in this way are added.
+
+    Args:
+        pf_class_names (list[str]): _description_
+
+    Returns:
+        pf_class_objects: list of powerfactory class instances/objects
+        pf_class_objects_not_found: list of objects that could not be found/created
+    &#34;&#34;&#34;
+    try:
+        self.app.Hide()
+        project = self.app.CreateProject(&#34;delete_this_project&#34;, &#34;grid&#34;)
+        project.Activate()
+
+        for n in range(2):
+            folders = self.get_obj(&#34;*&#34;, include_subfolders=True)
+            pf_class_objects = []
+            pf_class_objects_not_found = []
+            for pf_class in pf_class_names:
+                for folder in folders:
+                    pf_class_obj = None
+                    try:
+                        pf_class_obj = self.create_in_folder(
+                            &#34;new.&#34; + pf_class, folder
+                        )
+                        if pf_class_obj:
+                            break  # break loop when successfully created an object
+                    except RuntimeError:  # CreateObject can raise runtime error
+                        pass
+                if not pf_class_obj:
+                    pf_class_objects_not_found.append(pf_class)
+                else:
+                    pf_class_objects.append(pf_class_obj)
+        # Insert some further objects
+        pf_class_objects.insert(0, self.app)
+        pf_class_objects.append(project)
+        pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+        pf_class_objects.append(self.get_active_user_folder())
+        pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+        pf_class_objects.append(self.get_first_level_folder(&#34;global library&#34;))
+        pf_class_objects_not_found.remove(pf_class_objects[-1].GetClassName())
+    finally:
+        self.app.Show()
+    return pf_class_objects, pf_class_objects_not_found, project</code></pre>
+</details>
+<div class="desc"><p>Get instances of the PF classes in 'pf_class_names'.</p>
+<p>Creates a new project and tries to create each class in one of the folders in the project. Some objects can only be created inside certain folders. Hence, the procedure is done twice to ensure that the folders are present (i.e. create folders in first run, use those folders to create the specific objects in the second run).
+Finally, further objects that cannot be created in this way are added.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>pf_class_names</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd><em>description</em></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pf_class_objects</code></dt>
+<dd>list of powerfactory class instances/objects</dd>
+<dt><code>pf_class_objects_not_found</code></dt>
+<dd>list of objects that could not be found/created</dd>
+</dl></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="powfacpy.base.active_project.ActiveProject" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject">ActiveProject</a></b></code>:
+<ul class="hlist">
+<li><code><a title="powfacpy.base.active_project.ActiveProject.activate_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.activate_study_case">activate_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.add_results_variable" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.add_results_variable">add_results_variable</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.add_template_from_global_library" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.add_template_from_global_library">add_template_from_global_library</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.add_variable_selection_obj_to_results_obj" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.add_variable_selection_obj_to_results_obj">add_variable_selection_obj_to_results_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.app" href="../base/folder.html#powfacpy.base.folder.Folder.app">app</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.check_load_flow_results" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.check_load_flow_results">check_load_flow_results</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.clear_elmres" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.clear_elmres">clear_elmres</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.clear_elmres_from_objects_with_status_deleted" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.clear_elmres_from_objects_with_status_deleted">clear_elmres_from_objects_with_status_deleted</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.clear_folder" href="../base/folder.html#powfacpy.base.folder.Folder.clear_folder">clear_folder</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.copy_obj" href="../base/folder.html#powfacpy.base.folder.Folder.copy_obj">copy_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.copy_single_obj" href="../base/folder.html#powfacpy.base.folder.Folder.copy_single_obj">copy_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_by_path" href="../base/folder.html#powfacpy.base.folder.Folder.create_by_path">create_by_path</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_comtrade_obj" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_comtrade_obj">create_comtrade_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_directory" href="../base/folder.html#powfacpy.base.folder.Folder.create_directory">create_directory</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_filter_obj" href="../base/folder.html#powfacpy.base.folder.Folder.create_filter_obj">create_filter_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_in_folder" href="../base/folder.html#powfacpy.base.folder.Folder.create_in_folder">create_in_folder</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_parallel_scenario_for_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_parallel_scenario_for_study_case">create_parallel_scenario_for_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_parallel_variation_for_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_parallel_variation_for_study_case">create_parallel_variation_for_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_project_version" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_project_version">create_project_version</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_study_case">create_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.create_variation" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.create_variation">create_variation</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.delete_obj" href="../base/folder.html#powfacpy.base.folder.Folder.delete_obj">delete_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_active_networks" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_active_networks">get_active_networks</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_active_project" href="../base/folder.html#powfacpy.base.folder.Folder.get_active_project">get_active_project</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_active_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_active_study_case">get_active_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_active_user_folder" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_active_user_folder">get_active_user_folder</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_attr" href="../base/folder.html#powfacpy.base.folder.Folder.get_attr">get_attr</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_attr_by_path" href="../base/folder.html#powfacpy.base.folder.Folder.get_attr_by_path">get_attr_by_path</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_by_condition" href="../base/folder.html#powfacpy.base.folder.Folder.get_by_condition">get_by_condition</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_calc_relevant_obj" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_calc_relevant_obj">get_calc_relevant_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_events_folder_from_initial_conditions_calc" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_events_folder_from_initial_conditions_calc">get_events_folder_from_initial_conditions_calc</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_first_level_folder" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_first_level_folder">get_first_level_folder</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_from_global_library" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_from_global_library">get_from_global_library</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_from_study_case" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_from_study_case">get_from_study_case</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_full_path_of_object" href="../base/folder.html#powfacpy.base.folder.Folder.get_full_path_of_object">get_full_path_of_object</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_full_path_of_object_with_class_names" href="../base/folder.html#powfacpy.base.folder.Folder.get_full_path_of_object_with_class_names">get_full_path_of_object_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_loc_name_with_class" href="../base/folder.html#powfacpy.base.folder.Folder.get_loc_name_with_class">get_loc_name_with_class</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_multiple_obj_from_similar_sub_directories" href="../base/folder.html#powfacpy.base.folder.Folder.get_multiple_obj_from_similar_sub_directories">get_multiple_obj_from_similar_sub_directories</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_obj" href="../base/folder.html#powfacpy.base.folder.Folder.get_obj">get_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_obj_including_subfolders" href="../base/folder.html#powfacpy.base.folder.Folder.get_obj_including_subfolders">get_obj_including_subfolders</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_obj_partial" href="../base/folder.html#powfacpy.base.folder.Folder.get_obj_partial">get_obj_partial</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_parameter_value_string" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_parameter_value_string">get_parameter_value_string</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_between_objects" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_between_objects">get_path_between_objects</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_obj_with_class_names" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_obj_with_class_names">get_path_of_obj_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_object" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_object">get_path_of_object</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_object_in_active_project" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_object_in_active_project">get_path_of_object_in_active_project</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_object_in_active_project_with_class_names" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_object_in_active_project_with_class_names">get_path_of_object_in_active_project_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_object_in_current_user" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_object_in_current_user">get_path_of_object_in_current_user</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_path_of_object_in_current_user_with_class_names" href="../base/folder.html#powfacpy.base.folder.Folder.get_path_of_object_in_current_user_with_class_names">get_path_of_object_in_current_user_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_project_directory" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_project_directory">get_project_directory</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_project_settings" href="../base/folder.html#powfacpy.base.folder.Folder.get_project_settings">get_project_settings</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_project_version" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_project_version">get_project_version</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_results_obj_from_initial_conditions_calc" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.get_results_obj_from_initial_conditions_calc">get_results_obj_from_initial_conditions_calc</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_single_obj" href="../base/folder.html#powfacpy.base.folder.Folder.get_single_obj">get_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_unique_obj" href="../base/folder.html#powfacpy.base.folder.Folder.get_unique_obj">get_unique_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.get_upstream_obj" href="../base/folder.html#powfacpy.base.folder.Folder.get_upstream_obj">get_upstream_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.import_dz_file" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.import_dz_file">import_dz_file</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.import_project" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.import_project">import_project</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.is_container" href="../base/folder.html#powfacpy.base.folder.Folder.is_container">is_container</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.is_pf_class" href="../base/folder.html#powfacpy.base.folder.Folder.is_pf_class">is_pf_class</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.move_obj" href="../base/folder.html#powfacpy.base.folder.Folder.move_obj">move_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.move_single_obj" href="../base/folder.html#powfacpy.base.folder.Folder.move_single_obj">move_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.path_exists" href="../base/folder.html#powfacpy.base.folder.Folder.path_exists">path_exists</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.reactivate_project" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.reactivate_project">reactivate_project</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.reset_default_units" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.reset_default_units">reset_default_units</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.reset_stored_attr" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.reset_stored_attr">reset_stored_attr</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.rollback_project_to_previous_version" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.rollback_project_to_previous_version">rollback_project_to_previous_version</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.set_attr" href="../base/folder.html#powfacpy.base.folder.Folder.set_attr">set_attr</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.set_attr_by_path" href="../base/folder.html#powfacpy.base.folder.Folder.set_attr_by_path">set_attr_by_path</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.set_attr_resettable" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.set_attr_resettable">set_attr_resettable</a></code></li>
+<li><code><a title="powfacpy.base.active_project.ActiveProject.stored_attr" href="../base/active_project.html#powfacpy.base.active_project.ActiveProject.stored_attr">stored_attr</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.pf_classes" href="index.html">powfacpy.pf_classes</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_classes.protocol_generator.Empty" href="#powfacpy.pf_classes.protocol_generator.Empty">Empty</a></code></h4>
+</li>
+<li>
+<h4><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator">PFClassesProtocolGenerator</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.create_pf_class_protocols" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.create_pf_class_protocols">create_pf_class_protocols</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_all_class_names_from_scripting_reference" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_all_class_names_from_scripting_reference">get_all_class_names_from_scripting_reference</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_attribute_definitions" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_attribute_definitions">get_class_attribute_definitions</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_definition" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_class_definition">get_class_definition</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_class_string" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_class_string">get_general_class_string</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_methods" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_general_methods">get_general_methods</a></code></li>
+<li><code><a title="powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_pf_objects" href="#powfacpy.pf_classes.protocol_generator.PFClassesProtocolGenerator.get_pf_objects">get_pf_objects</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

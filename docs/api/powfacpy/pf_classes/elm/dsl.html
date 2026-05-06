@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_classes.elm.dsl API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_classes.elm.dsl</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.dsl.display_dsl_models_info"><code class="name flex">
+<span>def <span class="ident">display_dsl_models_info</span></span>(<span>dsl_models_info: dict, indent='
+') ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def display_dsl_models_info(dsl_models_info: dict, indent=&#34;   &#34;) -&gt; None:
+    &#34;&#34;&#34;Display the information about DSL models sorted by block definition (see `get_dsl_models_info_sorted_by_block_definition`) in a readable way.
+
+    Args:
+        dsl_models_info (dict): dict with block definitions as keys and further information about the `dsl_models` as values. Output of `get_dsl_models_info_sorted_by_block_definition()`.
+    &#34;&#34;&#34;
+    for blkdef, info in dsl_models_info.items():
+        print(f&#34;Block Definition &#39;{blkdef.loc_name}&#39;: {blkdef}&#34;)
+        if &#34;parent_elms&#34; in info:
+            print(f&#34;{indent}Parent elements:&#34;)
+            for elm in info[&#34;parent_elms&#34;]:
+                print(f&#34;{2*indent}{elm.loc_name} of class {elm.GetClassName()} ({elm})&#34;)
+        print(f&#34;{indent}Parameter values:&#34;)
+        for par, values in info[&#34;parameters&#34;].items():
+            print(f&#34;{2*indent}{par}: {values}&#34;)
+        if &#34;average&#34; in info:
+            print(f&#34;{indent}Average parameter values:&#34;)
+            for par, value in info[&#34;average&#34;].items():
+                print(f&#34;{2*indent}{par}: {value}&#34;)
+        print(&#34;\n&#34;)</code></pre>
+</details>
+<div class="desc"><p>Display the information about DSL models sorted by block definition (see <code><a title="powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition" href="#powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition">get_dsl_models_info_sorted_by_block_definition()</a></code>) in a readable way.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dsl_models_info</code></strong> :&ensp;<code>dict</code></dt>
+<dd>dict with block definitions as keys and further information about the <code>dsl_models</code> as values. Output of <code><a title="powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition" href="#powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition">get_dsl_models_info_sorted_by_block_definition()</a></code>.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.get_average_parameter_values_of_dsl_models"><code class="name flex">
+<span>def <span class="ident">get_average_parameter_values_of_dsl_models</span></span>(<span>dsl_models: list[ElmDsl] | list[<a title="powfacpy.pf_classes.elm.dsl.DSLModel" href="#powfacpy.pf_classes.elm.dsl.DSLModel">DSLModel</a>],<br>parameter_names: list[str] | None = None,<br>weights: list[float] | None = None) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_average_parameter_values_of_dsl_models(
+    dsl_models: list[ElmDsl] | list[DSLModel],
+    parameter_names: list[str] | None = None,
+    weights: list[float] | None = None,
+) -&gt; dict:
+    &#34;&#34;&#34;Get the average value of the parameters of DSL models (these models must have the same parameters, i.e. reference the same block definition).
+
+    Args:
+        dsl_models (list[ElmDsl] | list[DSLModel]): list of ElmDsl or DSLModels which must have the same parameters.
+        parameter_names (list[str] | None): list of parameter names. If None, all parameters considered. Defaults to None.
+    Returns:
+        dict: dict with parameter names (keys) and average value (values)
+    &#34;&#34;&#34;
+    params = get_parameters_of_dsl_models(dsl_models, parameter_names=parameter_names)
+    if weights is not None:
+        params = {
+            par: get_weighted_average(values, weights) for par, values in params.items()
+        }
+    else:
+        params = {par: np.mean(values) for par, values in params.items()}
+    return params</code></pre>
+</details>
+<div class="desc"><p>Get the average value of the parameters of DSL models (these models must have the same parameters, i.e. reference the same block definition).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dsl_models</code></strong> :&ensp;<code>list[ElmDsl] | list[DSLModel]</code></dt>
+<dd>list of ElmDsl or DSLModels which must have the same parameters.</dd>
+<dt><strong><code>parameter_names</code></strong> :&ensp;<code>list[str] | None</code></dt>
+<dd>list of parameter names. If None, all parameters considered. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>dict with parameter names (keys) and average value (values)</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition"><code class="name flex">
+<span>def <span class="ident">get_dsl_models_info_sorted_by_block_definition</span></span>(<span>dsl_models: list[ElmDsl] | list[<a title="powfacpy.pf_classes.elm.dsl.DSLModel" href="#powfacpy.pf_classes.elm.dsl.DSLModel">DSLModel</a>],<br>parent_elms: list[PFGeneral] | None = None,<br>average: str | None = None) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dsl_models_info_sorted_by_block_definition(
+    dsl_models: list[ElmDsl] | list[DSLModel],
+    parent_elms: list[PFGeneral] | None = None,
+    average: str | None = None,
+) -&gt; dict:
+    &#34;&#34;&#34;Get a dict with the block definitions of `dsl_models` as keys and further information about the `dsl_models` as values.
+
+    The information are the dsl objects of the block definitions (keys: &#39;dsl_models&#39;), their parameter values (keys: &#39;parameters&#39;) and, if `parent_elms` is not None, the parent elements of the dsl models (keys: &#39;parent_elms&#39;). If `average` is not None, also the (weighted) average parameter values of the dsl models are calculated and added to the information (keys: &#39;average&#39;).
+
+    The information is relevant for example to create dynamic equivalents of subsystems where simplified and averaged dynamic models are needed.
+
+    Args:
+        dsl_models (list[ElmDsl] | list[DSLModel]): list of ElmDsl or DSLModels.
+        parent_elms (list[PFGeneral] | None, optional): List of parent network elements of the &#39;dsl_models&#39; (e.g. synchronous machines (ElmSym)). Defaults to None.
+        average (str | None, optional): Type of average to calculate (&#39;not_weighted&#39;, &#39;apparent_power_weighted&#39;: weighted by apparent power of &#39;parent_elms&#39;). Defaults to None.
+
+    Returns:
+        dict: Dict with block definitions as keys and further information about the `dsl_models` as values.
+
+    Example:
+        ```python
+        dsl_models_info = get_dsl_models_info_sorted_by_block_definition(
+            governor_dsl_models,
+            synchronous_machines,
+            average=&#39;apparent_power_weighted&#39;,
+        )
+
+        ```
+    &#34;&#34;&#34;
+    if not isinstance(dsl_models[0], DSLModel):
+        dsl_models = [DSLModel(m) for m in dsl_models if m]
+    dsl_models_info = {}
+    for n, dsl_model in enumerate(dsl_models):
+        blkdef = dsl_model.typ_id
+        blkdef_info = dsl_models_info.get(blkdef)
+        if not blkdef_info:
+            dsl_models_info[blkdef] = {}
+            parameter_names = dsl_model.get_parameter_names()
+            dsl_models_info[blkdef][&#34;dsl_models&#34;] = []
+            dsl_models_info[blkdef][&#34;parameters&#34;] = {
+                name: [] for name in parameter_names
+            }
+            if parent_elms is not None:
+                dsl_models_info[blkdef][&#34;parent_elms&#34;] = []
+        dsl_models_info[blkdef][&#34;dsl_models&#34;].append(dsl_model)
+        parameter_values = dsl_model.get_parameter_values()
+        for k, par in enumerate(parameter_names):
+            dsl_models_info[blkdef][&#34;parameters&#34;][par].append(parameter_values[k])
+        if parent_elms is not None:
+            dsl_models_info[blkdef][&#34;parent_elms&#34;].append(parent_elms[n])
+    if average is not None:
+        for blkdef, info in dsl_models_info.items():
+            info[&#34;average&#34;] = {p: float for p in info[&#34;parameters&#34;]}
+            if average == &#34;not_weighted&#34;:
+                for par, values in info[&#34;parameters&#34;].items():
+                    info[&#34;average&#34;][par] = np.mean(values)
+            if average == &#34;apparent_power_weighted&#34;:
+                weights = [
+                    convert_pf_obj_to_powfacpy(elm).rated_apparent_power
+                    for elm in info[&#34;parent_elms&#34;]
+                ]
+                for par, values in info[&#34;parameters&#34;].items():
+                    info[&#34;average&#34;][par] = get_weighted_average(values, weights)
+    return dsl_models_info</code></pre>
+</details>
+<div class="desc"><p>Get a dict with the block definitions of <code>dsl_models</code> as keys and further information about the <code>dsl_models</code> as values.</p>
+<p>The information are the dsl objects of the block definitions (keys: 'dsl_models'), their parameter values (keys: 'parameters') and, if <code>parent_elms</code> is not None, the parent elements of the dsl models (keys: 'parent_elms'). If <code>average</code> is not None, also the (weighted) average parameter values of the dsl models are calculated and added to the information (keys: 'average').</p>
+<p>The information is relevant for example to create dynamic equivalents of subsystems where simplified and averaged dynamic models are needed.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dsl_models</code></strong> :&ensp;<code>list[ElmDsl] | list[DSLModel]</code></dt>
+<dd>list of ElmDsl or DSLModels.</dd>
+<dt><strong><code>parent_elms</code></strong> :&ensp;<code>list[PFGeneral] | None</code>, optional</dt>
+<dd>List of parent network elements of the 'dsl_models' (e.g. synchronous machines (ElmSym)). Defaults to None.</dd>
+<dt><strong><code>average</code></strong> :&ensp;<code>str | None</code>, optional</dt>
+<dd>Type of average to calculate ('not_weighted', 'apparent_power_weighted': weighted by apparent power of 'parent_elms'). Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dict with block definitions as keys and further information about the <code>dsl_models</code> as values.</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">dsl_models_info = get_dsl_models_info_sorted_by_block_definition(
+    governor_dsl_models,
+    synchronous_machines,
+    average='apparent_power_weighted',
+)
+
+</code></pre></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.get_parameters_of_dsl_models"><code class="name flex">
+<span>def <span class="ident">get_parameters_of_dsl_models</span></span>(<span>dsl_models: list[ElmDsl] | list[<a title="powfacpy.pf_classes.elm.dsl.DSLModel" href="#powfacpy.pf_classes.elm.dsl.DSLModel">DSLModel</a>],<br>parameter_names: list[str] | None = None) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameters_of_dsl_models(
+    dsl_models: list[ElmDsl] | list[DSLModel], parameter_names: list[str] | None = None
+) -&gt; dict:
+    &#34;&#34;&#34;Get a dict with parameter names (keys) and a list of values (values) of the DSL models in &#39;dsl_models&#39; (these models must have the same parameters, i.e. reference the same block definition).
+
+    Args:
+        dsl_models (list[ElmDsl] | list[DSLModel]): list of ElmDsl or DSLModels which must have the same parameters.
+        parameter_names (list[str] | None): list of parameter names. If None, all parameters considered. Defaults to None.
+
+    Returns:
+        dict: parameter (keys) and list of values (values) dict
+    &#34;&#34;&#34;
+    if not isinstance(dsl_models[0], DSLModel):
+        dsl_models = [DSLModel(elmdsl) for elmdsl in dsl_models]
+    if parameter_names is None:
+        parameter_names = dsl_models[0].get_parameter_names()
+    params = {name: np.empty(len(dsl_models)) for name in parameter_names}
+    for n, dsl_model in enumerate(dsl_models):
+        for name in params.keys():
+            params[name][n] = dsl_model._obj.__getattr__(name)
+    return params</code></pre>
+</details>
+<div class="desc"><p>Get a dict with parameter names (keys) and a list of values (values) of the DSL models in 'dsl_models' (these models must have the same parameters, i.e. reference the same block definition).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>dsl_models</code></strong> :&ensp;<code>list[ElmDsl] | list[DSLModel]</code></dt>
+<dd>list of ElmDsl or DSLModels which must have the same parameters.</dd>
+<dt><strong><code>parameter_names</code></strong> :&ensp;<code>list[str] | None</code></dt>
+<dd>list of parameter names. If None, all parameters considered. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>parameter (keys) and list of values (values) dict</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel"><code class="flex name class">
+<span>class <span class="ident">DSLModel</span></span>
+<span>(</span><span>obj: ElmDsl)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DSLModel(ElmBase):
+
+    __slots__ = ()
+
+    def __init__(self, obj: ElmDsl) -&gt; None:
+        super().__init__(obj)
+        self._obj: ElmDsl
+
+    def add_results_signals(self, signal_names: list[str]) -&gt; None:
+        &#34;&#34;&#34;Add signals to monitored variables.
+
+        Args:
+            signal_names (list[str]): names of signals (without &#39;s:&#39;)
+        &#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        signal_names = [f&#34;s:{sig}&#34; for sig in signal_names]
+        act_prj.add_results_variable(self._obj, signal_names)
+
+    def add_results_signal_type(self, signal_types: list[str]) -&gt; list[str]:
+        &#34;&#34;&#34;Add all signals of a certain type to monitored result variables
+
+        Args:
+            signal_types (list[str]): signal types according to block definition
+             (for example &#34;sOutput&#34;, &#34;sInput&#34;, &#34;sStates&#34;, &#34;sParams&#34;, &#34;sUpLimPar&#34;, &#34;sLowLimPar&#34;)
+
+        Returns:
+            list[str]: list of signals that were added to the monitored result variables.
+        &#34;&#34;&#34;
+        act_prj = ActiveProjectCached()
+        blkdef = BlockDefinition(self._obj.typ_id)
+        signal_mapping = blkdef.get_signal_type_name_mapping()
+        for n, sig_type in enumerate(signal_types):
+            sig_type_map = signal_mapping.get(sig_type)
+            if sig_type_map:
+                signal_types[n] = sig_type_map
+        signals = [
+            f&#34;s:{sig}&#34; for sig_type in signal_types for sig in getattr(blkdef, sig_type)
+        ]
+        act_prj.add_results_variable(self._obj, signals)
+        return signals
+
+    def get_parameters(self) -&gt; dict:
+        &#34;&#34;&#34;Get model parameter (keys) and value (values) dict of DSL model.
+
+        Returns:
+            dict: parameter-value dict
+        &#34;&#34;&#34;
+        return {
+            k: v
+            for k, v in zip(self.get_parameter_names(), self.get_parameter_values())
+        }
+
+    def get_parameter_names(self) -&gt; list[str]:
+        return self._obj.parameterNames.split(&#34;,&#34;)
+
+    def get_parameter_values(self) -&gt; list:
+        return self._obj.params</code></pre>
+</details>
+<div class="desc"><p>Base child class (in object oriented sense - not like in GetParent()) to be used in combination with instances of PF objects (stored in '_obj'). The '<strong>getattribute</strong>' and '<strong>setattr</strong>' methods are overloaded to resemble the behavior of inheriting from the PF object. That means that all methods/data attributes of '_obj' are available and further attributes/methods can be added by any class that inherits from 'BaseChildStatic'.</p>
+<p>In addition, functionality is added to cache attributes and methods (the data is stored in '_obj' because 'BaseChildStatic' is static, i.e. it has no '<strong>dict</strong>' attribute because of the static slots).</p>
+<p>'<strong>slots</strong>' is required to inherit the slots from 'BaseObjectStatic' (i.e. '<strong>slots</strong> = "_obj"').</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.elm_base.ElmBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmBase">ElmBase</a></li>
+<li><a title="powfacpy.base.base.BaseChildStatic" href="../../base/base.html#powfacpy.base.base.BaseChildStatic">BaseChildStatic</a></li>
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="../../base/base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signal_type"><code class="name flex">
+<span>def <span class="ident">add_results_signal_type</span></span>(<span>self, signal_types: list[str]) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_results_signal_type(self, signal_types: list[str]) -&gt; list[str]:
+    &#34;&#34;&#34;Add all signals of a certain type to monitored result variables
+
+    Args:
+        signal_types (list[str]): signal types according to block definition
+         (for example &#34;sOutput&#34;, &#34;sInput&#34;, &#34;sStates&#34;, &#34;sParams&#34;, &#34;sUpLimPar&#34;, &#34;sLowLimPar&#34;)
+
+    Returns:
+        list[str]: list of signals that were added to the monitored result variables.
+    &#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    blkdef = BlockDefinition(self._obj.typ_id)
+    signal_mapping = blkdef.get_signal_type_name_mapping()
+    for n, sig_type in enumerate(signal_types):
+        sig_type_map = signal_mapping.get(sig_type)
+        if sig_type_map:
+            signal_types[n] = sig_type_map
+    signals = [
+        f&#34;s:{sig}&#34; for sig_type in signal_types for sig in getattr(blkdef, sig_type)
+    ]
+    act_prj.add_results_variable(self._obj, signals)
+    return signals</code></pre>
+</details>
+<div class="desc"><p>Add all signals of a certain type to monitored result variables</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>signal_types</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>signal types according to block definition</dd>
+</dl>
+<p>(for example "sOutput", "sInput", "sStates", "sParams", "sUpLimPar", "sLowLimPar")</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[str]</code></dt>
+<dd>list of signals that were added to the monitored result variables.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signals"><code class="name flex">
+<span>def <span class="ident">add_results_signals</span></span>(<span>self, signal_names: list[str]) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_results_signals(self, signal_names: list[str]) -&gt; None:
+    &#34;&#34;&#34;Add signals to monitored variables.
+
+    Args:
+        signal_names (list[str]): names of signals (without &#39;s:&#39;)
+    &#34;&#34;&#34;
+    act_prj = ActiveProjectCached()
+    signal_names = [f&#34;s:{sig}&#34; for sig in signal_names]
+    act_prj.add_results_variable(self._obj, signal_names)</code></pre>
+</details>
+<div class="desc"><p>Add signals to monitored variables.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>signal_names</code></strong> :&ensp;<code>list[str]</code></dt>
+<dd>names of signals (without 's:')</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_names"><code class="name flex">
+<span>def <span class="ident">get_parameter_names</span></span>(<span>self) ‑> list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameter_names(self) -&gt; list[str]:
+    return self._obj.parameterNames.split(&#34;,&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_values"><code class="name flex">
+<span>def <span class="ident">get_parameter_values</span></span>(<span>self) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameter_values(self) -&gt; list:
+    return self._obj.params</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameters"><code class="name flex">
+<span>def <span class="ident">get_parameters</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_parameters(self) -&gt; dict:
+    &#34;&#34;&#34;Get model parameter (keys) and value (values) dict of DSL model.
+
+    Returns:
+        dict: parameter-value dict
+    &#34;&#34;&#34;
+    return {
+        k: v
+        for k, v in zip(self.get_parameter_names(), self.get_parameter_values())
+    }</code></pre>
+</details>
+<div class="desc"><p>Get model parameter (keys) and value (values) dict of DSL model.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>parameter-value dict</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.pf_classes.elm" href="index.html">powfacpy.pf_classes.elm</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.dsl.display_dsl_models_info" href="#powfacpy.pf_classes.elm.dsl.display_dsl_models_info">display_dsl_models_info</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.get_average_parameter_values_of_dsl_models" href="#powfacpy.pf_classes.elm.dsl.get_average_parameter_values_of_dsl_models">get_average_parameter_values_of_dsl_models</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition" href="#powfacpy.pf_classes.elm.dsl.get_dsl_models_info_sorted_by_block_definition">get_dsl_models_info_sorted_by_block_definition</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.get_parameters_of_dsl_models" href="#powfacpy.pf_classes.elm.dsl.get_parameters_of_dsl_models">get_parameters_of_dsl_models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel" href="#powfacpy.pf_classes.elm.dsl.DSLModel">DSLModel</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signal_type" href="#powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signal_type">add_results_signal_type</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signals" href="#powfacpy.pf_classes.elm.dsl.DSLModel.add_results_signals">add_results_signals</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_names" href="#powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_names">get_parameter_names</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_values" href="#powfacpy.pf_classes.elm.dsl.DSLModel.get_parameter_values">get_parameter_values</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.dsl.DSLModel.get_parameters" href="#powfacpy.pf_classes.elm.dsl.DSLModel.get_parameters">get_parameters</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

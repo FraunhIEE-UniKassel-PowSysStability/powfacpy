@@ -1,0 +1,4071 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.base.folder API documentation</title>
+<meta name="description" content="Classes for interaction with the PF database. Based on folders from where downstream objects can accessed (see class Folder). The class …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.base.folder</code></h1>
+</header>
+<section id="section-intro">
+<p>Classes for interaction with the PF database. Based on folders from where downstream objects can accessed (see class Folder). The class PFActiveProject inherits from Folder and adds some functionality for the active project.</p>
+<p>Also contains the class PFStringManipulation for string manipulation.</p>
+<p>The acronym 'PF' is used for 'PowerFactory'.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.base.folder.Folder"><code class="flex name class">
+<span>class <span class="ident">Folder</span></span>
+<span>(</span><span>folder: Union[PFGeneral, str], pf_app: PFApp | None | bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Folder(BaseObjectStatic):
+    &#34;&#34;&#34;Class for interacting with folders in the PowerFactory database (any folder in the hierarchy).
+
+    The class is very large and has methods to (you can search for sections):
+        - Get objects (search for &#39;# Get&#39;)
+        - Create objects (search for &#39;# Create&#39;)
+        - Copy objects (search for &#39;# Copy&#39;)
+        - Delete objects (search for &#39;# Delete&#39;)
+        - Get/set attributes (search for &#39;# Attributes&#39;)
+        - Utils to handle user input etc. (search for &#39;# Handle&#39;)
+        - Utils to handle path strings (search for &#39;# Path&#39;)
+        - Other functionality (search for &#39;# Other&#39;)
+
+    The class is large to have a convenient interface with a lot of functionality to interact with the PF database (at the cost of the clarity of the code unfortunately).
+
+    Note that &#39;app&#39; is a class attribute, i.e. it is shared by all instances. This is convenient because there is only one &#39;app&#39; object provided by &#39;powerfactory.GetApplication()&#39;
+    &#34;&#34;&#34;
+
+    app: PFApp
+
+    def __init__(
+        self, folder: Union[PFGeneral, str], pf_app: PFApp | None | bool = False
+    ):
+        &#34;&#34;&#34;
+        Args:
+            folder (Union[PFGeneral, str]): folder object or path in active project (or in active user if no project is active)
+            pf_app (PFApp | None | bool, optional): Powerfactory app (returned by GetApplication). Defaults to False (does not default to None because None is returned by GetApplication if something goes wrong; Therefore, None should raise an exception).
+
+        Raises:
+            TypeError: When pf_app is None. See explanation of argument &#39;pf_app&#39;.
+        &#34;&#34;&#34;
+        if pf_app:
+            self.__class__.app = pf_app
+        elif pf_app is None:
+            raise TypeError(
+                &#34;The input app is of type &#39;NoneType&#39;. Maybe the PowerFactory app was not loaded correctly.&#34;
+            )
+        if not isinstance(folder, str):
+            self._obj = folder
+        else:
+            super().__init__(self.__class__.app.GetActiveProject())
+            if not self._obj:  # Fallback if no project is active
+                self._obj = self.__class__.app.GetCurrentUser()
+            self._obj: PFGeneral = self._handle_single_pf_object_or_path_input(folder)
+
+    @property
+    def folder_obj(self):
+        return self._obj
+
+    @property
+    def obj(self) -&gt; PFGeneral:
+        return self._obj
+
+    def __getitem__(self, obj: str) -&gt; PFGeneral:
+        &#34;&#34;&#34;Allows to call &#39;get_obj&#39; (without optional arguments, i.e. subfolders are included) using brackets.
+
+        Example: terminals = folder_instance[&#39;*.ElmTerm&#39;]
+            where folder_instance is an instance of this class.
+
+        Args:
+            obj (str): Object(s) to search for
+
+        Returns:
+            PFGeneral: Pointers to object(s) from the PF database
+        &#34;&#34;&#34;
+        return self.get_obj(obj, include_subfolders=True)
+
+    def __iter__(self) -&gt; Generator:
+        for obj in self.get_obj(
+            &#34;*&#34;, include_subfolders=False, error_if_non_existent=False
+        ):
+            yield obj
+
+    def __str__(self) -&gt; str:
+        return str(self._obj)
+
+    def __len__(self) -&gt; int:
+        return len(self._obj.GetContents(&#34;*&#34;))
+
+    ##################
+    # Reimplemenatation of methods of PF folder/container objects (to mimic the behavior of powerfactory.DataObject).
+    ##################
+
+    def GetContents(self, name: str, recursive: int = 0) -&gt; list[PFGeneral]:
+        return self._obj.GetContents(name, recursive)
+
+    def GetChildren(
+        self, hiddenMode: int, filter: str, subfolders: int
+    ) -&gt; list[PFGeneral]:
+        return self._obj.GetChildren(hiddenMode, filter, subfolders)
+
+    def GetAttribute(self, attr: str) -&gt; Union[int | float | str | PFGeneral | list]:
+        return self._obj.GetAttribute(attr)
+
+    def SetAttribute(
+        self, attr: str, value: Union[int | float | str | PFGeneral | list]
+    ) -&gt; None:
+        return self._obj.SetAttribute(attr, value)
+
+    def GetParent(self) -&gt; PFGeneral:
+        return self._obj.GetParent()
+
+    def CreateObject(
+        self, className: str, objectNameParts: Union[int, str] = &#34;&#34;
+    ) -&gt; PFGeneral:
+        return self._obj.CreateObject(className, objectNameParts)
+
+    def Delete(self) -&gt; int:
+        return self._obj.Delete()
+
+    def AddCopy(
+        self,
+        objectToCopy: list[PFGeneral] | PFGeneral,
+        partOfName: Union[str, int] = &#34;&#34;,
+    ) -&gt; PFGeneral:
+        return self._obj.AddCopy(objectToCopy, partOfName)
+
+    def GetFullName(self) -&gt; str:
+        return self._obj.GetFullName()
+
+    ##################
+    # Get
+    ##################
+    def get_obj(
+        self,
+        path: str,
+        condition: Callable | None = None,
+        parent_folder: Union[PFGeneral, Folder, str] | None = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Get the PowerFactory object(s) under &#39;path&#39;. By default, &#39;path&#39; is relative to &#39;self._obj&#39; (or the active project folder for instances of PFActiveProject).
+
+        See also &#39;get_unique_obj&#39;.
+
+        Args:
+            path (str): path to object(s), can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+            condition (Callable, optional): filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110; defaults to None
+
+            parent_folder (Union[PFGeneral, Folder, str], optional): specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relative to &#39;parent_folder&#39;); defaults to _folder/the active project folder for instances of PFActiveProject
+
+            error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
+
+            include_subfolders (bool, optional): include subfolders in the search; defaults to True
+
+        Raises:
+            TypeError: If &#39;path&#39; is not a string
+
+        Returns:
+            list[PFGeneral]: List with PF objects
+
+        Examples:
+          pfbi.get_obj(&#34;Network Model\\Network Data\\Grid\\Terminal 1&#34;)
+
+        The path can also start with &#34;\\&#34; and contain wildcards after last &#34;\\&#34;:
+          get_obj(&#34;\\Network Model\\Network Data\\Grid\\*.ElmTerm&#34;)
+
+        With condition:
+          pfbi.get_obj(&#34;Network Model\\Network Data\\Grid\\*.ElmTerm&#34;&#34;,
+            condition = lambda x : getattr(x,&#34;uknom&#34;)==110)
+
+        Note that you can also use &#34;r&#34; at the beginning of the string
+        argument to use single &#34;\&#34;.
+        &#34;&#34;&#34;
+        parent_folder = (
+            self._obj
+            if not parent_folder
+            else self._handle_single_pf_object_or_path_input(
+                parent_folder, include_subfolders=False
+            )
+        )
+
+        if not include_subfolders:
+            try:
+                obj = parent_folder.GetContents(path)
+            except RuntimeError:
+                raise TypeError(&#34;Path must be of type string.&#34;)
+        else:
+            obj = self._handle_inclusion_of_subfolders(
+                path, parent_folder, error_if_non_existent
+            )
+        if not obj:
+            return self._handle_non_existing_obj(
+                path, parent_folder, error_if_non_existent
+            )
+        if condition:
+            obj_with_condition = self.get_by_condition(obj, condition)
+            if obj_with_condition:
+                return obj_with_condition
+            else:
+                return self._handle_condition_of_obj_not_met(
+                    path, parent_folder, error_if_non_existent
+                )
+        else:
+            return obj
+
+    def get_obj_including_subfolders(
+        self,
+        path: str,
+        condition: Callable | None = None,
+        parent_folder: Union[PFGeneral, Folder, str] | None = None,
+        error_if_non_existent: bool = True,
+    ) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Call &#39;get_obj&#39; including subfolders.&#34;&#34;&#34;
+        return self.get_obj(
+            path,
+            condition=condition,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=True,
+        )
+
+    def get_obj_partial(self, *args, **kwargs) -&gt; Callable:
+        &#34;&#34;&#34;Partial evaluation of &#39;get_obj&#39;.
+
+        Returns a callable to get_obj.
+
+        Example: a = get_obj_lazy(&#34;path\\to\\obj&#34;, error_if_non_existent=False)
+                 a() # This calls &#39;get_obj&#39; with given arguments
+
+        For further information arguments etc. see &#39;get_obj&#39;.
+        &#34;&#34;&#34;
+        return partial(self.get_obj, *args, **kwargs)
+
+    def get_unique_obj(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; PFGeneral | None:
+        &#34;&#34;&#34;Get unique PowerFactory object under &#39;path&#39;.
+
+        Use this method if you want to access one single unique object.
+        This method is an alternative to &#39;get_obj&#39; and returns the unique object instead of a list (that needs to be accessed with &#39;[0]&#39;). It also checks whether the found object is unique (only one object is found).
+
+        Args:
+            path (str): path to object(s);
+            can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+            condition (Callable, optional):
+            filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110;
+            defaults to None
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+            specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relative to &#39;parent_folder&#39;);
+            defaults to _folder/the active project folder for instances of PFActiveProject
+
+            error_if_non_existent (bool, optional):
+            raise exception if no objects are found;
+            defaults to True
+
+            include_subfolders (bool, optional):
+            include subfolders in the search;
+            defaults to True
+
+        Raises:
+            TypeError:
+            If &#39;path&#39; is not a string.
+            If several objects were found.
+
+        Returns:
+            PFGeneral: PF object
+        &#34;&#34;&#34;
+        obj = self.get_obj(
+            path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        if obj:
+            if len(obj) &lt; 2:
+                return obj[0]
+            else:
+                if parent_folder:
+                    parent_folder_str = (
+                        f&#34; in &#39;{self.get_path_of_object(parent_folder)}&#39;&#34;
+                    )
+                else:
+                    parent_folder_str = &#34;&#34;
+                raise TypeError(
+                    f&#34;The path {path+parent_folder_str} is not a unique object. Did you use wildcards (&#39;*&#39;)? This method only returns single unique objects.&#34;
+                )
+        else:
+            return None
+
+    def get_single_obj(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; PFGeneral | None:
+        &#34;&#34;&#34;DEPRECATED: Use &#39;get_unique_obj&#39; instead.
+
+        Get unique PowerFactory object under &#39;path&#39;.
+
+        Use this method if you want to access one single unique object.
+        This method is an alternative to &#39;get_obj&#39; and returns the unique object instead of a list (that needs to be accessed with &#39;[0]&#39;). It also checks whether the found object is unique (only one object is found).
+
+        Args:
+            path (str): path to object(s);
+            can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+            condition (Callable, optional):
+            filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110;
+            defaults to None
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+            specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relativ to &#39;parent_folder&#39;);
+            defaults to _folder/the active project folder for instances of PFActiveProject
+
+            error_if_non_existent (bool, optional):
+            raise exception if no objects are found;
+            defaults to True
+
+            include_subfolders (bool, optional):
+            include subfolders in the search;
+            defaults to True
+
+        Raises:
+            TypeError:
+            If &#39;path&#39; is not a string.
+            If several objects were found.
+
+        Returns:
+            PFGeneral: PF object
+        &#34;&#34;&#34;
+        return self.get_unique_obj(
+            path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+
+    def get_multiple_obj_from_similar_sub_directories(
+        self, parent_folders: Union[list[PFGeneral], str], sub_path: str
+    ) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Get multiple objects that are in a similar subdirectory relativ to
+        their parent folders
+
+        Args:
+            parent_folders (Union[list[PFGeneral], str]): parent folders
+
+            sub_path (str):
+                path within the parent folders (string). Must be  unique (don&#39;t use placeholders &#39;*&#39;)
+
+        Returns:
+            list[PFGeneral]: list of PF objects
+
+        Example:
+          If you want to get the &#34;All calculation&#34; objects of all the study cases in the study case folder, use
+            &#39;self.get_multiple_obj_from_similar_sub_directories(
+              &#39;Study Cases\\&#39;,&#39;All calculations&#39;)&#39;
+        &#34;&#34;&#34;
+        if isinstance(parent_folders, str):
+            parent_folders = self.get_obj(parent_folders)
+        objs = []
+        for parent in parent_folders:
+            parent = self._handle_single_pf_object_or_path_input(parent)
+            objs.append(self.get_single_obj(sub_path, parent_folder=parent))
+        return objs
+
+    def get_upstream_obj(
+        self,
+        start_obj_or_path: Union[PFGeneral, str],
+        condition: Callable,
+        error_if_non_existent: bool = True,
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Get upstream object that meets the condition.
+
+        Searches upstream in the PF database hierarchy.
+
+        Args:
+            start_obj_or_path (Union[PFGeneral, str], optional): Object/folder (or its path) to start from
+
+            condition (Callable): Condition for the searched object
+
+            error_if_non_existent (bool, optional): If True, an exception is raised if no upstream object is found. Defaults to True.
+
+        Returns:
+            PFGeneral: The PF object found
+        &#34;&#34;&#34;
+        start_obj_or_path = (
+            self._obj
+            if not start_obj_or_path
+            else self._handle_single_pf_object_or_path_input(start_obj_or_path)
+        )
+        obj_or_path = start_obj_or_path.GetParent()
+        if obj_or_path:
+            if condition(obj_or_path):
+                return obj_or_path
+            else:
+                return self.get_upstream_obj(
+                    obj_or_path, condition, error_if_non_existent=error_if_non_existent
+                )
+        else:
+            if error_if_non_existent:
+                raise Exception(
+                    &#34;There is no upstream object that fullfills the condition.&#34;
+                )
+            else:
+                return None
+
+    def get_by_condition(
+        self, objects: list[PFGeneral], condition: Callable
+    ) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Get objects (from a list of objects) which satisfy &#39;condition&#39;.
+
+        Args:
+            objects (list[PFGeneral]): list of objects
+            condition (Callable): e.g. lambda function
+
+        Raises:
+            PFAttributeError: If &#39;condition&#39; queries attributes which an item in &#39;objects&#39; does not have.
+            TypeError: ToDo
+
+        Returns:
+            list[PFGeneral]: PF objects
+
+        Example:
+          pfbi.get_by_condition(list_of_objects, lambda x : getattr(x,&#34;uknom&#34;)==110)
+        &#34;&#34;&#34;
+        try:
+            return [x for x in objects if condition(x)]
+        except:  # Check where exactly the exception is raised
+            objects_true = []
+            for obj in objects:
+                try:
+                    # This anonymous function is problematic because it does
+                    # not always throw an error when the user provided
+                    # an anonymous function that does not make sense.
+                    if condition(obj):
+                        objects_true.append(obj)
+                except AttributeError as e:
+                    raise PFAttributeError(obj, e, self)
+                except TypeError as e:
+                    object_str = self.get_path_of_object(obj)
+                    raise TypeError(
+                        f&#34;{e}. Maybe an unexpected type is used &#34;
+                        f&#34;for attribute of object &#39;{object_str}&#39;.&#34;
+                    )
+            return objects_true  # should never be reached
+
+    def get_project_settings(self) -&gt; SetPrj:
+        &#34;&#34;&#34;Get project settings object.&#34;&#34;&#34;
+        # project_settings_folder = self.get_unique_obj(&#34;*.SetFold&#34;)
+        # return self.get_unique_obj(&#34;*.SetPrj&#34;, parent_folder=project_settings_folder)
+        return self.app.GetActiveProject().pPrjSettings
+
+    def get_external_data_directory(self) -&gt; str:
+        dir: str = self.get_project_settings().extDataDir
+        return self._replace_special_PF_characters_in_path_string(dir)
+
+    def get_workspace_directory(self) -&gt; str:
+        return self.app.GetWorkspaceDirectory()[0:-1]
+
+    def get_installation_directory(self) -&gt; str:
+        return self.app.GetInstallationDirectory()[0:-1]
+
+    ##################
+    # Create
+    ##################
+    def create_by_path(
+        self, path: str, overwrite: bool = True, use_existing: bool = False
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Create an object by specifying its path (including the class at the end) and return the object.
+
+        Args:
+            path (str): path including class name at the end.
+            overwrite (bool, optional): Overwrite existing object. Defaults to True.
+
+        Raises:
+            TypeError: If &#39;path&#39; is not a string
+
+        Returns:
+            PFGeneral: The created object
+
+        Example:
+          pfbi.create_by_path(&#39;Library\\Dynamic Models\\dummy.BlkDef&#39;)
+        &#34;&#34;&#34;
+        try:
+            folder_path, obj_name_incl_class = path.rsplit(&#34;\\&#34;, 1)
+        except AttributeError:
+            raise TypeError(&#34;The argument &#39;path&#39; must be of type string.&#34;)
+        folder = self.get_unique_obj(folder_path)
+        return self.create_in_folder(
+            obj_name_incl_class, folder, overwrite=overwrite, use_existing=use_existing
+        )
+
+    def create_in_folder(
+        self,
+        obj: str,
+        folder: PFGeneral | Folder | str = None,
+        overwrite: bool = True,
+        use_existing: bool = False,
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Create an object inside a folder and return the object.
+
+        Args:
+            obj (str): obj including class, e.g. &#39;model.BlkDef&#39;
+
+            folder (Union[PFGeneral, Folder, str], optional): Target folder. Defaults to None (i.e. &#39;self._obj&#39;)
+
+            overwrite (bool, optional): objects with the same name will be overwritten. Defaults to True.
+
+            use_existing (bool, optional):
+                If an object with the same name exists, a new object with &#34;(1)&#34;/&#34;(2)&#34;.. in its loc_name is created.
+                If use_existing is True and an object with the same name exists, the method just returns the existing object.
+                Defaults to False.
+
+        Raises:
+            TypeError: If &#39;obj&#39; is not a string
+
+        Returns:
+            PFGeneral: The created object
+
+        Example:
+          folder.create_in_folder(&#34;dummy2.BlkDef&#34;, &#34;Library\\Dynamic Models&#34;,)
+        &#34;&#34;&#34;
+        folder = (
+            self._obj
+            if not folder
+            else self._handle_single_pf_object_or_path_input(folder)
+        )
+        try:
+            obj_name, _, class_name = obj.rpartition(&#34;.&#34;)
+        except AttributeError:
+            raise TypeError(&#34;The argument &#39;obj&#39; must be of type string.&#34;)
+        if use_existing:
+            existing_obj = self.get_unique_obj(
+                obj, parent_folder=folder, error_if_non_existent=False
+            )
+            if existing_obj:
+                return existing_obj
+        elif overwrite:
+            self.delete_obj(
+                obj,
+                parent_folder=folder,
+                include_subfolders=False,
+                error_if_non_existent=False,
+            )
+        return folder.CreateObject(class_name, obj_name)
+
+    def create_directory(
+        self, directory: str, parent_folder: Union[PFGeneral, Folder, str] = None
+    ) -&gt; IntFolder:
+        &#34;&#34;&#34;Create a directory of folders (&#39;IntFolder&#39;) if the directory does not exist yet.
+
+        Similar to &#39;mkdir&#39; command in Windows.
+
+        Args:
+            directory (str): path with folders
+                Example: &#39;folder1\\folder2\\folder3&#39;
+
+            parent_folder (Union[PFGeneral, Folder, str], optional): Folder to start from. Defaults to None.
+
+        Returns:
+            IntFolder: the folder in the lowest subdirectory.
+        &#34;&#34;&#34;
+        if not self.path_exists(directory, parent=parent_folder):
+            folder = self._obj if not parent_folder else parent_folder
+            folder_names = directory.split(&#34;\\&#34;)
+            for folder_name in folder_names:
+                if not self.path_exists(folder_name, parent=folder):
+                    folder = self.create_in_folder(folder_name + &#34;.IntFolder&#34;, folder)
+                else:
+                    folder = self.get_unique_obj(
+                        folder_name, parent_folder=folder, include_subfolders=False
+                    )
+            return folder
+        else:
+            return self.get_unique_obj(
+                directory, parent_folder=parent_folder, include_subfolders=False
+            )
+
+    def create_filter_obj(
+        self,
+        name: str,
+        folder: str | PFGeneral,
+        object_filter: str,
+        look_in: PFGeneral | str,
+        expression: str,
+        include_subfolders: bool = True,
+        only_calc_relevant_obj: bool = False,
+        overwrite=True,
+        use_existing=False,
+    ) -&gt; SetFilt:
+        &#34;&#34;&#34;Create filter object (SetFilt)
+
+        Args:
+            name (str): Name of filter object.
+
+            folder (PFGeneral | Folder | str): target folder where filer is created.
+
+            object_filter (str): Object/class filter (parameter &#39;objset&#39;). Class names sparated by commas, e.g. &#39;*.ElmTerm, *.ElmLne&#39;.
+
+            look_in (PFGeneral | str): Folder from which search is started (parameter &#39;pstart&#39;).
+
+            expression (str): filter expression (parameter &#39;expr&#39;), e.g. &#39;uknom&gt;100.and.uknom&lt;380.and.iUsage=0&#39;
+
+            include_subfolders (bool, optional): Include subfolders in search. Defaults to True.
+
+            only_calc_relevant_obj (bool, optional): Search only for calc. relevant objects. Defaults to True.
+
+            overwrite (bool, optional): Overwrite possible existing filter object. Defaults to True.
+
+            use_existing (bool, optional): See description of &#39;create_in_folder&#39; in &#39;Folder&#39; class of powfacpy. Defaults to False.
+
+        Returns:
+            SetFilt: Filter object
+        &#34;&#34;&#34;
+
+        filter_obj: SetFilt = self.create_in_folder(
+            name + &#34;.SetFilt&#34;,
+            folder=folder,
+            overwrite=overwrite,
+            use_existing=use_existing,
+        )
+        look_in = self._handle_single_pf_object_or_path_input(look_in)
+        filter_obj.objset = [object_filter]
+        filter_obj.expr = expression
+        filter_obj.pstart = look_in
+        filter_obj.isubfold = include_subfolders
+        filter_obj.icalcrel = only_calc_relevant_obj
+        return filter_obj
+
+    ##################
+    # Copy
+    ##################
+    def copy_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
+        target_folder: Union[PFGeneral, Folder],
+        overwrite: bool = True,
+        condition: Callable = None,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; list[PFGeneral]:
+        &#34;&#34;&#34;Copy object(s) to &#39;target_folder&#39;.
+
+        Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)
+
+        See also &#39;copy_single_obj&#39;.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Objects to be copied (get_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which objects are copied
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            condition (Callable, optional):
+                Condition used in &#39;get_obj&#39; for the source objects . Defaults to None.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be copied. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            list[PFGeneral]: Copied objects
+        &#34;&#34;&#34;
+        obj = self._handle_pf_object_or_path_input(
+            obj_or_path,
+            condition=condition,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if overwrite:
+            for object_to_be_copied in obj:
+                self.delete_obj(
+                    object_to_be_copied.GetAttribute(&#34;loc_name&#34;)
+                    + &#34;.&#34;
+                    + object_to_be_copied.GetClassName(),
+                    parent_folder=target_folder,
+                    error_if_non_existent=False,
+                )
+        # AddCopy() accepts a list of objects, but then it returns the target folder object and not the copied objects. Therefore, it is iterated through the objects.
+        copied_obj = []
+        for o in obj:
+            copied_obj.append(target_folder.AddCopy(o))
+        return copied_obj
+
+    def copy_single_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        target_folder: Union[PFGeneral, Folder, str],
+        overwrite: bool = True,
+        use_existing: bool = False,
+        new_name: str = None,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Copy a single PF object to &#39;target_folder&#39;
+
+         Uses &#39;get_unique_obj&#39; to get the object under &#39;obj_or_path&#39;. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)
+
+        See also &#39;copy_obj&#39;.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Object to be copied (get_unique_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which object is copied
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            use_existing (bool, optional):
+                If an object with the same name exists, a new object with &#34;(1)&#34;/&#34;(2)&#34;.. in its loc_name is created.
+                If use_existing is True and an object with the same name exists, the method just returns the existing object.
+                Defaults to False.
+
+            new_name (str, optional):
+                New name (if different to original). Defaults to None.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be copied. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            PFGeneral: Copied object/existing object if overwrite is False
+        &#34;&#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(
+            obj_or_path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if use_existing:
+            existing_obj = self.get_unique_obj(
+                obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+            if existing_obj:
+                return existing_obj
+        elif overwrite:
+            if not new_name:
+                self.delete_obj(
+                    obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+                    parent_folder=target_folder,
+                    include_subfolders=False,
+                    error_if_non_existent=False,
+                )
+            else:
+                self.delete_obj(
+                    f&#34;{new_name}.{obj.GetClassName()}&#34;,
+                    parent_folder=target_folder,
+                    include_subfolders=False,
+                    error_if_non_existent=False,
+                )
+        if new_name:
+            return target_folder.AddCopy(obj, new_name)
+        else:
+            return target_folder.AddCopy(obj)
+
+    def copy_project(
+        self,
+        project_or_path_in_current_user: PFGeneral | str | None = None,
+        target_folder_or_path_in_current_user: PFGeneral | str | None = None,
+        overwrite: bool = True,
+        use_existing: bool = False,
+        new_name: str = None,
+        error_if_non_existent: bool = True,
+    ) -&gt; IntPrj:
+        user = self.app.GetCurrentUser()
+        if project_or_path_in_current_user is None:
+            project_or_path_in_current_user: IntPrj = self.app.GetActiveProject()
+        elif isinstance(project_or_path_in_current_user, str):
+            project_or_path_in_current_user: IntPrj = self.get_unique_obj(
+                project_or_path_in_current_user, parent_folder=user
+            )
+        project_or_path_in_current_user.Deactivate()
+        if target_folder_or_path_in_current_user is None:
+            target_folder_or_path_in_current_user = user
+        elif isinstance(target_folder_or_path_in_current_user, str):
+            target_folder_or_path_in_current_user = self.get_unique_obj(
+                target_folder_or_path_in_current_user, parent_folder=user
+            )
+        return self.copy_single_obj(
+            project_or_path_in_current_user,
+            target_folder=target_folder_or_path_in_current_user,
+            overwrite=overwrite,
+            use_existing=use_existing,
+            new_name=new_name,
+            error_if_non_existent=error_if_non_existent,
+        )
+
+    ##################
+    # Move
+    ##################
+
+    def move_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
+        target_folder: Union[PFGeneral, Folder, str],
+        overwrite: bool = True,
+        condition: Callable = None,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; int:
+        &#34;&#34;&#34;Move object(s) to &#39;target_folder&#39;.
+
+        Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Target must be in the active project.
+
+        See also &#39;move_single_obj&#39;.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Objects to be moved (get_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which objects are moved
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            condition (Callable, optional):
+                Condition used in &#39;get_obj&#39; for the source objects . Defaults to None.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be moved. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            bool: 0 on success, 1 on error
+        &#34;&#34;&#34;
+        obj = self._handle_pf_object_or_path_input(
+            obj_or_path,
+            condition=condition,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if overwrite:
+            for object_to_be_copied in obj:
+                self.delete_obj(
+                    object_to_be_copied.GetAttribute(&#34;loc_name&#34;)
+                    + &#34;.&#34;
+                    + object_to_be_copied.GetClassName(),
+                    parent_folder=target_folder,
+                    error_if_non_existent=False,
+                )
+        return target_folder.Move(obj)
+
+    def move_single_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        target_folder: Union[PFGeneral, Folder, str],
+        overwrite: bool = True,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; int:
+        &#34;&#34;&#34;Move single PF object to &#39;target_folder&#39;.
+
+        Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Target must be in the active project.
+
+        See also &#39;move_obj&#39;.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]):
+                Object to be moved (get_unique_obj is used for strings)
+
+            target_folder (Union[PFGeneral, Folder, str]):
+                Folder to which objects are moved
+
+            overwrite (bool, optional):
+                Overwrite existing objects. Defaults to True.
+
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be moved. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+            error_if_non_existent (bool, optional):
+                Raise error if no (source) objects are found. Defaults to True.
+
+            include_subfolders (bool, optional):
+                Include subfolder in search for source objects. Defaults to False.
+
+        Returns:
+            bool: 0 on success, 1 on error
+        &#34;&#34;&#34;
+
+        obj = self._handle_single_pf_object_or_path_input(
+            obj_or_path,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+        if overwrite:
+            self.delete_obj(
+                obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+        return target_folder.Move(obj)
+
+    ##################
+    # Delete
+    ##################
+    def delete_obj(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        condition: Callable = None,
+        parent_folder: Union[PFGeneral, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ):
+        &#34;&#34;&#34;Delete PF object(s).
+
+        In a first step, the objects are retrieved using the &#39;get_obj&#39;
+        method. In a second step, they are deleted. For further info on the input arguments, see the `get_obj` method. Checks whether objects were really deleted, otherwise tries to deactivate the object and then delete it.
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]): objects to be deleted.
+
+            condition (Callable, optional):
+                Condition for retrieved object(s). Defaults to None.
+
+            parent_folder (Union[PFGeneral, str], optional):
+                Parent folder used in &#39;get_obj&#39;. Defaults to None.
+
+            error_if_non_existent (bool, optional):
+                Throw exception if not objects found. Defaults to True.
+
+            include_subfolders (bool, optional): Search also in subfolders. Defaults to False.
+
+        Raises:
+            TypeError: If an object cannot be deleted.
+        &#34;&#34;&#34;
+        if obj_or_path:
+            obj = self._handle_pf_object_or_path_input(
+                obj_or_path,
+                condition=condition,
+                parent_folder=parent_folder,
+                error_if_non_existent=error_if_non_existent,
+                include_subfolders=include_subfolders,
+            )
+            for o in obj:
+                o.Delete()
+                # &#39;IsDeleted&#39; seems to be the savest way to check whether an object has been deleted.
+                if not o.IsDeleted():
+                    active_study_case = self.__class__.app.GetActiveStudyCase()
+                    if active_study_case:
+                        active_study_case.Deactivate()
+                        o.Delete()
+                        active_study_case.Activate()
+
+                    if not o.IsDeleted():
+                        try:
+                            o.Deactivate()
+                            o.Delete()
+                        except AttributeError:  # raised when o cannot be deactivated
+                            raise TypeError(f&#34;Object {o} cannot be deleted.&#34;)
+
+                        if not o.IsDeleted():
+                            raise TypeError(f&#34;Object {o} cannot be deleted.&#34;)
+
+    def clear_folder(self, folder: Union[PFGeneral, Folder, str] = None):
+        &#34;&#34;&#34;Clear all objects inside folder (including hidden objects).
+
+        Args:
+            folder (Union[PFGeneral, Folder, str], optional): Folder/ container objects or its path. Defaults to None (i.e. &#39;_folder&#39;/active project).
+        &#34;&#34;&#34;
+        folder = (
+            self._obj
+            if not folder
+            else self._handle_single_pf_object_or_path_input(folder)
+        )
+        self.delete_obj(
+            &#34;*&#34;,
+            parent_folder=folder,
+            include_subfolders=False,
+            error_if_non_existent=False,
+        )
+
+    ##################
+    # Attributes
+    ##################
+    def get_attr(
+        self,
+        obj: Union[PFGeneral, str],
+        attr: str,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+    ) -&gt; Union[int | float | str | PFGeneral | list]:
+        &#34;&#34;&#34;Get the value of an attribute of an object.
+
+        Args:
+            obj (Union[PFGeneral, str]): object or its path
+            attr (str): attribute name
+            parent_folder (Union[PFGeneral, Folder, str], optional):
+                - parent folder of object. Defaults to None.
+
+        Raises:
+            PFAttributeError: If ojbect does not have the specified attribute
+
+        Returns:
+            Union[int|float|str|PFGeneral|list]: Attribute value
+
+        Example:
+            get_attr(terminal_1, &#34;systype&#34;)
+        &#34;&#34;&#34;
+        if isinstance(obj, str):
+            obj = self.get_unique_obj(obj, parent_folder=parent_folder)
+        try:
+            if not isinstance(attr, list):
+                return obj.GetAttribute(attr)
+            else:
+                attr_values = dict()
+                for attribute in attr:
+                    attr_values[attribute] = obj.GetAttribute(attribute)
+                return attr_values
+        except AttributeError as e:
+            raise PFAttributeError(obj, e, self)
+
+    def get_attr_by_path(
+        self, path_with_attr: str
+    ) -&gt; Union[int | float | str | PFGeneral | list]:
+        &#34;&#34;&#34;Get attribute using the path including the atrribute name
+
+        Args:
+            path_with_attr (str): path including the atrribute name
+            Example: &#39;user\\project\\path\\to\\object\\m:Psum:bus1&#39;
+
+        Returns:
+            Union[int|float|str|PFGeneral|list]: Attribute value
+        &#34;&#34;&#34;
+        head_tail = os_path.split(path_with_attr)
+        return self.get_attr(head_tail[0], head_tail[1])
+
+    def set_attr(
+        self,
+        obj: Union[PFGeneral, str],
+        params: dict,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Set the attribute(s) of an object.
+
+        Args:
+            obj (Union[PFGeneral, str]): PF object
+            params (dict): attributes and their values (e.g. {&#39;parameter1&#39;:value1, &#39;parameter2&#39;:value2,..})
+            parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
+
+        Raises:
+            PFAttributeTypeError: If the type of an attribute value is wrong
+            PFAttributeError: If an object does not have the specified attribute
+        &#34;&#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(
+            obj, parent_folder=parent_folder
+        )
+        for attr, value in params.items():
+            try:
+                obj.SetAttribute(attr, value)
+            except TypeError as e:
+                raise PFAttributeTypeError(obj, attr, e, self)
+            except AttributeError as e:
+                raise PFAttributeError(obj, e, self)
+
+    def set_attr_by_path(
+        self, path_with_attr: str, value: Union[int | float | str | PFGeneral | list]
+    ):
+        &#34;&#34;&#34;Set attribute using the path including the attribute name.
+
+        Args:
+            path_with_attr (str): path to ojbect with attribute name at the end
+            value (Union[int | float | str | PFGeneral | list]): attribute value
+
+        Example:
+          set_attr_by_path(
+                &#34;Library\\Dynamic Models\\Linear_interpolation\\desc&#34;,
+                [&#34;description&#34;])
+          Here &#39;desc&#39; is the name of the attribute.
+        &#34;&#34;&#34;
+        head_tail = os_path.split(path_with_attr)
+        self.set_attr(head_tail[0], {head_tail[1]: value})
+
+    ##################
+    # Handle
+    ##################
+    def _handle_inclusion_of_subfolders(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder, str],
+        error_if_non_existent: bool,
+    ) -&gt; Union[list, PFGeneral]:
+        &#34;&#34;&#34;Handle the inclusion of subfolders in search for objects.
+
+        If subfolders are included, &#39;GetChildren&#39; must be used instead of &#39;GetContents&#39;. &#39;GetChildren&#39; requires the input to be splitted between path and object name.
+
+        Args:
+            path (str): Path to object(s)
+
+            parent_folder (Union[PFGeneral, Folder,str]): Parent folder where search is started
+
+            error_if_non_existent (bool): Raise exception if no objects are found
+
+        Raises:
+            TypeError: If &#39;path&#39; is not a string
+
+        Returns:
+            Union[list, PFGeneral]: Retrieved objects
+        &#34;&#34;&#34;
+        try:
+            path_folder_list = path.split(&#34;\\&#34;)
+            head, tail = &#34;\\&#34;.join(path_folder_list[:-1]), path_folder_list[-1]
+        except AttributeError:
+            raise TypeError(&#34;Path must be of type string.&#34;)
+        if head:
+            new_parent_folder = parent_folder.GetContents(head)
+            if new_parent_folder:
+                parent_folder = new_parent_folder[0]
+            else:
+                return self._handle_non_existing_obj(
+                    head, parent_folder, error_if_non_existent
+                )
+        return parent_folder.GetChildren(1, tail, 1)
+
+    def _handle_non_existing_obj(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder, str],
+        error_if_non_existent: bool,
+    ) -&gt; list:
+        &#34;&#34;&#34;Handle the attempted access to a non existent object.
+
+        Args:
+            path (str): path to object
+
+            parent_folder (Union[PFGeneral, Folder, str]): search is started from here
+
+            error_if_non_existent (bool): raise exception if non existent
+
+        Raises:
+            powfacpy.PFPathError: if &#39;error_if_non_existent&#39; is True
+
+        Returns:
+            list: empty list if &#39;error_if_non_existent&#39; is False
+        &#34;&#34;&#34;
+        if not error_if_non_existent:
+            return []
+        else:
+            exists_bool, existing_path, non_existing_child = self.path_exists(
+                path, parent_folder, return_info=True
+            )
+            raise PFPathError(non_existing_child, existing_path)
+
+    def _handle_condition_of_obj_not_met(
+        self,
+        path: str,
+        parent_folder: Union[PFGeneral, Folder],
+        error_if_non_existent: bool,
+    ) -&gt; list | None:
+        &#34;&#34;&#34;Handle the attempted access to an object with a specific condition, when such object(s) were found, but none of them meets the condition.
+
+        Args:
+            path (str): path of the object(s)
+
+            obj (list[Union[PFGeneral, Folder]]): list of objects found using path, but none of them satisfies the condition
+
+            error_if_non_existent (bool): raise exception
+
+        Raises:
+            PFNonExistingObjectError: If &#39;error_if_non_existent&#39; is True
+
+        Returns:
+            list | None: empty list
+        &#34;&#34;&#34;
+        if not error_if_non_existent:
+            return []
+        else:
+            # head, tail = os_path.split(path)
+            raise PFNonExistingObjectError(parent_folder, path, condition=True)
+
+    def _handle_pf_object_or_path_input(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        condition: bool = None,
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; PFGeneral | list[PFGeneral]:
+        &#34;&#34;&#34;Handles the input argument &#39;obj_or_path&#39; when a method accepts either
+          - a path string
+          - a PF object
+          - an iterable (of PF objects)
+
+        Note: Unfortunately, it cannot be checked whether &#39;obj&#39; is a PF DataObject, because the module powerfactory is not available.
+
+        See also &#39;_handle_single_pf_object_or_path_input&#39;
+
+        Args:
+            obj_or_path (Union[PFGeneral, str]): see get_obj
+
+            condition (bool, optional): see get_obj. Defaults to None.
+            parent_folder (Union[PFGeneral, Folder, str], optional): see get_obj. Defaults to None.
+
+            error_if_non_existent (bool, optional): see get_obj. Defaults to True.
+
+            include_subfolders (bool, optional): see get_obj. Defaults to False.
+
+        Returns:
+            PFGeneral:
+                - PF object(s) in a list.
+                - If &#39;obj_or_path&#39; is a path string, it returns the PF object(s) of that path.
+                - If &#39;obj_or_path&#39; is a PF object (or multiple), it does nothing and just returns the object(s).
+        &#34;&#34;&#34;
+        if isinstance(obj_or_path, str):
+            return self.get_obj(
+                obj_or_path,
+                condition=condition,
+                parent_folder=parent_folder,
+                error_if_non_existent=error_if_non_existent,
+                include_subfolders=include_subfolders,
+            )
+        elif not isinstance(obj_or_path, Iterable):
+            return [obj_or_path]
+        elif not isinstance(obj_or_path[0], str):
+            return obj_or_path
+        else:
+            objs = []
+            for obj in obj_or_path:
+                objs += self.get_obj(obj)
+            return objs
+
+    def _handle_single_pf_object_or_path_input(
+        self,
+        obj_or_path: Union[PFGeneral, str],
+        parent_folder: Union[PFGeneral, Folder, str] = None,
+        error_if_non_existent: bool = True,
+        include_subfolders: bool = False,
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Handles the input argument when a method accepts either
+          - a path string
+          - or a PF object
+          - but NOT an iterable of PF objects (difference to    _handle_pf_object_or_path_input)
+
+        Note: Unfortunately, it cannot be checked whether &#39;obj&#39; is a PF DataObject, because the module powerfactory is not available.
+
+        See also method &#39;handle_pf_object_path_input&#39;
+
+        Args:
+            obj (Union[PFGeneral, str]): see get_single_obj
+
+            parent_folder (Union[PFGeneral, Folder, str], optional): get_single_obj. Defaults to None.
+
+            error_if_non_existent (bool, optional): get_single_obj. Defaults to True.
+
+        Raises:
+            TypeError: If &#39;obj_or_path&#39; is an iterable (unexpected), a meaningfull error is raised.
+
+        Returns:
+            PFGeneral: If &#39;obj_or_path&#39; is a path string, it returns the PF object of that path.
+            If &#39;obj_or_path&#39; is a PF object, it does nothing and just returns the object.
+        &#34;&#34;&#34;
+        if isinstance(obj_or_path, str):
+            return self.get_unique_obj(
+                obj_or_path,
+                parent_folder=parent_folder,
+                error_if_non_existent=error_if_non_existent,
+                include_subfolders=include_subfolders,
+            )
+        elif isinstance(obj_or_path, Iterable) and not isinstance(obj_or_path, Folder):
+            elements_count = len(obj_or_path)
+            if obj_or_path:
+                first_obj_type = type(obj_or_path[0])
+                try:
+                    first_obj_path = self.get_path_of_object(obj_or_path[0])
+                    msg_obj = f&#34;The first element is of type {first_obj_type} and its path is {first_obj_path}.&#34;
+                except AttributeError:
+                    msg_obj = f&#34;The first element is of type {first_obj_type}.&#34;
+                msg = f&#34;Expected a PowerFactory object or a path string. Instead an iterable of length {elements_count} is given. {msg_obj}&#34;
+                raise TypeError(msg)
+            else:
+                msg = f&#34;Expected a PowerFactory object or a path string. Instead an empty object of type &#39;{type(obj_or_path).__name__}&#39; is given.&#34;
+                raise TypeError(msg)
+        else:  # If all former conditions are False, it is assumed that the
+            # input already was a PF object.
+            return obj_or_path
+
+    ######################
+    # Paths
+    ######################
+    def path_exists(
+        self,
+        path: str,
+        parent: Union[PFGeneral, Folder, str] = None,
+        return_info: bool = False,
+    ) -&gt; bool:
+        &#34;&#34;&#34;Check if the path exists.
+
+        Args:
+            path (str): path
+
+            parent (Union[PFGeneral, Folder, str], optional): Parent folder where search is started. Defaults to None (i.e. &#39;self._obj&#39;).
+
+            return_info (bool, optional): information about where the path is
+            corrupted is returned. Defaults to False.
+
+        Raises:
+            powfacpy.PFPathInputError: If path is invalid.
+
+        Returns:
+            bool: True if path exists
+        &#34;&#34;&#34;
+
+        parent = (
+            self._obj
+            if not parent
+            else self._handle_single_pf_object_or_path_input(parent)
+        )
+
+        splitted_path = path.split(&#34;\\&#34;)
+        if path[0] == &#34;\\&#34; or not splitted_path:
+            raise PFPathInputError(path)
+        existing_path = &#34;&#34;
+        child = parent
+        for child_name in splitted_path:
+            child = child.GetContents(f&#34;{child_name}&#34;)
+            if child:
+                child = child[0]
+                existing_path = f&#34;{existing_path}\\{child.loc_name}&#34;
+            else:
+                if not return_info:
+                    return False
+                else:
+                    parent_path = parent.GetFullName()
+                    parent_path = PFStringManipulation.remove_class_names(parent_path)
+                    existing_path = f&#34;{parent_path}{existing_path}&#34;
+                    non_existent_child_name = child_name
+                    return False, existing_path, non_existent_child_name
+        return True
+
+    def get_path_of_object(self, obj: Union[PFGeneral, Folder]) -&gt; str:
+        &#34;&#34;&#34;Get path relative to &#39;self._obj&#39; without class names.
+
+        Args:
+            obj (PFGeneral): PF object
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        return PFStringManipulation.remove_class_names(
+            self.get_path_of_obj_with_class_names(obj)
+        )
+
+    def get_path_of_obj_with_class_names(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path relative to &#39;self._obj&#39; including class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        folder_path = self._obj.GetFullName()
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        obj_str = obj.GetFullName()
+        return PFStringManipulation.truncate_beginning(obj_str, folder_path)
+
+    def get_full_path_of_object(self, obj: Union[PFGeneral, Folder]) -&gt; str:
+        &#34;&#34;&#34;Get full path in PF database without class names.
+
+        Args:
+            obj (PFGeneral): PF object
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        obj = self.get_full_path_of_object_with_class_names(obj)
+        return PFStringManipulation.remove_class_names(obj)
+
+    def get_full_path_of_object_with_class_names(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path in PF database including class names.
+
+        Args:
+            obj (PFGeneral): PF object
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        return obj.GetFullName()
+
+    def get_path_of_object_in_active_project(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path relative to active project without class names.
+
+        Args:
+            obj (PFGeneral): PF object
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        obj = self.get_path_of_object_in_active_project_with_class_names(obj)
+        return PFStringManipulation.remove_class_names(obj)
+
+    def get_path_of_object_in_active_project_with_class_names(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path relative to active project including class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        active_project = self.__class__.app.GetActiveProject()
+        if active_project:
+            active_project_path = self.__class__.app.GetActiveProject().GetFullName()
+        else:
+            active_project_path = &#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        obj_str = obj.GetFullName()
+        return PFStringManipulation.truncate_beginning(obj_str, active_project_path)
+
+    def get_path_of_object_in_current_user(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path relative to current (active) user without class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        obj = self.get_path_of_object_in_current_user_with_class_names(obj)
+        return PFStringManipulation.remove_class_names(obj)
+
+    def get_path_of_object_in_current_user_with_class_names(
+        self, obj: Union[PFGeneral, Folder, str]
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path relative to current (active) user including class names.
+
+        Args:
+            obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+        Returns:
+            str: path
+        &#34;&#34;&#34;
+        active_user_path = self.get_current_user().GetFullName()
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        obj_str = obj.GetFullName()
+        return PFStringManipulation.truncate_beginning(obj_str, active_user_path)
+
+    def _replace_special_PF_characters_in_path_string(self, path: str) -&gt; str:
+        &#34;&#34;&#34;Replaces special characters &#39;$(ExtDataDir)&#39;,&#39;$(WorkspaceDir)&#39;,&#39;$(InstallationDir)&#39; in path with their actual directories.&#34;&#34;&#34;
+        if &#34;$(ExtDataDir)&#34; in path:
+            ext_data_dir = self.get_external_data_directory()
+            path = path.replace(&#34;$(ExtDataDir)&#34;, ext_data_dir)
+        path = path.replace(&#34;$(WorkspaceDir)&#34;, self.get_workspace_directory())
+        return path.replace(&#34;$(InstallationDir)&#34;, self.get_installation_directory())
+
+    def get_path_between_objects(
+        self,
+        obj_high: Union[PFGeneral, Folder, str],
+        obj_low: Union[PFGeneral, Folder, str],
+    ) -&gt; str:
+        &#34;&#34;&#34;Get path between two objects in the PF database.
+
+        Args:
+            obj_high (Union[PFGeneral, Folder, str]): object higher in the hierarchy
+            obj_low (Union[PFGeneral, Folder, str]): object lower in the hierarchy
+
+        Returns:
+            str: path between
+        &#34;&#34;&#34;
+        obj_high = self._handle_single_pf_object_or_path_input(obj_high)
+        obj_high = self.get_path_of_object(obj_high)
+        obj_low = self._handle_single_pf_object_or_path_input(obj_low)
+        obj_low = self.get_path_of_object(obj_low)
+        path = str(obj_low).split(str(obj_high))[1][1:]
+        return path
+
+    @staticmethod
+    def get_loc_name_with_class(
+        objects: Union[PFGeneral, list[PFGeneral]],
+    ) -&gt; Union[str, list[str]]:
+        &#34;&#34;&#34;Get local name (loc_name) including class.
+
+        Args:
+            objects (Union[PFGeneral, list[PFGeneral]]): PF objects(s)
+
+        Returns:
+            Union[str, list[str]]: local name(s)
+        &#34;&#34;&#34;
+        is_list = True
+        if not type(objects) == list:
+            objects = [
+                objects,
+            ]
+            is_list = False
+
+        loc_name_with_class = []
+        for powerfactory_object in objects:
+            loc_name_with_class.append(
+                powerfactory_object.loc_name + &#34;.&#34; + powerfactory_object.GetClassName()
+            )
+
+        if not is_list:
+            loc_name_with_class = loc_name_with_class[0]
+        return loc_name_with_class
+
+    #####################
+    # Other
+    #####################
+    def is_pf_class(self, class_name: str) -&gt; bool:
+        &#34;&#34;&#34;Checks if class_name is a valid PF class (using the class ID).&#34;&#34;&#34;
+        return self.__class__.app.GetClassId(class_name) != 0
+
+    def is_container(self, obj: Union[PFGeneral, Folder, str]) -&gt; bool:
+        &#34;&#34;&#34;Checks whether a PF object is a container. It is assumed
+        that an object is a container if it has the attribute &#39;contents&#39;.
+        &#34;&#34;&#34;
+        obj = self._handle_single_pf_object_or_path_input(obj)
+        return obj.HasAttribute(&#34;contents&#34;)
+
+    def get_active_project(self) -&gt; IntPrj:
+        &#34;&#34;&#34;Get currently active project. Throw an error if no project is active.&#34;&#34;&#34;
+        active_project = self.__class__.app.GetActiveProject()
+        if active_project:
+            return active_project
+        else:
+            raise PFNotActiveError(&#34;a project&#34;)
+
+    def get_current_user(self):
+        return self.__class__.app.GetCurrentUser()</code></pre>
+</details>
+<div class="desc"><p>Class for interacting with folders in the PowerFactory database (any folder in the hierarchy).</p>
+<p>The class is very large and has methods to (you can search for sections):
+- Get objects (search for '# Get')
+- Create objects (search for '# Create')
+- Copy objects (search for '# Copy')
+- Delete objects (search for '# Delete')
+- Get/set attributes (search for '# Attributes')
+- Utils to handle user input etc. (search for '# Handle')
+- Utils to handle path strings (search for '# Path')
+- Other functionality (search for '# Other')</p>
+<p>The class is large to have a convenient interface with a lot of functionality to interact with the PF database (at the cost of the clarity of the code unfortunately).</p>
+<p>Note that 'app' is a class attribute, i.e. it is shared by all instances. This is convenient because there is only one 'app' object provided by 'powerfactory.GetApplication()'</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>Union[PFGeneral, str]</code></dt>
+<dd>folder object or path in active project (or in active user if no project is active)</dd>
+<dt><strong><code>pf_app</code></strong> :&ensp;<code>PFApp | None | bool</code>, optional</dt>
+<dd>Powerfactory app (returned by GetApplication). Defaults to False (does not default to None because None is returned by GetApplication if something goes wrong; Therefore, None should raise an exception).</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>When pf_app is None. See explanation of argument 'pf_app'.</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="powfacpy.base.active_project.ActiveProject" href="active_project.html#powfacpy.base.active_project.ActiveProject">ActiveProject</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="powfacpy.base.folder.Folder.app"><code class="name">var <span class="ident">app</span> : <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a></code></dt>
+<dd>
+<div class="desc"><p>The type of the None singleton.</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.base.folder.Folder.get_loc_name_with_class"><code class="name flex">
+<span>def <span class="ident">get_loc_name_with_class</span></span>(<span>objects: Union[PFGeneral, list[PFGeneral]]) ‑> str | list[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_loc_name_with_class(
+    objects: Union[PFGeneral, list[PFGeneral]],
+) -&gt; Union[str, list[str]]:
+    &#34;&#34;&#34;Get local name (loc_name) including class.
+
+    Args:
+        objects (Union[PFGeneral, list[PFGeneral]]): PF objects(s)
+
+    Returns:
+        Union[str, list[str]]: local name(s)
+    &#34;&#34;&#34;
+    is_list = True
+    if not type(objects) == list:
+        objects = [
+            objects,
+        ]
+        is_list = False
+
+    loc_name_with_class = []
+    for powerfactory_object in objects:
+        loc_name_with_class.append(
+            powerfactory_object.loc_name + &#34;.&#34; + powerfactory_object.GetClassName()
+        )
+
+    if not is_list:
+        loc_name_with_class = loc_name_with_class[0]
+    return loc_name_with_class</code></pre>
+</details>
+<div class="desc"><p>Get local name (loc_name) including class.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>objects</code></strong> :&ensp;<code>Union[PFGeneral, list[PFGeneral]]</code></dt>
+<dd>PF objects(s)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[str, list[str]]</code></dt>
+<dd>local name(s)</dd>
+</dl></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.base.folder.Folder.folder_obj"><code class="name">prop <span class="ident">folder_obj</span></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def folder_obj(self):
+    return self._obj</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.obj"><code class="name">prop <span class="ident">obj</span> : PFGeneral</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def obj(self) -&gt; PFGeneral:
+    return self._obj</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.base.folder.Folder.AddCopy"><code class="name flex">
+<span>def <span class="ident">AddCopy</span></span>(<span>self,<br>objectToCopy: list[PFGeneral] | PFGeneral,<br>partOfName: Union[str, int] = '') ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def AddCopy(
+    self,
+    objectToCopy: list[PFGeneral] | PFGeneral,
+    partOfName: Union[str, int] = &#34;&#34;,
+) -&gt; PFGeneral:
+    return self._obj.AddCopy(objectToCopy, partOfName)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.CreateObject"><code class="name flex">
+<span>def <span class="ident">CreateObject</span></span>(<span>self, className: str, objectNameParts: Union[int, str] = '') ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def CreateObject(
+    self, className: str, objectNameParts: Union[int, str] = &#34;&#34;
+) -&gt; PFGeneral:
+    return self._obj.CreateObject(className, objectNameParts)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.Delete"><code class="name flex">
+<span>def <span class="ident">Delete</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Delete(self) -&gt; int:
+    return self._obj.Delete()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.GetAttribute"><code class="name flex">
+<span>def <span class="ident">GetAttribute</span></span>(<span>self, attr: str) ‑> int | float | str | <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetAttribute(self, attr: str) -&gt; Union[int | float | str | PFGeneral | list]:
+    return self._obj.GetAttribute(attr)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.GetChildren"><code class="name flex">
+<span>def <span class="ident">GetChildren</span></span>(<span>self, hiddenMode: int, filter: str, subfolders: int) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetChildren(
+    self, hiddenMode: int, filter: str, subfolders: int
+) -&gt; list[PFGeneral]:
+    return self._obj.GetChildren(hiddenMode, filter, subfolders)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.GetContents"><code class="name flex">
+<span>def <span class="ident">GetContents</span></span>(<span>self, name: str, recursive: int = 0) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetContents(self, name: str, recursive: int = 0) -&gt; list[PFGeneral]:
+    return self._obj.GetContents(name, recursive)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.GetFullName"><code class="name flex">
+<span>def <span class="ident">GetFullName</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetFullName(self) -&gt; str:
+    return self._obj.GetFullName()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.GetParent"><code class="name flex">
+<span>def <span class="ident">GetParent</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetParent(self) -&gt; PFGeneral:
+    return self._obj.GetParent()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.SetAttribute"><code class="name flex">
+<span>def <span class="ident">SetAttribute</span></span>(<span>self, attr: str, value: Union[int | float | str | PFGeneral | list]) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def SetAttribute(
+    self, attr: str, value: Union[int | float | str | PFGeneral | list]
+) -&gt; None:
+    return self._obj.SetAttribute(attr, value)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.clear_folder"><code class="name flex">
+<span>def <span class="ident">clear_folder</span></span>(<span>self,<br>folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_folder(self, folder: Union[PFGeneral, Folder, str] = None):
+    &#34;&#34;&#34;Clear all objects inside folder (including hidden objects).
+
+    Args:
+        folder (Union[PFGeneral, Folder, str], optional): Folder/ container objects or its path. Defaults to None (i.e. &#39;_folder&#39;/active project).
+    &#34;&#34;&#34;
+    folder = (
+        self._obj
+        if not folder
+        else self._handle_single_pf_object_or_path_input(folder)
+    )
+    self.delete_obj(
+        &#34;*&#34;,
+        parent_folder=folder,
+        include_subfolders=False,
+        error_if_non_existent=False,
+    )</code></pre>
+</details>
+<div class="desc"><p>Clear all objects inside folder (including hidden objects).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>folder</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>Folder/ container objects or its path. Defaults to None (i.e. '_folder'/active project).</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.copy_obj"><code class="name flex">
+<span>def <span class="ident">copy_obj</span></span>(<span>self,<br>obj_or_path: Union[PFGeneral, str, list[PFGeneral]],<br>target_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>],<br>overwrite: bool = True,<br>condition: Callable = None,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy_obj(
+    self,
+    obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
+    target_folder: Union[PFGeneral, Folder],
+    overwrite: bool = True,
+    condition: Callable = None,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Copy object(s) to &#39;target_folder&#39;.
+
+    Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)
+
+    See also &#39;copy_single_obj&#39;.
+
+    Args:
+        obj_or_path (Union[PFGeneral, str]):
+            Objects to be copied (get_obj is used for strings)
+
+        target_folder (Union[PFGeneral, Folder, str]):
+            Folder to which objects are copied
+
+        overwrite (bool, optional):
+            Overwrite existing objects. Defaults to True.
+
+        condition (Callable, optional):
+            Condition used in &#39;get_obj&#39; for the source objects . Defaults to None.
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+            refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be copied. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+        error_if_non_existent (bool, optional):
+            Raise error if no (source) objects are found. Defaults to True.
+
+        include_subfolders (bool, optional):
+            Include subfolder in search for source objects. Defaults to False.
+
+    Returns:
+        list[PFGeneral]: Copied objects
+    &#34;&#34;&#34;
+    obj = self._handle_pf_object_or_path_input(
+        obj_or_path,
+        condition=condition,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=include_subfolders,
+    )
+    target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+    if overwrite:
+        for object_to_be_copied in obj:
+            self.delete_obj(
+                object_to_be_copied.GetAttribute(&#34;loc_name&#34;)
+                + &#34;.&#34;
+                + object_to_be_copied.GetClassName(),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+    # AddCopy() accepts a list of objects, but then it returns the target folder object and not the copied objects. Therefore, it is iterated through the objects.
+    copied_obj = []
+    for o in obj:
+        copied_obj.append(target_folder.AddCopy(o))
+    return copied_obj</code></pre>
+</details>
+<div class="desc"><p>Copy object(s) to 'target_folder'.</p>
+<p>Uses 'get_obj' to get the objects under 'obj_or_path'. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)</p>
+<p>See also 'copy_single_obj'.</p>
+<h2 id="args">Args</h2>
+<p>obj_or_path (Union[PFGeneral, str]):
+Objects to be copied (get_obj is used for strings)</p>
+<p>target_folder (Union[PFGeneral, Folder, str]):
+Folder to which objects are copied</p>
+<p>overwrite (bool, optional):
+Overwrite existing objects. Defaults to True.</p>
+<p>condition (Callable, optional):
+Condition used in 'get_obj' for the source objects . Defaults to None.</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be copied. Defaults to
+None (i.e. '_folder'/active project is used).</p>
+<p>error_if_non_existent (bool, optional):
+Raise error if no (source) objects are found. Defaults to True.</p>
+<p>include_subfolders (bool, optional):
+Include subfolder in search for source objects. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>Copied objects</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.copy_project"><code class="name flex">
+<span>def <span class="ident">copy_project</span></span>(<span>self,<br>project_or_path_in_current_user: PFGeneral | str | None = None,<br>target_folder_or_path_in_current_user: PFGeneral | str | None = None,<br>overwrite: bool = True,<br>use_existing: bool = False,<br>new_name: str = None,<br>error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.IntPrj" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntPrj">IntPrj</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy_project(
+    self,
+    project_or_path_in_current_user: PFGeneral | str | None = None,
+    target_folder_or_path_in_current_user: PFGeneral | str | None = None,
+    overwrite: bool = True,
+    use_existing: bool = False,
+    new_name: str = None,
+    error_if_non_existent: bool = True,
+) -&gt; IntPrj:
+    user = self.app.GetCurrentUser()
+    if project_or_path_in_current_user is None:
+        project_or_path_in_current_user: IntPrj = self.app.GetActiveProject()
+    elif isinstance(project_or_path_in_current_user, str):
+        project_or_path_in_current_user: IntPrj = self.get_unique_obj(
+            project_or_path_in_current_user, parent_folder=user
+        )
+    project_or_path_in_current_user.Deactivate()
+    if target_folder_or_path_in_current_user is None:
+        target_folder_or_path_in_current_user = user
+    elif isinstance(target_folder_or_path_in_current_user, str):
+        target_folder_or_path_in_current_user = self.get_unique_obj(
+            target_folder_or_path_in_current_user, parent_folder=user
+        )
+    return self.copy_single_obj(
+        project_or_path_in_current_user,
+        target_folder=target_folder_or_path_in_current_user,
+        overwrite=overwrite,
+        use_existing=use_existing,
+        new_name=new_name,
+        error_if_non_existent=error_if_non_existent,
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.copy_single_obj"><code class="name flex">
+<span>def <span class="ident">copy_single_obj</span></span>(<span>self,<br>obj_or_path: Union[PFGeneral, str],<br>target_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str],<br>overwrite: bool = True,<br>use_existing: bool = False,<br>new_name: str = None,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy_single_obj(
+    self,
+    obj_or_path: Union[PFGeneral, str],
+    target_folder: Union[PFGeneral, Folder, str],
+    overwrite: bool = True,
+    use_existing: bool = False,
+    new_name: str = None,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+) -&gt; PFGeneral:
+    &#34;&#34;&#34;Copy a single PF object to &#39;target_folder&#39;
+
+     Uses &#39;get_unique_obj&#39; to get the object under &#39;obj_or_path&#39;. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)
+
+    See also &#39;copy_obj&#39;.
+
+    Args:
+        obj_or_path (Union[PFGeneral, str]):
+            Object to be copied (get_unique_obj is used for strings)
+
+        target_folder (Union[PFGeneral, Folder, str]):
+            Folder to which object is copied
+
+        overwrite (bool, optional):
+            Overwrite existing objects. Defaults to True.
+
+        use_existing (bool, optional):
+            If an object with the same name exists, a new object with &#34;(1)&#34;/&#34;(2)&#34;.. in its loc_name is created.
+            If use_existing is True and an object with the same name exists, the method just returns the existing object.
+            Defaults to False.
+
+        new_name (str, optional):
+            New name (if different to original). Defaults to None.
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+            refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be copied. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+        error_if_non_existent (bool, optional):
+            Raise error if no (source) objects are found. Defaults to True.
+
+        include_subfolders (bool, optional):
+            Include subfolder in search for source objects. Defaults to False.
+
+    Returns:
+        PFGeneral: Copied object/existing object if overwrite is False
+    &#34;&#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(
+        obj_or_path,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+    )
+    target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+    if use_existing:
+        existing_obj = self.get_unique_obj(
+            obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+            parent_folder=target_folder,
+            error_if_non_existent=False,
+        )
+        if existing_obj:
+            return existing_obj
+    elif overwrite:
+        if not new_name:
+            self.delete_obj(
+                obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+                parent_folder=target_folder,
+                include_subfolders=False,
+                error_if_non_existent=False,
+            )
+        else:
+            self.delete_obj(
+                f&#34;{new_name}.{obj.GetClassName()}&#34;,
+                parent_folder=target_folder,
+                include_subfolders=False,
+                error_if_non_existent=False,
+            )
+    if new_name:
+        return target_folder.AddCopy(obj, new_name)
+    else:
+        return target_folder.AddCopy(obj)</code></pre>
+</details>
+<div class="desc"><p>Copy a single PF object to 'target_folder'</p>
+<p>Uses 'get_unique_obj' to get the object under 'obj_or_path'. Source and target must be in the active project (otherwise use PasteCopy(), see scripting reference)</p>
+<p>See also 'copy_obj'.</p>
+<h2 id="args">Args</h2>
+<p>obj_or_path (Union[PFGeneral, str]):
+Object to be copied (get_unique_obj is used for strings)</p>
+<p>target_folder (Union[PFGeneral, Folder, str]):
+Folder to which object is copied</p>
+<p>overwrite (bool, optional):
+Overwrite existing objects. Defaults to True.</p>
+<p>use_existing (bool, optional):
+If an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
+If use_existing is True and an object with the same name exists, the method just returns the existing object.
+Defaults to False.</p>
+<p>new_name (str, optional):
+New name (if different to original). Defaults to None.</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be copied. Defaults to
+None (i.e. '_folder'/active project is used).</p>
+<p>error_if_non_existent (bool, optional):
+Raise error if no (source) objects are found. Defaults to True.</p>
+<p>include_subfolders (bool, optional):
+Include subfolder in search for source objects. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>Copied object/existing object if overwrite is False</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.create_by_path"><code class="name flex">
+<span>def <span class="ident">create_by_path</span></span>(<span>self, path: str, overwrite: bool = True, use_existing: bool = False) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_by_path(
+    self, path: str, overwrite: bool = True, use_existing: bool = False
+) -&gt; PFGeneral:
+    &#34;&#34;&#34;Create an object by specifying its path (including the class at the end) and return the object.
+
+    Args:
+        path (str): path including class name at the end.
+        overwrite (bool, optional): Overwrite existing object. Defaults to True.
+
+    Raises:
+        TypeError: If &#39;path&#39; is not a string
+
+    Returns:
+        PFGeneral: The created object
+
+    Example:
+      pfbi.create_by_path(&#39;Library\\Dynamic Models\\dummy.BlkDef&#39;)
+    &#34;&#34;&#34;
+    try:
+        folder_path, obj_name_incl_class = path.rsplit(&#34;\\&#34;, 1)
+    except AttributeError:
+        raise TypeError(&#34;The argument &#39;path&#39; must be of type string.&#34;)
+    folder = self.get_unique_obj(folder_path)
+    return self.create_in_folder(
+        obj_name_incl_class, folder, overwrite=overwrite, use_existing=use_existing
+    )</code></pre>
+</details>
+<div class="desc"><p>Create an object by specifying its path (including the class at the end) and return the object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path including class name at the end.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite existing object. Defaults to True.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>If 'path' is not a string</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>The created object</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>pfbi.create_by_path('Library\Dynamic Models\dummy.BlkDef')</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.create_directory"><code class="name flex">
+<span>def <span class="ident">create_directory</span></span>(<span>self,<br>directory: str,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None) ‑> <a title="powfacpy.pf_classes.protocols.IntFolder" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntFolder">IntFolder</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_directory(
+    self, directory: str, parent_folder: Union[PFGeneral, Folder, str] = None
+) -&gt; IntFolder:
+    &#34;&#34;&#34;Create a directory of folders (&#39;IntFolder&#39;) if the directory does not exist yet.
+
+    Similar to &#39;mkdir&#39; command in Windows.
+
+    Args:
+        directory (str): path with folders
+            Example: &#39;folder1\\folder2\\folder3&#39;
+
+        parent_folder (Union[PFGeneral, Folder, str], optional): Folder to start from. Defaults to None.
+
+    Returns:
+        IntFolder: the folder in the lowest subdirectory.
+    &#34;&#34;&#34;
+    if not self.path_exists(directory, parent=parent_folder):
+        folder = self._obj if not parent_folder else parent_folder
+        folder_names = directory.split(&#34;\\&#34;)
+        for folder_name in folder_names:
+            if not self.path_exists(folder_name, parent=folder):
+                folder = self.create_in_folder(folder_name + &#34;.IntFolder&#34;, folder)
+            else:
+                folder = self.get_unique_obj(
+                    folder_name, parent_folder=folder, include_subfolders=False
+                )
+        return folder
+    else:
+        return self.get_unique_obj(
+            directory, parent_folder=parent_folder, include_subfolders=False
+        )</code></pre>
+</details>
+<div class="desc"><p>Create a directory of folders ('IntFolder') if the directory does not exist yet.</p>
+<p>Similar to 'mkdir' command in Windows.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>directory</code></strong> :&ensp;<code>str</code></dt>
+<dd>path with folders
+Example: 'folder1\folder2\folder3'</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>Folder to start from. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>IntFolder</code></dt>
+<dd>the folder in the lowest subdirectory.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.create_filter_obj"><code class="name flex">
+<span>def <span class="ident">create_filter_obj</span></span>(<span>self,<br>name: str,<br>folder: str | PFGeneral,<br>object_filter: str,<br>look_in: PFGeneral | str,<br>expression: str,<br>include_subfolders: bool = True,<br>only_calc_relevant_obj: bool = False,<br>overwrite=True,<br>use_existing=False) ‑> <a title="powfacpy.pf_classes.protocols.SetFilt" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.SetFilt">SetFilt</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_filter_obj(
+    self,
+    name: str,
+    folder: str | PFGeneral,
+    object_filter: str,
+    look_in: PFGeneral | str,
+    expression: str,
+    include_subfolders: bool = True,
+    only_calc_relevant_obj: bool = False,
+    overwrite=True,
+    use_existing=False,
+) -&gt; SetFilt:
+    &#34;&#34;&#34;Create filter object (SetFilt)
+
+    Args:
+        name (str): Name of filter object.
+
+        folder (PFGeneral | Folder | str): target folder where filer is created.
+
+        object_filter (str): Object/class filter (parameter &#39;objset&#39;). Class names sparated by commas, e.g. &#39;*.ElmTerm, *.ElmLne&#39;.
+
+        look_in (PFGeneral | str): Folder from which search is started (parameter &#39;pstart&#39;).
+
+        expression (str): filter expression (parameter &#39;expr&#39;), e.g. &#39;uknom&gt;100.and.uknom&lt;380.and.iUsage=0&#39;
+
+        include_subfolders (bool, optional): Include subfolders in search. Defaults to True.
+
+        only_calc_relevant_obj (bool, optional): Search only for calc. relevant objects. Defaults to True.
+
+        overwrite (bool, optional): Overwrite possible existing filter object. Defaults to True.
+
+        use_existing (bool, optional): See description of &#39;create_in_folder&#39; in &#39;Folder&#39; class of powfacpy. Defaults to False.
+
+    Returns:
+        SetFilt: Filter object
+    &#34;&#34;&#34;
+
+    filter_obj: SetFilt = self.create_in_folder(
+        name + &#34;.SetFilt&#34;,
+        folder=folder,
+        overwrite=overwrite,
+        use_existing=use_existing,
+    )
+    look_in = self._handle_single_pf_object_or_path_input(look_in)
+    filter_obj.objset = [object_filter]
+    filter_obj.expr = expression
+    filter_obj.pstart = look_in
+    filter_obj.isubfold = include_subfolders
+    filter_obj.icalcrel = only_calc_relevant_obj
+    return filter_obj</code></pre>
+</details>
+<div class="desc"><p>Create filter object (SetFilt)</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of filter object.</dd>
+<dt><strong><code>folder</code></strong> :&ensp;<code>PFGeneral | Folder | str</code></dt>
+<dd>target folder where filer is created.</dd>
+<dt><strong><code>object_filter</code></strong> :&ensp;<code>str</code></dt>
+<dd>Object/class filter (parameter 'objset'). Class names sparated by commas, e.g. '<em>.ElmTerm, </em>.ElmLne'.</dd>
+<dt><strong><code>look_in</code></strong> :&ensp;<code>PFGeneral | str</code></dt>
+<dd>Folder from which search is started (parameter 'pstart').</dd>
+<dt><strong><code>expression</code></strong> :&ensp;<code>str</code></dt>
+<dd>filter expression (parameter 'expr'), e.g. 'uknom&gt;100.and.uknom&lt;380.and.iUsage=0'</dd>
+<dt><strong><code>include_subfolders</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Include subfolders in search. Defaults to True.</dd>
+<dt><strong><code>only_calc_relevant_obj</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Search only for calc. relevant objects. Defaults to True.</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Overwrite possible existing filter object. Defaults to True.</dd>
+<dt><strong><code>use_existing</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>See description of 'create_in_folder' in 'Folder' class of powfacpy. Defaults to False.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>SetFilt</code></dt>
+<dd>Filter object</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.create_in_folder"><code class="name flex">
+<span>def <span class="ident">create_in_folder</span></span>(<span>self,<br>obj: str,<br>folder: PFGeneral | <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a> | str = None,<br>overwrite: bool = True,<br>use_existing: bool = False) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_in_folder(
+    self,
+    obj: str,
+    folder: PFGeneral | Folder | str = None,
+    overwrite: bool = True,
+    use_existing: bool = False,
+) -&gt; PFGeneral:
+    &#34;&#34;&#34;Create an object inside a folder and return the object.
+
+    Args:
+        obj (str): obj including class, e.g. &#39;model.BlkDef&#39;
+
+        folder (Union[PFGeneral, Folder, str], optional): Target folder. Defaults to None (i.e. &#39;self._obj&#39;)
+
+        overwrite (bool, optional): objects with the same name will be overwritten. Defaults to True.
+
+        use_existing (bool, optional):
+            If an object with the same name exists, a new object with &#34;(1)&#34;/&#34;(2)&#34;.. in its loc_name is created.
+            If use_existing is True and an object with the same name exists, the method just returns the existing object.
+            Defaults to False.
+
+    Raises:
+        TypeError: If &#39;obj&#39; is not a string
+
+    Returns:
+        PFGeneral: The created object
+
+    Example:
+      folder.create_in_folder(&#34;dummy2.BlkDef&#34;, &#34;Library\\Dynamic Models&#34;,)
+    &#34;&#34;&#34;
+    folder = (
+        self._obj
+        if not folder
+        else self._handle_single_pf_object_or_path_input(folder)
+    )
+    try:
+        obj_name, _, class_name = obj.rpartition(&#34;.&#34;)
+    except AttributeError:
+        raise TypeError(&#34;The argument &#39;obj&#39; must be of type string.&#34;)
+    if use_existing:
+        existing_obj = self.get_unique_obj(
+            obj, parent_folder=folder, error_if_non_existent=False
+        )
+        if existing_obj:
+            return existing_obj
+    elif overwrite:
+        self.delete_obj(
+            obj,
+            parent_folder=folder,
+            include_subfolders=False,
+            error_if_non_existent=False,
+        )
+    return folder.CreateObject(class_name, obj_name)</code></pre>
+</details>
+<div class="desc"><p>Create an object inside a folder and return the object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>str</code></dt>
+<dd>obj including class, e.g. 'model.BlkDef'</dd>
+<dt><strong><code>folder</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>Target folder. Defaults to None (i.e. 'self._obj')</dd>
+<dt><strong><code>overwrite</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>objects with the same name will be overwritten. Defaults to True.</dd>
+</dl>
+<p>use_existing (bool, optional):
+If an object with the same name exists, a new object with "(1)"/"(2)".. in its loc_name is created.
+If use_existing is True and an object with the same name exists, the method just returns the existing object.
+Defaults to False.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>If 'obj' is not a string</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>The created object</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>folder.create_in_folder("dummy2.BlkDef", "Library\Dynamic Models",)</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.delete_obj"><code class="name flex">
+<span>def <span class="ident">delete_obj</span></span>(<span>self,<br>obj_or_path: Union[PFGeneral, str],<br>condition: Callable = None,<br>parent_folder: Union[PFGeneral, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_obj(
+    self,
+    obj_or_path: Union[PFGeneral, str],
+    condition: Callable = None,
+    parent_folder: Union[PFGeneral, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+):
+    &#34;&#34;&#34;Delete PF object(s).
+
+    In a first step, the objects are retrieved using the &#39;get_obj&#39;
+    method. In a second step, they are deleted. For further info on the input arguments, see the `get_obj` method. Checks whether objects were really deleted, otherwise tries to deactivate the object and then delete it.
+
+    Args:
+        obj_or_path (Union[PFGeneral, str]): objects to be deleted.
+
+        condition (Callable, optional):
+            Condition for retrieved object(s). Defaults to None.
+
+        parent_folder (Union[PFGeneral, str], optional):
+            Parent folder used in &#39;get_obj&#39;. Defaults to None.
+
+        error_if_non_existent (bool, optional):
+            Throw exception if not objects found. Defaults to True.
+
+        include_subfolders (bool, optional): Search also in subfolders. Defaults to False.
+
+    Raises:
+        TypeError: If an object cannot be deleted.
+    &#34;&#34;&#34;
+    if obj_or_path:
+        obj = self._handle_pf_object_or_path_input(
+            obj_or_path,
+            condition=condition,
+            parent_folder=parent_folder,
+            error_if_non_existent=error_if_non_existent,
+            include_subfolders=include_subfolders,
+        )
+        for o in obj:
+            o.Delete()
+            # &#39;IsDeleted&#39; seems to be the savest way to check whether an object has been deleted.
+            if not o.IsDeleted():
+                active_study_case = self.__class__.app.GetActiveStudyCase()
+                if active_study_case:
+                    active_study_case.Deactivate()
+                    o.Delete()
+                    active_study_case.Activate()
+
+                if not o.IsDeleted():
+                    try:
+                        o.Deactivate()
+                        o.Delete()
+                    except AttributeError:  # raised when o cannot be deactivated
+                        raise TypeError(f&#34;Object {o} cannot be deleted.&#34;)
+
+                    if not o.IsDeleted():
+                        raise TypeError(f&#34;Object {o} cannot be deleted.&#34;)</code></pre>
+</details>
+<div class="desc"><p>Delete PF object(s).</p>
+<p>In a first step, the objects are retrieved using the 'get_obj'
+method. In a second step, they are deleted. For further info on the input arguments, see the <code>get_obj</code> method. Checks whether objects were really deleted, otherwise tries to deactivate the object and then delete it.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj_or_path</code></strong> :&ensp;<code>Union[PFGeneral, str]</code></dt>
+<dd>objects to be deleted.</dd>
+</dl>
+<p>condition (Callable, optional):
+Condition for retrieved object(s). Defaults to None.</p>
+<p>parent_folder (Union[PFGeneral, str], optional):
+Parent folder used in 'get_obj'. Defaults to None.</p>
+<p>error_if_non_existent (bool, optional):
+Throw exception if not objects found. Defaults to True.</p>
+<dl>
+<dt><strong><code>include_subfolders</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Search also in subfolders. Defaults to False.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>If an object cannot be deleted.</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_active_project"><code class="name flex">
+<span>def <span class="ident">get_active_project</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.IntPrj" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.IntPrj">IntPrj</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_active_project(self) -&gt; IntPrj:
+    &#34;&#34;&#34;Get currently active project. Throw an error if no project is active.&#34;&#34;&#34;
+    active_project = self.__class__.app.GetActiveProject()
+    if active_project:
+        return active_project
+    else:
+        raise PFNotActiveError(&#34;a project&#34;)</code></pre>
+</details>
+<div class="desc"><p>Get currently active project. Throw an error if no project is active.</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_attr"><code class="name flex">
+<span>def <span class="ident">get_attr</span></span>(<span>self,<br>obj: Union[PFGeneral, str],<br>attr: str,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None) ‑> int | float | str | <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attr(
+    self,
+    obj: Union[PFGeneral, str],
+    attr: str,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+) -&gt; Union[int | float | str | PFGeneral | list]:
+    &#34;&#34;&#34;Get the value of an attribute of an object.
+
+    Args:
+        obj (Union[PFGeneral, str]): object or its path
+        attr (str): attribute name
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+            - parent folder of object. Defaults to None.
+
+    Raises:
+        PFAttributeError: If ojbect does not have the specified attribute
+
+    Returns:
+        Union[int|float|str|PFGeneral|list]: Attribute value
+
+    Example:
+        get_attr(terminal_1, &#34;systype&#34;)
+    &#34;&#34;&#34;
+    if isinstance(obj, str):
+        obj = self.get_unique_obj(obj, parent_folder=parent_folder)
+    try:
+        if not isinstance(attr, list):
+            return obj.GetAttribute(attr)
+        else:
+            attr_values = dict()
+            for attribute in attr:
+                attr_values[attribute] = obj.GetAttribute(attribute)
+            return attr_values
+    except AttributeError as e:
+        raise PFAttributeError(obj, e, self)</code></pre>
+</details>
+<div class="desc"><p>Get the value of an attribute of an object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, str]</code></dt>
+<dd>object or its path</dd>
+<dt><strong><code>attr</code></strong> :&ensp;<code>str</code></dt>
+<dd>attribute name</dd>
+</dl>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+- parent folder of object. Defaults to None.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PFAttributeError</code></dt>
+<dd>If ojbect does not have the specified attribute</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[int|float|str|PFGeneral|list]</code></dt>
+<dd>Attribute value</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>get_attr(terminal_1, "systype")</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_attr_by_path"><code class="name flex">
+<span>def <span class="ident">get_attr_by_path</span></span>(<span>self, path_with_attr: str) ‑> int | float | str | <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_attr_by_path(
+    self, path_with_attr: str
+) -&gt; Union[int | float | str | PFGeneral | list]:
+    &#34;&#34;&#34;Get attribute using the path including the atrribute name
+
+    Args:
+        path_with_attr (str): path including the atrribute name
+        Example: &#39;user\\project\\path\\to\\object\\m:Psum:bus1&#39;
+
+    Returns:
+        Union[int|float|str|PFGeneral|list]: Attribute value
+    &#34;&#34;&#34;
+    head_tail = os_path.split(path_with_attr)
+    return self.get_attr(head_tail[0], head_tail[1])</code></pre>
+</details>
+<div class="desc"><p>Get attribute using the path including the atrribute name</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path_with_attr</code></strong> :&ensp;<code>str</code></dt>
+<dd>path including the atrribute name</dd>
+<dt><strong><code>Example</code></strong></dt>
+<dd>'user\project\path\to\object\m:Psum:bus1'</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Union[int|float|str|PFGeneral|list]</code></dt>
+<dd>Attribute value</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_by_condition"><code class="name flex">
+<span>def <span class="ident">get_by_condition</span></span>(<span>self, objects: list[PFGeneral], condition: Callable) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_by_condition(
+    self, objects: list[PFGeneral], condition: Callable
+) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Get objects (from a list of objects) which satisfy &#39;condition&#39;.
+
+    Args:
+        objects (list[PFGeneral]): list of objects
+        condition (Callable): e.g. lambda function
+
+    Raises:
+        PFAttributeError: If &#39;condition&#39; queries attributes which an item in &#39;objects&#39; does not have.
+        TypeError: ToDo
+
+    Returns:
+        list[PFGeneral]: PF objects
+
+    Example:
+      pfbi.get_by_condition(list_of_objects, lambda x : getattr(x,&#34;uknom&#34;)==110)
+    &#34;&#34;&#34;
+    try:
+        return [x for x in objects if condition(x)]
+    except:  # Check where exactly the exception is raised
+        objects_true = []
+        for obj in objects:
+            try:
+                # This anonymous function is problematic because it does
+                # not always throw an error when the user provided
+                # an anonymous function that does not make sense.
+                if condition(obj):
+                    objects_true.append(obj)
+            except AttributeError as e:
+                raise PFAttributeError(obj, e, self)
+            except TypeError as e:
+                object_str = self.get_path_of_object(obj)
+                raise TypeError(
+                    f&#34;{e}. Maybe an unexpected type is used &#34;
+                    f&#34;for attribute of object &#39;{object_str}&#39;.&#34;
+                )
+        return objects_true  # should never be reached</code></pre>
+</details>
+<div class="desc"><p>Get objects (from a list of objects) which satisfy 'condition'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>objects</code></strong> :&ensp;<code>list[PFGeneral]</code></dt>
+<dd>list of objects</dd>
+<dt><strong><code>condition</code></strong> :&ensp;<code>Callable</code></dt>
+<dd>e.g. lambda function</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PFAttributeError</code></dt>
+<dd>If 'condition' queries attributes which an item in 'objects' does not have.</dd>
+<dt><code>TypeError</code></dt>
+<dd>ToDo</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>PF objects</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>pfbi.get_by_condition(list_of_objects, lambda x : getattr(x,"uknom")==110)</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_current_user"><code class="name flex">
+<span>def <span class="ident">get_current_user</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_current_user(self):
+    return self.__class__.app.GetCurrentUser()</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_external_data_directory"><code class="name flex">
+<span>def <span class="ident">get_external_data_directory</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_external_data_directory(self) -&gt; str:
+    dir: str = self.get_project_settings().extDataDir
+    return self._replace_special_PF_characters_in_path_string(dir)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_full_path_of_object"><code class="name flex">
+<span>def <span class="ident">get_full_path_of_object</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_full_path_of_object(self, obj: Union[PFGeneral, Folder]) -&gt; str:
+    &#34;&#34;&#34;Get full path in PF database without class names.
+
+    Args:
+        obj (PFGeneral): PF object
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    obj = self.get_full_path_of_object_with_class_names(obj)
+    return PFStringManipulation.remove_class_names(obj)</code></pre>
+</details>
+<div class="desc"><p>Get full path in PF database without class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_full_path_of_object_with_class_names"><code class="name flex">
+<span>def <span class="ident">get_full_path_of_object_with_class_names</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_full_path_of_object_with_class_names(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path in PF database including class names.
+
+    Args:
+        obj (PFGeneral): PF object
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    return obj.GetFullName()</code></pre>
+</details>
+<div class="desc"><p>Get path in PF database including class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_installation_directory"><code class="name flex">
+<span>def <span class="ident">get_installation_directory</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_installation_directory(self) -&gt; str:
+    return self.app.GetInstallationDirectory()[0:-1]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_multiple_obj_from_similar_sub_directories"><code class="name flex">
+<span>def <span class="ident">get_multiple_obj_from_similar_sub_directories</span></span>(<span>self, parent_folders: Union[list[PFGeneral], str], sub_path: str) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_multiple_obj_from_similar_sub_directories(
+    self, parent_folders: Union[list[PFGeneral], str], sub_path: str
+) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Get multiple objects that are in a similar subdirectory relativ to
+    their parent folders
+
+    Args:
+        parent_folders (Union[list[PFGeneral], str]): parent folders
+
+        sub_path (str):
+            path within the parent folders (string). Must be  unique (don&#39;t use placeholders &#39;*&#39;)
+
+    Returns:
+        list[PFGeneral]: list of PF objects
+
+    Example:
+      If you want to get the &#34;All calculation&#34; objects of all the study cases in the study case folder, use
+        &#39;self.get_multiple_obj_from_similar_sub_directories(
+          &#39;Study Cases\\&#39;,&#39;All calculations&#39;)&#39;
+    &#34;&#34;&#34;
+    if isinstance(parent_folders, str):
+        parent_folders = self.get_obj(parent_folders)
+    objs = []
+    for parent in parent_folders:
+        parent = self._handle_single_pf_object_or_path_input(parent)
+        objs.append(self.get_single_obj(sub_path, parent_folder=parent))
+    return objs</code></pre>
+</details>
+<div class="desc"><p>Get multiple objects that are in a similar subdirectory relativ to
+their parent folders</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent_folders</code></strong> :&ensp;<code>Union[list[PFGeneral], str]</code></dt>
+<dd>parent folders</dd>
+</dl>
+<p>sub_path (str):
+path within the parent folders (string). Must be
+unique (don't use placeholders '*')</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>list of PF objects</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>If you want to get the "All calculation" objects of all the study cases in the study case folder, use
+'self.get_multiple_obj_from_similar_sub_directories(
+'Study Cases','All calculations')'</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_obj"><code class="name flex">
+<span>def <span class="ident">get_obj</span></span>(<span>self,<br>path: str,<br>condition: Callable | None = None,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] | None = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_obj(
+    self,
+    path: str,
+    condition: Callable | None = None,
+    parent_folder: Union[PFGeneral, Folder, str] | None = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Get the PowerFactory object(s) under &#39;path&#39;. By default, &#39;path&#39; is relative to &#39;self._obj&#39; (or the active project folder for instances of PFActiveProject).
+
+    See also &#39;get_unique_obj&#39;.
+
+    Args:
+        path (str): path to object(s), can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+        condition (Callable, optional): filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110; defaults to None
+
+        parent_folder (Union[PFGeneral, Folder, str], optional): specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relative to &#39;parent_folder&#39;); defaults to _folder/the active project folder for instances of PFActiveProject
+
+        error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
+
+        include_subfolders (bool, optional): include subfolders in the search; defaults to True
+
+    Raises:
+        TypeError: If &#39;path&#39; is not a string
+
+    Returns:
+        list[PFGeneral]: List with PF objects
+
+    Examples:
+      pfbi.get_obj(&#34;Network Model\\Network Data\\Grid\\Terminal 1&#34;)
+
+    The path can also start with &#34;\\&#34; and contain wildcards after last &#34;\\&#34;:
+      get_obj(&#34;\\Network Model\\Network Data\\Grid\\*.ElmTerm&#34;)
+
+    With condition:
+      pfbi.get_obj(&#34;Network Model\\Network Data\\Grid\\*.ElmTerm&#34;&#34;,
+        condition = lambda x : getattr(x,&#34;uknom&#34;)==110)
+
+    Note that you can also use &#34;r&#34; at the beginning of the string
+    argument to use single &#34;\&#34;.
+    &#34;&#34;&#34;
+    parent_folder = (
+        self._obj
+        if not parent_folder
+        else self._handle_single_pf_object_or_path_input(
+            parent_folder, include_subfolders=False
+        )
+    )
+
+    if not include_subfolders:
+        try:
+            obj = parent_folder.GetContents(path)
+        except RuntimeError:
+            raise TypeError(&#34;Path must be of type string.&#34;)
+    else:
+        obj = self._handle_inclusion_of_subfolders(
+            path, parent_folder, error_if_non_existent
+        )
+    if not obj:
+        return self._handle_non_existing_obj(
+            path, parent_folder, error_if_non_existent
+        )
+    if condition:
+        obj_with_condition = self.get_by_condition(obj, condition)
+        if obj_with_condition:
+            return obj_with_condition
+        else:
+            return self._handle_condition_of_obj_not_met(
+                path, parent_folder, error_if_non_existent
+            )
+    else:
+        return obj</code></pre>
+</details>
+<div class="desc"><p>Get the PowerFactory object(s) under 'path'. By default, 'path' is relative to 'self._obj' (or the active project folder for instances of PFActiveProject).</p>
+<p>See also 'get_unique_obj'.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to object(s), can contain wildcards ("*") after the last ""</dd>
+<dt><strong><code>condition</code></strong> :&ensp;<code>Callable</code>, optional</dt>
+<dd>filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110; defaults to None</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>specify a parent folder/container (or its path) from where the search is started ('path' is then relative to 'parent_folder'); defaults to _folder/the active project folder for instances of PFActiveProject</dd>
+<dt><strong><code>error_if_non_existent</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>raise exception if no objects are found; defaults to True</dd>
+<dt><strong><code>include_subfolders</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>include subfolders in the search; defaults to True</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>If 'path' is not a string</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[PFGeneral]</code></dt>
+<dd>List with PF objects</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>pfbi.get_obj("Network Model\Network Data\Grid\Terminal 1")</p>
+<p>The path can also start with "" and contain wildcards after last "":
+get_obj("\Network Model\Network Data\Grid*.ElmTerm")</p>
+<p>With condition:
+pfbi.get_obj("Network Model\Network Data\Grid*.ElmTerm"",
+condition = lambda x : getattr(x,"uknom")==110)</p>
+<p>Note that you can also use "r" at the beginning of the string
+argument to use single "".</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_obj_including_subfolders"><code class="name flex">
+<span>def <span class="ident">get_obj_including_subfolders</span></span>(<span>self,<br>path: str,<br>condition: Callable | None = None,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] | None = None,<br>error_if_non_existent: bool = True) ‑> list[<a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a>]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_obj_including_subfolders(
+    self,
+    path: str,
+    condition: Callable | None = None,
+    parent_folder: Union[PFGeneral, Folder, str] | None = None,
+    error_if_non_existent: bool = True,
+) -&gt; list[PFGeneral]:
+    &#34;&#34;&#34;Call &#39;get_obj&#39; including subfolders.&#34;&#34;&#34;
+    return self.get_obj(
+        path,
+        condition=condition,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=True,
+    )</code></pre>
+</details>
+<div class="desc"><p>Call 'get_obj' including subfolders.</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_obj_partial"><code class="name flex">
+<span>def <span class="ident">get_obj_partial</span></span>(<span>self, *args, **kwargs) ‑> Callable</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_obj_partial(self, *args, **kwargs) -&gt; Callable:
+    &#34;&#34;&#34;Partial evaluation of &#39;get_obj&#39;.
+
+    Returns a callable to get_obj.
+
+    Example: a = get_obj_lazy(&#34;path\\to\\obj&#34;, error_if_non_existent=False)
+             a() # This calls &#39;get_obj&#39; with given arguments
+
+    For further information arguments etc. see &#39;get_obj&#39;.
+    &#34;&#34;&#34;
+    return partial(self.get_obj, *args, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Partial evaluation of 'get_obj'.</p>
+<p>Returns a callable to get_obj.</p>
+<p>Example: a = get_obj_lazy("path\to\obj", error_if_non_existent=False)
+a() # This calls 'get_obj' with given arguments</p>
+<p>For further information arguments etc. see 'get_obj'.</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_between_objects"><code class="name flex">
+<span>def <span class="ident">get_path_between_objects</span></span>(<span>self,<br>obj_high: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str],<br>obj_low: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_between_objects(
+    self,
+    obj_high: Union[PFGeneral, Folder, str],
+    obj_low: Union[PFGeneral, Folder, str],
+) -&gt; str:
+    &#34;&#34;&#34;Get path between two objects in the PF database.
+
+    Args:
+        obj_high (Union[PFGeneral, Folder, str]): object higher in the hierarchy
+        obj_low (Union[PFGeneral, Folder, str]): object lower in the hierarchy
+
+    Returns:
+        str: path between
+    &#34;&#34;&#34;
+    obj_high = self._handle_single_pf_object_or_path_input(obj_high)
+    obj_high = self.get_path_of_object(obj_high)
+    obj_low = self._handle_single_pf_object_or_path_input(obj_low)
+    obj_low = self.get_path_of_object(obj_low)
+    path = str(obj_low).split(str(obj_high))[1][1:]
+    return path</code></pre>
+</details>
+<div class="desc"><p>Get path between two objects in the PF database.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj_high</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>object higher in the hierarchy</dd>
+<dt><strong><code>obj_low</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>object lower in the hierarchy</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path between</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_obj_with_class_names"><code class="name flex">
+<span>def <span class="ident">get_path_of_obj_with_class_names</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_obj_with_class_names(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path relative to &#39;self._obj&#39; including class names.
+
+    Args:
+        obj (Union[PFGeneral, Folder, str]): PF object
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    folder_path = self._obj.GetFullName()
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    obj_str = obj.GetFullName()
+    return PFStringManipulation.truncate_beginning(obj_str, folder_path)</code></pre>
+</details>
+<div class="desc"><p>Get path relative to 'self._obj' including class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_object"><code class="name flex">
+<span>def <span class="ident">get_path_of_object</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_object(self, obj: Union[PFGeneral, Folder]) -&gt; str:
+    &#34;&#34;&#34;Get path relative to &#39;self._obj&#39; without class names.
+
+    Args:
+        obj (PFGeneral): PF object
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    return PFStringManipulation.remove_class_names(
+        self.get_path_of_obj_with_class_names(obj)
+    )</code></pre>
+</details>
+<div class="desc"><p>Get path relative to 'self._obj' without class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_object_in_active_project"><code class="name flex">
+<span>def <span class="ident">get_path_of_object_in_active_project</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_object_in_active_project(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path relative to active project without class names.
+
+    Args:
+        obj (PFGeneral): PF object
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    obj = self.get_path_of_object_in_active_project_with_class_names(obj)
+    return PFStringManipulation.remove_class_names(obj)</code></pre>
+</details>
+<div class="desc"><p>Get path relative to active project without class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_object_in_active_project_with_class_names"><code class="name flex">
+<span>def <span class="ident">get_path_of_object_in_active_project_with_class_names</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_object_in_active_project_with_class_names(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path relative to active project including class names.
+
+    Args:
+        obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    active_project = self.__class__.app.GetActiveProject()
+    if active_project:
+        active_project_path = self.__class__.app.GetActiveProject().GetFullName()
+    else:
+        active_project_path = &#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    obj_str = obj.GetFullName()
+    return PFStringManipulation.truncate_beginning(obj_str, active_project_path)</code></pre>
+</details>
+<div class="desc"><p>Get path relative to active project including class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>PF object or its path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_object_in_current_user"><code class="name flex">
+<span>def <span class="ident">get_path_of_object_in_current_user</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_object_in_current_user(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path relative to current (active) user without class names.
+
+    Args:
+        obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    obj = self.get_path_of_object_in_current_user_with_class_names(obj)
+    return PFStringManipulation.remove_class_names(obj)</code></pre>
+</details>
+<div class="desc"><p>Get path relative to current (active) user without class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>PF object or its path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_path_of_object_in_current_user_with_class_names"><code class="name flex">
+<span>def <span class="ident">get_path_of_object_in_current_user_with_class_names</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path_of_object_in_current_user_with_class_names(
+    self, obj: Union[PFGeneral, Folder, str]
+) -&gt; str:
+    &#34;&#34;&#34;Get path relative to current (active) user including class names.
+
+    Args:
+        obj (Union[PFGeneral, Folder, str]): PF object or its path
+
+    Returns:
+        str: path
+    &#34;&#34;&#34;
+    active_user_path = self.get_current_user().GetFullName()
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    obj_str = obj.GetFullName()
+    return PFStringManipulation.truncate_beginning(obj_str, active_user_path)</code></pre>
+</details>
+<div class="desc"><p>Get path relative to current (active) user including class names.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code></dt>
+<dd>PF object or its path</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>path</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_project_settings"><code class="name flex">
+<span>def <span class="ident">get_project_settings</span></span>(<span>self) ‑> <a title="powfacpy.pf_classes.protocols.SetPrj" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.SetPrj">SetPrj</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_project_settings(self) -&gt; SetPrj:
+    &#34;&#34;&#34;Get project settings object.&#34;&#34;&#34;
+    # project_settings_folder = self.get_unique_obj(&#34;*.SetFold&#34;)
+    # return self.get_unique_obj(&#34;*.SetPrj&#34;, parent_folder=project_settings_folder)
+    return self.app.GetActiveProject().pPrjSettings</code></pre>
+</details>
+<div class="desc"><p>Get project settings object.</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_single_obj"><code class="name flex">
+<span>def <span class="ident">get_single_obj</span></span>(<span>self,<br>path: str,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_single_obj(
+    self,
+    path: str,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; PFGeneral | None:
+    &#34;&#34;&#34;DEPRECATED: Use &#39;get_unique_obj&#39; instead.
+
+    Get unique PowerFactory object under &#39;path&#39;.
+
+    Use this method if you want to access one single unique object.
+    This method is an alternative to &#39;get_obj&#39; and returns the unique object instead of a list (that needs to be accessed with &#39;[0]&#39;). It also checks whether the found object is unique (only one object is found).
+
+    Args:
+        path (str): path to object(s);
+        can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+        condition (Callable, optional):
+        filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110;
+        defaults to None
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+        specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relativ to &#39;parent_folder&#39;);
+        defaults to _folder/the active project folder for instances of PFActiveProject
+
+        error_if_non_existent (bool, optional):
+        raise exception if no objects are found;
+        defaults to True
+
+        include_subfolders (bool, optional):
+        include subfolders in the search;
+        defaults to True
+
+    Raises:
+        TypeError:
+        If &#39;path&#39; is not a string.
+        If several objects were found.
+
+    Returns:
+        PFGeneral: PF object
+    &#34;&#34;&#34;
+    return self.get_unique_obj(
+        path,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=include_subfolders,
+    )</code></pre>
+</details>
+<div class="desc"><p>DEPRECATED: Use 'get_unique_obj' instead.</p>
+<p>Get unique PowerFactory object under 'path'.</p>
+<p>Use this method if you want to access one single unique object.
+This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to object(s);</dd>
+</dl>
+<p>can contain wildcards ("*") after the last ""</p>
+<p>condition (Callable, optional):
+filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110;
+defaults to None</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+specify a parent folder/container (or its path) from where the search is started ('path' is then relativ to 'parent_folder');
+defaults to _folder/the active project folder for instances of PFActiveProject</p>
+<p>error_if_non_existent (bool, optional):
+raise exception if no objects are found;
+defaults to True</p>
+<p>include_subfolders (bool, optional):
+include subfolders in the search;
+defaults to True</p>
+<h2 id="raises">Raises</h2>
+<p>TypeError:
+If 'path' is not a string.
+If several objects were found.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_unique_obj"><code class="name flex">
+<span>def <span class="ident">get_unique_obj</span></span>(<span>self,<br>path: str,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a> | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_unique_obj(
+    self,
+    path: str,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; PFGeneral | None:
+    &#34;&#34;&#34;Get unique PowerFactory object under &#39;path&#39;.
+
+    Use this method if you want to access one single unique object.
+    This method is an alternative to &#39;get_obj&#39; and returns the unique object instead of a list (that needs to be accessed with &#39;[0]&#39;). It also checks whether the found object is unique (only one object is found).
+
+    Args:
+        path (str): path to object(s);
+        can contain wildcards (&#34;*&#34;) after the last &#34;\&#34;
+
+        condition (Callable, optional):
+        filter for attributes etc.; example: &#34;condition = lambda x : getattr(x,&#34;uknom&#34;)==110;
+        defaults to None
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+        specify a parent folder/container (or its path) from where the search is started (&#39;path&#39; is then relative to &#39;parent_folder&#39;);
+        defaults to _folder/the active project folder for instances of PFActiveProject
+
+        error_if_non_existent (bool, optional):
+        raise exception if no objects are found;
+        defaults to True
+
+        include_subfolders (bool, optional):
+        include subfolders in the search;
+        defaults to True
+
+    Raises:
+        TypeError:
+        If &#39;path&#39; is not a string.
+        If several objects were found.
+
+    Returns:
+        PFGeneral: PF object
+    &#34;&#34;&#34;
+    obj = self.get_obj(
+        path,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=include_subfolders,
+    )
+    if obj:
+        if len(obj) &lt; 2:
+            return obj[0]
+        else:
+            if parent_folder:
+                parent_folder_str = (
+                    f&#34; in &#39;{self.get_path_of_object(parent_folder)}&#39;&#34;
+                )
+            else:
+                parent_folder_str = &#34;&#34;
+            raise TypeError(
+                f&#34;The path {path+parent_folder_str} is not a unique object. Did you use wildcards (&#39;*&#39;)? This method only returns single unique objects.&#34;
+            )
+    else:
+        return None</code></pre>
+</details>
+<div class="desc"><p>Get unique PowerFactory object under 'path'.</p>
+<p>Use this method if you want to access one single unique object.
+This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to object(s);</dd>
+</dl>
+<p>can contain wildcards ("*") after the last ""</p>
+<p>condition (Callable, optional):
+filter for attributes etc.; example: "condition = lambda x : getattr(x,"uknom")==110;
+defaults to None</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+specify a parent folder/container (or its path) from where the search is started ('path' is then relative to 'parent_folder');
+defaults to _folder/the active project folder for instances of PFActiveProject</p>
+<p>error_if_non_existent (bool, optional):
+raise exception if no objects are found;
+defaults to True</p>
+<p>include_subfolders (bool, optional):
+include subfolders in the search;
+defaults to True</p>
+<h2 id="raises">Raises</h2>
+<p>TypeError:
+If 'path' is not a string.
+If several objects were found.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>PF object</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_upstream_obj"><code class="name flex">
+<span>def <span class="ident">get_upstream_obj</span></span>(<span>self,<br>start_obj_or_path: Union[PFGeneral, str],<br>condition: Callable,<br>error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_upstream_obj(
+    self,
+    start_obj_or_path: Union[PFGeneral, str],
+    condition: Callable,
+    error_if_non_existent: bool = True,
+) -&gt; PFGeneral:
+    &#34;&#34;&#34;Get upstream object that meets the condition.
+
+    Searches upstream in the PF database hierarchy.
+
+    Args:
+        start_obj_or_path (Union[PFGeneral, str], optional): Object/folder (or its path) to start from
+
+        condition (Callable): Condition for the searched object
+
+        error_if_non_existent (bool, optional): If True, an exception is raised if no upstream object is found. Defaults to True.
+
+    Returns:
+        PFGeneral: The PF object found
+    &#34;&#34;&#34;
+    start_obj_or_path = (
+        self._obj
+        if not start_obj_or_path
+        else self._handle_single_pf_object_or_path_input(start_obj_or_path)
+    )
+    obj_or_path = start_obj_or_path.GetParent()
+    if obj_or_path:
+        if condition(obj_or_path):
+            return obj_or_path
+        else:
+            return self.get_upstream_obj(
+                obj_or_path, condition, error_if_non_existent=error_if_non_existent
+            )
+    else:
+        if error_if_non_existent:
+            raise Exception(
+                &#34;There is no upstream object that fullfills the condition.&#34;
+            )
+        else:
+            return None</code></pre>
+</details>
+<div class="desc"><p>Get upstream object that meets the condition.</p>
+<p>Searches upstream in the PF database hierarchy.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>start_obj_or_path</code></strong> :&ensp;<code>Union[PFGeneral, str]</code>, optional</dt>
+<dd>Object/folder (or its path) to start from</dd>
+<dt><strong><code>condition</code></strong> :&ensp;<code>Callable</code></dt>
+<dd>Condition for the searched object</dd>
+<dt><strong><code>error_if_non_existent</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>If True, an exception is raised if no upstream object is found. Defaults to True.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd>The PF object found</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.get_workspace_directory"><code class="name flex">
+<span>def <span class="ident">get_workspace_directory</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_workspace_directory(self) -&gt; str:
+    return self.app.GetWorkspaceDirectory()[0:-1]</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.is_container"><code class="name flex">
+<span>def <span class="ident">is_container</span></span>(<span>self,<br>obj: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_container(self, obj: Union[PFGeneral, Folder, str]) -&gt; bool:
+    &#34;&#34;&#34;Checks whether a PF object is a container. It is assumed
+    that an object is a container if it has the attribute &#39;contents&#39;.
+    &#34;&#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(obj)
+    return obj.HasAttribute(&#34;contents&#34;)</code></pre>
+</details>
+<div class="desc"><p>Checks whether a PF object is a container. It is assumed
+that an object is a container if it has the attribute 'contents'.</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.is_pf_class"><code class="name flex">
+<span>def <span class="ident">is_pf_class</span></span>(<span>self, class_name: str) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_pf_class(self, class_name: str) -&gt; bool:
+    &#34;&#34;&#34;Checks if class_name is a valid PF class (using the class ID).&#34;&#34;&#34;
+    return self.__class__.app.GetClassId(class_name) != 0</code></pre>
+</details>
+<div class="desc"><p>Checks if class_name is a valid PF class (using the class ID).</p></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.move_obj"><code class="name flex">
+<span>def <span class="ident">move_obj</span></span>(<span>self,<br>obj_or_path: Union[PFGeneral, str, list[PFGeneral]],<br>target_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str],<br>overwrite: bool = True,<br>condition: Callable = None,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move_obj(
+    self,
+    obj_or_path: Union[PFGeneral, str, list[PFGeneral]],
+    target_folder: Union[PFGeneral, Folder, str],
+    overwrite: bool = True,
+    condition: Callable = None,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; int:
+    &#34;&#34;&#34;Move object(s) to &#39;target_folder&#39;.
+
+    Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Target must be in the active project.
+
+    See also &#39;move_single_obj&#39;.
+
+    Args:
+        obj_or_path (Union[PFGeneral, str]):
+            Objects to be moved (get_obj is used for strings)
+
+        target_folder (Union[PFGeneral, Folder, str]):
+            Folder to which objects are moved
+
+        overwrite (bool, optional):
+            Overwrite existing objects. Defaults to True.
+
+        condition (Callable, optional):
+            Condition used in &#39;get_obj&#39; for the source objects . Defaults to None.
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+            refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be moved. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+        error_if_non_existent (bool, optional):
+            Raise error if no (source) objects are found. Defaults to True.
+
+        include_subfolders (bool, optional):
+            Include subfolder in search for source objects. Defaults to False.
+
+    Returns:
+        bool: 0 on success, 1 on error
+    &#34;&#34;&#34;
+    obj = self._handle_pf_object_or_path_input(
+        obj_or_path,
+        condition=condition,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=include_subfolders,
+    )
+    target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+    if overwrite:
+        for object_to_be_copied in obj:
+            self.delete_obj(
+                object_to_be_copied.GetAttribute(&#34;loc_name&#34;)
+                + &#34;.&#34;
+                + object_to_be_copied.GetClassName(),
+                parent_folder=target_folder,
+                error_if_non_existent=False,
+            )
+    return target_folder.Move(obj)</code></pre>
+</details>
+<div class="desc"><p>Move object(s) to 'target_folder'.</p>
+<p>Uses 'get_obj' to get the objects under 'obj_or_path'. Target must be in the active project.</p>
+<p>See also 'move_single_obj'.</p>
+<h2 id="args">Args</h2>
+<p>obj_or_path (Union[PFGeneral, str]):
+Objects to be moved (get_obj is used for strings)</p>
+<p>target_folder (Union[PFGeneral, Folder, str]):
+Folder to which objects are moved</p>
+<p>overwrite (bool, optional):
+Overwrite existing objects. Defaults to True.</p>
+<p>condition (Callable, optional):
+Condition used in 'get_obj' for the source objects . Defaults to None.</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be moved. Defaults to
+None (i.e. '_folder'/active project is used).</p>
+<p>error_if_non_existent (bool, optional):
+Raise error if no (source) objects are found. Defaults to True.</p>
+<p>include_subfolders (bool, optional):
+Include subfolder in search for source objects. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>0 on success, 1 on error</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.move_single_obj"><code class="name flex">
+<span>def <span class="ident">move_single_obj</span></span>(<span>self,<br>obj_or_path: Union[PFGeneral, str],<br>target_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str],<br>overwrite: bool = True,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>error_if_non_existent: bool = True,<br>include_subfolders: bool = False) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move_single_obj(
+    self,
+    obj_or_path: Union[PFGeneral, str],
+    target_folder: Union[PFGeneral, Folder, str],
+    overwrite: bool = True,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+    error_if_non_existent: bool = True,
+    include_subfolders: bool = False,
+) -&gt; int:
+    &#34;&#34;&#34;Move single PF object to &#39;target_folder&#39;.
+
+    Uses &#39;get_obj&#39; to get the objects under &#39;obj_or_path&#39;. Target must be in the active project.
+
+    See also &#39;move_obj&#39;.
+
+    Args:
+        obj_or_path (Union[PFGeneral, str]):
+            Object to be moved (get_unique_obj is used for strings)
+
+        target_folder (Union[PFGeneral, Folder, str]):
+            Folder to which objects are moved
+
+        overwrite (bool, optional):
+            Overwrite existing objects. Defaults to True.
+
+        parent_folder (Union[PFGeneral, Folder, str], optional):
+            refers to the source folder and is used in combination with &#39;obj_or_path&#39; to get the object(s) to be moved. Defaults to  None (i.e. &#39;_folder&#39;/active project is used).
+
+        error_if_non_existent (bool, optional):
+            Raise error if no (source) objects are found. Defaults to True.
+
+        include_subfolders (bool, optional):
+            Include subfolder in search for source objects. Defaults to False.
+
+    Returns:
+        bool: 0 on success, 1 on error
+    &#34;&#34;&#34;
+
+    obj = self._handle_single_pf_object_or_path_input(
+        obj_or_path,
+        parent_folder=parent_folder,
+        error_if_non_existent=error_if_non_existent,
+        include_subfolders=include_subfolders,
+    )
+    target_folder = self._handle_single_pf_object_or_path_input(target_folder)
+    if overwrite:
+        self.delete_obj(
+            obj.GetAttribute(&#34;loc_name&#34;) + &#34;.&#34; + obj.GetClassName(),
+            parent_folder=target_folder,
+            error_if_non_existent=False,
+        )
+    return target_folder.Move(obj)</code></pre>
+</details>
+<div class="desc"><p>Move single PF object to 'target_folder'.</p>
+<p>Uses 'get_obj' to get the objects under 'obj_or_path'. Target must be in the active project.</p>
+<p>See also 'move_obj'.</p>
+<h2 id="args">Args</h2>
+<p>obj_or_path (Union[PFGeneral, str]):
+Object to be moved (get_unique_obj is used for strings)</p>
+<p>target_folder (Union[PFGeneral, Folder, str]):
+Folder to which objects are moved</p>
+<p>overwrite (bool, optional):
+Overwrite existing objects. Defaults to True.</p>
+<p>parent_folder (Union[PFGeneral, Folder, str], optional):
+refers to the source folder and is used in combination with 'obj_or_path' to get the object(s) to be moved. Defaults to
+None (i.e. '_folder'/active project is used).</p>
+<p>error_if_non_existent (bool, optional):
+Raise error if no (source) objects are found. Defaults to True.</p>
+<p>include_subfolders (bool, optional):
+Include subfolder in search for source objects. Defaults to False.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>0 on success, 1 on error</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.path_exists"><code class="name flex">
+<span>def <span class="ident">path_exists</span></span>(<span>self,<br>path: str,<br>parent: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None,<br>return_info: bool = False) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def path_exists(
+    self,
+    path: str,
+    parent: Union[PFGeneral, Folder, str] = None,
+    return_info: bool = False,
+) -&gt; bool:
+    &#34;&#34;&#34;Check if the path exists.
+
+    Args:
+        path (str): path
+
+        parent (Union[PFGeneral, Folder, str], optional): Parent folder where search is started. Defaults to None (i.e. &#39;self._obj&#39;).
+
+        return_info (bool, optional): information about where the path is
+        corrupted is returned. Defaults to False.
+
+    Raises:
+        powfacpy.PFPathInputError: If path is invalid.
+
+    Returns:
+        bool: True if path exists
+    &#34;&#34;&#34;
+
+    parent = (
+        self._obj
+        if not parent
+        else self._handle_single_pf_object_or_path_input(parent)
+    )
+
+    splitted_path = path.split(&#34;\\&#34;)
+    if path[0] == &#34;\\&#34; or not splitted_path:
+        raise PFPathInputError(path)
+    existing_path = &#34;&#34;
+    child = parent
+    for child_name in splitted_path:
+        child = child.GetContents(f&#34;{child_name}&#34;)
+        if child:
+            child = child[0]
+            existing_path = f&#34;{existing_path}\\{child.loc_name}&#34;
+        else:
+            if not return_info:
+                return False
+            else:
+                parent_path = parent.GetFullName()
+                parent_path = PFStringManipulation.remove_class_names(parent_path)
+                existing_path = f&#34;{parent_path}{existing_path}&#34;
+                non_existent_child_name = child_name
+                return False, existing_path, non_existent_child_name
+    return True</code></pre>
+</details>
+<div class="desc"><p>Check if the path exists.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>path</dd>
+<dt><strong><code>parent</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>Parent folder where search is started. Defaults to None (i.e. 'self._obj').</dd>
+<dt><strong><code>return_info</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>information about where the path is</dd>
+</dl>
+<p>corrupted is returned. Defaults to False.</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>powfacpy.PFPathInputError</code></dt>
+<dd>If path is invalid.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if path exists</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.set_attr"><code class="name flex">
+<span>def <span class="ident">set_attr</span></span>(<span>self,<br>obj: Union[PFGeneral, str],<br>params: dict,<br>parent_folder: Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str] = None) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_attr(
+    self,
+    obj: Union[PFGeneral, str],
+    params: dict,
+    parent_folder: Union[PFGeneral, Folder, str] = None,
+) -&gt; None:
+    &#34;&#34;&#34;Set the attribute(s) of an object.
+
+    Args:
+        obj (Union[PFGeneral, str]): PF object
+        params (dict): attributes and their values (e.g. {&#39;parameter1&#39;:value1, &#39;parameter2&#39;:value2,..})
+        parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
+
+    Raises:
+        PFAttributeTypeError: If the type of an attribute value is wrong
+        PFAttributeError: If an object does not have the specified attribute
+    &#34;&#34;&#34;
+    obj = self._handle_single_pf_object_or_path_input(
+        obj, parent_folder=parent_folder
+    )
+    for attr, value in params.items():
+        try:
+            obj.SetAttribute(attr, value)
+        except TypeError as e:
+            raise PFAttributeTypeError(obj, attr, e, self)
+        except AttributeError as e:
+            raise PFAttributeError(obj, e, self)</code></pre>
+</details>
+<div class="desc"><p>Set the attribute(s) of an object.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>obj</code></strong> :&ensp;<code>Union[PFGeneral, str]</code></dt>
+<dd>PF object</dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>attributes and their values (e.g. {'parameter1':value1, 'parameter2':value2,..})</dd>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>Union[PFGeneral, <a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a>, str]</code>, optional</dt>
+<dd>Parent folder object. Defaults to None.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PFAttributeTypeError</code></dt>
+<dd>If the type of an attribute value is wrong</dd>
+<dt><code>PFAttributeError</code></dt>
+<dd>If an object does not have the specified attribute</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.base.folder.Folder.set_attr_by_path"><code class="name flex">
+<span>def <span class="ident">set_attr_by_path</span></span>(<span>self, path_with_attr: str, value: Union[int | float | str | PFGeneral | list])</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_attr_by_path(
+    self, path_with_attr: str, value: Union[int | float | str | PFGeneral | list]
+):
+    &#34;&#34;&#34;Set attribute using the path including the attribute name.
+
+    Args:
+        path_with_attr (str): path to ojbect with attribute name at the end
+        value (Union[int | float | str | PFGeneral | list]): attribute value
+
+    Example:
+      set_attr_by_path(
+            &#34;Library\\Dynamic Models\\Linear_interpolation\\desc&#34;,
+            [&#34;description&#34;])
+      Here &#39;desc&#39; is the name of the attribute.
+    &#34;&#34;&#34;
+    head_tail = os_path.split(path_with_attr)
+    self.set_attr(head_tail[0], {head_tail[1]: value})</code></pre>
+</details>
+<div class="desc"><p>Set attribute using the path including the attribute name.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path_with_attr</code></strong> :&ensp;<code>str</code></dt>
+<dd>path to ojbect with attribute name at the end</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>Union[int | float | str | PFGeneral | list]</code></dt>
+<dd>attribute value</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>set_attr_by_path(
+"Library\Dynamic Models\Linear_interpolation\desc",
+["description"])
+Here 'desc' is the name of the attribute.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.base" href="index.html">powfacpy.base</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.base.folder.Folder" href="#powfacpy.base.folder.Folder">Folder</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.base.folder.Folder.AddCopy" href="#powfacpy.base.folder.Folder.AddCopy">AddCopy</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.CreateObject" href="#powfacpy.base.folder.Folder.CreateObject">CreateObject</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.Delete" href="#powfacpy.base.folder.Folder.Delete">Delete</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.GetAttribute" href="#powfacpy.base.folder.Folder.GetAttribute">GetAttribute</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.GetChildren" href="#powfacpy.base.folder.Folder.GetChildren">GetChildren</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.GetContents" href="#powfacpy.base.folder.Folder.GetContents">GetContents</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.GetFullName" href="#powfacpy.base.folder.Folder.GetFullName">GetFullName</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.GetParent" href="#powfacpy.base.folder.Folder.GetParent">GetParent</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.SetAttribute" href="#powfacpy.base.folder.Folder.SetAttribute">SetAttribute</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.app" href="#powfacpy.base.folder.Folder.app">app</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.clear_folder" href="#powfacpy.base.folder.Folder.clear_folder">clear_folder</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.copy_obj" href="#powfacpy.base.folder.Folder.copy_obj">copy_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.copy_project" href="#powfacpy.base.folder.Folder.copy_project">copy_project</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.copy_single_obj" href="#powfacpy.base.folder.Folder.copy_single_obj">copy_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.create_by_path" href="#powfacpy.base.folder.Folder.create_by_path">create_by_path</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.create_directory" href="#powfacpy.base.folder.Folder.create_directory">create_directory</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.create_filter_obj" href="#powfacpy.base.folder.Folder.create_filter_obj">create_filter_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.create_in_folder" href="#powfacpy.base.folder.Folder.create_in_folder">create_in_folder</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.delete_obj" href="#powfacpy.base.folder.Folder.delete_obj">delete_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.folder_obj" href="#powfacpy.base.folder.Folder.folder_obj">folder_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_active_project" href="#powfacpy.base.folder.Folder.get_active_project">get_active_project</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_attr" href="#powfacpy.base.folder.Folder.get_attr">get_attr</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_attr_by_path" href="#powfacpy.base.folder.Folder.get_attr_by_path">get_attr_by_path</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_by_condition" href="#powfacpy.base.folder.Folder.get_by_condition">get_by_condition</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_current_user" href="#powfacpy.base.folder.Folder.get_current_user">get_current_user</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_external_data_directory" href="#powfacpy.base.folder.Folder.get_external_data_directory">get_external_data_directory</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_full_path_of_object" href="#powfacpy.base.folder.Folder.get_full_path_of_object">get_full_path_of_object</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_full_path_of_object_with_class_names" href="#powfacpy.base.folder.Folder.get_full_path_of_object_with_class_names">get_full_path_of_object_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_installation_directory" href="#powfacpy.base.folder.Folder.get_installation_directory">get_installation_directory</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_loc_name_with_class" href="#powfacpy.base.folder.Folder.get_loc_name_with_class">get_loc_name_with_class</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_multiple_obj_from_similar_sub_directories" href="#powfacpy.base.folder.Folder.get_multiple_obj_from_similar_sub_directories">get_multiple_obj_from_similar_sub_directories</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_obj" href="#powfacpy.base.folder.Folder.get_obj">get_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_obj_including_subfolders" href="#powfacpy.base.folder.Folder.get_obj_including_subfolders">get_obj_including_subfolders</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_obj_partial" href="#powfacpy.base.folder.Folder.get_obj_partial">get_obj_partial</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_between_objects" href="#powfacpy.base.folder.Folder.get_path_between_objects">get_path_between_objects</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_obj_with_class_names" href="#powfacpy.base.folder.Folder.get_path_of_obj_with_class_names">get_path_of_obj_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_object" href="#powfacpy.base.folder.Folder.get_path_of_object">get_path_of_object</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_object_in_active_project" href="#powfacpy.base.folder.Folder.get_path_of_object_in_active_project">get_path_of_object_in_active_project</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_object_in_active_project_with_class_names" href="#powfacpy.base.folder.Folder.get_path_of_object_in_active_project_with_class_names">get_path_of_object_in_active_project_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_object_in_current_user" href="#powfacpy.base.folder.Folder.get_path_of_object_in_current_user">get_path_of_object_in_current_user</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_path_of_object_in_current_user_with_class_names" href="#powfacpy.base.folder.Folder.get_path_of_object_in_current_user_with_class_names">get_path_of_object_in_current_user_with_class_names</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_project_settings" href="#powfacpy.base.folder.Folder.get_project_settings">get_project_settings</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_single_obj" href="#powfacpy.base.folder.Folder.get_single_obj">get_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_unique_obj" href="#powfacpy.base.folder.Folder.get_unique_obj">get_unique_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_upstream_obj" href="#powfacpy.base.folder.Folder.get_upstream_obj">get_upstream_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.get_workspace_directory" href="#powfacpy.base.folder.Folder.get_workspace_directory">get_workspace_directory</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.is_container" href="#powfacpy.base.folder.Folder.is_container">is_container</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.is_pf_class" href="#powfacpy.base.folder.Folder.is_pf_class">is_pf_class</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.move_obj" href="#powfacpy.base.folder.Folder.move_obj">move_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.move_single_obj" href="#powfacpy.base.folder.Folder.move_single_obj">move_single_obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.obj" href="#powfacpy.base.folder.Folder.obj">obj</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.path_exists" href="#powfacpy.base.folder.Folder.path_exists">path_exists</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.set_attr" href="#powfacpy.base.folder.Folder.set_attr">set_attr</a></code></li>
+<li><code><a title="powfacpy.base.folder.Folder.set_attr_by_path" href="#powfacpy.base.folder.Folder.set_attr_by_path">set_attr_by_path</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

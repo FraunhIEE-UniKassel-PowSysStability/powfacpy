@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.pf_classes.elm.sym API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.pf_classes.elm.sym</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.sym.weight_by_apparent_power_of_synchronous_machines"><code class="name flex">
+<span>def <span class="ident">weight_by_apparent_power_of_synchronous_machines</span></span>(<span>values: list[float],<br>synchronous_machines: list[<a title="powfacpy.pf_classes.elm.sym.SynchronousMachine" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine">SynchronousMachine</a>] | list[ElmSym],<br>return_sum_of_weights: bool = False) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def weight_by_apparent_power_of_synchronous_machines(
+    values: list[float],
+    synchronous_machines: list[SynchronousMachine] | list[ElmSym],
+    return_sum_of_weights: bool = False,
+) -&gt; float:
+    if not isinstance(synchronous_machines[0], SynchronousMachine):
+        synchronous_machines = [SynchronousMachine[sm] for sm in synchronous_machines]
+    values = np.array(values)
+    apparent_power = np.array([sm.ratedS for sm in synchronous_machines])
+    return get_weighted_average(
+        values, apparent_power, return_sum_of_weights=return_sum_of_weights
+    )</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine"><code class="flex name class">
+<span>class <span class="ident">SynchronousMachine</span></span>
+<span>(</span><span>obj: ElmSym)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SynchronousMachine(ElmBase, SinglePortBase, ElmPlantControlledBase):
+
+    __slots__ = ()
+
+    def __init__(self, obj: ElmSym) -&gt; None:
+        super().__init__(obj)
+        self._obj: ElmSym
+
+    def __new__(cls, *args, **kwargs) -&gt; ElmSym | SynchronousMachine:
+        &#34;&#34;&#34;Implemented only to add type hints for the created instance.
+
+        Returns:
+            ElmSym | SynchronousMachine: New instance
+        &#34;&#34;&#34;
+        instance = super().__new__(cls)
+        return instance
+
+    @property
+    def ratedS(self) -&gt; float:
+        &#34;Apparent power [MVA]. Parallel machines are considered. &#39;ratedS&#39; is CGMES conform.&#34;
+        return self._obj.typ_id.sgn * self._obj.ngnum
+
+    @property
+    def rated_apparent_power(self) -&gt; float:
+        return self.ratedS
+
+    @property
+    def H_in_seconds_based_on_Snom(self) -&gt; float:
+        &#34;Inertia constant [s]&#34;
+        return self._obj.typ_id.h
+
+    @property
+    def H_in_MWs(self) -&gt; float:
+        &#34;Inertia constant [MWs]&#34;
+        return self._obj.typ_id.h * self.ratedS
+
+    @property
+    def J(self) -&gt; float:
+        &#34;Moment of Inertia [kgm^2]. Parallel machines are considered.&#34;
+        obj = self._obj
+        return obj.typ_id.J * obj.ngnum
+
+    def get_averaged_internal_reactance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -&gt; float:
+        &#34;&#34;&#34;Get average of the d-and q-axis internal reactances:
+        xG = 0.5 (x&#39;&#39;d + x&#39;&#39;q)
+
+        Returns:
+            float: internal reactance [pu]
+        &#34;&#34;&#34;
+        typ: TypSym = self._obj.typ_id
+        x = 0.5 * (typ.xdss + typ.xqss)
+        if base_apparent_power_MVA is None:
+            return x
+        else:
+            return x / (self.ratedS / base_apparent_power_MVA)
+
+    def get_averaged_internal_susceptance(
+        self, base_apparent_power_MVA: float | None = None
+    ) -&gt; float:
+        return 1 / self.get_averaged_internal_reactance(base_apparent_power_MVA)
+
+    def get_approximate_internal_voltage(self) -&gt; complex:
+        &#34;&#34;&#34;Get approximate internal voltage from power supply, terminal voltage and internal reactance.
+
+        This is one way a system operator could approximate the internal voltage based on measurements at the point of connection.
+
+        Returns:
+            complex: approximate internal voltage
+        &#34;&#34;&#34;
+        p = self._obj.GetAttribute(LDF.ElmSym.m_Psum_bus1.value) / self.ratedS
+        q = self._obj.GetAttribute(LDF.ElmSym.m_Qsum_bus1.value) / self.ratedS
+        terminal: ElmTerm = self._obj.bus1.cterm
+        u_bus = terminal.GetAttribute(&#34;m:ur&#34;) + 1j * terminal.GetAttribute(&#34;m:ui&#34;)
+        x = self.get_averaged_internal_reactance()
+        return u_bus + (q * x + 1j * p * x) / u_bus
+
+    def get_H_in_seconds(self, base_apparent_power_MVA: float | None = None) -&gt; float:
+        &#34;Inertia constant [s]&#34;
+        if base_apparent_power_MVA is None:
+            return self._obj.typ_id.h
+        else:
+            return self._obj.typ_id.h * (self.ratedS / base_apparent_power_MVA)
+
+    def get_connecting_transformer(
+        self, transformer_class: str = &#34;ElmTr*&#34;
+    ) -&gt; PFGeneral:
+        &#34;&#34;&#34;Gets the next trafo (compared to GetStepupTransformer which requires a voltage level to stop the search)
+
+        Args:
+            transformer_class (str, optional): _description_. Defaults to &#34;ElmTr2&#34;.
+
+        Returns:
+            PFGeneral: _description_
+        &#34;&#34;&#34;
+        return Terminal(self.bus1.cterm).get_connected_elements(
+            condition=lambda x: fnmatch(x.GetClassName(), transformer_class)
+        )[0]
+
+    def get_terminal_of_transformer_hv_side(
+        self, transformer_class: str = &#34;ElmTr*&#34;
+    ) -&gt; ElmTerm:
+        return self.get_connecting_transformer(transformer_class).bushv.cterm
+
+    def add_external_station_controller(
+        self,
+        parent_folder: PFGeneral | None = None,
+        controlled_terminal: ElmTerm | None = None,
+    ) -&gt; None:
+        &#34;&#34;&#34;Add external station controller.
+
+        Args:
+            parent_folder (PFGeneral | None, optional): Parent folder of station controller. Defaults to None (same folder as ElmSym is used).
+            controlled_terminal (ElmTerm | None, optional): target terminal. Defaults to None.
+
+        Returns:
+            _type_: _description_
+        &#34;&#34;&#34;
+        if parent_folder is None:
+            parent_folder = self._obj.GetParent()
+        act_prj = ActiveProjectCached()
+        station_ctrl = act_prj.create_in_folder(
+            self._obj.loc_name + &#34; station ctrl.ElmStactrl&#34;, parent_folder
+        )
+        self._obj.c_pstac = station_ctrl
+        if controlled_terminal is not None:
+            station_ctrl.rembar = controlled_terminal
+        return station_ctrl
+
+    def get_governor(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith(&#34;gov_&#34;),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
+    def get_avr(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith(&#34;avr_&#34;),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
+    def get_pss(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith(&#34;pss_&#34;),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
+    @staticmethod
+    def get_cgmes_mapping():
+        return {&#34;inertia&#34;: &#34;h&#34;}</code></pre>
+</details>
+<div class="desc"><p>Base child class (in object oriented sense - not like in GetParent()) to be used in combination with instances of PF objects (stored in '_obj'). The '<strong>getattribute</strong>' and '<strong>setattr</strong>' methods are overloaded to resemble the behavior of inheriting from the PF object. That means that all methods/data attributes of '_obj' are available and further attributes/methods can be added by any class that inherits from 'BaseChildStatic'.</p>
+<p>In addition, functionality is added to cache attributes and methods (the data is stored in '_obj' because 'BaseChildStatic' is static, i.e. it has no '<strong>dict</strong>' attribute because of the static slots).</p>
+<p>'<strong>slots</strong>' is required to inherit the slots from 'BaseObjectStatic' (i.e. '<strong>slots</strong> = "_obj"').</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.pf_classes.elm.elm_base.ElmBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmBase">ElmBase</a></li>
+<li><a title="powfacpy.base.base.BaseChildStatic" href="../../base/base.html#powfacpy.base.base.BaseChildStatic">BaseChildStatic</a></li>
+<li><a title="powfacpy.base.base.BaseObjectStatic" href="../../base/base.html#powfacpy.base.base.BaseObjectStatic">BaseObjectStatic</a></li>
+<li><a title="powfacpy.pf_classes.elm.elm_base.SinglePortBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.SinglePortBase">SinglePortBase</a></li>
+<li><a title="powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase">ElmPlantControlledBase</a></li>
+<li>abc.ABC</li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_cgmes_mapping"><code class="name flex">
+<span>def <span class="ident">get_cgmes_mapping</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def get_cgmes_mapping():
+    return {&#34;inertia&#34;: &#34;h&#34;}</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_MWs"><code class="name">prop <span class="ident">H_in_MWs</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def H_in_MWs(self) -&gt; float:
+    &#34;Inertia constant [MWs]&#34;
+    return self._obj.typ_id.h * self.ratedS</code></pre>
+</details>
+<div class="desc"><p>Inertia constant [MWs]</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_seconds_based_on_Snom"><code class="name">prop <span class="ident">H_in_seconds_based_on_Snom</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def H_in_seconds_based_on_Snom(self) -&gt; float:
+    &#34;Inertia constant [s]&#34;
+    return self._obj.typ_id.h</code></pre>
+</details>
+<div class="desc"><p>Inertia constant [s]</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.J"><code class="name">prop <span class="ident">J</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def J(self) -&gt; float:
+    &#34;Moment of Inertia [kgm^2]. Parallel machines are considered.&#34;
+    obj = self._obj
+    return obj.typ_id.J * obj.ngnum</code></pre>
+</details>
+<div class="desc"><p>Moment of Inertia [kgm^2]. Parallel machines are considered.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.ratedS"><code class="name">prop <span class="ident">ratedS</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def ratedS(self) -&gt; float:
+    &#34;Apparent power [MVA]. Parallel machines are considered. &#39;ratedS&#39; is CGMES conform.&#34;
+    return self._obj.typ_id.sgn * self._obj.ngnum</code></pre>
+</details>
+<div class="desc"><p>Apparent power [MVA]. Parallel machines are considered. 'ratedS' is CGMES conform.</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.rated_apparent_power"><code class="name">prop <span class="ident">rated_apparent_power</span> : float</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def rated_apparent_power(self) -&gt; float:
+    return self.ratedS</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.add_external_station_controller"><code class="name flex">
+<span>def <span class="ident">add_external_station_controller</span></span>(<span>self,<br>parent_folder: PFGeneral | None = None,<br>controlled_terminal: ElmTerm | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_external_station_controller(
+    self,
+    parent_folder: PFGeneral | None = None,
+    controlled_terminal: ElmTerm | None = None,
+) -&gt; None:
+    &#34;&#34;&#34;Add external station controller.
+
+    Args:
+        parent_folder (PFGeneral | None, optional): Parent folder of station controller. Defaults to None (same folder as ElmSym is used).
+        controlled_terminal (ElmTerm | None, optional): target terminal. Defaults to None.
+
+    Returns:
+        _type_: _description_
+    &#34;&#34;&#34;
+    if parent_folder is None:
+        parent_folder = self._obj.GetParent()
+    act_prj = ActiveProjectCached()
+    station_ctrl = act_prj.create_in_folder(
+        self._obj.loc_name + &#34; station ctrl.ElmStactrl&#34;, parent_folder
+    )
+    self._obj.c_pstac = station_ctrl
+    if controlled_terminal is not None:
+        station_ctrl.rembar = controlled_terminal
+    return station_ctrl</code></pre>
+</details>
+<div class="desc"><p>Add external station controller.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>parent_folder</code></strong> :&ensp;<code>PFGeneral | None</code>, optional</dt>
+<dd>Parent folder of station controller. Defaults to None (same folder as ElmSym is used).</dd>
+<dt><strong><code>controlled_terminal</code></strong> :&ensp;<code>ElmTerm | None</code>, optional</dt>
+<dd>target terminal. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>_type_</code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_H_in_seconds"><code class="name flex">
+<span>def <span class="ident">get_H_in_seconds</span></span>(<span>self, base_apparent_power_MVA: float | None = None) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_H_in_seconds(self, base_apparent_power_MVA: float | None = None) -&gt; float:
+    &#34;Inertia constant [s]&#34;
+    if base_apparent_power_MVA is None:
+        return self._obj.typ_id.h
+    else:
+        return self._obj.typ_id.h * (self.ratedS / base_apparent_power_MVA)</code></pre>
+</details>
+<div class="desc"><p>Inertia constant [s]</p></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_approximate_internal_voltage"><code class="name flex">
+<span>def <span class="ident">get_approximate_internal_voltage</span></span>(<span>self) ‑> complex</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_approximate_internal_voltage(self) -&gt; complex:
+    &#34;&#34;&#34;Get approximate internal voltage from power supply, terminal voltage and internal reactance.
+
+    This is one way a system operator could approximate the internal voltage based on measurements at the point of connection.
+
+    Returns:
+        complex: approximate internal voltage
+    &#34;&#34;&#34;
+    p = self._obj.GetAttribute(LDF.ElmSym.m_Psum_bus1.value) / self.ratedS
+    q = self._obj.GetAttribute(LDF.ElmSym.m_Qsum_bus1.value) / self.ratedS
+    terminal: ElmTerm = self._obj.bus1.cterm
+    u_bus = terminal.GetAttribute(&#34;m:ur&#34;) + 1j * terminal.GetAttribute(&#34;m:ui&#34;)
+    x = self.get_averaged_internal_reactance()
+    return u_bus + (q * x + 1j * p * x) / u_bus</code></pre>
+</details>
+<div class="desc"><p>Get approximate internal voltage from power supply, terminal voltage and internal reactance.</p>
+<p>This is one way a system operator could approximate the internal voltage based on measurements at the point of connection.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>complex</code></dt>
+<dd>approximate internal voltage</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_reactance"><code class="name flex">
+<span>def <span class="ident">get_averaged_internal_reactance</span></span>(<span>self, base_apparent_power_MVA: float | None = None) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_averaged_internal_reactance(
+    self, base_apparent_power_MVA: float | None = None
+) -&gt; float:
+    &#34;&#34;&#34;Get average of the d-and q-axis internal reactances:
+    xG = 0.5 (x&#39;&#39;d + x&#39;&#39;q)
+
+    Returns:
+        float: internal reactance [pu]
+    &#34;&#34;&#34;
+    typ: TypSym = self._obj.typ_id
+    x = 0.5 * (typ.xdss + typ.xqss)
+    if base_apparent_power_MVA is None:
+        return x
+    else:
+        return x / (self.ratedS / base_apparent_power_MVA)</code></pre>
+</details>
+<div class="desc"><p>Get average of the d-and q-axis internal reactances:
+xG = 0.5 (x''d + x''q)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>internal reactance [pu]</dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_susceptance"><code class="name flex">
+<span>def <span class="ident">get_averaged_internal_susceptance</span></span>(<span>self, base_apparent_power_MVA: float | None = None) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_averaged_internal_susceptance(
+    self, base_apparent_power_MVA: float | None = None
+) -&gt; float:
+    return 1 / self.get_averaged_internal_reactance(base_apparent_power_MVA)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_avr"><code class="name flex">
+<span>def <span class="ident">get_avr</span></span>(<span>self, error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmDsl" href="../protocols.html#powfacpy.pf_classes.protocols.ElmDsl">ElmDsl</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_avr(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+    list_with_one_obj = self.get_network_elements_of_plant_model(
+        lambda x: x.typ_id.loc_name.startswith(&#34;avr_&#34;),
+        error_if_non_existent=error_if_non_existent,
+    )
+    if list_with_one_obj:
+        return list_with_one_obj[0]
+    else:
+        return None</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_connecting_transformer"><code class="name flex">
+<span>def <span class="ident">get_connecting_transformer</span></span>(<span>self, transformer_class: str = 'ElmTr*') ‑> <a title="powfacpy.pf_classes.protocols.PFGeneral" href="../protocols.html#powfacpy.pf_classes.protocols.PFGeneral">PFGeneral</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_connecting_transformer(
+    self, transformer_class: str = &#34;ElmTr*&#34;
+) -&gt; PFGeneral:
+    &#34;&#34;&#34;Gets the next trafo (compared to GetStepupTransformer which requires a voltage level to stop the search)
+
+    Args:
+        transformer_class (str, optional): _description_. Defaults to &#34;ElmTr2&#34;.
+
+    Returns:
+        PFGeneral: _description_
+    &#34;&#34;&#34;
+    return Terminal(self.bus1.cterm).get_connected_elements(
+        condition=lambda x: fnmatch(x.GetClassName(), transformer_class)
+    )[0]</code></pre>
+</details>
+<div class="desc"><p>Gets the next trafo (compared to GetStepupTransformer which requires a voltage level to stop the search)</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>transformer_class</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd><em>description</em>. Defaults to "ElmTr2".</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>PFGeneral</code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_governor"><code class="name flex">
+<span>def <span class="ident">get_governor</span></span>(<span>self, error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmDsl" href="../protocols.html#powfacpy.pf_classes.protocols.ElmDsl">ElmDsl</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_governor(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+    list_with_one_obj = self.get_network_elements_of_plant_model(
+        lambda x: x.typ_id.loc_name.startswith(&#34;gov_&#34;),
+        error_if_non_existent=error_if_non_existent,
+    )
+    if list_with_one_obj:
+        return list_with_one_obj[0]
+    else:
+        return None</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_pss"><code class="name flex">
+<span>def <span class="ident">get_pss</span></span>(<span>self, error_if_non_existent: bool = True) ‑> <a title="powfacpy.pf_classes.protocols.ElmDsl" href="../protocols.html#powfacpy.pf_classes.protocols.ElmDsl">ElmDsl</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_pss(self, error_if_non_existent: bool = True) -&gt; ElmDsl:
+    list_with_one_obj = self.get_network_elements_of_plant_model(
+        lambda x: x.typ_id.loc_name.startswith(&#34;pss_&#34;),
+        error_if_non_existent=error_if_non_existent,
+    )
+    if list_with_one_obj:
+        return list_with_one_obj[0]
+    else:
+        return None</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+<dt id="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_terminal_of_transformer_hv_side"><code class="name flex">
+<span>def <span class="ident">get_terminal_of_transformer_hv_side</span></span>(<span>self, transformer_class: str = 'ElmTr*') ‑> <a title="powfacpy.pf_classes.protocols.ElmTerm" href="../protocols.html#powfacpy.pf_classes.protocols.ElmTerm">ElmTerm</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_terminal_of_transformer_hv_side(
+    self, transformer_class: str = &#34;ElmTr*&#34;
+) -&gt; ElmTerm:
+    return self.get_connecting_transformer(transformer_class).bushv.cterm</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase">ElmPlantControlledBase</a></b></code>:
+<ul class="hlist">
+<li><code><a title="powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase.get_network_elements_of_plant_model" href="elm_base.html#powfacpy.pf_classes.elm.elm_base.ElmPlantControlledBase.get_network_elements_of_plant_model">get_network_elements_of_plant_model</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.pf_classes.elm" href="index.html">powfacpy.pf_classes.elm</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.sym.weight_by_apparent_power_of_synchronous_machines" href="#powfacpy.pf_classes.elm.sym.weight_by_apparent_power_of_synchronous_machines">weight_by_apparent_power_of_synchronous_machines</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine">SynchronousMachine</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_MWs" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_MWs">H_in_MWs</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_seconds_based_on_Snom" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.H_in_seconds_based_on_Snom">H_in_seconds_based_on_Snom</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.J" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.J">J</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.add_external_station_controller" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.add_external_station_controller">add_external_station_controller</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_H_in_seconds" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_H_in_seconds">get_H_in_seconds</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_approximate_internal_voltage" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_approximate_internal_voltage">get_approximate_internal_voltage</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_reactance" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_reactance">get_averaged_internal_reactance</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_susceptance" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_averaged_internal_susceptance">get_averaged_internal_susceptance</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_avr" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_avr">get_avr</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_cgmes_mapping" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_cgmes_mapping">get_cgmes_mapping</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_connecting_transformer" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_connecting_transformer">get_connecting_transformer</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_governor" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_governor">get_governor</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_pss" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_pss">get_pss</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.get_terminal_of_transformer_hv_side" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.get_terminal_of_transformer_hv_side">get_terminal_of_transformer_hv_side</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.ratedS" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.ratedS">ratedS</a></code></li>
+<li><code><a title="powfacpy.pf_classes.elm.sym.SynchronousMachine.rated_apparent_power" href="#powfacpy.pf_classes.elm.sym.SynchronousMachine.rated_apparent_power">rated_apparent_power</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

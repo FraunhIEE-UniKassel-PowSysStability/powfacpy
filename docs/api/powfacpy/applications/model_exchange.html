@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>powfacpy.applications.model_exchange API documentation</title>
+<meta name="description" content="This module provides an interface to import/export data in CGMES format.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>powfacpy.applications.model_exchange</code></h1>
+</header>
+<section id="section-intro">
+<p>This module provides an interface to import/export data in CGMES format.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="powfacpy.applications.model_exchange.CGMES"><code class="flex name class">
+<span>class <span class="ident">CGMES</span></span>
+<span>(</span><span>pf_app: <a title="powfacpy.pf_classes.protocols.PFApp" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.PFApp">PFApp</a> | None | bool = False,<br>cached: bool = False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CGMES(ApplicationBase):
+    &#34;&#34;&#34;Interface for CGMES integration in PowerFactory.&#34;&#34;&#34;
+
+    def __init__(
+        self, pf_app: PFApp | None | bool = False, cached: bool = False
+    ) -&gt; None:
+        super().__init__(pf_app, cached)
+        self.import_archive_name: str = &#34;archive_imported&#34;
+        self.export_archive_name: str = &#34;archive_exported&#34;
+        self.file_to_archive_tool: str = &#34;cgmes_file_to_archive&#34;
+        self.archive_to_file_tool_name: str = &#34;cgmes_archive_to_file&#34;
+        self.archive_to_grid_tool_name: str = &#34;cgmes_archive_to_grid&#34;
+        self.grid_to_archive_tool_name: str = &#34;cgmes_grid_to_archive&#34;
+        self.exported_zip_name: str = &#34;cgmes_profiles&#34;
+        self.cgmes_version: str = &#34;CGMES 3.0.0&#34;
+        self._all_profiles: str = &#34;eq tp ssh sc sv dy dl gl&#34;
+
+    @property
+    def archive_folder(self):
+        return self.act_prj.app.GetProjectFolder(&#34;cim&#34;)
+
+    # Import methods
+
+    def _create_cim_to_grid_tool(self):
+        &#34;&#34;&#34;Returns the CIM to Grid tool object .ComCimtogrid.&#34;&#34;&#34;
+        cim_to_grid_tool = self.act_prj.create_in_folder(
+            self.archive_to_grid_tool_name + &#34;.ComCimtogrid&#34;,
+            self.act_prj.app.GetActiveStudyCase(),
+            use_existing=True,
+        )
+        return cim_to_grid_tool
+
+    def _convert_file_to_archive(self, file_path: str, name: str) -&gt; CimArchive:
+        &#34;&#34;&#34;Convert a .zip CGMES file to a PowerFactory .CimArchive object. Returns the .CimArchive object.&#34;&#34;&#34;
+        file_to_archive_tool = self.act_prj.create_in_folder(
+            self.file_to_archive_tool + &#34;.ComCimdbimp&#34;,
+            self.act_prj.app.GetActiveStudyCase(),
+            use_existing=True,
+        )
+        file_to_archive_tool.iopt_target = 2
+        archive = self._create_archive(name=name)
+        file_to_archive_tool.targetPath = archive
+        file_to_archive_tool.fileName = file_path
+        file_to_archive_tool.Execute()
+        return archive
+
+    def _convert_archive_to_grid(self, cim_archive: CimArchive) -&gt; ElmNet:
+        &#34;&#34;&#34;Convert a PowerFactory .CimArchive to a grid. Returns None.&#34;&#34;&#34;
+        grid = self.act_prj.create_in_folder(
+            &#34;temp_grid.ElmNet&#34;, self.act_prj.network_data_folder
+        )
+        cim_to_grid_tool = self._create_cim_to_grid_tool()
+        cim_to_grid_tool.sourcePath = cim_archive
+        cim_to_grid_tool.dependencies = None
+        cim_to_grid_tool.partial = 0
+        # cim_to_grid_tool.pGrid = [grid]  # TODO find out if grid has to be given
+        cim_to_grid_tool.Execute()
+        return grid
+
+    def cgmes_import(self, input_path: str):
+        &#34;&#34;&#34;Converts CGMES .zip files to a PowerFactory grid.
+
+        Args:
+            input_path (str): Path to the CGMES .zip archive, containing xml profiles.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        archive = self._convert_file_to_archive(input_path, self.import_archive_name)
+        return self._convert_archive_to_grid(archive)
+
+    def update_profiles(self, update_file_path: str, base_archive: CimArchive | str):
+        &#34;&#34;&#34;Includes new SSH (and DL) profiles into an already imported grid.
+
+        Args:
+            update_file_path (str): Path to the CGMES .zip archive, containing profiles for updating (SSH and optionally DL).
+            base_archive (CimArchive | str) Base .CimArchive which the already imported grid has been created from.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        base_archive = self.act_prj._handle_single_pf_object_or_path_input(base_archive)
+        update_profiles_archive = self._convert_file_to_archive(
+            update_file_path, self.import_archive_name + &#34;_update&#34;
+        )
+        cim_to_grid_tool = self._create_cim_to_grid_tool()
+        cim_to_grid_tool.sourcePath = update_profiles_archive
+        cim_to_grid_tool.dependencies = base_archive
+        cim_to_grid_tool.partial = 1
+        profiles_in_update_file = [
+            file.loc_name.split(&#34;_&#34;)[-2]
+            for file in update_profiles_archive.GetContents()
+        ]
+        self._set_profiles_of_cim_tool(cim_to_grid_tool, self._all_profiles, False)
+        self._set_profiles_of_cim_tool(
+            cim_to_grid_tool, &#34; &#34;.join(profiles_in_update_file), True
+        )
+        # cim_to_grid_tool.pGrid = [grid] # TODO find out if grid has to be given
+        cim_to_grid_tool.Execute()
+        return None
+
+    # Export methods
+
+    def _create_grid_to_cim_tool(self):
+        &#34;&#34;&#34;Returns the Grid to CIM tool object .ComGridtocim.&#34;&#34;&#34;
+        grid_to_cim_tool = self.act_prj.create_in_folder(
+            self.grid_to_archive_tool_name + &#34;.ComGridtocim&#34;,
+            self.act_prj.app.GetActiveStudyCase(),
+            use_existing=True,
+        )
+        grid_to_cim_tool.cAuthority = [&#34;Authority1&#34;]  # TODO this probably isn&#39;t general
+        grid_to_cim_tool.cSelected = [
+            1
+        ]  # TODO this probably isn&#39;t general (should all grids be selected? or actually only the first one?) --&gt; get project with &gt;1 grid and get to run properly
+        grid_to_cim_tool.version = self.cgmes_version
+        return grid_to_cim_tool
+
+    def _create_archive(self, name):
+        &#34;&#34;&#34;Create a PowerFactory .CimArchive object. Returns the .CimArchive object.&#34;&#34;&#34;
+        archive = self.act_prj.create_in_folder(
+            name + &#34;.CimArchive&#34;,
+            self.archive_folder,
+            use_existing=False,
+            overwrite=True,
+        )
+        return archive
+
+    def _set_profiles_of_cim_tool(self, cim_tool, profiles: str, state: bool):
+        &#34;&#34;&#34;Sets the profiles of PowerFactory .ComCimtogrid or .ComGridtocim tools listet in profiles to state.
+        Args:
+            cim_tool (str): .ComCimtogrid or .ComGridtocim tool.
+            profiles (str): String of CGMES profiles to be set in the tool, separeted by single spaces (e.g. &#39;ssh dl&#39;).
+            state (bool): State to set the selected prfiles to (True=checked, False=unchecked).
+        Returns:
+            None
+        &#34;&#34;&#34;
+        cim_tool = self.act_prj._handle_single_pf_object_or_path_input(cim_tool)
+        for profile in profiles.split(&#34; &#34;):
+            cim_tool.SetAttribute(&#34;convert&#34; + profile.upper(), state)
+        return None
+
+    def _convert_grid_to_archive(self, selected_profiles: str = &#34;all&#34;):
+        &#34;&#34;&#34;Convert a PowerFactory grid to a .CimArchive. Returns the archive.
+        Args:
+            selected_profiles (str): String with CGMES profiles to be generated, separeted by single spaces (e.g. &#39;ssh dl&#39;, &#39;tp&#39;). &#39;all&#39; selects all profiles.
+        Returns:
+            None
+        &#34;&#34;&#34;
+        grid_to_cim_tool = self._create_grid_to_cim_tool()
+
+        if selected_profiles == &#34;all&#34;:
+            grid_to_cim_tool.partial = 0  # convert all profiles
+        else:
+            grid_to_cim_tool.partial = 1  # convert selected profiles
+            self._set_profiles_of_cim_tool(grid_to_cim_tool, self._all_profiles, False)
+            self._set_profiles_of_cim_tool(grid_to_cim_tool, selected_profiles, True)
+
+        grid_to_cim_tool.iopt_target = 1  # existing archive
+        archive = self._create_archive(
+            name=&#34;_&#34;.join(
+                [self.export_archive_name, selected_profiles.replace(&#34; &#34;, &#34;_&#34;)]
+            )
+        )
+        grid_to_cim_tool.targetPath = archive
+        grid_to_cim_tool.Execute()
+        return archive
+
+    def _convert_archive_to_file(self, archive, output_path: str, as_zip: bool = True):
+        &#34;&#34;&#34;Convert a PowerFactory .CimArchive object to a file. Returns None.
+        Args:
+            archive (PowerFactory .CimArchive object): archive to be converted and saved as a file.
+            output_path (str): Path to desired output folder (without file name).
+            as_zip (bool): save as .zip file if as_zip, else save as .xml files.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        archive = self.act_prj._handle_single_pf_object_or_path_input(archive)
+        cim_export_tool = self.act_prj.create_in_folder(
+            self.archive_to_file_tool_name + &#34;.ComCimdbexp&#34;,
+            self.act_prj.app.GetActiveStudyCase(),
+            use_existing=True,
+        )
+        cim_export_tool.targetFolder = output_path  # [output_path]
+        if as_zip:
+            cim_export_tool.zipModels = 0
+            cim_export_tool.archiveName = self.exported_zip_name
+        else:
+            cim_export_tool.zipModels = 2
+        cim_export_tool.sourcePath = archive
+        cim_export_tool.Execute()
+        return None
+
+    def cgmes_export(
+        self, output_path: str, selected_profiles: str = &#34;all&#34;, as_zip: bool = True
+    ):
+        &#34;&#34;&#34;Exports selected CGMES profiles of active grid.
+        Args:
+            output_path (str): Path to desired output folder (without file name).
+            selected_profiles (str): String with CGMES profiles to be exported, separeted by single spaces (e.g. &#39;ssh dl&#39; or &#39;tp&#39;). &#39;all&#39; selects all profiles.
+            as_zip (bool): save as .zip file if as_zip, else save as .xml files.
+
+        Returns:
+            None
+        &#34;&#34;&#34;
+        print(
+            &#34;Info: The CGMES export can trigger error messages in the PowerFactory output window, but these do not usually affect the correctness of the exported data.&#34;
+        )
+        archive = self._convert_grid_to_archive(selected_profiles=selected_profiles)
+        self._convert_archive_to_file(archive, output_path, as_zip=as_zip)
+        return None</code></pre>
+</details>
+<div class="desc"><p>Interface for CGMES integration in PowerFactory.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="powfacpy.applications.application_base.ApplicationBase" href="application_base.html#powfacpy.applications.application_base.ApplicationBase">ApplicationBase</a></li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="powfacpy.applications.model_exchange.CGMES.archive_folder"><code class="name">prop <span class="ident">archive_folder</span></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def archive_folder(self):
+    return self.act_prj.app.GetProjectFolder(&#34;cim&#34;)</code></pre>
+</details>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="powfacpy.applications.model_exchange.CGMES.cgmes_export"><code class="name flex">
+<span>def <span class="ident">cgmes_export</span></span>(<span>self, output_path: str, selected_profiles: str = 'all', as_zip: bool = True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cgmes_export(
+    self, output_path: str, selected_profiles: str = &#34;all&#34;, as_zip: bool = True
+):
+    &#34;&#34;&#34;Exports selected CGMES profiles of active grid.
+    Args:
+        output_path (str): Path to desired output folder (without file name).
+        selected_profiles (str): String with CGMES profiles to be exported, separeted by single spaces (e.g. &#39;ssh dl&#39; or &#39;tp&#39;). &#39;all&#39; selects all profiles.
+        as_zip (bool): save as .zip file if as_zip, else save as .xml files.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    print(
+        &#34;Info: The CGMES export can trigger error messages in the PowerFactory output window, but these do not usually affect the correctness of the exported data.&#34;
+    )
+    archive = self._convert_grid_to_archive(selected_profiles=selected_profiles)
+    self._convert_archive_to_file(archive, output_path, as_zip=as_zip)
+    return None</code></pre>
+</details>
+<div class="desc"><p>Exports selected CGMES profiles of active grid.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>output_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to desired output folder (without file name).</dd>
+<dt><strong><code>selected_profiles</code></strong> :&ensp;<code>str</code></dt>
+<dd>String with CGMES profiles to be exported, separeted by single spaces (e.g. 'ssh dl' or 'tp'). 'all' selects all profiles.</dd>
+<dt><strong><code>as_zip</code></strong> :&ensp;<code>bool</code></dt>
+<dd>save as .zip file if as_zip, else save as .xml files.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+</dd>
+<dt id="powfacpy.applications.model_exchange.CGMES.cgmes_import"><code class="name flex">
+<span>def <span class="ident">cgmes_import</span></span>(<span>self, input_path: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cgmes_import(self, input_path: str):
+    &#34;&#34;&#34;Converts CGMES .zip files to a PowerFactory grid.
+
+    Args:
+        input_path (str): Path to the CGMES .zip archive, containing xml profiles.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    archive = self._convert_file_to_archive(input_path, self.import_archive_name)
+    return self._convert_archive_to_grid(archive)</code></pre>
+</details>
+<div class="desc"><p>Converts CGMES .zip files to a PowerFactory grid.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>input_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the CGMES .zip archive, containing xml profiles.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+</dd>
+<dt id="powfacpy.applications.model_exchange.CGMES.update_profiles"><code class="name flex">
+<span>def <span class="ident">update_profiles</span></span>(<span>self,<br>update_file_path: str,<br>base_archive: <a title="powfacpy.pf_classes.protocols.CimArchive" href="../pf_classes/protocols.html#powfacpy.pf_classes.protocols.CimArchive">CimArchive</a> | str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_profiles(self, update_file_path: str, base_archive: CimArchive | str):
+    &#34;&#34;&#34;Includes new SSH (and DL) profiles into an already imported grid.
+
+    Args:
+        update_file_path (str): Path to the CGMES .zip archive, containing profiles for updating (SSH and optionally DL).
+        base_archive (CimArchive | str) Base .CimArchive which the already imported grid has been created from.
+
+    Returns:
+        None
+    &#34;&#34;&#34;
+    base_archive = self.act_prj._handle_single_pf_object_or_path_input(base_archive)
+    update_profiles_archive = self._convert_file_to_archive(
+        update_file_path, self.import_archive_name + &#34;_update&#34;
+    )
+    cim_to_grid_tool = self._create_cim_to_grid_tool()
+    cim_to_grid_tool.sourcePath = update_profiles_archive
+    cim_to_grid_tool.dependencies = base_archive
+    cim_to_grid_tool.partial = 1
+    profiles_in_update_file = [
+        file.loc_name.split(&#34;_&#34;)[-2]
+        for file in update_profiles_archive.GetContents()
+    ]
+    self._set_profiles_of_cim_tool(cim_to_grid_tool, self._all_profiles, False)
+    self._set_profiles_of_cim_tool(
+        cim_to_grid_tool, &#34; &#34;.join(profiles_in_update_file), True
+    )
+    # cim_to_grid_tool.pGrid = [grid] # TODO find out if grid has to be given
+    cim_to_grid_tool.Execute()
+    return None</code></pre>
+</details>
+<div class="desc"><p>Includes new SSH (and DL) profiles into an already imported grid.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>update_file_path</code></strong> :&ensp;<code>str</code></dt>
+<dd>Path to the CGMES .zip archive, containing profiles for updating (SSH and optionally DL).</dd>
+</dl>
+<p>base_archive (CimArchive | str) Base .CimArchive which the already imported grid has been created from.</p>
+<h2 id="returns">Returns</h2>
+<p>None</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="powfacpy.applications" href="index.html">powfacpy.applications</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="powfacpy.applications.model_exchange.CGMES" href="#powfacpy.applications.model_exchange.CGMES">CGMES</a></code></h4>
+<ul class="">
+<li><code><a title="powfacpy.applications.model_exchange.CGMES.archive_folder" href="#powfacpy.applications.model_exchange.CGMES.archive_folder">archive_folder</a></code></li>
+<li><code><a title="powfacpy.applications.model_exchange.CGMES.cgmes_export" href="#powfacpy.applications.model_exchange.CGMES.cgmes_export">cgmes_export</a></code></li>
+<li><code><a title="powfacpy.applications.model_exchange.CGMES.cgmes_import" href="#powfacpy.applications.model_exchange.CGMES.cgmes_import">cgmes_import</a></code></li>
+<li><code><a title="powfacpy.applications.model_exchange.CGMES.update_profiles" href="#powfacpy.applications.model_exchange.CGMES.update_profiles">update_profiles</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
