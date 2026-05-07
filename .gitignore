@@ -5,8 +5,8 @@ src/powfacpy/__pycache__
 **/__pycache__/**
 tutorials/results.csv
 tutorials/.ipynb_checkpoints
+docs/api/
 py_venv
-*.csv
 .vscode
 /settings.json
 venv/
@@ -16,8 +16,9 @@ venv/
 src/powfacpy/pf_classes/protocols_old.py
 src/powfacpy/grouping.py
 uv.lock
-*.html
 site_libs/
-
+*.html
+*.csv
+*.js
 
 **/*.quarto_ipynb
