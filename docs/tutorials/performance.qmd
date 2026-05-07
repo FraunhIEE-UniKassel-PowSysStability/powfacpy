@@ -148,7 +148,7 @@ try:
     print("{:<70}".format("Using `get_attr` (app is hidden):"), end="")
     %timeit act_prj.get_attr(terminal, "uknom")
     print("{:<70}".format("Using `get_attr` (cached, app is hidden):"), end="")
-    %timeit act_prj_cached.get_attr(terminal_cached, "uknom")
+    %timeit act_prj_cached.get_attr(terminal, "uknom")
     print("{:<70}".format("Using `get_attr` and path (app is hidden):"), end="")
     %timeit act_prj.get_attr(r"Network Model\Network Data\Grid\Bus 01", "uknom")
     print("{:<70}".format("Using `get_attr` and path (cached, app is hidden):"), end="")
@@ -166,12 +166,12 @@ finally:
 We now evaluate write performance using `set_attr` versus `SetAttribute`. In addition to hiding the application, we examine the effect of enabling the write cache via `SetWriteCacheEnabled`.
 
 ```{python}
-terminal_cached = act_prj_cached.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
+terminal = act_prj_cached.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
 
 print("{:<70}".format("Using `set_attr`:"), end="")
 %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
 print("{:<70}".format("Using `set_attr` (cached):"), end="")
-%timeit act_prj_cached.set_attr(terminal_cached, {"vmax": 1.06, "vmin": 0.01})
+%timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
 print("{:<70}".format("Using `set_attr` and path: "), end="")
 %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
 print("{:<70}".format("Using `set_attr` and path (cached): "), end="")
@@ -185,7 +185,7 @@ try:
     print("{:<70}".format("\nUsing `set_attr` (app is hidden):"), end="")
     %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` (cached, app is hidden):"), end="")
-    %timeit act_prj_cached.set_attr(terminal_cached, {"vmax": 1.06, "vmin": 0.01})
+    %timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` and path (app is hidden):"), end="")
     %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` and path (cached, app is hidden):"), end="")
@@ -198,7 +198,7 @@ try:
     print("{:<70}".format("Using `set_attr` (app hidden, cache enabled):"), end="")
     %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` (cached, app hidden, cache enabled):"), end="")
-    %timeit act_prj_cached.set_attr(terminal_cached, {"vmax": 1.06, "vmin": 0.01})
+    %timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` and path (app hidden, cache enabled):"), end="")
     %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
     print("{:<70}".format("Using `set_attr` and path (cached, app hidden, cache enabled):"), end="")
@@ -261,6 +261,4 @@ The benchmarks suggest the following practical measures to improve performance:
 * **Batch write operations** and enable `SetWriteCacheEnabled` when modifying larger data sets.
 * **Use `ActiveProjectCached`** when repeatedly accessing stable project properties.
 * **Apply method caching** to invariant, argument-free methods.
-
-
 

@@ -5,6 +5,12 @@ number-sections: false
 ---
 
 
+## v0.4.3
+- add tutorial on subsystems and subsystem containers
+- add tutorial on static calculations
+- add API documentation
+- extend SynchronousMachine class for convenient access to machine and control parameters
+- remove deprecated application interface modules
 
 ## v0.4.1
 - add tutorial on performance and benchmarking

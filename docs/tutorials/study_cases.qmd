@@ -158,7 +158,6 @@ This creates the following structure in the network variations (as well as in th
 
 Let's set further parameters, add plots (using plot interface) and simulate (using dyn. simulation interface) for each study case. The study case objects are stored in the `study_cases` attribute. We can iterate through the cases and set parameters depending on the previously defined `control` parameter.
 
-
 ```{python}
 from powfacpy.applications.plots import Plots
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
