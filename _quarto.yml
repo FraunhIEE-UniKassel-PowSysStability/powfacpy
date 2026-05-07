@@ -34,10 +34,12 @@ website:
         - docs/tutorials/overview.qmd
         - docs/tutorials/getting_started.qmd
         - docs/tutorials/simulation_and_plotting.qmd
+        - docs/tutorials/static_calculations.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/parameter_studies.qmd
         - docs/tutorials/network_matrices_and_pandapower_interface.qmd
         - docs/tutorials/topology_and_groupings.qmd
+        - docs/tutorials/subsystems.qmd
         - docs/tutorials/cgmes_model_exchange.qmd
         - docs/tutorials/performance.qmd
     - title: "Docs" 
