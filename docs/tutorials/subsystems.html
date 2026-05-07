@@ -109,10 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-
-
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
-
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -305,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Accessing information on the topology (e.g.&nbsp;neighbors/connectivity)</li>
 </ul>
 <p>We first activate the <em>IEEE 39 bus system</em> project and create a study case for this tutorial.</p>
-<div id="79a98f89" class="cell" data-execution_count="2">
+<div id="575ca05f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -339,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="create"><span class="header-section-number">1.1</span> Create</h2>
 <p>We want to create two subsystems which represent the western and eastern part of the system. This is best done by creating two boundaries and then creating zones from these boundaries. The <code>SubSystem</code> class can then be used to create subsystems from these zones.</p>
-<div id="abfc87f7" class="cell" data-execution_count="3">
+<div id="ed5b1dbb" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.topology <span class="im">import</span> Topology</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.boundary <span class="im">import</span> Boundary</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.zone <span class="im">import</span> Zone</span>
@@ -370,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-flow-state" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="load-flow-state"><span class="header-section-number">1.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow state of the subsystem by calling the <code>get_load_flow_state()</code> method. This returns a pandas DataFrame with information on the active and reactive power balance, etc.</p>
-<div id="e36ce1ba" class="cell" data-execution_count="4">
+<div id="c9456f1d" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> subsystems:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        display(subsys.get_load_flow_state())</span>
@@ -428,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The load flow state can be accessed also as attributes, for example:</p>
-<div id="d45f6325" class="cell" data-execution_count="5">
+<div id="707e0864" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].load_flow.total_power_generation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>(2350.0000000274126+681.4564641218697j)</code></pre>
@@ -438,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="topology"><span class="header-section-number">1.3</span> Topology</h2>
 <p>We can access the internal topology of the subsystem, for example the lines and terminals contained in the subsystem.</p>
-<div id="16ecaaa5" class="cell" data-execution_count="6">
+<div id="2b2d381e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].topology.lines)</span>
@@ -473,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also check wheter subsystems are connected to each other:</p>
-<div id="a13f7118" class="cell" data-execution_count="7">
+<div id="1f77dfb4" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].topology.is_neighbor(subsystems[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>True</code></pre>
@@ -485,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="synchronous-machines" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="synchronous-machines"><span class="header-section-number">1.4.1</span> Synchronous Machines</h3>
 <p>We can also access information on the synchronous machines and their controllers (governors, AVRs, PSS) contained in the subsystem.</p>
-<div id="e742fa48" class="cell" data-execution_count="8">
+<div id="112c19f8" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.synchronous_machines)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.governors)</span>
@@ -505,7 +502,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also get more detailled information on dynmic models such as governors. The <code>get_governor_info()</code> method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (<code>parent_elms</code>), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.</p>
-<div id="862218bd" class="cell" data-execution_count="9">
+<div id="ed67d927" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.dsl <span class="im">import</span> display_dsl_models_info</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>display_dsl_models_info(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.get_governor_info())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -574,7 +571,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create-1" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="create-1"><span class="header-section-number">2.1</span> Create</h2>
 <p>For example, you can create a subsystem container for the two subsystems we created in the previous section and one additional zone named ‘North’:</p>
-<div id="a2d92072" class="cell" data-execution_count="10">
+<div id="4bc9489d" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.subsystems <span class="im">import</span> SubSystemContainer</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -590,7 +587,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-flow-state-1" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="load-flow-state-1"><span class="header-section-number">2.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow states of the subsystems:</p>
-<div id="87515610" class="cell" data-execution_count="11">
+<div id="6b9b583e" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_load_flow_state())</span>
@@ -635,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also get a matrix (pandas DataFrame) with the power exchange between the subsystems:</p>
-<div id="8f8c3e07" class="cell" data-execution_count="12">
+<div id="064298cc" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.power_exchange)</span>
@@ -683,7 +680,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology-1" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="topology-1"><span class="header-section-number">2.3</span> Topology</h2>
 <p>We can also get the neighbors of the subsystems:</p>
-<div id="457e7bca" class="cell" data-execution_count="13">
+<div id="bd25a14b" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> ss_container.subsystems:</span>
