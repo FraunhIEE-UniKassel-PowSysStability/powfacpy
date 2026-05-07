@@ -555,16 +555,23 @@
   {
     "objectID": "docs/tutorials/static_calc.html",
     "href": "docs/tutorials/static_calc.html",
-    "title": "Static Calculations (Load Flow)",
+    "title": "Static Calculations",
     "section": "",
     "text": "Static calculations like power flow (or load flow as it’s called in PowerFactory) or short circuit analysis are not the main focus of powfacpy. However, powfacpy provides a convenient interface to perform these calculations and to access the results.\nWe first activate the IEEE 39 Bus example system and create a study case for this tutorial.\n# If you use IPython/Jupyter:\nimport sys\n\nsys.path.append(\n    r\"C:\\Program Files\\DIgSILENT\\PowerFactory 2025 SP3\\Python\\3.13\"\n)  # you may use a different directory\n\n# Get the PF app\nimport powerfactory\nfrom powfacpy.base.active_project import ActiveProject\n\napp = powerfactory.GetApplication()\napp.Show()\napp.ActivateProject(\n    r\"powfacpy\\39_bus_new_england_copy_where_tests_run\"\n)  # You may change the project path.\nact_prj = ActiveProject(app)\n\nstudy_case = act_prj.copy_single_obj(\"Study Cases\\\\2.3 Simulation Fault Bus 31 Stable\", \"Study Cases\", new_name=\"Load flow tutorial\")\nstudy_case.Activate()\n\n0"
   },
   {
     "objectID": "docs/tutorials/static_calc.html#execute",
     "href": "docs/tutorials/static_calc.html#execute",
-    "title": "Static Calculations (Load Flow)",
+    "title": "Static Calculations",
     "section": "1.1 Execute",
     "text": "1.1 Execute\npowfacpy provides an interface class for static calculations, which we import and use to execute the load flow calculation.\n\nfrom powfacpy.applications.static_calc import StaticCalc\n\npfstat = StaticCalc(app)\npfstat.execute_load_flow()\n\n0\n\n\nWe can check the results for validity. If the results are invalid, an exception is raised by default (see docstring for more options).\n\npfstat.check_load_flow_results()\n\nTrue"
+  },
+  {
+    "objectID": "docs/tutorials/static_calc.html#export-to-.csv",
+    "href": "docs/tutorials/static_calc.html#export-to-.csv",
+    "title": "Static Calculations",
+    "section": "3.1 Export to .csv",
+    "text": "3.1 Export to .csv\nFrom the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.\n\ndf_voltage_res_readable.to_csv(r\".\\tests\\tests_output\\static_calc_results.csv\", index=True)"
   },
   {
     "objectID": "docs/tutorials/subsystems.html",
