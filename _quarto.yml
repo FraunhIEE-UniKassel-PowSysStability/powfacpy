@@ -34,7 +34,7 @@ website:
         - docs/tutorials/overview.qmd
         - docs/tutorials/getting_started.qmd
         - docs/tutorials/simulation_and_plotting.qmd
-        - docs/tutorials/static_calculations.qmd
+        - docs/tutorials/static_calc.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/parameter_studies.qmd
         - docs/tutorials/network_matrices_and_pandapower_interface.qmd
