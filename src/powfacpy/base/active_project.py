@@ -731,6 +731,17 @@ class ActiveProject(powfacpy.base.folder.Folder):
         return scenario
 
     def execute_load_flow(self, params: dict = {}) -> int:
+        """Execute load flow.
+
+        Args:
+            params (dict, optional): Parameter and values for the load flow calculation object (ComLdf). Defaults to {}.
+
+        Returns:
+            int: Return value of ComLdf.Execute()
+            - 0 OK
+            - 1 Load flow failed due to divergence of inner loops.
+            - 2 Load flow failed due to divergence of outer loops.
+        """
         comldf: ComLdf = self.get_from_study_case("ComLdf")
         self.set_attr(comldf, params=params)
         return comldf.Execute()

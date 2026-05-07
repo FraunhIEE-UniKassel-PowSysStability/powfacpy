@@ -1,5 +1,5 @@
 """
-Create protocol classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module 'pf_class_protocols' which is used in powfacpy. If you run this module a new module is created ('pf_class_protocols_new'). You can then delete the old one and rename the new file. 
+Create protocol classes for all python classes in the PF python scripting reference pdf file (by running this python module). See output module 'pf_class_protocols' which is used in powfacpy. If you run this module a new module is created ('pf_class_protocols_new'). You can then delete the old one and rename the new file.
 
 IMPORTANT: If you miss a class please add it to the 'missing_classes_that_are_not_in_scripting_reference' list below.
 
@@ -63,7 +63,7 @@ powfacpy_project_root_directory = os.path.dirname(os.path.abspath(__file__)).rep
     r"\src\powfacpy\pf_classes", ""
 )
 sys.path.insert(0, powfacpy_project_root_directory + r"\src")
-import powfacpy
+from powfacpy import ActiveProject
 
 
 class Empty:
@@ -74,7 +74,7 @@ class Empty:
     pass
 
 
-class PFClassesProtocolGenerator(powfacpy.PFActiveProject):
+class PFClassesProtocolGenerator(ActiveProject):
     """Generate protocol classes for PF classes from the PF python scripting reference."""
 
     def __init__(self, app):
