@@ -3,8 +3,7 @@ dist
 .pytest_cache
 src/powfacpy/__pycache__
 **/__pycache__/**
-tutorials/results.csv
-tutorials/.ipynb_checkpoints
+tutorials/
 docs/api/
 py_venv
 .vscode
@@ -20,5 +19,6 @@ site_libs/
 *.html
 *.csv
 *.js
+*.ipynb
 
 **/*.quarto_ipynb
