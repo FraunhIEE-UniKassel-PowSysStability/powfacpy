@@ -1,5 +1,5 @@
 ---
-title: Static Calculations (Load Flow)
+title: Static Calculations
 toc: true
 number-sections: true
 mainfont: Arial
@@ -65,20 +65,31 @@ pfstat.check_load_flow_results()
 ```
 
 # Results
+
+# Export to Pandas DataFrame
+
 We can easily access results of static calculations using the `get_result_dataframe` method. For example, we can get the voltage magnitudes and angles for all terminals with a nominal voltage above 300 kV. We use the `ResVar` class to specify the result variables we want to access.
 
 ```{python}
 from powfacpy.result_variables import ResVar
-LF = ResVar.LF_Bal
+LF_Bal = ResVar.LF_Bal
 
 terminals = act_prj.get_calc_relevant_obj("ElmTerm", condition = lambda x: x.uknom > 300)
-df_voltage_res = pfstat.get_result_dataframe(terminals, [LF.ElmTerm.m_u.value, LF.ElmTerm.m_phiu.value])
+df_voltage_res = pfstat.get_result_dataframe(terminals, [LF_Bal.ElmTerm.m_u.value, LF_Bal.ElmTerm.m_phiu.value])
 df_voltage_res
 ```
 
 While the above dataframe is useful for further processing, it is not very readable. We can use the `replace_obj_with_loc_name_and_add_variable_desc` method to replace object references with their names and add variable descriptions.
 
 ```{python}
-pfstat.replace_obj_with_loc_name_and_add_variable_desc(df_voltage_res)
+df_voltage_res_readable = pfstat.replace_obj_with_loc_name_and_add_variable_desc(df_voltage_res)
+df_voltage_res_readable
+```
+
+## Export to .csv
+From the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.
+
+```{python}
+df_voltage_res_readable.to_csv(r".\tests\tests_output\static_calc_results.csv", index=True)
 ```
 
