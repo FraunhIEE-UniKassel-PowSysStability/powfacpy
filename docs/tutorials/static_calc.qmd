@@ -1,0 +1,95 @@
+---
+title: Static Calculations
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+sys.path.append(r"..\..\src")
+```
+
+Static calculations like *power flow* (or *load flow* as it's called in *PowerFactory*) or short circuit analysis are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results. 
+
+We first activate the *IEEE 39 Bus* example system and create a study case for this tutorial.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
+)  # you may use a different directory
+
+# Get the PF app
+import powerfactory
+from powfacpy.base.active_project import ActiveProject
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(
+    r"powfacpy\39_bus_new_england_copy_where_tests_run"
+)  # You may change the project path.
+act_prj = ActiveProject(app)
+
+study_case = act_prj.copy_single_obj("Study Cases\\2.3 Simulation Fault Bus 31 Stable", "Study Cases", new_name="Load flow tutorial")
+study_case.Activate()
+```
+
+# Load Flow 
+
+## Execute
+
+*powfacpy* provides an interface class for static calculations, which we import and use to execute the load flow calculation.
+
+```{python}
+from powfacpy.applications.static_calc import StaticCalc
+
+pfstat = StaticCalc(app)
+pfstat.execute_load_flow()
+```
+
+We can check the results for validity. If the results are invalid, an exception is raised by default (see docstring for more options).
+
+```{python}
+pfstat.check_load_flow_results()
+```
+
+# Results
+
+# Export to Pandas DataFrame
+
+We can easily access results of static calculations using the `get_result_dataframe` method. For example, we can get the voltage magnitudes and angles for all terminals with a nominal voltage above 300 kV. We use the `ResVar` class to specify the result variables we want to access.
+
+```{python}
+from powfacpy.result_variables import ResVar
+LF_Bal = ResVar.LF_Bal
+
+terminals = act_prj.get_calc_relevant_obj("ElmTerm", condition = lambda x: x.uknom > 300)
+df_voltage_res = pfstat.get_result_dataframe(terminals, [LF_Bal.ElmTerm.m_u.value, LF_Bal.ElmTerm.m_phiu.value])
+df_voltage_res
+```
+
+While the above dataframe is useful for further processing, it is not very readable. We can use the `replace_obj_with_loc_name_and_add_variable_desc` method to replace object references with their names and add variable descriptions.
+
+```{python}
+df_voltage_res_readable = pfstat.replace_obj_with_loc_name_and_add_variable_desc(df_voltage_res)
+df_voltage_res_readable
+```
+
+## Export to .csv
+From the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.
+
+```{python}
+df_voltage_res_readable.to_csv(r".\tests\tests_output\static_calc_results.csv", index=True)
+```
+

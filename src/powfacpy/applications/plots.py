@@ -11,6 +11,7 @@ from icecream import ic
 from comtraderecord import comtradeWriter
 
 from powfacpy.applications.application_base import ApplicationBase
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.pf_class_protocols import (
     GrpPage,
     SetVipage,
@@ -27,7 +28,6 @@ from powfacpy.pf_class_protocols import (
     ElmNet,
     PFApp,
 )
-import powfacpy
 from powfacpy.applications.results import Results
 
 
@@ -643,7 +643,7 @@ class Plots(ApplicationBase):
         kwargs["results_obj"] = elmres_for_elmfiles
         self.plot(elmfile, variable, **kwargs)
         # Simulate
-        pfds = powfacpy.PFDynSimInterface(self.app)
+        pfds = DynamicSimulation(self.app)
         cominc = self.act_prj.get_from_study_case("ComInc")
         initial_elmres = self.act_prj.get_attr(cominc, "p_resvar")
         self.act_prj.set_attr(cominc, {"p_resvar": elmres_for_elmfiles})
@@ -890,9 +890,7 @@ class Plots(ApplicationBase):
         """
         curve_table_attr = self.get_curve_table_attributes()
         self.clear_curves()
-        powfacpy.PFPlotInterface.clear_curves_from_curve_table_attributes_dict(
-            curve_table_attr, index
-        )
+        self.clear_curves_from_curve_table_attributes_dict(curve_table_attr, index)
         self.set_curve_table_attributes(curve_table_attr)
 
     def export_active_page(

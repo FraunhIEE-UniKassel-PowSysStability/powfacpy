@@ -1,0 +1,202 @@
+---
+title: Subsystems
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import sys
+
+sys.path.append(r"..\..\src")
+```
+
+This tutorial covers the grouping class of *powfacpy* named *SubSystem* which extends the functionality of the PowerFactory grouping classes (Zone, Area, Boundary). The *SubSystem* class is designed to represent coherent groups of elements in the power system and provides methods for analyzing and manipulating these groups. The *SubSystem* class inherits from the `Zone` class described in the [Topology and Groupings tutorial](./topology_and_groupings.qmd). It became necessary to define the *SubSystem* class in *powfacpy* because the functionality goes way beyond the native *PowerFactory* classes. Furthermore, there is a class for a group of `Subsystem`s named `SubSystemContainer` which provides methods to analyze and manipulate groups of `SubSystem`s.
+
+Examples for the functionality of `SubSystem` include (and will be extended in future):
+
+- Accessing information on the load flow state
+- Accessing internal elements like like lines, terminals, synchronous machines, etc.
+- Accessing information about dynamic models and controllers (e.g. parameters of governors, AVRs, etc.)
+
+Examples for the functionality of `SubSystemContainer` include (and will be extended in future):
+
+- Accessing information on the load flow state of all contained `SubSystem`s (e.g. power exchange between the subsystems in matrix format)
+- Accessing information on the topology (e.g. neighbors/connectivity)
+
+We first activate the *IEEE 39 bus system* project and create a study case for this tutorial. 
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+
+sys.path.append(
+    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
+)  # you may use a different directory
+
+# Get the PF app
+import powerfactory
+from powfacpy.base.active_project import ActiveProject
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(
+    r"powfacpy\39_bus_new_england_copy_where_tests_run"
+)  # You may change the project path.
+act_prj = ActiveProject(app)
+
+study_case = act_prj.copy_single_obj("Study Cases\\2.3 Simulation Fault Bus 31 Stable", "Study Cases", new_name="SubSystems tutorial")
+study_case.Activate()
+act_prj.clear_folder(act_prj.zones_folder)
+act_prj.clear_folder(act_prj.boundaries_folder)
+act_prj.clear_folder(act_prj.areas_folder)
+act_prj.create_variation("SubSystems tutorial")
+```
+
+# Subsystems
+## Create
+We want to create two subsystems which represent the western and eastern part of the system. This is best done by creating two boundaries and then creating zones from these boundaries. The `SubSystem` class can then be used to create subsystems from these zones.
+
+```{python}
+from powfacpy.applications.topology import Topology
+from powfacpy.pf_classes.elm.boundary import Boundary
+from powfacpy.pf_classes.elm.zone import Zone
+from powfacpy.applications.subsystems import SubSystem
+
+try:
+    app.Hide()
+    topo = Topology(app)
+    bus_branch = {
+        r"Network Model\Network Data\Grid\Bus 14": [
+            r"Network Model\Network Data\Grid\Line 04 - 14",
+            r"Network Model\Network Data\Grid\Line 13 - 14",
+        ],
+        r"Network Model\Network Data\Grid\Bus 16": [
+            r"Network Model\Network Data\Grid\Line 16 - 17"
+        ],
+    }
+    boundary_west = Boundary(topo.create_boundary_from_bus_branch("West", bus_branch))
+    zone_west = boundary_west.create_zone()
+    boundary_east = Boundary(topo.create_boundary_from_bus_branch("East", bus_branch, to_branch=False),)
+    zone_east = boundary_east.create_zone(color=3)
+    Zone.show_zones_in_network_graphic()
+    subsystems = [SubSystem(zone_east), SubSystem(zone_west)]
+finally:
+    app.Show()
+```
+
+## Load Flow State
+We can get a summary of the load flow state of the subsystem by calling the `get_load_flow_state()` method. This returns a pandas DataFrame with information on the active and reactive power balance, etc.
+
+```{python}
+try:
+    for subsys in subsystems:
+        display(subsys.get_load_flow_state())
+finally:
+    app.Show()        
+```
+
+The load flow state can be accessed also as attributes, for example:
+
+```{python}
+subsystems[0].load_flow.total_power_generation
+```
+
+## Topology
+We can access the internal topology of the subsystem, for example the lines and terminals contained in the subsystem.
+
+```{python}
+try:
+    app.Hide()
+    display(subsystems[0].topology.lines)
+    display(subsystems[0].topology.terminals)
+finally:
+    app.Show()  
+```
+
+You can also check wheter subsystems are connected to each other: 
+
+```{python}
+subsystems[0].topology.is_neighbor(subsystems[1])
+```
+
+## Dynamic Models
+### Synchronous Machines
+We can also access information on the synchronous machines and their controllers (governors, AVRs, PSS) contained in the subsystem.
+
+```{python}
+try:
+    display(subsystems[0].dynamic_models.synchronous_machines.synchronous_machines)
+    display(subsystems[0].dynamic_models.synchronous_machines.governors)
+finally:
+    app.Show() 
+```
+
+You can also get more detailled information on dynmic models such as governors. The `get_governor_info()` method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (`parent_elms`), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.
+
+```{python}
+from powfacpy.pf_classes.elm.dsl import display_dsl_models_info
+display_dsl_models_info(subsystems[0].dynamic_models.synchronous_machines.get_governor_info())
+```
+
+# Subsystem Container
+Subsystem containers are designed to group multiple subsystems together and provide methods to analyze these groups. 
+
+## Create
+For example, you can create a subsystem container for the two subsystems we created in the previous section and one additional zone named 'North':
+
+```{python}
+from powfacpy.applications.subsystems import SubSystemContainer
+
+try:
+    app.Hide()
+    terminals_north = act_prj.get_calc_relevant_obj("Bus 30.ElmTerm, Bus 02.ElmTerm, Bus 25.ElmTerm, Bus 37.ElmTerm")
+    zone_north = topo.create_zone("North", terminals_north, color=4)
+    ss_container = SubSystemContainer([zone_east, zone_west, zone_north])
+    Zone.show_zones_in_network_graphic()
+finally:    
+    app.Show()    
+```
+
+## Load Flow State
+We can get a summary of the load flow states of the subsystems:
+
+```{python}
+try:
+    app.Hide()
+    display(ss_container.get_load_flow_state())
+finally:    
+    app.Show()    
+```
+
+You can also get a matrix (pandas DataFrame) with the power exchange between the subsystems:
+
+```{python}
+try:
+    app.Hide()
+    display(ss_container.power_exchange)
+finally:    
+    app.Show()   
+```
+
+## Topology
+We can also get the neighbors of the subsystems:
+
+```{python}
+try:
+    app.Hide()
+    for subsys in ss_container.subsystems:
+        print(f"{subsys.loc_name} has neighbors: ")
+        print([ss.loc_name for ss in ss_container.get_neighboring_subsystems_in_container(subsys)])
+finally:    
+    app.Show()  
+```
+

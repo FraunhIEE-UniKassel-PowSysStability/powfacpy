@@ -6,7 +6,6 @@ from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import ElmTerm, PFGeneral, StaCubic, StaPll
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase
-from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.result_variables import ResVar
 
 RMS_BAL = ResVar.RMS_Bal

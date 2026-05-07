@@ -71,10 +71,15 @@ class PandapowerInterface(ApplicationBase):
         """
         if not net._ppc or net._ppc["internal"]["Ybus"].size == 0:
             pp.runpp(net)
-        if return_deepcopy:
-            return copy.deepcopy(net._ppc["internal"]["Ybus"])
-        else:
-            return net._ppc["internal"]["Ybus"]
+        # Due to bug
+        Y_bus = np.array(copy.deepcopy(net._ppc["internal"]["Ybus"]).todense())
+        np.fill_diagonal(Y_bus, 0)
+        Y_bus = Y_bus - np.diag(np.sum(Y_bus, axis=0).reshape(-1))
+        return Y_bus
+        # if return_deepcopy:
+        #     return copy.deepcopy(net._ppc["internal"]["Ybus"])
+        # else:
+        #     return net._ppc["internal"]["Ybus"]
 
     def get_Ybus_frame(self, net: pp.pandapowerNet) -> pd.DataFrame:
         """Get Dataframe with admittance matrix and row (column) labels according to the 'loc_name' of the terminal objects.

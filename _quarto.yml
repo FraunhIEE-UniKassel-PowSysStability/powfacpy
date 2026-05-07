@@ -1,6 +1,10 @@
 project:
   type: website
-
+  render:
+  - docs/**/*.qmd
+  - "!docs/tutorials/database.qmd"
+  resources:
+    - docs/api
 metadata-files:
   - _sidebar.yml
   
@@ -18,6 +22,8 @@ website:
         href: docs/tutorials/overview.qmd 
       - text: Docs
         href: docs/docs/overview.qmd 
+      - text: API
+        href: docs/api/api.qmd
     tools:
       - icon: github
         href: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy  
@@ -28,10 +34,12 @@ website:
         - docs/tutorials/overview.qmd
         - docs/tutorials/getting_started.qmd
         - docs/tutorials/simulation_and_plotting.qmd
+        - docs/tutorials/static_calc.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/parameter_studies.qmd
         - docs/tutorials/network_matrices_and_pandapower_interface.qmd
         - docs/tutorials/topology_and_groupings.qmd
+        - docs/tutorials/subsystems.qmd
         - docs/tutorials/cgmes_model_exchange.qmd
         - docs/tutorials/performance.qmd
     - title: "Docs" 
@@ -54,13 +62,4 @@ theme:
   light: flatly
   dark: darkly
 
-quartodoc:
-  package: powfacpy
-  title: "API"
-  source_dir: ./src
-  sections:
-    - title: API
-      desc: ""
-      contents:
-        - result_variables
-        - applications.caching
+

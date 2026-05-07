@@ -8,6 +8,7 @@ format:
 jupyter: python3
 ---
 
+
 ```{python}
 #| echo: false
 #| output: false
@@ -256,7 +257,6 @@ This applies to many other methods in `powfacpy`. Loading the object only once a
 
 Sometimes you want to quickly apply a few changes to attributes of objects for some testing and later retain the original values. If you use `set_attr_resettable`, every time you call this method, the original values of the attributes are stored in a stack. You can then use `reset_stored_attr` to reset the attributes to their original values.
 
-
 ```{python}
 act_prj.set_attr_resettable(mv_terminal, {"uknom": 35, "outserv": 1})
 act_prj.set_attr_resettable(hv_terminal, {"outserv": 1})
@@ -396,7 +396,7 @@ act_prj.clear_folder("Library\Dynamic Models\TestDelete")
 
 # Further Useful Methods
 Further helpful methods are briefly described in the following.
-`get_upstream_obj` returns an upstream object that meets a condition (i.e. the method goes upwards in the folder hierarchy until a parent object is found that meets the condition).
+`get_upstream_obj` returns an upsream object that meets a condition (i.e. the method goes upwards in the folder hierarchy until a parent object is found that meets the condition).
 
 Here this is used to find the grid that contains a given object:
 

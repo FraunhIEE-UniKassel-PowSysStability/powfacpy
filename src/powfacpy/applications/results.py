@@ -9,11 +9,12 @@ import pandas as pd
 from icecream import ic
 
 sys.path.insert(0, r".\src")
-import powfacpy
+
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy import PFStringManipulation
+from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
+from powfacpy.exceptions import PFNotActiveError
 
 
 class Results(ApplicationBase):
@@ -22,17 +23,22 @@ class Results(ApplicationBase):
         self, pf_app: PFApp | None | bool = False, cached: bool = False
     ) -> None:
         super().__init__(pf_app, cached)
-        self.truncate_paths_until: str = (
-            self.act_prj.get_path_of_object_in_active_project(
-                self.act_prj.network_data_folder
-            )
-            + "\\"
-        )  # = 'Network Model\Network Data\'
+
+        try:
+            self.truncate_paths_until: str = (
+                self.act_prj.get_path_of_object_in_active_project(
+                    self.act_prj.network_data_folder
+                )
+                + "\\"
+            )  # = 'Network Model\Network Data\'
+        except AttributeError:
+            raise PFNotActiveError("a project")
+
         "Paths (inside network data folder) will be truncated (e.g. when exported to pandas/csv)."
         self.multi_index_labels: bool = True
         "If True, multi index column labels are used (object, variable) in pandas format. If false, single index labels are used (path of object and variable strings are concatenated). Default is True."
         self.pf_objects_in_labels: bool = False
-        "If, True PowerFactory objects are used in multi index column labels in pandas. If false, their path string is used. Only relevant if 'multi_index_labels' is True. Default is False."
+        "If True, PowerFactory objects are used in multi index column labels in pandas. If false, their path string is used. Only relevant if 'multi_index_labels' is True. Default is False."
         self.variable_aliases: dict[str, str] = {}
         self.obj_aliases: dict[str, str] = {}
 
@@ -77,7 +83,7 @@ class Results(ApplicationBase):
             Export a selection of results variables:
             ```
             voltage_source = pfbi.get_unique_obj(r'Network Model\\Network Data\\test_plot_interface\\Grid 1\\AC Voltage Source')
-            control_model = pfbi.get_unique_obj('Network Model\\Network Data\\test_plot_interface\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
+            control_model = pfbi.get_unique_obj('Network Model\\Network Data\\test_plot_interface\\Grid 1\\WECC WT Control System Type 4A\\REEC_A Electrical Control Model')
             objects =   [voltage_source, voltage_source, control_model]
             variables = ['m:Qsum:bus1',  'm:Psum:bus1',  's:Ipcmd'    ]
             elmres_list = [pfbi.app.GetFromStudyCase('ElmRes'),]*len(variables)
@@ -107,7 +113,7 @@ class Results(ApplicationBase):
         else:
             if not results_obj:
                 if not self.act_prj.app.GetActiveStudyCase():
-                    raise powfacpy.exceptions.PFNotActiveError("study case")
+                    raise PFNotActiveError("study case")
                 comres.pResult = self.act_prj.get_from_study_case("ElmRes")
             else:
                 comres.pResult = self.act_prj._handle_single_pf_object_or_path_input(
@@ -467,7 +473,10 @@ class Results(ApplicationBase):
             return var_name
 
     def replace_object_aliases(self, obj_name: str) -> str:
-        """Replace 'obj_name' with corresponding entry in 'self.obj_aliases'. If no such key exists in 'self.obj_aliases', 'obj_name' is returned.
+        """
+        Replace 'obj_name' with corresponding entry in 'self.obj_aliases'.
+
+        If no such key exists in 'self.obj_aliases', 'obj_name' is returned.
 
         Args:
             obj_name (str): Original name (key in 'self.obj_aliases')
@@ -506,9 +515,8 @@ class Results(ApplicationBase):
             variables = [variables]
 
         obj_and_vars = []
+        objs = self.act_prj._handle_pf_object_or_path_input(objs)
         if self.multi_index_labels:
-            if self.pf_objects_in_labels:
-                objs = self.act_prj._handle_pf_object_or_path_input(objs)
             for obj in objs:
                 if not self.pf_objects_in_labels:
                     obj = self._format_path_of_obj_inside_active_project(

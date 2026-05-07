@@ -6,7 +6,6 @@ from os.path import join
 import numpy as np
 from icecream import ic
 
-import powfacpy
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.results import Results
 from powfacpy.pf_class_protocols import (
@@ -20,6 +19,8 @@ from powfacpy.pf_class_protocols import (
     IntScheme,
     PFApp,
 )
+from powfacpy.exceptions import PFCaseStudyParameterValueDefinitionError
+from powfacpy.base.string_manipulation import PFStringManipulation
 
 
 class StudyCases(ApplicationBase):
@@ -170,7 +171,7 @@ class StudyCases(ApplicationBase):
             a study case PF object (then the case number/index is derived first)
 
         Raises:
-            powfacpy.PFCaseStudyParameterValueDefinitionError: If a value is not defined for a certain study case
+            PFCaseStudyParameterValueDefinitionError: If a value is not defined for a certain study case
 
         Returns:
             Any: a parameter value for a certain case.
@@ -181,9 +182,7 @@ class StudyCases(ApplicationBase):
             try:
                 return values[case_num]
             except IndexError:
-                raise powfacpy.exceptions.PFCaseStudyParameterValueDefinitionError(
-                    par_name, values
-                )
+                raise PFCaseStudyParameterValueDefinitionError(par_name, values)
         else:
             return values
 
@@ -436,8 +435,10 @@ class StudyCases(ApplicationBase):
         # To create a lambda function from the conditions string, the parameter names need to be replaced by proper python variable names (e.g. "p HV load" is not a proper variable name because of the spaces). Therefore, a dict with the mapping  from parameter names to a list is required (e.g. {"p HV load": x[0],..})
         par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
         # Then the parameter names are replaced in conditions. Note that there could be strings inside conditions which should not be considered: For example, if there is condition "control == 'control A'", then only the parameter name 'control' should be replaced, not the value 'control A' which also contains 'control', i.e x[0] == 'control A'.
-        condition_strings_list = powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
-            conditions, par_name_to_list_mapping
+        condition_strings_list = (
+            PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+                conditions, par_name_to_list_mapping
+            )
         )
         lambda_fun = "lambda x: " + "".join(condition_strings_list).strip()
         # Going back to example in the docstring, we now have a lambda function string that can be executed: "lambda x: x[0] >= 2 and (x[1] == 'A' and x[2] != 'S')"

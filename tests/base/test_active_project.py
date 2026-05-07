@@ -16,12 +16,15 @@ sys.path.append(settings["local path to PowerFactory application"])
 import powerfactory
 
 sys.path.insert(0, r".\src")
-import powfacpy
 from powfacpy.base.folder import Folder
+from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.base.active_project import ActiveProject
-import powfacpy.exceptions
-
-importlib.reload(powfacpy)
+from powfacpy.exceptions import (
+    PFAttributeError,
+    PFAttributeTypeError,
+    PFPathError,
+    PFNonExistingObjectError,
+)
 
 
 def test_get_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
@@ -29,11 +32,11 @@ def test_get_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
         r"Network Model\Network Data\test_active_project_interface\Grid\Terminal HV 1"
     )[0]
     assert isinstance(terminal_1, powerfactory.DataObject)
-    with pytest.raises(powfacpy.exceptions.PFPathError):
+    with pytest.raises(PFPathError):
         terminal_1 = act_prj.get_obj(
             r"Stretchwork Model\Stretchwork Data\Grid\Termalamala"
         )[0]
-    with pytest.raises(powfacpy.exceptions.PFPathError):
+    with pytest.raises(PFPathError):
         terminal_1 = act_prj.get_obj(r"N")[0]
     with pytest.raises(TypeError):
         terminal_1 = act_prj.get_obj(terminal_1)[0]
@@ -116,17 +119,17 @@ def test_set_attr(act_prj: ActiveProject, activate_powfacpy_test_project):
 
 
 def test_set_attr_exceptions(act_prj: ActiveProject, activate_powfacpy_test_project):
-    with pytest.raises(powfacpy.exceptions.PFAttributeTypeError):
+    with pytest.raises(PFAttributeTypeError):
         act_prj.set_attr(
             r"Library\Dynamic Models\Linear_interpolation",
             {"sTitle": "dummy", "desc": 2},
         )  # "desc" should be a list with one string item
-    with pytest.raises(powfacpy.exceptions.PFAttributeError):
+    with pytest.raises(PFAttributeError):
         act_prj.set_attr(
             r"Library\Dynamic Models\Linear_interpolation",
             {"sTie": "dummy", "desc": ["dummy description"]},
         )  # 'sTie' is not a valid attribute
-    with pytest.raises(powfacpy.exceptions.PFPathError):
+    with pytest.raises(PFPathError):
         terminal_1 = act_prj.get_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Termalamala"
         )
@@ -136,7 +139,7 @@ def test_set_attr_by_path(act_prj: ActiveProject, activate_powfacpy_test_project
     act_prj.set_attr_by_path(
         r"Library\Dynamic Models\Linear_interpolation\desc", ["description"]
     )
-    with pytest.raises(powfacpy.exceptions.PFPathError):
+    with pytest.raises(PFPathError):
         act_prj.set_attr_by_path(
             r"Stretchwork Model\Stretchwork Data\Grid\Termalamala", ["description"]
         )
@@ -148,13 +151,13 @@ def test_get_attr(act_prj: ActiveProject, activate_powfacpy_test_project):
     )[0]
     systype = act_prj.get_attr(terminal_1, "systype")
     assert systype == 0
-    with pytest.raises(powfacpy.exceptions.PFAttributeError):
+    with pytest.raises(PFAttributeError):
         systype = act_prj.get_attr(terminal_1, "trixi")
 
 
 def test_create_by_path(act_prj: ActiveProject, activate_powfacpy_test_project):
     act_prj.create_by_path(r"Library\Dynamic Models\dummy.BlkDef")
-    with pytest.raises(powfacpy.exceptions.PFPathError):
+    with pytest.raises(PFPathError):
         act_prj.create_by_path(r"ry\Dynamic Models\dummy.BlkDef")
     with pytest.raises(TypeError):
         act_prj.create_by_path(4)
@@ -175,7 +178,7 @@ def test_get_by_condition(act_prj: ActiveProject, activate_powfacpy_test_project
     )
     assert len(mv_terminals) == 2
 
-    with pytest.raises(powfacpy.exceptions.PFAttributeError):
+    with pytest.raises(PFAttributeError):
         mv_terminals = act_prj.get_by_condition(
             all_terminals, lambda x: getattr(x, "wrong_attr") > 100
         )
@@ -261,7 +264,7 @@ def test_copy_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     copied_objects = act_prj.copy_obj(
         "*", folder_copy_to, parent_folder=folder_copy_from
     )
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
     # test that the copied objects are returned and not the initial objects to be copied
     obj_to_be_copied = act_prj.get_obj("*", parent_folder=folder_copy_from)
     for idx, obj in enumerate(obj_to_be_copied):
@@ -273,13 +276,13 @@ def test_copy_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     copied_objects = act_prj.copy_obj(
         "*", folder_copy_to, parent_folder=folder_copy_from
     )
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
 
     objects_to_copy = act_prj.get_obj("*", parent_folder=folder_copy_from)
     copied_objects = act_prj.copy_obj(objects_to_copy, folder_copy_to, overwrite=False)
-    assert len(copied_objects) == 2
+    assert len(copied_objects) == 3
     all_objects_in_folder = act_prj.get_obj("*", parent_folder=folder_copy_to)
-    assert len(all_objects_in_folder) == 4
+    assert len(all_objects_in_folder) == 6
 
     act_prj.delete_obj("*", parent_folder=folder_copy_to, error_if_non_existent=False)
     objects_to_copy = act_prj.get_obj("*", parent_folder=folder_copy_from)[0]
@@ -302,6 +305,18 @@ def test_copy_single_obj(act_prj: ActiveProject, activate_powfacpy_test_project)
     )
     copied_obj_from_folder = act_prj.get_unique_obj(
         "new_dummy_name", parent_folder=folder_copy_to
+    )
+    assert copied_object == copied_obj_from_folder
+
+    copied_object = act_prj.copy_single_obj(
+        "dummy3.TypMdl",
+        folder_copy_to,
+        parent_folder=folder_copy_from,
+        new_name="new_dummy_name",
+    )
+    # expected behavior is that new_dummy_name1.TypMdl is created because new_dummy_name.BlkDef already exists
+    copied_obj_from_folder = act_prj.get_unique_obj(
+        "new_dummy_name1.TypMdl", parent_folder=folder_copy_to
     )
     assert copied_object == copied_obj_from_folder
 
@@ -335,7 +350,7 @@ def test_move_obj(act_prj: ActiveProject, activate_powfacpy_test_project):
     success = act_prj.move_obj("*", folder_move_to, parent_folder=folder_move_from)
     moved_objects = act_prj.get_obj("*", parent_folder=folder_move_to)
     assert success == 0
-    assert len(moved_objects) == 2
+    assert len(moved_objects) == 3
     empty_objects = act_prj.get_obj(
         "*", parent_folder=folder_move_from, error_if_non_existent=False
     )
@@ -420,34 +435,26 @@ def test_replace_outside_or_inside_of_strings_in_a_string(
     act_prj: ActiveProject, activate_powfacpy_test_project
 ):
     conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' control 1"
-    conditions = (
-        powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
-            conditions, {"control 1": "x[1]"}
-        )
+    conditions = PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+        conditions, {"control 1": "x[1]"}
     )
     assert conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1' x[1]"
 
     conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1'"
-    conditions = (
-        powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
-            conditions, {"control 1": "x[1]"}
-        )
+    conditions = PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+        conditions, {"control 1": "x[1]"}
     )
     assert conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1'"
 
     conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' "
-    conditions = (
-        powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
-            conditions, {"control 1": "x[1]"}
-        )
+    conditions = PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+        conditions, {"control 1": "x[1]"}
     )
     assert conditions == "lorem ipsum x[1] == 'ABC control 1' 'control 1'"
 
     conditions = "lorem ipsum control 1 == 'ABC control 1' 'control 1' "
-    conditions = (
-        powfacpy.PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
-            conditions, {"control 1": "x[1]"}, outside=False
-        )
+    conditions = PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+        conditions, {"control 1": "x[1]"}, outside=False
     )
     assert conditions == "lorem ipsum control 1 == 'ABC x[1]' 'x[1]'"
 
@@ -511,13 +518,13 @@ def test_get_calc_relevant_obj(act_prj: ActiveProject, activate_powfacpy_test_pr
     )
     assert len(terminals_getobj) == len(terminals_calc_rel)
 
-    with pytest.raises(powfacpy.exceptions.PFNonExistingObjectError):
+    with pytest.raises(PFNonExistingObjectError):
         act_prj.get_calc_relevant_obj("*.ElmTerm", condition=lambda x: x.uknom > 5000)
 
 
 if __name__ == "__main__":
-    pytest.main([r"tests\base\test_active_project.py"])
+    # pytest.main([r"tests\base\test_active_project.py"])
     # pytest.main([r"tests"])
-    # pytest.main([r"tests\applications\test_results.py"])
+    # pytest.main([r"tests\applications\test_study_cases.py"])
     # pytest.main([r"tests\pf_classes"])
-    # pytest.main([r"tests"])
+    pytest.main([r"tests"])

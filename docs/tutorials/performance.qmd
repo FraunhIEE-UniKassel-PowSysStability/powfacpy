@@ -27,7 +27,7 @@ We begin by activating the IEEE 39-bus system project.
 # If you use IPython/Jupyter:
 import sys
 
-from powfacpy.base.active_project import ActiveProject
+from powfacpy.base.active_project import ActiveProject, ActiveProjectCached
 
 sys.path.append(
     r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
@@ -44,6 +44,7 @@ app.ActivateProject(
     r"powfacpy\39_bus_new_england_copy_where_tests_run"
 )  # Adjust the project path if required.
 act_prj = ActiveProject(app)
+act_prj_cached = ActiveProjectCached(app)
 ```
 
 The following platform is used:
@@ -63,43 +64,58 @@ print(f"Processor: {uname.processor}")
 
 We compare the performance of `get_obj` from *powfacpy* with the native `GetContents` method of *PowerFactory*. Internally, `get_obj` calls `GetContents` and augments it with additional functionality such as argument validation and improved exception handling. A moderate overhead is therefore expected.
 
+To improve the performance of *powfacpy*, one optimization is to use `ActiveProjectCached` instead of `ActiveProject` as shown in the examples below. This class caches selected properties (internally using `@cached_property`). It should be used only when working with a single active *PowerFactory* project. 
+
+:::{.callout-tip}
+## Caching Active Project Properties
+Note that any *powfacpy* application can be initialized with the `ActiveProjectCached` class. For example, use `pfds = DynamicSimulation(cached=True)` and the `pfds.act_prj` attribute will be an instance of the class  `ActiveProjectCached` instead of `ActiveProject`.   
+:::
+
 The methods are benchmarked both with the *PowerFactory* application visible and hidden (non-interactive engine mode). It is good practice to use a `try` statement to ensure that the application is restored to a visible state even if an exception occurs during execution.
 
 ```{python}
 act_prj_obj = app.GetActiveProject()
 
-print("{:<50}".format("Using `get_obj`:"), end="")
+print("{:<70}".format("Using `get_obj`:"), end="")
 %timeit act_prj.get_obj(r"Network Model\Network Data\Grid\*.ElmTerm")
-print("{:<50}".format("Using `GetContents`:"), end="")
+print("{:<70}".format("Using `get_obj` (cached):"), end="")
+%timeit act_prj_cached.get_obj(r"Network Model\Network Data\Grid\*.ElmTerm")
+print("{:<70}".format("Using `GetContents`:"), end="")
 %timeit act_prj_obj.GetContents(r"Network Model\Network Data\Grid\*.ElmTerm")
 
 try:
     app.Hide()
 
-    print("{:<50}".format("Using `get_obj` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_obj` (app is hidden):"), end="")
     %timeit act_prj.get_obj(r"Network Model\Network Data\Grid\*.ElmTerm")
-    print("{:<50}".format("Using `GetContents` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_obj` (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.get_obj(r"Network Model\Network Data\Grid\*.ElmTerm")
+    print("{:<70}".format("Using `GetContents` (app is hidden):"), end="")
     %timeit act_prj_obj.GetContents(r"Network Model\Network Data\Grid\*.ElmTerm")
 finally:
     app.Show()
 ```
 
-`get_obj` is approximately 50% slower than `GetContents`. However, the dominant performance factor is whether the *PowerFactory* application is visible or hidden.
+`get_obj` is approximately 50% slower than `GetContents`, but using `ActiveProjectCached` can mitigate this. However, the dominant performance factor is whether the *PowerFactory* application is visible or hidden.
 
 We next compare `get_calc_relevant_obj` with `GetCalcRelevantObjects`.
 
 ```{python}
-print("{:<50}".format("Using `get_calc_relevant_obj`:"), end="")
+print("{:<70}".format("Using `get_calc_relevant_obj`:"), end="")
 %timeit act_prj.get_calc_relevant_obj(r"ElmTerm")
-print("{:<50}".format("Using `GetCalcRelevantObject`:"), end="")
+print("{:<70}".format("Using `get_calc_relevant_obj` (cached):"), end="")
+%timeit act_prj_cached.get_calc_relevant_obj(r"ElmTerm")
+print("{:<70}".format("Using `GetCalcRelevantObject`:"), end="")
 %timeit app.GetCalcRelevantObjects(r"ElmTerm")
 
 try:
     app.Hide()
 
-    print("{:<50}".format("Using `get_calc_relevant_obj` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_calc_relevant_obj` (app is hidden):"), end="")
     %timeit act_prj.get_calc_relevant_obj(r"ElmTerm")
-    print("{:<50}".format("Using `GetCalcRelevantObject` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_calc_relevant_obj` (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.get_calc_relevant_obj(r"ElmTerm")
+    print("{:<70}".format("Using `GetCalcRelevantObject` (app is hidden):"), end="")
     %timeit app.GetCalcRelevantObjects(r"ElmTerm")
 finally:
     app.Show()
@@ -114,21 +130,30 @@ We now compare attribute access using `get_attr` with the native `GetAttribute` 
 ```{python}
 terminal = act_prj.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
 
-print("{:<50}".format("Using `get_attr`:"), end="")
+
+print("{:<70}".format("Using `get_attr`:"), end="")
 %timeit act_prj.get_attr(terminal, "uknom")
-print("{:<50}".format("Using `get_attr` and path:"), end="")
+print("{:<70}".format("Using `get_attr` (cached):"), end="")
+%timeit act_prj_cached.get_attr(terminal, "uknom")
+print("{:<70}".format("Using `get_attr` and path:"), end="")
 %timeit act_prj.get_attr(r"Network Model\Network Data\Grid\Bus 01", "uknom")
-print("{:<50}".format("Using `GetAttribute`:"), end="")
+print("{:<70}".format("Using `get_attr` and path (cached):"), end="")
+%timeit act_prj_cached.get_attr(r"Network Model\Network Data\Grid\Bus 01", "uknom")
+print("{:<70}".format("Using `GetAttribute`:"), end="")
 %timeit terminal.GetAttribute("uknom")
 
 try:
     app.Hide()
 
-    print("{:<50}".format("Using `get_attr` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_attr` (app is hidden):"), end="")
     %timeit act_prj.get_attr(terminal, "uknom")
-    print("{:<50}".format("Using `get_attr` and path (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_attr` (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.get_attr(terminal, "uknom")
+    print("{:<70}".format("Using `get_attr` and path (app is hidden):"), end="")
     %timeit act_prj.get_attr(r"Network Model\Network Data\Grid\Bus 01", "uknom")
-    print("{:<50}".format("Using `GetAttribute` (app is hidden):"), end="")
+    print("{:<70}".format("Using `get_attr` and path (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.get_attr(r"Network Model\Network Data\Grid\Bus 01", "uknom")
+    print("{:<70}".format("Using `GetAttribute` (app is hidden):"), end="")
     %timeit terminal.GetAttribute("uknom")
 finally:
     app.Show()
@@ -141,66 +166,78 @@ finally:
 We now evaluate write performance using `set_attr` versus `SetAttribute`. In addition to hiding the application, we examine the effect of enabling the write cache via `SetWriteCacheEnabled`.
 
 ```{python}
-print("{:<50}".format("Using `set_attr`:"), end="")
+terminal = act_prj_cached.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
+
+print("{:<70}".format("Using `set_attr`:"), end="")
 %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
-print("{:<50}".format("Using `set_attr` and path: "), end="")
+print("{:<70}".format("Using `set_attr` (cached):"), end="")
+%timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
+print("{:<70}".format("Using `set_attr` and path: "), end="")
 %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
-print("{:<50}".format("Using `SetAttribute`:"), end="")
+print("{:<70}".format("Using `set_attr` and path (cached): "), end="")
+%timeit act_prj_cached.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
+print("{:<70}".format("Using `SetAttribute`:"), end="")
 %timeit terminal.SetAttribute("vmax", 1.06), terminal.SetAttribute("vmin", 0.01)
 
 try:
     app.Hide()
 
-    print("{:<50}".format("\nUsing `set_attr` (app is hidden):"), end="")
+    print("{:<70}".format("\nUsing `set_attr` (app is hidden):"), end="")
     %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
-    print("{:<50}".format("Using `set_attr` and path (app is hidden):"), end="")
+    print("{:<70}".format("Using `set_attr` (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
+    print("{:<70}".format("Using `set_attr` and path (app is hidden):"), end="")
     %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
-    print("{:<50}".format("Using `SetAttribute` (app is hidden):"), end="")
+    print("{:<70}".format("Using `set_attr` and path (cached, app is hidden):"), end="")
+    %timeit act_prj_cached.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
+    print("{:<70}".format("Using `SetAttribute` (app is hidden):"), end="")
     %timeit terminal.SetAttribute("vmax", 1.06), terminal.SetAttribute("vmin", 0.01)
     
-    print("{:<50}".format("\nExecute `SetWriteCacheEnabled`:"), end="")
+    print("{:<70}".format("\nExecute `SetWriteCacheEnabled`:"), end="")
     %timeit app.SetWriteCacheEnabled(1)
-    print("{:<50}".format("Using `set_attr` (app hidden, cache enabled):"), end="")
+    print("{:<70}".format("Using `set_attr` (app hidden, cache enabled):"), end="")
     %timeit act_prj.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
-    print("{:<50}".format("Using `set_attr` and path (app hidden, cache enabled):"), end="")
+    print("{:<70}".format("Using `set_attr` (cached, app hidden, cache enabled):"), end="")
+    %timeit act_prj_cached.set_attr(terminal, {"vmax": 1.06, "vmin": 0.01})
+    print("{:<70}".format("Using `set_attr` and path (app hidden, cache enabled):"), end="")
     %timeit act_prj.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
-    print("{:<50}".format("Using `SetAttribute` (app hidden, cache enabled):"), end="")
+    print("{:<70}".format("Using `set_attr` and path (cached, app hidden, cache enabled):"), end="")
+    %timeit act_prj_cached.set_attr(r"Network Model\Network Data\Grid\Bus 01", {"vmax": 1.06, "vmin": 0.01})
+    print("{:<70}".format("Using `SetAttribute` (app hidden, cache enabled):"), end="")
     %timeit terminal.SetAttribute("vmax", 1.06), terminal.SetAttribute("vmin", 0.01)
 
-    print("{:<50}".format("Execute `WriteChangesToDb`:"), end="")
+    print("{:<70}".format("Execute `WriteChangesToDb`:"), end="")
     %timeit app.WriteChangesToDb()
     app.SetWriteCacheEnabled(0)
-    
+
 finally:
     app.Show()
 ```
 
 Write operations are the most computationally expensive. The choice between wrapper and native method has limited influence, whereas the application state again plays a major role. Enabling the write cache reduces execution time by roughly 50%. However, the overhead of calling `SetWriteCacheEnabled` and `WriteChangesToDb` makes this strategy most beneficial when writing larger batches of data.
 
-# Caching
+# Caching Return Values
 
-Caching refers to storing previously computed or frequently accessed data in a temporary storage layer so that subsequent requests can be served more efficiently.
-
-*powfacpy* provides several caching mechanisms. For example, the return value of a method without input arguments can be cached. This is appropriate only if the return value is invariant.
+Caching refers to storing previously computed or frequently accessed data in a temporary storage layer so that subsequent requests can be served more efficiently. For example, the return value of a method without input arguments can be cached. This is appropriate only if the return value is invariant.
 
 ```{python}
 from powfacpy.applications.caching import cache_method
 
 terminal = act_prj.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
-print("{:<50}".format("Using `GetClassName`:"), end="")
+print("{:<70}".format("Using `GetClassName`:"), end="")
 %timeit terminal.GetClassName()
 cache_method(terminal, "GetClassName")
-print("{:<50}".format("Using `GetClassName` after caching:"), end="")
+print("{:<70}".format("Using `GetClassName` after caching:"), end="")
 %timeit terminal.GetClassName()
 
 try:
     app.Hide()
 
     terminal = act_prj.get_unique_obj(r"Network Model\Network Data\Grid\Bus 01")
-    print("{:<50}".format("Using `GetClassName` (app is hidden):"), end="")
+    print("{:<70}".format("Using `GetClassName` (app is hidden):"), end="")
     %timeit terminal.GetClassName()
     cache_method(terminal, "GetClassName")
-    print("{:<50}".format("Using `GetClassName` after caching (app is hidden):"), end="")
+    print("{:<70}".format("Using `GetClassName` after caching (app is hidden):"), end="")
     %timeit terminal.GetClassName()
 finally:
     app.Show()
@@ -208,30 +245,11 @@ finally:
 
 Caching substantially reduces execution time. This approach improves readability compared to manually storing return values in intermediate variables and reusing them.
 
-Another optimization is to use `ActiveProjectCached` instead of `ActiveProject`. This class caches selected properties (internally using `@cached_property`). It should be used only when working with a single active *PowerFactory* project.
 
-```{python}
-from powfacpy.base.active_project import ActiveProjectCached
+# Further Reported Perfomrance Improvements
+This is a collection of potential performance improvements reported by users that cannot be reliably benchmarked or reproduced, since the internal behavior of *PowerFactory* is not transparent:
 
-act_prj_cached = ActiveProjectCached(app)
-
-print("{:<50}".format("Using `study_cases_folder`:"), end="")
-%timeit act_prj.study_cases_folder
-print("{:<50}".format("Using `study_cases_folder` with cached properties:"), end="")
-%timeit act_prj_cached.study_cases_folder
-
-try:
-    app.Hide()
-
-    print("{:<50}".format("Using `study_cases_folder` (app is hidden):"), end="")
-    %timeit act_prj.study_cases_folder
-    print("{:<50}".format("Using `study_cases_folder` with cached properties (app is hidden):"), end="")
-    %timeit act_prj_cached.study_cases_folder
-finally:
-    app.Show()
-```
-
-Note that any *powfacpy* application can be initialized with the `ActiveProjectCached` class. For example, use `pfds = DynamicSimulation(cached=True)` and the `pfds.act_prj` attribute will be an instance of the class  `ActiveProjectCached` instead of `ActiveProject`.   
+- Deactivating and reactivating (large) projects
 
 
 # Conclusion
@@ -239,10 +257,8 @@ Note that any *powfacpy* application can be initialized with the `ActiveProjectC
 The benchmarks suggest the following practical measures to improve performance:
 
 * **Hide the PowerFactory application** during computationally intensive operations.
-* **Consider avoiding *powfacpy* wrapper overhead** for performance critical code. 
 * **Reuse object references** instead of repeatedly resolving paths.
 * **Batch write operations** and enable `SetWriteCacheEnabled` when modifying larger data sets.
 * **Use `ActiveProjectCached`** when repeatedly accessing stable project properties.
-* **Apply method caching** only to invariant, argument-free methods.
-
+* **Apply method caching** to invariant, argument-free methods.
 

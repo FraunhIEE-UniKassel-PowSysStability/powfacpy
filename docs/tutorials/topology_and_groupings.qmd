@@ -26,14 +26,17 @@ This tutorial focuses on network topologies, specifically the organization of ne
 - Creating and using boundaries
 - Creating and using zones
 - Creating and using areas
-- Additional useful methods of *powfacpy* for groupings (boundaries, areas, zones)
+- Additional useful methods of *powfacpy* for groupings (boundaries, areas, zones), e.g. merging of zones/areas, showing areas in the network graphic, checking connectivity, checking if elements are internal, getting load flow results,  etc.
 
+The respective *powfacpy* classes for zones/areas/boundaries extend the functionality of the PowerFactory classes. Note that *powfacpy* also defines its own grouping class named *SubSystem* with even more extended functionality which is covered in the [SubSystems tutorial](./subsystems.qmd). 
 
 First, we activate the PowerFactory project of the *IEEE 39 bus system* example, create a copy of a stable study case and activate it.
 
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+
+from icecream import ic
 
 sys.path.append(
     r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
@@ -208,19 +211,30 @@ pfds.initialize_and_run_sim(param_simulation={"tstop": 10})
 ![frequencies-coherent-terminals](figures/frequencies-coherent-terminals.png)
 
 # Zones
-The topology class also allows to create zones. For example a zone for the first region in `coherent_regions_terminals` can be created as follows:
+The topology class also allows to create zones. For example, a zone for the first region in `coherent_regions_terminals` can be created using terminals: :
 
 ```{python}
 from powfacpy.pf_classes.elm.zone import Zone
 
-terminal_objs_of_region_1 = [act_prj.get_calc_relevant_obj(term+".ElmTerm")[0] for term in coherent_regions_terminals[0]]
-zone_obj = topo.create_zone("Region 1", terminal_objs_of_region_1)
+try:
+    app.Hide()
+    terminal_objs_of_region_1 = [act_prj.get_calc_relevant_obj(term+".ElmTerm")[0] for term in coherent_regions_terminals[0]]
+    zone_obj_1 = topo.create_zone("Region 1", terminal_objs_of_region_1)
+finally:
+    app.Show()
+```
+
+You can also create a zone based on a boundary:
+
+```{python}
+zone_obj_2 = boundaries[1].create_zone()
 ```
 
 The `Zone` class of *powfacpy* can then be used to display zones in the single line diagram. 
 
 ```{python}
-zone_1 = Zone(zone_obj)
+zone_1 = Zone(zone_obj_1)
+zone_2 = Zone(zone_obj_2)
 zone_1.show_zones_in_network_graphic()
 ```
 
@@ -231,7 +245,7 @@ The `ElmArea` class of *PowerFactory* is very similar to the `ElmZone` class and
 from powfacpy.pf_classes.elm.area import Area
 
 area_obj = topo.create_area("Region 1", terminal_objs_of_region_1)
-area_1 = Area(zone_obj)
+area_1 = Area(area_obj)
 area_1.show_areas_in_network_graphic()
 ```
 
@@ -254,10 +268,57 @@ try:
     elms = boundary_1.get_internal_elms_of_class("ElmLne")
     elms = zone_1.get_internal_elms_of_class("ElmLne")
     
+    # Check if element is internal
+    is_internal = boundary_1.is_internal_elm(elms[0])
+    is_internal = zone_1.is_internal_elm(elms[0])
+    ic(is_internal)
+    
+    # Check if list of elements (which must be of same class) are internal
+    is_internal_list = boundary_1.are_internal_elms_with_same_class(elms)
+    is_internal_list = zone_1.are_internal_elms_with_same_class(elms)
+    ic(is_internal_list)
+    
     # Get results variable for active power exchange in RMS simulations
     p_res_var = boundary_1.get_P_exchange_res_var_rms_bal()
     p_res_var = zone_1.get_P_exchange_res_var_rms_bal()
     
+    # Load flow state
+    
+finally:
+    app.Show()
+```
+
+# Common Methods of Zones and Areas
+`ElmZone` and `ElmArea` classes are very similar in their functionality in *PowerFactory*. Therefore, the `Zone` and `Area` classes of *powfacpy* also have some common methods which are defined in the abstract base class `ZoneAreaBase`. Here are some examples using the zone and area instances created above.
+
+```{python}
+try:
+    app.Hide()
+
+    # Load flow results must be present.
+    act_prj.execute_load_flow()
+    
+
+    # load flow methods from AreaZoneBase
+    print("Zone total load in MVA:", zone_1.load_flow_total_power_loads_in_MVA())
+    print("Area total load in MVA:", area_1.load_flow_total_power_loads_in_MVA())
+    print("Zone total generation in MVA:", zone_1.load_flow_total_power_generation_in_MVA())
+    print("Area total generation in MVA:", area_1.load_flow_total_power_generation_in_MVA())
+    
+    # topology
+    print("Are zones neighbors?", zone_1.is_neighbor(zone_2))
+    print("All neighbors:", zone_1.get_neighbors())
+
+finally:
+    app.Show()
+```
+
+There is also a method to merge two zones/areas. The method takes care of the necessary changes in the network model, i.e. it changes the area/zone assignment of the terminals of the zone/area to merge and then deletes the merged zone/area. The method returns the merged ElmZone/ElmArea.
+
+```{python}
+try:
+    app.Hide()
+    zone_1.merge(zone_2)
 finally:
     app.Show()
 ```

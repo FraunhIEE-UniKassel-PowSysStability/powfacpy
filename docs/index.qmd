@@ -21,7 +21,7 @@ set_active_plot("Active power","§ PV plant")
 plot(r"Network Model\Network Data\Grid\PV", "m:Psum:bus1")
 ```
 
-*powfacpy* will save you time and make your code more readable. Get started with the [Tutorials](tutorials/overview.qmd).
+*powfacpy* will save you time and make your code more readable. Get started with the [Tutorials](tutorials/overview.qmd) or search the [API Documentation](api/api.qmd) if you look for specific functionality.
 
 # Why use *powfacpy*?
 There are a number of reasons why you should consider using *powfacpy*:

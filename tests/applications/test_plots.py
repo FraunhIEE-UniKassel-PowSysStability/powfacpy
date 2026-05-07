@@ -5,18 +5,18 @@ from os import remove, getcwd
 import pytest
 from matplotlib import pyplot
 
-import powfacpy.applications
-import powfacpy.applications.dynamic_simulation
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
 
 sys.path.insert(0, r".\src")
-import powfacpy
 from powfacpy.applications.plots import Plots
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import PFApp
-import importlib
-
-importlib.reload(powfacpy)
+from powfacpy.exceptions import (
+    PFAttributeNotSetError,
+    PFAttributeTypeError,
+    PFPathError,
+)
 
 
 @pytest.fixture
@@ -42,7 +42,7 @@ def test_plot(pfplt: Plots, activate_powfacpy_test_project):
     pfsim.act_prj.activate_study_case(r"Study Cases\test_plot_interface\Study Case 1")
     pfsim.initialize_and_run_sim()
 
-    with pytest.raises(powfacpy.exceptions.PFAttributeNotSetError):
+    with pytest.raises(PFAttributeNotSetError):
         pfplt.plot(
             r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",
             ["s:u0", "m:Qsum:bus1"],
@@ -133,7 +133,7 @@ def test_plot_from_comtrade(pfplt: Plots, activate_powfacpy_test_project):
 
 
 def test_activate_plot(pfplt: Plots, activate_powfacpy_test_project):
-    with pytest.raises(powfacpy.exceptions.PFAttributeNotSetError):
+    with pytest.raises(PFAttributeNotSetError):
         pfplt.set_active_plot("test_plot 1")
 
 
@@ -159,7 +159,7 @@ def test_clear_curves_by_index_from_active_plot(
         r"Network Model\Network Data\test_plot_interface\Grid 1\AC Voltage Source",
         "s:u0",
     )
-    pfdi = powfacpy.applications.dynamic_simulation.DynamicSimulation(pfplt.act_prj.app)
+    pfdi = DynamicSimulation(pfplt.act_prj.app)
     pfdi.initialize_and_run_sim()
     # Clear the last curve
     pfplt.clear_curves_by_index_from_active_plot(slice(-1, 1, -1))

@@ -1,4 +1,3 @@
-import powfacpy
 from powfacpy.pf_class_protocols import PFApp
 
 
@@ -13,7 +12,7 @@ class PFStringManipulation:
 
         Example:
           Calling
-            powfacpy.PFStringManipulation.replace_between_characters(
+            PFStringManipulation.replace_between_characters(
               '.',
               '\\',
               '\\',
@@ -226,9 +225,7 @@ class PFTranslator:
     def _get_language_dependent_name_from_studycase(
         studycase, english_name, german_name
     ):
-        studycase_contents = powfacpy.PFTranslator.get_name_with_ending(
-            studycase.GetContents()
-        )
+        studycase_contents = PFTranslator.get_name_with_ending(studycase.GetContents())
         has_english_name = english_name in studycase_contents
         has_german_name = german_name in studycase_contents
         assert not (
@@ -241,7 +238,7 @@ class PFTranslator:
 
     @staticmethod
     def get_graphics_board_name_from_studycase(studycase):
-        name = powfacpy.PFTranslator._get_language_dependent_name_from_studycase(
+        name = PFTranslator._get_language_dependent_name_from_studycase(
             studycase=studycase,
             english_name="Graphics Board.SetDesktop",
             german_name="Grafiksammlung.SetDesktop",
@@ -250,7 +247,7 @@ class PFTranslator:
 
     @staticmethod
     def get_result_object_name_from_studycase(studycase):
-        name = powfacpy.PFTranslator._get_language_dependent_name_from_studycase(
+        name = PFTranslator._get_language_dependent_name_from_studycase(
             studycase=studycase,
             english_name="All calculations.ElmRes",
             german_name="Alle Berechnungsarten.ElmRes",

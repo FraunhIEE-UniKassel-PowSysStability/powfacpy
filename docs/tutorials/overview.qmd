@@ -1,7 +1,8 @@
 ---
-title: 'Overview'
+title: Overview
 toc: true
 number-sections: true
+jupyter: python3
 ---
 
 The following tutorials illustrate the functionality of *powfacpy*. You can use the *PowerFactory* project under [*tests\tests_input\powfacpy_tests.pfd*](../../tests/tests_input/) to run the commands in the tutorials locally. You can follow the link to *Github* on the right to download the tutorials in *.qmd* format ([*quarto*](https://quarto.org/)). If you prefer *jupyter* notebook format, you can convert them with `quarto convert <tutorial_name.qmd>` (assuming *quarto* is installed).
@@ -12,6 +13,9 @@ Start here with the [getting started tutorial](getting_started.qmd). This tutori
 
 ## Dynamic Simulation and Plotting
 The [tutorial](simulation_and_plotting.qmd) shows how to conveniently simulate and plot with a syntax similar to *matplotlib*. It is also depicted how to export data to *pandas* and *csv* formats and use external plotting libraries such as *matplotlib*.
+
+## Static Calculations (Load Flow etc.)
+The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
 
 ## Study Cases
 The [study cases tutorial](study_cases.qmd) illustrates how to automatically create study cases for parameter studies. 
@@ -24,6 +28,9 @@ This [tutorial](network_matrices_and_pandapower_interface.qmd) demonstrates how 
 
 ## Topology and Groupings
 The [tutorial on topology and groupings](topology_and_groupings.qmd) focuses on the grouping of network elements into boundaries, zones and areas.
+
+## Subsystems
+The [Subsystems tutorial](subsystems.qmd) covers similar topics as the topology and groupings tutorial on zones, areas and boundaries. However, the *SubSystem* and *SubSystemContainer* clases of *powfacpy* go beyond the functionality and add further analysis for coherent network areas and their interactions (e.g. power exchange, connectivity, etc.).
 
 ## CGMES Model Exchange
 In the [cgmes model exchange tutorial](cgmes_model_exchange.qmd) you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.

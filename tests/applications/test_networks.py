@@ -5,10 +5,7 @@ import pytest
 
 sys.path.insert(0, r".\src")
 from powfacpy.pf_classes.protocols import StaCubic
-import powfacpy
 from powfacpy.applications.networks import Networks
-
-importlib.reload(powfacpy)
 
 
 @pytest.fixture

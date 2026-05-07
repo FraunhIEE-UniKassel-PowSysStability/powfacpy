@@ -4,13 +4,14 @@ from os import remove, getcwd
 import pytest
 
 sys.path.insert(0, r".\src")
-import powfacpy
+
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import PFApp
-import importlib
-
-importlib.reload(powfacpy)
+from powfacpy.exceptions import (
+    PFInconsistentParamValueOfDSLModelInCompositeModel,
+    PFObjectAttributeTypeError,
+)
 
 
 @pytest.fixture
@@ -57,7 +58,7 @@ def test_set_and_get_dsl_obj_array(
     )
 
     pfsim.set_dsl_obj_array(dsl_obj, array)
-    array_returned = powfacpy.PFDynSimInterface.get_dsl_obj_array(dsl_obj)
+    array_returned = pfsim.get_dsl_obj_array(dsl_obj)
     assert array_returned == array
 
     pfsim.set_dsl_obj_array(dsl_obj, array, size_included_in_array=False)
@@ -123,9 +124,7 @@ def test_get_parameters_of_dsl_models_in_composite_model(
     pfsim.set_parameters_of_dsl_models_in_composite_model(
         composite_model, par_val_dict_1
     )
-    with pytest.raises(
-        powfacpy.exceptions.PFInconsistentParamValueOfDSLModelInCompositeModel
-    ):
+    with pytest.raises(PFInconsistentParamValueOfDSLModelInCompositeModel):
         pfsim.get_parameters_of_dsl_models_in_composite_model(
             composite_model, single_dict_for_all_dsl_models=True
         )
@@ -175,7 +174,7 @@ def test_get_dsl_model_parameter_names(
         r"Network Model\Network Data\test_dyn_sim_interface\Grid 1\test_composite_model_no_blkdef"
     )
     dsl_model = pfsim.act_prj.get_unique_obj("test_a", parent_folder=composite_model)
-    with pytest.raises(powfacpy.exceptions.PFObjectAttributeTypeError):
+    with pytest.raises(PFObjectAttributeTypeError):
         pfsim.get_dsl_model_parameter_names(dsl_model)
 
 

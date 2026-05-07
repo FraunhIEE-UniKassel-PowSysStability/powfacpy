@@ -1,18 +1,25 @@
 from __future__ import annotations
 
 from fnmatch import fnmatch
+from typing import Callable
+
+import numpy as np
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmSym, PFGeneral, TypSym, ElmTerm
-from powfacpy.pf_classes.elm.elm_base import ElmBase, SinglePortBase
+from powfacpy.pf_classes.protocols import ElmSym, PFGeneral, TypSym, ElmTerm, ElmDsl
+from powfacpy.pf_classes.elm.elm_base import (
+    ElmBase,
+    SinglePortBase,
+    ElmPlantControlledBase,
+)
 from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.result_variables import ResVar
-
+from powfacpy.engineering_helpers import get_weighted_average
 
 LDF = ResVar.LF_Bal
 
 
-class SynchronousMachine(ElmBase, SinglePortBase):
+class SynchronousMachine(ElmBase, SinglePortBase, ElmPlantControlledBase):
 
     __slots__ = ()
 
@@ -31,15 +38,22 @@ class SynchronousMachine(ElmBase, SinglePortBase):
 
     @property
     def ratedS(self) -> float:
-        "Apparent power [MVA]. Parallel machines are considered."
-        obj = self._obj
-        typ: TypSym = obj.typ_id
-        return typ.sgn * obj.ngnum
+        "Apparent power [MVA]. Parallel machines are considered. 'ratedS' is CGMES conform."
+        return self._obj.typ_id.sgn * self._obj.ngnum
+
+    @property
+    def rated_apparent_power(self) -> float:
+        return self.ratedS
 
     @property
     def H_in_seconds_based_on_Snom(self) -> float:
         "Inertia constant [s]"
         return self._obj.typ_id.h
+
+    @property
+    def H_in_MWs(self) -> float:
+        "Inertia constant [MWs]"
+        return self._obj.typ_id.h * self.ratedS
 
     @property
     def J(self) -> float:
@@ -135,6 +149,50 @@ class SynchronousMachine(ElmBase, SinglePortBase):
             station_ctrl.rembar = controlled_terminal
         return station_ctrl
 
+    def get_governor(self, error_if_non_existent: bool = True) -> ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith("gov_"),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
+    def get_avr(self, error_if_non_existent: bool = True) -> ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith("avr_"),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
+    def get_pss(self, error_if_non_existent: bool = True) -> ElmDsl:
+        list_with_one_obj = self.get_network_elements_of_plant_model(
+            lambda x: x.typ_id.loc_name.startswith("pss_"),
+            error_if_non_existent=error_if_non_existent,
+        )
+        if list_with_one_obj:
+            return list_with_one_obj[0]
+        else:
+            return None
+
     @staticmethod
     def get_cgmes_mapping():
         return {"inertia": "h"}
+
+
+def weight_by_apparent_power_of_synchronous_machines(
+    values: list[float],
+    synchronous_machines: list[SynchronousMachine] | list[ElmSym],
+    return_sum_of_weights: bool = False,
+) -> float:
+    if not isinstance(synchronous_machines[0], SynchronousMachine):
+        synchronous_machines = [SynchronousMachine[sm] for sm in synchronous_machines]
+    values = np.array(values)
+    apparent_power = np.array([sm.ratedS for sm in synchronous_machines])
+    return get_weighted_average(
+        values, apparent_power, return_sum_of_weights=return_sum_of_weights
+    )

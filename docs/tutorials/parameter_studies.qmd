@@ -100,7 +100,6 @@ As shown in the second plot below:
 
 This creates a linear gradient across the generator fleet while preserving the overall average inertia of the system (though relative to the nominal power of the generators).
 
-
 ```{python}
 from powfacpy.applications.parameter_studies import Variant
 
