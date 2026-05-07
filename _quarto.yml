@@ -2,6 +2,7 @@ project:
   type: website
   render:
   - docs/**/*.qmd
+  - "!docs/tutorials/database.qmd"
   resources:
     - docs/api
 metadata-files:

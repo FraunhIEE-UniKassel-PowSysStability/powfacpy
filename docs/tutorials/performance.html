@@ -235,8 +235,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#accessing-objects" id="toc-accessing-objects" class="nav-link active" data-scroll-target="#accessing-objects"><span class="header-section-number">1</span> Accessing Objects</a></li>
   <li><a href="#getting-attributes" id="toc-getting-attributes" class="nav-link" data-scroll-target="#getting-attributes"><span class="header-section-number">2</span> Getting Attributes</a></li>
   <li><a href="#setting-attributes" id="toc-setting-attributes" class="nav-link" data-scroll-target="#setting-attributes"><span class="header-section-number">3</span> Setting Attributes</a></li>
-  <li><a href="#caching" id="toc-caching" class="nav-link" data-scroll-target="#caching"><span class="header-section-number">4</span> Caching</a></li>
-  <li><a href="#further-reported-perfomance-improvements" id="toc-further-reported-perfomance-improvements" class="nav-link" data-scroll-target="#further-reported-perfomance-improvements"><span class="header-section-number">5</span> Further Reported Perfomance Improvements</a></li>
+  <li><a href="#caching-return-values" id="toc-caching-return-values" class="nav-link" data-scroll-target="#caching-return-values"><span class="header-section-number">4</span> Caching Return Values</a></li>
+  <li><a href="#further-reported-perfomrance-improvements" id="toc-further-reported-perfomrance-improvements" class="nav-link" data-scroll-target="#further-reported-perfomrance-improvements"><span class="header-section-number">5</span> Further Reported Perfomrance Improvements</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">6</span> Conclusion</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/performance.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/performance.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -265,11 +265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This tutorial evaluates the performance characteristics of the Python API of <em>PowerFactory</em>. The <em>powfacpy</em> wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by <em>powfacpy</em> are demonstrated.</p>
 <p>We begin by activating the IEEE 39-bus system project.</p>
-<div id="b70dbc96" class="cell" data-execution_count="2">
+<div id="1b150a79" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject, ActiveProjectCached</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"C:</span><span class="er">\</span><span class="vs">Program Files</span><span class="dv">\D</span><span class="vs">IgSILENT</span><span class="er">\</span><span class="vs">PowerFactory 2025 SP3</span><span class="er">\</span><span class="vs">Python</span><span class="ch">\3</span><span class="dv">.</span><span class="vs">13"</span></span>
@@ -285,10 +285,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Adjust the project path if required.</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj_cached <span class="op">=</span> ActiveProjectCached(app)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The following platform is used:</p>
-<div id="47d0f903" class="cell" data-execution_count="3">
+<div id="bacc903f" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> platform</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>uname <span class="op">=</span> platform.uname()</span>
@@ -308,53 +309,79 @@ Processor: Intel64 Family 6 Model 140 Stepping 1, GenuineIntel</code></pre>
 <section id="accessing-objects" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Accessing Objects</h1>
 <p>We compare the performance of <code>get_obj</code> from <em>powfacpy</em> with the native <code>GetContents</code> method of <em>PowerFactory</em>. Internally, <code>get_obj</code> calls <code>GetContents</code> and augments it with additional functionality such as argument validation and improved exception handling. A moderate overhead is therefore expected.</p>
+<p>To improve the performance of <em>powfacpy</em>, one optimization is to use <code>ActiveProjectCached</code> instead of <code>ActiveProject</code> as shown in the examples below. This class caches selected properties (internally using <code>@cached_property</code>). It should be used only when working with a single active <em>PowerFactory</em> project.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Caching Active Project Properties
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that any <em>powfacpy</em> application can be initialized with the <code>ActiveProjectCached</code> class. For example, use <code>pfds = DynamicSimulation(cached=True)</code> and the <code>pfds.act_prj</code> attribute will be an instance of the class <code>ActiveProjectCached</code> instead of <code>ActiveProject</code>.</p>
+</div>
+</div>
 <p>The methods are benchmarked both with the <em>PowerFactory</em> application visible and hidden (non-interactive engine mode). It is good practice to use a <code>try</code> statement to ensure that the application is restored to a visible state even if an exception occurs during execution.</p>
-<div id="734b3912" class="cell" data-execution_count="4">
+<div id="334910f2" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>act_prj_obj <span class="op">=</span> app.GetActiveProject()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetContents`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_obj.GetContents(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetContents` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_obj.GetContents(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj` (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.get_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetContents`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_obj.GetContents(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj` (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.get_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetContents` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_obj.GetContents(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="ch">\*</span><span class="dv">.</span><span class="vs">ElmTerm"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_obj`:                                  132 ms ± 12.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
-Using `GetContents`:                              59.1 ms ± 2.95 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_obj` (app is hidden):                  2.12 ms ± 87.9 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `GetContents` (app is hidden):              1.4 ms ± 144 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+<pre><code>Using `get_obj`:                                                      87.6 ms ± 20 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_obj` (cached):                                             52.5 ms ± 1.81 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetContents`:                                                  52.1 ms ± 2.59 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_obj` (app is hidden):                                      2.38 ms ± 360 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `get_obj` (cached, app is hidden):                              966 μs ± 107 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetContents` (app is hidden):                                  985 μs ± 222 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
 </div>
 </div>
-<p><code>get_obj</code> is approximately 50% slower than <code>GetContents</code>. However, the dominant performance factor is whether the <em>PowerFactory</em> application is visible or hidden.</p>
+<p><code>get_obj</code> is approximately 50% slower than <code>GetContents</code>, but using <code>ActiveProjectCached</code> can mitigate this. However, the dominant performance factor is whether the <em>PowerFactory</em> application is visible or hidden.</p>
 <p>We next compare <code>get_calc_relevant_obj</code> with <code>GetCalcRelevantObjects</code>.</p>
-<div id="8e2a4230" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<div id="af736f42" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetCalcRelevantObject`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit app.GetCalcRelevantObjects(<span class="vs">r"ElmTerm"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetCalcRelevantObject` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.GetCalcRelevantObjects(<span class="vs">r"ElmTerm"</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj` (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetCalcRelevantObject`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit app.GetCalcRelevantObjects(<span class="vs">r"ElmTerm"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj` (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetCalcRelevantObject` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.GetCalcRelevantObjects(<span class="vs">r"ElmTerm"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_calc_relevant_obj`:                    68.6 ms ± 6.21 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetCalcRelevantObject`:                    67.9 ms ± 9.65 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_calc_relevant_obj` (app is hidden):    2.16 ms ± 207 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `GetCalcRelevantObject` (app is hidden):    2.07 ms ± 469 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+<pre><code>Using `get_calc_relevant_obj`:                                        55.1 ms ± 2.17 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_calc_relevant_obj` (cached):                               53.5 ms ± 4.12 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetCalcRelevantObject`:                                        56.2 ms ± 5.63 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_calc_relevant_obj` (app is hidden):                        1.52 ms ± 277 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `get_calc_relevant_obj` (cached, app is hidden):                1.79 ms ± 253 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetCalcRelevantObject` (app is hidden):                        1.52 ms ± 154 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
 </div>
 </div>
 <p>Here, the difference between the wrapper and the native method is small. Again, the application state has a substantially larger impact than the method choice.</p>
@@ -362,34 +389,47 @@ Using `GetCalcRelevantObject` (app is hidden):    2.07 ms ± 469 μs per loop (m
 <section id="getting-attributes" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Getting Attributes</h1>
 <p>We now compare attribute access using <code>get_attr</code> with the native <code>GetAttribute</code> method. The wrapper is evaluated in two modes: passing the object directly and passing its path.</p>
-<div id="8741514a" class="cell" data-execution_count="6">
+<div id="0eab466f" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_attr(terminal, <span class="st">"uknom"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetAttribute`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.GetAttribute(<span class="st">"uknom"</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_attr(terminal, <span class="st">"uknom"</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetAttribute` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.GetAttribute(<span class="st">"uknom"</span>)</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_attr(terminal, <span class="st">"uknom"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.get_attr(terminal, <span class="st">"uknom"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetAttribute`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.GetAttribute(<span class="st">"uknom"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_attr(terminal, <span class="st">"uknom"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.get_attr(terminal, <span class="st">"uknom"</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_attr` and path (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.get_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, <span class="st">"uknom"</span>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetAttribute` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.GetAttribute(<span class="st">"uknom"</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_attr`:                                 7.35 μs ± 1.15 μs per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` and path:                        155 ms ± 19.5 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetAttribute`:                             5.66 μs ± 469 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` (app is hidden):                 5.22 μs ± 740 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` and path (app is hidden):        2.12 ms ± 99.6 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `GetAttribute` (app is hidden):             4.35 μs ± 382 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)</code></pre>
+<pre><code>Using `get_attr`:                                                     4.92 μs ± 146 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (cached):                                            5.39 μs ± 270 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` and path:                                            104 ms ± 3.57 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_attr` and path (cached):                                   53.1 ms ± 4.07 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetAttribute`:                                                 6.74 μs ± 1.85 μs per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (app is hidden):                                     6.79 μs ± 2.17 μs per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (cached, app is hidden):                             6.7 μs ± 1.08 μs per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` and path (app is hidden):                            2.33 ms ± 80.5 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `get_attr` and path (cached, app is hidden):                    1.26 ms ± 47.7 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetAttribute` (app is hidden):                                 4.94 μs ± 334 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)</code></pre>
 </div>
 </div>
 <p><code>get_attr</code> performs similarly to <code>GetAttribute</code>, except when a path must first be resolved to an object, which introduces additional overhead. Notably, the visibility of the application has only a minor influence on pure read operations.</p>
@@ -397,121 +437,112 @@ Using `GetAttribute` (app is hidden):             4.35 μs ± 382 ns per loop (m
 <section id="setting-attributes" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Setting Attributes</h1>
 <p>We now evaluate write performance using <code>set_attr</code> versus <code>SetAttribute</code>. In addition to hiding the application, we examine the effect of enabling the write cache via <code>SetWriteCacheEnabled</code>.</p>
-<div id="d8d4fdaa" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path: "</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Using `set_attr` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Execute `SetWriteCacheEnabled`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.SetWriteCacheEnabled(<span class="dv">1</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute` (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Execute `WriteChangesToDb`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.WriteChangesToDb()</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    app.SetWriteCacheEnabled(<span class="dv">0</span>)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="6c71d87a" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj_cached.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path: "</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (cached): "</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Using `set_attr` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (cached, app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Execute `SetWriteCacheEnabled`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.SetWriteCacheEnabled(<span class="dv">1</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` (cached, app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.set_attr(terminal, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr` and path (cached, app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.set_attr(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>, {<span class="st">"vmax"</span>: <span class="fl">1.06</span>, <span class="st">"vmin"</span>: <span class="fl">0.01</span>})</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `SetAttribute` (app hidden, cache enabled):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.SetAttribute(<span class="st">"vmax"</span>, <span class="fl">1.06</span>), terminal.SetAttribute(<span class="st">"vmin"</span>, <span class="fl">0.01</span>)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Execute `WriteChangesToDb`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit app.WriteChangesToDb()</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    app.SetWriteCacheEnabled(<span class="dv">0</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `set_attr`:                                 199 ms ± 17.9 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
-Using `set_attr` and path:                        319 ms ± 19.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
-Using `SetAttribute`:                             192 ms ± 15.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+<pre><code>Using `set_attr`:                                                     199 ms ± 35.8 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `set_attr` (cached):                                            197 ms ± 36.6 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `set_attr` and path:                                            291 ms ± 29.5 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+Using `set_attr` and path (cached):                                   251 ms ± 39.2 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+Using `SetAttribute`:                                                 152 ms ± 6.83 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 
-Using `set_attr` (app is hidden):                6.83 ms ± 867 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `set_attr` and path (app is hidden):        8.55 ms ± 255 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `SetAttribute` (app is hidden):             6.45 ms ± 166 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` (app is hidden):                                    7.38 ms ± 353 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` (cached, app is hidden):                             8.6 ms ± 1.15 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (app is hidden):                            12.9 ms ± 718 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (cached, app is hidden):                    9.74 ms ± 317 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `SetAttribute` (app is hidden):                                 7.26 ms ± 287 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 
-Execute `SetWriteCacheEnabled`:                  345 ns ± 8.38 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
-Using `set_attr` (app hidden, cache enabled):     1.72 ms ± 253 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `set_attr` and path (app hidden, cache enabled):2.84 ms ± 88.9 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `SetAttribute` (app hidden, cache enabled): 2.16 ms ± 338 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Execute `WriteChangesToDb`:                       2.2 ms ± 777 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+Execute `SetWriteCacheEnabled`:                                      398 ns ± 25.5 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+Using `set_attr` (app hidden, cache enabled):                         1.95 ms ± 137 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `set_attr` (cached, app hidden, cache enabled):                 1.98 ms ± 417 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `set_attr` and path (app hidden, cache enabled):                2.91 ms ± 192 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (cached, app hidden, cache enabled):        2.36 ms ± 293 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `SetAttribute` (app hidden, cache enabled):                     1.37 ms ± 73.5 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Execute `WriteChangesToDb`:                                           692 μs ± 53 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
 </div>
 </div>
 <p>Write operations are the most computationally expensive. The choice between wrapper and native method has limited influence, whereas the application state again plays a major role. Enabling the write cache reduces execution time by roughly 50%. However, the overhead of calling <code>SetWriteCacheEnabled</code> and <code>WriteChangesToDb</code> makes this strategy most beneficial when writing larger batches of data.</p>
 </section>
-<section id="caching" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Caching</h1>
-<p>Caching refers to storing previously computed or frequently accessed data in a temporary storage layer so that subsequent requests can be served more efficiently.</p>
-<p><em>powfacpy</em> provides several caching mechanisms. For example, the return value of a method without input arguments can be cached. This is appropriate only if the return value is invariant.</p>
-<div id="e24b50a4" class="cell" data-execution_count="8">
+<section id="caching-return-values" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Caching Return Values</h1>
+<p>Caching refers to storing previously computed or frequently accessed data in a temporary storage layer so that subsequent requests can be served more efficiently. For example, the return value of a method without input arguments can be cached. This is appropriate only if the return value is invariant.</p>
+<div id="10ae6fb2" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.caching <span class="im">import</span> cache_method</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.GetClassName()</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>cache_method(terminal, <span class="st">"GetClassName"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` after caching:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` after caching:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit terminal.GetClassName()</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    terminal <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.GetClassName()</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    cache_method(terminal, <span class="st">"GetClassName"</span>)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` after caching (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `GetClassName` after caching (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit terminal.GetClassName()</span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `GetClassName`:                             70.2 ms ± 15.9 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetClassName` after caching:               282 ns ± 120 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
-Using `GetClassName` (app is hidden):             1.25 ms ± 220 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `GetClassName` after caching (app is hidden):197 ns ± 18 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)</code></pre>
+<pre><code>Using `GetClassName`:                                                 53.5 ms ± 1.06 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetClassName` after caching:                                   148 ns ± 14.7 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+Using `GetClassName` (app is hidden):                                 658 μs ± 15.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetClassName` after caching (app is hidden):                   84.3 ns ± 3.26 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)</code></pre>
 </div>
 </div>
 <p>Caching substantially reduces execution time. This approach improves readability compared to manually storing return values in intermediate variables and reusing them.</p>
-<p>Another optimization is to use <code>ActiveProjectCached</code> instead of <code>ActiveProject</code>. This class caches selected properties (internally using <code>@cached_property</code>). It should be used only when working with a single active <em>PowerFactory</em> project.</p>
-<div id="2bcd8554" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProjectCached</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>act_prj_cached <span class="op">=</span> ActiveProjectCached(app)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `study_cases_folder`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.study_cases_folder</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `study_cases_folder` with cached properties:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj_cached.study_cases_folder</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `study_cases_folder` (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj.study_cases_folder</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;50}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `study_cases_folder` with cached properties (app is hidden):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>timeit act_prj_cached.study_cases_folder</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Using `study_cases_folder`:                       60.3 ms ± 4.51 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `study_cases_folder` with cached properties:61.9 ns ± 4.49 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
-Using `study_cases_folder` (app is hidden):       876 μs ± 102 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `study_cases_folder` with cached properties (app is hidden):69.2 ns ± 13.7 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)</code></pre>
-</div>
-</div>
-<p>Note that any <em>powfacpy</em> application can be initialized with the <code>ActiveProjectCached</code> class. For example, use <code>pfds = DynamicSimulation(cached=True)</code> and the <code>pfds.act_prj</code> attribute will be an instance of the class <code>ActiveProjectCached</code> instead of <code>ActiveProject</code>.</p>
 </section>
-<section id="further-reported-perfomance-improvements" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Further Reported Perfomance Improvements</h1>
+<section id="further-reported-perfomrance-improvements" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Further Reported Perfomrance Improvements</h1>
 <p>This is a collection of potential performance improvements reported by users that cannot be reliably benchmarked or reproduced, since the internal behavior of <em>PowerFactory</em> is not transparent:</p>
 <ul>
 <li>Deactivating and reactivating (large) projects</li>
@@ -522,11 +553,10 @@ Using `study_cases_folder` with cached properties (app is hidden):69.2 ns ± 13.
 <p>The benchmarks suggest the following practical measures to improve performance:</p>
 <ul>
 <li><strong>Hide the PowerFactory application</strong> during computationally intensive operations.</li>
-<li><strong>Consider avoiding <em>powfacpy</em> wrapper overhead</strong> for performance critical code.</li>
 <li><strong>Reuse object references</strong> instead of repeatedly resolving paths.</li>
 <li><strong>Batch write operations</strong> and enable <code>SetWriteCacheEnabled</code> when modifying larger data sets.</li>
 <li><strong>Use <code>ActiveProjectCached</code></strong> when repeatedly accessing stable project properties.</li>
-<li><strong>Apply method caching</strong> only to invariant, argument-free methods.</li>
+<li><strong>Apply method caching</strong> to invariant, argument-free methods.</li>
 </ul>
 
 
