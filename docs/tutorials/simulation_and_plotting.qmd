@@ -419,7 +419,6 @@ pfres.export_to_csv()
 
 This exports all variables from the first result object (`ElmRes`) found in the active study case to the directory from where the script is run. You can also specifiy a directory, a file name (default is "results") and lists for grid objects, variables and results objects (similar to the method `export_to_pandas`). 
 
-
 ```{python}
 elements = [g_01, g_01]
 variables = [RMS_bal.ElmSym.s_P1.value, RMS_bal.ElmSym.s_Q1.value]

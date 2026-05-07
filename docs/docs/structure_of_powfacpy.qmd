@@ -58,7 +58,7 @@ The class `ActiveProject` in *base/active_project.py* is the main interface to t
 - *pf_classes/*
 
 This is a collection of interface classes that refer directly to individual classes in the *PowerFactory* database.
-The classes "inherit" (more details in @sec-advanced) from the classes in the *PowerFactory* database and add further functionality. For example, the `SynchronousMachine` class (in *pf_classes/elm/sym*) has all data and functionality (as described in the *python scripting reference* of *PowerFactory*) of *PowerFactory*'s *ElmSym* class, but adds further functionality (e.g. a secure way of getting the rated apparent power, which considers the number of parallel machines).  
+The classes "inherit" (more details in @sec-advanced) from the classes in the *PowerFactory* database and add further functionality. For example, the `SynchronousMachine` class (in *pf_classes/elm/sym*) has all data and functionality (as described in the *python scripting reference* of *PowerFactory*) of *PowerFactory*'s *ElmSym* class, but adds further functionality (e.g. a secure way of getting the rated apparent power, which considers the number of parallel machines). The modules can also contain functions for groups of instances of the class (e.g. a function to get the weighted average inertia of multiple synchronous machines). 
 
 The classes in the *PowerFactory* database can be grouped based on the first three letters and the remaining part of their names (e.g. *Elm* + *Sym*, where *Elm* is common to all network element classes and *Sym* is short for *synchronous machine*). This is reflected by the subfolders (*elm*, *sta*, *set*, etc.) which contain the interface classes for each subgroup. The files in the subfolders are named accordingly, but the full names are used for the classes in the files (e.g. *sym.py* in the *elm* folder contains the class `SynchronousMachine`) to distinguish the class names from the protocol classes (see below). 
 To create an instance, an instance of the native *PowerFactory* class must be provided, as in the following example:
@@ -100,10 +100,6 @@ As a rule of thumb, any functionality that involves only one native *PowerFactor
 
 The file *result_variables.py* contains (automatically created) enumeration classes for results variables (e.g. of dynamic simulations) and it is created by executing [*result_variables_parser.py*](../../src/powfacpy/result_variables_parser.py). The usage is explained in the [Simulation and Plotting Tutorial](../tutorials/simulation_and_plotting.qmd).
 
-## Deprecated 
-- *deprecated/* (not shown in @fig-file-tree)
-
-This folder contains files used in versions prior to 0.3.0 for compatibility.
 
 # Advanced (for Contributors) {#sec-advanced}
 
