@@ -252,10 +252,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#execute" id="toc-execute" class="nav-link" data-scroll-target="#execute"><span class="header-section-number">1.1</span> Execute</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">2</span> Results</a></li>
-  <li><a href="#export-to-pandas-dataframe" id="toc-export-to-pandas-dataframe" class="nav-link" data-scroll-target="#export-to-pandas-dataframe"><span class="header-section-number">3</span> Export to Pandas DataFrame</a>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">2</span> Results</a>
   <ul class="collapse">
-  <li><a href="#export-to-.csv" id="toc-export-to-.csv" class="nav-link" data-scroll-target="#export-to-.csv"><span class="header-section-number">3.1</span> Export to .csv</a></li>
+  <li><a href="#export-to-pandas-dataframe" id="toc-export-to-pandas-dataframe" class="nav-link" data-scroll-target="#export-to-pandas-dataframe"><span class="header-section-number">2.1</span> Export to Pandas DataFrame</a></li>
+  <li><a href="#export-to-.csv" id="toc-export-to-.csv" class="nav-link" data-scroll-target="#export-to-.csv"><span class="header-section-number">2.2</span> Export to .csv</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/static_calc.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/static_calc.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Static calculations like <em>power flow</em> (or <em>load flow</em> as it’s called in <em>PowerFactory</em>) or short circuit analysis are not the main focus of <em>powfacpy</em>. However, <em>powfacpy</em> provides a convenient interface to perform these calculations and to access the results.</p>
 <p>We first activate the <em>IEEE 39 Bus</em> example system and create a study case for this tutorial.</p>
-<div id="dfde06ee" class="cell" data-execution_count="2">
+<div id="d20445f6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="execute" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="execute"><span class="header-section-number">1.1</span> Execute</h2>
 <p><em>powfacpy</em> provides an interface class for static calculations, which we import and use to execute the load flow calculation.</p>
-<div id="d967b69d" class="cell" data-execution_count="3">
+<div id="d1fbd038" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.static_calc <span class="im">import</span> StaticCalc</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pfstat <span class="op">=</span> StaticCalc(app)</span>
@@ -324,7 +324,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can check the results for validity. If the results are invalid, an exception is raised by default (see docstring for more options).</p>
-<div id="1e445371" class="cell" data-execution_count="4">
+<div id="a63c3dfc" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfstat.check_load_flow_results()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>True</code></pre>
@@ -334,11 +334,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="results" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Results</h1>
-</section>
-<section id="export-to-pandas-dataframe" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Export to Pandas DataFrame</h1>
+<section id="export-to-pandas-dataframe" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="export-to-pandas-dataframe"><span class="header-section-number">2.1</span> Export to Pandas DataFrame</h2>
 <p>We can easily access results of static calculations using the <code>get_result_dataframe</code> method. For example, we can get the voltage magnitudes and angles for all terminals with a nominal voltage above 300 kV. We use the <code>ResVar</code> class to specify the result variables we want to access.</p>
-<div id="e382cb45" class="cell" data-execution_count="5">
+<div id="61a3121c" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>LF_Bal <span class="op">=</span> ResVar.LF_Bal</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -505,7 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>While the above dataframe is useful for further processing, it is not very readable. We can use the <code>replace_obj_with_loc_name_and_add_variable_desc</code> method to replace object references with their names and add variable descriptions.</p>
-<div id="ff938585" class="cell" data-execution_count="6">
+<div id="6342850d" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable <span class="op">=</span> pfstat.replace_obj_with_loc_name_and_add_variable_desc(df_voltage_res)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -672,10 +671,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="export-to-.csv" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="export-to-.csv"><span class="header-section-number">3.1</span> Export to .csv</h2>
+</section>
+<section id="export-to-.csv" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="export-to-.csv"><span class="header-section-number">2.2</span> Export to .csv</h2>
 <p>From the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.</p>
-<div id="1636426d" class="cell" data-execution_count="7">
+<div id="5b70414e" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable.to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="ch">\t</span><span class="vs">ests</span><span class="ch">\t</span><span class="vs">ests_output</span><span class="dv">\s</span><span class="vs">tatic_calc_results</span><span class="dv">.</span><span class="vs">csv"</span>, index<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
