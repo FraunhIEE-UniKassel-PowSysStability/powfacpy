@@ -57,7 +57,7 @@ class Slot(BaseChildStatic):
             "sLowLimInp": "lower_limitation_input",
         }
 
-    def get_signal_type(self, signal_types: list[str]) -> None:
+    def get_signal_type(self, signal_types: list[str]) -> list:
         """TODO explain
 
         Args:

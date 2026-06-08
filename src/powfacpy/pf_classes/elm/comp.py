@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from icecream import ic
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import PFGeneral, BlkSlot, ElmComp, ElmDsl
-
 from powfacpy.pf_classes.elm.elm_base import ElmBase
+from powfacpy.pf_classes.blk.slot import Slot
+from powfacpy.pf_classes.blk.definition import BlockDefinition
 from powfacpy.result_variables import ResVar
 from powfacpy.applications.plots import Plots
 from powfacpy.base.active_project import ActiveProjectCached
@@ -83,3 +85,50 @@ class CompositeModel(ElmBase):
         act_prj = ActiveProjectCached()
         grp = act_prj.get_unique_obj("*.IntGrfnet", parent_folder=self._obj.typ_id)
         grp.Show()
+
+    def monitor_signals_of_slots(self, signal_types: list[str] | None = None, create_plots: bool = False) -> None:
+        """Monitor signals of the network elements in the slots. Only signals of the specified types are monitored.
+
+        Args:
+            signal_types (list[str]): signal types to monitor (e.g. ["sInput", "sOutput", "sUpLimInp", "sLowLimInp"])
+            create_plots (bool): If True, plots are created for the signals of each slot. Defaults to False.
+        """
+        if signal_types is None:
+            signal_types = ["sInput", "sOutput", "sUpLimInp", "sLowLimInp"]
+        pfplt = Plots(cached=True)
+        act_prj = ActiveProjectCached()
+        for slot, net_elm in self.get_slots_and_network_elms_dict(
+            include_empty_slots=False
+        ).items():
+            slot = Slot(slot)
+            result_signals = slot.get_signal_type(signal_types) 
+            act_prj.add_results_variable(slot._obj, result_signals)
+            if create_plots:
+                pfplt.set_active_plot(net_elm.loc_name, "§ " + net_elm.loc_name)
+                pfplt.plot(net_elm, result_signals)
+
+    def monitor_signals_of_dsl_models(self, signal_types: list[str] | None = None, create_plots: bool = False) -> None:
+        """Monitor internals of the network elements in the slots that are of class 'ElmDsl'.
+
+        Args:
+            signals (list[str]): Internal signals to monitor (e.g. ["input_signals", "output_signals", "states", "internal_variables""upper_limitation_signals", 
+            "lower_limitation_signals"]). If None, all internal signals are monitored. Defaults to None.
+            create_plots (bool): If True, plots are created for the states of each 'ElmDsl' model. Defaults to False.
+        """
+        if signal_types is None:
+            signal_types = ["input_signals", "output_signals", "states", "internal_variables", "upper_limitation_signals", "lower_limitation_signals"]
+        pfplt = Plots(cached=True)
+        act_prj = ActiveProjectCached()
+        for slot, net_elm in self.get_slots_and_network_elms_dict(
+            include_empty_slots=False
+        ).items():
+            if net_elm.GetClassName() == "ElmDsl":
+                blkdef = BlockDefinition(net_elm.typ_id)
+                result_variables = blkdef.get_signal_results_variables(signal_types)  
+                act_prj.add_results_variable(net_elm, result_variables)
+                if create_plots:
+                    pfplt.set_active_plot(net_elm.loc_name, "§ " + net_elm.loc_name)
+                    pfplt.plot(net_elm, result_variables)
+
+
+            
