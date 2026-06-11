@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f670ab49fb9634e9dab58972b11477cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -147,8 +147,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/simulation_and_plotting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Simulation and Plotting</span></a>
+  <a href="../../docs/tutorials/dynamic_simulation_and_plotting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Simulation and Plotting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Validation and Requirements Testing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -210,15 +216,16 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">1</span> Getting started</a></li>
-  <li><a href="#dynamic-simulation-and-plotting" id="toc-dynamic-simulation-and-plotting" class="nav-link" data-scroll-target="#dynamic-simulation-and-plotting"><span class="header-section-number">2</span> Dynamic Simulation and Plotting</a></li>
-  <li><a href="#static-calculations-load-flow-etc." id="toc-static-calculations-load-flow-etc." class="nav-link" data-scroll-target="#static-calculations-load-flow-etc."><span class="header-section-number">3</span> Static Calculations (Load Flow etc.)</a></li>
-  <li><a href="#study-cases" id="toc-study-cases" class="nav-link" data-scroll-target="#study-cases"><span class="header-section-number">4</span> Study Cases</a></li>
-  <li><a href="#parameter-studies" id="toc-parameter-studies" class="nav-link" data-scroll-target="#parameter-studies"><span class="header-section-number">5</span> Parameter Studies</a></li>
-  <li><a href="#network-matrices-and-pandapower-interface" id="toc-network-matrices-and-pandapower-interface" class="nav-link" data-scroll-target="#network-matrices-and-pandapower-interface"><span class="header-section-number">6</span> Network Matrices and <em>Pandapower</em> Interface</a></li>
-  <li><a href="#topology-and-groupings" id="toc-topology-and-groupings" class="nav-link" data-scroll-target="#topology-and-groupings"><span class="header-section-number">7</span> Topology and Groupings</a></li>
-  <li><a href="#subsystems" id="toc-subsystems" class="nav-link" data-scroll-target="#subsystems"><span class="header-section-number">8</span> Subsystems</a></li>
-  <li><a href="#cgmes-model-exchange" id="toc-cgmes-model-exchange" class="nav-link" data-scroll-target="#cgmes-model-exchange"><span class="header-section-number">9</span> CGMES Model Exchange</a></li>
-  <li><a href="#a-word-on-performance" id="toc-a-word-on-performance" class="nav-link" data-scroll-target="#a-word-on-performance"><span class="header-section-number">10</span> A Word on Performance</a></li>
+  <li><a href="#dynamic-simulation-plotting-and-data-export" id="toc-dynamic-simulation-plotting-and-data-export" class="nav-link" data-scroll-target="#dynamic-simulation-plotting-and-data-export"><span class="header-section-number">2</span> Dynamic Simulation, Plotting and Data Export</a></li>
+  <li><a href="#dynamic-model-validation" id="toc-dynamic-model-validation" class="nav-link" data-scroll-target="#dynamic-model-validation"><span class="header-section-number">3</span> Dynamic Model Validation</a></li>
+  <li><a href="#static-calculations-load-flow-etc." id="toc-static-calculations-load-flow-etc." class="nav-link" data-scroll-target="#static-calculations-load-flow-etc."><span class="header-section-number">4</span> Static Calculations (Load Flow etc.)</a></li>
+  <li><a href="#study-cases" id="toc-study-cases" class="nav-link" data-scroll-target="#study-cases"><span class="header-section-number">5</span> Study Cases</a></li>
+  <li><a href="#parameter-studies" id="toc-parameter-studies" class="nav-link" data-scroll-target="#parameter-studies"><span class="header-section-number">6</span> Parameter Studies</a></li>
+  <li><a href="#network-matrices-and-pandapower-interface" id="toc-network-matrices-and-pandapower-interface" class="nav-link" data-scroll-target="#network-matrices-and-pandapower-interface"><span class="header-section-number">7</span> Network Matrices and <em>Pandapower</em> Interface</a></li>
+  <li><a href="#topology-and-groupings" id="toc-topology-and-groupings" class="nav-link" data-scroll-target="#topology-and-groupings"><span class="header-section-number">8</span> Topology and Groupings</a></li>
+  <li><a href="#subsystems" id="toc-subsystems" class="nav-link" data-scroll-target="#subsystems"><span class="header-section-number">9</span> Subsystems</a></li>
+  <li><a href="#cgmes-model-exchange" id="toc-cgmes-model-exchange" class="nav-link" data-scroll-target="#cgmes-model-exchange"><span class="header-section-number">10</span> CGMES Model Exchange</a></li>
+  <li><a href="#a-word-on-performance" id="toc-a-word-on-performance" class="nav-link" data-scroll-target="#a-word-on-performance"><span class="header-section-number">11</span> A Word on Performance</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/overview.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -249,40 +256,44 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="1" class="anchored" data-anchor-id="getting-started"><span class="header-section-number">1</span> Getting started</h2>
 <p>Start here with the <a href="../../docs/tutorials/getting_started.html">getting started tutorial</a>. This tutorial gives an overview of the interaction with the PowerFactory database using <em>powfacpy</em>. The methods introduced in this tutorial serve as a basis to do more complex things and to write more readable code using less lines of code.</p>
 </section>
-<section id="dynamic-simulation-and-plotting" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="dynamic-simulation-and-plotting"><span class="header-section-number">2</span> Dynamic Simulation and Plotting</h2>
-<p>The <a href="../../docs/tutorials/simulation_and_plotting.html">tutorial</a> shows how to conveniently simulate and plot with a syntax similar to <em>matplotlib</em>. It is also depicted how to export data to <em>pandas</em> and <em>csv</em> formats and use external plotting libraries such as <em>matplotlib</em>.</p>
+<section id="dynamic-simulation-plotting-and-data-export" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="dynamic-simulation-plotting-and-data-export"><span class="header-section-number">2</span> Dynamic Simulation, Plotting and Data Export</h2>
+<p>The <a href="../../docs/tutorials/dynamic_simulation_and_plotting.html">tutorial</a> shows how to conveniently simulate and plot with a syntax similar to <em>matplotlib</em>. It is also depicted how to export data to <em>pandas</em> and <em>csv</em> formats and use external plotting libraries such as <em>matplotlib</em>.</p>
 </section>
-<section id="static-calculations-load-flow-etc." class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="static-calculations-load-flow-etc."><span class="header-section-number">3</span> Static Calculations (Load Flow etc.)</h2>
+<section id="dynamic-model-validation" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="dynamic-model-validation"><span class="header-section-number">3</span> Dynamic Model Validation</h2>
+<p>This <a href="../../docs/tutorials/dynamic_model_validation.html">tutorial</a> illustartes the dynamic simulation of a unit model (e.g.&nbsp;a wind turbine) for test scenarios with varying grid voltage behaviour at the point of connection. Such tests are required for example if you want to debug a dynamic model and its controllers, validate a dynamic model according to a reference (e.g.&nbsp;another softare) or test the bahaviour for grid code requirements.</p>
+</section>
+<section id="static-calculations-load-flow-etc." class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="static-calculations-load-flow-etc."><span class="header-section-number">4</span> Static Calculations (Load Flow etc.)</h2>
 <p>The static calculations <a href="../../docs/tutorials/static_calc.html">in this tutorial</a> like <em>power flow</em> (or <em>load flow</em> as it’s called in <em>PowerFactory</em>) or <em>short circuit analysis</em> are not the main focus of <em>powfacpy</em>. However, <em>powfacpy</em> provides a convenient interface to perform these calculations and to access the results.</p>
 </section>
-<section id="study-cases" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="study-cases"><span class="header-section-number">4</span> Study Cases</h2>
+<section id="study-cases" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="study-cases"><span class="header-section-number">5</span> Study Cases</h2>
 <p>The <a href="../../docs/tutorials/study_cases.html">study cases tutorial</a> illustrates how to automatically create study cases for parameter studies.</p>
 </section>
-<section id="parameter-studies" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="parameter-studies"><span class="header-section-number">5</span> Parameter Studies</h2>
+<section id="parameter-studies" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="parameter-studies"><span class="header-section-number">6</span> Parameter Studies</h2>
 <p>This <a href="../../docs/tutorials/parameter_studies.html">tutorial</a> shows how to perform parameter studies in a concise and structured way and to generate targeted parameter modifications with minimal code. Compared to the ‘Study Cases’ tutorial, the focus is not on creating study cases, variations and operation scenarios, but rather on the parameter sets.</p>
 </section>
-<section id="network-matrices-and-pandapower-interface" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="network-matrices-and-pandapower-interface"><span class="header-section-number">6</span> Network Matrices and <em>Pandapower</em> Interface</h2>
+<section id="network-matrices-and-pandapower-interface" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="network-matrices-and-pandapower-interface"><span class="header-section-number">7</span> Network Matrices and <em>Pandapower</em> Interface</h2>
 <p>This <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html">tutorial</a> demonstrates how to export network matrices such as admittance or Jacobian matrix using the <em>Pandapower</em> interface as an intermediate step.</p>
 </section>
-<section id="topology-and-groupings" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="topology-and-groupings"><span class="header-section-number">7</span> Topology and Groupings</h2>
+<section id="topology-and-groupings" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="topology-and-groupings"><span class="header-section-number">8</span> Topology and Groupings</h2>
 <p>The <a href="../../docs/tutorials/topology_and_groupings.html">tutorial on topology and groupings</a> focuses on the grouping of network elements into boundaries, zones and areas.</p>
 </section>
-<section id="subsystems" class="level2" data-number="8">
-<h2 data-number="8" class="anchored" data-anchor-id="subsystems"><span class="header-section-number">8</span> Subsystems</h2>
+<section id="subsystems" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="subsystems"><span class="header-section-number">9</span> Subsystems</h2>
 <p>The <a href="../../docs/tutorials/subsystems.html">Subsystems tutorial</a> covers similar topics as the topology and groupings tutorial on zones, areas and boundaries. However, the <em>SubSystem</em> and <em>SubSystemContainer</em> clases of <em>powfacpy</em> go beyond the functionality and add further analysis for coherent network areas and their interactions (e.g.&nbsp;power exchange, connectivity, etc.).</p>
 </section>
-<section id="cgmes-model-exchange" class="level2" data-number="9">
-<h2 data-number="9" class="anchored" data-anchor-id="cgmes-model-exchange"><span class="header-section-number">9</span> CGMES Model Exchange</h2>
+<section id="cgmes-model-exchange" class="level2" data-number="10">
+<h2 data-number="10" class="anchored" data-anchor-id="cgmes-model-exchange"><span class="header-section-number">10</span> CGMES Model Exchange</h2>
 <p>In the <a href="../../docs/tutorials/cgmes_model_exchange.html">cgmes model exchange tutorial</a> you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.</p>
 </section>
-<section id="a-word-on-performance" class="level2" data-number="10">
-<h2 data-number="10" class="anchored" data-anchor-id="a-word-on-performance"><span class="header-section-number">10</span> A Word on Performance</h2>
+<section id="a-word-on-performance" class="level2" data-number="11">
+<h2 data-number="11" class="anchored" data-anchor-id="a-word-on-performance"><span class="header-section-number">11</span> A Word on Performance</h2>
 <p>This <a href="../../docs/tutorials/performance.html">tutorial</a> evaluates the performance characteristics of the Python API of <em>PowerFactory</em>. The <em>powfacpy</em> wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by <em>powfacpy</em> are demonstrated.</p>
 
 

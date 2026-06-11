@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -218,8 +218,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/simulation_and_plotting.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Simulation and Plotting</span></a>
+  <a href="../../docs/tutorials/dynamic_simulation_and_plotting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Simulation and Plotting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Validation and Requirements Testing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -341,7 +347,7 @@ Warning
 <section id="imports-and-project-activation" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="imports-and-project-activation"><span class="header-section-number">1</span> Imports and Project Activation</h2>
 <p>First we import some packages and activate the <em>PowerFactory</em> project from which we want to export the dataset (the <em>IEEE 39 bus system</em> example) and get the network matrices.</p>
-<div id="f8d36cfd" class="cell" data-execution_count="2">
+<div id="5aca4e78" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -354,22 +360,26 @@ Warning
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"C:</span><span class="er">\</span><span class="vs">Program Files</span><span class="dv">\D</span><span class="vs">IgSILENT</span><span class="er">\</span><span class="vs">PowerFactory 2025 SP3</span><span class="er">\</span><span class="vs">Python</span><span class="ch">\3</span><span class="dv">.</span><span class="vs">13"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># you may use a different directory</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_where_tests_run"</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>act_prj.activate_study_case(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.1 Simulation Fault Bus 16 Stable"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>act_prj.activate_study_case(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.1 Simulation Fault Bus 16 Stable"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Study Cases.IntPrjfolder\2.1 Simulation Fault Bus 16 Stable.IntCase&lt;/l1&gt;&gt;</code></pre>
 </div>
@@ -378,7 +388,7 @@ Warning
 <section id="export-dataset-to-pandapower" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="export-dataset-to-pandapower"><span class="header-section-number">2</span> Export Dataset to Pandapower</h2>
 <p>The dataset can be exported to <em>pandapower</em> format using the <code>pf_project_to_pandapower</code> function. It requires the <em>PowerFactory</em> app and the path to the project as inpit arguments.</p>
-<div id="6a625e42" class="cell" data-execution_count="3">
+<div id="b617e7ee" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.pandapower_interface <span class="im">import</span> PandapowerInterface</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -408,7 +418,7 @@ Warning
 </div>
 </div>
 <p><code>net</code> gives an overview of the exported network components and result tables (<em>pandapower</em> result format). <em>PandaPower</em> is based on <em>pandas</em> dataframes. You can query for example the data of the buses using:</p>
-<div id="e72cc85b" class="cell" data-execution_count="4">
+<div id="18f9e9c9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>net.bus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -810,7 +820,7 @@ Warning
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">25</th>
-<td>Bus 39</td>
+<td>Bus 01</td>
 <td>345.0</td>
 <td>b</td>
 <td>Grid</td>
@@ -825,7 +835,7 @@ Warning
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">26</th>
-<td>Bus 09</td>
+<td>Bus 39</td>
 <td>345.0</td>
 <td>b</td>
 <td>Grid</td>
@@ -840,8 +850,8 @@ Warning
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">27</th>
-<td>Bus 36</td>
-<td>16.5</td>
+<td>Bus 09</td>
+<td>345.0</td>
 <td>b</td>
 <td>Grid</td>
 <td>True</td>
@@ -855,8 +865,8 @@ Warning
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">28</th>
-<td>Bus 23</td>
-<td>345.0</td>
+<td>Bus 20</td>
+<td>230.0</td>
 <td>b</td>
 <td>Grid</td>
 <td>True</td>
@@ -870,7 +880,7 @@ Warning
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">29</th>
-<td>Bus 22</td>
+<td>Bus 19</td>
 <td>345.0</td>
 <td>b</td>
 <td>Grid</td>
@@ -885,7 +895,7 @@ Warning
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">30</th>
-<td>Bus 35</td>
+<td>Bus 34</td>
 <td>16.5</td>
 <td>b</td>
 <td>Grid</td>
@@ -900,51 +910,6 @@ Warning
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">31</th>
-<td>Bus 20</td>
-<td>230.0</td>
-<td>b</td>
-<td>Grid</td>
-<td>True</td>
-<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
-<td>Grid</td>
-<td></td>
-<td>Grid</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">32</th>
-<td>Bus 19</td>
-<td>345.0</td>
-<td>b</td>
-<td>Grid</td>
-<td>True</td>
-<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
-<td>Grid</td>
-<td></td>
-<td>Grid</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">33</th>
-<td>Bus 34</td>
-<td>16.5</td>
-<td>b</td>
-<td>Grid</td>
-<td>True</td>
-<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
-<td>Grid</td>
-<td></td>
-<td>Grid</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">34</th>
 <td>Bus 33</td>
 <td>16.5</td>
 <td>b</td>
@@ -958,23 +923,8 @@ Warning
 <td></td>
 <td></td>
 </tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">35</th>
-<td>Bus 16</td>
-<td>345.0</td>
-<td>b</td>
-<td>Grid</td>
-<td>True</td>
-<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
-<td>Grid</td>
-<td></td>
-<td>Grid</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">36</th>
+<th data-quarto-table-cell-role="th">32</th>
 <td>Bus 24</td>
 <td>345.0</td>
 <td>b</td>
@@ -989,7 +939,7 @@ Warning
 <td></td>
 </tr>
 <tr class="even">
-<th data-quarto-table-cell-role="th">37</th>
+<th data-quarto-table-cell-role="th">33</th>
 <td>Bus 21</td>
 <td>345.0</td>
 <td>b</td>
@@ -1004,9 +954,69 @@ Warning
 <td></td>
 </tr>
 <tr class="odd">
-<th data-quarto-table-cell-role="th">38</th>
-<td>Bus 01</td>
+<th data-quarto-table-cell-role="th">34</th>
+<td>Bus 16</td>
 <td>345.0</td>
+<td>b</td>
+<td>Grid</td>
+<td>True</td>
+<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
+<td>Grid</td>
+<td></td>
+<td>Grid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>Bus 36</td>
+<td>16.5</td>
+<td>b</td>
+<td>Grid</td>
+<td>True</td>
+<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
+<td>Grid</td>
+<td></td>
+<td>Grid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>Bus 23</td>
+<td>345.0</td>
+<td>b</td>
+<td>Grid</td>
+<td>True</td>
+<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
+<td>Grid</td>
+<td></td>
+<td>Grid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">37</th>
+<td>Bus 22</td>
+<td>345.0</td>
+<td>b</td>
+<td>Grid</td>
+<td>True</td>
+<td>{"coordinates":[0.0,0.0], "type":"Point"}</td>
+<td>Grid</td>
+<td></td>
+<td>Grid</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>Bus 35</td>
+<td>16.5</td>
 <td>b</td>
 <td>Grid</td>
 <td>True</td>
@@ -1025,7 +1035,7 @@ Warning
 </div>
 </div>
 <p>Note that the <code>name</code> column is filled with the <code>loc_name</code> attributes of the <em>PowerFactory</em> objects. <code>name</code> can be used as a mapping to the respective <em>PowerFactory</em> object only if the <code>loc_name</code> of all objects of a certain class are unique (e.g.&nbsp;no <code>ElmTerm</code> instances have the same <code>loc_name</code>). The <code>Database</code> interface can be used to enumerate equivalent names of calculation relevant objects in the <em>PowerFactory</em> database.</p>
-<div id="682eb6eb" class="cell" data-execution_count="5">
+<div id="4312af86" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.database <span class="im">import</span> Database</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1037,7 +1047,7 @@ Warning
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    act_prj.app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To test whether the exported dataset is feasible, we can run a power flow using <em>pandapower</em>:</p>
-<div id="a4868168" class="cell" data-execution_count="6">
+<div id="d864f325" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pp.runpp(net)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>numba cannot be imported and numba functions are disabled.
@@ -1047,7 +1057,7 @@ Please install numba to gain a massive speedup.
 </div>
 </div>
 <p>The following shows how to access the results for a certain bus.</p>
-<div id="89edee76" class="cell" data-execution_count="7">
+<div id="8b595853" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bus_name <span class="op">=</span> <span class="st">"Bus 05"</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>index_of_element <span class="op">=</span> net.bus[net.bus[<span class="st">"name"</span>] <span class="op">==</span> bus_name].index[<span class="dv">0</span>]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>net.res_bus.iloc[index_of_element]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1065,7 +1075,7 @@ Name: 2, dtype: float64</code></pre>
 <section id="admittance-matrix" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="admittance-matrix"><span class="header-section-number">3.1</span> Admittance Matrix</h3>
 <p>We can no extract the <em>Ybus</em> (i.e admittance) matrix. By default, the returned <em>numpy</em> matrix is sparse, so we create a dense matrix for printing.</p>
-<div id="2697734d" class="cell" data-execution_count="8">
+<div id="d9e40ed9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Yb <span class="op">=</span> ppi.get_Ybus_matrix(net)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(Yb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1081,25 +1091,25 @@ Name: 2, dtype: float64</code></pre>
     0.          +0.j           0.          +0.j        ]
  ...
  [  0.          +0.j           0.          +0.j
-    0.          +0.j         ...  10.38483897-197.51341343j
-    0.          +0.j           0.          +0.j        ]
+    0.          +0.j         ...   8.94952714-168.97260559j
+   -6.48508384+103.76134137j   0.          +0.j        ]
+ [  0.          +0.j           0.          +0.j
+    0.          +0.j         ...  -6.48508384+103.76134137j
+   10.55343262-243.18189618j   0.         +68.22446097j]
  [  0.          +0.j           0.          +0.j
     0.          +0.j         ...   0.          +0.j
-    8.44256311-145.01095393j   0.          +0.j        ]
- [  0.          +0.j           0.          +0.j
-    0.          +0.j         ...   0.          +0.j
-    0.          +0.j           3.65450104 -64.09182402j]]</code></pre>
+    0.         +68.22446097j   0.         -68.22446097j]]</code></pre>
 </div>
 </div>
 <p>The base apparent power is <code>net._ppc["baseMVA"]</code>.</p>
-<div id="277f9094" class="cell" data-execution_count="9">
+<div id="103c6bb8" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>net._ppc[<span class="st">"baseMVA"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>100.0</code></pre>
 </div>
 </div>
 <p>This does not provide any information about the corresponding nodes of the rows and columns. The function <code>get_Ybus_frame</code> provides this information.</p>
-<div id="3e76ea89" class="cell" data-execution_count="10">
+<div id="0836f155" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> ppi.get_Ybus_frame(net)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -1121,16 +1131,16 @@ Name: 2, dtype: float64</code></pre>
 <th data-quarto-table-cell-role="th">Bus 10</th>
 <th data-quarto-table-cell-role="th">Bus 32</th>
 <th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">Bus 22</th>
-<th data-quarto-table-cell-role="th">Bus 35</th>
-<th data-quarto-table-cell-role="th">Bus 20</th>
 <th data-quarto-table-cell-role="th">Bus 19</th>
 <th data-quarto-table-cell-role="th">Bus 34</th>
 <th data-quarto-table-cell-role="th">Bus 33</th>
-<th data-quarto-table-cell-role="th">Bus 16</th>
 <th data-quarto-table-cell-role="th">Bus 24</th>
 <th data-quarto-table-cell-role="th">Bus 21</th>
-<th data-quarto-table-cell-role="th">Bus 01</th>
+<th data-quarto-table-cell-role="th">Bus 16</th>
+<th data-quarto-table-cell-role="th">Bus 36</th>
+<th data-quarto-table-cell-role="th">Bus 23</th>
+<th data-quarto-table-cell-role="th">Bus 22</th>
+<th data-quarto-table-cell-role="th">Bus 35</th>
 </tr>
 </thead>
 <tbody>
@@ -1440,8 +1450,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>-10.093079+105.416621j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -1488,8 +1498,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>-8.782937+111.668756j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -1732,9 +1742,33 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>-2.057057+24.155723j</td>
+<td>0.000000+ 0.000000j</td>
 </tr>
 <tr class="even">
+<th data-quarto-table-cell-role="th">Bus 01</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
 <th data-quarto-table-cell-role="th">Bus 39</th>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -1756,9 +1790,9 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>-1.597444+39.936101j</td>
+<td>0.000000+ 0.000000j</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">Bus 09</th>
 <td>-1.738499+ 27.438056j</td>
 <td>0.000000+ 0.000000j</td>
@@ -1777,6 +1811,174 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 20</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-3.458741+ 68.186611j</td>
+<td>-2.746136+54.922717j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 19</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>10.874921-184.781649j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-3.236561+65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-4.179618+ 50.939107j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 34</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>2.746136-54.922717j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 33</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-3.236561+ 65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>3.236561-65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 24</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>10.384839-197.513413j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-8.595989+169.054429j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-1.788850+ 28.458985j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 21</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>8.442563-145.010954j</td>
+<td>-4.374214+ 73.814860j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-4.068349+ 71.196094j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 16</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-4.179618+ 50.939107j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-8.595989+169.054429j</td>
+<td>-4.374214+ 73.814860j</td>
+<td>36.025837-510.893772j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -1801,8 +2003,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
+<td>0.675593-36.752279j</td>
+<td>-0.675593+ 36.752279j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 </tr>
@@ -1819,15 +2021,15 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
-<td>-6.485084+103.761341j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>-1.788850+ 28.458985j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-0.675593+36.752279j</td>
+<td>8.949527-168.972606j</td>
+<td>-6.485084+103.761341j</td>
 <td>0.000000+ 0.000000j</td>
 </tr>
 <tr class="even">
@@ -1843,16 +2045,16 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
-<td>10.553433-243.181896j</td>
-<td>0.000000+68.224461j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>-4.068349+ 71.196094j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-6.485084+103.761341j</td>
+<td>10.553433-243.181896j</td>
+<td>0.000000+68.224461j</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Bus 35</th>
@@ -1867,208 +2069,16 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 68.224461j</td>
 <td>0.000000-68.224461j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 20</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>6.204878-123.109328j</td>
-<td>-3.458741+ 68.186611j</td>
-<td>-2.746136+54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 19</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.458741+ 68.186611j</td>
-<td>10.874921-184.781649j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.236561+65.655932j</td>
-<td>-4.179618+ 50.939107j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 34</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-2.746136+ 54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>2.746136-54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 33</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.236561+ 65.655932j</td>
-<td>0.000000+ 0.000000j</td>
-<td>3.236561-65.655932j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 16</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-4.179618+ 50.939107j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>36.025837-510.893772j</td>
-<td>-8.595989+169.054429j</td>
-<td>-4.374214+ 73.814860j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 24</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-8.595989+169.054429j</td>
-<td>10.384839-197.513413j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 21</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>-4.068349+ 71.196094j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-4.374214+ 73.814860j</td>
-<td>0.000000+ 0.000000j</td>
-<td>8.442563-145.010954j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 01</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>3.654501-64.091824j</td>
 </tr>
 </tbody>
 </table>
@@ -2078,7 +2088,7 @@ Name: 2, dtype: float64</code></pre>
 </div>
 </div>
 <p>The names in the labels correspond to the <code>loc_name</code> attributes of the <em>PowerFactory</em> objects. Provided that the names are unique, we can also replace them with the actual <em>PowerFactory</em> objects (this can be more convenient to query data, but printing the frame is ugly because the full path is used in the labels) using the <code>PandasInterface</code> of <em>powfacpy</em>.</p>
-<div id="310d7c90" class="cell" data-execution_count="11">
+<div id="bfd0c9be" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.pandas_interface <span class="im">import</span> PandasInterface</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pdi <span class="op">=</span> PandasInterface(app)</span>
@@ -2106,16 +2116,16 @@ Name: 2, dtype: float64</code></pre>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 10.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 32.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l3&gt;</th>
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l3&gt;</th>
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l3&gt;</th>
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l3&gt;</th>
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l3&gt;</th>
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 01.ElmTerm&lt;/l3&gt;</th>
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l3&gt;</th>
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 36.ElmTerm&lt;/l3&gt;</th>
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 23.ElmTerm&lt;/l3&gt;</th>
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l3&gt;</th>
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l3&gt;</th>
 </tr>
 </thead>
 <tbody>
@@ -2425,8 +2435,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>-10.093079+105.416621j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -2473,8 +2483,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>-8.782937+111.668756j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -2717,9 +2727,33 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>-2.057057+24.155723j</td>
+<td>0.000000+ 0.000000j</td>
 </tr>
 <tr class="even">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 01.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 39.ElmTerm&lt;/l3&gt;</th>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -2741,9 +2775,9 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>-1.597444+39.936101j</td>
+<td>0.000000+ 0.000000j</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 09.ElmTerm&lt;/l3&gt;</th>
 <td>-1.738499+ 27.438056j</td>
 <td>0.000000+ 0.000000j</td>
@@ -2762,6 +2796,174 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-3.458741+ 68.186611j</td>
+<td>-2.746136+54.922717j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>10.874921-184.781649j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-3.236561+65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-4.179618+ 50.939107j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>2.746136-54.922717j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-3.236561+ 65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>3.236561-65.655932j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>10.384839-197.513413j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-8.595989+169.054429j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-1.788850+ 28.458985j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>8.442563-145.010954j</td>
+<td>-4.374214+ 73.814860j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-4.068349+ 71.196094j</td>
+<td>0.000000+ 0.000000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l3&gt;</th>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>...</td>
+<td>-4.179618+ 50.939107j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-8.595989+169.054429j</td>
+<td>-4.374214+ 73.814860j</td>
+<td>36.025837-510.893772j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
@@ -2786,8 +2988,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
+<td>0.675593-36.752279j</td>
+<td>-0.675593+ 36.752279j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 </tr>
@@ -2804,15 +3006,15 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
-<td>-6.485084+103.761341j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>-1.788850+ 28.458985j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-0.675593+36.752279j</td>
+<td>8.949527-168.972606j</td>
+<td>-6.485084+103.761341j</td>
 <td>0.000000+ 0.000000j</td>
 </tr>
 <tr class="even">
@@ -2828,16 +3030,16 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
-<td>10.553433-243.181896j</td>
-<td>0.000000+68.224461j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>-4.068349+ 71.196094j</td>
 <td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>-6.485084+103.761341j</td>
+<td>10.553433-243.181896j</td>
+<td>0.000000+68.224461j</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l3&gt;</th>
@@ -2852,208 +3054,16 @@ Name: 2, dtype: float64</code></pre>
 <td>0.000000+ 0.000000j</td>
 <td>0.000000+ 0.000000j</td>
 <td>...</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
+<td>0.000000+ 0.000000j</td>
 <td>0.000000+ 68.224461j</td>
 <td>0.000000-68.224461j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>6.204878-123.109328j</td>
-<td>-3.458741+ 68.186611j</td>
-<td>-2.746136+54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.458741+ 68.186611j</td>
-<td>10.874921-184.781649j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.236561+65.655932j</td>
-<td>-4.179618+ 50.939107j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-2.746136+ 54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>2.746136-54.922717j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-3.236561+ 65.655932j</td>
-<td>0.000000+ 0.000000j</td>
-<td>3.236561-65.655932j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-4.179618+ 50.939107j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>36.025837-510.893772j</td>
-<td>-8.595989+169.054429j</td>
-<td>-4.374214+ 73.814860j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-8.595989+169.054429j</td>
-<td>10.384839-197.513413j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>-4.068349+ 71.196094j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>-4.374214+ 73.814860j</td>
-<td>0.000000+ 0.000000j</td>
-<td>8.442563-145.010954j</td>
-<td>0.000000+ 0.000000j</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 01.ElmTerm&lt;/l3&gt;</th>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>...</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>0.000000+ 0.000000j</td>
-<td>3.654501-64.091824j</td>
 </tr>
 </tbody>
 </table>
@@ -3066,7 +3076,7 @@ Name: 2, dtype: float64</code></pre>
 <section id="connectivity-adjacency-matrix" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="connectivity-adjacency-matrix"><span class="header-section-number">3.2</span> Connectivity (Adjacency) Matrix</h3>
 <p>The connectivity matrix (also called adjacency matrix) is a symmetric matrix that has entries <span class="math inline">\(1\)</span> (or True) for connected nodes and <span class="math inline">\(0\)</span> (or False) for nodes that are not connected.</p>
-<div id="ad2c0746" class="cell" data-execution_count="12">
+<div id="0b2aa808" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ppi.get_connectivity_frame(net)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div>
@@ -3087,16 +3097,16 @@ Name: 2, dtype: float64</code></pre>
 <th data-quarto-table-cell-role="th">Bus 10</th>
 <th data-quarto-table-cell-role="th">Bus 32</th>
 <th data-quarto-table-cell-role="th">...</th>
-<th data-quarto-table-cell-role="th">Bus 22</th>
-<th data-quarto-table-cell-role="th">Bus 35</th>
-<th data-quarto-table-cell-role="th">Bus 20</th>
 <th data-quarto-table-cell-role="th">Bus 19</th>
 <th data-quarto-table-cell-role="th">Bus 34</th>
 <th data-quarto-table-cell-role="th">Bus 33</th>
-<th data-quarto-table-cell-role="th">Bus 16</th>
 <th data-quarto-table-cell-role="th">Bus 24</th>
 <th data-quarto-table-cell-role="th">Bus 21</th>
-<th data-quarto-table-cell-role="th">Bus 01</th>
+<th data-quarto-table-cell-role="th">Bus 16</th>
+<th data-quarto-table-cell-role="th">Bus 36</th>
+<th data-quarto-table-cell-role="th">Bus 23</th>
+<th data-quarto-table-cell-role="th">Bus 22</th>
+<th data-quarto-table-cell-role="th">Bus 35</th>
 </tr>
 </thead>
 <tbody>
@@ -3406,8 +3416,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>0</td>
 <td>1</td>
+<td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -3454,8 +3464,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>0</td>
 <td>1</td>
+<td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -3698,9 +3708,33 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>1</td>
+<td>0</td>
 </tr>
 <tr class="even">
+<th data-quarto-table-cell-role="th">Bus 01</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
 <th data-quarto-table-cell-role="th">Bus 39</th>
 <td>0</td>
 <td>0</td>
@@ -3722,9 +3756,9 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>1</td>
+<td>0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <th data-quarto-table-cell-role="th">Bus 09</th>
 <td>1</td>
 <td>0</td>
@@ -3743,6 +3777,174 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 20</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 19</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 34</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 33</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 24</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Bus 21</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">Bus 16</th>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -3767,8 +3969,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>0</td>
-<td>0</td>
-<td>0</td>
+<td>1</td>
+<td>1</td>
 <td>0</td>
 <td>0</td>
 </tr>
@@ -3785,15 +3987,15 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>...</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>1</td>
 <td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 <td>0</td>
 </tr>
 <tr class="even">
@@ -3809,16 +4011,16 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>...</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
 <td>1</td>
 <td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
 </tr>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">Bus 35</th>
@@ -3833,150 +4035,8 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>...</td>
-<td>1</td>
-<td>1</td>
 <td>0</td>
 <td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 20</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 19</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 34</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 33</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 16</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 24</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
 <td>0</td>
 <td>0</td>
 <td>0</td>
@@ -3984,56 +4044,6 @@ Name: 2, dtype: float64</code></pre>
 <td>0</td>
 <td>0</td>
 <td>1</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<th data-quarto-table-cell-role="th">Bus 21</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">Bus 01</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
 <td>1</td>
 </tr>
 </tbody>
@@ -4049,22 +4059,22 @@ Name: 2, dtype: float64</code></pre>
 <section id="load-flow-jacobian" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="load-flow-jacobian"><span class="header-section-number">4</span> Load Flow Jacobian</h2>
 <p>The load flow Jacobian matrix can be exported as well.</p>
-<div id="623a7b7f" class="cell" data-execution_count="13">
+<div id="6648b311" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>net._ppc[<span class="st">"internal"</span>][<span class="st">"J"</span>].todense()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>matrix([[ 46.27299714,   0.        ,   0.        , ...,   0.        ,
-           0.        ,   0.        ],
-        [  0.        ,  45.49863821,   0.        , ...,   0.        ,
-           0.        ,   0.        ],
-        [  0.        ,   0.        ,  67.13959559, ...,   0.        ,
-           0.        ,   0.        ],
+<pre><code>matrix([[  46.27299714,    0.        ,    0.        , ...,    0.        ,
+            0.        ,    0.        ],
+        [   0.        ,   45.49863821,    0.        , ...,    0.        ,
+            0.        ,    0.        ],
+        [   0.        ,    0.        ,   67.13959559, ...,    0.        ,
+            0.        ,    0.        ],
         ...,
-        [  0.        ,   0.        ,   0.        , ..., 205.55025042,
-           0.        ,   0.        ],
-        [  0.        ,   0.        ,   0.        , ...,   0.        ,
-         148.2388436 ,   0.        ],
-        [  0.        ,   0.        ,   0.        , ...,   0.        ,
-           0.        ,  66.36844773]], shape=(67, 67))</code></pre>
+        [   0.        ,    0.        ,    0.        , ...,  526.3356963 ,
+            0.        ,    0.        ],
+        [   0.        ,    0.        ,    0.        , ...,    0.        ,
+          175.44651958, -108.38492993],
+        [   0.        ,    0.        ,    0.        , ...,    0.        ,
+         -108.95141063,  253.3137705 ]], shape=(67, 67))</code></pre>
 </div>
 </div>
 <p>An explanation of the Jacobian matrix entries is provided in <a href="https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb">the pandapower tutorial</a> that was mentioned above already.</p>
@@ -4073,7 +4083,7 @@ Name: 2, dtype: float64</code></pre>
 <h2 data-number="5" class="anchored" data-anchor-id="sec-format-comparison"><span class="header-section-number">5</span> Format Comparison</h2>
 <p>The dataformats of <em>pandapower</em> and <em>PowerFactory</em> are not fully compatible. An overview and functionality to rudimentary validate the exported data is presented in the following.</p>
 <p>Remember the exported dataset in <em>pandapower</em> format:</p>
-<div id="d5126bb9" class="cell" data-execution_count="14">
+<div id="a77ba119" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>net</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>This pandapower network includes the following parameter tables:
@@ -4108,7 +4118,7 @@ Name: 2, dtype: float64</code></pre>
 <section id="using-pandapower" class="level3" data-number="6.1">
 <h3 data-number="6.1" class="anchored" data-anchor-id="using-pandapower"><span class="header-section-number">6.1</span> Using <em>pandapower</em></h3>
 <p><em>pandapower</em> has a function <code>validate_pf_conversion</code> (due to a <a href="https://github.com/e2nIEE/pandapower/issues/2363">bug in <em>pandapower</em></a> this function fails if load flow results are initially present) which compares load flow results and returns the differences.</p>
-<div id="645e46b9" class="cell" data-execution_count="15">
+<div id="5247b686" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandapower.converter.powerfactory.validate <span class="im">import</span> validate_pf_conversion</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -4136,140 +4146,140 @@ Please install numba to gain a massive speedup.
  7  5.005631e-09    830.0    830.0
  8  1.286480e-09    560.0    560.0,
  'gen_q_diff_is':            diff   q_mvar_pp   q_mvar_pf
- 0 -1.990345e-06  146.158180  146.158178
+ 0 -1.990343e-06  146.158180  146.158178
  1  3.744762e-06    0.439923    0.439926
- 2  3.910821e-07   88.281414   88.281415
- 3  1.046718e-06  205.144370  205.144371
- 4  2.652369e-06  109.905979  109.905981
- 5 -3.168794e-06  165.763652  165.763649
- 6  4.919254e-07  212.411826  212.411827
- 7  1.547460e-06   22.841623   22.841625
+ 2  3.910875e-07   88.281414   88.281415
+ 3  1.046728e-06  205.144370  205.144371
+ 4  2.652371e-06  109.905979  109.905981
+ 5 -3.168795e-06  165.763652  165.763649
+ 6  4.919255e-07  212.411826  212.411827
+ 7  1.547457e-06   22.841623   22.841625
  8  1.132401e-06  101.175009  101.175010,
  'diff_vm':             diff  vm_pu_pp  vm_pu_pf
- 0   3.273652e-10  0.996020  0.996020
- 1   3.792681e-10  0.997001  0.997001
- 2   4.445266e-10  1.005311  1.005311
- 3   3.405918e-10  1.003863  1.003863
- 4   4.944192e-10  1.007672  1.007672
- 6   5.642409e-10  1.012694  1.012694
- 7  -5.276246e-10  1.000151  1.000151
- 8   6.057381e-10  1.017151  1.017151
- 9   4.730660e-13  0.983100  0.983100
- 10  5.251648e-10  1.014307  1.014307
- 11  3.384424e-10  1.011733  1.011733
- 12  6.859024e-11  1.015384  1.015384
- 13  2.709610e-12  1.027800  1.027800
- 14  1.137654e-10  1.033555  1.033555
- 15  2.069156e-10  1.037741  1.037741
- 16  1.420390e-10  1.030931  1.030931
- 17  1.683638e-10  1.030173  1.030173
+ 0   3.273640e-10  0.996020  0.996020
+ 1   3.792666e-10  0.997001  0.997001
+ 2   4.445253e-10  1.005311  1.005311
+ 3   3.405909e-10  1.003863  1.003863
+ 4   4.944178e-10  1.007672  1.007672
+ 6   5.642398e-10  1.012694  1.012694
+ 7  -5.276262e-10  1.000151  1.000151
+ 8   6.057363e-10  1.017151  1.017151
+ 9   4.731771e-13  0.983100  0.983100
+ 10  5.251630e-10  1.014307  1.014307
+ 11  3.384415e-10  1.011733  1.011733
+ 12  6.858980e-11  1.015384  1.015384
+ 13  2.709832e-12  1.027800  1.027800
+ 14  1.137659e-10  1.033555  1.033555
+ 15  2.069158e-10  1.037741  1.037741
+ 16  1.420393e-10  1.030931  1.030931
+ 17  1.683635e-10  1.030173  1.030173
  18  1.896114e-10  1.052075  1.052075
- 19  8.532330e-11  1.050122  1.050122
- 20  1.678042e-10  1.057568  1.057568
- 21  9.517187e-11  1.049942  1.049942
- 22  2.566169e-12  1.026500  1.026500
+ 19  8.532353e-11  1.050122  1.050122
+ 20  1.678040e-10  1.057568  1.057568
+ 21  9.517209e-11  1.049942  1.049942
+ 22  2.565725e-12  1.026500  1.026500
  23  2.665645e-12  1.047500  1.047500
- 24  1.697931e-11  1.048736  1.048736
- 25  1.442846e-12  1.030000  1.030000
- 26 -1.537577e-10  1.028226  1.028226
- 27  1.286304e-12  1.063500  1.063500
- 28 -3.145499e-10  1.044789  1.044789
- 29 -3.624552e-10  1.049795  1.049795
- 30  2.042588e-12  1.049300  1.049300
- 31  1.212995e-09  0.991177  0.991177
- 32  2.106220e-10  1.049861  1.049861
- 33  3.113954e-12  1.012300  1.012300
- 34  2.887579e-12  0.997200  0.997200
- 35 -4.589662e-12  1.031774  1.031774
- 36 -9.434253e-11  1.037311  1.037311
- 37 -1.941567e-10  1.031760  1.031760
- 38  5.274026e-11  1.047356  1.047356,
+ 24  1.697886e-11  1.048736  1.048736
+ 25  5.274048e-11  1.047356  1.047356
+ 26  1.443068e-12  1.030000  1.030000
+ 27 -1.537581e-10  1.028226  1.028226
+ 28  1.212995e-09  0.991177  0.991177
+ 29  2.106217e-10  1.049861  1.049861
+ 30  3.113509e-12  1.012300  1.012300
+ 31  2.887468e-12  0.997200  0.997200
+ 32 -9.434253e-11  1.037311  1.037311
+ 33 -1.941567e-10  1.031760  1.031760
+ 34 -4.589662e-12  1.031774  1.031774
+ 35  1.286082e-12  1.063500  1.063500
+ 36 -3.145499e-10  1.044789  1.044789
+ 37 -3.624552e-10  1.049795  1.049795
+ 38  2.042588e-12  1.049300  1.049300,
  'diff_va':             diff  va_degree_pp  va_degree_pf
- 0   1.304982e-07    -10.615381    -10.615381
- 1   1.302316e-07    -10.123823    -10.123823
- 2   1.289775e-07     -8.611863     -8.611863
- 3   1.278345e-07     -9.606668     -9.606667
- 4   1.286948e-07     -7.949683     -7.949683
- 6   1.255758e-07     -6.284262     -6.284262
- 7   1.161739e-07     -6.243642     -6.243642
- 8   1.243239e-07     -5.427126     -5.427126
- 9  -5.807801e-08      2.568960      2.568960
- 10  1.254399e-07     -6.097718     -6.097718
- 11  1.264527e-07     -7.656411     -7.656411
- 12  1.247388e-07     -7.736092     -7.736092
- 13  4.192849e-07      2.421107      2.421107
- 14  1.232096e-07     -7.301286     -7.301285
- 15  1.205033e-07     -7.495423     -7.495423
- 16  1.239574e-07     -8.223858     -8.223858
- 17  1.253273e-07     -8.598549     -8.598549
- 18  1.186066e-07     -5.526725     -5.526725
- 19  1.160292e-07     -2.014886     -2.014886
- 20  1.186790e-07     -4.363392     -4.363391
- 21  1.149744e-07      0.744355      0.744355
- 22  2.239051e-07      7.807727      7.807727
- 23  1.987250e-07     -3.333993     -3.333993
- 24  1.261071e-07     -5.753762     -5.753762
- 25  1.284375e-07    -10.052962    -10.052961
- 26  1.298370e-07    -10.321987    -10.321987
- 27  1.555340e-07      8.322918      8.322918
- 28  1.286402e-07      0.470028      0.470028
- 29  1.290296e-07      0.668306      0.668306
- 30  2.881649e-07      5.630054      5.630054
- 31  8.781483e-08     -2.014676     -2.014676
- 32  1.243416e-07     -1.022768     -1.022768
- 33 -9.149472e-08      3.174992      3.174992
- 34  4.317916e-08      4.194689      4.194689
- 35  1.242054e-07     -6.187509     -6.187509
- 36  1.243799e-07     -6.067907     -6.067907
- 37  1.254547e-07     -3.780534     -3.780534
- 38  1.272868e-07     -8.438685     -8.438685,
- 'line_diff': 0     5.486284e-08
- 1     3.848413e-08
- 2    -5.150179e-08
- 3    -4.950159e-09
- 4     2.555258e-08
- 5     2.813974e-08
- 6     4.895918e-08
- 7     3.372674e-08
- 8    -2.410915e-07
- 9    -2.494215e-08
- 10   -1.323976e-08
+ 0   1.304981e-07    -10.615381    -10.615381
+ 1   1.302315e-07    -10.123823    -10.123823
+ 2   1.289774e-07     -8.611863     -8.611863
+ 3   1.278344e-07     -9.606668     -9.606667
+ 4   1.286947e-07     -7.949683     -7.949683
+ 6   1.255757e-07     -6.284262     -6.284262
+ 7   1.161738e-07     -6.243642     -6.243642
+ 8   1.243238e-07     -5.427126     -5.427126
+ 9  -5.807808e-08      2.568960      2.568960
+ 10  1.254398e-07     -6.097718     -6.097718
+ 11  1.264526e-07     -7.656411     -7.656411
+ 12  1.247387e-07     -7.736092     -7.736092
+ 13  4.192847e-07      2.421107      2.421107
+ 14  1.232095e-07     -7.301286     -7.301285
+ 15  1.205032e-07     -7.495423     -7.495423
+ 16  1.239573e-07     -8.223858     -8.223858
+ 17  1.253272e-07     -8.598549     -8.598549
+ 18  1.186065e-07     -5.526725     -5.526725
+ 19  1.160291e-07     -2.014886     -2.014886
+ 20  1.186789e-07     -4.363392     -4.363391
+ 21  1.149742e-07      0.744355      0.744355
+ 22  2.239050e-07      7.807727      7.807727
+ 23  1.987249e-07     -3.333993     -3.333993
+ 24  1.261070e-07     -5.753762     -5.753762
+ 25  1.272866e-07     -8.438685     -8.438685
+ 26  1.284374e-07    -10.052962    -10.052961
+ 27  1.298370e-07    -10.321987    -10.321987
+ 28  8.781472e-08     -2.014676     -2.014676
+ 29  1.243415e-07     -1.022768     -1.022768
+ 30 -9.149482e-08      3.174992      3.174992
+ 31  4.317905e-08      4.194689      4.194689
+ 32  1.243798e-07     -6.067907     -6.067907
+ 33  1.254546e-07     -3.780534     -3.780534
+ 34  1.242052e-07     -6.187509     -6.187509
+ 35  1.555339e-07      8.322918      8.322918
+ 36  1.286401e-07      0.470028      0.470028
+ 37  1.290295e-07      0.668306      0.668306
+ 38  2.881648e-07      5.630054      5.630054,
+ 'line_diff': 0     5.486298e-08
+ 1     3.848416e-08
+ 2    -5.150189e-08
+ 3    -4.951218e-09
+ 4     2.555241e-08
+ 5     2.813965e-08
+ 6     4.895919e-08
+ 7     3.372671e-08
+ 8    -2.410916e-07
+ 9    -2.494217e-08
+ 10   -1.323977e-08
  11   -1.526544e-08
- 12    1.335353e-08
+ 12    1.335352e-08
  13   -7.175416e-08
- 14   -3.785445e-09
- 15   -3.613647e-08
- 16   -3.060013e-07
- 17    1.907278e-08
- 18   -1.125297e-07
- 19   -6.683103e-08
- 20    4.926296e-08
- 21   -3.236836e-08
- 22   -2.751841e-08
+ 14   -3.785530e-09
+ 15   -3.613622e-08
+ 16   -3.060009e-07
+ 17    1.907285e-08
+ 18   -1.125300e-07
+ 19   -6.683107e-08
+ 20    4.926282e-08
+ 21   -3.236841e-08
+ 22   -2.751855e-08
  23    1.696871e-07
- 24    5.957063e-08
- 25   -9.428269e-08
- 26   -2.416890e-07
+ 24    5.957081e-08
+ 25   -9.428241e-08
+ 26   -2.416887e-07
  27   -2.474486e-08
- 28   -1.238903e-07
- 29   -3.017578e-08
- 30    1.673647e-07
- 31   -1.269711e-07
- 32    2.066877e-08
- 33    6.852987e-08
+ 28   -1.238899e-07
+ 29   -3.017591e-08
+ 30    1.673644e-07
+ 31   -1.269705e-07
+ 32    2.066873e-08
+ 33    6.852986e-08
  dtype: float64,
- 'trafo_diff': 0     1.519594e-07
- 1     3.987861e-08
- 2    -3.555772e-08
- 3     4.051856e-08
- 4    -1.647718e-08
+ 'trafo_diff': 0     1.519603e-07
+ 1     3.987884e-08
+ 2    -3.555784e-08
+ 3     4.051890e-08
+ 4    -1.647719e-08
  5    -1.595604e-07
- 6     6.224111e-08
+ 6     6.224116e-08
  7     2.759657e-08
- 8     1.979986e-08
- 9     3.799457e-09
- 10    1.862674e-09
- 11   -9.592364e-08
+ 8     1.979980e-08
+ 9     3.799485e-09
+ 10    1.862631e-09
+ 11   -9.592356e-08
  dtype: float64,
  'load_p_diff_is': 0     0.000000e+00
  1    -5.684342e-14
@@ -4311,7 +4321,7 @@ Please install numba to gain a massive speedup.
  17    2.842171e-14
  18    2.842171e-14
  dtype: float64,
- 'ext_grid_p_diff': 0    6.027542e-07
+ 'ext_grid_p_diff': 0    6.027589e-07
  dtype: float64,
  'ext_grid_q_diff': 0    0.000001
  dtype: float64}</code></pre>
@@ -4322,7 +4332,7 @@ Please install numba to gain a massive speedup.
 <h3 data-number="6.2" class="anchored" data-anchor-id="using-powfacpy"><span class="header-section-number">6.2</span> Using <em>powfacpy</em></h3>
 <p><em>powfacpy</em> offers a rudimentary validation of the exported dataset focusing only on data relevant for the admittance matrix. It is assumed that the currently active project in <em>PowerFactory</em> was used for the export. We can check the difference between both datasets by using <code>get_difference_between_pf_and_pandapower_dataset</code>.</p>
 <p>We artificially set (and later undo) a deviation in the <em>pandapower</em> dataset here. A <em>Dataframe</em> with the divergent parameters is returned.</p>
-<div id="c33896b8" class="cell" data-execution_count="16">
+<div id="380211bd" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas <span class="im">import</span> DataFrame</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -4368,7 +4378,7 @@ Please install numba to gain a massive speedup.
 </div>
 <p><code>get_difference_between_pf_and_pandapower_dataset</code> assumes default settings for the units in the <em>PowerFactory</em> project (see *Settings).</p>
 <p>As mentioned, only a subset of classes and parameters is validated. The following mapping is used:</p>
-<div id="7ee209a8" class="cell" data-execution_count="17">
+<div id="edffb75c" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ppi.get_pandapower_2_pf_class_mapping()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>{'bus': ['ElmTerm'],
@@ -4378,7 +4388,7 @@ Please install numba to gain a massive speedup.
 </div>
 </div>
 <p>The parameter mapping is defined in <code>get_pandapower_2_pf_parameter_mapping</code>. It is best understood by looking at the source code and we use <em>python’s</em> <code>inspect</code> module to print the method. The mapping is either between the <em>pandapower parameter strings or between a </em>pandapower* parameter string and and a callable with the <em>PowerFactory</em> object as argument and returning the parameter value (used for example to get parameters from the <em>type</em> object).</p>
-<div id="3c58af0f" class="cell" data-execution_count="18">
+<div id="d2c037c2" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> inspect</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>inspect<span class="sc">.</span>getsource(ppi.get_pandapower_2_pf_parameter_mapping)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

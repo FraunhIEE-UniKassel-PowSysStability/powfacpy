@@ -33,7 +33,8 @@ website:
       contents:
         - docs/tutorials/overview.qmd
         - docs/tutorials/getting_started.qmd
-        - docs/tutorials/simulation_and_plotting.qmd
+        - docs/tutorials/dynamic_simulation_and_plotting.qmd
+        - docs/tutorials/dynamic_model_validation.qmd
         - docs/tutorials/static_calc.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/parameter_studies.qmd
@@ -56,7 +57,8 @@ format:
     toc: true
     
 execute:
-      freeze: auto  # re-render only when source changes
+  freeze: auto  # re-render only when source changes
+  daemon: false
 
 theme:
   light: flatly

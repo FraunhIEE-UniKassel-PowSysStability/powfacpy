@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.35">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Simulation and Plotting – powfacpy</title>
+<title>Dynamic Simulation and Plotting – powfacpy</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -68,7 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/tutorials/static_calc.html" rel="next">
+<link href="../../docs/tutorials/dynamic_model_validation.html" rel="next">
 <link href="../../docs/tutorials/getting_started.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-46f66b053e56abd73bb6e954d61a315b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -163,7 +163,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/simulation_and_plotting.html">Simulation and Plotting</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/dynamic_simulation_and_plotting.html">Dynamic Simulation and Plotting</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -189,8 +189,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/simulation_and_plotting.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Simulation and Plotting</span></a>
+  <a href="../../docs/tutorials/dynamic_simulation_and_plotting.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Dynamic Simulation and Plotting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Validation and Requirements Testing</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -264,14 +270,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#exporting-curves-of-plot-to-pandas-dataframe" id="toc-exporting-curves-of-plot-to-pandas-dataframe" class="nav-link" data-scroll-target="#exporting-curves-of-plot-to-pandas-dataframe"><span class="header-section-number">4</span> Exporting Curves of Plot to Pandas DataFrame</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/simulation_and_plotting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/simulation_and_plotting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/dynamic_simulation_and_plotting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/dynamic_simulation_and_plotting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Simulation and Plotting</h1>
+<h1 class="title">Dynamic Simulation and Plotting</h1>
 </div>
 
 
@@ -290,27 +296,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>The following tutorial introduces dynamic simulations (RMS/EMT), plotting and exporting of results (to pandas or csv) using <em>powfacpy</em>.</p>
 <p>Let’s again set up <em>PowerFactory</em> and create an instance of <em>powfacpy</em>’s <code>Plots</code> class. This class inherits from <code>ActiveProject</code> (so those methods are available). We use the ‘39-Bus New England’ example from <em>PowerFactory</em> (see File-&gt;Examples).</p>
-<div id="a6b197cd" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"C:</span><span class="er">\</span><span class="vs">Program Files</span><span class="dv">\D</span><span class="vs">IgSILENT</span><span class="er">\</span><span class="vs">PowerFactory 2025 SP3</span><span class="er">\</span><span class="vs">Python</span><span class="ch">\3</span><span class="dv">.</span><span class="vs">13"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># you may use a different directory</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>pfplt <span class="op">=</span> Plots(app)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> pfplt.act_prj.activate_study_case(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Study Cases</span><span class="ch">\2</span><span class="dv">.</span><span class="vs">1 Simulation Fault Bus 16 Stable"</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="c60b233a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>pfplt <span class="op">=</span> Plots(app)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> pfplt.act_prj.activate_study_case(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Study Cases</span><span class="ch">\2</span><span class="dv">.</span><span class="vs">1 Simulation Fault Bus 16 Stable"</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="plotting-inside-powerfactory" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Plotting Inside <em>PowerFactory</em></h1>
@@ -318,13 +328,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.1" class="anchored" data-anchor-id="plotting-simulation-results"><span class="header-section-number">1.1</span> Plotting Simulation Results</h2>
 <p>In <em>PowerFactory</em>, monitored result variables (to be later plotted or exported) need to be specified before the simulation. The easiest way to plot results using <em>powfacpy</em> is to simply use the method <code>plot</code> before the simulation, which automaticallly adds a variable to the monitored variables and plots it as soon as the simulation has run.</p>
 <p>First, we set the active plot (starting from a clean graphics board by clearing all plot pages).</p>
-<div id="a1b097ed" class="cell" data-execution_count="3">
+<div id="effc9879" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pfplt.clear_plot_pages()  <span class="co"># Start from a clean graphics board</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pfplt.set_active_plot(<span class="st">"Plot 1"</span>, <span class="st">"Plot page 1"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The method <code>set_active_plot</code> takes the name of the plot and the name of the page of the plot as input arguments. If the plot (or the page) does not exist, it is created. If there should be several plots on one page, the method is called several times with the same page name but different plot name (e.g.&nbsp;<code>pfplt.set_active_plot("Plot 2", "Plot page 1")</code>).</p>
 <p>All plot commmands are applied to the active plot. We can now add curves to the plot.</p>
-<div id="2b0c4586" class="cell" data-execution_count="4">
+<div id="0d54da8f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Curve of variable "s:P1"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pfplt.plot(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\G</span><span class="vs"> 01"</span>, <span class="st">"s:P1"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -347,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>NOTE:</strong> If the plot is not shown properly in <em>PowerFactory</em>, click on refresh <img src="attachment:image.png" class="img-fluid" alt="image.png"> and rescale <img src="attachment:image-2.png" class="img-fluid" alt="image-2.png">.</p>
 <p>The method <code>plot</code> takes the PF object (or its path) and a results variable as first and second input. Furthermore, keyword arguments can be specified as shown for the second curve.</p>
 <p>Now we can execute a dynamic simulation using the <code>DynamicSimulations</code> interface class.</p>
-<div id="c3d347bf" class="cell" data-execution_count="5">
+<div id="44aa4c08" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pfds <span class="op">=</span> DynamicSimulation(app)</span>
@@ -355,11 +365,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>pfds.run_sim({<span class="st">"tstop"</span>: <span class="fl">0.5</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The two methods initialize and run the simulation. Paramters for the ComInc object (initialization) and the ComSim (run simulation) can be specified in a dictionary. If no parameters need to be set, one can also use:</p>
-<div id="39365ccd" class="cell" data-execution_count="6">
+<div id="a823bc73" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfds.initialize_and_run_sim()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>In some cases, it might be more convenient to add the result variable first, then simulate and finally specifiy the plot:</p>
-<div id="faada3bf" class="cell" data-execution_count="7">
+<div id="684433a6" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pfplt.clear_curves()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pfds.initialize_sim({<span class="st">"iopt_sim"</span>: <span class="st">"rms"</span>})</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pfds.act_prj.add_results_variable(g_01, <span class="st">"s:P1"</span>)</span>
@@ -376,7 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>In the variable name, colons (“:”) are replaced by underscores (“_“) to comply with python naming restrictions. The <code>value</code> at the end is required to get the name string of the variable. It is assumed that you set <code>RMS_bal = ResVar.RMS_Bal</code> as in the cell below.</p>
 <p>Additionally, <code>create_dyn_sim_event</code> in the cell below creates an event, here we add a parameter event.</p>
-<div id="5173d542" class="cell" data-execution_count="8">
+<div id="a4deb36d" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>RMS_bal <span class="op">=</span> ResVar.RMS_Bal  <span class="co"># we focus on balanced RMS simulation here</span></span>
@@ -392,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>pfplt.plot_monitored_variables(g_01, RMS_bal.ElmSym.s_P1.value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Sometimes we have created plots in one study case and want to have those plots also in another study case. This can be achieved by copying the graphics board content (or parts of it) from one study case to another:</p>
-<div id="de08c07c" class="cell" data-execution_count="9">
+<div id="917e375a" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>study_case_1 <span class="op">=</span> pfplt.act_prj.get_unique_obj(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Study Cases</span><span class="ch">\2</span><span class="dv">.</span><span class="vs">1 Simulation Fault Bus 16 Stable"</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -408,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.2" class="anchored" data-anchor-id="plotting-from-pandas-dataframe"><span class="header-section-number">1.2</span> Plotting from Pandas DataFrame</h2>
 <p>If you want to display external data in a plot inside <em>PowerFactory</em>, you can use the method <code>plot_from_pandas_using_comtrade</code>. This method takes a pandas DataFrame as input and plots it in the active plot. The DataFrame must have a time index and columns for each variable to be plotted.</p>
 <p>Let’s create such a DataFrame.</p>
-<div id="a6ed8626" class="cell" data-execution_count="10">
+<div id="60230495" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -420,21 +430,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>df.set_index(<span class="st">"time"</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>df.plot()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-packages\matplotlib\cbook.py:1719: ComplexWarning: Casting complex values to real discards the imaginary part
+<pre><code>c:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-packages\matplotlib\cbook.py:1719: ComplexWarning: Casting complex values to real discards the imaginary part
   return math.isfinite(val)
-D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-packages\matplotlib\cbook.py:1355: ComplexWarning: Casting complex values to real discards the imaginary part
+c:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-packages\matplotlib\cbook.py:1355: ComplexWarning: Casting complex values to real discards the imaginary part
   return np.asarray(x, float)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-11-output-2.png" width="590" height="429" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-11-output-2.png" width="590" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>And we plot the two variables inside <em>PowerFactory</em>.</p>
-<div id="a1e72db5" class="cell" data-execution_count="11">
+<div id="1cbe2009" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.api.types <span class="im">import</span> is_complex_dtype</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>pfplt.set_active_plot(<span class="st">"Test from df"</span>, <span class="st">"Test from df"</span>)</span>
@@ -445,7 +455,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">del</span> df[col]</span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>pfplt.plot_from_pandas_using_comtrade(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
-<pre><code>'C:\\Users\\seberlein\\AppData\\Local\\DIgSILENT\\PowerFactory 2025 SP3\\Workspace.C64O8EL\\projectdata\\35883270\\comtrade_files\\Test from df_Test from df_0'</code></pre>
+<pre><code>'C:\\Users\\seberlein\\AppData\\Local\\DIgSILENT\\PowerFactory 2025 SP5\\Workspace.Muwy05o\\projectdata\\3165504\\comtrade_files\\Test from df_Test from df_0'</code></pre>
 </div>
 </div>
 </section>
@@ -454,7 +464,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <h1 data-number="2"><span class="header-section-number">2</span> Getting Objects from the Initial Conditions Calculation (ComInc)</h1>
 <p>A common source of error is that users access wrong objects from the active study case without noticing. For example, they access a <code>Results Object (ElmRes)</code> which they assume to be used in their time-domain simulation, but actually multiple <code>ElmRes</code> objects exist in the study case and the <code>Initial Conditions Calculation (ComInc)</code> uses a different one to store simualion results.</p>
 <p>This can be avoided by getting the objects directly from the <code>ComInc</code>:</p>
-<div id="041f7cd0" class="cell" data-execution_count="12">
+<div id="4f3217b5" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>elmres <span class="op">=</span> pfplt.act_prj.get_results_obj_from_initial_conditions_calc()</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>events_folder <span class="op">=</span> pfplt.act_prj.get_events_folder_from_initial_conditions_calc()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -462,7 +472,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <section id="exporting-results-from-powerfactory" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Exporting Results from <em>PowerFactory</em></h1>
 <p>Simulation results can be exported to a <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">Pandas DataFrame</a> via the class <code>Results</code>.</p>
-<div id="c65b2ec4" class="cell" data-execution_count="13">
+<div id="63040bdb" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.results <span class="im">import</span> Results</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pfres <span class="op">=</span> Results(app)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -470,7 +480,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <section id="export-to-pandas-dataframe" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="export-to-pandas-dataframe"><span class="header-section-number">3.1</span> Export to Pandas DataFrame</h2>
 <p>Let’s export dynamic simulation results to a <a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html">Pandas DataFrame</a>. We’ll hide the <em>PowerFactory</em> app to improve the performance.</p>
-<div id="75531c6c" class="cell" data-execution_count="14">
+<div id="2d5155e7" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    pfds.act_prj.clear_elmres()</span>
@@ -542,7 +552,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 <p>Multi index column labels are used by default. The first index is the path of the object inside the network data folder and the second index is the variable name.</p>
 <p>You can also use single index column format:</p>
-<div id="2c3e106b" class="cell" data-execution_count="15">
+<div id="1f075a56" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pfres.multi_index_labels <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df_sim_res <span class="op">=</span> pfres.export_to_pandas()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>df_sim_res.head(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -596,7 +606,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 </div>
 <p>It is also possible to set the actual PF objects as labels:</p>
-<div id="0d9ea0bb" class="cell" data-execution_count="16">
+<div id="1473095a" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pfres.pf_objects_in_labels <span class="op">=</span> <span class="va">True</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pfres.multi_index_labels <span class="op">=</span> <span class="va">True</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df_sim_res <span class="op">=</span> pfres.export_to_pandas()</span>
@@ -656,7 +666,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 </div>
 <p>The column headers are the path of the objects relative to the network data folder (by default) together with the result variable name. You can change the relative path by setting the attribute <code>pfres.truncate_paths_until</code> (relative to active project):</p>
-<div id="c16fbbf6" class="cell" data-execution_count="17">
+<div id="a65dae7f" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>pfres.multi_index_labels <span class="op">=</span> <span class="va">True</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pfres.pf_objects_in_labels <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pfres.truncate_paths_until <span class="op">=</span> <span class="st">"Network Model</span><span class="ch">\\</span><span class="st">Network Data</span><span class="ch">\\</span><span class="st">Grid</span><span class="ch">\\</span><span class="st">"</span></span>
@@ -717,7 +727,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 </div>
 <p><em>powfacpy</em> offers methods to easily extract results from the exported pandas DataFrame using <em>PowerFactory</em> objects instead of columns headers (<strong>note that changing the format of the column headers of the DataFrame after export will break this functionality</strong>):</p>
-<div id="b379cafa" class="cell" data-execution_count="18">
+<div id="e9b25abf" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>p_g_01 <span class="op">=</span> pfres.get_simulation_results_from_dataframe(</span>
@@ -768,13 +778,13 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-19-output-2.png" width="583" height="429" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-19-output-2.png" width="583" height="429" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Let’s look a more complicated example where you want to examine the active and reactive power of the synchronous machines <code>G 01</code> and <code>G 02</code>.</p>
-<div id="bf18be8f" class="cell" data-execution_count="19">
+<div id="2b778d91" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># SM objects</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sm_objs <span class="op">=</span> [</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    pfres.act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\G</span><span class="vs"> 01"</span>),</span>
@@ -790,7 +800,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>pfdi.initialize_and_run_sim()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We want to add a legend to the plots. As the default variable and object names might not be very descriptive, <em>powfacpy</em> allows to define aliases, e.g.&nbsp;to be used later for labels in plots:</p>
-<div id="7f051597" class="cell" data-execution_count="20">
+<div id="3c95f39e" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pfres.variable_aliases <span class="op">=</span> {</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    RMS_bal.ElmSym.s_P1.value: <span class="st">"Active Power"</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    RMS_bal.ElmSym.s_Q1.value: <span class="st">"Reactive Power"</span>,</span>
@@ -802,7 +812,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s see how the <code>variable_aliases</code> dictionary can then be used when plotting active and reactive power of <code>G 01</code> using <code>replace_variable_aliases</code>:</p>
-<div id="ad039134" class="cell" data-execution_count="21">
+<div id="aeca9f6b" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_sim_res <span class="op">=</span> pfres.export_to_pandas()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> sm_res_var:</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> pfres.get_simulation_results_from_dataframe(df_sim_res, sm_objs[<span class="dv">0</span>], var)</span>
@@ -813,14 +823,14 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-22-output-1.png" width="583" height="411" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-22-output-1.png" width="583" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Instead of <code>s:P1</code> or <code>s:Q1</code>, the replacements defined in the dictionaries above are used for the labels.</p>
 <p>Or in a similar fashion, using also the <code>object_aliases</code> to plot the reactive power of both machines:</p>
-<div id="73f2e697" class="cell" data-execution_count="22">
+<div id="55771619" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>var <span class="op">=</span> RMS_bal.ElmSym.s_P1.value</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sm <span class="kw">in</span> sm_objs:</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> pfres.get_simulation_results_from_dataframe(df_sim_res, sm, var)</span>
@@ -835,14 +845,14 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-23-output-1.png" width="583" height="411" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-23-output-1.png" width="583" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Hence, the dictionaries are a clean option to define aliases and reuse them anywhere in your code.</p>
 <p>Note that <code>get_simulation_results_from_dataframe</code> also accepts a list of objects (as well as a list of variables). You can easily get various time series results and then process the data using pandas (e.g.&nbsp;calculate mean or average):</p>
-<div id="e0f13178" class="cell" data-execution_count="23">
+<div id="3a928168" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>var <span class="op">=</span> RMS_bal.ElmSym.s_P1.value</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>res <span class="op">=</span> pfres.get_simulation_results_from_dataframe(</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    df_sim_res, sm_objs, var  <span class="co"># list with G 01 and G 02</span></span>
@@ -871,14 +881,14 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-24-output-1.png" width="583" height="502" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-24-output-1.png" width="583" height="502" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Note that the same code block can be used with other result variables (e.g.&nbsp;reactive power) just by changing the <code>var</code> assignment in the first line.</p>
 <p>By default, <code>export_to_pandas</code> exports all monitored variables of the first <code>ElmRes</code> object found in the active study case. Alternatively, selections of network elements and the respective variables as well as results objects (<code>ElmRes</code>) can be specified as lists:</p>
-<div id="85588e9e" class="cell" data-execution_count="24">
+<div id="cf47d438" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> [g_01, g_01]</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>variables <span class="op">=</span> [RMS_bal.ElmSym.s_P1.value, RMS_bal.ElmSym.s_Q1.value]</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>elmres_list <span class="op">=</span> [pfres.act_prj.get_results_obj_from_initial_conditions_calc()] <span class="op">*</span> <span class="bu">len</span>(</span>
@@ -933,7 +943,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 </div>
 <p>Another helpful method to make your exported data more descriptive is <code>get_result_variable_description</code>:</p>
-<div id="0a6529ad" class="cell" data-execution_count="25">
+<div id="9c5fa66b" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pfres.get_result_variable_description(sm_objs[<span class="dv">0</span>], RMS_bal.ElmSym.s_P1.value, simulation_type<span class="op">=</span><span class="st">"RMS_Bal"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>'MW, OUT, Positive-sequence, active power continuous, double'</code></pre>
@@ -941,7 +951,7 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 </div>
 <p>This returns the variable description provided by <em>PowerFactory</em> and can be used in labels as well.</p>
 <p>You can also extract variable descriptions for all columns of the results <em>DataFrame</em> and format the dictionary with the <code>json</code> package:</p>
-<div id="80c90464" class="cell" data-execution_count="26">
+<div id="b4b64a02" class="cell" data-execution_count="26">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>classes_and_vars_descriptions <span class="op">=</span> (</span>
@@ -953,8 +963,8 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <div class="cell-output cell-output-stdout">
 <pre><code>{
   "ElmSym (Synchronous Machine)": {
-    "s:P1": "MW, OUT, Positive-sequence, active power continuous, double",
-    "s:Q1": "Mvar, OUT, Positive-sequence, reactive power, continuous, double"
+    "s:Q1": "Mvar, OUT, Positive-sequence, reactive power, continuous, double",
+    "s:P1": "MW, OUT, Positive-sequence, active power continuous, double"
   }
 }</code></pre>
 </div>
@@ -964,14 +974,14 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <section id="export-to-csv-format" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="export-to-csv-format"><span class="header-section-number">3.2</span> Export to CSV Format</h2>
 <p>We can also export simulation results from PowerFactory to a csv file. The syntax is very simlar to the export to pandas:</p>
-<div id="e55aa038" class="cell" data-execution_count="27">
+<div id="2f58040a" class="cell" data-execution_count="27">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>pfres.export_to_csv()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
-<pre><code>'D:\\User\\seberlein\\FraunhIEE-UniKassel-PowSysStability\\powfacpy\\docs\\tutorials\\results.csv'</code></pre>
+<pre><code>'C:\\Users\\seberlein\\local\\FraunhIEE-UniKassel-PowSysStability\\powfacpy\\docs\\tutorials\\results.csv'</code></pre>
 </div>
 </div>
 <p>This exports all variables from the first result object (<code>ElmRes</code>) found in the active study case to the directory from where the script is run. You can also specifiy a directory, a file name (default is “results”) and lists for grid objects, variables and results objects (similar to the method <code>export_to_pandas</code>).</p>
-<div id="432bbdbb" class="cell" data-execution_count="28">
+<div id="5869f6df" class="cell" data-execution_count="28">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>elements <span class="op">=</span> [g_01, g_01]</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>variables <span class="op">=</span> [RMS_bal.ElmSym.s_P1.value, RMS_bal.ElmSym.s_Q1.value]</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>elmres_list <span class="op">=</span> [pfres.act_prj.get_results_obj_from_initial_conditions_calc()] <span class="op">*</span> <span class="bu">len</span>(</span>
@@ -985,11 +995,11 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 <span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    variables<span class="op">=</span>variables,</span>
 <span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
-<pre><code>'D:\\User\\seberlein\\FraunhIEE-UniKassel-PowSysStability\\powfacpy\\docs\\tutorials\\Power of Synchronous Machine 01.csv'</code></pre>
+<pre><code>'C:\\Users\\seberlein\\local\\FraunhIEE-UniKassel-PowSysStability\\powfacpy\\docs\\tutorials\\Power of Synchronous Machine 01.csv'</code></pre>
 </div>
 </div>
 <p>The static method <code>plot_from_csv</code> pf <code>Plots</code> class is used to plot from files of this format:</p>
-<div id="caccc03e" class="cell" data-execution_count="29">
+<div id="41df6219" class="cell" data-execution_count="29">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plot <span class="op">=</span> Plots.plot_from_csv(<span class="st">"Power of Synchronous Machine 01.csv"</span>, <span class="st">"G 01</span><span class="er">\</span><span class="st">s:P1"</span>)</span>
@@ -1000,15 +1010,15 @@ D:\User\seberlein\FraunhIEE-UniKassel-PowSysStability\powfacpy\.venv\Lib\site-pa
 &lt;&gt;:4: SyntaxWarning: invalid escape sequence '\s'
 &lt;&gt;:3: SyntaxWarning: invalid escape sequence '\s'
 &lt;&gt;:4: SyntaxWarning: invalid escape sequence '\s'
-C:\Users\seberlein\AppData\Local\Temp\ipykernel_44864\1073379661.py:3: SyntaxWarning: invalid escape sequence '\s'
+C:\Users\seberlein\AppData\Local\Temp\ipykernel_33764\1073379661.py:3: SyntaxWarning: invalid escape sequence '\s'
   plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:P1")
-C:\Users\seberlein\AppData\Local\Temp\ipykernel_44864\1073379661.py:4: SyntaxWarning: invalid escape sequence '\s'
+C:\Users\seberlein\AppData\Local\Temp\ipykernel_33764\1073379661.py:4: SyntaxWarning: invalid escape sequence '\s'
   plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:Q1")</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="simulation_and_plotting_files/figure-html/cell-30-output-2.png" width="583" height="411" class="figure-img"></p>
+<p><img src="dynamic_simulation_and_plotting_files/figure-html/cell-30-output-2.png" width="583" height="411" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1019,7 +1029,7 @@ C:\Users\seberlein\AppData\Local\Temp\ipykernel_44864\1073379661.py:4: SyntaxWar
 <section id="exporting-curves-of-plot-to-pandas-dataframe" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Exporting Curves of Plot to Pandas DataFrame</h1>
 <p>It is also possible to directly export curves from a plot to a pandas DataFrame. This is useful if you have created a plot in <em>PowerFactory</em> and want to analyze the data further using pandas.</p>
-<div id="a3bd0eb9" class="cell" data-execution_count="30">
+<div id="7923823f" class="cell" data-execution_count="30">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pfplt.set_active_plot(<span class="st">"Plot 1"</span>, <span class="st">"Plot page 1"</span>)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>pfplt.export_curves_to_pandas_dataframe()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
@@ -1505,8 +1515,8 @@ C:\Users\seberlein\AppData\Local\Temp\ipykernel_44864\1073379661.py:4: SyntaxWar
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tutorials/static_calc.html" class="pagination-link" aria-label="Static Calculations">
-        <span class="nav-page-text">Static Calculations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/tutorials/dynamic_model_validation.html" class="pagination-link" aria-label="Dynamic Model Validation and Requirements Testing">
+        <span class="nav-page-text">Dynamic Model Validation and Requirements Testing</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1515,4 +1525,4 @@ C:\Users\seberlein\AppData\Local\Temp\ipykernel_44864\1073379661.py:4: SyntaxWar
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/simulation_and_plotting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/simulation_and_plotting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/dynamic_simulation_and_plotting.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/dynamic_simulation_and_plotting.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
