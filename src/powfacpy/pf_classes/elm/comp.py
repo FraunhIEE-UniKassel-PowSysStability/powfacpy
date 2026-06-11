@@ -111,9 +111,9 @@ class CompositeModel(ElmBase):
         """Monitor internals of the network elements in the slots that are of class 'ElmDsl'.
 
         Args:
-            signals (list[str]): Internal signals to monitor (e.g. ["input_signals", "output_signals", "states", "internal_variables""upper_limitation_signals", 
-            "lower_limitation_signals"]). If None, all internal signals are monitored. Defaults to None.
-            create_plots (bool): If True, plots are created for the states of each 'ElmDsl' model. Defaults to False.
+            signals (list[str]): Internal signals to monitor (e.g. ["input_signals", "output_signals", "states", "internal_variables","upper_limitation_signals", 
+            "lower_limitation_signals"]). If None, all signals are monitored. Defaults to None.
+            create_plots (bool): If True, plots are created for the signals of each 'ElmDsl' model. Defaults to False.
         """
         if signal_types is None:
             signal_types = ["input_signals", "output_signals", "states", "internal_variables", "upper_limitation_signals", "lower_limitation_signals"]

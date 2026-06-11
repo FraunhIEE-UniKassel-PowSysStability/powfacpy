@@ -14,8 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-import sys
-sys.path.append(r"..\..\src")
 
 import matplotlib
 matplotlib.rcParams.update({"axes.grid" : True}) # add grid by default
@@ -35,18 +33,20 @@ First, we activate the PowerFactory project of the *IEEE 39 bus system* example,
 ```{python}
 # If you use IPython/Jupyter:
 import sys
-
+import json
 from icecream import ic
 
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
-)  # you may use a different directory
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
+app = powerfactory.GetApplication()
 from powfacpy.base.active_project import ActiveProject
 from powfacpy.pf_classes.protocols import PFApp
-
-app = powerfactory.GetApplication()
 
 pf_app: PFApp = powerfactory.GetApplication()
 act_prj = ActiveProject(pf_app)

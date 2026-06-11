@@ -14,11 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-import sys
-
-sys.path.append(r"..\..\src")
-from powfacpy.applications.model_exchange import CGMES
-from powfacpy.applications.study_cases import StudyCases
 ```
 
 # About CGMES 
@@ -55,26 +50,29 @@ First, activate the *PowerFactory* project as outlined in the *getting started* 
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
-)  # you may use a different directory
-
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
-import powfacpy
 
 app = powerfactory.GetApplication()
 app.ActivateProject(
-    r"powfacpy\powfacpy_tests_copy_where_tests_run"
+    r"powfacpy\39_bus_new_england_copy_where_tests_run"
 )  # You may change the project path.
-
 app.Show()
 ```
 
 Get *powfacpy* objects (CGMES interface class and `ActiveProject`)
 
 ```{python}
+from powfacpy.applications.model_exchange import CGMES
+
 pfcgmes = CGMES(app)
 pfp = pfcgmes.act_prj
 ```

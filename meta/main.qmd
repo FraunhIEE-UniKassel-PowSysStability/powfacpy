@@ -1,0 +1,79 @@
+---
+title: Main Notebook
+jupyter: python3
+---
+
+# Introduction
+This notebook automates the key steps required to test, document, and publish (or deliver to a customer) a project. Please refer to the dedicated sections below for details on each feature. Note that — especially on the first run — additional manual steps and error handling may be required.
+
+The following cell defines a variable to control which parts of the notebook are executed. **Comment out any functionality that should not run.**
+Note that each cell can also be executed in isolation, which is achieved by the conditional `if not 'EXECUTION_CONTROL' in locals() or ...`.
+
+
+```{python}
+EXECUTION_CONTROL = [
+    "run_tests",
+    "synchronize_notebooks"
+    "create_api_docs",
+    "render_quarto",
+    "build_package",
+    # start_docs_server
+]
+```
+
+# Tests
+The following cell runs all tests using the `pytest` package, provided tests have been defined.
+
+```{python}
+if not 'EXECUTION_CONTROL' in locals() or "run_tests" in EXECUTION_CONTROL:
+    !(cd ../ && pytest)
+```
+
+# Synchronize Jupyter and Quarto
+This cell synchronizes notebooks between the `.ipynb` and `.qmd` formats by converting whichever file was modified most recently. If only one format exists, it is converted to the other.
+
+The `.qmd` format useful for version control and for rendering the project with Quarto — although Quarto supports `.ipynb` directly, it tends to work more reliably with `.qmd` files.
+
+```{python}
+from helpers import sync_jupyter_and_quarto_in_folder
+
+if not 'EXECUTION_CONTROL' in locals() or "synchronize_notebooks" in EXECUTION_CONTROL:
+    sync_jupyter_and_quarto_in_folder("..//docs//tutorials")
+    sync_jupyter_and_quarto_in_folder(".")
+```
+
+# Create API Documentation
+This cell generates the API documentation, which is included as part of the rendered project website.
+
+```{python}
+from helpers import get_package_name
+
+if not 'EXECUTION_CONTROL' in locals() or "create_api_docs" in EXECUTION_CONTROL:
+    !(pdoc ../src/powfacpy !powfacpy.result_variables !powfacpy.pf_class_protocols !powfacpy.pf_classes.protocols -o docs/api)        
+```
+
+# Render Quarto
+This cell renders the Quarto project.
+
+```{python}
+if not 'EXECUTION_CONTROL' in locals() or "render_quarto" in EXECUTION_CONTROL:
+    !(cd ../ && quarto render)
+```
+
+# Build Package
+This cell builds the Python package located under `.\src`. The resulting build artifact can then be published to PyPI or distributed in other ways.
+
+```{python}
+if not 'EXECUTION_CONTROL' in locals() or "build_package" in EXECUTION_CONTROL:
+    !python -m build ..\
+```
+
+# Start Local Server
+You can view the rendered website locally by running a local server, then the search will also work.
+The following command creates a local server at `http://localhost:8000`.
+
+```{python}
+if not "EXECUTION_CONTROL" in locals() or "start_docs_server":
+    !start cmd /k "cd ..\_site && python -m http.server 8000"
+```
+

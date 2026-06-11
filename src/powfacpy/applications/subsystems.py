@@ -14,7 +14,10 @@ from powfacpy.applications.application_base import ApplicationBase
 
 from powfacpy.pf_class_protocols import ElmZone, ElmTerm, ElmLne
 from powfacpy.pf_classes.elm.sym import SynchronousMachine
-from powfacpy.pf_classes.elm.dsl import get_dsl_models_info_sorted_by_block_definition
+from powfacpy.pf_classes.elm.dsl import (
+    get_dsl_models_info_sorted_by_block_definition,
+    export_dsl_model_info_to_csv,
+)
 from powfacpy.general_helpers import get_indices
 from powfacpy.pf_classes.elm.grouping_base import ElmAreaOrZone, AreaOrZone
 from powfacpy.pf_classes.elm.zone import Zone
@@ -243,6 +246,11 @@ class SubSystemSynchronousMachines:
             average=average,
         )
 
+    def export_info_to_csv(self, path: str) -> None:
+        export_dsl_model_info_to_csv(self.get_governor_info(), f"{path}/governors")
+        export_dsl_model_info_to_csv(self.get_avr_info(), f"{path}/avrs")
+        export_dsl_model_info_to_csv(self.get_pss_info(), f"{path}/pss")
+
 
 class SubSystemContainer(ApplicationBase):
     """Container for multiple subsystems, e.g. to analyze the power exchange between them."""
@@ -309,7 +317,7 @@ class SubSystemContainer(ApplicationBase):
         subsystem = self._subsystem_input_to_index(subsystem)
         for attr in self._attributes_with_values_for_each_subsystem:
             val = self.__getattribute__(attr)
-            if val:
+            if val is not None:
                 if isinstance(val, np.ndarray):
                     val = np.delete(val, subsystem, axis=0)
                 else:
@@ -409,6 +417,12 @@ class SubSystemContainer(ApplicationBase):
             ],
             axis=0,
         )
+
+    def export_synchronous_machines_info_to_csv(self, path: str) -> None:
+        for subs in self._subsystems:
+            subs.dynamic_models.synchronous_machines.export_info_to_csv(
+                f"{path}/{subs.name}"
+            )
 
     def _handle_subsystem_input(
         self, subsystem: int | SubSystem | ElmZone

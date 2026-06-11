@@ -14,9 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-import sys
-
-sys.path.append(r"..\..\src")
 ```
 
 This tutorial covers the grouping class of *powfacpy* named *SubSystem* which extends the functionality of the PowerFactory grouping classes (Zone, Area, Boundary). The *SubSystem* class is designed to represent coherent groups of elements in the power system and provides methods for analyzing and manipulating these groups. The *SubSystem* class inherits from the `Zone` class described in the [Topology and Groupings tutorial](./topology_and_groupings.qmd). It became necessary to define the *SubSystem* class in *powfacpy* because the functionality goes way beyond the native *PowerFactory* classes. Furthermore, there is a class for a group of `Subsystem`s named `SubSystemContainer` which provides methods to analyze and manipulate groups of `SubSystem`s.
@@ -37,16 +34,19 @@ We first activate the *IEEE 39 bus system* project and create a study case for t
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
-)  # you may use a different directory
-
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
+app = powerfactory.GetApplication()
 from powfacpy.base.active_project import ActiveProject
 
-app = powerfactory.GetApplication()
 app.Show()
 app.ActivateProject(
     r"powfacpy\39_bus_new_england_copy_where_tests_run"
@@ -143,8 +143,30 @@ finally:
 You can also get more detailled information on dynmic models such as governors. The `get_governor_info()` method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (`parent_elms`), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.
 
 ```{python}
+governor_info = subsystems[0].dynamic_models.synchronous_machines.get_governor_info()
+governor_info
+```
+
+We can also display the information in a more readable format:
+
+```{python}
 from powfacpy.pf_classes.elm.dsl import display_dsl_models_info
-display_dsl_models_info(subsystems[0].dynamic_models.synchronous_machines.get_governor_info())
+display_dsl_models_info(governor_info)
+```
+
+#### CSV Export
+Or export the information to csv files:
+
+```{python}
+from powfacpy.pf_classes.elm.dsl import export_dsl_model_info_to_csv
+
+export_dsl_model_info_to_csv(governor_info, r".\tests\tests_output\governor_info")
+```
+
+There is also a method to export the information on all dynamic models (governors, AVRs, PSS) of the subsystem to csv files:
+
+```{python}
+subsystems[0].dynamic_models.synchronous_machines.export_info_to_csv(r".\tests\tests_output\synchronous_machines_info")
 ```
 
 # Subsystem Container
@@ -198,5 +220,13 @@ try:
         print([ss.loc_name for ss in ss_container.get_neighboring_subsystems_in_container(subsys)])
 finally:    
     app.Show()  
+```
+
+## Dynamic Models
+### Synchronous Machines
+The `SubSystemContainer` class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files. 
+
+```{python}
+ss_container.export_synchronous_machines_info_to_csv(r".\tests\tests_output\synchronous_machines_info_by_subsystem")
 ```
 

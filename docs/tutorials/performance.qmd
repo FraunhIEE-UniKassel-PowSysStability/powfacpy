@@ -14,9 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-import sys
-
-sys.path.append(r"..\..\src")
 ```
 
 This tutorial evaluates the performance characteristics of the Python API of *PowerFactory*. The *powfacpy* wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by *powfacpy* are demonstrated.
@@ -26,19 +23,20 @@ We begin by activating the IEEE 39-bus system project.
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+import json
 
-from powfacpy.base.active_project import ActiveProject, ActiveProjectCached
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
-)  # Adjust the path if necessary.
-
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
-import powfacpy
+app: PFApp = powerfactory.GetApplication()
+from powfacpy.base.active_project import ActiveProject, ActiveProjectCached
 from powfacpy.pf_class_protocols import PFApp
 
-app: PFApp = powerfactory.GetApplication()
 app.Show()
 app.ActivateProject(
     r"powfacpy\39_bus_new_england_copy_where_tests_run"
@@ -246,7 +244,7 @@ finally:
 Caching substantially reduces execution time. This approach improves readability compared to manually storing return values in intermediate variables and reusing them.
 
 
-# Further Reported Perfomrance Improvements
+# Further Reported Performance Improvements
 This is a collection of potential performance improvements reported by users that cannot be reliably benchmarked or reproduced, since the internal behavior of *PowerFactory* is not transparent:
 
 - Deactivating and reactivating (large) projects
@@ -257,8 +255,8 @@ This is a collection of potential performance improvements reported by users tha
 The benchmarks suggest the following practical measures to improve performance:
 
 * **Hide the PowerFactory application** during computationally intensive operations.
+* **Use `ActiveProjectCached`** to efficiently access stable project properties.
 * **Reuse object references** instead of repeatedly resolving paths.
 * **Batch write operations** and enable `SetWriteCacheEnabled` when modifying larger data sets.
-* **Use `ActiveProjectCached`** when repeatedly accessing stable project properties.
 * **Apply method caching** to invariant, argument-free methods.
 

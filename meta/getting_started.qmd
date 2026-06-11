@@ -1,0 +1,75 @@
+---
+title: Getting Started
+jupyter: python3
+---
+
+# Introduction
+This notebook helps you set up the project after starting a new project or cloning an existing repository. It helps to setup the project for documentation rendering and software development in a virtual environment.
+
+ Lines starting with `!` are bash commands executed from within the notebook.
+
+Execute the cells according to your needs, using your preferred **Python version**. You may need to **restart the kernel several times** while activating the virtual environment and installing dependencies.
+
+> **Note:** Package management in Python can be error-prone. Be prepared to resolve issues manually or fall back to terminal commands.
+
+# Synchronize Quarto and Jupyter Notebooks
+Since only `.qmd` files are typically committed to version control, you may want to sync them with `.ipynb` files first — working in `.ipynb` files is generally more convenient. The cell below synchronizes notebooks in the `meta` and `docs/tutorials` folders.
+
+```{python}
+# pyyaml is required — install it for your Python version if needed, e.g.:
+# !python3.13 -m pip install pyyaml
+!pip install pyyaml
+
+from helpers import sync_jupyter_and_quarto_in_folder
+
+sync_jupyter_and_quarto_in_folder("..//docs//tutorials")
+sync_jupyter_and_quarto_in_folder(".")
+```
+
+# Create and Activate Virtual Environment
+The cell below creates and activates a new virtual environment if one does not already exist. Make sure the correct Python installation is used. After creation, restart the kernel and select the new virtual environment before continuing.
+
+```{python}
+import os 
+import sys
+
+if not os.path.exists("..//.venv"):
+    !python -m venv ../.venv 
+    # To use a specific Python version, replace the line above with e.g.:
+    # !python3.13 -m venv ../.venv
+    print("Created new virtual environment.")
+    print("Python path: " + sys.executable)
+    print("Python version: " + sys.version)
+    !..\.venv\scripts\activate  
+    raise Exception("Please select the new virtual environment as the notebook kernel before continuing.")
+else:
+    print("Found existing virtual environment.")
+    !..\.venv\scripts\activate  
+```
+
+# Install Dependencies
+The cell below installs all dependencies — for the Python package under `.\src`, the meta notebooks, and the tutorials. `handle_pip_install` reads from `pyproject.toml`. Alternatively, use `requirements_venv.txt` for a legacy installation (see the second cell).
+
+> **Note:** You may need to restart the kernel several times and resolve some errors manually. Missing packages can always be installed later with `pip install <package-name>` (if you get `ModuleNotFoundError`).
+
+```{python}
+!pip install pyyaml 
+
+from helpers import handle_pip_install
+
+# Based on pyproject.toml
+installed_packages  = handle_pip_install(r"pip install ..\[core]")      # package under .\src
+installed_packages += handle_pip_install(r"pip install ..\[tutorials]")  # tutorial dependencies
+installed_packages += handle_pip_install(r"pip install ..\[meta]")       # meta notebook dependencies
+```
+
+```{python}
+# Based on requirements_venv.txt (uncomment to use)
+# !pip install -r ../requirements_venv.txt
+```
+
+# Conclusion
+The project is now set up. Start a **new kernel with the correct virtual environment selected** for the installations to take effect, then begin developing or continue with the `main` notebook to build the documentation.
+
+> **Note:** The tutorials may require additional setup steps documented in the `Getting Started` notebook under `docs\tutorials`.
+
