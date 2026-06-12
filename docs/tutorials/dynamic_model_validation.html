@@ -327,7 +327,7 @@ window.Quarto = {
 <li>test the behaviour of a dynmic model for requirements, e.g.&nbsp;grid code requirements (<strong>comming soon!</strong>)</li>
 </ul>
 <p>Arguably one of the most useful features in this tutorial is the <code>CompositeModel</code> interface of <em>powfacpy</em> which allows to monitor, plot and finally export all signals (input, output, internal, etc.) of dynamic models from a simulation.</p>
-<div id="f6b43599" class="cell" data-execution_count="2">
+<div id="5b53e232" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -346,7 +346,7 @@ window.Quarto = {
 <section id="test-system" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Test System</h1>
 <p>The test system depicted in Fig. <a href="#fig-test_system_smib" class="quarto-xref">Figure&nbsp;1</a> is used. It is a simple single-machine-infinite-bus system. The device under test (DUT), a type 4B wind turbine, is connected through a transformer to a <span class="math inline">\(20\)</span> kV cable with a controllable voltage source at the other end. You can also set the impedances into service as an alternative to the transformer (you then have to adapt the nominal voltages) and cable to simplify the system. Feel free to connect a different DUT and adapt the <code>DUT_COMPOSITE_MODEL_PATH</code> below.</p>
-<p>You find the <code>component_test.pfd</code> project in the <code>.\power_factory_models</code> folder. Please add it to your <em>powfacpy</em> folder in the <em>PowerFactory</em> database. The next cell activates the project</p>
+<p>You find the <code>component_test.pfd</code> project in the <code>.\pf_models</code> folder. Please add it to your <em>powfacpy</em> folder in the <em>PowerFactory</em> database. The next cell activates the project</p>
 <div id="fig-test_system_smib" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-test_system_smib-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -357,7 +357,7 @@ Figure&nbsp;1: SMIB test system.
 </figcaption>
 </figure>
 </div>
-<div id="b4d79663" class="cell" data-execution_count="3">
+<div id="765fae68" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DUT_COMPOSITE_MODEL_PATH <span class="op">=</span> <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\W</span><span class="vs">ECC WT Control System Type 4B"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(<span class="vs">rf"</span><span class="sc">{</span>SETTINGS[<span class="st">"path to powfacpy folder in PowerFactory database"</span>]<span class="sc">}</span><span class="er">\</span><span class="vs">component_tests"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -369,7 +369,7 @@ Figure&nbsp;1: SMIB test system.
 <section id="voltage-source-time-series" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Voltage Source Time Series</h1>
 <p>The voltage source angle, magnitude and frequency is controlled to test the response of the DUT. The next cell defines the time series of these signals. The <a href="https://fraunhiee-unikassel-powsysstability.github.io/trimes/docs/"><em>trimes</em> package</a> is later used to create <em>pandas</em> DataFrames based on these definitions and these are read into the DSL objects controlling the voltage source.</p>
-<div id="a2138b0d" class="cell" data-execution_count="4">
+<div id="420b9d9b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>voltage_source_signals <span class="op">=</span> {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Angular jump"</span>: {</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"t [s]"</span>: [<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>],</span>
@@ -392,7 +392,7 @@ Figure&nbsp;1: SMIB test system.
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The next cell uses <em>trimes</em> functions to create and visualize DataFrames of time series data of the voltage source signals. Discrete steps of the signals are implemented as value changes between small time steps, e.g.&nbsp;between <span class="math inline">\((5-1E-6)\)</span>s and <span class="math inline">\(5\)</span>s.</p>
-<div id="8dc17d46" class="cell" data-execution_count="5">
+<div id="04bb8c77" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trimes.signal_generation <span class="im">import</span> discretize, create_ts_from_dict_with_varying_length</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -644,7 +644,7 @@ Figure&nbsp;1: SMIB test system.
 <p><img src="figures\dsl_array_dialogue.png" class="img-fluid"></p>
 <p>We will see how to access and set these arrays later.</p>
 <p>The next cell saves the voltage signal data to .csv and .json files if required. This can be helpful for example if you want to use the data in another simulation platform and implement the same tests.</p>
-<div id="67ff9b00" class="cell" data-execution_count="6">
+<div id="12c64c73" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -665,7 +665,7 @@ Figure&nbsp;1: SMIB test system.
 <h1 data-number="3"><span class="header-section-number">3</span> Create Study Cases</h1>
 <p>Next we create study case for the tests. First, we set up a base case which contains plots and where the result signals of the DUT, including all itscontrollers, are monitored.<br>
 Let’s clean the study case:</p>
-<div id="543968c7" class="cell" data-execution_count="7">
+<div id="53516480" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProjectCached</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -684,7 +684,7 @@ Let’s clean the study case:</p>
 </div>
 </div>
 <p>We want to display the grafic of the grafic of the test system network.</p>
-<div id="6f57bcc0" class="cell" data-execution_count="8">
+<div id="7c012faf" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.net <span class="im">import</span> Network</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -696,7 +696,7 @@ Let’s clean the study case:</p>
 </div>
 <p>The <em>powfacpy</em> interface to the composite model class (<code>ElmComp</code>) provides convenient methods to monitor the signals of all slots (DSL models, static generators, etc.) and optionally create plots in <em>PowerFactory</em> for each slot.</p>
 <p>The method <code>monitor_signals_of_slots</code> adds result variables for all input and output signals. The method <code>monitor_signals_of_dsl_models</code> adds also internal variable and states of DSL models.</p>
-<div id="f84f59d8" class="cell" data-execution_count="9">
+<div id="7813911b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.comp <span class="im">import</span> CompositeModel</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -709,7 +709,7 @@ Let’s clean the study case:</p>
 </div>
 <p>Have a look at the pages shown in the study case to validate that the plots were created.</p>
 <p>Let’s do the same for the controlled voltage source:</p>
-<div id="513f14ea" class="cell" data-execution_count="10">
+<div id="ddcf885c" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    comp <span class="op">=</span> CompositeModel(act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="er">\</span><span class="vs">Voltage source ctrl"</span>))</span>
@@ -718,7 +718,7 @@ Let’s clean the study case:</p>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The base study case is now ready. We use <em>powfacpy’s</em> <code>StudyCases</code> interface to create study cases for each scenario (angle, frequency and magnitude jumps) and use the <code>Base Case</code> as a template:</p>
-<div id="18984e2b" class="cell" data-execution_count="11">
+<div id="31e29250" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.study_cases <span class="im">import</span> StudyCases</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -740,7 +740,7 @@ Let’s clean the study case:</p>
 <section id="dynamic-simulations" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Dynamic Simulations</h1>
 <p>To run the dynamic simualtions, we need to set the arrays in the voltage source controllers. Let’s assign the DSL models. The <code>DynamicSimulation</code> interface of <em>powfacpy</em> allows to access and set the DSL arrays.</p>
-<div id="8f9cf003" class="cell" data-execution_count="12">
+<div id="f0ab7145" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>pfds <span class="op">=</span> DynamicSimulation(app)</span>
@@ -761,7 +761,7 @@ Let’s clean the study case:</p>
 </div>
 </div>
 <p>We iterate the study cases set the DSL arrays according to the <em>pandas</em> time series:</p>
-<div id="b79dffc4" class="cell" data-execution_count="13">
+<div id="71074731" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> case_num, case_obj <span class="kw">in</span> <span class="bu">enumerate</span>(pfsc.study_cases):</span>
@@ -775,7 +775,7 @@ Let’s clean the study case:</p>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we are ready to simulate! Results are saved to a .csv file.</p>
-<div id="ab62f7a2" class="cell" data-execution_count="14">
+<div id="9b5b8ba9" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.results <span class="im">import</span> Results</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>

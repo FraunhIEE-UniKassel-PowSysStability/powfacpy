@@ -290,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>The respective <em>powfacpy</em> classes for zones/areas/boundaries extend the functionality of the PowerFactory classes. Note that <em>powfacpy</em> also defines its own grouping class named <em>SubSystem</em> with even more extended functionality which is covered in the <a href="../../docs/tutorials/subsystems.html">SubSystems tutorial</a>.</p>
 <p>First, we activate the PowerFactory project of the <em>IEEE 39 bus system</em> example, create a copy of a stable study case and activate it.</p>
-<div id="20da4106" class="cell" data-execution_count="2">
+<div id="5d8694a6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -299,24 +299,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> PFApp</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_where_tests_run"</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> act_prj.copy_single_obj(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.3 Simulation Fault Bus 31 Stable"</span>, <span class="st">"Study Cases"</span>, new_name<span class="op">=</span><span class="st">"Topology tutorial"</span>)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>act_prj.create_variation(<span class="st">"Topology tutorial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> icecream <span class="im">import</span> ic</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> PFApp</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> act_prj.copy_single_obj(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.3 Simulation Fault Bus 31 Stable"</span>, <span class="st">"Study Cases"</span>, new_name<span class="op">=</span><span class="st">"Topology tutorial"</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>act_prj.create_variation(<span class="st">"Topology tutorial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Variations.IntPrjfolder\Topology tutorial.IntScheme&lt;/l1&gt;&gt;</code></pre>
 </div>
@@ -324,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>There are various classes to group network objects in <em>PowerFactory</em> including - areas (ElmArea), - zones (ElmZone), - boundaries (ElmBoundary).</p>
 <p>Areas and zones are very similar. One of their disadvantages is that it is not possible for one network element to be part of more than one area/zone. Boundaries on the other hand are more flexible and there is no such restriction, i.e.&nbsp;one element can be included in more than one boundary. Note also that the zone/area classes provide a method to define a boundary (<code>DefineBoundary</code>) that includes their internal elements. More information can be found in the <em>PowerFactory</em> manual in the chapter on <em>Grouping Objects</em>.</p>
 <p>We will examine an example in which the terminals of the IEEE 39 bus system are categorized into several regions. Each terminal is assigned to a specific region. These regions have been preselected based on coherency identification, as referenced in <span class="citation" data-cites="khalilDynamicCoherencyIdentification2016">@khalilDynamicCoherencyIdentification2016</span>. The configuration includes one large region and several smaller regions, as detailed in the following list of elements.</p>
-<div id="131f7feb" class="cell" data-execution_count="3">
+<div id="cdcc5901" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>coherent_regions_terminals <span class="op">=</span> [</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Bus 02"</span>,</span>
@@ -370,7 +372,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="boundaries" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Boundaries</h1>
 <p>We will use the <code>Topology</code> class of <em>powfacpy</em> to create the regions. The lists with terminal names in <code>coherent_regions_terminals</code> assigned above are iterated and the method <code>create_boundary_using_intermediate_zone</code> is used, which creates a boundary by creating a zone in an intermediate step (first creating a zone is a convenient way to create a boundary). The method allows to exclude elements. In the example below, all loads (<code>ElmLod</code>) are excluded from the boundaries.</p>
-<div id="18c41adf" class="cell" data-execution_count="4">
+<div id="37478a45" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.topology <span class="im">import</span> Topology</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.boundary <span class="im">import</span> Boundary</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -405,7 +407,7 @@ Warning
 </div>
 </div>
 <p>It is also possible to create boundaries by specifiying the terminals and branches of their borders (e.g.&nbsp;lines). We first create a dictionary where the keys are the terminals and the values are lists with the branch elements (actually we specify their path):</p>
-<div id="f09805fe" class="cell" data-execution_count="5">
+<div id="621c9e48" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bus_branch <span class="op">=</span> {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 14"</span>: [</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="er">\</span><span class="vs">Line 04 - 14"</span>,</span>
@@ -421,7 +423,7 @@ Warning
 </div>
 </div>
 <p>The objects of class <code>Boundary</code> are stored in the <code>boundaries</code> list in the loop above. The <code>Boundary</code> class of <em>powfacpy</em> offers some convenient methods, for example to visualize the interior of (all) boundaries in the single line diagram.</p>
-<div id="a0bebbbb" class="cell" data-execution_count="6">
+<div id="4784ebd7" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> getcwd</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -432,7 +434,7 @@ Warning
 </div>
 <p>The regions are now illustrated in the single line diagram. Apparently, loads are excluded from the interior of the boundaries. <img src="figures/single_line_diagram_with_boundaries.png" class="img-fluid" alt="single_line_diagram_with_boundaries"></p>
 <p>We will now create plots showing the active and reactive power exchange of the boundaries as well as the frequencies of the terminals.</p>
-<div id="1fc11824" class="cell" data-execution_count="7">
+<div id="c2a2d56b" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>RMS_BAL <span class="op">=</span> ResVar.RMS_Bal</span>
@@ -456,7 +458,7 @@ Warning
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    app.Show()            </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Executing an RMS simulation gives the following results. As shown in the frequency plot, the frequencies at coherent terminals oscillate in phase.</p>
-<div id="95f14670" class="cell" data-execution_count="8">
+<div id="bc8f9109" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pfds <span class="op">=</span> DynamicSimulation(app)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pfds.initialize_and_run_sim(param_simulation<span class="op">=</span>{<span class="st">"tstop"</span>: <span class="dv">10</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -477,7 +479,7 @@ Warning
 <section id="zones" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Zones</h1>
 <p>The topology class also allows to create zones. For example, a zone for the first region in <code>coherent_regions_terminals</code> can be created using terminals: :</p>
-<div id="fe535cb2" class="cell" data-execution_count="9">
+<div id="66a1b542" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.zone <span class="im">import</span> Zone</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -488,11 +490,11 @@ Warning
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also create a zone based on a boundary:</p>
-<div id="367c8485" class="cell" data-execution_count="10">
+<div id="2c721976" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>zone_obj_2 <span class="op">=</span> boundaries[<span class="dv">1</span>].create_zone()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>Zone</code> class of <em>powfacpy</em> can then be used to display zones in the single line diagram.</p>
-<div id="ac21b340" class="cell" data-execution_count="11">
+<div id="8d566b61" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>zone_1 <span class="op">=</span> Zone(zone_obj_1)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>zone_2 <span class="op">=</span> Zone(zone_obj_2)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>zone_1.show_zones_in_network_graphic()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -501,7 +503,7 @@ Warning
 <section id="areas" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Areas</h1>
 <p>The <code>ElmArea</code> class of <em>PowerFactory</em> is very similar to the <code>ElmZone</code> class and so is the <code>Area</code> class of <em>powfacpy</em> compared to the <code>Zone</code> class.</p>
-<div id="0af80681" class="cell" data-execution_count="12">
+<div id="cf0d7fb5" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.area <span class="im">import</span> Area</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>area_obj <span class="op">=</span> topo.create_area(<span class="st">"Region 1"</span>, terminal_objs_of_region_1)</span>
@@ -512,7 +514,7 @@ Warning
 <section id="common-methods-of-grouping-classes" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Common Methods of Grouping Classes</h1>
 <p>Classes of <em>powfacpy</em> that group objects (like <code>Boundary</code>, <code>Zone</code> and <code>Area</code>) have common methods which are defined in the abstract base class <code>GroupingBase</code>. Here are some examples using the zone and boundary instances created above.</p>
-<div id="217b4d48" class="cell" data-execution_count="13">
+<div id="b61a6e75" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -555,7 +557,7 @@ ic| is_internal_list: True</code></pre>
 <section id="common-methods-of-zones-and-areas" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Common Methods of Zones and Areas</h1>
 <p><code>ElmZone</code> and <code>ElmArea</code> classes are very similar in their functionality in <em>PowerFactory</em>. Therefore, the <code>Zone</code> and <code>Area</code> classes of <em>powfacpy</em> also have some common methods which are defined in the abstract base class <code>ZoneAreaBase</code>. Here are some examples using the zone and area instances created above.</p>
-<div id="8fb9b866" class="cell" data-execution_count="14">
+<div id="0b8dcd82" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -585,7 +587,7 @@ All neighbors: [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacp
 </div>
 </div>
 <p>There is also a method to merge two zones/areas. The method takes care of the necessary changes in the network model, i.e.&nbsp;it changes the area/zone assignment of the terminals of the zone/area to merge and then deletes the merged zone/area. The method returns the merged ElmZone/ElmArea.</p>
-<div id="65b85c9c" class="cell" data-execution_count="15">
+<div id="3b074a99" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    zone_1.merge(zone_2)</span>
