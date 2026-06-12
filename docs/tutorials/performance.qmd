@@ -33,9 +33,9 @@ sys.path.append(
 )
 # Get the PF app
 import powerfactory
-app: PFApp = powerfactory.GetApplication()
 from powfacpy.base.active_project import ActiveProject, ActiveProjectCached
 from powfacpy.pf_class_protocols import PFApp
+app: PFApp = powerfactory.GetApplication()
 
 app.Show()
 app.ActivateProject(

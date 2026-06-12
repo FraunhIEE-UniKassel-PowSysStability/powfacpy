@@ -14,7 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-
 ```
 
 # Introduction

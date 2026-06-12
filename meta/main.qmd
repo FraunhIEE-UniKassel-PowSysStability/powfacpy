@@ -12,13 +12,14 @@ Note that each cell can also be executed in isolation, which is achieved by the 
 
 ```{python}
 EXECUTION_CONTROL = [
-    "run_tests",
-    "synchronize_notebooks"
+    # "run_tests",
+    "synchronize_notebooks",
     "create_api_docs",
     "render_quarto",
     "build_package",
     # start_docs_server
 ]
+EXECUTION_CONTROL
 ```
 
 # Tests
@@ -73,7 +74,7 @@ You can view the rendered website locally by running a local server, then the se
 The following command creates a local server at `http://localhost:8000`.
 
 ```{python}
-if not "EXECUTION_CONTROL" in locals() or "start_docs_server":
+if not "EXECUTION_CONTROL" in locals() or "start_docs_server" in EXECUTION_CONTROL:
     !start cmd /k "cd ..\_site && python -m http.server 8000"
 ```
 

@@ -57,7 +57,8 @@ format:
     toc: true
     
 execute:
-      freeze: auto  # re-render only when source changes
+  freeze: auto  # re-render only when source changes
+  daemon: false
 
 theme:
   light: flatly
