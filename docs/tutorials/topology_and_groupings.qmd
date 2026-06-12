@@ -39,6 +39,8 @@ from icecream import ic
 with open(r"..\..\settings_local.json") as settings_file:
     SETTINGS = json.load(settings_file)
 
+from icecream import ic
+
 sys.path.append(
     SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
 )

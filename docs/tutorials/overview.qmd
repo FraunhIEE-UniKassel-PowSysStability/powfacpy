@@ -20,6 +20,9 @@ This [tutorial](dynamic_model_validation.qmd) illustartes the dynamic simulation
 ## Static Calculations (Load Flow etc.)
 The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
 
+## Static Calculations (Load Flow etc.)
+The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
+
 ## Study Cases
 The [study cases tutorial](study_cases.qmd) illustrates how to automatically create study cases for parameter studies. 
 
