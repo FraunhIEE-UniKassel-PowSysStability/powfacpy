@@ -98,7 +98,7 @@ As a rule of thumb, any functionality that involves only one native *PowerFactor
 ## Result Variables
 - *result_variables.py*
 
-The file *result_variables.py* contains (automatically created) enumeration classes for results variables (e.g. of dynamic simulations) and it is created by executing [*result_variables_parser.py*](../../src/powfacpy/result_variables_parser.py). The usage is explained in the [Simulation and Plotting Tutorial](../tutorials/simulation_and_plotting.qmd).
+The file *result_variables.py* contains (automatically created) enumeration classes for results variables (e.g. of dynamic simulations) and it is created by executing [*result_variables_parser.py*](../../src/powfacpy/result_variables_parser.py). The usage is explained in the [Dynamic Simulation and Plotting Tutorial](../tutorials/dynamic_simulation_and_plotting.qmd).
 
 
 # Advanced (for Contributors) {#sec-advanced}

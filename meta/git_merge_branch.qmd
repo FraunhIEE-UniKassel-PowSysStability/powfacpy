@@ -1,0 +1,45 @@
+---
+title: Merge Git Branch
+jupyter: python3
+---
+
+
+# Synchronize Jupyter and Quarto Notebooks
+Ensure all notebooks are synchronized with the latest updates.
+
+```{python}
+from helpers import sync_jupyter_and_quarto_in_folder
+sync_jupyter_and_quarto_in_folder(".")
+sync_jupyter_and_quarto_in_folder(r"..\docs\tutorials")
+```
+
+# Clean Jupyter Notebooks
+Clean jupyter notebooks for version control.
+
+```{python}
+from helpers import clean_notebooks_in_folder
+
+clean_notebooks_in_folder("..//docs//tutorials")
+clean_notebooks_in_folder(".", skip=["git_merge_branch.ipynb"])
+```
+
+# Merge Branch
+Merge a branch into the current branch.
+**Make sure to manually solve all merge conflicts.**
+
+```{python}
+from helpers import merge_remote_branch
+
+merge_remote_branch(remote="origin", branch="main")
+```
+
+# Synchronize Jupyter and Quarto Notebooks
+After solving possible merge conflicts, all notebooks are again synchronized with the latest updates.
+
+```{python}
+from helpers import sync_jupyter_and_quarto_in_folder
+
+sync_jupyter_and_quarto_in_folder(".")
+sync_jupyter_and_quarto_in_folder(r"..\docs\tutorials")
+```
+

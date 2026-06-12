@@ -38,7 +38,7 @@ number-sections: false
   - Interfaces for plotting, case study, etc. are now found under *applications/*.
   - All former interface classes can still be used, but their files are located in a folder called *deprecated* and you will get  deprecation warnings
 - There should be few breaking changes. Some of the known are:
-  - The labels of the result export to pandas have changed (see the [tutorial](../tutorials/simulation_and_plotting.qmd))
+  - The labels of the result export to pandas have changed (see the [tutorial](../tutorials/dynamic_simulation_and_plotting.qmd))
   - The name of the method `export_results_of_study_cases` of the class `PFStudyCases` has changed to `export_results_of_study_cases_to_csv`
 - *black* formatter was introduced as the standard formatter for python code
 - The format of the website was changed from *sphinx* to *quarto*

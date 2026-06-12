@@ -294,7 +294,7 @@ class PFClassesProtocolGenerator(ActiveProject):
 
 
 if __name__ == "__main__":
-    with open(powfacpy_project_root_directory + "\\settings.json") as settings_file:
+    with open(powfacpy_project_root_directory + "\\settings_local.json") as settings_file:
         settings = json.load(settings_file)
     sys.path.append(settings["local path to PowerFactory application"])
     import powerfactory

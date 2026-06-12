@@ -27,10 +27,14 @@ Similar to using the Python API of *PowerFactory* directly, we first need to imp
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
 
 sys.path.append(
-    "C:\\Program Files\\DIgSILENT\\PowerFactory 2025 SP3\\Python\\3.13"
-)  # you may use a different directory
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
 

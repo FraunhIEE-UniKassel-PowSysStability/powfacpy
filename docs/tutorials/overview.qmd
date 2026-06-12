@@ -11,8 +11,14 @@ The following tutorials illustrate the functionality of *powfacpy*. You can use 
 ## Getting started
 Start here with the [getting started tutorial](getting_started.qmd). This tutorial gives an overview of the interaction with the PowerFactory database using *powfacpy*. The methods introduced in this tutorial serve as a basis to do more complex things and to write more readable code using less lines of code.
 
-## Dynamic Simulation and Plotting
-The [tutorial](simulation_and_plotting.qmd) shows how to conveniently simulate and plot with a syntax similar to *matplotlib*. It is also depicted how to export data to *pandas* and *csv* formats and use external plotting libraries such as *matplotlib*.
+## Dynamic Simulation, Plotting and Data Export
+The [tutorial](dynamic_simulation_and_plotting.qmd) shows how to conveniently simulate and plot with a syntax similar to *matplotlib*. It is also depicted how to export data to *pandas* and *csv* formats and use external plotting libraries such as *matplotlib*.
+
+## Dynamic Model Validation 
+This [tutorial](dynamic_model_validation.qmd) illustartes the dynamic simulation of a unit model (e.g. a wind turbine) for test scenarios with varying grid voltage behaviour at the point of connection. Such tests are required for example if you want to debug a dynamic model and its controllers, validate a dynamic model according to a reference (e.g. another softare) or test the bahaviour for grid code requirements. 
+
+## Static Calculations (Load Flow etc.)
+The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
 
 ## Static Calculations (Load Flow etc.)
 The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.

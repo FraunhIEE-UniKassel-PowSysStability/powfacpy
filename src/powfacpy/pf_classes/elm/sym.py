@@ -10,8 +10,9 @@ from powfacpy.pf_classes.protocols import ElmSym, PFGeneral, TypSym, ElmTerm, El
 from powfacpy.pf_classes.elm.elm_base import (
     ElmBase,
     SinglePortBase,
-    ElmPlantControlledBase,
+
 )
+from powfacpy.pf_classes.elm.elm_plant_controlled_base import ElmPlantControlledBase
 from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.result_variables import ResVar
 from powfacpy.engineering_helpers import get_weighted_average

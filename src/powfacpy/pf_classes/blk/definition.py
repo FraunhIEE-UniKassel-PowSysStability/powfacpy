@@ -42,6 +42,18 @@ class BlockDefinition(BaseChildStatic):
     @property
     def parameters(self) -> list[str]:
         return self.read_attribute_that_is_string_in_list("sParams")
+    
+    @property
+    def internal_variables(self) -> list[str]:
+        return self.read_attribute_that_is_string_in_list("sIntern")
+
+    @property
+    def upper_limitation_signals(self) -> list[str]:
+        return self.read_attribute_that_is_string_in_list("sUpLimInp")
+
+    @property
+    def lower_limitation_signals(self) -> list[str]:
+        return self.read_attribute_that_is_string_in_list("sLowLimInp")
 
     @property
     def upper_limitation_parameters(self) -> list[str]:
@@ -209,3 +221,35 @@ class BlockDefinition(BaseChildStatic):
             "sUpLimPar": "upper_limitation_parameters",
             "sLowLimPar": "lower_limitation_parameters",
         }
+    
+    def get_signal_results_variables(self, signal_types: list[str] | None = None) -> list[str]:
+        """Get names of results variables for signals (e.g. 's:varname') of the block definition. 
+
+        Args:
+            signal_types (list[str]): e.g. ["input_signals", "output_signals", "states", "internal_variables""upper_limitation_signals", 
+            "lower_limitation_signals"]). If None, all internal signals are monitored. Defaults to None.
+
+        Returns:
+            list[str]: _description_
+        """
+        if signal_types is None:
+            signal_types = [
+                "input_signals",
+                "output_signals",
+                "states",
+                "internal_variables",
+                "upper_limitation_signals",
+                "lower_limitation_signals"
+            ]
+        signal_results_variables = []   
+        for signal_type in signal_types:
+            signale = getattr(self, signal_type)
+            if not signal_type == "internal_variables":
+                signal_results_variables += [
+                        f"s:{sig}" for sig in signale
+                    ]
+            else:
+                signal_results_variables += [
+                        f"c:{sig}" for sig in signale
+                    ] 
+        return signal_results_variables

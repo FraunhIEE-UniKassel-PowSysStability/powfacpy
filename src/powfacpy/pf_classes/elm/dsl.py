@@ -1,9 +1,11 @@
 from __future__ import annotations
 from textwrap import indent
 
+import os
 
 import numpy as np
 from icecream import ic
+import pandas as pd
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import PFGeneral, BlkSlot, ElmDsl
@@ -148,7 +150,6 @@ def get_dsl_models_info_sorted_by_block_definition(
             synchronous_machines,
             average='apparent_power_weighted',
         )
-
         ```
     """
     if not isinstance(dsl_models[0], DSLModel):
@@ -166,7 +167,7 @@ def get_dsl_models_info_sorted_by_block_definition(
             }
             if parent_elms is not None:
                 dsl_models_info[blkdef]["parent_elms"] = []
-        dsl_models_info[blkdef]["dsl_models"].append(dsl_model)
+        dsl_models_info[blkdef]["dsl_models"].append(dsl_model._obj)
         parameter_values = dsl_model.get_parameter_values()
         for k, par in enumerate(parameter_names):
             dsl_models_info[blkdef]["parameters"][par].append(parameter_values[k])
@@ -208,3 +209,26 @@ def display_dsl_models_info(dsl_models_info: dict, indent="   ") -> None:
             for par, value in info["average"].items():
                 print(f"{2*indent}{par}: {value}")
         print("\n")
+
+
+def export_dsl_model_info_to_csv(dsl_models_info: dict, path: str) -> None:
+    if not os.path.exists(path):
+        os.makedirs(path)
+    for blkdef, all_info in dsl_models_info.items():
+        if "parent_elms" in all_info.keys():
+            apparent_power = [
+                convert_pf_obj_to_powfacpy(elm).rated_apparent_power
+                for elm in all_info["parent_elms"]
+            ]
+            pd.Series(apparent_power).to_csv(
+                f"{path}/{blkdef.loc_name}_apparent_power.csv"
+            )
+            index = [elm.loc_name for elm in all_info["parent_elms"]]
+        else:
+            index = None
+        if "parameters" in all_info.keys():
+            df = pd.DataFrame(all_info["parameters"], index=index)
+            df.to_csv(f"{path}/{blkdef.loc_name}_parameters.csv")
+        if "average" in all_info.keys():
+            df = pd.Series(all_info["average"])
+            df.to_csv(f"{path}/{blkdef.loc_name}_average_parameters.csv")

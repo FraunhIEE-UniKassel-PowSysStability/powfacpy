@@ -14,8 +14,6 @@ jupyter: python3
 #| output: false
 %load_ext autoreload
 %autoreload 2
-import sys
-sys.path.append(r"..\..\src")
 ```
 
 Static calculations like *power flow* (or *load flow* as it's called in *PowerFactory*) or short circuit analysis are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results. 
@@ -25,16 +23,19 @@ We first activate the *IEEE 39 Bus* example system and create a study case for t
 ```{python}
 # If you use IPython/Jupyter:
 import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
 
 sys.path.append(
-    r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP3\Python\3.13"
-)  # you may use a different directory
-
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
 # Get the PF app
 import powerfactory
+app = powerfactory.GetApplication()
 from powfacpy.base.active_project import ActiveProject
 
-app = powerfactory.GetApplication()
 app.Show()
 app.ActivateProject(
     r"powfacpy\39_bus_new_england_copy_where_tests_run"
@@ -66,7 +67,7 @@ pfstat.check_load_flow_results()
 
 # Results
 
-# Export to Pandas DataFrame
+## Export to Pandas DataFrame
 
 We can easily access results of static calculations using the `get_result_dataframe` method. For example, we can get the voltage magnitudes and angles for all terminals with a nominal voltage above 300 kV. We use the `ResVar` class to specify the result variables we want to access.
 
