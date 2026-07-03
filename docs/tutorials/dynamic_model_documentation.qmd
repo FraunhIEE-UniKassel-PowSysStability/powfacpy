@@ -1,0 +1,65 @@
+---
+title: Dynamic Model Documentation
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import matplotlib.pyplot as plt
+plt.rcParams['axes.grid'] = True
+```
+
+This tutorial demonstrates how to generate *HTML* documentation for dynamic models in *PowerFactory*, specifically composite models (`ElmComp`) and their DSL models (`ElmDsl`). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to *PowerFactory*.
+
+## Setup
+
+We begin by starting *PowerFactory* and activating the project.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+import json
+from powfacpy.base.active_project import ActiveProject
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+sys.path.append(
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
+# Get the PF app
+import powerfactory
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\powfacpy_tests_copy_where_tests_run")
+act_prj = ActiveProject(app)
+```
+
+## Generating the Documentation
+
+The `DynamicModelDocs` class from *powfacpy* generates documentation for a composite model. In this example, we document a hydro turbine model from the Nordic test system @ospinaImplementationValidationNordic2017 located in the template library of the project. The resulting *HTML* documentation is displayed in the section below.
+
+```{python}
+from powfacpy.applications.dynamic_model_docs import DynamicModelDocs
+pfdm = DynamicModelDocs(app)
+try: 
+    app.Hide()
+    pfdm.composite_model = act_prj.get_unique_obj(r"Library\Templates\SM_hydro\Frame(g1)") # path to ElmComp
+    pfdm.file_name = pfdm.composite_model.loc_name
+    pfdm.target_directory = rf".\output\dynamic_model_docs"
+    pfdm.create_composite_model_docs()
+finally:
+    app.Show()
+```
+
+## Model Documentation
+
+
+<iframe src=".\output\dynamic_model_docs\Frame(g1).html" width="100%" height="600px" style="border:none;"></iframe>
