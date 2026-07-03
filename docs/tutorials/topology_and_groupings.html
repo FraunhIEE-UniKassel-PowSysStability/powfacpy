@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.11">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -76,7 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5947b73a06bce04bf1d622ae23e1ec5b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -195,6 +215,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -233,6 +259,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/cgmes_model_exchange.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">CGMES handling with model exchange interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/database_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Database Interface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -325,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>There are various classes to group network objects in <em>PowerFactory</em> including - areas (ElmArea), - zones (ElmZone), - boundaries (ElmBoundary).</p>
 <p>Areas and zones are very similar. One of their disadvantages is that it is not possible for one network element to be part of more than one area/zone. Boundaries on the other hand are more flexible and there is no such restriction, i.e.&nbsp;one element can be included in more than one boundary. Note also that the zone/area classes provide a method to define a boundary (<code>DefineBoundary</code>) that includes their internal elements. More information can be found in the <em>PowerFactory</em> manual in the chapter on <em>Grouping Objects</em>.</p>
-<p>We will examine an example in which the terminals of the IEEE 39 bus system are categorized into several regions. Each terminal is assigned to a specific region. These regions have been preselected based on coherency identification, as referenced in <span class="citation" data-cites="khalilDynamicCoherencyIdentification2016">@khalilDynamicCoherencyIdentification2016</span>. The configuration includes one large region and several smaller regions, as detailed in the following list of elements.</p>
+<p>We will examine an example in which the terminals of the IEEE 39 bus system are categorized into several regions. Each terminal is assigned to a specific region. These regions have been preselected based on coherency identification, as referenced in <span class="citation" data-cites="khalilDynamicCoherencyIdentification2016">[<a href="#ref-khalilDynamicCoherencyIdentification2016" role="doc-biblioref">1</a>]</span>. The configuration includes one large region and several smaller regions, as detailed in the following list of elements.</p>
 <div id="cdcc5901" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>coherent_regions_terminals <span class="op">=</span> [</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
@@ -596,9 +628,14 @@ All neighbors: [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacp
 </div>
 
 
+
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-khalilDynamicCoherencyIdentification2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A. M. Khalil and R. Iravani, <span>“A <span>Dynamic Coherency Identification Method Based</span> on <span>Frequency Deviation Signals</span>,”</span> <em>IEEE Transactions on Power Systems</em>, vol. 31, no. 3, pp. 1779–1787, May 2016, doi: <a href="https://doi.org/10.1109/TPWRS.2015.2452212">10.1109/TPWRS.2015.2452212</a>.</div>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

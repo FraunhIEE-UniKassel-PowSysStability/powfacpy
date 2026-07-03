@@ -216,6 +216,9 @@
                         <li>
                                 <a class="function" href="#ActiveProject.duplicate_to_restore_attributes">duplicate_to_restore_attributes</a>
                         </li>
+                        <li>
+                                <a class="function" href="#ActiveProject.clear_output_window">clear_output_window</a>
+                        </li>
                 </ul>
 
             </li>
@@ -1254,73 +1257,76 @@
 </span><span id="L-961"><a href="#L-961"><span class="linenos"> 961</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="L-962"><a href="#L-962"><span class="linenos"> 962</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">copy_single_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetParent</span><span class="p">(),</span> <span class="n">new_name</span><span class="o">=</span><span class="n">name_of_copy</span><span class="p">)</span>
 </span><span id="L-963"><a href="#L-963"><span class="linenos"> 963</span></a>
-</span><span id="L-964"><a href="#L-964"><span class="linenos"> 964</span></a>
-</span><span id="L-965"><a href="#L-965"><span class="linenos"> 965</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ActiveProjectCached</span><span class="p">(</span><span class="n">ActiveProject</span><span class="p">):</span>
-</span><span id="L-966"><a href="#L-966"><span class="linenos"> 966</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated).&quot;&quot;&quot;</span>
+</span><span id="L-964"><a href="#L-964"><span class="linenos"> 964</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">clear_output_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-965"><a href="#L-965"><span class="linenos"> 965</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">ClearOutputWindow</span><span class="p">()</span>        
+</span><span id="L-966"><a href="#L-966"><span class="linenos"> 966</span></a>
 </span><span id="L-967"><a href="#L-967"><span class="linenos"> 967</span></a>
-</span><span id="L-968"><a href="#L-968"><span class="linenos"> 968</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-969"><a href="#L-969"><span class="linenos"> 969</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-970"><a href="#L-970"><span class="linenos"> 970</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_project</span><span class="p">()</span>
-</span><span id="L-971"><a href="#L-971"><span class="linenos"> 971</span></a>
-</span><span id="L-972"><a href="#L-972"><span class="linenos"> 972</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-973"><a href="#L-973"><span class="linenos"> 973</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-974"><a href="#L-974"><span class="linenos"> 974</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
-</span><span id="L-975"><a href="#L-975"><span class="linenos"> 975</span></a>
-</span><span id="L-976"><a href="#L-976"><span class="linenos"> 976</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-977"><a href="#L-977"><span class="linenos"> 977</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-978"><a href="#L-978"><span class="linenos"> 978</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
-</span><span id="L-979"><a href="#L-979"><span class="linenos"> 979</span></a>
-</span><span id="L-980"><a href="#L-980"><span class="linenos"> 980</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-981"><a href="#L-981"><span class="linenos"> 981</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-982"><a href="#L-982"><span class="linenos"> 982</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
-</span><span id="L-983"><a href="#L-983"><span class="linenos"> 983</span></a>
-</span><span id="L-984"><a href="#L-984"><span class="linenos"> 984</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-985"><a href="#L-985"><span class="linenos"> 985</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-986"><a href="#L-986"><span class="linenos"> 986</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
-</span><span id="L-987"><a href="#L-987"><span class="linenos"> 987</span></a>
-</span><span id="L-988"><a href="#L-988"><span class="linenos"> 988</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-989"><a href="#L-989"><span class="linenos"> 989</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-990"><a href="#L-990"><span class="linenos"> 990</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
-</span><span id="L-991"><a href="#L-991"><span class="linenos"> 991</span></a>
-</span><span id="L-992"><a href="#L-992"><span class="linenos"> 992</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-993"><a href="#L-993"><span class="linenos"> 993</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-994"><a href="#L-994"><span class="linenos"> 994</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
-</span><span id="L-995"><a href="#L-995"><span class="linenos"> 995</span></a>
-</span><span id="L-996"><a href="#L-996"><span class="linenos"> 996</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-997"><a href="#L-997"><span class="linenos"> 997</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-998"><a href="#L-998"><span class="linenos"> 998</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
-</span><span id="L-999"><a href="#L-999"><span class="linenos"> 999</span></a>
-</span><span id="L-1000"><a href="#L-1000"><span class="linenos">1000</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1001"><a href="#L-1001"><span class="linenos">1001</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1002"><a href="#L-1002"><span class="linenos">1002</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
-</span><span id="L-1003"><a href="#L-1003"><span class="linenos">1003</span></a>
-</span><span id="L-1004"><a href="#L-1004"><span class="linenos">1004</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1005"><a href="#L-1005"><span class="linenos">1005</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1006"><a href="#L-1006"><span class="linenos">1006</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
-</span><span id="L-1007"><a href="#L-1007"><span class="linenos">1007</span></a>
-</span><span id="L-1008"><a href="#L-1008"><span class="linenos">1008</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1009"><a href="#L-1009"><span class="linenos">1009</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1010"><a href="#L-1010"><span class="linenos">1010</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
-</span><span id="L-1011"><a href="#L-1011"><span class="linenos">1011</span></a>
-</span><span id="L-1012"><a href="#L-1012"><span class="linenos">1012</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1013"><a href="#L-1013"><span class="linenos">1013</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1014"><a href="#L-1014"><span class="linenos">1014</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
-</span><span id="L-1015"><a href="#L-1015"><span class="linenos">1015</span></a>
-</span><span id="L-1016"><a href="#L-1016"><span class="linenos">1016</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1017"><a href="#L-1017"><span class="linenos">1017</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1018"><a href="#L-1018"><span class="linenos">1018</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
-</span><span id="L-1019"><a href="#L-1019"><span class="linenos">1019</span></a>
-</span><span id="L-1020"><a href="#L-1020"><span class="linenos">1020</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1021"><a href="#L-1021"><span class="linenos">1021</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1022"><a href="#L-1022"><span class="linenos">1022</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
-</span><span id="L-1023"><a href="#L-1023"><span class="linenos">1023</span></a>
-</span><span id="L-1024"><a href="#L-1024"><span class="linenos">1024</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1025"><a href="#L-1025"><span class="linenos">1025</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1026"><a href="#L-1026"><span class="linenos">1026</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
-</span><span id="L-1027"><a href="#L-1027"><span class="linenos">1027</span></a>
-</span><span id="L-1028"><a href="#L-1028"><span class="linenos">1028</span></a>    <span class="nd">@cached_property</span>
-</span><span id="L-1029"><a href="#L-1029"><span class="linenos">1029</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="L-1030"><a href="#L-1030"><span class="linenos">1030</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
+</span><span id="L-968"><a href="#L-968"><span class="linenos"> 968</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ActiveProjectCached</span><span class="p">(</span><span class="n">ActiveProject</span><span class="p">):</span>
+</span><span id="L-969"><a href="#L-969"><span class="linenos"> 969</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated).&quot;&quot;&quot;</span>
+</span><span id="L-970"><a href="#L-970"><span class="linenos"> 970</span></a>
+</span><span id="L-971"><a href="#L-971"><span class="linenos"> 971</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-972"><a href="#L-972"><span class="linenos"> 972</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-973"><a href="#L-973"><span class="linenos"> 973</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_project</span><span class="p">()</span>
+</span><span id="L-974"><a href="#L-974"><span class="linenos"> 974</span></a>
+</span><span id="L-975"><a href="#L-975"><span class="linenos"> 975</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-976"><a href="#L-976"><span class="linenos"> 976</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-977"><a href="#L-977"><span class="linenos"> 977</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
+</span><span id="L-978"><a href="#L-978"><span class="linenos"> 978</span></a>
+</span><span id="L-979"><a href="#L-979"><span class="linenos"> 979</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-980"><a href="#L-980"><span class="linenos"> 980</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-981"><a href="#L-981"><span class="linenos"> 981</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
+</span><span id="L-982"><a href="#L-982"><span class="linenos"> 982</span></a>
+</span><span id="L-983"><a href="#L-983"><span class="linenos"> 983</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-984"><a href="#L-984"><span class="linenos"> 984</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-985"><a href="#L-985"><span class="linenos"> 985</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
+</span><span id="L-986"><a href="#L-986"><span class="linenos"> 986</span></a>
+</span><span id="L-987"><a href="#L-987"><span class="linenos"> 987</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-988"><a href="#L-988"><span class="linenos"> 988</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-989"><a href="#L-989"><span class="linenos"> 989</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
+</span><span id="L-990"><a href="#L-990"><span class="linenos"> 990</span></a>
+</span><span id="L-991"><a href="#L-991"><span class="linenos"> 991</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-992"><a href="#L-992"><span class="linenos"> 992</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-993"><a href="#L-993"><span class="linenos"> 993</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
+</span><span id="L-994"><a href="#L-994"><span class="linenos"> 994</span></a>
+</span><span id="L-995"><a href="#L-995"><span class="linenos"> 995</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-996"><a href="#L-996"><span class="linenos"> 996</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-997"><a href="#L-997"><span class="linenos"> 997</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
+</span><span id="L-998"><a href="#L-998"><span class="linenos"> 998</span></a>
+</span><span id="L-999"><a href="#L-999"><span class="linenos"> 999</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1000"><a href="#L-1000"><span class="linenos">1000</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1001"><a href="#L-1001"><span class="linenos">1001</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
+</span><span id="L-1002"><a href="#L-1002"><span class="linenos">1002</span></a>
+</span><span id="L-1003"><a href="#L-1003"><span class="linenos">1003</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1004"><a href="#L-1004"><span class="linenos">1004</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1005"><a href="#L-1005"><span class="linenos">1005</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
+</span><span id="L-1006"><a href="#L-1006"><span class="linenos">1006</span></a>
+</span><span id="L-1007"><a href="#L-1007"><span class="linenos">1007</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1008"><a href="#L-1008"><span class="linenos">1008</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1009"><a href="#L-1009"><span class="linenos">1009</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
+</span><span id="L-1010"><a href="#L-1010"><span class="linenos">1010</span></a>
+</span><span id="L-1011"><a href="#L-1011"><span class="linenos">1011</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1012"><a href="#L-1012"><span class="linenos">1012</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1013"><a href="#L-1013"><span class="linenos">1013</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
+</span><span id="L-1014"><a href="#L-1014"><span class="linenos">1014</span></a>
+</span><span id="L-1015"><a href="#L-1015"><span class="linenos">1015</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1016"><a href="#L-1016"><span class="linenos">1016</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1017"><a href="#L-1017"><span class="linenos">1017</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
+</span><span id="L-1018"><a href="#L-1018"><span class="linenos">1018</span></a>
+</span><span id="L-1019"><a href="#L-1019"><span class="linenos">1019</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1020"><a href="#L-1020"><span class="linenos">1020</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1021"><a href="#L-1021"><span class="linenos">1021</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
+</span><span id="L-1022"><a href="#L-1022"><span class="linenos">1022</span></a>
+</span><span id="L-1023"><a href="#L-1023"><span class="linenos">1023</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1024"><a href="#L-1024"><span class="linenos">1024</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1025"><a href="#L-1025"><span class="linenos">1025</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
+</span><span id="L-1026"><a href="#L-1026"><span class="linenos">1026</span></a>
+</span><span id="L-1027"><a href="#L-1027"><span class="linenos">1027</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1028"><a href="#L-1028"><span class="linenos">1028</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1029"><a href="#L-1029"><span class="linenos">1029</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
+</span><span id="L-1030"><a href="#L-1030"><span class="linenos">1030</span></a>
+</span><span id="L-1031"><a href="#L-1031"><span class="linenos">1031</span></a>    <span class="nd">@cached_property</span>
+</span><span id="L-1032"><a href="#L-1032"><span class="linenos">1032</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="L-1033"><a href="#L-1033"><span class="linenos">1033</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -2260,6 +2266,9 @@
 </span><span id="ActiveProject-961"><a href="#ActiveProject-961"><span class="linenos">961</span></a>                    <span class="n">obj</span><span class="o">.</span><span class="n">SetAttribute</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">copy_of_obj</span><span class="o">.</span><span class="n">GetAttribute</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 </span><span id="ActiveProject-962"><a href="#ActiveProject-962"><span class="linenos">962</span></a>        <span class="k">else</span><span class="p">:</span>
 </span><span id="ActiveProject-963"><a href="#ActiveProject-963"><span class="linenos">963</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">copy_single_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">GetParent</span><span class="p">(),</span> <span class="n">new_name</span><span class="o">=</span><span class="n">name_of_copy</span><span class="p">)</span>
+</span><span id="ActiveProject-964"><a href="#ActiveProject-964"><span class="linenos">964</span></a>
+</span><span id="ActiveProject-965"><a href="#ActiveProject-965"><span class="linenos">965</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">clear_output_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ActiveProject-966"><a href="#ActiveProject-966"><span class="linenos">966</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">ClearOutputWindow</span><span class="p">()</span>        
 </span></pre></div>
 
 
@@ -4370,6 +4379,25 @@ keep_current_project_activated (bool, optional): If True, the initial project an
     
 
                             </div>
+                            <div id="ActiveProject.clear_output_window" class="classattr">
+                                        <input id="ActiveProject.clear_output_window-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">clear_output_window</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span></span><span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
+
+                <label class="view-source-button" for="ActiveProject.clear_output_window-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#ActiveProject.clear_output_window"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProject.clear_output_window-965"><a href="#ActiveProject.clear_output_window-965"><span class="linenos">965</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">clear_output_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ActiveProject.clear_output_window-966"><a href="#ActiveProject.clear_output_window-966"><span class="linenos">966</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">ClearOutputWindow</span><span class="p">()</span>        
+</span></pre></div>
+
+
+    
+
+                            </div>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
@@ -4443,72 +4471,72 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached-966"><a href="#ActiveProjectCached-966"><span class="linenos"> 966</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ActiveProjectCached</span><span class="p">(</span><span class="n">ActiveProject</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-967"><a href="#ActiveProjectCached-967"><span class="linenos"> 967</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated).&quot;&quot;&quot;</span>
-</span><span id="ActiveProjectCached-968"><a href="#ActiveProjectCached-968"><span class="linenos"> 968</span></a>
-</span><span id="ActiveProjectCached-969"><a href="#ActiveProjectCached-969"><span class="linenos"> 969</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-970"><a href="#ActiveProjectCached-970"><span class="linenos"> 970</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-971"><a href="#ActiveProjectCached-971"><span class="linenos"> 971</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_project</span><span class="p">()</span>
-</span><span id="ActiveProjectCached-972"><a href="#ActiveProjectCached-972"><span class="linenos"> 972</span></a>
-</span><span id="ActiveProjectCached-973"><a href="#ActiveProjectCached-973"><span class="linenos"> 973</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-974"><a href="#ActiveProjectCached-974"><span class="linenos"> 974</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-975"><a href="#ActiveProjectCached-975"><span class="linenos"> 975</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-976"><a href="#ActiveProjectCached-976"><span class="linenos"> 976</span></a>
-</span><span id="ActiveProjectCached-977"><a href="#ActiveProjectCached-977"><span class="linenos"> 977</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-978"><a href="#ActiveProjectCached-978"><span class="linenos"> 978</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-979"><a href="#ActiveProjectCached-979"><span class="linenos"> 979</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-980"><a href="#ActiveProjectCached-980"><span class="linenos"> 980</span></a>
-</span><span id="ActiveProjectCached-981"><a href="#ActiveProjectCached-981"><span class="linenos"> 981</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-982"><a href="#ActiveProjectCached-982"><span class="linenos"> 982</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-983"><a href="#ActiveProjectCached-983"><span class="linenos"> 983</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-984"><a href="#ActiveProjectCached-984"><span class="linenos"> 984</span></a>
-</span><span id="ActiveProjectCached-985"><a href="#ActiveProjectCached-985"><span class="linenos"> 985</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-986"><a href="#ActiveProjectCached-986"><span class="linenos"> 986</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-987"><a href="#ActiveProjectCached-987"><span class="linenos"> 987</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-988"><a href="#ActiveProjectCached-988"><span class="linenos"> 988</span></a>
-</span><span id="ActiveProjectCached-989"><a href="#ActiveProjectCached-989"><span class="linenos"> 989</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-990"><a href="#ActiveProjectCached-990"><span class="linenos"> 990</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-991"><a href="#ActiveProjectCached-991"><span class="linenos"> 991</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-992"><a href="#ActiveProjectCached-992"><span class="linenos"> 992</span></a>
-</span><span id="ActiveProjectCached-993"><a href="#ActiveProjectCached-993"><span class="linenos"> 993</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-994"><a href="#ActiveProjectCached-994"><span class="linenos"> 994</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-995"><a href="#ActiveProjectCached-995"><span class="linenos"> 995</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-996"><a href="#ActiveProjectCached-996"><span class="linenos"> 996</span></a>
-</span><span id="ActiveProjectCached-997"><a href="#ActiveProjectCached-997"><span class="linenos"> 997</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-998"><a href="#ActiveProjectCached-998"><span class="linenos"> 998</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-999"><a href="#ActiveProjectCached-999"><span class="linenos"> 999</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1000"><a href="#ActiveProjectCached-1000"><span class="linenos">1000</span></a>
-</span><span id="ActiveProjectCached-1001"><a href="#ActiveProjectCached-1001"><span class="linenos">1001</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1002"><a href="#ActiveProjectCached-1002"><span class="linenos">1002</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1003"><a href="#ActiveProjectCached-1003"><span class="linenos">1003</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1004"><a href="#ActiveProjectCached-1004"><span class="linenos">1004</span></a>
-</span><span id="ActiveProjectCached-1005"><a href="#ActiveProjectCached-1005"><span class="linenos">1005</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1006"><a href="#ActiveProjectCached-1006"><span class="linenos">1006</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1007"><a href="#ActiveProjectCached-1007"><span class="linenos">1007</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1008"><a href="#ActiveProjectCached-1008"><span class="linenos">1008</span></a>
-</span><span id="ActiveProjectCached-1009"><a href="#ActiveProjectCached-1009"><span class="linenos">1009</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1010"><a href="#ActiveProjectCached-1010"><span class="linenos">1010</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1011"><a href="#ActiveProjectCached-1011"><span class="linenos">1011</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1012"><a href="#ActiveProjectCached-1012"><span class="linenos">1012</span></a>
-</span><span id="ActiveProjectCached-1013"><a href="#ActiveProjectCached-1013"><span class="linenos">1013</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1014"><a href="#ActiveProjectCached-1014"><span class="linenos">1014</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1015"><a href="#ActiveProjectCached-1015"><span class="linenos">1015</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1016"><a href="#ActiveProjectCached-1016"><span class="linenos">1016</span></a>
-</span><span id="ActiveProjectCached-1017"><a href="#ActiveProjectCached-1017"><span class="linenos">1017</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1018"><a href="#ActiveProjectCached-1018"><span class="linenos">1018</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1019"><a href="#ActiveProjectCached-1019"><span class="linenos">1019</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1020"><a href="#ActiveProjectCached-1020"><span class="linenos">1020</span></a>
-</span><span id="ActiveProjectCached-1021"><a href="#ActiveProjectCached-1021"><span class="linenos">1021</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1022"><a href="#ActiveProjectCached-1022"><span class="linenos">1022</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1023"><a href="#ActiveProjectCached-1023"><span class="linenos">1023</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1024"><a href="#ActiveProjectCached-1024"><span class="linenos">1024</span></a>
-</span><span id="ActiveProjectCached-1025"><a href="#ActiveProjectCached-1025"><span class="linenos">1025</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1026"><a href="#ActiveProjectCached-1026"><span class="linenos">1026</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1027"><a href="#ActiveProjectCached-1027"><span class="linenos">1027</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
-</span><span id="ActiveProjectCached-1028"><a href="#ActiveProjectCached-1028"><span class="linenos">1028</span></a>
-</span><span id="ActiveProjectCached-1029"><a href="#ActiveProjectCached-1029"><span class="linenos">1029</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached-1030"><a href="#ActiveProjectCached-1030"><span class="linenos">1030</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached-1031"><a href="#ActiveProjectCached-1031"><span class="linenos">1031</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached-969"><a href="#ActiveProjectCached-969"><span class="linenos"> 969</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ActiveProjectCached</span><span class="p">(</span><span class="n">ActiveProject</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-970"><a href="#ActiveProjectCached-970"><span class="linenos"> 970</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated).&quot;&quot;&quot;</span>
+</span><span id="ActiveProjectCached-971"><a href="#ActiveProjectCached-971"><span class="linenos"> 971</span></a>
+</span><span id="ActiveProjectCached-972"><a href="#ActiveProjectCached-972"><span class="linenos"> 972</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-973"><a href="#ActiveProjectCached-973"><span class="linenos"> 973</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-974"><a href="#ActiveProjectCached-974"><span class="linenos"> 974</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_project</span><span class="p">()</span>
+</span><span id="ActiveProjectCached-975"><a href="#ActiveProjectCached-975"><span class="linenos"> 975</span></a>
+</span><span id="ActiveProjectCached-976"><a href="#ActiveProjectCached-976"><span class="linenos"> 976</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-977"><a href="#ActiveProjectCached-977"><span class="linenos"> 977</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-978"><a href="#ActiveProjectCached-978"><span class="linenos"> 978</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-979"><a href="#ActiveProjectCached-979"><span class="linenos"> 979</span></a>
+</span><span id="ActiveProjectCached-980"><a href="#ActiveProjectCached-980"><span class="linenos"> 980</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-981"><a href="#ActiveProjectCached-981"><span class="linenos"> 981</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-982"><a href="#ActiveProjectCached-982"><span class="linenos"> 982</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-983"><a href="#ActiveProjectCached-983"><span class="linenos"> 983</span></a>
+</span><span id="ActiveProjectCached-984"><a href="#ActiveProjectCached-984"><span class="linenos"> 984</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-985"><a href="#ActiveProjectCached-985"><span class="linenos"> 985</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-986"><a href="#ActiveProjectCached-986"><span class="linenos"> 986</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-987"><a href="#ActiveProjectCached-987"><span class="linenos"> 987</span></a>
+</span><span id="ActiveProjectCached-988"><a href="#ActiveProjectCached-988"><span class="linenos"> 988</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-989"><a href="#ActiveProjectCached-989"><span class="linenos"> 989</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-990"><a href="#ActiveProjectCached-990"><span class="linenos"> 990</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-991"><a href="#ActiveProjectCached-991"><span class="linenos"> 991</span></a>
+</span><span id="ActiveProjectCached-992"><a href="#ActiveProjectCached-992"><span class="linenos"> 992</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-993"><a href="#ActiveProjectCached-993"><span class="linenos"> 993</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-994"><a href="#ActiveProjectCached-994"><span class="linenos"> 994</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-995"><a href="#ActiveProjectCached-995"><span class="linenos"> 995</span></a>
+</span><span id="ActiveProjectCached-996"><a href="#ActiveProjectCached-996"><span class="linenos"> 996</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-997"><a href="#ActiveProjectCached-997"><span class="linenos"> 997</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-998"><a href="#ActiveProjectCached-998"><span class="linenos"> 998</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-999"><a href="#ActiveProjectCached-999"><span class="linenos"> 999</span></a>
+</span><span id="ActiveProjectCached-1000"><a href="#ActiveProjectCached-1000"><span class="linenos">1000</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1001"><a href="#ActiveProjectCached-1001"><span class="linenos">1001</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1002"><a href="#ActiveProjectCached-1002"><span class="linenos">1002</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1003"><a href="#ActiveProjectCached-1003"><span class="linenos">1003</span></a>
+</span><span id="ActiveProjectCached-1004"><a href="#ActiveProjectCached-1004"><span class="linenos">1004</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1005"><a href="#ActiveProjectCached-1005"><span class="linenos">1005</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1006"><a href="#ActiveProjectCached-1006"><span class="linenos">1006</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1007"><a href="#ActiveProjectCached-1007"><span class="linenos">1007</span></a>
+</span><span id="ActiveProjectCached-1008"><a href="#ActiveProjectCached-1008"><span class="linenos">1008</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1009"><a href="#ActiveProjectCached-1009"><span class="linenos">1009</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1010"><a href="#ActiveProjectCached-1010"><span class="linenos">1010</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1011"><a href="#ActiveProjectCached-1011"><span class="linenos">1011</span></a>
+</span><span id="ActiveProjectCached-1012"><a href="#ActiveProjectCached-1012"><span class="linenos">1012</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1013"><a href="#ActiveProjectCached-1013"><span class="linenos">1013</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1014"><a href="#ActiveProjectCached-1014"><span class="linenos">1014</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1015"><a href="#ActiveProjectCached-1015"><span class="linenos">1015</span></a>
+</span><span id="ActiveProjectCached-1016"><a href="#ActiveProjectCached-1016"><span class="linenos">1016</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1017"><a href="#ActiveProjectCached-1017"><span class="linenos">1017</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1018"><a href="#ActiveProjectCached-1018"><span class="linenos">1018</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1019"><a href="#ActiveProjectCached-1019"><span class="linenos">1019</span></a>
+</span><span id="ActiveProjectCached-1020"><a href="#ActiveProjectCached-1020"><span class="linenos">1020</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1021"><a href="#ActiveProjectCached-1021"><span class="linenos">1021</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1022"><a href="#ActiveProjectCached-1022"><span class="linenos">1022</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1023"><a href="#ActiveProjectCached-1023"><span class="linenos">1023</span></a>
+</span><span id="ActiveProjectCached-1024"><a href="#ActiveProjectCached-1024"><span class="linenos">1024</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1025"><a href="#ActiveProjectCached-1025"><span class="linenos">1025</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1026"><a href="#ActiveProjectCached-1026"><span class="linenos">1026</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1027"><a href="#ActiveProjectCached-1027"><span class="linenos">1027</span></a>
+</span><span id="ActiveProjectCached-1028"><a href="#ActiveProjectCached-1028"><span class="linenos">1028</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1029"><a href="#ActiveProjectCached-1029"><span class="linenos">1029</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1030"><a href="#ActiveProjectCached-1030"><span class="linenos">1030</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
+</span><span id="ActiveProjectCached-1031"><a href="#ActiveProjectCached-1031"><span class="linenos">1031</span></a>
+</span><span id="ActiveProjectCached-1032"><a href="#ActiveProjectCached-1032"><span class="linenos">1032</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached-1033"><a href="#ActiveProjectCached-1033"><span class="linenos">1033</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached-1034"><a href="#ActiveProjectCached-1034"><span class="linenos">1034</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4525,9 +4553,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.network_model_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.network_model_folder-973"><a href="#ActiveProjectCached.network_model_folder-973"><span class="linenos">973</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.network_model_folder-974"><a href="#ActiveProjectCached.network_model_folder-974"><span class="linenos">974</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.network_model_folder-975"><a href="#ActiveProjectCached.network_model_folder-975"><span class="linenos">975</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.network_model_folder-976"><a href="#ActiveProjectCached.network_model_folder-976"><span class="linenos">976</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.network_model_folder-977"><a href="#ActiveProjectCached.network_model_folder-977"><span class="linenos">977</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_model_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.network_model_folder-978"><a href="#ActiveProjectCached.network_model_folder-978"><span class="linenos">978</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netmod&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4543,9 +4571,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.network_data_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.network_data_folder-977"><a href="#ActiveProjectCached.network_data_folder-977"><span class="linenos">977</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.network_data_folder-978"><a href="#ActiveProjectCached.network_data_folder-978"><span class="linenos">978</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.network_data_folder-979"><a href="#ActiveProjectCached.network_data_folder-979"><span class="linenos">979</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.network_data_folder-980"><a href="#ActiveProjectCached.network_data_folder-980"><span class="linenos">980</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.network_data_folder-981"><a href="#ActiveProjectCached.network_data_folder-981"><span class="linenos">981</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">network_data_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.network_data_folder-982"><a href="#ActiveProjectCached.network_data_folder-982"><span class="linenos">982</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;netdat&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4561,9 +4589,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.operation_scenarios_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.operation_scenarios_folder-981"><a href="#ActiveProjectCached.operation_scenarios_folder-981"><span class="linenos">981</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.operation_scenarios_folder-982"><a href="#ActiveProjectCached.operation_scenarios_folder-982"><span class="linenos">982</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.operation_scenarios_folder-983"><a href="#ActiveProjectCached.operation_scenarios_folder-983"><span class="linenos">983</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.operation_scenarios_folder-984"><a href="#ActiveProjectCached.operation_scenarios_folder-984"><span class="linenos">984</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.operation_scenarios_folder-985"><a href="#ActiveProjectCached.operation_scenarios_folder-985"><span class="linenos">985</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">operation_scenarios_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.operation_scenarios_folder-986"><a href="#ActiveProjectCached.operation_scenarios_folder-986"><span class="linenos">986</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scen&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4579,9 +4607,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.variations_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.variations_folder-985"><a href="#ActiveProjectCached.variations_folder-985"><span class="linenos">985</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.variations_folder-986"><a href="#ActiveProjectCached.variations_folder-986"><span class="linenos">986</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.variations_folder-987"><a href="#ActiveProjectCached.variations_folder-987"><span class="linenos">987</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.variations_folder-988"><a href="#ActiveProjectCached.variations_folder-988"><span class="linenos">988</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.variations_folder-989"><a href="#ActiveProjectCached.variations_folder-989"><span class="linenos">989</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">variations_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.variations_folder-990"><a href="#ActiveProjectCached.variations_folder-990"><span class="linenos">990</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scheme&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4597,9 +4625,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.study_cases_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.study_cases_folder-989"><a href="#ActiveProjectCached.study_cases_folder-989"><span class="linenos">989</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.study_cases_folder-990"><a href="#ActiveProjectCached.study_cases_folder-990"><span class="linenos">990</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.study_cases_folder-991"><a href="#ActiveProjectCached.study_cases_folder-991"><span class="linenos">991</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.study_cases_folder-992"><a href="#ActiveProjectCached.study_cases_folder-992"><span class="linenos">992</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.study_cases_folder-993"><a href="#ActiveProjectCached.study_cases_folder-993"><span class="linenos">993</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">study_cases_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.study_cases_folder-994"><a href="#ActiveProjectCached.study_cases_folder-994"><span class="linenos">994</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;study&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4615,9 +4643,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.equipment_type_lib_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.equipment_type_lib_folder-993"><a href="#ActiveProjectCached.equipment_type_lib_folder-993"><span class="linenos">993</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.equipment_type_lib_folder-994"><a href="#ActiveProjectCached.equipment_type_lib_folder-994"><span class="linenos">994</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.equipment_type_lib_folder-995"><a href="#ActiveProjectCached.equipment_type_lib_folder-995"><span class="linenos">995</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.equipment_type_lib_folder-996"><a href="#ActiveProjectCached.equipment_type_lib_folder-996"><span class="linenos">996</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.equipment_type_lib_folder-997"><a href="#ActiveProjectCached.equipment_type_lib_folder-997"><span class="linenos">997</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">equipment_type_lib_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.equipment_type_lib_folder-998"><a href="#ActiveProjectCached.equipment_type_lib_folder-998"><span class="linenos">998</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;equip&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4633,9 +4661,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.library_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.library_folder-997"><a href="#ActiveProjectCached.library_folder-997"><span class="linenos">997</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.library_folder-998"><a href="#ActiveProjectCached.library_folder-998"><span class="linenos">998</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.library_folder-999"><a href="#ActiveProjectCached.library_folder-999"><span class="linenos">999</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.library_folder-1000"><a href="#ActiveProjectCached.library_folder-1000"><span class="linenos">1000</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.library_folder-1001"><a href="#ActiveProjectCached.library_folder-1001"><span class="linenos">1001</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">library_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.library_folder-1002"><a href="#ActiveProjectCached.library_folder-1002"><span class="linenos">1002</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;lib&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4651,9 +4679,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.scripts_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.scripts_folder-1001"><a href="#ActiveProjectCached.scripts_folder-1001"><span class="linenos">1001</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.scripts_folder-1002"><a href="#ActiveProjectCached.scripts_folder-1002"><span class="linenos">1002</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.scripts_folder-1003"><a href="#ActiveProjectCached.scripts_folder-1003"><span class="linenos">1003</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.scripts_folder-1004"><a href="#ActiveProjectCached.scripts_folder-1004"><span class="linenos">1004</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.scripts_folder-1005"><a href="#ActiveProjectCached.scripts_folder-1005"><span class="linenos">1005</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scripts_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.scripts_folder-1006"><a href="#ActiveProjectCached.scripts_folder-1006"><span class="linenos">1006</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;scripts&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4669,9 +4697,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.templates_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.templates_folder-1005"><a href="#ActiveProjectCached.templates_folder-1005"><span class="linenos">1005</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.templates_folder-1006"><a href="#ActiveProjectCached.templates_folder-1006"><span class="linenos">1006</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.templates_folder-1007"><a href="#ActiveProjectCached.templates_folder-1007"><span class="linenos">1007</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.templates_folder-1008"><a href="#ActiveProjectCached.templates_folder-1008"><span class="linenos">1008</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.templates_folder-1009"><a href="#ActiveProjectCached.templates_folder-1009"><span class="linenos">1009</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">templates_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.templates_folder-1010"><a href="#ActiveProjectCached.templates_folder-1010"><span class="linenos">1010</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetProjectFolder</span><span class="p">(</span><span class="s2">&quot;templ&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4687,9 +4715,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.zones_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.zones_folder-1009"><a href="#ActiveProjectCached.zones_folder-1009"><span class="linenos">1009</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.zones_folder-1010"><a href="#ActiveProjectCached.zones_folder-1010"><span class="linenos">1010</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.zones_folder-1011"><a href="#ActiveProjectCached.zones_folder-1011"><span class="linenos">1011</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.zones_folder-1012"><a href="#ActiveProjectCached.zones_folder-1012"><span class="linenos">1012</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.zones_folder-1013"><a href="#ActiveProjectCached.zones_folder-1013"><span class="linenos">1013</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">zones_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.zones_folder-1014"><a href="#ActiveProjectCached.zones_folder-1014"><span class="linenos">1014</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmZone&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4705,9 +4733,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.areas_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.areas_folder-1013"><a href="#ActiveProjectCached.areas_folder-1013"><span class="linenos">1013</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.areas_folder-1014"><a href="#ActiveProjectCached.areas_folder-1014"><span class="linenos">1014</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.areas_folder-1015"><a href="#ActiveProjectCached.areas_folder-1015"><span class="linenos">1015</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.areas_folder-1016"><a href="#ActiveProjectCached.areas_folder-1016"><span class="linenos">1016</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.areas_folder-1017"><a href="#ActiveProjectCached.areas_folder-1017"><span class="linenos">1017</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">areas_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.areas_folder-1018"><a href="#ActiveProjectCached.areas_folder-1018"><span class="linenos">1018</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;ElmArea&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4723,9 +4751,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.boundaries_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.boundaries_folder-1017"><a href="#ActiveProjectCached.boundaries_folder-1017"><span class="linenos">1017</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.boundaries_folder-1018"><a href="#ActiveProjectCached.boundaries_folder-1018"><span class="linenos">1018</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.boundaries_folder-1019"><a href="#ActiveProjectCached.boundaries_folder-1019"><span class="linenos">1019</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.boundaries_folder-1020"><a href="#ActiveProjectCached.boundaries_folder-1020"><span class="linenos">1020</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.boundaries_folder-1021"><a href="#ActiveProjectCached.boundaries_folder-1021"><span class="linenos">1021</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">boundaries_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.boundaries_folder-1022"><a href="#ActiveProjectCached.boundaries_folder-1022"><span class="linenos">1022</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntBoundary&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4741,9 +4769,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.circuits_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.circuits_folder-1021"><a href="#ActiveProjectCached.circuits_folder-1021"><span class="linenos">1021</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.circuits_folder-1022"><a href="#ActiveProjectCached.circuits_folder-1022"><span class="linenos">1022</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.circuits_folder-1023"><a href="#ActiveProjectCached.circuits_folder-1023"><span class="linenos">1023</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.circuits_folder-1024"><a href="#ActiveProjectCached.circuits_folder-1024"><span class="linenos">1024</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.circuits_folder-1025"><a href="#ActiveProjectCached.circuits_folder-1025"><span class="linenos">1025</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">circuits_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.circuits_folder-1026"><a href="#ActiveProjectCached.circuits_folder-1026"><span class="linenos">1026</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntCircuit&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4759,9 +4787,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.feeders_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.feeders_folder-1025"><a href="#ActiveProjectCached.feeders_folder-1025"><span class="linenos">1025</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.feeders_folder-1026"><a href="#ActiveProjectCached.feeders_folder-1026"><span class="linenos">1026</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.feeders_folder-1027"><a href="#ActiveProjectCached.feeders_folder-1027"><span class="linenos">1027</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.feeders_folder-1028"><a href="#ActiveProjectCached.feeders_folder-1028"><span class="linenos">1028</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.feeders_folder-1029"><a href="#ActiveProjectCached.feeders_folder-1029"><span class="linenos">1029</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">feeders_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.feeders_folder-1030"><a href="#ActiveProjectCached.feeders_folder-1030"><span class="linenos">1030</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">GetDataFolder</span><span class="p">(</span><span class="s2">&quot;IntFeeder&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4777,9 +4805,9 @@ keep_current_project_activated (bool, optional): If True, the initial project an
 
     </div>
     <a class="headerlink" href="#ActiveProjectCached.versions_folder"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.versions_folder-1029"><a href="#ActiveProjectCached.versions_folder-1029"><span class="linenos">1029</span></a>    <span class="nd">@cached_property</span>
-</span><span id="ActiveProjectCached.versions_folder-1030"><a href="#ActiveProjectCached.versions_folder-1030"><span class="linenos">1030</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span id="ActiveProjectCached.versions_folder-1031"><a href="#ActiveProjectCached.versions_folder-1031"><span class="linenos">1031</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ActiveProjectCached.versions_folder-1032"><a href="#ActiveProjectCached.versions_folder-1032"><span class="linenos">1032</span></a>    <span class="nd">@cached_property</span>
+</span><span id="ActiveProjectCached.versions_folder-1033"><a href="#ActiveProjectCached.versions_folder-1033"><span class="linenos">1033</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">versions_folder</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="ActiveProjectCached.versions_folder-1034"><a href="#ActiveProjectCached.versions_folder-1034"><span class="linenos">1034</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_unique_obj</span><span class="p">(</span><span class="s2">&quot;*.IntVersionman&quot;</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -4836,6 +4864,7 @@ keep_current_project_activated (bool, optional): If True, the initial project an
                 <dd id="ActiveProjectCached.reactivate_project" class="function"><a href="#ActiveProject.reactivate_project">reactivate_project</a></dd>
                 <dd id="ActiveProjectCached.add_template_from_global_library" class="function"><a href="#ActiveProject.add_template_from_global_library">add_template_from_global_library</a></dd>
                 <dd id="ActiveProjectCached.duplicate_to_restore_attributes" class="function"><a href="#ActiveProject.duplicate_to_restore_attributes">duplicate_to_restore_attributes</a></dd>
+                <dd id="ActiveProjectCached.clear_output_window" class="function"><a href="#ActiveProject.clear_output_window">clear_output_window</a></dd>
 
             </div>
             <div><dt><a href="folder.html#Folder">powfacpy.base.folder.Folder</a></dt>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.11">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../docs/tutorials/study_cases.html" rel="next">
-<link href="../../docs/tutorials/dynamic_model_validation.html" rel="prev">
+<link href="../../docs/tutorials/dynamic_model_documentation.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5947b73a06bce04bf1d622ae23e1ec5b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -201,6 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -239,6 +245,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/cgmes_model_exchange.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">CGMES handling with model exchange interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/database_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Database Interface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -293,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Static calculations like <em>power flow</em> (or <em>load flow</em> as it’s called in <em>PowerFactory</em>) or short circuit analysis are not the main focus of <em>powfacpy</em>. However, <em>powfacpy</em> provides a convenient interface to perform these calculations and to access the results.</p>
 <p>We first activate the <em>IEEE 39 Bus</em> example system and create a study case for this tutorial.</p>
-<div id="236e6b09" class="cell" data-execution_count="2">
+<div id="e75df464" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -326,7 +338,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="execute" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="execute"><span class="header-section-number">1.1</span> Execute</h2>
 <p><em>powfacpy</em> provides an interface class for static calculations, which we import and use to execute the load flow calculation.</p>
-<div id="1699b3e7" class="cell" data-execution_count="3">
+<div id="4f99294a" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.static_calc <span class="im">import</span> StaticCalc</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pfstat <span class="op">=</span> StaticCalc(app)</span>
@@ -336,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can check the results for validity. If the results are invalid, an exception is raised by default (see docstring for more options).</p>
-<div id="fa622521" class="cell" data-execution_count="4">
+<div id="8bbccccd" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfstat.check_load_flow_results()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>True</code></pre>
@@ -349,7 +361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="export-to-pandas-dataframe" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="export-to-pandas-dataframe"><span class="header-section-number">2.1</span> Export to Pandas DataFrame</h2>
 <p>We can easily access results of static calculations using the <code>get_result_dataframe</code> method. For example, we can get the voltage magnitudes and angles for all terminals with a nominal voltage above 300 kV. We use the <code>ResVar</code> class to specify the result variables we want to access.</p>
-<div id="0b8d4342" class="cell" data-execution_count="5">
+<div id="2a569106" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>LF_Bal <span class="op">=</span> ResVar.LF_Bal</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -516,7 +528,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>While the above dataframe is useful for further processing, it is not very readable. We can use the <code>replace_obj_with_loc_name_and_add_variable_desc</code> method to replace object references with their names and add variable descriptions.</p>
-<div id="606ed762" class="cell" data-execution_count="6">
+<div id="a8625c1e" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable <span class="op">=</span> pfstat.replace_obj_with_loc_name_and_add_variable_desc(df_voltage_res)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -687,8 +699,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="export-to-.csv" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="export-to-.csv"><span class="header-section-number">2.2</span> Export to .csv</h2>
 <p>From the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.</p>
-<div id="df63c8c9" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable.to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="ch">\t</span><span class="vs">ests</span><span class="ch">\t</span><span class="vs">ests_output</span><span class="dv">\s</span><span class="vs">tatic_calc_results</span><span class="dv">.</span><span class="vs">csv"</span>, index<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="549bf13c" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df_voltage_res_readable.to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">tatic_calc_results</span><span class="dv">.</span><span class="vs">csv"</span>, index<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1098,8 +1110,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tutorials/dynamic_model_validation.html" class="pagination-link" aria-label="Dynamic Model Validation and Requirements Testing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Model Validation and Requirements Testing</span>
+      <a href="../../docs/tutorials/dynamic_model_documentation.html" class="pagination-link" aria-label="Dynamic Model Documentation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Model Documentation</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

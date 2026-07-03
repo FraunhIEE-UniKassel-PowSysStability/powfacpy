@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Frame(g1)</title>
+        <style>
+    /* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #2c2c2c;
+    background: #f9f9f9;
+    display: flex;
+}
+
+/* ── Sidebar ── */
+#sidebar {
+    width: 270px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    background: #1a2e3b;
+    padding: 2rem 1.25rem;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+#sidebar .toctitle {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #179C7D;
+    margin-bottom: 1rem;
+}
+
+#sidebar ul { list-style: none; padding-left: 0; margin: 0; }
+#sidebar ul ul { padding-left: 1rem; border-left: 1px solid #ffffff18; margin: 0.2rem 0 0.2rem 0.25rem; }
+#sidebar ul li { margin: 0.15rem 0; }
+#sidebar a {
+    text-decoration: none;
+    color: #a8c4d0;
+    font-size: 0.82rem;
+    display: block;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    transition: background 0.15s, color 0.15s;
+}
+#sidebar a:hover { background: #179C7D33; color: #ffffff; }
+
+/* ── Main content ── */
+#content {
+    flex: 1;
+    padding: 3rem 4rem;
+    max-width: 960px;
+    background: #ffffff;
+    min-height: 100vh;
+    box-shadow: 0 0 40px #00000012;
+}
+
+/* ── Numbered headings ── */
+body { counter-reset: h1; }
+h1 { counter-reset: h2; }
+h2 { counter-reset: h3; }
+h3 { counter-reset: h4; }
+
+h1::before { counter-increment: h1; content: counter(h1) "  "; }
+h2::before { counter-increment: h2; content: counter(h1) "." counter(h2) "  "; }
+h3::before { counter-increment: h3; content: counter(h1) "." counter(h2) "." counter(h3) "  "; }
+
+h1, h2, h3, h4 {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-weight: 600;
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: 1.75rem;
+    color: #005B7F;
+    border-bottom: 3px solid #179C7D;
+    padding-bottom: 0.4rem;
+}
+
+h2 {
+    font-size: 1.3rem;
+    color: #005B7F;
+    border-bottom: 1px solid #d0e4ec;
+    padding-bottom: 0.25rem;
+}
+
+h3 {
+    font-size: 1.05rem;
+    color: #179C7D;
+}
+
+h4 {
+    font-size: 0.95rem;
+    color: #555;
+    font-style: italic;
+}
+
+/* ── Tables ── */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px #0000001a;
+}
+
+th {
+    background: #005B7F;
+    color: white;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+td { padding: 0.45rem 0.9rem; border-bottom: 1px solid #e8eef2; }
+tr:nth-child(even) { background: #f4f8fa; }
+tr:hover { background: #e8f4f0; }
+
+/* ── Code ── */
+pre {
+    background: #1a2e3b;
+    color: #c8dde8;
+    border-left: 4px solid #179C7D;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    border-radius: 6px;
+    font-size: 0.83rem;
+    line-height: 1.6;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 8px #0000001a;
+}
+
+code {
+    background: #e8f4f0;
+    color: #005B7F;
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.88em;
+    font-family: 'Consolas', 'Courier New', monospace;
+}
+
+pre code { background: none; color: inherit; padding: 0; }
+
+/* ── Paragraphs & lists ── */
+p { margin: 0.75rem 0; }
+ul, ol { padding-left: 1.5rem; margin: 0.5rem 0; }
+li { margin: 0.3rem 0; }
+
+/* ── Blockquotes ── */
+blockquote {
+    border-left: 4px solid #179C7D;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1.25rem;
+    background: #f0faf7;
+    color: #444;
+    border-radius: 0 6px 6px 0;
+}
+
+/* ── Horizontal rule ── */
+hr {
+    border: none;
+    border-top: 2px solid #e0eaef;
+    margin: 2rem 0;
+}
+
+/* ── Scrollbar (webkit) ── */
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: #179C7D55; border-radius: 2px; }
+
+/* ── Numbered TOC in sidebar ── */
+#sidebar ul { counter-reset: toc-h1; list-style: none; padding-left: 0; margin: 0; }
+#sidebar > div > ul > li { counter-increment: toc-h1; }
+#sidebar > div > ul > li > a::before { content: counter(toc-h1) "  "; color: #179C7D; font-weight: 700; }
+
+#sidebar ul ul { counter-reset: toc-h2; padding-left: 1rem; border-left: 1px solid #ffffff18; margin: 0.2rem 0 0.2rem 0.25rem; }
+#sidebar > div > ul > li > ul > li { counter-increment: toc-h2; }
+#sidebar > div > ul > li > ul > li > a::before { content: counter(toc-h1) "." counter(toc-h2) "  "; color: #179C7D99; font-weight: 400; }
+
+#sidebar ul ul ul { counter-reset: toc-h3; }
+#sidebar > div > ul > li > ul > li > ul > li { counter-increment: toc-h3; }
+#sidebar > div > ul > li > ul > li > ul > li > a::before { content: counter(toc-h1) "." counter(toc-h2) "." counter(toc-h3) "  "; color: #179C7D66; font-weight: 400; }
+        </style>
+    </head>
+    <body>
+        <nav id="sidebar"><div class="toc"><span class="toctitle">Table of Contents</span><ul>
+<li><a href="#composite-model-frameg1">Composite Model Frame(g1)</a><ul>
+<li><a href="#graphic">Graphic</a></li>
+<li><a href="#slot-links">Slot Links</a></li>
+<li><a href="#parameters">Parameters</a><ul>
+<li><a href="#slot-model-gov">Slot Model: Gov</a></li>
+<li><a href="#slot-model-avr">Slot Model: AVR</a></li>
+<li><a href="#slot-model-hydro-turbine">Slot Model: Hydro turbine</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#block-defintions-graphical">Block Defintions (Graphical)</a><ul>
+<li><a href="#gov">Gov</a><ul>
+<li><a href="#title">Title</a></li>
+<li><a href="#grafic">Grafic</a></li>
+<li><a href="#subblocks">Subblocks</a></li>
+<li><a href="#output-signals">Output signals</a></li>
+<li><a href="#input-signals">Input signals</a></li>
+<li><a href="#states">States</a></li>
+<li><a href="#parameters_1">Parameters</a></li>
+<li><a href="#equations">Equations</a></li>
+</ul>
+</li>
+<li><a href="#avr">AVR</a><ul>
+<li><a href="#title_1">Title</a></li>
+<li><a href="#grafic_1">Grafic</a></li>
+<li><a href="#subblocks_1">Subblocks</a></li>
+<li><a href="#output-signals_1">Output signals</a></li>
+<li><a href="#input-signals_1">Input signals</a></li>
+<li><a href="#states_1">States</a></li>
+<li><a href="#parameters_2">Parameters</a></li>
+<li><a href="#upper-limitation-parameters">Upper limitation parameters</a></li>
+<li><a href="#lower-limitation-parameters">Lower limitation parameters</a></li>
+<li><a href="#equations_1">Equations</a></li>
+</ul>
+</li>
+<li><a href="#hydro-turbine">Hydro turbine</a><ul>
+<li><a href="#title_2">Title</a></li>
+<li><a href="#grafic_2">Grafic</a></li>
+<li><a href="#subblocks_2">Subblocks</a></li>
+<li><a href="#output-signals_2">Output signals</a></li>
+<li><a href="#input-signals_2">Input signals</a></li>
+<li><a href="#states_2">States</a></li>
+<li><a href="#parameters_3">Parameters</a></li>
+<li><a href="#equations_2">Equations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#block-definitions-macros">Block Definitions (Macros)</a><ul>
+<li><a href="#1">(1)</a></li>
+<li><a href="#1st11st2">(1+sT1)/(1+sT2)</a></li>
+<li><a href="#qz2">(q/z)^2</a></li>
+<li><a href="#-01">+-0.1</a></li>
+<li><a href="#-c">+-C</a></li>
+<li><a href="#-1">-1</a></li>
+<li><a href="#01s1">0[1/s]1</a></li>
+<li><a href="#01sl2">0[1/s]L2</a></li>
+<li><a href="#1_1">1</a></li>
+<li><a href="#11s2">1/(1+s2)</a></li>
+<li><a href="#1tw">1/Tw</a></li>
+<li><a href="#1s">1/s</a></li>
+<li><a href="#10">10</a></li>
+<li><a href="#5">5</a></li>
+<li><a href="#g1sta1stb">G(1+sTa)/(1+sTb)</a></li>
+<li><a href="#l11s">L1[1/s</a></li>
+<li><a href="#pi-controller">PI controller</a></li>
+<li><a href="#pss_act">Pss_act</a></li>
+<li><a href="#sigma">Sigma</a></li>
+<li><a href="#switch">Switch</a></li>
+<li><a href="#ifdlim">ifdlim</a></li>
+<li><a href="#min">min</a></li>
+<li><a href="#sk1st">sK/(1+sT)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+        <main id="content"><h1 id="composite-model-frameg1"><a class="toclink" href="#composite-model-frameg1">Composite Model Frame(g1)</a></h1>
+<ul>
+<li><strong>Block definition</strong>: <ul>
+<li>Name: Frame H</li>
+<li>Title: {''}</li>
+</ul>
+</li>
+</ul>
+<h2 id="graphic"><a class="toclink" href="#graphic">Graphic</a></h2>
+<p><div class="svg-figure" title="Composite Model Frame(g1)"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg baseProfile='full' height='100.000000%' version='1.1' viewBox='0.000000 0.000000 1753.000000 1240.000000' width='100.000000%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+
+
+  <defs>
+    <clipPath id='clipPath-01'>
+      <polygon points='0.000000 1240.157480, 0.000000 0.000000, 1753.937008 0.000000, 1753.937008 1240.157480' />
+    </clipPath>
+  </defs>
+
+  <g clip-path='url(#clipPath-01)'>
+    <g id='Page Layer'>
+      <polygon fill='#ffffff' points='0.500000 0.500000, 0.500000 1239.500000, 1752.500000 1239.500000, 1752.500000 0.500000' stroke='#808080' stroke-width='1.000000' />
+    </g>
+    <g id='Block definition'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H.BlkDef'>
+        <polyline fill='none' points='88.582755 1151.574895, 1653.543230 1151.574895, 1653.543230 88.582586, 88.582755 88.582586, 88.582755 1151.574895' stroke='#000000' stroke-width='1.181102' />
+      </g>
+    </g>
+    <g id='Net elements'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Hydro turbine.BlkSlot'>
+        <polyline fill='none' points='767.716535 797.244094, 767.716535 679.133858, 885.826772 679.133858, 885.826772 797.244094, 767.716535 797.244094, 767.716535 791.338583, 879.921260 791.338583, 885.826772 797.244094, 879.921260 791.338583, 879.921260 679.133858' stroke='#000000' stroke-width='1.000000' />
+        <ellipse cx='767.716535' cy='738.188976' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='885.826772' cy='738.188976' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\AVR.BlkSlot'>
+        <polyline fill='none' points='767.716535 620.078740, 767.716535 501.968504, 885.826772 501.968504, 885.826772 620.078740, 767.716535 620.078740, 767.716535 614.173228, 879.921260 614.173228, 885.826772 620.078740, 879.921260 614.173228, 879.921260 501.968504' stroke='#000000' stroke-width='1.000000' />
+        <ellipse cx='767.716535' cy='531.496063' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='777.980315' y='537.401575'>0</text>
+        <ellipse cx='767.716535' cy='561.023622' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='779.480315' y='566.929134'>1</text>
+        <ellipse cx='767.716535' cy='590.551181' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='777.980315' y='596.456693'>2</text>
+        <ellipse cx='885.826772' cy='561.023622' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Gov.BlkSlot'>
+        <polyline fill='none' points='561.023622 797.244094, 561.023622 679.133858, 679.133858 679.133858, 679.133858 797.244094, 561.023622 797.244094, 561.023622 791.338583, 673.228346 791.338583, 679.133858 797.244094, 673.228346 791.338583, 673.228346 679.133858' stroke='#000000' stroke-width='1.000000' />
+        <ellipse cx='561.023622' cy='708.661417' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='571.287402' y='714.566929'>0</text>
+        <ellipse cx='561.023622' cy='767.716535' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='572.787402' y='773.622047'>1</text>
+        <ellipse cx='679.133858' cy='738.188976' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Gen.BlkSlot'>
+        <polyline fill='none' points='1033.464588 797.244109, 1033.464588 501.968490, 1151.574782 501.968490, 1151.574782 797.244109, 1033.464588 797.244109, 1033.464588 782.480328, 1145.669272 782.480328, 1151.574782 797.244109, 1145.669272 782.480328, 1145.669272 501.968490' stroke='#000000' stroke-width='1.000000' />
+        <ellipse cx='1033.464588' cy='590.551175' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1043.728368' y='596.456687'>0</text>
+        <ellipse cx='1033.464588' cy='708.661423' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1045.228368' y='714.566935'>1</text>
+        <ellipse cx='1151.574782' cy='561.023614' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1132.311003' y='566.929125'>0</text>
+        <ellipse cx='1151.574782' cy='620.078737' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1133.811003' y='625.984249'>1</text>
+        <ellipse cx='1151.574782' cy='679.133861' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1132.311003' y='685.039373'>2</text>
+        <ellipse cx='1151.574782' cy='738.188985' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='1132.311003' y='744.094497'>3</text>
+      </g>
+    </g>
+    <g id='Signals'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ut.BlkSig'>
+        <polyline fill='none' points='959.645669 383.858268, 1269.685039 383.858268, 1269.685039 620.078740, 1151.574803 620.078740' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='959.645669 383.858268, 649.606299 383.858268, 649.606299 561.023622, 767.716535 561.023622' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ie.BlkSig'>
+        <polyline fill='none' points='959.645669 442.913386, 1210.629921 442.913386, 1210.629921 561.023622, 1151.574803 561.023622' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='959.645669 442.913386, 708.661417 442.913386, 708.661417 531.496063, 767.716535 531.496063' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pt.BlkSig'>
+        <polyline fill='none' points='989.173228 708.661417, 944.881890 708.661417, 944.881890 738.188976, 885.826772 738.188976' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='989.173228 708.661417, 1033.464567 708.661417' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ve.BlkSig'>
+        <polyline fill='none' points='989.173228 590.551181, 944.881890 590.551181, 944.881890 561.023622, 885.826772 561.023622' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='989.173228 590.551181, 1033.464567 590.551181' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pgt.BlkSig'>
+        <polyline fill='none' points='856.299213 856.299213, 1210.629921 856.299213, 1210.629921 738.188976, 1151.574803 738.188976' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='856.299213 856.299213, 501.968504 856.299213, 501.968504 767.716535, 561.023622 767.716535' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\z.BlkSig'>
+        <polyline fill='none' points='723.425197 738.188976, 679.133858 738.188976' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='723.425197 738.188976, 767.716535 738.188976' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\xspeed(1).BlkSig'>
+        <polyline fill='none' points='959.645669 324.803150, 1328.740157 324.803150, 1328.740157 679.133858, 1151.574803 679.133858' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='959.645669 324.803150, 590.551181 324.803150, 590.551181 590.551181, 501.968504 590.551181, 501.968504 708.661417, 561.023622 708.661417' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\xspeed.BlkSig'>
+        <polyline fill='none' points='959.645669 324.803150, 1328.740157 324.803150, 1328.740157 679.133858, 1151.574803 679.133858' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='959.645669 324.803150, 590.551181 324.803150, 590.551181 590.551181, 767.716535 590.551181' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ut.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='767.716535 561.023622, 738.188976 566.929134, 738.188976 555.118110' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ie.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='767.716535 531.496063, 738.188976 537.401575, 738.188976 525.590551' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pt.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1033.464567 708.661417, 1003.937008 714.566929, 1003.937008 702.755906' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ve.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1033.464567 590.551181, 1003.937008 596.456693, 1003.937008 584.645669' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pgt.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='561.023622 767.716535, 531.496063 773.622047, 531.496063 761.811024' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\z.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='767.716535 738.188976, 738.188976 744.094488, 738.188976 732.283465' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\xspeed(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='561.023622 708.661417, 531.496063 714.566929, 531.496063 702.755906' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\xspeed.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='767.716535 590.551181, 738.188976 596.456693, 738.188976 584.645669' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Cross Points'>
+        <g id='Cross Point'>
+          <ellipse cx='590.551181' cy='590.551181' fill='#000000' rx='5.905512' ry='5.905512' stroke='#000000' stroke-width='1.000000' />
+        </g>
+      </g>
+    </g>
+    <g id='Labels'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ut.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='951.156203' y='375.236225'>ut</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ie.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='951.656203' y='434.291343'>ie</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pt.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='980.183762' y='700.039374'>pt</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\ve.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='978.183762' y='581.929138'>ve</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\pgt.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='841.809746' y='847.677170'>pgt</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\z.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='717.435730' y='729.566933'>z</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\xspeed.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='944.156203' y='316.181107'>xs..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H.BlkDef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='88.582755' y='57.873924'>Frame H: </text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Hydro turbine.BlkSlot::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='777.771654' y='736.299213'>Hydro turb..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='792.771654' y='755.196850'>ElmDsl*</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\AVR.BlkSlot::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='805.771654' y='559.133858'>AVR</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='792.771654' y='578.031496'>ElmDsl*</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Gov.BlkSlot::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='601.578740' y='736.299213'>Gov</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='586.078740' y='755.196850'>ElmDsl*</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Frame H\Gen.BlkSlot::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1074.019685' y='647.716535'>Gen</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1053.519685' y='666.614173'>ElmSym*</text>
+      </g>
+    </g>
+  </g>
+  <polygon fill='#ffffff' points='1714.665354 305.992126, 1747.145669 305.992126, 1747.145669 934.165354, 1714.665354 934.165354' stroke='none' />
+  <text fill='#000000' font-family='Arial' font-size='23.622047' text-anchor='start' transform='rotate(90.000000,1742.716535,313.078740)' x='1742.716535' y='334.338583'>Created with DIgSILENT PowerFactory Research Licence</text>
+
+</svg></div>        </p>
+<h2 id="slot-links"><a class="toclink" href="#slot-links">Slot Links</a></h2>
+<ul>
+<li>Gov: <a href="#gov">Gov</a></li>
+<li>AVR: <a href="#avr">AVR</a></li>
+<li>Hydro turbine: <a href="#hydro-turbine">Hydro turbine</a></li>
+</ul>
+<h2 id="parameters"><a class="toclink" href="#parameters">Parameters</a></h2>
+<h3 id="slot-model-gov"><a class="toclink" href="#slot-model-gov">Slot Model: Gov</a></h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Unit</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Sigma</td>
+      <td>0</td>
+      <td>40000000000000</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="slot-model-avr"><a class="toclink" href="#slot-model-avr">Slot Model: AVR</a></h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Unit</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ifdlim</td>
+      <td>1.0</td>
+      <td>8.991000e+12</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Ta</td>
+      <td>10.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Tb</td>
+      <td>20.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>G</td>
+      <td>70.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Kp</td>
+      <td>75.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Tw</td>
+      <td>15.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>T1</td>
+      <td>0.0</td>
+      <td>2.000000e+13</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>T2</td>
+      <td>0.0</td>
+      <td>1.000000e+13</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>PSS_act</td>
+      <td>1.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>C</td>
+      <td>0.0</td>
+      <td>1.000000e+13</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>L1</td>
+      <td>-11.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>L2</td>
+      <td>4.0</td>
+      <td>0.000000e+00</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>t</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[d</td>
+      <td>d]</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="slot-model-hydro-turbine"><a class="toclink" href="#slot-model-hydro-turbine">Slot Model: Hydro turbine</a></h3>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Name</th>
+      <th>Value</th>
+      <th>Unit</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Tw</td>
+      <td>1</td>
+      <td>0</td>
+      <td>NaN</td>
+      <td>d</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="block-defintions-graphical"><a class="toclink" href="#block-defintions-graphical">Block Defintions (Graphical)</a></h1>
+<h2 id="gov"><a class="toclink" href="#gov">Gov</a></h2>
+<h3 id="title"><a class="toclink" href="#title">Title</a></h3>
+<p>None </p>
+<h3 id="grafic"><a class="toclink" href="#grafic">Grafic</a></h3>
+<p><div class="svg-figure" title="Gov"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg baseProfile='full' height='100.000000%' version='1.1' viewBox='0.000000 0.000000 1753.000000 1240.000000' width='100.000000%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+
+
+  <defs>
+    <clipPath id='clipPath-01'>
+      <polygon points='0.000000 1240.157480, 0.000000 0.000000, 1753.937008 0.000000, 1753.937008 1240.157480' />
+    </clipPath>
+  </defs>
+
+  <g clip-path='url(#clipPath-01)'>
+    <g id='Page Layer'>
+      <polygon fill='#ffffff' points='0.500000 0.500000, 0.500000 1239.500000, 1752.500000 1239.500000, 1752.500000 0.500000' stroke='#808080' stroke-width='1.000000' />
+    </g>
+    <g id='Block definition'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov.BlkDef'>
+        <polyline fill='none' points='88.582755 1151.574895, 1653.543230 1151.574895, 1653.543230 88.582586, 88.582755 88.582586, 88.582755 1151.574895' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='88.582755' cy='354.330663' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='69.318975' y='360.236175'>0</text>
+        <ellipse cx='88.582755' cy='649.608667' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='70.818975' y='655.514178'>1</text>
+        <ellipse cx='88.582755' cy='738.187816' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='69.318975' y='744.093327'>2</text>
+        <ellipse cx='1653.543230' cy='354.330663' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+    </g>
+    <g id='Net elements'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Sigma.BlkRef'>
+        <polygon fill='none' points='383.858277 531.496063, 383.858277 472.440945, 442.913377 472.440945, 442.913377 531.496063' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='386.811032 528.543307, 439.960622 528.543307, 439.960622 475.393701, 386.811032 475.393701, 386.811032 528.543307' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='383.858277' cy='501.968504' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='442.913377' cy='501.968504' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(1).BlkSum'>
+        <ellipse cx='472.440945' cy='354.330709' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='457.677165' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='472.440945' cy='369.094488' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='487.204724' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='472.440945' cy='339.566929' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\1.BlkRef'>
+        <polygon fill='none' points='118.110242 501.968507, 118.110242 442.913382, 177.165349 442.913382, 177.165349 501.968507' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='177.165349' cy='472.440945' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\0[1/s]1.BlkRef'>
+        <polygon fill='none' points='1240.157486 383.858268, 1240.157486 324.803150, 1299.212593 324.803150, 1299.212593 383.858268' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='1240.157486' cy='354.330709' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1299.212593' cy='354.330709' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\+-0.1.BlkRef'>
+        <polygon fill='none' points='1092.519703 383.858268, 1092.519703 324.803150, 1151.574786 324.803150, 1151.574786 383.858268' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='1095.472457 380.905512, 1148.622031 380.905512, 1148.622031 327.755906, 1095.472457 327.755906, 1095.472457 380.905512' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='1092.519703' cy='354.330709' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1151.574786' cy='354.330709' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\5.BlkRef'>
+        <polygon fill='none' points='944.881895 383.858268, 944.881895 324.803150, 1003.937003 324.803150, 1003.937003 383.858268' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='944.881895' cy='354.330709' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1003.937003' cy='354.330709' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum'>
+        <ellipse cx='206.692913' cy='354.330709' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='191.929134' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='206.692913' cy='369.094488' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='221.456693' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='206.692913' cy='339.566929' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum'>
+        <ellipse cx='826.771654' cy='354.330709' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='812.007874' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='826.771654' cy='369.094488' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='841.535433' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='826.771654' cy='339.566929' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\PI controller.BlkRef'>
+        <polygon fill='none' points='590.551181 413.385827, 590.551181 295.275591, 708.661417 295.275591, 708.661417 413.385827' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='590.551181' cy='354.330709' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='708.661417' cy='354.330709' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\1/(1+s2).BlkRef'>
+        <polygon fill='none' points='177.165360 679.133862, 177.165360 620.078737, 236.220467 620.078737, 236.220467 679.133862' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='177.165360' cy='649.606299' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='236.220467' cy='649.606299' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum'>
+        <ellipse cx='324.803150' cy='649.606299' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='310.039370' cy='649.606299' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='324.803150' cy='664.370079' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='339.566929' cy='649.606299' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='324.803150' cy='634.842520' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(1).BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='464.173228' y='359.291339'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(1).BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='468.440945' y='364.015748'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(1).BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='475.346457' y='359.291339'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(1).BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='469.440945' y='353.385827'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='198.425197' y='359.291339'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='202.692913' y='364.015748'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='209.598425' y='359.291339'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='203.692913' y='353.385827'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt.BlkSum::TextBox 4'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='172.165354' y='353.149606'>-</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='818.503937' y='359.291339'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='822.771654' y='364.015748'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='829.677165' y='359.291339'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='823.771654' y='353.385827'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(3).BlkSum::TextBox 5'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='807.007874' y='394.488189'>-</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='316.535433' y='654.566929'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='320.803150' y='659.291339'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='327.708661' y='654.566929'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='321.803150' y='648.661417'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Summationspunkt(2).BlkSum::TextBox 4'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='290.275591' y='648.425197'>-</text>
+      </g>
+    </g>
+    <g id='Signals'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o3.BlkSig'>
+        <polyline fill='none' points='472.440945 435.531496, 472.440945 501.968504, 442.913386 501.968504' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='472.440945 435.531496, 472.440945 369.094488' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o2.BlkSig'>
+        <polyline fill='none' points='339.566929 354.330709, 221.456693 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='339.566929 354.330709, 457.677165 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o1.BlkSig'>
+        <polyline fill='none' points='206.692913 420.767717, 206.692913 472.440945, 177.165343 472.440945' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='206.692913 420.767717, 206.692913 369.094488' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\xspeed.BlkSig'>
+        <polyline fill='none' points='140.255951 354.330889, 88.582497 354.331430' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='140.255951 354.330889, 191.929134 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\z(1).BlkSig'>
+        <polyline fill='none' points='1092.519685 442.913386, 1358.267717 442.913386, 1358.267717 354.330709, 1299.212598 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1092.519685 442.913386, 826.771654 442.913386, 826.771654 369.094488' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\z.BlkSig'>
+        <polyline fill='none' points='1476.377953 354.330438, 1299.212598 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1476.377953 354.330438, 1653.542947 354.329988' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi4.BlkSig'>
+        <polyline fill='none' points='1195.866142 354.330709, 1151.574803 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1195.866142 354.330709, 1240.157480 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi3.BlkSig'>
+        <polyline fill='none' points='1048.228346 354.330709, 1003.937008 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1048.228346 354.330709, 1092.519685 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi2.BlkSig'>
+        <polyline fill='none' points='893.208661 354.330709, 841.535433 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='893.208661 354.330709, 944.881890 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o5.BlkSig'>
+        <polyline fill='none' points='760.334646 354.330709, 708.661417 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='760.334646 354.330709, 812.007874 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi1.BlkSig'>
+        <polyline fill='none' points='538.877953 354.330709, 487.204724 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='538.877953 354.330709, 590.551181 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\P0.BlkSig'>
+        <polyline fill='none' points='236.220517 738.189066, 88.582767 738.188210' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='236.220517 738.189066, 383.858268 738.188976, 383.858268 649.606299, 339.566929 649.606299' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o4.BlkSig'>
+        <polyline fill='none' points='273.129921 649.606299, 236.220472 649.606299' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='273.129921 649.606299, 310.039370 649.606299' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\pgt.BlkSig'>
+        <polyline fill='none' points='132.874061 649.606389, 88.582767 649.609093' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='132.874061 649.606389, 177.165354 649.606299' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi.BlkSig'>
+        <polyline fill='none' points='324.803150 568.405512, 324.803150 634.842520' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='324.803150 568.405512, 324.803150 501.968504, 383.858268 501.968504' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='472.440945 369.094488, 478.346457 398.622047, 466.535433 398.622047' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='457.677165 354.330709, 428.149606 360.236220, 428.149606 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='206.692913 369.094488, 212.598425 398.622047, 200.787402 398.622047' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\xspeed.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='191.929134 354.330709, 162.401595 360.236323, 162.401554 348.425300' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\z(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='826.771654 369.094488, 832.677165 398.622047, 820.866142 398.622047' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\z.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1653.542947 354.329988, 1624.015403 360.235575, 1624.015373 348.424551' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi4.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1240.157480 354.330709, 1210.629921 360.236220, 1210.629921 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1092.519685 354.330709, 1062.992126 360.236220, 1062.992126 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='944.881890 354.330709, 915.354331 360.236220, 915.354331 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o5.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='812.007874 354.330709, 782.480315 360.236220, 782.480315 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='590.551181 354.330709, 561.023622 360.236220, 561.023622 348.425197' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\P0.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='339.566929 649.606299, 369.094488 643.700787, 369.094488 655.511811' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o4.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='310.039370 649.606299, 280.511811 655.511811, 280.511811 643.700787' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\pgt.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='177.165354 649.606299, 147.637807 655.511871, 147.637783 643.700847' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='383.858268 501.968504, 354.330709 507.874016, 354.330709 496.062992' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Cross Points'>
+        <g id='Cross Point'>
+          <ellipse cx='1358.267717' cy='354.330709' fill='#000000' rx='5.905512' ry='5.905512' stroke='#000000' stroke-width='1.000000' />
+        </g>
+      </g>
+    </g>
+    <g id='Labels'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,446.811028,447.020963)' x='446.811028' y='464.028837'>o3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='328.077463' y='345.708666'>o2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,181.062996,430.757183)' x='181.062996' y='447.765057'>o1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\xspeed.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='113.755950' y='345.708842'>xspe..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\z.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1470.377952' y='345.708391'>z</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi4.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1182.876675' y='345.708666'>yi4</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1035.238880' y='345.708666'>yi3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='880.219195' y='345.708666'>yi2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o5.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='748.845179' y='345.708666'>o5</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='527.388486' y='345.708666'>yi1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\P0.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='224.220517' y='729.567019'>P0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\o4.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='261.640455' y='640.984256'>o4</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\pgt.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='118.374060' y='640.984342'>pgt</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\yi.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,299.173233,575.894978)' x='299.173233' y='592.902852'>yi</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov.BlkDef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='88.582755' y='57.873924'>Gov: </text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\Sigma.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='399.385827' y='500.078740'>Si..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='399.385827' y='518.976378'>Si..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\1.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='143.637795' y='470.551181'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\0[1/s]1.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1248.185039' y='352.440945'>0[1/..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\+-0.1.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1116.047244' y='352.440945'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\5.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='968.409449' y='352.440945'>5</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\PI controller.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='598.106299' y='352.440945'>PI controller</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Gov\1/(1+s2).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='190.692913' y='647.716535'>1/(..</text>
+      </g>
+    </g>
+  </g>
+  <polygon fill='#ffffff' points='1714.665354 305.992126, 1747.145669 305.992126, 1747.145669 934.165354, 1714.665354 934.165354' stroke='none' />
+  <text fill='#000000' font-family='Arial' font-size='23.622047' text-anchor='start' transform='rotate(90.000000,1742.716535,313.078740)' x='1742.716535' y='334.338583'>Created with DIgSILENT PowerFactory Research Licence</text>
+
+</svg></div></p>
+<h3 id="subblocks"><a class="toclink" href="#subblocks">Subblocks</a></h3>
+<ul>
+<li><a href="#-01">+-0.1</a></li>
+<li><a href="#01s1">0[1/s]1</a><ul>
+<li>States mapping: x2 (x),</li>
+</ul>
+</li>
+<li><a href="#1">1</a></li>
+<li><a href="#11s2">1/(1+s2)</a></li>
+<li><a href="#5">5</a></li>
+<li><a href="#pi-controller">PI controller</a><ul>
+<li>States mapping: x1 (x),</li>
+</ul>
+</li>
+<li><a href="#sigma">Sigma</a></li>
+</ul>
+<h3 id="output-signals"><a class="toclink" href="#output-signals">Output signals</a></h3>
+<p>['z']</p>
+<h3 id="input-signals"><a class="toclink" href="#input-signals">Input signals</a></h3>
+<p>['xspeed', 'pgt', 'P0']</p>
+<h3 id="states"><a class="toclink" href="#states">States</a></h3>
+<p>['x', 'x1', 'x2']</p>
+<h3 id="parameters_1"><a class="toclink" href="#parameters_1">Parameters</a></h3>
+<p>['Sigma']</p>
+<h3 id="equations"><a class="toclink" href="#equations">Equations</a></h3>
+<p>inc(x2)=z</p>
+<p>inc(x1)=z</p>
+<p>inc(x)=pgt</p>
+<p>inc(P0)=(pgt*Sigma-1+xspeed)/Sigma</p>
+<h2 id="avr"><a class="toclink" href="#avr">AVR</a></h2>
+<h3 id="title_1"><a class="toclink" href="#title_1">Title</a></h3>
+<p>None </p>
+<h3 id="grafic_1"><a class="toclink" href="#grafic_1">Grafic</a></h3>
+<p><div class="svg-figure" title="AVR"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg baseProfile='full' height='100.000000%' version='1.1' viewBox='0.000000 0.000000 1753.000000 1240.000000' width='100.000000%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+
+
+  <defs>
+    <clipPath id='clipPath-01'>
+      <polygon points='0.000000 1240.157480, 0.000000 0.000000, 1753.937008 0.000000, 1753.937008 1240.157480' />
+    </clipPath>
+  </defs>
+
+  <g clip-path='url(#clipPath-01)'>
+    <g id='Page Layer'>
+      <polygon fill='#ffffff' points='0.500000 0.500000, 0.500000 1239.500000, 1752.500000 1239.500000, 1752.500000 0.500000' stroke='#808080' stroke-width='1.000000' />
+    </g>
+    <g id='Block definition'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR.BlkDef'>
+        <polyline fill='none' points='88.582755 1151.574895, 1653.543230 1151.574895, 1653.543230 88.582586, 88.582755 88.582586, 88.582755 1151.574895' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='88.582755' cy='265.756829' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='69.318975' y='271.662341'>0</text>
+        <ellipse cx='88.582755' cy='649.613981' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='69.318975' y='655.519493'>2</text>
+        <ellipse cx='88.582755' cy='561.029517' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='70.818975' y='566.935029'>1</text>
+        <ellipse cx='1653.543230' cy='442.909812' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+        <ellipse cx='88.582755' cy='915.362059' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='69.318975' y='921.267571'>3</text>
+      </g>
+    </g>
+    <g id='Net elements'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\L1[1/s.BlkRef'>
+        <polygon fill='none' points='531.496068 295.275594, 531.496068 236.220469, 590.551176 236.220469, 590.551176 295.275594' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='525.590558 302.657485, 540.354334 302.657485, 546.259845 295.275594' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='531.496068' cy='265.748031' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='590.551176' cy='265.748031' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1).BlkRef'>
+        <polygon fill='none' points='383.858277 295.275601, 383.858277 236.220462, 442.913377 236.220462, 442.913377 295.275601' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='383.858277' cy='265.748031' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='442.913377' cy='265.748031' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\+-C.BlkRef'>
+        <polygon fill='none' points='679.133864 944.881890, 679.133864 885.826772, 738.188971 885.826772, 738.188971 944.881890' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='682.086619 941.929134, 735.236216 941.929134, 735.236216 888.779528, 682.086619 888.779528, 682.086619 941.929134' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='679.133864' cy='915.354331' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='738.188971' cy='915.354331' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ifdlim.BlkRef'>
+        <polygon fill='none' points='118.110242 383.858271, 118.110242 324.803146, 177.165349 324.803146, 177.165349 383.858271' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='121.062997 380.905515, 174.212594 380.905515, 174.212594 327.755902, 121.062997 327.755902, 121.062997 380.905515' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='177.165349' cy='354.330709' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Pss_act.BlkRef'>
+        <polygon fill='none' points='826.771506 944.881890, 826.771506 885.826772, 885.826919 885.826772, 885.826919 944.881890' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='826.771506' cy='915.354331' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='885.826919' cy='915.354331' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1+sT1)/(1+sT2).BlkRef'>
+        <polygon fill='none' points='531.496068 944.881890, 531.496068 885.826772, 590.551176 885.826772, 590.551176 944.881890' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='531.496068' cy='915.354331' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='590.551176' cy='915.354331' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1+sT1)/(1+sT2).BlkRef'>
+        <polygon fill='none' points='383.858273 944.881890, 383.858273 885.826772, 442.913381 885.826772, 442.913381 944.881890' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='383.858273' cy='915.354331' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='442.913381' cy='915.354331' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\sK/(1+sT).BlkRef'>
+        <polygon fill='none' points='206.692919 944.881890, 206.692919 885.826772, 265.748026 885.826772, 265.748026 944.881890' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='206.692919' cy='915.354331' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='265.748026' cy='915.354331' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\0[1/s]L2.BlkRef'>
+        <polygon fill='none' points='1476.377958 472.440948, 1476.377958 413.385823, 1535.433066 413.385823, 1535.433066 472.440948' stroke='#000000' stroke-width='2.362205' />
+        <polyline fill='none' points='1541.338576 406.003933, 1526.574799 406.003933, 1520.669289 413.385823' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='1476.377958' cy='442.913386' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1535.433066' cy='442.913386' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\10.BlkRef'>
+        <polygon fill='none' points='1328.740163 472.440948, 1328.740163 413.385823, 1387.795270 413.385823, 1387.795270 472.440948' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='1328.740163' cy='442.913386' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1387.795270' cy='442.913386' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum'>
+        <ellipse cx='1240.157480' cy='442.913386' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='1225.393701' cy='442.913386' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1240.157480' cy='457.677165' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1254.921260' cy='442.913386' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1240.157480' cy='428.149606' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\G(1+sTa)/(1+sTb).BlkRef'>
+        <polygon fill='none' points='1092.519690 472.440948, 1092.519690 413.385823, 1151.574798 413.385823, 1151.574798 472.440948' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='1092.519690' cy='442.913386' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1151.574798' cy='442.913386' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum'>
+        <ellipse cx='236.220472' cy='265.748031' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='221.456693' cy='265.748031' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='236.220472' cy='280.511811' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='250.984252' cy='265.748031' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='236.220472' cy='250.984252' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum'>
+        <ellipse cx='236.220472' cy='649.606299' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='221.456693' cy='649.606299' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='236.220472' cy='664.370079' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='250.984252' cy='649.606299' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='236.220472' cy='634.842520' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\min.BlkRef'>
+        <polygon fill='none' points='915.354359 501.968504, 915.354359 413.385827, 1003.936980 413.385827, 1003.936980 501.968504' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='915.354359' cy='442.914862' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='925.618138' y='448.820374'>0</text>
+        <ellipse cx='915.354359' cy='472.439469' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='927.118138' y='478.344980'>1</text>
+        <ellipse cx='1003.936980' cy='442.914862' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\-1.BlkRef'>
+        <polygon fill='none' points='442.913391 177.165358, 442.913391 118.110233, 501.968499 118.110233, 501.968499 177.165358' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='442.913391' cy='147.637795' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='501.968499' cy='147.637795' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Switch.BlkRef'>
+        <polygon fill='none' points='708.661428 324.803150, 708.661428 206.692913, 797.244084 206.692913, 797.244084 324.803150' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='708.661428' cy='236.220472' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='718.925207' y='242.125984'>0</text>
+        <ellipse cx='708.661428' cy='265.748031' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='720.425207' y='271.653543'>1</text>
+        <ellipse cx='708.661428' cy='295.275591' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='718.925207' y='301.181102'>2</text>
+        <ellipse cx='797.244084' cy='265.748031' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='1231.889764' y='447.874016'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='1236.157480' y='452.598425'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='1243.062992' y='447.874016'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='1237.157480' y='441.968504'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(2).BlkSum::TextBox 5'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='1220.393701' y='483.070866'>-</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='227.952756' y='270.708661'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='232.220472' y='275.433071'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='239.125984' y='270.708661'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='233.220472' y='264.803150'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt.BlkSum::TextBox 5'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='216.456693' y='305.905512'>-</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='227.952756' y='654.566929'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='232.220472' y='659.291339'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='239.125984' y='654.566929'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='233.220472' y='648.661417'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Summationspunkt(1).BlkSum::TextBox 4'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='201.692913' y='648.425197'>-</text>
+      </g>
+    </g>
+    <g id='Signals'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi1.BlkSig'>
+        <polyline fill='none' points='487.204724 265.748031, 442.913386 265.748031' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='487.204724 265.748031, 531.496063 265.748031' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi.BlkSig'>
+        <polyline fill='none' points='317.421260 265.748031, 250.984252 265.748031' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='317.421260 265.748031, 383.858268 265.748031' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o1.BlkSig'>
+        <polyline fill='none' points='236.220472 317.421260, 236.220472 354.330709, 177.165354 354.330709' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='236.220472 317.421260, 236.220472 280.511811' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o3.BlkSig'>
+        <polyline fill='none' points='590.551181 738.188976, 944.881890 738.188976, 944.881890 915.354331, 885.826952 915.354331' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='590.551181 738.188976, 236.220472 738.188976, 236.220472 664.370079' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi8.BlkSig'>
+        <polyline fill='none' points='782.480225 915.354331, 738.188976 915.354331' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='782.480225 915.354331, 826.771473 915.354331' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi5.BlkSig'>
+        <polyline fill='none' points='634.842520 915.354331, 590.551181 915.354331' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='634.842520 915.354331, 679.133858 915.354331' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi7.BlkSig'>
+        <polyline fill='none' points='487.204724 915.354331, 442.913386 915.354331' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='487.204724 915.354331, 531.496063 915.354331' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi6.BlkSig'>
+        <polyline fill='none' points='324.803150 915.354331, 265.748031 915.354331' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='324.803150 915.354331, 383.858268 915.354331' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\xspeed.BlkSig'>
+        <polyline fill='none' points='147.637840 915.354421, 88.583128 915.362463' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='147.637840 915.354421, 206.692913 915.354331' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y3(1).BlkSig'>
+        <polyline fill='none' points='649.606299 472.440945, 649.606299 649.606299, 250.984252 649.606299' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='649.606299 472.440945, 649.606299 295.275591, 708.661417 295.275591' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ve(1).BlkSig'>
+        <polyline fill='none' points='1402.559055 531.496063, 1564.960630 531.496063, 1564.960630 442.913386, 1535.433071 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1402.559055 531.496063, 1240.157480 531.496063, 1240.157480 457.677165' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ie.BlkSig'>
+        <polyline fill='none' points='155.019730 265.748212, 88.582587 265.757223' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='155.019730 265.748212, 221.456693 265.748031' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ve.BlkSig'>
+        <polyline fill='none' points='1594.488189 442.913296, 1535.433071 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1594.488189 442.913296, 1653.543307 442.909241' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi4.BlkSig'>
+        <polyline fill='none' points='1432.086614 442.913386, 1387.795276 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1432.086614 442.913386, 1476.377953 442.913386' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi3.BlkSig'>
+        <polyline fill='none' points='1291.830709 442.913386, 1254.921260 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1291.830709 442.913386, 1328.740157 442.913386' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o2.BlkSig'>
+        <polyline fill='none' points='1188.484252 442.913386, 1151.574803 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1188.484252 442.913386, 1225.393701 442.913386' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi2.BlkSig'>
+        <polyline fill='none' points='1048.228346 442.913386, 1003.937008 442.913386' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1048.228346 442.913386, 1092.519685 442.913386' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y3.BlkSig'>
+        <polyline fill='none' points='553.641732 649.606299, 250.984252 649.606299' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='553.641732 649.606299, 856.299213 649.606299, 856.299213 472.440945, 915.354331 472.440945' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y2.BlkSig'>
+        <polyline fill='none' points='856.299213 354.330709, 856.299213 265.748031, 797.244094 265.748031' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='856.299213 354.330709, 856.299213 442.913386, 915.354331 442.913386' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\V0.BlkSig'>
+        <polyline fill='none' points='162.401620 561.023712, 88.582767 561.029930' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='162.401620 561.023712, 236.220472 561.023622, 236.220472 634.842520' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ut.BlkSig'>
+        <polyline fill='none' points='155.019730 649.606389, 88.582767 649.614364' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='155.019730 649.606389, 221.456693 649.606299' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y1.BlkSig'>
+        <polyline fill='none' points='575.787402 147.637795, 501.968504 147.637795' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='575.787402 147.637795, 649.606299 147.637795, 649.606299 236.220472, 708.661417 236.220472' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi(1).BlkSig'>
+        <polyline fill='none' points='295.275591 206.692913, 295.275591 265.748031, 250.984252 265.748031' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='295.275591 206.692913, 295.275591 147.637795, 442.913386 147.637795' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y.BlkSig'>
+        <polyline fill='none' points='649.606299 265.748031, 590.551181 265.748031' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='649.606299 265.748031, 708.661417 265.748031' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='531.496063 265.748031, 501.968504 271.653543, 501.968504 259.842520' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='383.858268 265.748031, 354.330709 271.653543, 354.330709 259.842520' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='236.220472 280.511811, 242.125984 310.039370, 230.314961 310.039370' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='236.220472 664.370079, 242.125984 693.897638, 230.314961 693.897638' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi8.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='826.771473 915.354331, 797.243914 921.259843, 797.243914 909.448819' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi5.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='679.133858 915.354331, 649.606299 921.259843, 649.606299 909.448819' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi7.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='531.496063 915.354331, 501.968504 921.259843, 501.968504 909.448819' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi6.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='383.858268 915.354331, 354.330709 921.259843, 354.330709 909.448819' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\xspeed.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='206.692913 915.354331, 177.165363 921.259888, 177.165345 909.448864' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y3(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='708.661417 295.275591, 679.133858 301.181102, 679.133858 289.370079' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ve(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1240.157480 457.677165, 1246.062992 487.204724, 1234.251969 487.204724' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ie.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='221.456693 265.748031, 191.929150 271.653623, 191.929118 259.842600' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ve.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1653.543307 442.909241, 1624.016154 448.816780, 1624.015343 437.005756' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi4.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1476.377953 442.913386, 1446.850394 448.818898, 1446.850394 437.007874' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1328.740157 442.913386, 1299.212598 448.818898, 1299.212598 437.007874' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1225.393701 442.913386, 1195.866142 448.818898, 1195.866142 437.007874' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1092.519685 442.913386, 1062.992126 448.818898, 1062.992126 437.007874' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='915.354331 472.440945, 885.826772 478.346457, 885.826772 466.535433' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='915.354331 442.913386, 885.826772 448.818898, 885.826772 437.007874' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\V0.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='236.220472 634.842520, 230.314961 605.314961, 242.125984 605.314961' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ut.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='221.456693 649.606299, 191.929142 655.511851, 191.929126 643.700827' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='708.661417 236.220472, 679.133858 242.125984, 679.133858 230.314961' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='442.913386 147.637795, 413.385827 153.543307, 413.385827 141.732283' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='708.661417 265.748031, 679.133858 271.653543, 679.133858 259.842520' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Cross Points'>
+        <g id='Cross Point'>
+          <ellipse cx='1564.960630' cy='442.913386' fill='#000000' rx='5.905512' ry='5.905512' stroke='#000000' stroke-width='1.000000' />
+        </g>
+      </g>
+    </g>
+    <g id='Labels'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='475.715258' y='257.125988'>yi1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='309.931793' y='257.125988'>yi</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,210.590555,327.410726)' x='210.590555' y='344.418600'>o1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='579.061714' y='729.566933'>o3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi8.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='769.490758' y='906.732288'>yi8</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi5.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='621.853053' y='906.732288'>yi5</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi7.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='474.215258' y='906.732288'>yi7</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi6.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='311.813683' y='906.732288'>yi6</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\xspeed.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='121.137840' y='906.732374'>xspe..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ie.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='147.019730' y='257.126164'>ie</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ve.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1583.488188' y='434.291248'>ve</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi4.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1419.097148' y='434.291343'>yi4</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1278.841242' y='434.291343'>yi3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\o2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1176.994785' y='434.291343'>o2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\yi2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1035.238880' y='434.291343'>yi2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='542.652266' y='640.984256'>y3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,830.669296,365.320175)' x='830.669296' y='382.328049'>y2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\V0.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='149.401619' y='552.401665'>V0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ut.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='146.519730' y='640.984342'>ut</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='566.297935' y='139.015752'>y1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\y.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='643.616833' y='257.125988'>y</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR.BlkDef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='88.582755' y='57.873924'>AVR: </text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\L1[1/s.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='542.523622' y='263.858268'>L1[..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='401.385827' y='263.858268'>(1)</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='383.885827' y='282.755906'>array_t</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\+-C.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='692.661417' y='913.464567'>+-C</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='701.161417' y='932.362205'>C</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\ifdlim.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='129.637795' y='352.440945'>ifdl..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='129.637795' y='371.338583'>ifdl..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Pss_act.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='834.111441' y='914.152407'>Pss..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='837.611441' y='933.050045'>PS..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1+sT1)/(1+sT2).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='541.523622' y='913.464567'>(1+..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='541.523622' y='932.362205'>T1,..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\(1+sT1)/(1+sT2).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='393.885827' y='913.464567'>(1+..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='393.885827' y='932.362205'>T1,..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\sK/(1+sT).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='216.720472' y='913.464567'>sK/..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='219.220472' y='932.362205'>Kp..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\0[1/s]L2.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1486.905512' y='441.023622'>0[1..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\10.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1347.267717' y='441.023622'>10</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\G(1+sTa)/(1+sTb).BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1100.547244' y='441.023622'>G(1..</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1103.047244' y='459.921260'>Ta,..</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\min.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='944.145669' y='455.787402'>min</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\-1.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='464.440945' y='145.748031'>-1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\Switch.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='724.952756' y='263.858268'>Switch</text>
+      </g>
+    </g>
+    <g id='Device data'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\L1[1/s.BlkRef::TextBox 2'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='521.996068' y='329.409452'>L1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\AVR\0[1/s]L2.BlkRef::TextBox 1'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1524.433066' y='394.370075'>L2</text>
+      </g>
+    </g>
+  </g>
+  <polygon fill='#ffffff' points='1714.665354 305.992126, 1747.145669 305.992126, 1747.145669 934.165354, 1714.665354 934.165354' stroke='none' />
+  <text fill='#000000' font-family='Arial' font-size='23.622047' text-anchor='start' transform='rotate(90.000000,1742.716535,313.078740)' x='1742.716535' y='334.338583'>Created with DIgSILENT PowerFactory Research Licence</text>
+
+</svg></div></p>
+<h3 id="subblocks_1"><a class="toclink" href="#subblocks_1">Subblocks</a></h3>
+<ul>
+<li><a href="#1">(1)</a></li>
+<li><a href="#-c">+-C</a></li>
+<li><a href="#-1">-1</a></li>
+<li><a href="#01sl2">0[1/s]L2</a><ul>
+<li>States mapping: x2 (x),</li>
+</ul>
+</li>
+<li><a href="#10">10</a></li>
+<li><a href="#g1sta1stb">G(1+sTa)/(1+sTb)</a><ul>
+<li>States mapping: x1 (x),</li>
+</ul>
+</li>
+<li><a href="#pss_act">Pss_act</a></li>
+<li><a href="#ifdlim">ifdlim</a></li>
+<li><a href="#sk1st">sK/(1+sT)</a><ul>
+<li>States mapping: x3 (x),</li>
+<li>Internal variables mapping: dx1 (dx),</li>
+</ul>
+</li>
+<li><a href="#1st11st2">(1+sT1)/(1+sT2)</a><ul>
+<li>Parameters mapping: T1 (T2),</li>
+<li>States mapping: x4 (x),</li>
+<li>Internal variables mapping: dx2 (dx),</li>
+</ul>
+</li>
+<li><a href="#1st11st2">(1+sT1)/(1+sT2)</a><ul>
+<li>States mapping: x5 (x),</li>
+<li>Internal variables mapping: dx3 (dx),</li>
+</ul>
+</li>
+<li><a href="#switch">Switch</a></li>
+<li>[L1<a href="#l11s">1/s</a></li>
+<li><a href="#min">min</a></li>
+</ul>
+<h3 id="output-signals_1"><a class="toclink" href="#output-signals_1">Output signals</a></h3>
+<p>['ve']</p>
+<h3 id="input-signals_1"><a class="toclink" href="#input-signals_1">Input signals</a></h3>
+<p>['ie', 'V0', 'ut', 'xspeed']</p>
+<h3 id="states_1"><a class="toclink" href="#states_1">States</a></h3>
+<p>['x', 'x1', 'x2', 'x3', 'x4', 'x5']</p>
+<h3 id="parameters_2"><a class="toclink" href="#parameters_2">Parameters</a></h3>
+<p>['array_t', 'ifdlim', 'Ta', 'Tb', 'G', 'Kp', 'Tw', 'T1', 'T2', 'PSS_act', 'C']</p>
+<h3 id="upper-limitation-parameters"><a class="toclink" href="#upper-limitation-parameters">Upper limitation parameters</a></h3>
+<p>['L2']</p>
+<h3 id="lower-limitation-parameters"><a class="toclink" href="#lower-limitation-parameters">Lower limitation parameters</a></h3>
+<p>['L1']</p>
+<h3 id="equations_1"><a class="toclink" href="#equations_1">Equations</a></h3>
+<p>inc(x2)=ve</p>
+<p>inc(x1)=ve/G  </p>
+<p>inc(x)=L1!0</p>
+<p>inc(x5)=0</p>
+<p>inc(x4)=0</p>
+<p>inc(x3)=xspeed*Kp </p>
+<p>inc0(V0)=ut + ve/G </p>
+<h2 id="hydro-turbine"><a class="toclink" href="#hydro-turbine">Hydro turbine</a></h2>
+<h3 id="title_2"><a class="toclink" href="#title_2">Title</a></h3>
+<p>None </p>
+<h3 id="grafic_2"><a class="toclink" href="#grafic_2">Grafic</a></h3>
+<p><div class="svg-figure" title="Hydro turbine"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg baseProfile='full' height='100.000000%' version='1.1' viewBox='0.000000 0.000000 1753.000000 1240.000000' width='100.000000%' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+
+
+  <defs>
+    <clipPath id='clipPath-01'>
+      <polygon points='0.000000 1240.157480, 0.000000 0.000000, 1753.937008 0.000000, 1753.937008 1240.157480' />
+    </clipPath>
+  </defs>
+
+  <g clip-path='url(#clipPath-01)'>
+    <g id='Page Layer'>
+      <polygon fill='#ffffff' points='0.500000 0.500000, 0.500000 1239.500000, 1752.500000 1239.500000, 1752.500000 0.500000' stroke='#808080' stroke-width='1.000000' />
+    </g>
+    <g id='Block definition'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine.BlkDef'>
+        <polyline fill='none' points='88.582755 1151.574895, 1653.543230 1151.574895, 1653.543230 88.582586, 88.582755 88.582586, 88.582755 1151.574895' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='88.582755' cy='354.330663' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1653.543230' cy='383.855274' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+    </g>
+    <g id='Net elements'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1/Tw.BlkRef'>
+        <polygon fill='none' points='679.133858 442.913386, 679.133858 324.803150, 797.244094 324.803150, 797.244094 442.913386' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='679.133858' cy='383.858268' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='797.244094' cy='383.858268' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1.BlkRef'>
+        <polygon fill='none' points='472.440950 531.496067, 472.440950 472.440941, 531.496058 472.440941, 531.496058 531.496067' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='531.496058' cy='501.968504' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum'>
+        <ellipse cx='561.023622' cy='383.858268' fill='none' rx='14.763780' ry='14.763780' stroke='#000000' stroke-width='1.181102' />
+        <ellipse cx='546.259843' cy='383.858268' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='561.023622' cy='398.622047' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='575.787402' cy='383.858268' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='561.023622' cy='369.094488' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\(q/z)^2.BlkRef'>
+        <polygon fill='none' points='265.748042 442.913400, 265.748042 324.803136, 383.858257 324.803136, 383.858257 442.913400' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='265.748042' cy='354.330702' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='276.011822' y='360.236213'>0</text>
+        <ellipse cx='265.748042' cy='413.385834' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <text fill='#000000' font-family='Arial' font-size='14.763780' text-anchor='start' x='277.511822' y='419.291346'>1</text>
+        <ellipse cx='383.858257' cy='383.858268' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Multiplizierer.BlkMul'>
+        <polyline fill='none' points='1210.629921 413.385827, 1269.685039 413.385827, 1269.685039 354.330709, 1210.629921 354.330709, 1210.629921 413.385827' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1216.535433 407.480315, 1263.779528 407.480315, 1263.779528 360.236220, 1216.535433 360.236220, 1216.535433 407.480315' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1216.535433 407.480315, 1263.779528 360.236220' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1216.535433 360.236220, 1263.779528 407.480315' stroke='#000000' stroke-width='1.000000' />
+        <ellipse cx='1210.629921' cy='383.858268' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1240.157480' cy='354.330709' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1269.685039' cy='383.858268' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+        <ellipse cx='1240.157480' cy='413.385827' fill='#c0c0c0' rx='5.314961' ry='5.314961' stroke='#c0c0c0' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1/s.BlkRef'>
+        <polygon fill='none' points='944.881890 442.913386, 944.881890 324.803150, 1062.992126 324.803150, 1062.992126 442.913386' stroke='#000000' stroke-width='2.362205' />
+        <ellipse cx='944.881890' cy='383.858268' fill='#00bf00' rx='5.314961' ry='5.314961' stroke='#00bf00' stroke-width='1.000000' />
+        <ellipse cx='1062.992126' cy='383.858268' fill='#ff0000' rx='5.314961' ry='5.314961' stroke='#ff0000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum::TextBox 0'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='552.755905' y='388.818898'>0</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum::TextBox 1'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='557.023622' y='393.543307'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum::TextBox 2'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='563.929134' y='388.818898'>2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum::TextBox 3'>
+        <text fill='#000000' font-family='Courier New' font-size='9.448819' text-anchor='start' x='558.023622' y='382.913386'>3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\Summationspunkt.BlkSum::TextBox 4'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='526.496063' y='382.677165'>-</text>
+      </g>
+    </g>
+    <g id='Signals'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi.BlkSig'>
+        <polyline fill='none' points='627.460630 383.858268, 575.787402 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='627.460630 383.858268, 679.133858 383.858268' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o2.BlkSig'>
+        <polyline fill='none' points='561.023622 450.295276, 561.023622 501.968504, 531.496063 501.968504' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='561.023622 450.295276, 561.023622 398.622047' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o1.BlkSig'>
+        <polyline fill='none' points='465.059055 383.858268, 383.858268 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='465.059055 383.858268, 546.259843 383.858268' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\z.BlkSig'>
+        <polyline fill='none' points='177.165399 354.330889, 88.582587 354.331249' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='177.165399 354.330889, 265.748031 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o3(1).BlkSig'>
+        <polyline fill='none' points='649.606299 561.023622, 1122.047244 561.023622, 1122.047244 383.858268, 1062.992126 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='649.606299 561.023622, 177.165354 561.023622, 177.165354 413.385827, 265.748031 413.385827' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o1(1).BlkSig'>
+        <polyline fill='none' points='841.535433 236.220472, 442.913386 236.220472, 442.913386 383.858268, 383.858268 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='841.535433 236.220472, 1240.157480 236.220472, 1240.157480 354.330709' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\pt.BlkSig'>
+        <polyline fill='none' points='1461.614173 383.857997, 1269.685039 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1461.614173 383.857997, 1653.543307 383.854844' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o3.BlkSig'>
+        <polyline fill='none' points='1136.811024 383.858268, 1062.992126 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='1136.811024 383.858268, 1210.629921 383.858268' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi1.BlkSig'>
+        <polyline fill='none' points='871.062992 383.858268, 797.244094 383.858268' stroke='#000000' stroke-width='1.000000' />
+        <polyline fill='none' points='871.062992 383.858268, 944.881890 383.858268' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='679.133858 383.858268, 649.606299 389.763780, 649.606299 377.952756' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o2.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='561.023622 398.622047, 566.929134 428.149606, 555.118110 428.149606' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='546.259843 383.858268, 516.732283 389.763780, 516.732283 377.952756' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\z.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='265.748031 354.330709, 236.220484 360.236281, 236.220460 348.425257' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o3(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='265.748031 413.385827, 236.220472 419.291339, 236.220472 407.480315' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o1(1).BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1240.157480 354.330709, 1234.251969 324.803150, 1246.062992 324.803150' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\pt.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1653.543307 383.854844, 1624.015845 389.760841, 1624.015651 377.949817' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o3.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='1210.629921 383.858268, 1181.102362 389.763780, 1181.102362 377.952756' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi1.BlkSig::LineAttribs'>
+        <polygon fill='#000000' points='944.881890 383.858268, 915.354331 389.763780, 915.354331 377.952756' stroke='#000000' stroke-width='1.000000' />
+      </g>
+      <g id='Cross Points'>
+        <g id='Cross Point'>
+          <ellipse cx='442.913386' cy='383.858268' fill='#000000' rx='5.905512' ry='5.905512' stroke='#000000' stroke-width='1.000000' />
+        </g>
+        <g id='Cross Point'>
+          <ellipse cx='1122.047244' cy='383.858268' fill='#000000' rx='5.905512' ry='5.905512' stroke='#000000' stroke-width='1.000000' />
+        </g>
+      </g>
+    </g>
+    <g id='Labels'>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='619.971163' y='375.236225'>yi</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o2.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' transform='rotate(270.000000,535.393705,461.784742)' x='535.393705' y='478.792616'>o2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='455.069589' y='375.236225'>o1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\z.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='171.165399' y='345.708842'>z</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\pt.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1452.614173' y='375.235950'>pt</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\o3.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='1125.321557' y='375.236225'>o3</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\yi1.BlkSig::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='859.573526' y='375.236225'>yi1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine.BlkDef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='26.574803' text-anchor='start' x='88.582755' y='57.873924'>Hydro turbine: </text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1/Tw.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='716.688976' y='381.968504'>1/Tw</text>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='724.188976' y='400.866142'>Tw</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='497.968504' y='500.078740'>1</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\(q/z)^2.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='296.803150' y='381.968504'>(q/z)^2</text>
+      </g>
+      <g id='Templates\SM_hydro\Library\Benutzerdefinierte Modelle\Hydro turbine\1/s.BlkRef::TextBox 0'>
+        <text fill='#000000' font-family='Arial' font-size='18.897638' text-anchor='start' x='990.937008' y='381.968504'>1/s</text>
+      </g>
+    </g>
+  </g>
+  <polygon fill='#ffffff' points='1714.665354 305.992126, 1747.145669 305.992126, 1747.145669 934.165354, 1714.665354 934.165354' stroke='none' />
+  <text fill='#000000' font-family='Arial' font-size='23.622047' text-anchor='start' transform='rotate(90.000000,1742.716535,313.078740)' x='1742.716535' y='334.338583'>Created with DIgSILENT PowerFactory Research Licence</text>
+
+</svg></div></p>
+<h3 id="subblocks_2"><a class="toclink" href="#subblocks_2">Subblocks</a></h3>
+<ul>
+<li><a href="#qz2">(q/z)^2</a></li>
+<li><a href="#1tw">1/Tw</a></li>
+<li><a href="#1s">1/s</a></li>
+<li><a href="#1">1</a></li>
+</ul>
+<h3 id="output-signals_2"><a class="toclink" href="#output-signals_2">Output signals</a></h3>
+<p>['pt']</p>
+<h3 id="input-signals_2"><a class="toclink" href="#input-signals_2">Input signals</a></h3>
+<p>['z']</p>
+<h3 id="states_2"><a class="toclink" href="#states_2">States</a></h3>
+<p>['x']</p>
+<h3 id="parameters_3"><a class="toclink" href="#parameters_3">Parameters</a></h3>
+<p>['Tw']</p>
+<h3 id="equations_2"><a class="toclink" href="#equations_2">Equations</a></h3>
+<p>inc(x)=pt</p>
+<p>inc(z)=pt</p>
+<h1 id="block-definitions-macros"><a class="toclink" href="#block-definitions-macros">Block Definitions (Macros)</a></h1>
+<h2 id="1"><a class="toclink" href="#1">(1)</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Parameters:</strong></p>
+<p>['array_t']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=lapprox(yi,array_t)</p>
+<h2 id="1st11st2"><a class="toclink" href="#1st11st2">(1+sT1)/(1+sT2)</a></h2>
+<p><strong>Title:</strong></p>
+<p>Lead-lag block</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Parameters:</strong></p>
+<p>['T1', 'T2']</p>
+<p><strong>Equations:</strong></p>
+<p>limits(T2)=(0,)</p>
+<p>dx=(yi-x)/T2</p>
+<p>x.=dx</p>
+<p>yo=x+T1*dx</p>
+<h2 id="qz2"><a class="toclink" href="#qz2">(q/z)^2</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['z', 'q']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=(q/z)*(q/z)</p>
+<h2 id="-01"><a class="toclink" href="#-01">+-0.1</a></h2>
+<p><strong>Title:</strong></p>
+<p>simmetrical Limiter</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=lim(yi,-0.1,0.1)</p>
+<h2 id="-c"><a class="toclink" href="#-c">+-C</a></h2>
+<p><strong>Title:</strong></p>
+<p>simmetrical Limiter</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Parameters:</strong></p>
+<p>['C']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=lim(yi,-C,C)</p>
+<h2 id="-1"><a class="toclink" href="#-1">-1</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=-1*yi</p>
+<h2 id="01s1"><a class="toclink" href="#01s1">0[1/s]1</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Equations:</strong></p>
+<p>x.=yi</p>
+<p>yo=limstate(x,0,1)</p>
+<h2 id="01sl2"><a class="toclink" href="#01sl2">0[1/s]L2</a></h2>
+<p><strong>Title:</strong></p>
+<p>integrator with anti.windup limits</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Upper limitation parameters:</strong></p>
+<p>['L2']</p>
+<p><strong>Equations:</strong></p>
+<p>x.=yi</p>
+<p>yo=limstate(x,0,L2)</p>
+<h2 id="1_1"><a class="toclink" href="#1_1">1</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=1</p>
+<h2 id="11s2"><a class="toclink" href="#11s2">1/(1+s2)</a></h2>
+<p><strong>Title:</strong></p>
+<p>First order delay (PT1)</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Equations:</strong></p>
+<p>x.=(yi-x)/2</p>
+<p>yo=x</p>
+<h2 id="1tw"><a class="toclink" href="#1tw">1/Tw</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Parameters:</strong></p>
+<p>['Tw']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=yi/Tw</p>
+<h2 id="1s"><a class="toclink" href="#1s">1/s</a></h2>
+<p><strong>Title:</strong></p>
+<p>integrator with anti.windup limits</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Equations:</strong></p>
+<p>x.=yi</p>
+<p>yo=x</p>
+<h2 id="10"><a class="toclink" href="#10">10</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=10*yi</p>
+<h2 id="5"><a class="toclink" href="#5">5</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=5*yi</p>
+<h2 id="g1sta1stb"><a class="toclink" href="#g1sta1stb">G(1+sTa)/(1+sTb)</a></h2>
+<p><strong>Title:</strong></p>
+<p>Lead-lag block</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Parameters:</strong></p>
+<p>['Ta', 'Tb', 'G']</p>
+<p><strong>Equations:</strong></p>
+<p>limits(Tb)=(0,)</p>
+<p>dx=(yi-x)/Tb</p>
+<p>x.=dx</p>
+<p>yo=(x+Ta<em>dx)</em>G</p>
+<h2 id="l11s"><a class="toclink" href="#l11s">L1[1/s</a></h2>
+<p><strong>Title:</strong></p>
+<p>integrator with anti.windup limits</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Lower limitation parameters:</strong></p>
+<p>['L1']</p>
+<p><strong>Equations:</strong></p>
+<p>x.=yi</p>
+<p>yo=limstate(x,L1,999)</p>
+<h2 id="pi-controller"><a class="toclink" href="#pi-controller">PI controller</a></h2>
+<p><strong>Title:</strong></p>
+<p>PI controller</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Equations:</strong></p>
+<p>! Proportional Integral controller</p>
+<p>x.=0.4*yi</p>
+<p>yo=2*yi+x</p>
+<h2 id="pss_act"><a class="toclink" href="#pss_act">Pss_act</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Parameters:</strong></p>
+<p>['PSS_act']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=select(PSS_act=0,0,yi)</p>
+<h2 id="sigma"><a class="toclink" href="#sigma">Sigma</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>Parameters:</strong></p>
+<p>['Sigma']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=yi*Sigma</p>
+<h2 id="switch"><a class="toclink" href="#switch">Switch</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['y1', 'y', 'y2']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=select(y&lt;0,y2,y1)</p>
+<h2 id="ifdlim"><a class="toclink" href="#ifdlim">ifdlim</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Parameters:</strong></p>
+<p>['ifdlim']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=ifdlim</p>
+<h2 id="min"><a class="toclink" href="#min">min</a></h2>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['y1', 'y2']</p>
+<p><strong>Equations:</strong></p>
+<p>yo=min(y1,y2)</p>
+<h2 id="sk1st"><a class="toclink" href="#sk1st">sK/(1+sT)</a></h2>
+<p><strong>Title:</strong></p>
+<p>First-order lag derivative with gain</p>
+<p><strong>Output signals:</strong></p>
+<p>['yo']</p>
+<p><strong>Input signals:</strong></p>
+<p>['yi']</p>
+<p><strong>States:</strong></p>
+<p>['x']</p>
+<p><strong>Parameters:</strong></p>
+<p>['Kp', 'Tw']</p>
+<p><strong>Equations:</strong></p>
+<p>limits(Tw)=(0,)</p>
+<p>dx=(Kp*yi-x)/Tw</p>
+<p>x.=dx</p>
+<p>yo=dx</p></main>
+    </body>
+    </html>

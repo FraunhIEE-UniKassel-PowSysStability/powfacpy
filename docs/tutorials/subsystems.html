@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.11">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5947b73a06bce04bf1d622ae23e1ec5b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -201,6 +201,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -239,6 +245,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/cgmes_model_exchange.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">CGMES handling with model exchange interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/database_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Database Interface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -315,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Accessing information on the topology (e.g.&nbsp;neighbors/connectivity)</li>
 </ul>
 <p>We first activate the <em>IEEE 39 bus system</em> project and create a study case for this tutorial.</p>
-<div id="32d30c4b" class="cell" data-execution_count="2">
+<div id="18475806" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -352,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="create"><span class="header-section-number">1.1</span> Create</h2>
 <p>We want to create two subsystems which represent the western and eastern part of the system. This is best done by creating two boundaries and then creating zones from these boundaries. The <code>SubSystem</code> class can then be used to create subsystems from these zones.</p>
-<div id="1cf5b1d2" class="cell" data-execution_count="3">
+<div id="4e54dc2b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.topology <span class="im">import</span> Topology</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.boundary <span class="im">import</span> Boundary</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.zone <span class="im">import</span> Zone</span>
@@ -383,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-flow-state" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="load-flow-state"><span class="header-section-number">1.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow state of the subsystem by calling the <code>get_load_flow_state()</code> method. This returns a pandas DataFrame with information on the active and reactive power balance, etc.</p>
-<div id="9400195c" class="cell" data-execution_count="4">
+<div id="462e70b9" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> subsystems:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        display(subsys.get_load_flow_state())</span>
@@ -430,8 +442,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <th data-quarto-table-cell-role="th">West</th>
-<td>3990.000003+1013.200001j</td>
-<td>3790.811072+ 661.117299j</td>
+<td>3980.800003+1013.200001j</td>
+<td>3781.611072+ 661.117299j</td>
 <td>-224.540595- 2.324056j</td>
 </tr>
 </tbody>
@@ -441,7 +453,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The load flow state can be accessed also as attributes, for example:</p>
-<div id="10f59633" class="cell" data-execution_count="5">
+<div id="c891e132" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].load_flow.total_power_generation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>(2350.0000000274126+681.4564641218697j)</code></pre>
@@ -451,7 +463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="topology"><span class="header-section-number">1.3</span> Topology</h2>
 <p>We can access the internal topology of the subsystem, for example the lines and terminals contained in the subsystem.</p>
-<div id="d47f9231" class="cell" data-execution_count="6">
+<div id="9d45395a" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].topology.lines)</span>
@@ -486,7 +498,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also check wheter subsystems are connected to each other:</p>
-<div id="05000d8b" class="cell" data-execution_count="7">
+<div id="cabc68a0" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].topology.is_neighbor(subsystems[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>True</code></pre>
@@ -498,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="synchronous-machines" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="synchronous-machines"><span class="header-section-number">1.4.1</span> Synchronous Machines</h3>
 <p>We can also access information on the synchronous machines and their controllers (governors, AVRs, PSS) contained in the subsystem.</p>
-<div id="b2cb3c86" class="cell" data-execution_count="8">
+<div id="18740412" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.synchronous_machines)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.governors)</span>
@@ -518,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also get more detailled information on dynmic models such as governors. The <code>get_governor_info()</code> method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (<code>parent_elms</code>), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.</p>
-<div id="910475ed" class="cell" data-execution_count="9">
+<div id="560be6ef" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>governor_info <span class="op">=</span> subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.get_governor_info()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>governor_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -577,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can also display the information in a more readable format:</p>
-<div id="194a910f" class="cell" data-execution_count="10">
+<div id="a88a547f" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.dsl <span class="im">import</span> display_dsl_models_info</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>display_dsl_models_info(governor_info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -640,14 +652,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="csv-export" class="level4" data-number="1.4.1.1">
 <h4 data-number="1.4.1.1" class="anchored" data-anchor-id="csv-export"><span class="header-section-number">1.4.1.1</span> CSV Export</h4>
 <p>Or export the information to csv files:</p>
-<div id="f0513c79" class="cell" data-execution_count="11">
+<div id="4de4319d" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.dsl <span class="im">import</span> export_dsl_model_info_to_csv</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>export_dsl_model_info_to_csv(governor_info, <span class="vs">r"</span><span class="dv">.</span><span class="ch">\t</span><span class="vs">ests</span><span class="ch">\t</span><span class="vs">ests_output</span><span class="er">\</span><span class="vs">governor_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>export_dsl_model_info_to_csv(governor_info, <span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="er">\</span><span class="vs">governor_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There is also a method to export the information on all dynamic models (governors, AVRs, PSS) of the subsystem to csv files:</p>
-<div id="eb61dfde" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.export_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="ch">\t</span><span class="vs">ests</span><span class="ch">\t</span><span class="vs">ests_output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="9b438286" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.export_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
@@ -659,7 +671,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create-1" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="create-1"><span class="header-section-number">2.1</span> Create</h2>
 <p>For example, you can create a subsystem container for the two subsystems we created in the previous section and one additional zone named ‘North’:</p>
-<div id="0ddf78f3" class="cell" data-execution_count="13">
+<div id="aba3b4f8" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.subsystems <span class="im">import</span> SubSystemContainer</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -675,7 +687,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-flow-state-1" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="load-flow-state-1"><span class="header-section-number">2.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow states of the subsystems:</p>
-<div id="e747b433" class="cell" data-execution_count="14">
+<div id="b993e2d3" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_load_flow_state())</span>
@@ -703,8 +715,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <th data-quarto-table-cell-role="th">West</th>
-<td>3766.000003+ 966.000000j</td>
-<td>3000.811072+ 514.519195j</td>
+<td>3756.800003+ 966.000000j</td>
+<td>2991.611072+ 514.519195j</td>
 <td>-782.871862- 98.529796j</td>
 </tr>
 <tr class="odd">
@@ -720,7 +732,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also get a matrix (pandas DataFrame) with the power exchange between the subsystems:</p>
-<div id="44243436" class="cell" data-execution_count="15">
+<div id="680cc6b2" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.power_exchange)</span>
@@ -768,7 +780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology-1" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="topology-1"><span class="header-section-number">2.3</span> Topology</h2>
 <p>We can also get the neighbors of the subsystems:</p>
-<div id="c9853fa1" class="cell" data-execution_count="16">
+<div id="ca04a9b4" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> ss_container.subsystems:</span>
@@ -791,8 +803,8 @@ North has neighbors:
 <section id="synchronous-machines-1" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="synchronous-machines-1"><span class="header-section-number">2.4.1</span> Synchronous Machines</h3>
 <p>The <code>SubSystemContainer</code> class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files.</p>
-<div id="7afb6e14" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ss_container.export_synchronous_machines_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="ch">\t</span><span class="vs">ests</span><span class="ch">\t</span><span class="vs">ests_output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info_by_subsystem"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="a137b0ba" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ss_container.export_synchronous_machines_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info_by_subsystem"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 

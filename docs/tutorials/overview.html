@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.11">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5947b73a06bce04bf1d622ae23e1ec5b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-f670ab49fb9634e9dab58972b11477cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -159,6 +159,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -201,6 +207,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/database_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Database Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/performance.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">A Word on Performance</span></a>
   </div>
@@ -218,15 +230,16 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started"><span class="header-section-number">1</span> Getting started</a></li>
   <li><a href="#dynamic-simulation-plotting-and-data-export" id="toc-dynamic-simulation-plotting-and-data-export" class="nav-link" data-scroll-target="#dynamic-simulation-plotting-and-data-export"><span class="header-section-number">2</span> Dynamic Simulation, Plotting and Data Export</a></li>
   <li><a href="#dynamic-model-validation" id="toc-dynamic-model-validation" class="nav-link" data-scroll-target="#dynamic-model-validation"><span class="header-section-number">3</span> Dynamic Model Validation</a></li>
-  <li><a href="#static-calculations-load-flow-etc." id="toc-static-calculations-load-flow-etc." class="nav-link" data-scroll-target="#static-calculations-load-flow-etc."><span class="header-section-number">4</span> Static Calculations (Load Flow etc.)</a></li>
-  <li><a href="#static-calculations-load-flow-etc.-1" id="toc-static-calculations-load-flow-etc.-1" class="nav-link" data-scroll-target="#static-calculations-load-flow-etc.-1"><span class="header-section-number">5</span> Static Calculations (Load Flow etc.)</a></li>
+  <li><a href="#dynamic-model-documentation" id="toc-dynamic-model-documentation" class="nav-link" data-scroll-target="#dynamic-model-documentation"><span class="header-section-number">4</span> Dynamic Model Documentation</a></li>
+  <li><a href="#static-calculations-load-flow-etc." id="toc-static-calculations-load-flow-etc." class="nav-link" data-scroll-target="#static-calculations-load-flow-etc."><span class="header-section-number">5</span> Static Calculations (Load Flow etc.)</a></li>
   <li><a href="#study-cases" id="toc-study-cases" class="nav-link" data-scroll-target="#study-cases"><span class="header-section-number">6</span> Study Cases</a></li>
   <li><a href="#parameter-studies" id="toc-parameter-studies" class="nav-link" data-scroll-target="#parameter-studies"><span class="header-section-number">7</span> Parameter Studies</a></li>
   <li><a href="#network-matrices-and-pandapower-interface" id="toc-network-matrices-and-pandapower-interface" class="nav-link" data-scroll-target="#network-matrices-and-pandapower-interface"><span class="header-section-number">8</span> Network Matrices and <em>Pandapower</em> Interface</a></li>
   <li><a href="#topology-and-groupings" id="toc-topology-and-groupings" class="nav-link" data-scroll-target="#topology-and-groupings"><span class="header-section-number">9</span> Topology and Groupings</a></li>
   <li><a href="#subsystems" id="toc-subsystems" class="nav-link" data-scroll-target="#subsystems"><span class="header-section-number">10</span> Subsystems</a></li>
   <li><a href="#cgmes-model-exchange" id="toc-cgmes-model-exchange" class="nav-link" data-scroll-target="#cgmes-model-exchange"><span class="header-section-number">11</span> CGMES Model Exchange</a></li>
-  <li><a href="#a-word-on-performance" id="toc-a-word-on-performance" class="nav-link" data-scroll-target="#a-word-on-performance"><span class="header-section-number">12</span> A Word on Performance</a></li>
+  <li><a href="#database-interface" id="toc-database-interface" class="nav-link" data-scroll-target="#database-interface"><span class="header-section-number">12</span> Database Interface</a></li>
+  <li><a href="#a-word-on-performance" id="toc-a-word-on-performance" class="nav-link" data-scroll-target="#a-word-on-performance"><span class="header-section-number">13</span> A Word on Performance</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/overview.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -265,12 +278,12 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="3" class="anchored" data-anchor-id="dynamic-model-validation"><span class="header-section-number">3</span> Dynamic Model Validation</h2>
 <p>This <a href="../../docs/tutorials/dynamic_model_validation.html">tutorial</a> illustartes the dynamic simulation of a unit model (e.g.&nbsp;a wind turbine) for test scenarios with varying grid voltage behaviour at the point of connection. Such tests are required for example if you want to debug a dynamic model and its controllers, validate a dynamic model according to a reference (e.g.&nbsp;another softare) or test the bahaviour for grid code requirements.</p>
 </section>
-<section id="static-calculations-load-flow-etc." class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="static-calculations-load-flow-etc."><span class="header-section-number">4</span> Static Calculations (Load Flow etc.)</h2>
-<p>The static calculations <a href="../../docs/tutorials/static_calc.html">in this tutorial</a> like <em>power flow</em> (or <em>load flow</em> as it’s called in <em>PowerFactory</em>) or <em>short circuit analysis</em> are not the main focus of <em>powfacpy</em>. However, <em>powfacpy</em> provides a convenient interface to perform these calculations and to access the results.</p>
+<section id="dynamic-model-documentation" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="dynamic-model-documentation"><span class="header-section-number">4</span> Dynamic Model Documentation</h2>
+<p>The <a href="../../docs/tutorials/dynamic_model_documentation.html">dynamic model documentation tutorial</a> demonstrates how to generate <em>HTML</em> documentation for dynamic models in <em>PowerFactory</em>, specifically composite models (<code>ElmComp</code>) and their DSL models (<code>ElmDsl</code>). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to <em>PowerFactory</em>.</p>
 </section>
-<section id="static-calculations-load-flow-etc.-1" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="static-calculations-load-flow-etc.-1"><span class="header-section-number">5</span> Static Calculations (Load Flow etc.)</h2>
+<section id="static-calculations-load-flow-etc." class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="static-calculations-load-flow-etc."><span class="header-section-number">5</span> Static Calculations (Load Flow etc.)</h2>
 <p>The static calculations <a href="../../docs/tutorials/static_calc.html">in this tutorial</a> like <em>power flow</em> (or <em>load flow</em> as it’s called in <em>PowerFactory</em>) or <em>short circuit analysis</em> are not the main focus of <em>powfacpy</em>. However, <em>powfacpy</em> provides a convenient interface to perform these calculations and to access the results.</p>
 </section>
 <section id="study-cases" class="level2" data-number="6">
@@ -297,8 +310,12 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="11" class="anchored" data-anchor-id="cgmes-model-exchange"><span class="header-section-number">11</span> CGMES Model Exchange</h2>
 <p>In the <a href="../../docs/tutorials/cgmes_model_exchange.html">cgmes model exchange tutorial</a> you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.</p>
 </section>
-<section id="a-word-on-performance" class="level2" data-number="12">
-<h2 data-number="12" class="anchored" data-anchor-id="a-word-on-performance"><span class="header-section-number">12</span> A Word on Performance</h2>
+<section id="database-interface" class="level2" data-number="12">
+<h2 data-number="12" class="anchored" data-anchor-id="database-interface"><span class="header-section-number">12</span> Database Interface</h2>
+<p>The <a href="../../docs/tutorials/database_interface.html">database interface tutorial</a> illustrates the <code>Database</code> interface class of <em>powfacpy</em>, which provides methods to export and import larger chunks of data from the <em>PowerFactory</em> database (objects and their attributes, results variables, dynamic model parameters). Unlike exporting to formats such as <em>CGMES</em>, the <code>Database</code> class preserves a structure that stays close to the native <em>PowerFactory</em> database layout.</p>
+</section>
+<section id="a-word-on-performance" class="level2" data-number="13">
+<h2 data-number="13" class="anchored" data-anchor-id="a-word-on-performance"><span class="header-section-number">13</span> A Word on Performance</h2>
 <p>This <a href="../../docs/tutorials/performance.html">tutorial</a> evaluates the performance characteristics of the Python API of <em>PowerFactory</em>. The <em>powfacpy</em> wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by <em>powfacpy</em> are demonstrated.</p>
 
 
