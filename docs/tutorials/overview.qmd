@@ -17,8 +17,8 @@ The [tutorial](dynamic_simulation_and_plotting.qmd) shows how to conveniently si
 ## Dynamic Model Validation 
 This [tutorial](dynamic_model_validation.qmd) illustartes the dynamic simulation of a unit model (e.g. a wind turbine) for test scenarios with varying grid voltage behaviour at the point of connection. Such tests are required for example if you want to debug a dynamic model and its controllers, validate a dynamic model according to a reference (e.g. another softare) or test the bahaviour for grid code requirements. 
 
-## Static Calculations (Load Flow etc.)
-The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
+## Dynamic Model Documentation
+The [dynamic model documentation tutorial](dynamic_model_documentation.qmd) demonstrates how to generate *HTML* documentation for dynamic models in *PowerFactory*, specifically composite models (`ElmComp`) and their DSL models (`ElmDsl`). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to *PowerFactory*.
 
 ## Static Calculations (Load Flow etc.)
 The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
@@ -40,6 +40,9 @@ The [Subsystems tutorial](subsystems.qmd) covers similar topics as the topology 
 
 ## CGMES Model Exchange
 In the [cgmes model exchange tutorial](cgmes_model_exchange.qmd) you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.
+
+## Database Interface
+The [database interface tutorial](database_interface.qmd) illustrates the `Database` interface class of *powfacpy*, which provides methods to export and import larger chunks of data from the *PowerFactory* database (objects and their attributes, results variables, dynamic model parameters). Unlike exporting to formats such as *CGMES*, the `Database` class preserves a structure that stays close to the native *PowerFactory* database layout. 
 
 ## A Word on Performance
 This [tutorial](performance.qmd) evaluates the performance characteristics of the Python API of *PowerFactory*. The *powfacpy* wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by *powfacpy* are demonstrated.
