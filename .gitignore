@@ -16,6 +16,10 @@ src/powfacpy/pf_classes/protocols_old.py
 src/powfacpy/grouping.py
 uv.lock
 site_libs/
+
+/docs/tutorials/output/*
+!/docs/tutorials/output/.gitkeep
+
 *.html
 *.csv
 *.js
