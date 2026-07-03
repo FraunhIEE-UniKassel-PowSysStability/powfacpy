@@ -961,6 +961,9 @@ class ActiveProject(powfacpy.base.folder.Folder):
         else:
             self.copy_single_obj(obj, obj.GetParent(), new_name=name_of_copy)
 
+    def clear_output_window(self) -> None:
+        self.app.ClearOutputWindow()        
+
 
 class ActiveProjectCached(ActiveProject):
     """Caches the properties. Should be used only with one active project (the caching fails after a different project has been activated)."""
