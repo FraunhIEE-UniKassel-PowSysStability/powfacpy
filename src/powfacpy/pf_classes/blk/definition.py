@@ -4,6 +4,8 @@ The name 'def' is not allowed for python modules, so the module is named 'defini
 
 from __future__ import annotations
 from typing import Any, Callable
+import re
+import math
 
 from numpy import diff
 from icecream import ic
@@ -64,8 +66,8 @@ class BlockDefinition(BaseChildStatic):
         return self.read_attribute_that_is_string_in_list("sLowLimPar")
 
     @property
-    def equations(self) -> list[str]:
-        return "\n\n".join(self._obj.sAddEquat)
+    def additional_equations(self) -> list[str]:
+        return "\n".join(self._obj.sAddEquat)
 
     def read_attribute_that_is_string_in_list(self, attr: str) -> list[str]:
         """PF returns some attribute values as strings (with commas as separators). Use this method to get the values as a list of strings.
@@ -83,27 +85,28 @@ class BlockDefinition(BaseChildStatic):
             return []
 
     def get_info(self) -> dict:
-        """Get default information:
-        - attributes defined in method 'get_attr_property_mapping'
-        - blockdefs of subblocks
-        - Further attributes (see method body)
+        """Get default information of BlockDefinition in a dictionary:
+
+        - attributes defined in method 'get_attr_property_mapping' (e.g. "Name",
+            "Title", "Output signals", "Input signals", "States",           "Parameters", "Upper limitation parameters", "Lower limitation parameters", "Equations")
+        - 'Subblocks': blockdefs of subblocks
+        - 'Grafic': Graphical object (if exists)
+        - 'BlkDef': Block definition (BlkDef)
+        - 'BlockDefinition': BlockDefinition object (self)
+        - 'Name mapping': mapping of names of parameters and states between block references and their block definitions
 
         Returns:
-            dict: dict with default information.
+            dict: dict with default information. 
         """
         attr_info = self.get_attribute_info()
-        subblock_info = self.get_blkdefs_of_subblocks(
-            macros_and_graphical_separately=True
-        )
+        attr_info["Subblocks"] = self.get_blkdefs_of_subblocks()
         graphic = self._obj.GetContents("*.IntGrfnet")
         if graphic:
             attr_info["Grafic"] = graphic
         attr_info["BlkDef"] = self._obj
         attr_info["BlockDefinition"] = self
-        attr_info["Mappings"] = self.get_mapping(
-            subblock_info["Macros"] | subblock_info["Graphical"]
-        )
-        return attr_info | subblock_info
+        attr_info["Name mapping"] = self.get_names_mapping_of_blkdefs_and_blkrefs()
+        return attr_info
 
     def get_attribute_info(self) -> dict[str, Any]:
         """Get attribute values for attributes defined in 'get_attr_property_mapping'.
@@ -157,7 +160,7 @@ class BlockDefinition(BaseChildStatic):
             "Parameters": "parameters",
             "Upper limitation parameters": "upper_limitation_parameters",
             "Lower limitation parameters": "lower_limitation_parameters",
-            "Equations": "equations",
+            "Equations": "additional_equations",
         }
 
     def export_block_diagram(
@@ -183,8 +186,10 @@ class BlockDefinition(BaseChildStatic):
         path = target_dir + "\\" + file_name
         return pfplt.export_active_page(format=format, path=path)
 
-    def get_mapping(self, blkrefs_blkdefs_dict: dict[BlkRef, BlkDef]) -> dict:
-        """Get mapping of parameter and state names between block references and block definitions. The parameter and state names can differ (e.g. when the same name occurs in several block references of a block definition).
+    def get_names_mapping_of_blkdefs_and_blkrefs(self) -> dict:
+        """Get mapping of names of parameters and states between block references and their block definitions. 
+        
+        The parameter and state names can differ (e.g. when the same name occurs in several block references inside a block definition - assume several references have a state named 'x', those names need to differ on the level of the block definition(x, x1, x2,...)).
 
         Args:
             blkrefs_blkdefs_dict (dict[BlkRef, BlkDef]): dict with blkrefs as keys and respective blkdefs as values.
@@ -193,7 +198,8 @@ class BlockDefinition(BaseChildStatic):
             dict: blkrefs as keys and name mapping (tuples) as values
         """
         mapping = {}
-        mapped_attr = ["sParams", "sStates"]
+        mapped_attr = ["sParams", "sStates", "sUpLimPar", "sLowLimPar", "sIntern"]
+        blkrefs_blkdefs_dict = self.get_blkdefs_of_subblocks()
         for blkref, blkdef in blkrefs_blkdefs_dict.items():
             difference_found = False
             mapping[blkref] = {attr: [] for attr in mapped_attr}
@@ -253,3 +259,73 @@ class BlockDefinition(BaseChildStatic):
                         f"c:{sig}" for sig in signale
                     ] 
         return signal_results_variables
+    
+    def get_info_incl_subblocks(self, all_blkdef_info: dict | None = None, parent: None | BlkDef = None):
+        """
+        Recursive
+        """
+        if all_blkdef_info is None:
+            all_blkdef_info = {
+                "blkdefs_without_subblocks": [], # non-graphical (macros)
+                "blkdefs_with_subblocks": [], # graphical
+            }
+        info = self.get_info()
+        if parent is not None:
+            info["Parent"] = parent
+        if info["Subblocks"]:
+            all_blkdef_info["blkdefs_with_subblocks"].append(info)
+            for blkdef in info["Subblocks"].values():
+                blkdef = BlockDefinition(blkdef)
+                all_blkdef_info = blkdef.get_info_incl_subblocks(all_blkdef_info=all_blkdef_info, parent=self._obj)   
+        else: # lowest level reached
+            blkdef_in_list = [blkdef_info for blkdef_info in all_blkdef_info["blkdefs_without_subblocks"] if blkdef_info["BlkDef"] == self._obj]
+            if not blkdef_in_list:
+                all_blkdef_info["blkdefs_without_subblocks"].append(info)     
+        return all_blkdef_info
+
+    def get_parameter_limits_from_equations(self, exclusive_limit_distance: float = 0) -> dict:
+        equations = self._obj.sAddEquat
+        param_limits = {}
+        for line in equations:
+            if line.startswith("limfix"):
+                parlim = parse_limfix(line, exclusive_limit_distance)
+                param_limits[parlim["param"]] = parlim["limits"]
+        return param_limits        
+
+def parse_limfix(s: str, exclusive_limit_distance: float = 0) -> dict:
+    # Truncate comment
+    s = s.split("!")[0]
+
+    # Extract parameter name
+    param = re.search(r'limfix\((\w+)\)', s).group(1)
+    
+    # Extract the range string, e.g. "(0,)", "[0,10]", "(,-5)"
+    range_str = re.search(r'=\s*(.+)', s).group(1).strip()
+    
+    # Determine bracket types
+    lower_inclusive = range_str[0] == '['
+    upper_inclusive = range_str[-1] == ']'
+    
+    # Extract lower and upper values
+    inner = range_str[1:-1]  # strip brackets
+    parts = inner.split(',')
+    lower_str = parts[0].strip()
+    upper_str = parts[1].strip()
+    
+    # Parse lower limit
+    if lower_str == '':
+        lower = -math.inf
+    else:
+        lower = float(lower_str)
+        if not lower_inclusive:
+            lower += exclusive_limit_distance
+
+    # Parse upper limit
+    if upper_str == '':
+        upper = math.inf
+    else:
+        upper = float(upper_str)
+        if not upper_inclusive:
+            upper -= exclusive_limit_distance
+
+    return {"param": param, "limits": (lower, upper)}                
