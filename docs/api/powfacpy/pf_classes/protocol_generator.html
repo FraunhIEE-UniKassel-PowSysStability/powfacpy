@@ -401,7 +401,7 @@
 </span><span id="L-294"><a href="#L-294"><span class="linenos">294</span></a>
 </span><span id="L-295"><a href="#L-295"><span class="linenos">295</span></a>
 </span><span id="L-296"><a href="#L-296"><span class="linenos">296</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">powfacpy_project_root_directory</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">settings.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">settings_file</span><span class="p">:</span>
+</span><span id="L-297"><a href="#L-297"><span class="linenos">297</span></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">powfacpy_project_root_directory</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">settings_local.json&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">settings_file</span><span class="p">:</span>
 </span><span id="L-298"><a href="#L-298"><span class="linenos">298</span></a>        <span class="n">settings</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">settings_file</span><span class="p">)</span>
 </span><span id="L-299"><a href="#L-299"><span class="linenos">299</span></a>    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">settings</span><span class="p">[</span><span class="s2">&quot;local path to PowerFactory application&quot;</span><span class="p">])</span>
 </span><span id="L-300"><a href="#L-300"><span class="linenos">300</span></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">powerfactory</span>
@@ -429,7 +429,7 @@
                 <section id="powfacpy_project_root_directory">
                     <div class="attr variable">
             <span class="name">powfacpy_project_root_directory</span>        =
-<span class="default_value">&#39;D:\\User\\seberlein\\FraunhIEE-UniKassel-PowSysStability\\powfacpy&#39;</span>
+<span class="default_value">&#39;c:\\Users\\seberlein\\local\\FraunhIEE-UniKassel-PowSysStability\\powfacpy&#39;</span>
 
         
     </div>
@@ -1170,6 +1170,7 @@ Example: 'class ElmTr2(Protocol):'</p>
                 <dd id="PFClassesProtocolGenerator.reactivate_project" class="function"><a href="../base/active_project.html#ActiveProject.reactivate_project">reactivate_project</a></dd>
                 <dd id="PFClassesProtocolGenerator.add_template_from_global_library" class="function"><a href="../base/active_project.html#ActiveProject.add_template_from_global_library">add_template_from_global_library</a></dd>
                 <dd id="PFClassesProtocolGenerator.duplicate_to_restore_attributes" class="function"><a href="../base/active_project.html#ActiveProject.duplicate_to_restore_attributes">duplicate_to_restore_attributes</a></dd>
+                <dd id="PFClassesProtocolGenerator.clear_output_window" class="function"><a href="../base/active_project.html#ActiveProject.clear_output_window">clear_output_window</a></dd>
 
             </div>
             <div><dt><a href="../base/folder.html#Folder">powfacpy.base.folder.Folder</a></dt>
