@@ -1,0 +1,245 @@
+---
+title: Database Interface
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: python3
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+import matplotlib.pyplot as plt
+plt.rcParams['axes.grid'] = True
+```
+
+This tutorial illustrates the `Database` interface class of *powfacpy*, which provides methods to export and import larger chunks of data from the *PowerFactory* database. Unlike exporting to formats such as *CGMES*, the `Database` class preserves a structure that stays close to the native *PowerFactory* database layout.
+
+Typical use cases include:
+
+- Exporting larger chunks of data from *PowerFactory* objects — for example, to include in a project report or to share with others who can apply the settings in their own project
+- Conveniently exporting *result variables* such as simulation results or network element settings
+- Exporting and importing parameters of dynamic models (composite models and their controllers)
+
+The tutorial is structured as follows. The first part covers exporting, importing, and comparing attributes of *PowerFactory* objects using Python dictionaries, *JSON*, and *pickle* format. The second part demonstrates how to export result variables to *pandas* DataFrames or *CSV* files. The final section focuses on exporting and importing controller parameters of dynamic composite models.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+import json
+
+import numpy as np
+
+from powfacpy.base.active_project import ActiveProject
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
+sys.path.append(
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
+# Get the PF app
+import powerfactory
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\39_bus_new_england_copy_where_tests_run")
+
+act_prj = ActiveProject(app)
+act_prj.activate_study_case(r"Study Cases\1. Power Flow")
+act_prj.execute_load_flow()
+```
+
+# Introduction to the Database Interface
+
+The `Database` class of *powfacpy* provides an interface to the *PowerFactory* database and simplifies the export and import of data.
+
+## Export to Dictionary
+
+Suppose we want to extract selected parameters from terminals, loads, and transformers (or possibly any other object from the database). We define a dictionary with class names as keys and lists of parameter names as values.
+
+```{python}
+from powfacpy.applications.database import Database
+
+pfdb = Database(app)
+
+class_params = {
+    "ElmTerm": ["outserv"],
+    "ElmLod": ["plini", "qlini", "typ_id.aP"],
+    "ElmTr*": ["typ_id"],
+}
+```
+
+Note that class names support wildcards (e.g. `"ElmTr*"`), and parameter names can reference attributes of a linked object using dot notation (e.g. `"typ_id.aP"`).
+
+Next, we retrieve the objects of interest and use `get_object_attributes` to extract a dictionary. The keys are *PowerFactory* objects and the values are dictionaries mapping attribute names to their values.
+
+```{python}
+try:
+    app.Hide()
+    # Get objects of interest
+    terminals = act_prj.get_calc_relevant_obj("*.ElmTerm")
+    loads = act_prj.get_calc_relevant_obj("*.ElmLod", includeOutOfService=0)
+    transformers = act_prj.get_calc_relevant_obj("*.ElmTr*", includeOutOfService=0)
+    # Get object attributes
+    obj_attr = pfdb.get_object_attributes(terminals + loads + transformers, class_params)
+finally:
+    app.Show()    
+obj_attr
+```
+
+The output can be hard to read due to the lengthy object paths in *PowerFactory*. There are formatting options to control whether keys and values are represented as *PowerFactory* objects or as their string paths.
+
+```{python}
+try:
+    app.Hide()
+    obj_attr = pfdb.get_object_attributes(
+        terminals + loads + transformers, 
+        class_params, 
+        keys_are_pf_obj=False, 
+        values_are_pf_obj=False, 
+        )
+finally:
+    app.Show()    
+print(json.dumps(obj_attr, indent=2))
+```
+
+## Export from or Import to File
+
+Using string paths instead of objects (as shown above) is required when saving data to a *pickle* file. This is useful for sharing data with colleagues who can load the dictionary and apply the settings in their own project (as demonstrated below).
+
+```{python}
+import pickle
+
+# save dict to pickle file
+with open(r'.\output\model_data_export\database_dict.pickle', 'wb') as handle:
+    pickle.dump(obj_attr, handle)
+
+# load dict from pickle file
+with open(r'.\output\model_data_export\database_dict.pickle', 'rb') as handle:
+    obj_attr_loaded:dict  = pickle.load(handle)
+```
+
+## Compare Dictionaries
+
+A common use case for these database dictionaries is comparing two projects to detect differences. The `deepdiff` package makes this straightforward.
+
+We apply some modifications to the loaded dictionary `obj_attr_loaded` and compare it against the original `obj_attr`.
+
+```{python}
+from deepdiff import DeepDiff
+
+obj_attr_loaded.pop("Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Bus 07.ElmTerm") 
+
+obj_attr_loaded["Network Model.IntPrjfolder\\Network Data.IntPrjfolder\\Grid.ElmNet\\Load 31.ElmLod"]["plini"] = 0.0
+
+diff = DeepDiff(obj_attr, obj_attr_loaded, ignore_order=True)
+diff
+```
+
+## Set Values from Dictionary in *PowerFactory*
+
+To apply a dataset received from a colleague, use the `set_pf_obj_attribute_values` method. It accepts a dictionary formatted according to the output of `get_object_attributes` and writes the attribute values back into *PowerFactory*.
+
+Here we apply the modified loaded dictionary. You can verify that the load active power (`plini`) has been updated accordingly.
+
+```{python}
+try:
+    app.Hide()
+    pfdb.set_pf_obj_attribute_values(obj_attr_loaded)
+finally:
+    app.Show()
+```
+
+# Result Variable and Parameter Export
+
+The `Database` interface also provides a method to extract result variables from simulation-relevant objects. **Note that the term *result variable* in *PowerFactory* also covers settings and parameters** — the methods can read any variable that can be selected as a monitored variable in an `IntMon` object.
+
+The following example reads all result variables relevant for balanced RMS simulations of the calculation-relevant synchronous machines. We specify the class name (`"ElmSym"`), a wildcard pattern to retrieve all variables (`"*"`), and the simulation type (`"RMS_Bal"`). The result is a *pandas* DataFrame with one row per machine and one column per variable, covering load flow results, type parameters, and more. The DataFrame can easily be exported to *CSV* if needed.
+
+```{python}
+from powfacpy.applications.database import Database
+
+pfdb = Database(app)
+
+try:
+    app.Hide()
+    act_prj.execute_load_flow()
+    df = pfdb.get_result_variables("ElmSym", "*", simulation_type="RMS_Bal")
+finally:
+    app.Show()    
+df    
+```
+
+Variable patterns can be used to filter results. For example, `"t:*"` retrieves only type parameters. *PowerFactory* groups result variables by prefix: signals (`s:`), measurements (`m:`), calculated values (`c:`), type parameters (`t:`), and so on. The method also offers options for formatting the index.
+
+```{python}
+try:
+    app.Hide()
+    df = pfdb.get_result_variables("ElmSym", "t:*", index_format="path")
+finally:
+    app.Show()    
+df
+```
+
+# Composite Model Parameters
+
+## Export
+
+To export the parameters of dynamic controllers (DSL models) within composite models (`ElmComp`), use the `get_composite_model_parameters` method. By default it exports parameters for all composite models in *JSON*-compatible format, but it also accepts a list of specific composite models as input.
+
+```{python}
+try:
+    app.Hide()
+    comp_model_pars = pfdb.get_composite_model_parameters()   
+finally:
+    app.Show()
+print(json.dumps(comp_model_pars, indent=2))
+```
+
+By default, *PowerFactory* object names are used as keys, but other formatting options are available:
+
+```{python}
+try:
+    app.Hide()
+    comp_model_pars = pfdb.get_composite_model_parameters(obj_format="obj")   
+finally:
+    app.Show()
+comp_model_pars
+```
+
+## Import
+
+To export parameters to a *pickle* file, reimport them later, and apply the settings back to *PowerFactory*, use the following workflow:
+
+```{python}
+try:
+    app.Hide()
+    comp_model_pars = pfdb.get_composite_model_parameters(obj_format="path") 
+    
+    # save dict to pickle file
+    with open(r'.\output\model_data_export\database_dict.pickle', 'wb') as handle:
+        pickle.dump(comp_model_pars, handle)
+
+    # load dict from pickle file
+    with open(r'.\output\model_data_export\database_dict.pickle', 'rb') as handle:
+        comp_model_pars_loaded  = pickle.load(handle)
+
+    # modify the loaded dict to validate that the set_composite_model_parameters method works as expected   
+    new_Ka = np.random.uniform(6, 7) 
+    print("new Ka:" + str(new_Ka))
+    comp_model_pars_loaded["Network Model\\Network Data\\Grid\\Power Plant 02"]["Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02"]["Ka"] = new_Ka
+    
+    # Set all parameters and reload
+    pfdb.set_composite_model_parameters(comp_model_pars_loaded)    
+    comp_model_pars = pfdb.get_composite_model_parameters(obj_format="path") 
+      
+finally:
+    app.Show()
+comp_model_pars["Network Model\\Network Data\\Grid\\Power Plant 02"]["Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02"]["Ka"]
+```
+
