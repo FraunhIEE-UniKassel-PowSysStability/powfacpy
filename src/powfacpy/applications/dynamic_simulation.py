@@ -48,7 +48,7 @@ class DynamicSimulation(ApplicationBase):
         cominc = self.act_prj.app.GetFromStudyCase("ComInc")
         if param is not None:
             self.act_prj.set_attr(cominc, param)
-        cominc.Execute()
+        return cominc.Execute()
 
     def run_sim(self, param=None):
         """
@@ -58,7 +58,7 @@ class DynamicSimulation(ApplicationBase):
         comsim = self.act_prj.app.GetFromStudyCase("ComSim")
         if param is not None:
             self.act_prj.set_attr(comsim, param)
-        comsim.Execute()
+        return comsim.Execute()
 
     def initialize_and_run_sim(
         self,
@@ -324,7 +324,7 @@ class DynamicSimulation(ApplicationBase):
         of the array is specified) is included.
         """
         if not size_included_in_array:
-            if not array_num:
+            if array_num is None:
                 dsl_obj.SetAttribute("matrix:0", [len(rows)] * len(rows[0]))
             else:
                 complete_row = dsl_obj.GetAttribute("matrix:0")
