@@ -91,6 +91,6 @@ df_voltage_res_readable
 From the dataframe format, we can easily export the results to a .csv file for further analysis or reporting.
 
 ```{python}
-df_voltage_res_readable.to_csv(r".\tests\tests_output\static_calc_results.csv", index=True)
+df_voltage_res_readable.to_csv(r".\output\static_calc_results.csv", index=True)
 ```
 

@@ -160,13 +160,13 @@ Or export the information to csv files:
 ```{python}
 from powfacpy.pf_classes.elm.dsl import export_dsl_model_info_to_csv
 
-export_dsl_model_info_to_csv(governor_info, r".\tests\tests_output\governor_info")
+export_dsl_model_info_to_csv(governor_info, r".\output\governor_info")
 ```
 
 There is also a method to export the information on all dynamic models (governors, AVRs, PSS) of the subsystem to csv files:
 
 ```{python}
-subsystems[0].dynamic_models.synchronous_machines.export_info_to_csv(r".\tests\tests_output\synchronous_machines_info")
+subsystems[0].dynamic_models.synchronous_machines.export_info_to_csv(r".\output\synchronous_machines_info")
 ```
 
 # Subsystem Container
@@ -227,6 +227,6 @@ finally:
 The `SubSystemContainer` class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files. 
 
 ```{python}
-ss_container.export_synchronous_machines_info_to_csv(r".\tests\tests_output\synchronous_machines_info_by_subsystem")
+ss_container.export_synchronous_machines_info_to_csv(r".\output\synchronous_machines_info_by_subsystem")
 ```
 
