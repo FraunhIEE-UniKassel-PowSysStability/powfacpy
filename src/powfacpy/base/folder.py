@@ -261,6 +261,7 @@ class Folder(BaseObjectStatic):
     def get_unique_obj(
         self,
         path: str,
+        condition: Callable | None = None,
         parent_folder: Union[PFGeneral, Folder, str] = None,
         error_if_non_existent: bool = True,
         include_subfolders: bool = False,
@@ -271,7 +272,7 @@ class Folder(BaseObjectStatic):
         This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
 
         Args:
-            path (str): path to object(s);
+            path (str): path to object;
             can contain wildcards ("*") after the last "\"
 
             condition (Callable, optional):
@@ -300,6 +301,7 @@ class Folder(BaseObjectStatic):
         """
         obj = self.get_obj(
             path,
+            condition=condition,
             parent_folder=parent_folder,
             error_if_non_existent=error_if_non_existent,
             include_subfolders=include_subfolders,

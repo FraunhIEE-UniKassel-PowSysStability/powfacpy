@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "powfacpy"
-version = "0.4.4"
+version = "0.4.5"
 
 authors = [
   { name="Sciemon", email="simon.eberlein@gmx.de" },
@@ -19,6 +19,14 @@ dependencies = [
     "icecream >= 2.1.3",
     "comtraderecord >= 1.0.2",
     "pandapower >= 3.2",
+    "markdown >= 3.10.2",
+]
+
+[project.optional-dependencies]
+tutorials = [
+    "jupyter>=1.1.1",
+    "PyQt6>= 6.1.0",
+    "deepdiff >= 8.6.2",
 ]
 
 [project.urls]

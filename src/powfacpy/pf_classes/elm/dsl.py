@@ -73,6 +73,10 @@ class DSLModel(ElmBase):
 
     def get_parameter_values(self) -> list:
         return self._obj.params
+    
+    def set_parameter_values(self, params: dict) -> None:
+        for par, val in params.items():
+            self._obj.SetAttribute(par, val) 
 
 
 def get_parameters_of_dsl_models(

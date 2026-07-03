@@ -11,7 +11,7 @@ ToDo: Add tutorial for this interface (when there is more functionality).
 from __future__ import annotations
 
 import sys
-from fnmatch import fnmatchcase
+from fnmatch import fnmatchcase, filter
 from typing import Callable, Iterable, Any, OrderedDict
 import importlib, inspect
 import copy
@@ -21,13 +21,15 @@ import numpy as np
 from icecream import ic
 
 
+from powfacpy.pf_classes.elm.comp import CompositeModel
+from powfacpy.result_variables import ResVar
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_classes.protocols import (
     PFGeneral,
     PFApp,
 )
-
+from powfacpy.pf_classes.elm.dsl import DSLModel
 
 class Database(ApplicationBase):
 
@@ -93,7 +95,7 @@ class Database(ApplicationBase):
             }
             ```
         """
-        if not class_attributes:
+        if class_attributes is None:
             class_attributes = {
                 "*": []
             }  # no relevant attributes -> get only keys (object paths)
@@ -131,13 +133,13 @@ class Database(ApplicationBase):
         """
         Writes the data of a dict to the PF database
         (the dict can be created e.g. with 'get_object_attributes').
-        There are two options for the format of the dict:
+        There are two options for the format of the dict (corresponding to the output of 'get_object_attributes' or 'get_obj_attribute_strings'):
         - keys: PF object or path, values: dict[attr, value]
         - keys: tuple(PF object or path, attr ), values: value
 
         Arguments:
           obj_attr_dict (dict): data
-          added_path (str): Assumes that the objects' path is relative to a parent folder inside the project. Adds 'added_path' to the paths .
+          added_path (str): Assumes that the objects' path is relative to a parent folder inside the project. Adds 'added_path' in order to be relative to the project root.
         """
         if not isinstance(list(obj_attr_dict)[0], tuple):
             for obj, attr_key_val in obj_attr_dict.items():
@@ -301,6 +303,98 @@ class Database(ApplicationBase):
             if fnmatchcase(cls_name, name):
                 class_names.append(cls_name)
         return class_names
+
+    def get_result_variables(
+        self,
+        class_name: str,
+        vars: list | str,
+        simulation_type: str = "RMS_Bal",
+        objs: list | None = None,
+        index_format: str = "name",
+    ) -> pd.DataFrame:
+        """Get result variables for a specified class and simulation type.
+
+        Args:
+            class_name (str): Name of the class (e.g. "ElmSym", "ElmTr2", "ElmGenstat", ...)
+            vars (list | str): list of variable names or a string pattern (e.g. "e_*") to filter the variable names of the specified class.
+            simulation_type (str, optional): "Basic", "LF_Bal", "LF_Unbal", "RMS_Bal", "RMS_Unbal", "EMT", "Sensitivities_Bal". Defaults to "RMS_Bal".
+            objs (list | None, optional): List of objects (class according to 'class_name) to get result variables for. If None, all calculation relevant objects of the specified class are used. Defaults to None.
+            index_format (str, optional): Format of the index of the returned DataFrame. Options: "name" (loc_name, default), "path", "obj". Defaults to "name".
+
+        Returns:
+            pd.DataFrame: result variables of the specified class and simulation type. The index is the loc_name of the objects, the columns are a MultiIndex with the variable name and its description.
+        """
+        enum_class = getattr(getattr(ResVar, simulation_type), class_name)
+        if isinstance(vars, str):
+            vars = vars.replace(":", "_")
+            vars = filter(enum_class.__members__.keys(), vars)
+        if objs is None:
+            objs = self.act_prj.get_calc_relevant_obj("*." + class_name)  
+        var_values = {var: [None]*len(objs) for var in vars}
+        for var in vars:
+            for m, obj in enumerate(objs):
+                attr = enum_class[var].value
+                if obj.HasAttribute(attr):
+                    val = obj.GetAttribute(attr)
+                    if not val:
+                        val = None
+                else:
+                    val = None        
+                var_values[var][m] = val
+        df = pd.DataFrame(var_values)   
+        if index_format == "path":
+            df.index = [self.act_prj.get_path_of_object_in_active_project(o) for o in objs]
+        elif index_format == "obj":
+            df.index = objs
+        else:
+            df.index = [o.loc_name for o in objs]
+        df.columns = pd.MultiIndex.from_tuples(
+            [(enum_class[var].value, enum_class[var].__doc__) 
+                for var in vars]
+        )
+        return df
+    
+    def get_composite_model_parameters(self, composite_models: list | None = None, include_out_of_service: bool = False, obj_format: str = "name") -> dict:
+        if composite_models is None:
+            composite_models = self.act_prj.get_calc_relevant_obj("*.ElmComp")
+        model_parameters = {}
+        for comp_model in composite_models:
+            if obj_format == "path":
+                comp_model_key = self.act_prj.get_path_of_object_in_active_project(comp_model)
+            elif obj_format == "obj":
+                comp_model_key = comp_model    
+            else:
+                comp_model_key = comp_model.loc_name
+
+            model_parameters[comp_model_key] = {}
+            comp_model = CompositeModel(comp_model)
+            for dsl_model in comp_model.get_dsl_models_in_slots():
+                if dsl_model.outserv and not include_out_of_service:
+                    continue
+                if obj_format == "path":
+                    dsl_key = self.act_prj.get_path_of_object_in_active_project(dsl_model)
+                elif obj_format == "obj":
+                    dsl_key = dsl_model
+                else:
+                    dsl_key = dsl_model.loc_name
+                dsl_model = DSLModel(dsl_model)
+                model_parameters[comp_model_key][dsl_key] = dsl_model.get_parameters()
+        return model_parameters
+    
+    def set_composite_model_parameters(self, model_parameters: dict) -> None:
+        for comp_model_key, dsl_models in model_parameters.items():
+            if isinstance(comp_model_key, str):
+                comp_model = self.act_prj.get_unique_obj(comp_model_key)
+            else:
+                comp_model = comp_model_key
+            comp_model = CompositeModel(comp_model)
+            for dsl_key, parameters in dsl_models.items():
+                if isinstance(dsl_key, str):
+                    dsl_model = self.act_prj.get_unique_obj(dsl_key)
+                else:
+                    dsl_model = dsl_key
+                dsl_model = DSLModel(dsl_model)
+                dsl_model.set_parameter_values(parameters)
 
 
 class DatabaseDict(dict, ApplicationBase):

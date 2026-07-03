@@ -1,3 +1,5 @@
+import re 
+
 from powfacpy.pf_class_protocols import PFApp
 
 
@@ -179,6 +181,22 @@ class PFStringManipulation:
         if path and path[-1] == ">":
             path = path[0 : path.rfind("<")]
         return path
+    
+    @staticmethod
+    def pf_name_to_windows(name: str) -> str:
+        """Convert name (of a PF object) into a valid windows name (e.g. to be used for files/folders).
+
+        Args:
+            name (str): name
+
+        Returns:
+            str: converted name
+        """
+        # remove invalid Windows filename characters
+        name = re.sub(r'[<>:"/\\|?*]', '', name)
+        # remove trailing dots/spaces (Windows restriction)
+        name = name.strip().rstrip(".")
+        return name
 
 
 class PFTranslator:

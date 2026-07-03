@@ -46,7 +46,7 @@ app.Show()
 ```
 
 # Test System
-The test system depicted in Fig. @fig-test_system_smib is used. It is a simple single-machine-infinite-bus system. The device under test (DUT), a type 4B wind turbine, is connected through a transformer to a $20$ kV cable with a controllable voltage source at the other end. You can also set the impedances into service as an alternative to the transformer (you then have to adapt the nominal voltages) and cable to simplify the system. Feel free to connect a different DUT and adapt the `DUT_COMPOSITE_MODEL_PATH` below.
+The test system depicted in @fig-test_system_smib is used. It is a simple single-machine-infinite-bus system. The device under test (DUT), a type 4B wind turbine, is connected through a transformer to a $20$ kV cable with a controllable voltage source at the other end. You can also set the impedances into service as an alternative to the transformer (you then have to adapt the nominal voltages) and cable to simplify the system. Feel free to connect a different DUT and adapt the `DUT_COMPOSITE_MODEL_PATH` below.
 
 You find the `component_test.pfd` project in the `.\pf_models` folder. Please add it to your *powfacpy* folder in the *PowerFactory* database. The next cell activates the project
 
@@ -120,7 +120,7 @@ The next cell saves the voltage signal data to .csv and .json files if required.
 import os
 import shutil
 
-model_validation_dir = r".\\tests\tests_output\\dynamic_model_validation"
+model_validation_dir = r".\output\dynamic_model_validation"
 if os.path.exists(model_validation_dir):
     shutil.rmtree(model_validation_dir)
 os.makedirs(model_validation_dir)
@@ -131,7 +131,6 @@ for scenario, df in dataframes_for_scenarios.items():
     df.to_csv(scenario_folder + "\\" + "voltage_source.csv")
     with open(scenario_folder + "\\" +"voltage_source.json", "w") as outfile:
         json.dump(voltage_settings, outfile, indent=4, sort_keys=False)
-
 ```
 
 # Create Study Cases
