@@ -129,6 +129,10 @@ class CompositeModel(ElmBase):
                 if create_plots:
                     pfplt.set_active_plot(net_elm.loc_name, "§ " + net_elm.loc_name)
                     pfplt.plot(net_elm, result_variables)
+            elif net_elm.GetClassName() == "ElmComp":
+                comp = CompositeModel(net_elm)
+                comp.monitor_signals_of_dsl_models(signal_types, create_plots)
+
 
 
             
