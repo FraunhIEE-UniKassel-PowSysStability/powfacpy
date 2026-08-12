@@ -139,7 +139,7 @@ class ActiveProject(powfacpy.base.folder.Folder):
         self,
         obj: PFGeneral | str,
         params: dict,
-        parent_folder: PFGeneral | Folder | str = None,
+        parent_folder: PFGeneral | powfacpy.base.folder.Folder | str = None,
     ) -> None:
         """Set attributes of an object and to store the original values (e.g. to reset them later).
 
@@ -942,7 +942,7 @@ class ActiveProject(powfacpy.base.folder.Folder):
         self,
         obj: PFGeneral | str,
         attr: str | list[str],
-        parent_folder: PFGeneral | Folder | str = None,
+        parent_folder: PFGeneral | powfacpy.base.folder.Folder | str = None,
         suffix_of_duplicate: str = "_COPY",
     ) -> PFGeneral:
         obj = self._handle_single_pf_object_or_path_input(
