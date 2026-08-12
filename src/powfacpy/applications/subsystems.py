@@ -12,7 +12,7 @@ from icecream import ic
 from powfacpy.applications.application_base import ApplicationBase
 
 
-from powfacpy.pf_class_protocols import ElmZone, ElmTerm, ElmLne
+from powfacpy.pf_class_protocols import ElmZone, ElmTerm, ElmLne, ElmDsl
 from powfacpy.pf_classes.elm.sym import SynchronousMachine
 from powfacpy.pf_classes.elm.dsl import (
     get_dsl_models_info_sorted_by_block_definition,
@@ -78,7 +78,7 @@ class SubSystem(Zone, ApplicationBase):
 class SubSystemLoadFlow:
     """Load (power) flow properties of subsystem."""
 
-    def __init__(self, parent: Subsystem) -> None:
+    def __init__(self, parent: SubSystem) -> None:
         self.parent = parent
         self.total_power_loads: complex
         self.total_power_generation: complex
@@ -131,7 +131,7 @@ class SubSystemTopology:
     def lines(self) -> list[ElmLne]:
         return self.parent.get_internal_elms_of_class("ElmLne")
 
-    def __init__(self, parent: Subsystem) -> None:
+    def __init__(self, parent: SubSystem) -> None:
         self.parent = parent
 
     def get_indices_of_terminals(self, terminals_superset: list[ElmTerm]) -> list[int]:
@@ -168,7 +168,7 @@ class SubSystemDynamicModels:
             self._synchronous_machines = SubSystemSynchronousMachines(self)
         return self._synchronous_machines
 
-    def __init__(self, parent: Subsystem) -> None:
+    def __init__(self, parent: SubSystem) -> None:
         self.parent = parent
         self._synchronous_machines: SubSystemSynchronousMachines | None = None
 
@@ -213,7 +213,7 @@ class SubSystemSynchronousMachines:
             for sm in self.synchronous_machines_powfacpy
         ]
 
-    def __init__(self, parent: Subsystem) -> None:
+    def __init__(self, parent: SubSystem) -> None:
         self.parent = parent
 
     def get_governor_info(
@@ -345,7 +345,7 @@ class SubSystemContainer(ApplicationBase):
         execute_load_flow: bool = True,
         format: str = "dataframe",
         value_no_exchange=np.nan + 0j,
-    ) -> np.array | pd.DataFrame:
+    ) -> np.typing.ArrayLike | pd.DataFrame:
         """Get power exchange between subsystems in MVA.
 
         Args:
