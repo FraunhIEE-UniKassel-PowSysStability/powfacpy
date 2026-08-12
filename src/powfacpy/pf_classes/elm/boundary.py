@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Callable
 
+import pandas as pd
+
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.applications.results import Results
 import powfacpy.applications.topology

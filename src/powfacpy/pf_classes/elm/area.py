@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Callable
+
 import numpy as np
 
 from powfacpy.pf_classes.protocols import ElmArea, ElmTerm, PFGeneral

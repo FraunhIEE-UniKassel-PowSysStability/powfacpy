@@ -55,7 +55,11 @@ class PFPathError(PFInterfaceError):
     """Attempt to access invalid path in PF database."""
 
     def __init__(self, non_existing_child, existing_path):
-        self.message = f"'{non_existing_child}' does not exist in '{existing_path}'"
+        if non_existing_child[-1] == ".":
+            pf_bug_msg = "The name ends with a '.' and there is a PF bug for such names. You need to add another dot at the end ('..')."
+        else:
+            pf_bug_msg = ""
+        self.message = f"'{non_existing_child}' does not exist in '{existing_path}'. {pf_bug_msg}"
         super().__init__(self.message)
 
 
@@ -153,4 +157,11 @@ class PFInvalidLoadFlow(PFInterfaceError):
 
     def __init__(self, msg="") -> None:
         self.message = f"No valid load flow results. {msg}"
+        super().__init__(self.message)
+
+
+class PFInvalidResultExport(PFInterfaceError):
+
+    def __init__(self, msg="") -> None:
+        self.message = f"The simulation results could not be exported. Please check if the simulation executed correctly. \n\n {msg}"
         super().__init__(self.message)
