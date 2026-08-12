@@ -1,5 +1,5 @@
 import sys
-from os import remove, getcwd, replace
+from os import remove, getcwd, replace, makedirs
 from math import inf
 from warnings import warn
 from typing import Iterable
@@ -14,7 +14,7 @@ from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
-from powfacpy.exceptions import PFNotActiveError
+from powfacpy.exceptions import PFNotActiveError, PFInvalidResultExport
 
 
 class Results(ApplicationBase):
@@ -121,6 +121,9 @@ class Results(ApplicationBase):
                 )
             comres.iopt_csel = 0  # export all variables
 
+        if dir is not None:
+            makedirs(dir, exist_ok=True)
+            
         self._set_comres_settings_for_csv_export(
             comres,
             dir,
@@ -133,7 +136,7 @@ class Results(ApplicationBase):
         if export_successful != 0:
             comres_path = self.act_prj.get_path_of_object(comres)
             raise Exception(
-                "CSV export was not successful using '" + str(comres_path) + "'"
+                f"CSV export was not successful using '{comres_path}.\nMaybe there are no simulation results and the simulation was not executed correctly (please check the PF output window)?"
             )
 
         path = self.act_prj._replace_special_PF_characters_in_path_string(comres.f_name)
@@ -365,7 +368,7 @@ class Results(ApplicationBase):
                 format_csv_file=False,
             )
 
-            df = pd.read_csv(full_path, encoding="ISO-8859-1", header=[0, 1])
+            df = pd.read_csv(full_path, encoding="utf_8", header=[0, 1])
             self._format_pandas_column_headers(
                 df,
                 list_of_results_objs,
