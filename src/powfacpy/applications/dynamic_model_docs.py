@@ -234,51 +234,6 @@ class DynamicModelDocs(ApplicationBase):
                 parameter_docs += f"### Slot Model: {slot.loc_name}\n\n{df.to_html()}\n\n"
         self._comp_model_docs += slot_docs + parameter_docs   
 
-#     def _create_html_from_markdown(self, markdown_content: str) -> None:
-#         """Create html documentation from markdown
-
-#         Args:
-#             markdown_content (str): markdown document
-#         """
-#         md = markdown.Markdown(
-#             extensions=['extra', 'toc', 'fenced_code'],
-#             extension_configs={'toc': {'title': 'Table of Contents', 'anchorlink': True, 'toc_depth': 3}},
-#         )
-#         body_html = md.convert(markdown_content)
-#         toc_html = md.toc
-
-#         css_path = Path(self.css_file_dir)
-#         if self.copy_css_file_to_html_location:
-#             shutil.copy(self.css_file_dir, self.target_directory)
-#             css_file_ref =  css_path.name
-#         else:
-#             css_file_ref = Path(self.css_file_dir).resolve() # use absolute path
-
-#         full_html = f'''<!DOCTYPE html>
-# <html lang="en">
-# <head>
-#     <meta charset="UTF-8">
-#     <title>{self.composite_model.loc_name}</title>
-#     <link rel="stylesheet" href="{css_file_ref}">
-# </head>
-# <body>
-#     <nav id="sidebar">{toc_html}</nav>
-#     <main id="content">{body_html}</main>
-# </body>
-# </html>'''
-
-#         out = Path(self.target_directory)
-#         if out.exists() and out.is_dir():
-#             out_file = out / f'{self.file_name}.html'
-#         else:
-#             out_file = out
-#             out_file.parent.mkdir(parents=True, exist_ok=True)
-
-#         with open(out_file, 'w', encoding='utf-8') as f:
-#             f.write(full_html)
-
-#         print(f"Wrote: '{out_file}'. Uses css style from file '{css_file_ref}'.")
-
     def _create_html_from_markdown(self, markdown_content: str) -> None:
         """Create self-contained html documentation from markdown.
         All CSS and SVG figures are inlined so the file works standalone
