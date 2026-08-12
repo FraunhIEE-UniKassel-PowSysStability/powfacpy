@@ -240,6 +240,6 @@ try:
       
 finally:
     app.Show()
-comp_model_pars["Network Model\\Network Data\\Grid\\Power Plant 02"]["Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02"]["Ka"]
+print(f"Get new Ka value from model: {comp_model_pars['Network Model\\Network Data\\Grid\\Power Plant 02']['Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02']['Ka']}")
 ```
 

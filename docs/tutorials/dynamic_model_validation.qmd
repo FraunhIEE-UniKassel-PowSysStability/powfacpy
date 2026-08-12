@@ -167,7 +167,7 @@ finally:
 
 The *powfacpy* interface to the composite model class (`ElmComp`) provides convenient methods to monitor the signals of all slots (DSL models, static generators, etc.) and optionally create plots in *PowerFactory* for each slot. 
 
-The method `monitor_signals_of_slots` adds result variables for all input and output signals. The method `monitor_signals_of_dsl_models` adds also internal variable and states of DSL models.
+The method `monitor_signals_of_slots` adds result variables for all input and output signals. The method `monitor_signals_of_dsl_models` adds also internal variables and states of DSL models.
 
 ```{python}
 from powfacpy.pf_classes.elm.comp import CompositeModel

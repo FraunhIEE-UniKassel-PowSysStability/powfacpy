@@ -419,6 +419,15 @@ We can also export simulation results from PowerFactory to a csv file. The synta
 pfres.export_to_csv()
 ```
 
+```{python}
+#| echo: false
+#| output: false
+
+# remove the csv file. This cell will not be shown after rendering.
+import os
+os.remove("results.csv")
+```
+
 This exports all variables from the first result object (`ElmRes`) found in the active study case to the directory from where the script is run. You can also specifiy a directory, a file name (default is "results") and lists for grid objects, variables and results objects (similar to the method `export_to_pandas`). 
 
 ```{python}
@@ -429,6 +438,7 @@ elmres_list = [pfres.act_prj.get_results_obj_from_initial_conditions_calc()] * l
 )
 
 pfres.export_to_csv(
+    dir=r".\output\dynamic_simulation_and_plotting",
     file_name="Power of Synchronous Machine 01",
     list_of_results_objs=elmres_list,
     elements=elements,
@@ -441,8 +451,9 @@ The static method `plot_from_csv` pf `Plots` class is used to plot from files of
 ```{python}
 from powfacpy.applications.plots import Plots
 
-plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:P1")
-plot = Plots.plot_from_csv("Power of Synchronous Machine 01.csv", "G 01\s:Q1")
+csv_path = r".\output\dynamic_simulation_and_plotting\Power of Synchronous Machine 01.csv"
+plot = Plots.plot_from_csv(csv_path, r"G 01\s:P1")
+plot = Plots.plot_from_csv(csv_path, r"G 01\s:Q1")
 plt.grid()
 ```
 
