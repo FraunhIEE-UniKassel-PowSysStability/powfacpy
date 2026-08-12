@@ -355,6 +355,16 @@ class Database(ApplicationBase):
         return df
     
     def get_composite_model_parameters(self, composite_models: list | None = None, include_out_of_service: bool = False, obj_format: str = "name") -> dict:
+        """_summary_
+
+        Args:
+            composite_models (list | None, optional): Composite models for which to get parameters. Defaults to None (all calculation relevant composite models).
+            include_out_of_service (bool, optional): Whether to include out-of-service objects. Defaults to False.
+            obj_format (str, optional): Format of the object keys in the returned dictionary ("name", "path", or "obj"). Defaults to "name".
+
+        Returns:
+            dict: A dictionary containing the parameters for each composite model. 
+        """
         if composite_models is None:
             composite_models = self.act_prj.get_calc_relevant_obj("*.ElmComp")
         model_parameters = {}
@@ -368,33 +378,70 @@ class Database(ApplicationBase):
 
             model_parameters[comp_model_key] = {}
             comp_model = CompositeModel(comp_model)
-            for dsl_model in comp_model.get_dsl_models_in_slots():
-                if dsl_model.outserv and not include_out_of_service:
+            for net_elm in comp_model.get_network_elms():
+                if not net_elm:
                     continue
-                if obj_format == "path":
-                    dsl_key = self.act_prj.get_path_of_object_in_active_project(dsl_model)
-                elif obj_format == "obj":
-                    dsl_key = dsl_model
-                else:
-                    dsl_key = dsl_model.loc_name
-                dsl_model = DSLModel(dsl_model)
-                model_parameters[comp_model_key][dsl_key] = dsl_model.get_parameters()
+                if net_elm.GetClassName() == "ElmComp": # Subframe (composite model) inside the composite model
+                    if net_elm.outserv and not include_out_of_service:
+                        continue
+                    net_elm = CompositeModel(net_elm)
+                    model_parameters[comp_model_key] = model_parameters[comp_model_key] | self.get_composite_model_parameters([net_elm._obj], include_out_of_service=include_out_of_service, obj_format=obj_format)
+                elif net_elm.GetClassName() == "ElmDsl":    
+                    if net_elm.outserv and not include_out_of_service:
+                        continue
+                    if obj_format == "path":
+                        dsl_key = self.act_prj.get_path_of_object_in_active_project(net_elm)
+                    elif obj_format == "obj":
+                        dsl_key = net_elm
+                    else:
+                        dsl_key = net_elm.loc_name
+                    net_elm = DSLModel(net_elm)
+                    model_parameters[comp_model_key][dsl_key] = net_elm.get_parameters()
         return model_parameters
     
     def set_composite_model_parameters(self, model_parameters: dict) -> None:
-        for comp_model_key, dsl_models in model_parameters.items():
+        """Set parameters of composite models.
+
+        Args:
+            model_parameters (dict): dict 
+                keys: composite model (PF object, name or path), 
+                values: dict 
+                    keys: dsl model (PF object, name or path) or edge case:    subframe (composite model) inside the composite model, 
+                    values: dict 
+                        keys: parameter names 
+                        values: parameter values
+
+        Example:
+            ```python
+            model_parameters = {
+            "Network Model\\Network Data\\Grid\\Power Plant 02": {
+                "Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02": {
+                    "Ka": 10.0,
+                    "Ta": 0.1
+                },
+                "Network Model\\Network Data\\Grid\\Power Plant 02\\Gov 02": {
+                    "Kf": 0.5,
+                    "Tf": 0.2
+                }
+            }
+            pfdb.set_composite_model_parameters(model_parameters)
+
+            ```                
+        """
+        for comp_model_key, net_elms in model_parameters.items():
             if isinstance(comp_model_key, str):
                 comp_model = self.act_prj.get_unique_obj(comp_model_key)
             else:
                 comp_model = comp_model_key
             comp_model = CompositeModel(comp_model)
-            for dsl_key, parameters in dsl_models.items():
-                if isinstance(dsl_key, str):
-                    dsl_model = self.act_prj.get_unique_obj(dsl_key)
+            for net_elm, parameters in net_elms.items():
+                if isinstance(net_elm, str):
+                    net_elm = self.act_prj.get_unique_obj(net_elm)
+                if net_elm.GetClassName() == "ElmComp":
+                    self.set_composite_model_parameters({net_elm: parameters})
                 else:
-                    dsl_model = dsl_key
-                dsl_model = DSLModel(dsl_model)
-                dsl_model.set_parameter_values(parameters)
+                    net_elm = DSLModel(net_elm)
+                    net_elm.set_parameter_values(parameters)
 
 
 class DatabaseDict(dict, ApplicationBase):
