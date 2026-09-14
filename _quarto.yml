@@ -2,7 +2,6 @@ project:
   type: website
   render:
   - docs/**/*.qmd
-  - "!docs/tutorials/database.qmd"
   resources:
     - docs/api
 metadata-files:
@@ -36,11 +35,16 @@ website:
         - docs/tutorials/dynamic_simulation_and_plotting.qmd
         - docs/tutorials/dynamic_model_validation.qmd
         - docs/tutorials/dynamic_model_documentation.qmd
+        - docs/tutorials/modelica_models.qmd
+        - docs/tutorials/dynamic_model_block_testing.qmd
         - docs/tutorials/static_calc.qmd
         - docs/tutorials/study_cases.qmd
         - docs/tutorials/parameter_studies.qmd
+        - docs/tutorials/dynamic_modal_analysis.qmd
         - docs/tutorials/network_matrices_and_pandapower_interface.qmd
         - docs/tutorials/topology_and_groupings.qmd
+        - docs/tutorials/digsilent_library.qmd
+        - docs/tutorials/template_models.qmd
         - docs/tutorials/subsystems.qmd
         - docs/tutorials/cgmes_model_exchange.qmd
         - docs/tutorials/database_interface.qmd
@@ -57,8 +61,8 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-bibliography: docs/references.bib   
-csl: docs/ieee.csl 
+bibliography: docs/references.bib
+csl: docs/ieee.csl
 execute:
   freeze: auto  # re-render only when source changes
   daemon: false
