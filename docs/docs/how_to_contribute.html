@@ -253,6 +253,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> docs/tutorials/simulation_and_plotting.qmd</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> docs/tutorials/study_cases.qmd</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> docs/tutorials/my_tutorial.qmd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Tutorials execute against a real <em>PowerFactory</em> install, so rendering them (<code>quarto render</code>) requires a Jupyter kernel named <code>powfacpy</code>, registered once per machine from the project venv:</p>
+<pre><code>.venv/Scripts/python.exe -m ipykernel install --user --name powfacpy --display-name "Python (powfacpy)"</code></pre>
+<p>New tutorial <code>.qmd</code> files should set <code>jupyter: powfacpy</code> in their frontmatter (like the existing tutorials) rather than relying on a project-wide default — Quarto does not reliably resolve the kernel to use for execution from a <code>jupyter:</code> default set only in <code>_quarto.yml</code>.</p>
 
 
 </section>

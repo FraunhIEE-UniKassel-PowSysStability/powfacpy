@@ -207,6 +207,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -225,6 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -233,6 +251,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -315,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Exporting and importing parameters of dynamic models (composite models and their controllers)</li>
 </ul>
 <p>The tutorial is structured as follows. The first part covers exporting, importing, and comparing attributes of <em>PowerFactory</em> objects using Python dictionaries, <em>JSON</em>, and <em>pickle</em> format. The second part demonstrates how to export result variables to <em>pandas</em> DataFrames or <em>CSV</em> files. The final section focuses on exporting and importing controller parameters of dynamic composite models.</p>
-<div id="2d06f515" class="cell" data-execution_count="2">
+<div id="7553e6f3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -334,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(<span class="vs">rf"</span><span class="sc">{</span>SETTINGS[<span class="st">"path to powfacpy folder in PowerFactory database"</span>]<span class="sc">}</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(<span class="vs">rf"</span><span class="sc">{</span>SETTINGS[<span class="st">"path to powfacpy folder in PowerFactory database"</span>]<span class="sc">}</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_to_run_tests"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>act_prj.activate_study_case(<span class="vs">r"Study Cases</span><span class="ch">\1</span><span class="dv">.</span><span class="vs"> Power Flow"</span>)</span>
@@ -349,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="export-to-dictionary" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="export-to-dictionary"><span class="header-section-number">1.1</span> Export to Dictionary</h2>
 <p>Suppose we want to extract selected parameters from terminals, loads, and transformers (or possibly any other object from the database). We define a dictionary with class names as keys and lists of parameter names as values.</p>
-<div id="e090bc2b" class="cell" data-execution_count="3">
+<div id="d79eac59" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.database <span class="im">import</span> Database</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pfdb <span class="op">=</span> Database(app)</span>
@@ -362,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Note that class names support wildcards (e.g.&nbsp;<code>"ElmTr*"</code>), and parameter names can reference attributes of a linked object using dot notation (e.g.&nbsp;<code>"typ_id.aP"</code>).</p>
 <p>Next, we retrieve the objects of interest and use <code>get_object_attributes</code> to extract a dictionary. The keys are <em>PowerFactory</em> objects and the values are dictionaries mapping attribute names to their values.</p>
-<div id="ef305ba2" class="cell" data-execution_count="4">
+<div id="38c8c07f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get objects of interest</span></span>
@@ -375,118 +405,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    app.Show()    </span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>obj_attr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 01.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 02.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 03.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 04.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 05.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 06.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 07.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 08.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 09.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 10.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 11.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 12.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 13.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 14.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 15.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 17.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 18.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 23.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 25.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 26.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 27.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 28.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 29.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 30.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 31.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 32.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 36.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 37.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 38.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 39.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 03.ElmLod&lt;/l1&gt;&gt;: {'plini': 322.0,
+<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 01.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 02.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 03.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 04.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 05.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 06.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 07.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 08.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 09.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 10.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 11.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 12.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 13.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 14.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 15.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 17.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 18.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 23.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 25.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 26.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 27.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 28.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 29.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 30.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 31.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 32.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 36.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 37.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 38.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 39.ElmTerm&lt;/l1&gt;&gt;: {'outserv': 0},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 03.ElmLod&lt;/l1&gt;&gt;: {'plini': 322.0,
   'qlini': 2.4000000953674316,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 04.ElmLod&lt;/l1&gt;&gt;: {'plini': 500.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 04.ElmLod&lt;/l1&gt;&gt;: {'plini': 500.0,
   'qlini': 184.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 07.ElmLod&lt;/l1&gt;&gt;: {'plini': 233.8000030517578,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 07.ElmLod&lt;/l1&gt;&gt;: {'plini': 233.8000030517578,
   'qlini': 84.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 08.ElmLod&lt;/l1&gt;&gt;: {'plini': 522.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 08.ElmLod&lt;/l1&gt;&gt;: {'plini': 522.0,
   'qlini': 176.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 12.ElmLod&lt;/l1&gt;&gt;: {'plini': 7.5,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 12.ElmLod&lt;/l1&gt;&gt;: {'plini': 7.5,
   'qlini': 88.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 15.ElmLod&lt;/l1&gt;&gt;: {'plini': 320.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 15.ElmLod&lt;/l1&gt;&gt;: {'plini': 320.0,
   'qlini': 153.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 16.ElmLod&lt;/l1&gt;&gt;: {'plini': 329.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 16.ElmLod&lt;/l1&gt;&gt;: {'plini': 329.0,
   'qlini': 32.29999923706055,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 18.ElmLod&lt;/l1&gt;&gt;: {'plini': 158.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 18.ElmLod&lt;/l1&gt;&gt;: {'plini': 158.0,
   'qlini': 30.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 20.ElmLod&lt;/l1&gt;&gt;: {'plini': 628.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 20.ElmLod&lt;/l1&gt;&gt;: {'plini': 628.0,
   'qlini': 103.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 21.ElmLod&lt;/l1&gt;&gt;: {'plini': 274.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 21.ElmLod&lt;/l1&gt;&gt;: {'plini': 274.0,
   'qlini': 115.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 23.ElmLod&lt;/l1&gt;&gt;: {'plini': 247.5,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 23.ElmLod&lt;/l1&gt;&gt;: {'plini': 247.5,
   'qlini': 84.5999984741211,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 24.ElmLod&lt;/l1&gt;&gt;: {'plini': 308.6000061035156,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 24.ElmLod&lt;/l1&gt;&gt;: {'plini': 308.6000061035156,
   'qlini': -92.19999694824219,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 25.ElmLod&lt;/l1&gt;&gt;: {'plini': 224.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 25.ElmLod&lt;/l1&gt;&gt;: {'plini': 224.0,
   'qlini': 47.20000076293945,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 26.ElmLod&lt;/l1&gt;&gt;: {'plini': 139.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 26.ElmLod&lt;/l1&gt;&gt;: {'plini': 139.0,
   'qlini': 17.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 27.ElmLod&lt;/l1&gt;&gt;: {'plini': 281.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 27.ElmLod&lt;/l1&gt;&gt;: {'plini': 281.0,
   'qlini': 75.5,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 28.ElmLod&lt;/l1&gt;&gt;: {'plini': 206.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 28.ElmLod&lt;/l1&gt;&gt;: {'plini': 206.0,
   'qlini': 27.600000381469727,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 29.ElmLod&lt;/l1&gt;&gt;: {'plini': 283.5,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 29.ElmLod&lt;/l1&gt;&gt;: {'plini': 283.5,
   'qlini': 26.899999618530273,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 31.ElmLod&lt;/l1&gt;&gt;: {'plini': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 31.ElmLod&lt;/l1&gt;&gt;: {'plini': 0.0,
   'qlini': 4.599999904632568,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 39.ElmLod&lt;/l1&gt;&gt;: {'plini': 1104.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Load 39.ElmLod&lt;/l1&gt;&gt;: {'plini': 1104.0,
   'qlini': 250.0,
   'typ_id.aP': 0.0},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 02 - 30.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 02 - 30 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 06 - 31.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 06 - 31 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 10 - 32.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 10 - 32 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 11 - 12.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 11 - 12 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 13 - 12.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 13 - 12 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 19 - 20.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 19 - 20 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 19 - 33.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 19 - 33 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 20 - 34.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 20 - 34 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 22 - 35.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 22 - 35 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 23 - 36.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 23 - 36 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 25 - 37.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 25 - 37 YNy0.TypTr2&lt;/l1&gt;&gt;},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 29 - 38.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 29 - 38 YNy0.TypTr2&lt;/l1&gt;&gt;}}</code></pre>
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 02 - 30.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 02 - 30 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 06 - 31.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 06 - 31 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 10 - 32.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 10 - 32 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 11 - 12.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 11 - 12 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 13 - 12.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 13 - 12 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 19 - 20.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 19 - 20 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 19 - 33.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 19 - 33 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 20 - 34.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 20 - 34 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 22 - 35.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 22 - 35 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 23 - 36.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 23 - 36 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 25 - 37.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 25 - 37 YNy0.TypTr2&lt;/l1&gt;&gt;},
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Trf 29 - 38.ElmTr2&lt;/l1&gt;&gt;: {'typ_id': &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\Equipment Type Library.IntPrjfolder\Transformer Types.IntPrjfolder\Trf Type 29 - 38 YNy0.TypTr2&lt;/l1&gt;&gt;}}</code></pre>
 </div>
 </div>
 <p>The output can be hard to read due to the lengthy object paths in <em>PowerFactory</em>. There are formatting options to control whether keys and values are represented as <em>PowerFactory</em> objects or as their string paths.</p>
-<div id="b0506a30" class="cell" data-execution_count="5">
+<div id="85f955cc" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    obj_attr <span class="op">=</span> pfdb.get_object_attributes(</span>
@@ -755,7 +785,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="export-from-or-import-to-file" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="export-from-or-import-to-file"><span class="header-section-number">1.2</span> Export from or Import to File</h2>
 <p>Using string paths instead of objects (as shown above) is required when saving data to a <em>pickle</em> file. This is useful for sharing data with colleagues who can load the dictionary and apply the settings in their own project (as demonstrated below).</p>
-<div id="d8153eb0" class="cell" data-execution_count="6">
+<div id="07084aa9" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># save dict to pickle file</span></span>
@@ -771,7 +801,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.3" class="anchored" data-anchor-id="compare-dictionaries"><span class="header-section-number">1.3</span> Compare Dictionaries</h2>
 <p>A common use case for these database dictionaries is comparing two projects to detect differences. The <code>deepdiff</code> package makes this straightforward.</p>
 <p>We apply some modifications to the loaded dictionary <code>obj_attr_loaded</code> and compare it against the original <code>obj_attr</code>.</p>
-<div id="abcd5992" class="cell" data-execution_count="7">
+<div id="67c619b2" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> deepdiff <span class="im">import</span> DeepDiff</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>obj_attr_loaded.pop(<span class="st">"Network Model.IntPrjfolder</span><span class="ch">\\</span><span class="st">Network Data.IntPrjfolder</span><span class="ch">\\</span><span class="st">Grid.ElmNet</span><span class="ch">\\</span><span class="st">Bus 07.ElmTerm"</span>) </span>
@@ -789,7 +819,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.4" class="anchored" data-anchor-id="set-values-from-dictionary-in-powerfactory"><span class="header-section-number">1.4</span> Set Values from Dictionary in <em>PowerFactory</em></h2>
 <p>To apply a dataset received from a colleague, use the <code>set_pf_obj_attribute_values</code> method. It accepts a dictionary formatted according to the output of <code>get_object_attributes</code> and writes the attribute values back into <em>PowerFactory</em>.</p>
 <p>Here we apply the modified loaded dictionary. You can verify that the load active power (<code>plini</code>) has been updated accordingly.</p>
-<div id="8860f2cf" class="cell" data-execution_count="8">
+<div id="d4fdf1b9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    pfdb.set_pf_obj_attribute_values(obj_attr_loaded)</span>
@@ -802,7 +832,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="2"><span class="header-section-number">2</span> Result Variable and Parameter Export</h1>
 <p>The <code>Database</code> interface also provides a method to extract result variables from simulation-relevant objects. <strong>Note that the term <em>result variable</em> in <em>PowerFactory</em> also covers settings and parameters</strong> — the methods can read any variable that can be selected as a monitored variable in an <code>IntMon</code> object.</p>
 <p>The following example reads all result variables relevant for balanced RMS simulations of the calculation-relevant synchronous machines. We specify the class name (<code>"ElmSym"</code>), a wildcard pattern to retrieve all variables (<code>"*"</code>), and the simulation type (<code>"RMS_Bal"</code>). The result is a <em>pandas</em> DataFrame with one row per machine and one column per variable, covering load flow results, type parameters, and more. The DataFrame can easily be exported to <em>CSV</em> if needed.</p>
-<div id="18c2f997" class="cell" data-execution_count="9">
+<div id="e01ccda5" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.database <span class="im">import</span> Database</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>pfdb <span class="op">=</span> Database(app)</span>
@@ -1118,7 +1148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Variable patterns can be used to filter results. For example, <code>"t:*"</code> retrieves only type parameters. <em>PowerFactory</em> groups result variables by prefix: signals (<code>s:</code>), measurements (<code>m:</code>), calculated values (<code>c:</code>), type parameters (<code>t:</code>), and so on. The method also offers options for formatting the index.</p>
-<div id="e263e061" class="cell" data-execution_count="10">
+<div id="43c4dec7" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pfdb.get_result_variables(<span class="st">"ElmSym"</span>, <span class="st">"t:*"</span>, index_format<span class="op">=</span><span class="st">"path"</span>)</span>
@@ -1434,7 +1464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="export" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="export"><span class="header-section-number">3.1</span> Export</h2>
 <p>To export the parameters of dynamic controllers (DSL models) within composite models (<code>ElmComp</code>), use the <code>get_composite_model_parameters</code> method. By default it exports parameters for all composite models in <em>JSON</em>-compatible format, but it also accepts a list of specific composite models as input.</p>
-<div id="0b4d4609" class="cell" data-execution_count="11">
+<div id="ff844726" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    comp_model_pars <span class="op">=</span> pfdb.get_composite_model_parameters()   </span>
@@ -1446,7 +1476,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "Power Plant 02": {
     "AVR 02": {
       "Tr": 0.0,
-      "Ka": 6.476099805027729,
+      "Ka": 6.227531495951931,
       "Ta": 0.05,
       "Ke": -0.633,
       "Te": 0.405,
@@ -1810,7 +1840,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>By default, <em>PowerFactory</em> object names are used as keys, but other formatting options are available:</p>
-<div id="c6166667" class="cell" data-execution_count="12">
+<div id="0647ee59" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    comp_model_pars <span class="op">=</span> pfdb.get_composite_model_parameters(obj_format<span class="op">=</span><span class="st">"obj"</span>)   </span>
@@ -1818,8 +1848,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>comp_model_pars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp\AVR 02.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
-   'Ka': 6.476099805027729,
+<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp\AVR 02.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+   'Ka': 6.227531495951931,
    'Ta': 0.05,
    'Ke': -0.633,
    'Te': 0.405,
@@ -1831,7 +1861,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.88,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp\GOV 02.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 02.ElmComp\GOV 02.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -1853,7 +1883,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp\AVR 03.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp\AVR 03.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 5.0,
    'Ta': 0.06,
    'Ke': -0.0198,
@@ -1866,7 +1896,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.34,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp\GOV 03.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 03.ElmComp\GOV 03.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -1888,7 +1918,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\AVR 04.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\AVR 04.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 5.0,
    'Ta': 0.06,
    'Ke': -0.0525,
@@ -1901,7 +1931,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.314,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -1923,7 +1953,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\AVR 05.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\AVR 05.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 40.0,
    'Ta': 0.02,
    'Ke': 1.0,
@@ -1936,7 +1966,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.91,
    'Vrmin': -10.0,
    'Vrmax': 10.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -1958,7 +1988,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\AVR 06.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\AVR 06.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 5.0,
    'Ta': 0.02,
    'Ke': -0.0419,
@@ -1971,7 +2001,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.251,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -1993,7 +2023,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\AVR 07.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\AVR 07.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 40.0,
    'Ta': 0.02,
    'Ke': 1.0,
@@ -2006,7 +2036,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.74,
    'Vrmin': -6.5,
    'Vrmax': 6.5},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -2028,7 +2058,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp\AVR 08.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp\AVR 08.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 5.0,
    'Ta': 0.02,
    'Ke': -0.047,
@@ -2041,7 +2071,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.282,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp\GOV 08.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 08.ElmComp\GOV 08.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -2063,7 +2093,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp\AVR 09.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp\AVR 09.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 40.0,
    'Ta': 0.02,
    'Ke': 1.0,
@@ -2076,7 +2106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.85,
    'Vrmin': -10.5,
    'Vrmax': 10.5},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp\GOV 09.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 09.ElmComp\GOV 09.ElmDsl&lt;/l1&gt;&gt;: {'K': 5.0,
    'T1': 0.2,
    'T2': 1.0,
    'T3': 0.6,
@@ -2098,7 +2128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.3,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp\AVR 10.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp&lt;/l1&gt;&gt;: {&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp\AVR 10.ElmDsl&lt;/l1&gt;&gt;: {'Tr': 0.0,
    'Ka': 5.0,
    'Ta': 0.06,
    'Ke': -0.0485,
@@ -2111,7 +2141,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Se2': 0.26,
    'Vrmin': -1.0,
    'Vrmax': 1.0},
-  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp\GOV 10.ElmDsl&lt;/l1&gt;&gt;: {'Tg': 0.05,
+  &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 10.ElmComp\GOV 10.ElmDsl&lt;/l1&gt;&gt;: {'Tg': 0.05,
    'Tp': 0.04,
    'Sigma': 0.04,
    'Delta': 0.2,
@@ -2126,14 +2156,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': 0.0,
    'Uo': 0.1,
    'Pmax': 1.0}},
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Rest of U.S.A. / Canada.ElmComp&lt;/l1&gt;&gt;: {}}</code></pre>
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Rest of U.S.A. / Canada.ElmComp&lt;/l1&gt;&gt;: {}}</code></pre>
 </div>
 </div>
 </section>
 <section id="import" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="import"><span class="header-section-number">3.2</span> Import</h2>
 <p>To export parameters to a <em>pickle</em> file, reimport them later, and apply the settings back to <em>PowerFactory</em>, use the following workflow:</p>
-<div id="d23264ab" class="cell" data-execution_count="13">
+<div id="2e0df631" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    comp_model_pars <span class="op">=</span> pfdb.get_composite_model_parameters(obj_format<span class="op">=</span><span class="st">"path"</span>) </span>
@@ -2157,12 +2187,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>      </span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>comp_model_pars[<span class="st">"Network Model</span><span class="ch">\\</span><span class="st">Network Data</span><span class="ch">\\</span><span class="st">Grid</span><span class="ch">\\</span><span class="st">Power Plant 02"</span>][<span class="st">"Network Model</span><span class="ch">\\</span><span class="st">Network Data</span><span class="ch">\\</span><span class="st">Grid</span><span class="ch">\\</span><span class="st">Power Plant 02</span><span class="ch">\\</span><span class="st">AVR 02"</span>][<span class="st">"Ka"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Get new Ka value from model: </span><span class="sc">{</span>comp_model_pars[<span class="st">'Network Model</span><span class="ch">\\</span><span class="st">Network Data</span><span class="ch">\\</span><span class="st">Grid</span><span class="ch">\\</span><span class="st">Power Plant 02'</span>][<span class="st">'Network Model</span><span class="ch">\\</span><span class="st">Network Data</span><span class="ch">\\</span><span class="st">Grid</span><span class="ch">\\</span><span class="st">Power Plant 02</span><span class="ch">\\</span><span class="st">AVR 02'</span>][<span class="st">'Ka'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>new Ka:6.150493803284913</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>6.150493803284913</code></pre>
+<pre><code>new Ka:6.3399111713953005
+Get new Ka value from model: 6.3399111713953005</code></pre>
 </div>
 </div>
 

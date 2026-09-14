@@ -88,7 +88,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/tutorials/subsystems.html" rel="next">
+<link href="../../docs/tutorials/digsilent_library.html" rel="next">
 <link href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -221,6 +221,18 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -239,6 +251,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -247,6 +265,18 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -288,6 +318,13 @@ div.csl-indent {
   <li><a href="#areas" id="toc-areas" class="nav-link" data-scroll-target="#areas"><span class="header-section-number">3</span> Areas</a></li>
   <li><a href="#common-methods-of-grouping-classes" id="toc-common-methods-of-grouping-classes" class="nav-link" data-scroll-target="#common-methods-of-grouping-classes"><span class="header-section-number">4</span> Common Methods of Grouping Classes</a></li>
   <li><a href="#common-methods-of-zones-and-areas" id="toc-common-methods-of-zones-and-areas" class="nav-link" data-scroll-target="#common-methods-of-zones-and-areas"><span class="header-section-number">5</span> Common Methods of Zones and Areas</a></li>
+  <li><a href="#dispatchable-units-in-a-grouping" id="toc-dispatchable-units-in-a-grouping" class="nav-link" data-scroll-target="#dispatchable-units-in-a-grouping"><span class="header-section-number">6</span> Dispatchable Units in a Grouping</a>
+  <ul class="collapse">
+  <li><a href="#unit-groups" id="toc-unit-groups" class="nav-link" data-scroll-target="#unit-groups"><span class="header-section-number">6.1</span> Unit groups</a></li>
+  <li><a href="#individual-units" id="toc-individual-units" class="nav-link" data-scroll-target="#individual-units"><span class="header-section-number">6.2</span> Individual units</a></li>
+  <li><a href="#rated-power" id="toc-rated-power" class="nav-link" data-scroll-target="#rated-power"><span class="header-section-number">6.3</span> Rated power</a></li>
+  <li><a href="#a-grouping-with-converter-based-units" id="toc-a-grouping-with-converter-based-units" class="nav-link" data-scroll-target="#a-grouping-with-converter-based-units"><span class="header-section-number">6.4</span> A grouping with converter-based units</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/topology_and_groupings.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/topology_and_groupings.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -319,46 +356,44 @@ div.csl-indent {
 <li>Creating and using zones</li>
 <li>Creating and using areas</li>
 <li>Additional useful methods of <em>powfacpy</em> for groupings (boundaries, areas, zones), e.g.&nbsp;merging of zones/areas, showing areas in the network graphic, checking connectivity, checking if elements are internal, getting load flow results, etc.</li>
+<li>Getting the dispatchable units of a grouping by technology (synchronous generators, PV, wind, battery storage) and setting or scaling their power dispatch and rated power</li>
 </ul>
 <p>The respective <em>powfacpy</em> classes for zones/areas/boundaries extend the functionality of the PowerFactory classes. Note that <em>powfacpy</em> also defines its own grouping class named <em>SubSystem</em> with even more extended functionality which is covered in the <a href="../../docs/tutorials/subsystems.html">SubSystems tutorial</a>.</p>
 <p>First, we activate the PowerFactory project of the <em>IEEE 39 bus system</em> example, create a copy of a stable study case and activate it.</p>
-<div id="5d8694a6" class="cell" data-execution_count="2">
+<div id="a64ad79b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> icecream <span class="im">import</span> ic</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> icecream <span class="im">import</span> ic</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> PFApp</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_where_tests_run"</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> act_prj.copy_single_obj(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.3 Simulation Fault Bus 31 Stable"</span>, <span class="st">"Study Cases"</span>, new_name<span class="op">=</span><span class="st">"Topology tutorial"</span>)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>act_prj.create_variation(<span class="st">"Topology tutorial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> PFApp</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>pf_app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(pf_app)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>act_prj.app.Show()</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_new_england_copy_to_run_tests"</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> act_prj.copy_single_obj(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">2.3 Simulation Fault Bus 31 Stable"</span>, <span class="st">"Study Cases"</span>, new_name<span class="op">=</span><span class="st">"Topology tutorial"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>act_prj.create_variation(<span class="st">"Topology tutorial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Variations.IntPrjfolder\Topology tutorial.IntScheme&lt;/l1&gt;&gt;</code></pre>
+<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Variations.IntPrjfolder\Topology tutorial.IntScheme&lt;/l1&gt;&gt;</code></pre>
 </div>
 </div>
 <p>There are various classes to group network objects in <em>PowerFactory</em> including - areas (ElmArea), - zones (ElmZone), - boundaries (ElmBoundary).</p>
 <p>Areas and zones are very similar. One of their disadvantages is that it is not possible for one network element to be part of more than one area/zone. Boundaries on the other hand are more flexible and there is no such restriction, i.e.&nbsp;one element can be included in more than one boundary. Note also that the zone/area classes provide a method to define a boundary (<code>DefineBoundary</code>) that includes their internal elements. More information can be found in the <em>PowerFactory</em> manual in the chapter on <em>Grouping Objects</em>.</p>
 <p>We will examine an example in which the terminals of the IEEE 39 bus system are categorized into several regions. Each terminal is assigned to a specific region. These regions have been preselected based on coherency identification, as referenced in <span class="citation" data-cites="khalilDynamicCoherencyIdentification2016">[<a href="#ref-khalilDynamicCoherencyIdentification2016" role="doc-biblioref">1</a>]</span>. The configuration includes one large region and several smaller regions, as detailed in the following list of elements.</p>
-<div id="cdcc5901" class="cell" data-execution_count="3">
+<div id="b114998b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>coherent_regions_terminals <span class="op">=</span> [</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    [</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Bus 02"</span>,</span>
@@ -404,7 +439,7 @@ div.csl-indent {
 <section id="boundaries" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Boundaries</h1>
 <p>We will use the <code>Topology</code> class of <em>powfacpy</em> to create the regions. The lists with terminal names in <code>coherent_regions_terminals</code> assigned above are iterated and the method <code>create_boundary_using_intermediate_zone</code> is used, which creates a boundary by creating a zone in an intermediate step (first creating a zone is a convenient way to create a boundary). The method allows to exclude elements. In the example below, all loads (<code>ElmLod</code>) are excluded from the boundaries.</p>
-<div id="37478a45" class="cell" data-execution_count="4">
+<div id="498e8055" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.topology <span class="im">import</span> Topology</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.boundary <span class="im">import</span> Boundary</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -439,7 +474,7 @@ Warning
 </div>
 </div>
 <p>It is also possible to create boundaries by specifiying the terminals and branches of their borders (e.g.&nbsp;lines). We first create a dictionary where the keys are the terminals and the values are lists with the branch elements (actually we specify their path):</p>
-<div id="621c9e48" class="cell" data-execution_count="5">
+<div id="3c5ecf0e" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bus_branch <span class="op">=</span> {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 14"</span>: [</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="er">\</span><span class="vs">Line 04 - 14"</span>,</span>
@@ -451,11 +486,11 @@ Warning
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>topo.create_boundary_from_bus_branch(<span class="st">"Split West"</span>, bus_branch)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Boundaries.IntBoundary\Split West.ElmBoundary&lt;/l1&gt;&gt;</code></pre>
+<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Boundaries.IntBoundary\Split West.ElmBoundary&lt;/l1&gt;&gt;</code></pre>
 </div>
 </div>
 <p>The objects of class <code>Boundary</code> are stored in the <code>boundaries</code> list in the loop above. The <code>Boundary</code> class of <em>powfacpy</em> offers some convenient methods, for example to visualize the interior of (all) boundaries in the single line diagram.</p>
-<div id="4784ebd7" class="cell" data-execution_count="6">
+<div id="b3d82e4c" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.plots <span class="im">import</span> Plots</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> getcwd</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -466,7 +501,7 @@ Warning
 </div>
 <p>The regions are now illustrated in the single line diagram. Apparently, loads are excluded from the interior of the boundaries. <img src="figures/single_line_diagram_with_boundaries.png" class="img-fluid" alt="single_line_diagram_with_boundaries"></p>
 <p>We will now create plots showing the active and reactive power exchange of the boundaries as well as the frequencies of the terminals.</p>
-<div id="c2a2d56b" class="cell" data-execution_count="7">
+<div id="77c3e037" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>RMS_BAL <span class="op">=</span> ResVar.RMS_Bal</span>
@@ -490,7 +525,7 @@ Warning
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    app.Show()            </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Executing an RMS simulation gives the following results. As shown in the frequency plot, the frequencies at coherent terminals oscillate in phase.</p>
-<div id="bc8f9109" class="cell" data-execution_count="8">
+<div id="1a2ba4cb" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pfds <span class="op">=</span> DynamicSimulation(app)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>pfds.initialize_and_run_sim(param_simulation<span class="op">=</span>{<span class="st">"tstop"</span>: <span class="dv">10</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -511,7 +546,7 @@ Warning
 <section id="zones" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Zones</h1>
 <p>The topology class also allows to create zones. For example, a zone for the first region in <code>coherent_regions_terminals</code> can be created using terminals: :</p>
-<div id="66a1b542" class="cell" data-execution_count="9">
+<div id="d1b0392d" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.zone <span class="im">import</span> Zone</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -522,11 +557,11 @@ Warning
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can also create a zone based on a boundary:</p>
-<div id="2c721976" class="cell" data-execution_count="10">
+<div id="645b8164" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>zone_obj_2 <span class="op">=</span> boundaries[<span class="dv">1</span>].create_zone()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>Zone</code> class of <em>powfacpy</em> can then be used to display zones in the single line diagram.</p>
-<div id="8d566b61" class="cell" data-execution_count="11">
+<div id="358ea1fb" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>zone_1 <span class="op">=</span> Zone(zone_obj_1)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>zone_2 <span class="op">=</span> Zone(zone_obj_2)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>zone_1.show_zones_in_network_graphic()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -535,7 +570,7 @@ Warning
 <section id="areas" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Areas</h1>
 <p>The <code>ElmArea</code> class of <em>PowerFactory</em> is very similar to the <code>ElmZone</code> class and so is the <code>Area</code> class of <em>powfacpy</em> compared to the <code>Zone</code> class.</p>
-<div id="cf0d7fb5" class="cell" data-execution_count="12">
+<div id="bf2acfc0" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.area <span class="im">import</span> Area</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>area_obj <span class="op">=</span> topo.create_area(<span class="st">"Region 1"</span>, terminal_objs_of_region_1)</span>
@@ -546,7 +581,7 @@ Warning
 <section id="common-methods-of-grouping-classes" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Common Methods of Grouping Classes</h1>
 <p>Classes of <em>powfacpy</em> that group objects (like <code>Boundary</code>, <code>Zone</code> and <code>Area</code>) have common methods which are defined in the abstract base class <code>GroupingBase</code>. Here are some examples using the zone and boundary instances created above.</p>
-<div id="b61a6e75" class="cell" data-execution_count="13">
+<div id="0210bc68" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -565,31 +600,31 @@ Warning
 <span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if element is internal</span></span>
 <span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    is_internal <span class="op">=</span> boundary_1.is_internal_elm(elms[<span class="dv">0</span>])</span>
 <span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    is_internal <span class="op">=</span> zone_1.is_internal_elm(elms[<span class="dv">0</span>])</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    ic(is_internal)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(is_internal)</span>
 <span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if list of elements (which must be of same class) are internal</span></span>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    is_internal_list <span class="op">=</span> boundary_1.are_internal_elms_with_same_class(elms)</span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    is_internal_list <span class="op">=</span> zone_1.are_internal_elms_with_same_class(elms)</span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    ic(is_internal_list)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(is_internal_list)</span>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get results variable for active power exchange in RMS simulations</span></span>
 <span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    p_res_var <span class="op">=</span> boundary_1.get_P_exchange_res_var_rms_bal()</span>
 <span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    p_res_var <span class="op">=</span> zone_1.get_P_exchange_res_var_rms_bal()</span>
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Load flow state</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>ic| is_internal: True
-ic| is_internal_list: True</code></pre>
+<div class="cell-output cell-output-stdout">
+<pre><code>True
+True</code></pre>
 </div>
 </div>
 </section>
 <section id="common-methods-of-zones-and-areas" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Common Methods of Zones and Areas</h1>
 <p><code>ElmZone</code> and <code>ElmArea</code> classes are very similar in their functionality in <em>PowerFactory</em>. Therefore, the <code>Zone</code> and <code>Area</code> classes of <em>powfacpy</em> also have some common methods which are defined in the abstract base class <code>ZoneAreaBase</code>. Here are some examples using the zone and area instances created above.</p>
-<div id="0b8dcd82" class="cell" data-execution_count="14">
+<div id="d645f432" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -615,20 +650,187 @@ Area total load in MVA: (4983.900009155273+1154.3000016212463j)
 Zone total generation in MVA: (3810.0000000401697+808.7073761430935j)
 Area total generation in MVA: (3810.0000000401697+808.7073761430935j)
 Are zones neighbors? True
-All neighbors: [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Zones.IntZone\Region 2.ElmZone&lt;/l1&gt;&gt;]</code></pre>
+All neighbors: [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Zones.IntZone\Region 2.ElmZone&lt;/l1&gt;&gt;]</code></pre>
 </div>
 </div>
 <p>There is also a method to merge two zones/areas. The method takes care of the necessary changes in the network model, i.e.&nbsp;it changes the area/zone assignment of the terminals of the zone/area to merge and then deletes the merged zone/area. The method returns the merged ElmZone/ElmArea.</p>
-<div id="3b074a99" class="cell" data-execution_count="15">
+<div id="08f41abf" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    zone_1.merge(zone_2)</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="dispatchable-units-in-a-grouping" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Dispatchable Units in a Grouping</h1>
+<p><code>GroupingBase</code> also gives quick access to the <em>dispatchable units</em> inside a grouping, sorted by technology. The category is taken from the PowerFactory plant-category <em>code</em> <code>aCategory</code> (e.g.&nbsp;<code>"wgen"</code>, <code>"pv"</code>, <code>"stor"</code>), which is stable across PowerFactory’s display language - unlike the localised <code>cCategory</code> shown in the GUI (<code>"Wind"</code>, <code>"Photovoltaic"</code>, …).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>method</th>
+<th>returns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>get_internal_sg()</code></td>
+<td>synchronous generators (<code>ElmSym</code> with <code>i_mot == 0</code>)</td>
+</tr>
+<tr class="even">
+<td><code>get_internal_pv()</code></td>
+<td>every <code>ElmPvsys</code> plus every <code>ElmGenstat</code> of category <code>"pv"</code></td>
+</tr>
+<tr class="odd">
+<td><code>get_internal_wind()</code></td>
+<td>every <code>ElmGenstat</code> of category <code>"wgen"</code></td>
+</tr>
+<tr class="even">
+<td><code>get_internal_bess()</code></td>
+<td>every <code>ElmGenstat</code> of category <code>"stor"</code> with a battery sub-category</td>
+</tr>
+</tbody>
+</table>
+<p>The IEEE 39 bus system has only synchronous machines, so we use <code>zone_1</code> (still valid after the merge above) for those:</p>
+<div id="d27bb8b7" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(zone_1.get_internal_sg()), <span class="st">"synchronous machines in zone 1"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>7 synchronous machines in zone 1</code></pre>
+</div>
+</div>
+<section id="unit-groups" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="unit-groups"><span class="header-section-number">6.1</span> Unit groups</h2>
+<p>The properties <code>zone.sg</code>, <code>zone.pv</code>, <code>zone.wind</code> and <code>zone.bess</code> wrap the corresponding list in a <code>UnitCollection</code>. A <code>UnitCollection</code> still behaves like the list of raw PowerFactory objects (you can iterate and index it), but it adds aggregate operations. Its totals - and the <code>distribute</code> option below - account for parallel units (<code>ngnum</code>).</p>
+<p>We do the following experiments in a separate variation so they can be rolled back out afterwards.</p>
+<div id="65f14a6e" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.unit_collection <span class="im">import</span> UnitCollection</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>dispatch_variation <span class="op">=</span> act_prj.create_variation(<span class="st">"Dispatch examples"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>machines: UnitCollection <span class="op">=</span> zone_1.sg</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"count:                            "</span>, <span class="bu">len</span>(machines))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total active power dispatch [MW]: "</span>, <span class="bu">round</span>(machines.total_active_power))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total reactive power [Mvar]:      "</span>, <span class="bu">round</span>(machines.total_reactive_power))</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total rated apparent power [MVA]: "</span>, <span class="bu">round</span>(machines.total_rated_power))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>count:                             7
+total active power dispatch [MW]:  4810
+total reactive power [Mvar]:       0
+total rated apparent power [MVA]:  14700</code></pre>
+</div>
+</div>
+<p>Set or scale the dispatch of the whole group:</p>
+<div id="a341fc97" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the same setpoint on every unit</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>machines.set_power_dispatch(<span class="dv">400</span>, <span class="dv">50</span>)                 <span class="co"># 400 MW, 50 Mvar each</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># interpret the argument as a group total and split it equally</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>machines.set_power_dispatch(<span class="dv">4000</span>, distribute<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># scale the present dispatch (active and reactive, so the power factor is kept)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>machines.scale_power_dispatch(<span class="fl">0.9</span>)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># re-dispatch to a group total, shared out proportionally to ...</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>machines.scale_to_total(<span class="dv">4200</span>, base<span class="op">=</span><span class="st">"current"</span>)        <span class="co"># ... the present active power</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>machines.scale_to_total(<span class="dv">4200</span>, base<span class="op">=</span><span class="st">"rated"</span>)          <span class="co"># ... the rated apparent power</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total after re-dispatch [MW]:"</span>, <span class="bu">round</span>(machines.total_active_power))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>total after re-dispatch [MW]: 4200</code></pre>
+</div>
+</div>
+<p>By default the power-setting methods <strong>widen the operational limits</strong> (<code>Pmax_uc</code> / <code>Pmin_uc</code> and <code>cQ_min</code> / <code>cQ_max</code>) when a setpoint falls outside them; they never narrow a limit. Pass <code>adapt_limits=False</code> to leave the limits untouched. A reactive-power setpoint also switches the unit’s input mode (<code>mode_inp</code>) to <code>"PQ"</code>, a power factor switches it to <code>"PC"</code>.</p>
+</section>
+<section id="individual-units" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="individual-units"><span class="header-section-number">6.2</span> Individual units</h2>
+<p>Each unit class - <code>SynchronousMachine</code> (<code>ElmSym</code>), <code>StaticGenerator</code> (<code>ElmGenstat</code>) and <code>PVSystem</code> (<code>ElmPvsys</code>) - has the same <code>set_power_dispatch</code> for a single element (<code>active_power</code> and <code>reactive_power</code> are per parallel unit here):</p>
+<div id="e3fd1beb" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.sym <span class="im">import</span> SynchronousMachine</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>machine <span class="op">=</span> SynchronousMachine(zone_1.get_internal_sg()[<span class="dv">0</span>])</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>machine.set_power_dispatch(<span class="dv">500</span>)                                        <span class="co"># active power only</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>machine.set_power_dispatch(<span class="dv">500</span>, <span class="dv">120</span>)                                   <span class="co"># ... and reactive power</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>machine.set_power_dispatch(<span class="dv">500</span>, power_factor<span class="op">=</span><span class="fl">0.95</span>, capacitive<span class="op">=</span><span class="va">True</span>)    <span class="co"># ... or a power factor</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(machine.loc_name, <span class="st">"- rated apparent power [MVA]:"</span>, machine.rated_apparent_power)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>G 01 - rated apparent power [MVA]: 10000.0</code></pre>
+</div>
+</div>
+</section>
+<section id="rated-power" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="rated-power"><span class="header-section-number">6.3</span> Rated power</h2>
+<p><code>set_rated_power</code> / <code>scale_rated_power</code> change the units’ nominal apparent power; pass <code>scale_setpoints=True</code> to move the dispatch with it.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <code>ElmSym</code> the rating lives on the shared machine <em>type</em> (<code>TypSym</code>). If a type is used by more than one machine, <code>set_rated_power</code> / <code>scale_rated_power</code> raise rather than silently re-rating the others - pass <code>copy_shared_type=True</code> to give each machine its own copy of the type first. The machines of the IEEE 39 bus system each have their own type, so it is not needed here.</p>
+</div>
+</div>
+<div id="dcf7f4f2" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>machines.scale_rated_power(<span class="fl">1.1</span>, scale_setpoints<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"total rated power now [MVA]:"</span>, <span class="bu">round</span>(machines.total_rated_power))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>dispatch_variation.Deactivate()  <span class="co"># roll the experiments back out</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>total rated power now [MVA]: 16170</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>0</code></pre>
+</div>
+</div>
+</section>
+<section id="a-grouping-with-converter-based-units" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="a-grouping-with-converter-based-units"><span class="header-section-number">6.4</span> A grouping with converter-based units</h2>
+<p>The <code>39_bus_with_der</code> project from the <a href="../../docs/tutorials/template_models.html">template models tutorial</a> has wind (<code>ElmGenstat</code>) and PV (<code>ElmPvsys</code>) units. We switch to it and look at its pre-defined <code>Zone 2</code> (this is the last step of the tutorial, so we do not switch back).</p>
+<div id="1038e3bc" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>act_prj.app.ActivateProject(<span class="st">"powfacpy</span><span class="ch">\\</span><span class="st">39_bus_with_der_copy_to_run_tests"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>act_prj.activate_study_case(<span class="st">"Study Cases</span><span class="ch">\\</span><span class="st">QDS"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>der_zone <span class="op">=</span> Zone(act_prj.get_calc_relevant_obj(<span class="st">"Zone 2.ElmZone"</span>)[<span class="dv">0</span>])</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"synchronous generators:"</span>, <span class="bu">len</span>(der_zone.get_internal_sg()))</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"wind units (ElmGenstat):"</span>, <span class="bu">len</span>(der_zone.get_internal_wind()))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"PV units (ElmPvsys):    "</span>, <span class="bu">len</span>(der_zone.get_internal_pv()))</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"battery storage units:  "</span>, der_zone.get_internal_bess())</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"installed wind capacity [MVA]: </span><span class="sc">{</span>der_zone<span class="sc">.</span>wind<span class="sc">.</span>total_rated_power<span class="sc">:.0f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>synchronous generators: 4
+wind units (ElmGenstat): 10
+PV units (ElmPvsys):     14
+battery storage units:   []
+installed wind capacity [MVA]: 1500</code></pre>
+</div>
+</div>
+<div id="debcb97b" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>der_variation <span class="op">=</span> act_prj.create_variation(<span class="st">"DER dispatch example"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># curtail the zone's wind to 60 % of its installed capacity</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>der_zone.wind.set_power_dispatch(<span class="fl">0.6</span> <span class="op">*</span> der_zone.wind.total_rated_power, distribute<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"wind active power now [MW]:"</span>, <span class="bu">round</span>(der_zone.wind.total_active_power))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>der_variation.Deactivate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>wind active power now [MW]: 900</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>0</code></pre>
+</div>
+</div>
 
 
 
+</section>
 </section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
@@ -1043,8 +1245,8 @@ All neighbors: [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacp
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tutorials/subsystems.html" class="pagination-link" aria-label="Subsystems">
-        <span class="nav-page-text">Subsystems</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/tutorials/digsilent_library.html" class="pagination-link" aria-label="The Global DIgSILENT Library">
+        <span class="nav-page-text">The Global DIgSILENT Library</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

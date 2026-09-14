@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../docs/tutorials/cgmes_model_exchange.html" rel="next">
-<link href="../../docs/tutorials/topology_and_groupings.html" rel="prev">
+<link href="../../docs/tutorials/template_models.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -207,6 +207,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -225,6 +237,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -233,6 +251,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -278,6 +308,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#synchronous-machines" id="toc-synchronous-machines" class="nav-link" data-scroll-target="#synchronous-machines"><span class="header-section-number">1.4.1</span> Synchronous Machines</a></li>
   </ul></li>
+  <li><a href="#dynamics" id="toc-dynamics" class="nav-link" data-scroll-target="#dynamics"><span class="header-section-number">1.5</span> Dynamics</a></li>
+  <li><a href="#secondary-power-frequency-control" id="toc-secondary-power-frequency-control" class="nav-link" data-scroll-target="#secondary-power-frequency-control"><span class="header-section-number">1.6</span> Secondary (Power-Frequency) Control</a></li>
   </ul></li>
   <li><a href="#subsystem-container" id="toc-subsystem-container" class="nav-link" data-scroll-target="#subsystem-container"><span class="header-section-number">2</span> Subsystem Container</a>
   <ul class="collapse">
@@ -320,14 +352,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Accessing information on the load flow state</li>
 <li>Accessing internal elements like like lines, terminals, synchronous machines, etc.</li>
 <li>Accessing information about dynamic models and controllers (e.g.&nbsp;parameters of governors, AVRs, etc.)</li>
+<li>Accessing dynamics-related aggregate quantities (inertia, active-power margins) relevant e.g.&nbsp;for frequency stability and intentional islanding</li>
+<li>Creating a secondary (power-frequency) controller that regulates the subsystem’s own interchange - e.g.&nbsp;for a subsystem meant to run as an island</li>
 </ul>
 <p>Examples for the functionality of <code>SubSystemContainer</code> include (and will be extended in future):</p>
 <ul>
 <li>Accessing information on the load flow state of all contained <code>SubSystem</code>s (e.g.&nbsp;power exchange between the subsystems in matrix format)</li>
-<li>Accessing information on the topology (e.g.&nbsp;neighbors/connectivity)</li>
+<li>Accessing information on the topology (e.g.&nbsp;neighbors/connectivity, tie lines/branches connecting subsystems)</li>
 </ul>
-<p>We first activate the <em>IEEE 39 bus system</em> project and create a study case for this tutorial.</p>
-<div id="18475806" class="cell" data-execution_count="2">
+<p>We first activate the <em>IEEE 39 bus system</em> project and create a study case for this tutorial. All existing grouping onjects are cleared.</p>
+<div id="95443714" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -345,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_to_run_tests"</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
@@ -356,7 +390,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>act_prj.clear_folder(act_prj.areas_folder)</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>act_prj.create_variation(<span class="st">"SubSystems tutorial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Variations.IntPrjfolder\SubSystems tutorial.IntScheme&lt;/l1&gt;&gt;</code></pre>
+<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Variations.IntPrjfolder\SubSystems tutorial.IntScheme&lt;/l1&gt;&gt;</code></pre>
 </div>
 </div>
 <section id="subsystems" class="level1" data-number="1">
@@ -364,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="create"><span class="header-section-number">1.1</span> Create</h2>
 <p>We want to create two subsystems which represent the western and eastern part of the system. This is best done by creating two boundaries and then creating zones from these boundaries. The <code>SubSystem</code> class can then be used to create subsystems from these zones.</p>
-<div id="4e54dc2b" class="cell" data-execution_count="3">
+<div id="ace7abb3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.topology <span class="im">import</span> Topology</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.boundary <span class="im">import</span> Boundary</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.zone <span class="im">import</span> Zone</span>
@@ -395,7 +429,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-flow-state" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="load-flow-state"><span class="header-section-number">1.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow state of the subsystem by calling the <code>get_load_flow_state()</code> method. This returns a pandas DataFrame with information on the active and reactive power balance, etc.</p>
-<div id="462e70b9" class="cell" data-execution_count="4">
+<div id="6431973b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> subsystems:</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        display(subsys.get_load_flow_state())</span>
@@ -453,7 +487,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The load flow state can be accessed also as attributes, for example:</p>
-<div id="c891e132" class="cell" data-execution_count="5">
+<div id="35eaf6df" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].load_flow.total_power_generation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>(2350.0000000274126+681.4564641218697j)</code></pre>
@@ -463,7 +497,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="topology"><span class="header-section-number">1.3</span> Topology</h2>
 <p>We can access the internal topology of the subsystem, for example the lines and terminals contained in the subsystem.</p>
-<div id="9d45395a" class="cell" data-execution_count="6">
+<div id="a3763a2d" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].topology.lines)</span>
@@ -471,34 +505,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    app.Show()  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 14 - 15.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 15 - 16.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 17.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 19.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 21.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 24.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 21 - 22.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 22 - 23.ElmLne&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 23 - 24.ElmLne&lt;/l1&gt;&gt;]</code></pre>
+<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 14 - 15.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 15 - 16.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 17.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 19.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 21.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 24.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 21 - 22.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 22 - 23.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 23 - 24.ElmLne&lt;/l1&gt;&gt;]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 14.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 15.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 23.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 36.ElmTerm&lt;/l1&gt;&gt;]</code></pre>
+<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 14.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 15.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 16.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 19.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 20.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 21.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 22.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 23.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 24.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 33.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 34.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 35.ElmTerm&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Bus 36.ElmTerm&lt;/l1&gt;&gt;]</code></pre>
 </div>
 </div>
 <p>You can also check wheter subsystems are connected to each other:</p>
-<div id="cabc68a0" class="cell" data-execution_count="7">
+<div id="61922c93" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].topology.is_neighbor(subsystems[<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>True</code></pre>
@@ -510,34 +544,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="synchronous-machines" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="synchronous-machines"><span class="header-section-number">1.4.1</span> Synchronous Machines</h3>
 <p>We can also access information on the synchronous machines and their controllers (governors, AVRs, PSS) contained in the subsystem.</p>
-<div id="18740412" class="cell" data-execution_count="8">
+<div id="b67ce591" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.synchronous_machines)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.governors)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    app.Show() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
-<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l1&gt;&gt;]</code></pre>
+<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l1&gt;&gt;]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;,
- &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;]</code></pre>
+<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;]</code></pre>
 </div>
 </div>
-<p>You can also get more detailled information on dynmic models such as governors. The <code>get_governor_info()</code> method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (<code>parent_elms</code>), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.</p>
-<div id="560be6ef" class="cell" data-execution_count="9">
+<p>You can also get more detailled information on dynamic models such as governors. The <code>get_governor_info()</code> method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (<code>parent_elms</code>), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.</p>
+<div id="95232114" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>governor_info <span class="op">=</span> subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.get_governor_info()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>governor_info</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\User Defined Models.IntPrjfolder\gov_IEEEG1.BlkDef&lt;/l1&gt;&gt;: {'dsl_models': [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;],
+<pre><code>{&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\User Defined Models.IntPrjfolder\gov_IEEEG1.BlkDef&lt;/l1&gt;&gt;: {'dsl_models': [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 04.ElmComp\GOV 04.ElmDsl&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 05.ElmComp\GOV 05.ElmDsl&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 06.ElmComp\GOV 06.ElmDsl&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Power Plant 07.ElmComp\GOV 07.ElmDsl&lt;/l1&gt;&gt;],
   'parameters': {'K': [5.0, 5.0, 5.0, 5.0],
    'T1': [0.2, 0.2, 0.2, 0.2],
    'T2': [1.0, 1.0, 1.0, 1.0],
@@ -560,10 +594,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    'Pmin': [0.0, 0.0, 0.0, 0.0],
    'Uo': [0.3, 0.3, 0.3, 0.3],
    'Pmax': [1.0, 1.0, 1.0, 1.0]},
-  'parent_elms': [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l1&gt;&gt;,
-   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l1&gt;&gt;],
+  'parent_elms': [&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l1&gt;&gt;,
+   &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l1&gt;&gt;],
   'average': {'K': np.float64(5.0),
    'T1': np.float64(0.2),
    'T2': np.float64(1.0),
@@ -589,16 +623,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can also display the information in a more readable format:</p>
-<div id="a88a547f" class="cell" data-execution_count="10">
+<div id="a9db7655" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.dsl <span class="im">import</span> display_dsl_models_info</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>display_dsl_models_info(governor_info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Block Definition 'gov_IEEEG1': &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Library.IntPrjfolder\User Defined Models.IntPrjfolder\gov_IEEEG1.BlkDef&lt;/l3&gt;
+<pre><code>Block Definition 'gov_IEEEG1': &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Library.IntPrjfolder\User Defined Models.IntPrjfolder\gov_IEEEG1.BlkDef&lt;/l3&gt;
    Parent elements:
-      G 04 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l3&gt;)
-      G 05 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l3&gt;)
-      G 06 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l3&gt;)
-      G 07 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_where_tests_run.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l3&gt;)
+      G 04 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 04.ElmSym&lt;/l3&gt;)
+      G 05 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 05.ElmSym&lt;/l3&gt;)
+      G 06 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 06.ElmSym&lt;/l3&gt;)
+      G 07 of class ElmSym (&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\G 07.ElmSym&lt;/l3&gt;)
    Parameter values:
       K: [5.0, 5.0, 5.0, 5.0]
       T1: [0.2, 0.2, 0.2, 0.2]
@@ -652,17 +686,240 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="csv-export" class="level4" data-number="1.4.1.1">
 <h4 data-number="1.4.1.1" class="anchored" data-anchor-id="csv-export"><span class="header-section-number">1.4.1.1</span> CSV Export</h4>
 <p>Or export the information to csv files:</p>
-<div id="4de4319d" class="cell" data-execution_count="11">
+<div id="2a871ce0" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.elm.dsl <span class="im">import</span> export_dsl_model_info_to_csv</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>export_dsl_model_info_to_csv(governor_info, <span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="er">\</span><span class="vs">governor_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There is also a method to export the information on all dynamic models (governors, AVRs, PSS) of the subsystem to csv files:</p>
-<div id="9b438286" class="cell" data-execution_count="12">
+<div id="344b2faf" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].dynamic_models.synchronous_machines.export_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 </section>
+</section>
+<section id="dynamics" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="dynamics"><span class="header-section-number">1.5</span> Dynamics</h2>
+<p><code>subsystem.dynamics</code> collects dynamics-related aggregate quantities - relevant e.g.&nbsp;for frequency stability and islanding: the inertia of every dynamic unit, the active-power margins, and the load / generation balance.</p>
+<p>Inertia is resolved per unit - directly from the type for synchronous machines, and via the <a href="../../docs/tutorials/template_models.html">template model interfaces</a> for grid-forming converters (this system has none, so the converter rows are empty here):</p>
+<div id="8b6ef4bc" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamics.get_inertia_details())</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">S_MVA</th>
+<th data-quarto-table-cell-role="th">H_s</th>
+<th data-quarto-table-cell-role="th">inertia_MWs</th>
+<th data-quarto-table-cell-role="th">grid_forming</th>
+<th data-quarto-table-cell-role="th">template</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>G 04</td>
+<td>ElmSym</td>
+<td>800.0</td>
+<td>3.575</td>
+<td>2859.999847</td>
+<td>True</td>
+<td>ElmSym/TypSym</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>G 05</td>
+<td>ElmSym</td>
+<td>600.0</td>
+<td>4.333</td>
+<td>2599.800110</td>
+<td>True</td>
+<td>ElmSym/TypSym</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>G 06</td>
+<td>ElmSym</td>
+<td>800.0</td>
+<td>4.350</td>
+<td>3479.999924</td>
+<td>True</td>
+<td>ElmSym/TypSym</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>G 07</td>
+<td>ElmSym</td>
+<td>700.0</td>
+<td>3.771</td>
+<td>2639.700103</td>
+<td>True</td>
+<td>ElmSym/TypSym</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="da5d1415" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].dynamics.total_inertia_MWs()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>11579.499983787537</code></pre>
+</div>
+</div>
+<p>The active-power headroom is a load-flow property, so it lives on <code>subsystem.load_flow</code>: <code>get_power_margins()</code> reports the up- and downward headroom per generator (from the operational limits configured on the elements):</p>
+<div id="75dcd0b1" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].load_flow.get_power_margins())</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">P_MW</th>
+<th data-quarto-table-cell-role="th">P_max_MW</th>
+<th data-quarto-table-cell-role="th">P_min_MW</th>
+<th data-quarto-table-cell-role="th">upward_margin_MW</th>
+<th data-quarto-table-cell-role="th">downward_margin_MW</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>G 04</td>
+<td>ElmSym</td>
+<td>632.0</td>
+<td>680.0</td>
+<td>0.0</td>
+<td>48.0</td>
+<td>632.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>G 05</td>
+<td>ElmSym</td>
+<td>508.0</td>
+<td>255.0</td>
+<td>0.0</td>
+<td>-253.0</td>
+<td>508.0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>G 06</td>
+<td>ElmSym</td>
+<td>650.0</td>
+<td>680.0</td>
+<td>0.0</td>
+<td>30.0</td>
+<td>650.0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>G 07</td>
+<td>ElmSym</td>
+<td>560.0</td>
+<td>595.0</td>
+<td>0.0</td>
+<td>35.0</td>
+<td>560.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>If you only need the fleet-wide totals rather than the per-generator breakdown, <code>upward_power_margin_MW()</code> / <code>downward_power_margin_MW()</code> sum the respective column:</p>
+<div id="02f67368" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>subsystems[<span class="dv">0</span>].load_flow.upward_power_margin_MW(), subsystems[<span class="dv">0</span>].load_flow.downward_power_margin_MW()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>(-140.00000002741263, 2350.0000000274126)</code></pre>
+</div>
+</div>
+<p><code>dynamics.get_state()</code> is a one-row summary of the whole subsystem (it pulls the margins from <code>load_flow</code>):</p>
+<div id="4099b566" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    display(subsystems[<span class="dv">0</span>].dynamics.get_state())</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">total_load_MW</th>
+<th data-quarto-table-cell-role="th">total_generation_MW</th>
+<th data-quarto-table-cell-role="th">power_exchange_MW</th>
+<th data-quarto-table-cell-role="th">synchronous_inertia_MWs</th>
+<th data-quarto-table-cell-role="th">converter_inertia_MWs</th>
+<th data-quarto-table-cell-role="th">total_inertia_MWs</th>
+<th data-quarto-table-cell-role="th">inertia_constant_on_generation_s</th>
+<th data-quarto-table-cell-role="th">upward_power_margin_MW</th>
+<th data-quarto-table-cell-role="th">downward_power_margin_MW</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">East</th>
+<td>2107.100006</td>
+<td>2350.0</td>
+<td>224.540595</td>
+<td>11579.499984</td>
+<td>0.0</td>
+<td>11579.499984</td>
+<td>4.927447</td>
+<td>-140.0</td>
+<td>2350.0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="secondary-power-frequency-control" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="secondary-power-frequency-control"><span class="header-section-number">1.6</span> Secondary (Power-Frequency) Control</h2>
+<p>A subsystem intended to run as an island (or otherwise balance its own interchange) needs a secondary controller regulating <em>its own</em> power exchange, not the whole grid’s. <code>load_flow.create_secondary_controller()</code> is a thin wrapper around <code>StaticCalc.create_secondary_controller</code> that sets this up automatically: it creates an <code>ElmSecctrl</code> with <code>iexchange</code> (“Exchange for”) set to <em>Zone</em>/<em>Area</em> as appropriate and <code>pPmeas</code> (“Boundary/Zone/Area”) set to the subsystem’s own grouping object, so the controller measures and regulates this subsystem’s interchange rather than a grid-wide setpoint.</p>
+<p>The controlled machines (<code>psym</code>) are assembled from the subsystem’s internal units, one flag per category - here we regulate the internal synchronous machines:</p>
+<div id="70bef01b" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    secondary_controller <span class="op">=</span> subsystems[<span class="dv">0</span>].load_flow.create_secondary_controller(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>        synchronous_machines<span class="op">=</span><span class="va">True</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>secondary_controller</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\East secondary controller.ElmSecctrl&lt;/l1&gt;&gt;</code></pre>
+</div>
+</div>
+<p><code>batteries</code>, <code>wind</code> and <code>pv</code> add the corresponding internal unit categories to <code>psym</code> in the same way. Everything else on the controller (<code>i_net</code>, <code>psetp</code>, <code>Kpf</code>, …) is left at its PowerFactory default - set it explicitly via <code>attr={...}</code>, or afterwards like any other object. Without <code>parent_folder</code>, the controller is created in the grid of the subsystem’s first internal terminal.</p>
 </section>
 </section>
 <section id="subsystem-container" class="level1" data-number="2">
@@ -671,28 +928,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="create-1" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="create-1"><span class="header-section-number">2.1</span> Create</h2>
 <p>For example, you can create a subsystem container for the two subsystems we created in the previous section and one additional zone named ‘North’:</p>
-<div id="aba3b4f8" class="cell" data-execution_count="13">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.subsystems <span class="im">import</span> SubSystemContainer</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    terminals_north <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"Bus 30.ElmTerm, Bus 02.ElmTerm, Bus 25.ElmTerm, Bus 37.ElmTerm"</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    zone_north <span class="op">=</span> topo.create_zone(<span class="st">"North"</span>, terminals_north, color<span class="op">=</span><span class="dv">4</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    ss_container <span class="op">=</span> SubSystemContainer([zone_east, zone_west, zone_north])</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    Zone.show_zones_in_network_graphic()</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    app.Show()    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="802e9bab" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.subsystems <span class="im">import</span> SubSystemContainer</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    terminals_north <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"Bus 30.ElmTerm, Bus 02.ElmTerm, Bus 25.ElmTerm, Bus 37.ElmTerm"</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    zone_north <span class="op">=</span> topo.create_zone(<span class="st">"North"</span>, terminals_north, color<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    ss_container <span class="op">=</span> SubSystemContainer([zone_east, zone_west, zone_north])</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    Zone.show_zones_in_network_graphic()</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    app.Show()    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="load-flow-state-1" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="load-flow-state-1"><span class="header-section-number">2.2</span> Load Flow State</h2>
 <p>We can get a summary of the load flow states of the subsystems:</p>
-<div id="b993e2d3" class="cell" data-execution_count="14">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_load_flow_state())</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    app.Show()    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3b7fb167" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_load_flow_state())</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    app.Show()    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -732,12 +989,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>You can also get a matrix (pandas DataFrame) with the power exchange between the subsystems:</p>
-<div id="680cc6b2" class="cell" data-execution_count="15">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.power_exchange)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    app.Show()   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="3425b658" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.power_exchange)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    app.Show()   </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 
@@ -780,14 +1037,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="topology-1" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="topology-1"><span class="header-section-number">2.3</span> Topology</h2>
 <p>We can also get the neighbors of the subsystems:</p>
-<div id="ca04a9b4" class="cell" data-execution_count="16">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> ss_container.subsystems:</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>subsys<span class="sc">.</span>loc_name<span class="sc">}</span><span class="ss"> has neighbors: "</span>)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>([ss.loc_name <span class="cf">for</span> ss <span class="kw">in</span> ss_container.get_neighboring_subsystems_in_container(subsys)])</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    app.Show()  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="9474d133" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> subsys <span class="kw">in</span> ss_container.subsystems:</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>subsys<span class="sc">.</span>loc_name<span class="sc">}</span><span class="ss"> has neighbors: "</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>([ss.loc_name <span class="cf">for</span> ss <span class="kw">in</span> ss_container.get_neighboring_subsystems_in_container(subsys)])</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:    </span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    app.Show()  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>East has neighbors: 
 ['West']
@@ -797,14 +1054,167 @@ North has neighbors:
 ['West']</code></pre>
 </div>
 </div>
+<p>You can also get the branch elements that physically tie subsystems together - lines, transformers, couplers, … - regardless of the current load flow (unlike the neighbor check above, this does not need a valid power flow, since it only looks at the topology):</p>
+<div id="bac33258" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_tie_lines())</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">element</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">subsystems</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 04 - 14</td>
+<td>(East, West)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 13 - 14</td>
+<td>(East, West)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 16 - 17</td>
+<td>(East, West)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 01 - 02</td>
+<td>(West, North)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 02 - 03</td>
+<td>(West, North)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 25 - 26</td>
+<td>(West, North)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><code>get_tie_lines()</code> is a shortcut for <code>get_tie_branches(element_classes=["ElmLne"])</code>; omit <code>element_classes</code> to also catch tie transformers, couplers, etc.:</p>
+<div id="59742bd2" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_tie_branches())</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">element</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">subsystems</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 04 - 14</td>
+<td>(East, West)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 13 - 14</td>
+<td>(East, West)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 16 - 17</td>
+<td>(East, West)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 01 - 02</td>
+<td>(West, North)</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 02 - 03</td>
+<td>(West, North)</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>&lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_eng...</td>
+<td>ElmLne</td>
+<td>Line 25 - 26</td>
+<td>(West, North)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>To get just the elements between one specific pair of subsystems:</p>
+<div id="9e9e7b4a" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    display(ss_container.get_tie_branches_between(zone_east, zone_west))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<pre><code>[&lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 04 - 14.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 13 - 14.ElmLne&lt;/l1&gt;&gt;,
+ &lt;powerfactory.DataObject &lt;l1&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Network Model.IntPrjfolder\Network Data.IntPrjfolder\Grid.ElmNet\Line 16 - 17.ElmLne&lt;/l1&gt;&gt;]</code></pre>
+</div>
+</div>
 </section>
 <section id="dynamic-models-1" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="dynamic-models-1"><span class="header-section-number">2.4</span> Dynamic Models</h2>
 <section id="synchronous-machines-1" class="level3" data-number="2.4.1">
 <h3 data-number="2.4.1" class="anchored" data-anchor-id="synchronous-machines-1"><span class="header-section-number">2.4.1</span> Synchronous Machines</h3>
 <p>The <code>SubSystemContainer</code> class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files.</p>
-<div id="a137b0ba" class="cell" data-execution_count="17">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ss_container.export_synchronous_machines_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info_by_subsystem"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="2596e358" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ss_container.export_synchronous_machines_info_to_csv(<span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="dv">\s</span><span class="vs">ynchronous_machines_info_by_subsystem"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -1215,8 +1625,8 @@ North has neighbors:
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../docs/tutorials/topology_and_groupings.html" class="pagination-link" aria-label="Topology and Groupings">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Topology and Groupings</span>
+      <a href="../../docs/tutorials/template_models.html" class="pagination-link" aria-label="Dynamic Model Templates">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Dynamic Model Templates</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

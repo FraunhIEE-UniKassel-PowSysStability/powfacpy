@@ -167,7 +167,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#v0.4.3" id="toc-v0.4.3" class="nav-link active" data-scroll-target="#v0.4.3">v0.4.3</a></li>
+  <li><a href="#v0.5.0" id="toc-v0.5.0" class="nav-link active" data-scroll-target="#v0.5.0">v0.5.0</a></li>
+  <li><a href="#v0.4.3" id="toc-v0.4.3" class="nav-link" data-scroll-target="#v0.4.3">v0.4.3</a></li>
   <li><a href="#v0.4.1" id="toc-v0.4.1" class="nav-link" data-scroll-target="#v0.4.1">v0.4.1</a></li>
   <li><a href="#v0.4.0" id="toc-v0.4.0" class="nav-link" data-scroll-target="#v0.4.0">v0.4.0</a></li>
   <li><a href="#v0.3.7" id="toc-v0.3.7" class="nav-link" data-scroll-target="#v0.3.7">v0.3.7</a></li>
@@ -197,6 +198,23 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="v0.5.0" class="level2">
+<h2 class="anchored" data-anchor-id="v0.5.0">v0.5.0</h2>
+<p>Everything below summarizes what changed since v0.4.3 (releases in between were not individually documented here).</p>
+<ul>
+<li>New <code>dynamic_modal_analysis</code> application module (<code>ModalAnalysis</code>): eigenvalues, damping ratios, natural/damped frequencies and participation factors from PowerFactory’s modal analysis command (<code>ComMod</code>), with filtering, plotting, eigenvalue tracking across a parameter sweep, and eigenvalue sensitivity (both the classical eigenvector-weighted formula and finite-difference) - see the new <a href="../../docs/tutorials/dynamic_modal_analysis.html">tutorial</a></li>
+<li><code>parameter_studies</code> (<code>pf_parameter</code>, <code>apply_gradient</code>) is now built on the new, backend-agnostic <a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy"><code>parstudy</code></a> package rather than a bespoke sweep loop - see the updated <a href="../../docs/tutorials/parameter_studies.html">tutorial</a></li>
+<li>New <code>attribute_metadata</code> module: resolve PowerFactory’s own GUI enum labels via the localisation database, so <code>set_attr(..., resolve_enum_names=True)</code> can set an integer-enum attribute by its GUI name (e.g.&nbsp;<code>i_mot="Motor"</code>) instead of a raw, undocumented integer</li>
+<li>New <code>digsilent_library</code> module and <code>template_models</code> package: GUI-name navigation of PowerFactory’s template library, and per-template interfaces (e.g.&nbsp;grid-forming converters)</li>
+<li><code>subsystems</code>: added secondary (power-frequency) control support</li>
+<li>Extended unit-dispatch API: <code>GroupingBase.get_internal_pv/wind/bess/sg</code> (and <code>.pv</code>/<code>.wind</code>/<code>.bess</code>/<code>.sg</code> accessors), <code>SinglePortBase.set_power_dispatch</code>, new <code>StaticGenerator</code>/<code>PVSystem</code> interface classes</li>
+<li>Internal refactor of <code>Folder</code>/<code>ActiveProject</code> (no breaking changes to existing methods): cohesive method groups extracted into composed helpers reachable as <code>ActiveProject.monitored_variables</code>, <code>.study_cases</code>, <code>.projects</code> and <code>Folder.paths</code>; <code>PFStringManipulation</code> became plain module functions in <code>base/string_manipulation.py</code> (the old class is kept as a deprecated shim)</li>
+<li>Removed dead code (<code>pf_elm_objects.py</code>, the unused <code>PFTranslator</code> class) and the unused <code>icecream</code> dependency</li>
+<li><code>dependencies</code> split into a lean core plus optional extras - <code>pandapower</code>, <code>comtrade</code>, <code>docs</code>, <code>parstudy</code>, <code>dynamic_modal_analysis</code>, <code>tutorials</code>, <code>dev</code>, <code>all</code> - see the <a href="../../docs/index.html#installation">installation section</a></li>
+<li>Various bug fixes found while substantially raising test coverage (now largely PowerFactory-license-free for the pure-Python parts, <code>pytest -m unit</code>), including a <code>SynchronousMachine.q</code> property that returned the wrong value and a <code>set_attr_resettable</code> that could restore the wrong original value</li>
+<li>Declares <code>requires-python &gt;= 3.11</code> and PyPI classifiers</li>
+</ul>
+</section>
 <section id="v0.4.3" class="level2">
 <h2 class="anchored" data-anchor-id="v0.4.3">v0.4.3</h2>
 <ul>

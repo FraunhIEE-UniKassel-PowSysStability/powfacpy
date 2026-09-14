@@ -39,6 +39,12 @@
             <li>
                     <a class="function" href="#get_weighted_average">get_weighted_average</a>
             </li>
+            <li>
+                    <a class="function" href="#unwrap_degrees">unwrap_degrees</a>
+            </li>
+            <li>
+                    <a class="function" href="#is_out_of_step">is_out_of_step</a>
+            </li>
     </ul>
 
 
@@ -108,6 +114,38 @@
 </span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>        <span class="k">return</span> <span class="n">values</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="k">else</span><span class="p">:</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>        <span class="k">return</span> <span class="n">values</span><span class="p">,</span> <span class="n">sum_of_weights</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="k">def</span><span class="w"> </span><span class="nf">unwrap_degrees</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Unwrap an angle signal given in degrees (remove +-360 deg discontinuities).</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">    PowerFactory wraps rotor angle signals such as &#39;c:firel&#39; and &#39;c:firot&#39; to (-180, 180] deg. Unwrapping restores a continuous trajectory so that out-of-step / pole-slip conditions (relative rotor angle growing beyond 180 deg) can be detected and angle differences computed correctly.</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">    Args:</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">        angle_deg: Angle signal (1D array-like) in degrees.</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">    Returns:</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">        ndarray: Unwrapped angle signal in degrees.</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">period</span><span class="o">=</span><span class="mf">360.0</span><span class="p">)</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="k">def</span><span class="w"> </span><span class="nf">is_out_of_step</span><span class="p">(</span><span class="n">relative_rotor_angle_deg</span><span class="p">,</span> <span class="n">threshold_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether a relative rotor angle signal indicates loss of synchronism.</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">    The (wrapped) input signal is unwrapped first (see &#39;unwrap_degrees&#39;); the machine is considered out of step if the magnitude of the unwrapped angle exceeds &#39;threshold_deg&#39; at any point in time.</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">    Args:</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">        relative_rotor_angle_deg: Rotor angle relative to the reference machine (&#39;c:firel&#39;), 1D array-like in degrees.</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">        threshold_deg: Angle magnitude above which the machine is considered out of step. Defaults to 180.</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">    Returns:</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="sd">        bool: True if the machine falls out of step.</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a>    <span class="n">unwrapped</span> <span class="o">=</span> <span class="n">unwrap_degrees</span><span class="p">(</span><span class="n">relative_rotor_angle_deg</span><span class="p">)</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a>    <span class="k">if</span> <span class="n">unwrapped</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">unwrapped</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">threshold_deg</span><span class="p">)</span>
 </span></pre></div>
 
 
@@ -207,6 +245,89 @@ P = (S/U)^2</em>R</p>
 
 
     
+
+                </section>
+                <section id="unwrap_degrees">
+                            <input id="unwrap_degrees-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">unwrap_degrees</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">angle_deg</span></span><span class="return-annotation">) -> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span>:</span></span>
+
+                <label class="view-source-button" for="unwrap_degrees-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#unwrap_degrees"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="unwrap_degrees-50"><a href="#unwrap_degrees-50"><span class="linenos">50</span></a><span class="k">def</span><span class="w"> </span><span class="nf">unwrap_degrees</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ndarray</span><span class="p">:</span>
+</span><span id="unwrap_degrees-51"><a href="#unwrap_degrees-51"><span class="linenos">51</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Unwrap an angle signal given in degrees (remove +-360 deg discontinuities).</span>
+</span><span id="unwrap_degrees-52"><a href="#unwrap_degrees-52"><span class="linenos">52</span></a>
+</span><span id="unwrap_degrees-53"><a href="#unwrap_degrees-53"><span class="linenos">53</span></a><span class="sd">    PowerFactory wraps rotor angle signals such as &#39;c:firel&#39; and &#39;c:firot&#39; to (-180, 180] deg. Unwrapping restores a continuous trajectory so that out-of-step / pole-slip conditions (relative rotor angle growing beyond 180 deg) can be detected and angle differences computed correctly.</span>
+</span><span id="unwrap_degrees-54"><a href="#unwrap_degrees-54"><span class="linenos">54</span></a>
+</span><span id="unwrap_degrees-55"><a href="#unwrap_degrees-55"><span class="linenos">55</span></a><span class="sd">    Args:</span>
+</span><span id="unwrap_degrees-56"><a href="#unwrap_degrees-56"><span class="linenos">56</span></a><span class="sd">        angle_deg: Angle signal (1D array-like) in degrees.</span>
+</span><span id="unwrap_degrees-57"><a href="#unwrap_degrees-57"><span class="linenos">57</span></a>
+</span><span id="unwrap_degrees-58"><a href="#unwrap_degrees-58"><span class="linenos">58</span></a><span class="sd">    Returns:</span>
+</span><span id="unwrap_degrees-59"><a href="#unwrap_degrees-59"><span class="linenos">59</span></a><span class="sd">        ndarray: Unwrapped angle signal in degrees.</span>
+</span><span id="unwrap_degrees-60"><a href="#unwrap_degrees-60"><span class="linenos">60</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="unwrap_degrees-61"><a href="#unwrap_degrees-61"><span class="linenos">61</span></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">angle_deg</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span> <span class="n">period</span><span class="o">=</span><span class="mf">360.0</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Unwrap an angle signal given in degrees (remove +-360 deg discontinuities).</p>
+
+<p>PowerFactory wraps rotor angle signals such as 'c:firel' and 'c:firot' to (-180, 180] deg. Unwrapping restores a continuous trajectory so that out-of-step / pole-slip conditions (relative rotor angle growing beyond 180 deg) can be detected and angle differences computed correctly.</p>
+
+<p>Args:
+    angle_deg: Angle signal (1D array-like) in degrees.</p>
+
+<p>Returns:
+    ndarray: Unwrapped angle signal in degrees.</p>
+</div>
+
+
+                </section>
+                <section id="is_out_of_step">
+                            <input id="is_out_of_step-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">is_out_of_step</span><span class="signature pdoc-code condensed">(<span class="param"><span class="n">relative_rotor_angle_deg</span>, </span><span class="param"><span class="n">threshold_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">180.0</span></span><span class="return-annotation">) -> <span class="nb">bool</span>:</span></span>
+
+                <label class="view-source-button" for="is_out_of_step-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#is_out_of_step"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="is_out_of_step-64"><a href="#is_out_of_step-64"><span class="linenos">64</span></a><span class="k">def</span><span class="w"> </span><span class="nf">is_out_of_step</span><span class="p">(</span><span class="n">relative_rotor_angle_deg</span><span class="p">,</span> <span class="n">threshold_deg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">180.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="is_out_of_step-65"><a href="#is_out_of_step-65"><span class="linenos">65</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether a relative rotor angle signal indicates loss of synchronism.</span>
+</span><span id="is_out_of_step-66"><a href="#is_out_of_step-66"><span class="linenos">66</span></a>
+</span><span id="is_out_of_step-67"><a href="#is_out_of_step-67"><span class="linenos">67</span></a><span class="sd">    The (wrapped) input signal is unwrapped first (see &#39;unwrap_degrees&#39;); the machine is considered out of step if the magnitude of the unwrapped angle exceeds &#39;threshold_deg&#39; at any point in time.</span>
+</span><span id="is_out_of_step-68"><a href="#is_out_of_step-68"><span class="linenos">68</span></a>
+</span><span id="is_out_of_step-69"><a href="#is_out_of_step-69"><span class="linenos">69</span></a><span class="sd">    Args:</span>
+</span><span id="is_out_of_step-70"><a href="#is_out_of_step-70"><span class="linenos">70</span></a><span class="sd">        relative_rotor_angle_deg: Rotor angle relative to the reference machine (&#39;c:firel&#39;), 1D array-like in degrees.</span>
+</span><span id="is_out_of_step-71"><a href="#is_out_of_step-71"><span class="linenos">71</span></a><span class="sd">        threshold_deg: Angle magnitude above which the machine is considered out of step. Defaults to 180.</span>
+</span><span id="is_out_of_step-72"><a href="#is_out_of_step-72"><span class="linenos">72</span></a>
+</span><span id="is_out_of_step-73"><a href="#is_out_of_step-73"><span class="linenos">73</span></a><span class="sd">    Returns:</span>
+</span><span id="is_out_of_step-74"><a href="#is_out_of_step-74"><span class="linenos">74</span></a><span class="sd">        bool: True if the machine falls out of step.</span>
+</span><span id="is_out_of_step-75"><a href="#is_out_of_step-75"><span class="linenos">75</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="is_out_of_step-76"><a href="#is_out_of_step-76"><span class="linenos">76</span></a>    <span class="n">unwrapped</span> <span class="o">=</span> <span class="n">unwrap_degrees</span><span class="p">(</span><span class="n">relative_rotor_angle_deg</span><span class="p">)</span>
+</span><span id="is_out_of_step-77"><a href="#is_out_of_step-77"><span class="linenos">77</span></a>    <span class="k">if</span> <span class="n">unwrapped</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="is_out_of_step-78"><a href="#is_out_of_step-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="kc">False</span>
+</span><span id="is_out_of_step-79"><a href="#is_out_of_step-79"><span class="linenos">79</span></a>    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">unwrapped</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">threshold_deg</span><span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Check whether a relative rotor angle signal indicates loss of synchronism.</p>
+
+<p>The (wrapped) input signal is unwrapped first (see 'unwrap_degrees'); the machine is considered out of step if the magnitude of the unwrapped angle exceeds 'threshold_deg' at any point in time.</p>
+
+<p>Args:
+    relative_rotor_angle_deg: Rotor angle relative to the reference machine ('c:firel'), 1D array-like in degrees.
+    threshold_deg: Angle magnitude above which the machine is considered out of step. Defaults to 180.</p>
+
+<p>Returns:
+    bool: True if the machine falls out of step.</p>
+</div>
+
 
                 </section>
     </main>

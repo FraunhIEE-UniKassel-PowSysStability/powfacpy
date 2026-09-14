@@ -72,20 +72,26 @@
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.comp</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeModel</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.dsl</span><span class="w"> </span><span class="kn">import</span> <span class="n">DSLModel</span>
 </span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.sym</span><span class="w"> </span><span class="kn">import</span> <span class="n">SynchronousMachine</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">PFGeneral</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="n">pf_to_powfacpy_class_mapping</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>    <span class="s2">&quot;Elm&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="s2">&quot;Sym&quot;</span><span class="p">:</span> <span class="n">SynchronousMachine</span><span class="p">,</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="s2">&quot;ElmDsl&quot;</span><span class="p">:</span> <span class="n">DSLModel</span><span class="p">,</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>        <span class="s2">&quot;ElmComp&quot;</span><span class="p">:</span> <span class="n">CompositeModel</span><span class="p">,</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>    <span class="p">},</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="s2">&quot;Blk&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="s2">&quot;Def&quot;</span><span class="p">:</span> <span class="n">BlockDefinition</span><span class="p">,</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="s2">&quot;Slot&quot;</span><span class="p">:</span> <span class="n">Slot</span><span class="p">,</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>    <span class="p">},</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="p">}</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.genstat</span><span class="w"> </span><span class="kn">import</span> <span class="n">StaticGenerator</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.pvsys</span><span class="w"> </span><span class="kn">import</span> <span class="n">PVSystem</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.elm.tr2</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransformerTwoWinding</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">powfacpy.pf_classes.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">PFGeneral</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="n">pf_to_powfacpy_class_mapping</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="s2">&quot;Elm&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>        <span class="s2">&quot;Sym&quot;</span><span class="p">:</span> <span class="n">SynchronousMachine</span><span class="p">,</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>        <span class="s2">&quot;Genstat&quot;</span><span class="p">:</span> <span class="n">StaticGenerator</span><span class="p">,</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>        <span class="s2">&quot;Pvsys&quot;</span><span class="p">:</span> <span class="n">PVSystem</span><span class="p">,</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="s2">&quot;Tr2&quot;</span><span class="p">:</span> <span class="n">TransformerTwoWinding</span><span class="p">,</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>        <span class="s2">&quot;Dsl&quot;</span><span class="p">:</span> <span class="n">DSLModel</span><span class="p">,</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>        <span class="s2">&quot;Comp&quot;</span><span class="p">:</span> <span class="n">CompositeModel</span><span class="p">,</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>    <span class="p">},</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>    <span class="s2">&quot;Blk&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>        <span class="s2">&quot;Def&quot;</span><span class="p">:</span> <span class="n">BlockDefinition</span><span class="p">,</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>        <span class="s2">&quot;Slot&quot;</span><span class="p">:</span> <span class="n">Slot</span><span class="p">,</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>    <span class="p">},</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="p">}</span>
 </span></pre></div>
 
 
@@ -115,7 +121,7 @@
                     <div class="attr variable">
             <span class="name">pf_to_powfacpy_class_mapping</span>        =
 <input id="pf_to_powfacpy_class_mapping-view-value" class="view-value-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-            <label class="view-value-button pdoc-button" for="pf_to_powfacpy_class_mapping-view-value"></label><span class="default_value">{&#39;Elm&#39;: {&#39;Sym&#39;: &lt;class &#39;<a href="elm/sym.html#SynchronousMachine">powfacpy.pf_classes.elm.sym.SynchronousMachine</a>&#39;&gt;, &#39;ElmDsl&#39;: &lt;class &#39;<a href="elm/dsl.html#DSLModel">powfacpy.pf_classes.elm.dsl.DSLModel</a>&#39;&gt;, &#39;ElmComp&#39;: &lt;class &#39;<a href="elm/comp.html#CompositeModel">powfacpy.pf_classes.elm.comp.CompositeModel</a>&#39;&gt;}, &#39;Blk&#39;: {&#39;Def&#39;: &lt;class &#39;powfacpy.pf_classes.blk.definition.BlockDefinition&#39;&gt;, &#39;Slot&#39;: &lt;class &#39;powfacpy.pf_classes.blk.slot.Slot&#39;&gt;}}</span>
+            <label class="view-value-button pdoc-button" for="pf_to_powfacpy_class_mapping-view-value"></label><span class="default_value">{&#39;Elm&#39;: {&#39;Sym&#39;: &lt;class &#39;<a href="elm/sym.html#SynchronousMachine">powfacpy.pf_classes.elm.sym.SynchronousMachine</a>&#39;&gt;, &#39;Genstat&#39;: &lt;class &#39;<a href="elm/genstat.html#StaticGenerator">powfacpy.pf_classes.elm.genstat.StaticGenerator</a>&#39;&gt;, &#39;Pvsys&#39;: &lt;class &#39;<a href="elm/pvsys.html#PVSystem">powfacpy.pf_classes.elm.pvsys.PVSystem</a>&#39;&gt;, &#39;Tr2&#39;: &lt;class &#39;<a href="elm/tr2.html#TransformerTwoWinding">powfacpy.pf_classes.elm.tr2.TransformerTwoWinding</a>&#39;&gt;, &#39;Dsl&#39;: &lt;class &#39;<a href="elm/dsl.html#DSLModel">powfacpy.pf_classes.elm.dsl.DSLModel</a>&#39;&gt;, &#39;Comp&#39;: &lt;class &#39;<a href="elm/comp.html#CompositeModel">powfacpy.pf_classes.elm.comp.CompositeModel</a>&#39;&gt;}, &#39;Blk&#39;: {&#39;Def&#39;: &lt;class &#39;powfacpy.pf_classes.blk.definition.BlockDefinition&#39;&gt;, &#39;Slot&#39;: &lt;class &#39;powfacpy.pf_classes.blk.slot.Slot&#39;&gt;}}</span>
 
         
     </div>

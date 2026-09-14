@@ -165,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">3</span> Installation</a></li>
   <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact"><span class="header-section-number">4</span> Contact</a></li>
   <li><a href="#contribute" id="toc-contribute" class="nav-link" data-scroll-target="#contribute"><span class="header-section-number">5</span> Contribute</a></li>
-  <li><a href="#about" id="toc-about" class="nav-link" data-scroll-target="#about"><span class="header-section-number">6</span> About</a></li>
+  <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer"><span class="header-section-number">6</span> Disclaimer</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -217,6 +217,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="3"><span class="header-section-number">3</span> Installation</h1>
 <p>Using pip:</p>
 <pre><code>pip install powfacpy</code></pre>
+<p>A few features rely on optional dependencies that are not installed by default:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Extra</th>
+<th>Installs</th>
+<th>Needed for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>powfacpy[pandapower]</code></td>
+<td><code>pandapower</code></td>
+<td><code>powfacpy.applications.pandapower_interface</code> (network matrices / pandapower export)</td>
+</tr>
+<tr class="even">
+<td><code>powfacpy[comtrade]</code></td>
+<td><code>comtraderecord</code></td>
+<td><code>Plots.plot_from_pandas_using_comtrade</code></td>
+</tr>
+<tr class="odd">
+<td><code>powfacpy[docs]</code></td>
+<td><code>markdown</code></td>
+<td><code>powfacpy.applications.dynamic_model_docs</code> (HTML model documentation)</td>
+</tr>
+<tr class="even">
+<td><code>powfacpy[parstudy]</code></td>
+<td><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy"><code>parstudy</code></a></td>
+<td><code>powfacpy.applications.parameter_studies</code> (parameter sweeps), and the eigenvalue-sweep/sensitivity helpers in <code>dynamic_modal_analysis</code></td>
+</tr>
+<tr class="odd">
+<td><code>powfacpy[dynamic_modal_analysis]</code></td>
+<td><code>scipy</code></td>
+<td><code>powfacpy.applications.dynamic_modal_analysis</code> (<code>ModalAnalysis</code> - eigenvalues, damping ratios, participation factors)</td>
+</tr>
+<tr class="even">
+<td><code>powfacpy[tutorials]</code></td>
+<td><code>jupyter</code>, <code>PyQt6</code>, <code>deepdiff</code></td>
+<td>running the tutorial notebooks yourself</td>
+</tr>
+<tr class="odd">
+<td><code>powfacpy[all]</code></td>
+<td>all of the above</td>
+<td>running every tutorial</td>
+</tr>
+</tbody>
+</table>
+<pre><code>pip install powfacpy[pandapower]</code></pre>
 </section>
 <section id="contact" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Contact</h1>
@@ -226,9 +274,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="5"><span class="header-section-number">5</span> Contribute</h1>
 <p>Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. If you want to contribute to the code base, please have a look at <a href="../docs/docs/how_to_contribute.html">How to contribute</a>.</p>
 </section>
-<section id="about" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> About</h1>
-<p><em>powfacpy</em> is an open source package which is mainly developed at Fraunhofer IEE and not associated with <em>DIgSILENT</em>.</p>
+<section id="disclaimer" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Disclaimer</h1>
+<p><em>PowerFactory</em> and <em>DIgSILENT</em> are trademarks of DIgSILENT GmbH. <em>powfacpy</em> is an independent, community-maintained open source project and is not affiliated with, endorsed by, or sponsored by DIgSILENT GmbH. Using <em>powfacpy</em> requires your own valid PowerFactory license and installation.</p>
 
 
 </section>

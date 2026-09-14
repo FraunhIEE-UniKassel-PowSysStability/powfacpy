@@ -218,6 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#baseactive_project.py" id="toc-baseactive_project.py" class="nav-link" data-scroll-target="#baseactive_project.py"><span class="header-section-number">2.1.2</span> <em>base/active_project.py</em></a></li>
   <li><a href="#basebase.py" id="toc-basebase.py" class="nav-link" data-scroll-target="#basebase.py"><span class="header-section-number">2.1.3</span> <em>base/base.py</em></a></li>
   <li><a href="#basefunctional.py" id="toc-basefunctional.py" class="nav-link" data-scroll-target="#basefunctional.py"><span class="header-section-number">2.1.4</span> <em>base/functional.py</em></a></li>
+  <li><a href="#basestring_manipulation.py" id="toc-basestring_manipulation.py" class="nav-link" data-scroll-target="#basestring_manipulation.py"><span class="header-section-number">2.1.5</span> <em>base/string_manipulation.py</em></a></li>
   </ul></li>
   <li><a href="#pf_classes" id="toc-pf_classes" class="nav-link" data-scroll-target="#pf_classes"><span class="header-section-number">2.2</span> <em>pf_classes</em></a></li>
   <li><a href="#engineering_helpers.py" id="toc-engineering_helpers.py" class="nav-link" data-scroll-target="#engineering_helpers.py"><span class="header-section-number">2.3</span> <em>engineering_helpers.py</em></a></li>
@@ -259,11 +260,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>powfacpy/
 ├── applications/
 │   ├── application_base.py
+│   ├── attribute_metadata.py
 │   ├── caching.py
 │   ├── database.py
+│   ├── digsilent_library.py
+│   ├── dynamic_modal_analysis.py
 │   ├── dynamic_model_docs.py
 │   ├── dynamic_simulation.py
+│   ├── frame_test.py
 │   ├── model_exchange.py
+│   ├── modelica.py
 │   ├── networks.py
 │   ├── pandapower_interface.py
 │   ├── pandas_interface.py
@@ -279,7 +285,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   ├── base.py
 │   ├── folder.py
 │   ├── functional.py
-│   └── string_manipulation.py
+│   ├── monitored_variables.py
+│   ├── paths.py
+│   ├── projects.py
+│   ├── string_manipulation.py
+│   └── study_cases.py
 ├── engineering_helpers.py
 ├── exceptions.py
 ├── general_helpers.py
@@ -295,12 +305,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   │   ├── comp.py
 │   │   ├── dsl.py
 │   │   ├── elm_base.py
-│   │   ├── elm_plant_controlled_base.py
 │   │   ├── file.py
+│   │   ├── genstat.py
 │   │   ├── grouping_base.py
+│   │   ├── grouping_types.py
 │   │   ├── net.py
+│   │   ├── pvsys.py
 │   │   ├── sym.py
 │   │   ├── term.py
+│   │   ├── tr2.py
+│   │   ├── unit_collection.py
 │   │   └── zone.py
 │   ├── protocol_generator.py
 │   ├── protocols.py
@@ -309,7 +323,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   └── sta/
 │       └── pll.py
 ├── result_variables.py
-└── result_variables_parser.py
+├── result_variables_parser.py
+└── template_models/
+    ├── base.py
+    ├── digsilent_library/
+    │   └── grid_forming_converters/
+    │       ├── _base.py
+    │       ├── droop_controlled_converter.py
+    │       ├── synchronverter.py
+    │       ├── virtual_synchronous_machine.py
+    │       ├── wecc_regfm_a1.py
+    │       └── wecc_regfm_b1.py
+    ├── library_index.py
+    └── matcher.py
 </code></pre>
 </div>
 </div>
@@ -391,11 +417,18 @@ Figure&nbsp;1
 <p>This folder contains base classes that are used in for <em>Application</em> and <em>PowerFacory</em> classes and the <code>ActiveProject</code> class.</p>
 <section id="basefolder.py" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="basefolder.py"><span class="header-section-number">2.1.1</span> <em>base/folder.py</em></h3>
-<p>This file contains the <code>Folder</code> class which provides functionality to interact with the <em>PowerFactory</em> database, such as getting objects and setting attributes of objects inside a folder in the <em>PowerFactory</em> database. To interact with <em>PowerFactory</em>, it holds the <em>PowerFactory</em> app as a class attribute.</p>
+<p>This file contains the <code>Folder</code> class which provides functionality to interact with the <em>PowerFactory</em> database, such as getting objects and setting attributes of objects inside a folder in the <em>PowerFactory</em> database. To interact with <em>PowerFactory</em>, it holds the <em>PowerFactory</em> app as a class attribute. Path-building methods (<code>of</code>, <code>absolute</code>, <code>in_active_project</code>, <code>in_current_user</code>, <code>between</code>, …) live in a separate <code>Paths</code> helper, reachable as <code>Folder.paths</code> (e.g.&nbsp;<code>folder.paths.of(obj)</code>), rather than directly on <code>Folder</code> itself.</p>
 </section>
 <section id="baseactive_project.py" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="baseactive_project.py"><span class="header-section-number">2.1.2</span> <em>base/active_project.py</em></h3>
 <p>The file contains the <code>ActiveProject</code> class that inherits from the <code>Folder</code> class and adds functionality specific to the active project in <em>PowerFactory</em>. The class <code>ActiveProjectCached</code> can be more performant than <code>ActiveProject</code> as it caches the properties, but it should be used only in one project (the caching fails after a different project was activated).</p>
+<p><code>ActiveProject</code> itself stays a single entry point, but internally, cohesive groups of methods are extracted into composed helper objects (each holding a reference back to the <code>ActiveProject</code>) rather than all ~60+ methods living directly on the class:</p>
+<ul>
+<li><code>active_project.monitored_variables</code> (<code>MonitoredVariables</code>, <em>base/monitored_variables.py</em>) - adding/clearing result variables (<code>add</code>, <code>clear</code>, <code>add_variable_selection_obj</code>, …)</li>
+<li><code>active_project.study_cases</code> (<code>StudyCases</code>, <em>base/study_cases.py</em>) - creating study cases, variations and scenarios (<code>create</code>, <code>create_variation</code>, <code>create_scenario</code>, <code>create_parallel_variation</code>, …)</li>
+<li><code>active_project.projects</code> (<code>Projects</code>, <em>base/projects.py</em>) - project versions and import/export (<code>get_version</code>, <code>create_version</code>, <code>rollback_to_version</code>, <code>import_pfd</code>, <code>export_pfd</code>, <code>import_dz</code>, …)</li>
+</ul>
+<p>Every method that existed on <code>ActiveProject</code> before this split is still callable there too (as a thin forwarder to the matching helper) - the split does not break existing code, it just gives the related methods a smaller, dedicated home for anyone extending them.</p>
 </section>
 <section id="basebase.py" class="level3" data-number="2.1.3">
 <h3 data-number="2.1.3" class="anchored" data-anchor-id="basebase.py"><span class="header-section-number">2.1.3</span> <em>base/base.py</em></h3>
@@ -405,6 +438,10 @@ Figure&nbsp;1
 <section id="basefunctional.py" class="level3" data-number="2.1.4">
 <h3 data-number="2.1.4" class="anchored" data-anchor-id="basefunctional.py"><span class="header-section-number">2.1.4</span> <em>base/functional.py</em></h3>
 <p>This is a functional interface to be used as a (limited) alternative to <code>ActiveProject</code> and <code>Folder</code>. Performance can be improved as there are more restrictions on the input arguments (for example, only <em>PowerFactory</em> objects are accepted and not their path string).</p>
+</section>
+<section id="basestring_manipulation.py" class="level3" data-number="2.1.5">
+<h3 data-number="2.1.5" class="anchored" data-anchor-id="basestring_manipulation.py"><span class="header-section-number">2.1.5</span> <em>base/string_manipulation.py</em></h3>
+<p>Plain module-level functions (<code>remove_class_names</code>, <code>truncate_until</code>, <code>format_full_path</code>, …) for manipulating <em>PowerFactory</em> path strings. The former <code>PFStringManipulation</code> class is kept as a deprecated <code>staticmethod</code>-alias shim for backwards compatibility only - new code should import the functions directly.</p>
 </section>
 </section>
 <section id="pf_classes" class="level2" data-number="2.2">

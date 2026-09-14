@@ -201,6 +201,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -219,6 +231,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -227,6 +245,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -352,7 +382,7 @@ Table&nbsp;1: Subselection of CGMES profiles
 <li>Update CGMES using SSH and DL profiles</li>
 </ul>
 <p>First, activate the <em>PowerFactory</em> project as outlined in the <em>getting started</em> tutorial.</p>
-<div id="3b0e581b" class="cell" data-execution_count="2">
+<div id="eee24ead" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -368,19 +398,19 @@ Table&nbsp;1: Subselection of CGMES profiles
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_to_run_tests"</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Get <em>powfacpy</em> objects (CGMES interface class and <code>ActiveProject</code>)</p>
-<div id="3247e929" class="cell" data-execution_count="3">
+<div id="d87ab9e1" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.model_exchange <span class="im">import</span> CGMES</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>pfcgmes <span class="op">=</span> CGMES(app)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pfp <span class="op">=</span> pfcgmes.act_prj</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Activate the study case:</p>
-<div id="b8303401" class="cell" data-execution_count="4">
+<div id="3317ab7a" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>study_case <span class="op">=</span> pfp.get_unique_obj(<span class="vs">r'Study Cases</span><span class="ch">\t</span><span class="vs">est_model_exchange_interfaces</span><span class="dv">\S</span><span class="vs">tudy Case'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -399,7 +429,7 @@ Figure&nbsp;1: Grid for export
 <section id="export-to-cgmes" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Export to CGMES</h1>
 <p>First, let’s export this grid to CGMES. The function <code>cgmes_export()</code> exports the active grid to <code>OUTPUT_PATH</code>.</p>
-<div id="18af03da" class="cell" data-execution_count="5">
+<div id="812175f7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>OUTPUT_PATH <span class="op">=</span> <span class="vs">r"</span><span class="dv">.</span><span class="er">\</span><span class="vs">output</span><span class="er">\</span><span class="vs">cgmes_export"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles<span class="op">=</span><span class="st">"all"</span>, as_zip<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -417,7 +447,7 @@ Figure&nbsp;2: Exported ZIP file with all CGMES profiles
 </div>
 <p>It is a .zip file, because we configured <code>as_zip=True</code>.</p>
 <p>We can also export the separate files directly into the folder by setting <code>as_zip=False</code>. Additionally <strong>we can choose which profiles to export</strong>:</p>
-<div id="7c767c51" class="cell" data-execution_count="6">
+<div id="5603b61e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles<span class="op">=</span><span class="st">"ssh dl sv"</span>, as_zip<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we exported the .xml files (not zipped) and only got SSH, DL and SV:</p>
@@ -436,7 +466,7 @@ Figure&nbsp;3: Selected profiles, unzipped
 <h1 data-number="4"><span class="header-section-number">4</span> Import from CGMES</h1>
 <p>Now we could import our grid into another simulation software. Here, we just import again to <em>PowerFactory</em>.</p>
 <p>We’ll demonstrate this by switching to a different study case and importing the grid again.</p>
-<div id="2f5ccd38" class="cell" data-execution_count="7">
+<div id="01e95612" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>study_case.Deactivate()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>new_study_case <span class="op">=</span> pfp.create_in_folder(</span>
@@ -447,14 +477,14 @@ Figure&nbsp;3: Selected profiles, unzipped
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>new_study_case.Activate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then import the previously exported CGMES files using <code>cgmes_import()</code></p>
-<div id="b67b50c7" class="cell" data-execution_count="8">
+<div id="87b08d48" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>new_grid <span class="op">=</span> pfcgmes.cgmes_import(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    OUTPUT_PATH <span class="op">+</span> <span class="st">"</span><span class="ch">\\</span><span class="st">"</span> </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> pfcgmes.exported_zip_name <span class="co"># default name that pfcgmes uses for exported zip file</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">+</span> <span class="st">".zip"</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="2fd57c94" class="cell" data-execution_count="9">
+<div id="3c44624f" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>new_grid.Activate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The imported grid will have the same name as the original.</p>
@@ -485,7 +515,7 @@ Figure&nbsp;5: Imported grid
 <h1 data-number="5"><span class="header-section-number">5</span> Update model with external data</h1>
 <p>Using CGMES, we can update a model using external data (e.g.&nbsp;SSH and DL).</p>
 <p>In this case, we will think of <code>study_case</code> as some external reference model. We will change its data and update <code>new_study_case</code> accordingly using CGMES.</p>
-<div id="9b19c178" class="cell" data-execution_count="10">
+<div id="75e3dcb7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>study_case.Activate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>All our loads have reactive power setpoints.</p>
@@ -500,7 +530,7 @@ Figure&nbsp;6: Original reactive power setpoints of loads
 </figure>
 </div>
 <p>Let’s change them in the reference model. We will set them to 0, just as an example.</p>
-<div id="02be87a6" class="cell" data-execution_count="11">
+<div id="e3b3a4d0" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pfp.app.Hide()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>reference_grid <span class="op">=</span> pfp.get_unique_obj(<span class="vs">r'Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="ch">\t</span><span class="vs">est_model_exchange_interfaces</span><span class="dv">\G</span><span class="vs">rid'</span>)</span>
@@ -532,21 +562,21 @@ Figure&nbsp;8: Reactive power in imported model
 </figure>
 </div>
 <p>To update our new model with the change in reference model, we first export the reference model’s changes to CGMES using the SSH and DL profiles.</p>
-<div id="3b8c691c" class="cell" data-execution_count="12">
+<div id="8bb0050d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pfcgmes.cgmes_export(OUTPUT_PATH, selected_profiles<span class="op">=</span><span class="st">"ssh dl"</span>, as_zip<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we take this to our new model.</p>
-<div id="7053f682" class="cell" data-execution_count="13">
+<div id="8127b83b" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>new_study_case.Activate()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We need to supply the CIM archive that we used to import the new model. It is used as a base archive and needed for the update.</p>
-<div id="821d5bb6" class="cell" data-execution_count="14">
+<div id="3b9c0bb4" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>base_archive <span class="op">=</span> pfcgmes.act_prj.get_unique_obj(</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    pfcgmes.import_archive_name, parent_folder<span class="op">=</span>pfcgmes.archive_folder</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And by running <code>update_profiles()</code> we can update our new model.</p>
-<div id="708443a6" class="cell" data-execution_count="15">
+<div id="e9b43823" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pfcgmes.update_profiles(</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    update_file_path<span class="op">=</span>OUTPUT_PATH <span class="op">+</span> <span class="st">"</span><span class="ch">\\</span><span class="st">"</span> <span class="op">+</span> pfcgmes.exported_zip_name <span class="op">+</span> <span class="st">".zip"</span>, </span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>     base_archive<span class="op">=</span>base_archive</span>

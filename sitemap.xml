@@ -2,82 +2,102 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/topology_and_groupings.html</loc>
-    <lastmod>2026-07-03T15:34:03.640Z</lastmod>
+    <lastmod>2026-09-14T15:26:42.075Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/study_cases.html</loc>
-    <lastmod>2026-07-03T15:52:39.386Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/subsystems.html</loc>
+    <lastmod>2026-09-14T15:45:57.071Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/performance.html</loc>
-    <lastmod>2026-07-03T15:33:56.349Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/static_calc.html</loc>
+    <lastmod>2026-09-14T15:26:41.117Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/overview.html</loc>
-    <lastmod>2026-07-03T15:34:17.643Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/parameter_studies.html</loc>
+    <lastmod>2026-09-14T15:26:40.640Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/network_matrices_and_pandapower_interface.html</loc>
+    <lastmod>2026-09-14T15:26:40.174Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/getting_started.html</loc>
-    <lastmod>2026-07-03T15:34:07.388Z</lastmod>
+    <lastmod>2026-09-14T15:26:39.729Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/dynamic_model_validation.html</loc>
-    <lastmod>2026-07-03T15:52:44.113Z</lastmod>
+    <lastmod>2026-09-14T15:26:39.271Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/database_interface.html</loc>
-    <lastmod>2026-07-03T15:52:57.296Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/dynamic_model_block_testing.html</loc>
+    <lastmod>2026-09-14T15:26:38.827Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/index.html</loc>
-    <lastmod>2026-05-07T09:09:04.000Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/digsilent_library.html</loc>
+    <lastmod>2026-09-14T15:26:38.314Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/release_notes.html</loc>
-    <lastmod>2026-06-11T13:46:20.842Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/cgmes_model_exchange.html</loc>
+    <lastmod>2026-09-14T15:26:37.872Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/how_to_contribute.html</loc>
-    <lastmod>2026-06-11T13:56:29.117Z</lastmod>
-  </url>
-  <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/api/api.html</loc>
-    <lastmod>2026-05-06T17:25:16.000Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/structure_of_powfacpy.html</loc>
+    <lastmod>2026-09-14T15:26:37.608Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/overview.html</loc>
     <lastmod>2025-03-24T12:53:44.000Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/structure_of_powfacpy.html</loc>
-    <lastmod>2026-06-11T13:46:56.478Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/api/api.html</loc>
+    <lastmod>2026-09-05T18:16:45.542Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/cgmes_model_exchange.html</loc>
-    <lastmod>2026-07-03T15:52:46.187Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/how_to_contribute.html</loc>
+    <lastmod>2026-09-14T15:27:53.414Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/docs/release_notes.html</loc>
+    <lastmod>2026-09-14T11:52:13.362Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/index.html</loc>
+    <lastmod>2026-09-14T11:51:54.266Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/database_interface.html</loc>
+    <lastmod>2026-09-14T15:46:16.205Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/dynamic_modal_analysis.html</loc>
+    <lastmod>2026-09-14T15:26:38.573Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/dynamic_model_documentation.html</loc>
-    <lastmod>2026-07-03T15:34:11.178Z</lastmod>
+    <lastmod>2026-09-14T15:46:39.893Z</lastmod>
   </url>
   <url>
     <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/dynamic_simulation_and_plotting.html</loc>
-    <lastmod>2026-07-03T15:33:51.984Z</lastmod>
+    <lastmod>2026-09-14T15:26:39.496Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/network_matrices_and_pandapower_interface.html</loc>
-    <lastmod>2026-07-03T15:52:55.223Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/modelica_models.html</loc>
+    <lastmod>2026-09-14T15:26:39.954Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/parameter_studies.html</loc>
-    <lastmod>2026-07-03T15:52:59.374Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/overview.html</loc>
+    <lastmod>2026-09-14T15:45:42.909Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/static_calc.html</loc>
-    <lastmod>2026-07-03T15:52:50.800Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/performance.html</loc>
+    <lastmod>2026-09-14T15:26:40.878Z</lastmod>
   </url>
   <url>
-    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/subsystems.html</loc>
-    <lastmod>2026-07-03T15:52:41.816Z</lastmod>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/study_cases.html</loc>
+    <lastmod>2026-09-14T15:26:41.359Z</lastmod>
+  </url>
+  <url>
+    <loc>https://FraunhIEE-UniKassel-PowSysStability.github.io/powfacpy/docs/tutorials/template_models.html</loc>
+    <lastmod>2026-09-14T15:26:41.829Z</lastmod>
   </url>
 </urlset>

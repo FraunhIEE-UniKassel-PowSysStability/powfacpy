@@ -1,0 +1,2261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.11">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Dynamic Modal Analysis – powfacpy</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" rel="next">
+<link href="../../docs/tutorials/parameter_studies.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5947b73a06bce04bf1d622ae23e1ec5b.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-89699b88b9ca286e3880c839ecacb412.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">powfacpy</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../docs/tutorials/overview.html" aria-current="page"> 
+<span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/docs/overview.html"> 
+<span class="menu-text">Docs</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/api/api.html"> 
+<span class="menu-text">API</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/dynamic_modal_analysis.html">Dynamic Modal Analysis</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/getting_started.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Getting Started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_simulation_and_plotting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Simulation and Plotting</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Validation and Requirements Testing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_documentation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Documentation</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Static Calculations</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/study_cases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Study Cases</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/parameter_studies.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parameter Studies</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/subsystems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subsystems</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/cgmes_model_exchange.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CGMES handling with model exchange interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/database_interface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Database Interface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/performance.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A Word on Performance</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup"><span class="header-section-number">2</span> Setup</a></li>
+  <li><a href="#a-single-modal-analysis" id="toc-a-single-modal-analysis" class="nav-link" data-scroll-target="#a-single-modal-analysis"><span class="header-section-number">3</span> A Single Modal Analysis</a>
+  <ul class="collapse">
+  <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">3.1</span> Filtering</a></li>
+  <li><a href="#participation-factors" id="toc-participation-factors" class="nav-link" data-scroll-target="#participation-factors"><span class="header-section-number">3.2</span> Participation Factors</a></li>
+  </ul></li>
+  <li><a href="#sweeping-a-parameter" id="toc-sweeping-a-parameter" class="nav-link" data-scroll-target="#sweeping-a-parameter"><span class="header-section-number">4</span> Sweeping a Parameter</a>
+  <ul class="collapse">
+  <li><a href="#tracking-eigenvalues-across-the-sweep" id="toc-tracking-eigenvalues-across-the-sweep" class="nav-link" data-scroll-target="#tracking-eigenvalues-across-the-sweep"><span class="header-section-number">4.1</span> Tracking Eigenvalues Across the Sweep</a></li>
+  </ul></li>
+  <li><a href="#modal-sensitivity" id="toc-modal-sensitivity" class="nav-link" data-scroll-target="#modal-sensitivity"><span class="header-section-number">5</span> Modal Sensitivity</a>
+  <ul class="collapse">
+  <li><a href="#parametric-sensitivity" id="toc-parametric-sensitivity" class="nav-link" data-scroll-target="#parametric-sensitivity"><span class="header-section-number">5.1</span> Parametric Sensitivity</a></li>
+  </ul></li>
+  <li><a href="#eigenvalue-sensitivity-analytical-vs.-finite-difference" id="toc-eigenvalue-sensitivity-analytical-vs.-finite-difference" class="nav-link" data-scroll-target="#eigenvalue-sensitivity-analytical-vs.-finite-difference"><span class="header-section-number">6</span> Eigenvalue Sensitivity: Analytical vs.&nbsp;Finite-Difference</a></li>
+  <li><a href="#connecting-modal-analysis-to-a-time-domain-simulation" id="toc-connecting-modal-analysis-to-a-time-domain-simulation" class="nav-link" data-scroll-target="#connecting-modal-analysis-to-a-time-domain-simulation"><span class="header-section-number">7</span> Connecting Modal Analysis to a Time-Domain Simulation</a></li>
+  <li><a href="#where-to-go-from-here" id="toc-where-to-go-from-here" class="nav-link" data-scroll-target="#where-to-go-from-here"><span class="header-section-number">8</span> Where To Go From Here</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/dynamic_modal_analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/dynamic_modal_analysis.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Dynamic Modal Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p><em>Modal (small-signal) analysis</em> linearizes the system around its current operating point and computes the eigenvalues of the resulting state matrix - one eigenvalue per oscillatory or non-oscillatory <em>mode</em> of the system. These eigenvalues describe the system’s <strong>small-signal stability</strong>: whether it returns to the operating point after a small enough disturbance that the linearization still holds - as opposed to <em>large-signal (transient) stability</em>, which asks the same question for one specific, possibly large, disturbance and can only be answered by a nonlinear time-domain simulation. A mode is stable exactly when its eigenvalue’s real part is negative.</p>
+<p>Each eigenvalue <span class="math inline">\(\lambda = \sigma + j\omega\)</span> is reported as two derived quantities that are easy to conflate: the <em>decay rate</em> <span class="math inline">\(\sigma\)</span> (its real part, in 1/s - how fast the mode’s envelope decays, independent of how fast it oscillates) and the dimensionless <em>damping ratio</em> <span class="math inline">\(\zeta = -\sigma / |\lambda| = -\sigma / \sqrt{\sigma^2 + \omega^2}\)</span>. Unlike the decay rate, <span class="math inline">\(\zeta\)</span> <em>does</em> depend on the imaginary part <span class="math inline">\(\omega\)</span>: two modes with the same decay rate but different oscillation frequencies have different damping ratios, since the faster-oscillating one completes - and therefore decays across - more cycles in the same time. A purely real eigenvalue has no oscillation to normalize by, so <span class="math inline">\(\zeta = 1\)</span> by convention. <em>Participation factors</em> say which states (rotor angles, speeds, controller states, …) are involved in each mode.</p>
+<p>This is complementary to a time-domain simulation: modal analysis tells you directly and exhaustively <em>which</em> modes exist and how well damped they are, without needing to pick a disturbance large enough (or simulate long enough) for a poorly-damped mode to become visible in a time trace - the last section of this tutorial compares the two directly.</p>
+<p><code>powfacpy.applications.dynamic_modal_analysis</code> wraps PowerFactory’s modal analysis command (<code>ComMod</code>) into <code>ModalAnalysis</code> (one eigen-decomposition of the current state) and <code>ModalAnalysisResults</code> (eigenvalues, damping ratios, frequencies, participation factors and eigenvectors, with filtering, plotting and eigenvalue tracking). A parameter <em>sweep</em> - how the eigenvalues move as something in the model changes - is not a separate sweep loop here: it is built on <code>parstudy.Study</code>, exactly like <a href="../../docs/tutorials/parameter_studies.html"><code>powfacpy.applications.parameter_studies</code></a> - <code>evaluate()</code> calls <code>ModalAnalysis.run()</code> once per point, <code>parstudy</code> handles the sweep strategy and snapshot/restore, and <code>track_eigenvalues()</code> / <code>EigenvalueSweepResults</code> turn the resulting sequence of results into a consistently-indexed eigenvalue trajectory (PowerFactory does not guarantee eigenvalues come back in the same order run to run), with a root-locus plot and sensitivity helpers on top - two independent kinds of sensitivity, in fact: <code>sensitivity_between</code> finite-differences the eigenvalues between two tracked runs, while <code>eigenvalue_sensitivity</code> gets the same derivative analytically from the eigenvectors of a single run, with no tracking needed at all.</p>
+<p>Needs the optional <code>scipy</code> dependency (<code>pip install powfacpy[dynamic_modal_analysis]</code>); the sweep and sensitivity helpers additionally need <code>parstudy</code> (<code>pip install powfacpy[parstudy]</code>).</p>
+</section>
+<section id="setup" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Setup</h1>
+<p>First, we activate the PowerFactory project, i.e.&nbsp;the <em>IEEE 39 bus system</em>.</p>
+<div id="e9da8db6" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="vs">r"</span><span class="dv">..</span><span class="ch">\.</span><span class="dv">.\s</span><span class="vs">ettings_local</span><span class="dv">.</span><span class="vs">json"</span>) <span class="im">as</span> settings_file:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    SETTINGS <span class="op">=</span> json.load(settings_file)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sys.path.append(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    SETTINGS[<span class="st">"local path to PowerFactory application"</span>] <span class="co"># e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powfacpy</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_to_run_tests"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># You may change the project path.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>0</code></pre>
+</div>
+</div>
+<p>We copy a study case with a valid, stable operating point - modal analysis only needs a valid operating point, not a disturbance - and then swap out its pre-configured events for a small load step. A short-circuit fault (used elsewhere in these tutorials) is a <em>large</em> disturbance - a discrete switching event, a voltage collapse near the fault, possibly protection tripping - that pushes the system well outside where a linearization is valid, whereas modal analysis’ own premise is precisely that the disturbance stays small; a modest load step keeps the time-domain comparison later in this tutorial honestly comparable to the linearized modal-analysis results. We also get the synchronous machines whose inertia we’ll be perturbing.</p>
+<div id="929c0d82" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_simulation <span class="im">import</span> DynamicSimulation</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>act_prj.create_study_case(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dynamic Modal Analysis"</span>, <span class="vs">r"Study Cases</span><span class="ch">\2</span><span class="dv">.</span><span class="vs">1 Simulation Fault Bus 16 Stable"</span>, parent_folder<span class="op">=</span><span class="vs">r"Study Cases</span><span class="er">\</span><span class="vs">powfacpy"</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>act_prj.clear_results_variables()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pfds <span class="op">=</span> DynamicSimulation(app)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.result_variables <span class="im">import</span> ResVar</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>RMS_BAL <span class="op">=</span> ResVar.RMS_Bal</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    synchronous_machines <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"ElmSym"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    synchronous_machines.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x.loc_name)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    synchronous_machine_types <span class="op">=</span> [sm.typ_id <span class="cf">for</span> sm <span class="kw">in</span> synchronous_machines]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    act_prj.add_results_variable(synchronous_machines, RMS_BAL.ElmSym.s_speed.value)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># drop every event copied in with the study case (the fault, its clearance,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and an unrelated turbine-power event) and add a single, small load step</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    loads <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"ElmLod"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    loads.sort(key<span class="op">=</span><span class="kw">lambda</span> x: x.loc_name)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    load_step_target <span class="op">=</span> loads[<span class="dv">0</span>]</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> event <span class="kw">in</span> app.GetFromStudyCase(<span class="st">"IntEvt"</span>).GetContents(<span class="st">"*.Evt*"</span>):</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        event.Delete()</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    pfds.create_dyn_sim_event(</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Load Step.EvtLod"</span>, {<span class="st">"p_target"</span>: load_step_target, <span class="st">"time"</span>: <span class="fl">1.0</span>, <span class="st">"dP"</span>: <span class="fl">10.0</span>}</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="a-single-modal-analysis" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> A Single Modal Analysis</h1>
+<p><code>ModalAnalysis</code> works on whatever state is currently active - like <code>DynamicSimulation</code> or <code>StaticCalc</code>. <code>.run()</code> executes PowerFactory’s modal analysis command and returns a <code>ModalAnalysisResults</code>:</p>
+<div id="fd40d617" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_modal_analysis <span class="im">import</span> ModalAnalysis</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>ma <span class="op">=</span> ModalAnalysis(app)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> ma.run()</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>166</code></pre>
+</div>
+</div>
+<p><code>get_dataframe()</code> (or <code>show()</code> for a styled version) lists every eigenvalue with its real/imaginary part, damping ratio, natural/damped frequency, a <code>"Mode"</code> display string, and its dominant states (participation &gt;= 5%):</p>
+<div id="f830091c" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>results.get_dataframe().<span class="bu">round</span>(<span class="dv">4</span>).head(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Real (1/s)</th>
+<th data-quarto-table-cell-role="th">Imag (rad/s)</th>
+<th data-quarto-table-cell-role="th">Undamped natural frequency (Hz)</th>
+<th data-quarto-table-cell-role="th">Damped frequency (Hz)</th>
+<th data-quarto-table-cell-role="th">Damping ratio</th>
+<th data-quarto-table-cell-role="th">Mode</th>
+<th data-quarto-table-cell-role="th">Dominant states</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Index</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>-84.8959</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-84.8959</td>
+<td>Grid\G 04.ElmSym\psi1q,Grid\G 07.ElmSym\psi1q</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>-72.1759</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-72.1759</td>
+<td>Grid\G 02.ElmSym\psi1q,Grid\G 04.ElmSym\psi1q,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>-66.6192</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-66.6192</td>
+<td>Grid\G 02.ElmSym\psi1q</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>-49.7922</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-49.7922</td>
+<td>Grid\G 08.ElmSym\psi1q,Grid\G 10.ElmSym\psi1q</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>-48.2165</td>
+<td>-0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-48.2165</td>
+<td>Grid\Power Plant 07\AVR 07.ElmDsl\xa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">6</th>
+<td>-48.3471</td>
+<td>-0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-48.3471</td>
+<td>Grid\Power Plant 05\AVR 05.ElmDsl\xa</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">7</th>
+<td>-49.1068</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-49.1068</td>
+<td>Grid\Power Plant 09\AVR 09.ElmDsl\xa</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">8</th>
+<td>-49.3551</td>
+<td>-0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-49.3551</td>
+<td>Grid\Power Plant 06\AVR 06.ElmDsl\xa,Grid\Powe...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">9</th>
+<td>-49.3425</td>
+<td>-0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-49.3425</td>
+<td>Grid\Power Plant 06\AVR 06.ElmDsl\xa,Grid\Powe...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">10</th>
+<td>-44.1827</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>-44.1827</td>
+<td>Grid\G 06.ElmSym\psi1q,Grid\G 08.ElmSym\psi1q,...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>All ten of these happen to be real (zero imaginary part) - not a coincidence, but also not “the 10 most important eigenvalues”: <code>get_dataframe()</code> sorts by each eigenvalue’s <em>index</em>, i.e.&nbsp;its raw position in PowerFactory’s own state matrix (<code>Amat.mtl</code>), not by any measure of significance, so <code>head(10)</code> is just an arbitrary slice of all 166 eigenvalues. Their <code>Dominant states</code> above explain why these particular ones are real: single first-order states - a synchronous machine’s subtransient flux linkage (<code>psi1q</code>) or an exciter’s own internal lag state (<code>xa</code>, from <code>avr_IEEET1</code>) - decay directly, without oscillating, on their own. Oscillatory (complex-conjugate) eigenvalue pairs need <em>two</em> coupled states instead, such as a rotor angle together with its own speed - see the poorly-damped modes below, whose dominant states are exactly <code>speed</code>/<code>phi</code> pairs.</p>
+<p><code>.plot()</code> scatters the eigenvalues in the complex plane (the right half-plane, shaded, would be unstable - none are, here). By default (<code>xlim="auto"</code>) the x-axis is zoomed to the <em>dominant</em> eigenvalues - those with the largest (least negative) real part, i.e.&nbsp;the slowest-decaying ones, which are what actually matters for how long a disturbance’s effect visibly persists - rather than the full range, which the fast, heavily-damped ones above (real parts around -45 to -85) would otherwise stretch until the dominant ones are an unreadable cluster near the origin. Concretely, the lower bound is the <code>quantile</code>-th percentile of all the real parts (<code>quantile=0.75</code> by default, so roughly the most dominant quarter of eigenvalues stay in view); pass a higher <code>quantile</code> (closer to 1) to zoom in on fewer, even more dominant eigenvalues, a lower one to include more of the faster ones, or an explicit <code>xlim=(lo, hi)</code> to set the range directly (<code>xlim=None</code> restores matplotlib’s own full-range default):</p>
+<div id="e3c801ed" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>results.plot()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="dynamic_modal_analysis_files/figure-html/cell-7-output-1.png" width="608" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="filtering" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="filtering"><span class="header-section-number">3.1</span> Filtering</h2>
+<p>The poorly-damped modes are usually the interesting ones. Filtering methods return a new <code>ModalAnalysisResults</code> rather than mutating <code>results</code>, so they chain: <code>filter_out_real_modes()</code> keeps only the oscillatory eigenvalues, and <code>filter_by_damping_ratio(...)</code> then keeps those at or below a threshold:</p>
+<div id="85a2de05" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>poorly_damped <span class="op">=</span> results.filter_out_real_modes().filter_by_damping_ratio(<span class="fl">0.1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>poorly_damped.get_dataframe().<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Real (1/s)</th>
+<th data-quarto-table-cell-role="th">Imag (rad/s)</th>
+<th data-quarto-table-cell-role="th">Undamped natural frequency (Hz)</th>
+<th data-quarto-table-cell-role="th">Damped frequency (Hz)</th>
+<th data-quarto-table-cell-role="th">Damping ratio</th>
+<th data-quarto-table-cell-role="th">Mode</th>
+<th data-quarto-table-cell-role="th">Dominant states</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Index</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">32</th>
+<td>-0.8206</td>
+<td>-9.1113</td>
+<td>1.4560</td>
+<td>1.4501</td>
+<td>0.0897</td>
+<td>-0.8206 ± 9.1113j</td>
+<td>Grid\G 04.ElmSym\speed,Grid\G 04.ElmSym\phi,Gr...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">33</th>
+<td>-0.7117</td>
+<td>-8.8591</td>
+<td>1.4145</td>
+<td>1.4100</td>
+<td>0.0801</td>
+<td>-0.7117 ± 8.8591j</td>
+<td>Grid\G 08.ElmSym\speed,Grid\G 08.ElmSym\phi</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">34</th>
+<td>-0.6961</td>
+<td>-8.9388</td>
+<td>1.4270</td>
+<td>1.4226</td>
+<td>0.0776</td>
+<td>-0.6961 ± 8.9388j</td>
+<td>Grid\G 06.ElmSym\speed,Grid\G 06.ElmSym\phi,Gr...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">35</th>
+<td>-0.8206</td>
+<td>9.1113</td>
+<td>1.4560</td>
+<td>1.4501</td>
+<td>0.0897</td>
+<td>-0.8206 ± 9.1113j</td>
+<td>Grid\G 04.ElmSym\speed,Grid\G 04.ElmSym\phi,Gr...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">36</th>
+<td>-0.7117</td>
+<td>8.8591</td>
+<td>1.4145</td>
+<td>1.4100</td>
+<td>0.0801</td>
+<td>-0.7117 ± 8.8591j</td>
+<td>Grid\G 08.ElmSym\speed,Grid\G 08.ElmSym\phi</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">37</th>
+<td>-0.6961</td>
+<td>8.9388</td>
+<td>1.4270</td>
+<td>1.4226</td>
+<td>0.0776</td>
+<td>-0.6961 ± 8.9388j</td>
+<td>Grid\G 06.ElmSym\speed,Grid\G 06.ElmSym\phi,Gr...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">38</th>
+<td>-0.4635</td>
+<td>-7.5107</td>
+<td>1.1976</td>
+<td>1.1954</td>
+<td>0.0616</td>
+<td>-0.4635 ± 7.5107j</td>
+<td>Grid\G 02.ElmSym\speed,Grid\G 03.ElmSym\speed,...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">39</th>
+<td>-0.5766</td>
+<td>-7.4771</td>
+<td>1.1936</td>
+<td>1.1900</td>
+<td>0.0769</td>
+<td>-0.5766 ± 7.4771j</td>
+<td>Grid\G 04.ElmSym\speed,Grid\G 05.ElmSym\speed,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">40</th>
+<td>-0.1971</td>
+<td>-6.9749</td>
+<td>1.1105</td>
+<td>1.1101</td>
+<td>0.0282</td>
+<td>-0.1971 ± 6.9749j</td>
+<td>Grid\G 10.ElmSym\speed,Grid\G 10.ElmSym\phi</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">41</th>
+<td>-0.3834</td>
+<td>-6.6123</td>
+<td>1.0541</td>
+<td>1.0524</td>
+<td>0.0579</td>
+<td>-0.3834 ± 6.6123j</td>
+<td>Grid\G 01.ElmSym\phi,Grid\G 02.ElmSym\speed,Gr...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">42</th>
+<td>-0.4635</td>
+<td>7.5107</td>
+<td>1.1976</td>
+<td>1.1954</td>
+<td>0.0616</td>
+<td>-0.4635 ± 7.5107j</td>
+<td>Grid\G 02.ElmSym\speed,Grid\G 03.ElmSym\speed,...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">43</th>
+<td>-0.5766</td>
+<td>7.4771</td>
+<td>1.1936</td>
+<td>1.1900</td>
+<td>0.0769</td>
+<td>-0.5766 ± 7.4771j</td>
+<td>Grid\G 04.ElmSym\speed,Grid\G 05.ElmSym\speed,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">44</th>
+<td>-0.1971</td>
+<td>6.9749</td>
+<td>1.1105</td>
+<td>1.1101</td>
+<td>0.0282</td>
+<td>-0.1971 ± 6.9749j</td>
+<td>Grid\G 10.ElmSym\speed,Grid\G 10.ElmSym\phi</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">45</th>
+<td>-0.3834</td>
+<td>6.6123</td>
+<td>1.0541</td>
+<td>1.0524</td>
+<td>0.0579</td>
+<td>-0.3834 ± 6.6123j</td>
+<td>Grid\G 01.ElmSym\phi,Grid\G 02.ElmSym\speed,Gr...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">46</th>
+<td>-0.4194</td>
+<td>-6.1521</td>
+<td>0.9814</td>
+<td>0.9791</td>
+<td>0.0680</td>
+<td>-0.4194 ± 6.1521j</td>
+<td>Grid\G 09.ElmSym\speed,Grid\G 09.ElmSym\phi</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">47</th>
+<td>-0.4194</td>
+<td>6.1521</td>
+<td>0.9814</td>
+<td>0.9791</td>
+<td>0.0680</td>
+<td>-0.4194 ± 6.1521j</td>
+<td>Grid\G 09.ElmSym\speed,Grid\G 09.ElmSym\phi</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">67</th>
+<td>-0.3136</td>
+<td>-4.0127</td>
+<td>0.6406</td>
+<td>0.6386</td>
+<td>0.0779</td>
+<td>-0.3136 ± 4.0127j</td>
+<td>Grid\G 01.ElmSym\speed,Grid\G 01.ElmSym\phi,Gr...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">68</th>
+<td>-0.3136</td>
+<td>4.0127</td>
+<td>0.6406</td>
+<td>0.6386</td>
+<td>0.0779</td>
+<td>-0.3136 ± 4.0127j</td>
+<td>Grid\G 01.ElmSym\speed,Grid\G 01.ElmSym\phi,Gr...</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="participation-factors" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="participation-factors"><span class="header-section-number">3.2</span> Participation Factors</h2>
+<p><code>get_participation_dataframe()</code> (or <code>show_participation()</code>, with a colour gradient) gives the full <code>(state, eigenvalue)</code> matrix; <code>plot_participation()</code> draws a bar chart per eigenvalue. <code>filter_by_index(...)</code> (an eigenvalue’s <code>Index</code>, from the table above) narrows down to one mode - here, the worst-damped oscillatory one:</p>
+<div id="792dd4b0" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>worst_mode_index <span class="op">=</span> poorly_damped.get_dataframe()[<span class="st">"Damping ratio"</span>].idxmin()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>results.filter_by_index(worst_mode_index).plot_participation()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="dynamic_modal_analysis_files/figure-html/cell-9-output-1.png" width="567" height="538" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sweeping-a-parameter" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Sweeping a Parameter</h1>
+<p>How do the eigenvalues move as a parameter changes? As in the <a href="../../docs/tutorials/parameter_studies.html">Parameter Studies tutorial</a>, we declare the swept quantity as a <code>parstudy.ModelParameter</code> and give a <code>Study</code> an <code>evaluate</code> function - here, <code>evaluate</code> just runs the modal analysis and returns a couple of scalar metrics (for the results table) alongside the full <code>ModalAnalysisResults</code> (as <code>raw</code>, for the eigenvalue trajectory below). We sweep every machine’s inertia together, ±50% around its own value:</p>
+<div id="6ec0e1c7" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> parstudy <span class="im">import</span> ModelParameter, linspace, Study</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>h_param <span class="op">=</span> ModelParameter(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"H (multiply)"</span>, linspace(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">5</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    affects<span class="op">=</span>[(t, <span class="st">"tag"</span>) <span class="cf">for</span> t <span class="kw">in</span> synchronous_machine_types],</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">"multiply"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(values):</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    modal_results <span class="op">=</span> ma.run()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    worst <span class="op">=</span> modal_results.filter_out_real_modes().get_dataframe()[<span class="st">"Damping ratio"</span>]</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"worst_damping_ratio"</span>: <span class="bu">float</span>(worst.<span class="bu">min</span>()),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    }, modal_results</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    sweep_results <span class="op">=</span> Study([h_param], evaluate).run(verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>sweep_results.evaluations.iloc[<span class="dv">1</span>:,:].<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1/6] sample
+[2/6] H (multiply)=0.5
+[3/6] H (multiply)=0.75
+[4/6] H (multiply)=1.0
+[5/6] H (multiply)=1.25
+[6/6] H (multiply)=1.5</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">parameters</th>
+<th data-quarto-table-cell-role="th">results</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">H (multiply)</th>
+<th data-quarto-table-cell-role="th">worst_damping_ratio</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">run</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0.50</td>
+<td>0.0534</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.75</td>
+<td>0.0369</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">3</th>
+<td>1.00</td>
+<td>0.0282</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">4</th>
+<td>1.25</td>
+<td>0.0233</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">5</th>
+<td>1.50</td>
+<td>0.0204</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Scaling every machine’s inertia down (<code>H (multiply) &lt; 1</code>) raises every mode’s frequency and, here, also its damping ratio; scaling it up does the opposite - inertia and the electromechanical modes’ frequency are directly linked. (<code>worst_damping_ratio</code> is simply <em>whichever</em> mode is worst-damped in each individual run here - not necessarily the same physical mode throughout; the next section tracks the eigenvalues properly.)</p>
+<section id="tracking-eigenvalues-across-the-sweep" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="tracking-eigenvalues-across-the-sweep"><span class="header-section-number">4.1</span> Tracking Eigenvalues Across the Sweep</h2>
+<p>PowerFactory does not guarantee the eigenvalues come back in the same order from run to run, so comparing them index-by-index across runs would risk comparing unrelated modes. <code>EigenvalueSweepResults.from_study_results(sweep_results, parameter_name)</code> pulls the swept parameter’s value and each run’s <code>raw</code> <code>ModalAnalysisResults</code> out of the <code>parstudy.StudyResults</code>; <code>.track_eigenvalues()</code> then reorders every run’s eigenvalues to match the previous run’s, so eigenvalue index <code>k</code> refers to the same physical mode throughout the sweep:</p>
+<div id="931d2258" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_modal_analysis <span class="im">import</span> EigenvalueSweepResults</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sweep <span class="op">=</span> EigenvalueSweepResults.from_study_results(sweep_results, <span class="st">"H (multiply)"</span>).track_eigenvalues()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(sweep)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>6</code></pre>
+</div>
+</div>
+<p><code>.plot()</code> is the classic <em>root locus</em> view: every run’s eigenvalues, coloured by the parameter value, with the same <code>xlim</code>/<code>quantile</code> auto-zoom to the dominant eigenvalues as above (computed here across every run in the sweep):</p>
+<div id="80f2d503" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sweep.plot(colorbar_label<span class="op">=</span><span class="st">"H (multiply) factor"</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="dynamic_modal_analysis_files/figure-html/cell-12-output-1.png" width="585" height="429" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>.plot_eigenvalue_tracking()</code> colours and labels by eigenvalue <em>index</em> instead of by parameter value - a sanity check that tracking followed each mode continuously rather than jumping between modes (a mode that appears to teleport between two very different positions from one point to the next signals a tracking mistake, e.g.&nbsp;too large a step between swept values):</p>
+<div id="17ea28de" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sweep.plot_eigenvalue_tracking()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="dynamic_modal_analysis_files/figure-html/cell-13-output-1.png" width="747" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="modal-sensitivity" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Modal Sensitivity</h1>
+<p><code>sensitivity_between(before, after)</code> tracks <code>after</code>’s eigenvalues against <code>before</code>’s and returns the per-eigenvalue <em>change</em> in every metric - a quick before/after comparison without plotting the whole sweep. Comparing the two extremes already computed above:</p>
+<div id="d5f5cc20" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_modal_analysis <span class="im">import</span> sensitivity_between</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>sensitivity <span class="op">=</span> sensitivity_between(sweep.when_index(<span class="dv">0</span>), sweep.when_index(<span class="op">-</span><span class="dv">1</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>sensitivity.filter_out_real_modes().filter_by_metrics([<span class="st">"Damping ratio"</span>, <span class="st">"Damped frequency (Hz)"</span>]).show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<style type="text/css">
+</style>
+
+<table id="T_b3e15" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_b3e15_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Damping ratio</th>
+<th id="T_b3e15_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Damped frequency (Hz)</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">Index</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_b3e15_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">25</th>
+<td id="T_b3e15_row0_col0" class="data row0 col0">0.0001</td>
+<td id="T_b3e15_row0_col1" class="data row0 col1">0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">26</th>
+<td id="T_b3e15_row1_col0" class="data row1 col0">0.0001</td>
+<td id="T_b3e15_row1_col1" class="data row1 col1">0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">32</th>
+<td id="T_b3e15_row2_col0" class="data row2 col0">-0.0211</td>
+<td id="T_b3e15_row2_col1" class="data row2 col1">-0.6607</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">33</th>
+<td id="T_b3e15_row3_col0" class="data row3 col0">-0.0597</td>
+<td id="T_b3e15_row3_col1" class="data row3 col1">-0.4987</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">34</th>
+<td id="T_b3e15_row4_col0" class="data row4 col0">-0.0193</td>
+<td id="T_b3e15_row4_col1" class="data row4 col1">-0.5668</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">35</th>
+<td id="T_b3e15_row5_col0" class="data row5 col0">-0.0211</td>
+<td id="T_b3e15_row5_col1" class="data row5 col1">-0.6607</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">36</th>
+<td id="T_b3e15_row6_col0" class="data row6 col0">-0.0597</td>
+<td id="T_b3e15_row6_col1" class="data row6 col1">-0.4987</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">37</th>
+<td id="T_b3e15_row7_col0" class="data row7 col0">-0.0193</td>
+<td id="T_b3e15_row7_col1" class="data row7 col1">-0.5668</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">38</th>
+<td id="T_b3e15_row8_col0" class="data row8 col0">0.0176</td>
+<td id="T_b3e15_row8_col1" class="data row8 col1">-0.0408</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">39</th>
+<td id="T_b3e15_row9_col0" class="data row9 col0">0.0119</td>
+<td id="T_b3e15_row9_col1" class="data row9 col1">-0.0145</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">40</th>
+<td id="T_b3e15_row10_col0" class="data row10 col0">0.0504</td>
+<td id="T_b3e15_row10_col1" class="data row10 col1">0.0330</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">41</th>
+<td id="T_b3e15_row11_col0" class="data row11 col0">0.0208</td>
+<td id="T_b3e15_row11_col1" class="data row11 col1">-0.0892</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">42</th>
+<td id="T_b3e15_row12_col0" class="data row12 col0">0.0176</td>
+<td id="T_b3e15_row12_col1" class="data row12 col1">-0.0408</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">43</th>
+<td id="T_b3e15_row13_col0" class="data row13 col0">0.0119</td>
+<td id="T_b3e15_row13_col1" class="data row13 col1">-0.0145</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">44</th>
+<td id="T_b3e15_row14_col0" class="data row14 col0">0.0504</td>
+<td id="T_b3e15_row14_col1" class="data row14 col1">0.0330</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">45</th>
+<td id="T_b3e15_row15_col0" class="data row15 col0">0.0208</td>
+<td id="T_b3e15_row15_col1" class="data row15 col1">-0.0892</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row16" class="row_heading level0 row16" data-quarto-table-cell-role="th">46</th>
+<td id="T_b3e15_row16_col0" class="data row16 col0">-0.0062</td>
+<td id="T_b3e15_row16_col1" class="data row16 col1">-0.0061</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row17" class="row_heading level0 row17" data-quarto-table-cell-role="th">47</th>
+<td id="T_b3e15_row17_col0" class="data row17 col0">-0.0062</td>
+<td id="T_b3e15_row17_col1" class="data row17 col1">-0.0061</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row18" class="row_heading level0 row18" data-quarto-table-cell-role="th">64</th>
+<td id="T_b3e15_row18_col0" class="data row18 col0">-0.0000</td>
+<td id="T_b3e15_row18_col1" class="data row18 col1">0.0000</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row19" class="row_heading level0 row19" data-quarto-table-cell-role="th">65</th>
+<td id="T_b3e15_row19_col0" class="data row19 col0">-0.0000</td>
+<td id="T_b3e15_row19_col1" class="data row19 col1">0.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row20" class="row_heading level0 row20" data-quarto-table-cell-role="th">67</th>
+<td id="T_b3e15_row20_col0" class="data row20 col0">0.0046</td>
+<td id="T_b3e15_row20_col1" class="data row20 col1">-0.1280</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row21" class="row_heading level0 row21" data-quarto-table-cell-role="th">68</th>
+<td id="T_b3e15_row21_col0" class="data row21 col0">0.0046</td>
+<td id="T_b3e15_row21_col1" class="data row21 col1">-0.1280</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row22" class="row_heading level0 row22" data-quarto-table-cell-role="th">71</th>
+<td id="T_b3e15_row22_col0" class="data row22 col0">0.0001</td>
+<td id="T_b3e15_row22_col1" class="data row22 col1">-0.0020</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row23" class="row_heading level0 row23" data-quarto-table-cell-role="th">72</th>
+<td id="T_b3e15_row23_col0" class="data row23 col0">0.0001</td>
+<td id="T_b3e15_row23_col1" class="data row23 col1">-0.0020</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row24" class="row_heading level0 row24" data-quarto-table-cell-role="th">80</th>
+<td id="T_b3e15_row24_col0" class="data row24 col0">0.0024</td>
+<td id="T_b3e15_row24_col1" class="data row24 col1">0.0050</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row25" class="row_heading level0 row25" data-quarto-table-cell-role="th">81</th>
+<td id="T_b3e15_row25_col0" class="data row25 col0">0.0024</td>
+<td id="T_b3e15_row25_col1" class="data row25 col1">0.0050</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row26" class="row_heading level0 row26" data-quarto-table-cell-role="th">84</th>
+<td id="T_b3e15_row26_col0" class="data row26 col0">-0.0026</td>
+<td id="T_b3e15_row26_col1" class="data row26 col1">0.0003</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row27" class="row_heading level0 row27" data-quarto-table-cell-role="th">85</th>
+<td id="T_b3e15_row27_col0" class="data row27 col0">-0.0026</td>
+<td id="T_b3e15_row27_col1" class="data row27 col1">0.0003</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row28" class="row_heading level0 row28" data-quarto-table-cell-role="th">86</th>
+<td id="T_b3e15_row28_col0" class="data row28 col0">-0.0007</td>
+<td id="T_b3e15_row28_col1" class="data row28 col1">-0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row29" class="row_heading level0 row29" data-quarto-table-cell-role="th">88</th>
+<td id="T_b3e15_row29_col0" class="data row29 col0">-0.0007</td>
+<td id="T_b3e15_row29_col1" class="data row29 col1">0.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row30" class="row_heading level0 row30" data-quarto-table-cell-role="th">89</th>
+<td id="T_b3e15_row30_col0" class="data row30 col0">-0.0017</td>
+<td id="T_b3e15_row30_col1" class="data row30 col1">0.0000</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row31" class="row_heading level0 row31" data-quarto-table-cell-role="th">90</th>
+<td id="T_b3e15_row31_col0" class="data row31 col0">-0.0006</td>
+<td id="T_b3e15_row31_col1" class="data row31 col1">0.0001</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row32" class="row_heading level0 row32" data-quarto-table-cell-role="th">91</th>
+<td id="T_b3e15_row32_col0" class="data row32 col0">-0.0007</td>
+<td id="T_b3e15_row32_col1" class="data row32 col1">-0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row33" class="row_heading level0 row33" data-quarto-table-cell-role="th">92</th>
+<td id="T_b3e15_row33_col0" class="data row33 col0">-0.0007</td>
+<td id="T_b3e15_row33_col1" class="data row33 col1">0.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row34" class="row_heading level0 row34" data-quarto-table-cell-role="th">93</th>
+<td id="T_b3e15_row34_col0" class="data row34 col0">-0.0017</td>
+<td id="T_b3e15_row34_col1" class="data row34 col1">0.0000</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row35" class="row_heading level0 row35" data-quarto-table-cell-role="th">94</th>
+<td id="T_b3e15_row35_col0" class="data row35 col0">-0.0006</td>
+<td id="T_b3e15_row35_col1" class="data row35 col1">0.0001</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row36" class="row_heading level0 row36" data-quarto-table-cell-role="th">96</th>
+<td id="T_b3e15_row36_col0" class="data row36 col0">-0.0020</td>
+<td id="T_b3e15_row36_col1" class="data row36 col1">0.0010</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row37" class="row_heading level0 row37" data-quarto-table-cell-role="th">97</th>
+<td id="T_b3e15_row37_col0" class="data row37 col0">-0.0020</td>
+<td id="T_b3e15_row37_col1" class="data row37 col1">0.0010</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row38" class="row_heading level0 row38" data-quarto-table-cell-role="th">98</th>
+<td id="T_b3e15_row38_col0" class="data row38 col0">0.0002</td>
+<td id="T_b3e15_row38_col1" class="data row38 col1">0.0001</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row39" class="row_heading level0 row39" data-quarto-table-cell-role="th">99</th>
+<td id="T_b3e15_row39_col0" class="data row39 col0">0.0002</td>
+<td id="T_b3e15_row39_col1" class="data row39 col1">0.0001</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row40" class="row_heading level0 row40" data-quarto-table-cell-role="th">102</th>
+<td id="T_b3e15_row40_col0" class="data row40 col0">-0.0008</td>
+<td id="T_b3e15_row40_col1" class="data row40 col1">0.0004</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row41" class="row_heading level0 row41" data-quarto-table-cell-role="th">103</th>
+<td id="T_b3e15_row41_col0" class="data row41 col0">-0.0008</td>
+<td id="T_b3e15_row41_col1" class="data row41 col1">0.0004</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row42" class="row_heading level0 row42" data-quarto-table-cell-role="th">108</th>
+<td id="T_b3e15_row42_col0" class="data row42 col0">0.0023</td>
+<td id="T_b3e15_row42_col1" class="data row42 col1">-0.0050</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row43" class="row_heading level0 row43" data-quarto-table-cell-role="th">110</th>
+<td id="T_b3e15_row43_col0" class="data row43 col0">0.0023</td>
+<td id="T_b3e15_row43_col1" class="data row43 col1">-0.0050</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row44" class="row_heading level0 row44" data-quarto-table-cell-role="th">114</th>
+<td id="T_b3e15_row44_col0" class="data row44 col0">0.0000</td>
+<td id="T_b3e15_row44_col1" class="data row44 col1">-0.0001</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row45" class="row_heading level0 row45" data-quarto-table-cell-role="th">115</th>
+<td id="T_b3e15_row45_col0" class="data row45 col0">0.0001</td>
+<td id="T_b3e15_row45_col1" class="data row45 col1">-0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row46" class="row_heading level0 row46" data-quarto-table-cell-role="th">116</th>
+<td id="T_b3e15_row46_col0" class="data row46 col0">0.0001</td>
+<td id="T_b3e15_row46_col1" class="data row46 col1">-0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row47" class="row_heading level0 row47" data-quarto-table-cell-role="th">117</th>
+<td id="T_b3e15_row47_col0" class="data row47 col0">0.0000</td>
+<td id="T_b3e15_row47_col1" class="data row47 col1">-0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row48" class="row_heading level0 row48" data-quarto-table-cell-role="th">119</th>
+<td id="T_b3e15_row48_col0" class="data row48 col0">0.0000</td>
+<td id="T_b3e15_row48_col1" class="data row48 col1">-0.0001</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row49" class="row_heading level0 row49" data-quarto-table-cell-role="th">120</th>
+<td id="T_b3e15_row49_col0" class="data row49 col0">-0.0000</td>
+<td id="T_b3e15_row49_col1" class="data row49 col1">0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row50" class="row_heading level0 row50" data-quarto-table-cell-role="th">121</th>
+<td id="T_b3e15_row50_col0" class="data row50 col0">-0.0000</td>
+<td id="T_b3e15_row50_col1" class="data row50 col1">0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row51" class="row_heading level0 row51" data-quarto-table-cell-role="th">122</th>
+<td id="T_b3e15_row51_col0" class="data row51 col0">0.0001</td>
+<td id="T_b3e15_row51_col1" class="data row51 col1">-0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row52" class="row_heading level0 row52" data-quarto-table-cell-role="th">123</th>
+<td id="T_b3e15_row52_col0" class="data row52 col0">0.0000</td>
+<td id="T_b3e15_row52_col1" class="data row52 col1">-0.0002</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row53" class="row_heading level0 row53" data-quarto-table-cell-role="th">124</th>
+<td id="T_b3e15_row53_col0" class="data row53 col0">0.0001</td>
+<td id="T_b3e15_row53_col1" class="data row53 col1">-0.0002</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row54" class="row_heading level0 row54" data-quarto-table-cell-role="th">128</th>
+<td id="T_b3e15_row54_col0" class="data row54 col0">0.0000</td>
+<td id="T_b3e15_row54_col1" class="data row54 col1">-0.0000</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row55" class="row_heading level0 row55" data-quarto-table-cell-role="th">129</th>
+<td id="T_b3e15_row55_col0" class="data row55 col0">0.0000</td>
+<td id="T_b3e15_row55_col1" class="data row55 col1">-0.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row56" class="row_heading level0 row56" data-quarto-table-cell-role="th">130</th>
+<td id="T_b3e15_row56_col0" class="data row56 col0">0.0000</td>
+<td id="T_b3e15_row56_col1" class="data row56 col1">-0.0001</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row57" class="row_heading level0 row57" data-quarto-table-cell-role="th">131</th>
+<td id="T_b3e15_row57_col0" class="data row57 col0">0.0000</td>
+<td id="T_b3e15_row57_col1" class="data row57 col1">-0.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_b3e15_level0_row58" class="row_heading level0 row58" data-quarto-table-cell-role="th">134</th>
+<td id="T_b3e15_row58_col0" class="data row58 col0">0.0000</td>
+<td id="T_b3e15_row58_col1" class="data row58 col1">-0.0001</td>
+</tr>
+<tr class="even">
+<th id="T_b3e15_level0_row59" class="row_heading level0 row59" data-quarto-table-cell-role="th">135</th>
+<td id="T_b3e15_row59_col0" class="data row59 col0">0.0000</td>
+<td id="T_b3e15_row59_col1" class="data row59 col1">-0.0000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="parametric-sensitivity" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="parametric-sensitivity"><span class="header-section-number">5.1</span> Parametric Sensitivity</h2>
+<p>To see how a sensitivity itself depends on a second, <em>condition</em> quantity, sweep both together and slice the (tracked) results by condition afterwards. Below, the condition is <em>which</em> single machine type’s inertia gets perturbed (±20% this time) - a direct way to ask “which generator’s inertia does a given mode’s damping actually care about?” <code>condition</code> isn’t itself a PF attribute, so it is a plain (<code>auto_apply=False</code>) <code>ModelParameter</code> whose values are the machine-type objects themselves, and <code>evaluate</code> applies the perturbation to whichever one <code>context</code> says is active this run:</p>
+<div id="937d95e0" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_modal_analysis <span class="im">import</span> track_eigenvalues, ParametricSensitivity</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>condition_types <span class="op">=</span> synchronous_machine_types[:<span class="dv">3</span>]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>h_baseline <span class="op">=</span> {t: t.GetAttribute(<span class="st">"tag"</span>) <span class="cf">for</span> t <span class="kw">in</span> condition_types}</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>condition_param <span class="op">=</span> ModelParameter(<span class="st">"condition"</span>, condition_types, auto_apply<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>h_2point <span class="op">=</span> ModelParameter(<span class="st">"H"</span>, [<span class="fl">0.8</span>, <span class="fl">1.2</span>], auto_apply<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_2d(values, context):</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    typ <span class="op">=</span> values[<span class="st">"condition"</span>]</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    typ.SetAttribute(<span class="st">"tag"</span>, h_baseline[typ] <span class="op">*</span> values[<span class="st">"H"</span>])</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    modal_results <span class="op">=</span> ma.run()</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    typ.SetAttribute(<span class="st">"tag"</span>, h_baseline[typ])  <span class="co"># auto_apply=False -&gt; restore ourselves</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {}, modal_results</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    results_2d <span class="op">=</span> Study([condition_param, h_2point], evaluate_2d, strategy<span class="op">=</span><span class="st">"grid"</span>).run(verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1/6] sample
+[2/6] sample
+[3/6] sample
+[4/6] sample
+[5/6] sample
+[6/6] sample</code></pre>
+</div>
+</div>
+<p><code>strategy="grid"</code> visits every <code>(condition, H)</code> combination - 3 conditions x 2 values of <code>H</code> here, with no baseline row, which is exactly the pair of points each sensitivity needs. We track <em>all</em> six runs in one continuous sequence (not condition by condition) so that eigenvalue index <code>k</code> keeps meaning the same physical mode across every condition, then split the tracked sequence back into three (before, after) pairs - one per condition, in the same order <code>results_2d</code> visited them:</p>
+<div id="c7d831fa" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>all_tracked <span class="op">=</span> track_eigenvalues([results_2d.raw(r.index) <span class="cf">for</span> r <span class="kw">in</span> results_2d.records])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sensitivities <span class="op">=</span> [</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    sensitivity_between(all_tracked[i], all_tracked[i <span class="op">+</span> <span class="dv">1</span>])</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(all_tracked), <span class="dv">2</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>parametric_sensitivity <span class="op">=</span> ParametricSensitivity(</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    [t.loc_name <span class="cf">for</span> t <span class="kw">in</span> condition_types], sensitivities</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>(</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    parametric_sensitivity.filter_out_real_modes()</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    .filter_by_damping_ratio(<span class="fl">0.2</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    .filter_by_metrics(<span class="st">"Damping ratio"</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    .normalize(<span class="st">"column"</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    .show()</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<style type="text/css">
+#T_fedd3_row0_col0, #T_fedd3_row1_col0, #T_fedd3_row2_col0, #T_fedd3_row3_col1, #T_fedd3_row3_col2, #T_fedd3_row4_col0, #T_fedd3_row5_col1, #T_fedd3_row5_col2, #T_fedd3_row6_col0, #T_fedd3_row6_col1, #T_fedd3_row8_col1, #T_fedd3_row8_col2, #T_fedd3_row9_col0, #T_fedd3_row10_col1, #T_fedd3_row10_col2, #T_fedd3_row11_col0, #T_fedd3_row11_col1, #T_fedd3_row13_col1, #T_fedd3_row13_col2, #T_fedd3_row14_col0, #T_fedd3_row15_col1, #T_fedd3_row15_col2, #T_fedd3_row16_col1, #T_fedd3_row16_col2, #T_fedd3_row17_col1, #T_fedd3_row17_col2 {
+  background-color: #ffffd9;
+  color: #000000;
+}
+#T_fedd3_row0_col1, #T_fedd3_row1_col1 {
+  background-color: #f5fbc2;
+  color: #000000;
+}
+#T_fedd3_row0_col2, #T_fedd3_row1_col2, #T_fedd3_row2_col2, #T_fedd3_row3_col0, #T_fedd3_row4_col2, #T_fedd3_row5_col0, #T_fedd3_row6_col2, #T_fedd3_row7_col0, #T_fedd3_row7_col1, #T_fedd3_row7_col2, #T_fedd3_row8_col0, #T_fedd3_row9_col1, #T_fedd3_row10_col0, #T_fedd3_row11_col2, #T_fedd3_row12_col0, #T_fedd3_row12_col1, #T_fedd3_row12_col2, #T_fedd3_row13_col0, #T_fedd3_row14_col1, #T_fedd3_row15_col0, #T_fedd3_row16_col0, #T_fedd3_row17_col0 {
+  background-color: #081d58;
+  color: #f1f1f1;
+}
+#T_fedd3_row2_col1, #T_fedd3_row4_col1 {
+  background-color: #f4fbc0;
+  color: #000000;
+}
+#T_fedd3_row9_col2, #T_fedd3_row14_col2 {
+  background-color: #d1edb3;
+  color: #000000;
+}
+</style>
+
+<table id="T_fedd3" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_fedd3_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Type Gen 01</th>
+<th id="T_fedd3_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Type Gen 02</th>
+<th id="T_fedd3_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Type Gen 03</th>
+</tr>
+<tr class="even">
+<th class="index_name level0" data-quarto-table-cell-role="th">Index</th>
+<th class="blank col0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col1" data-quarto-table-cell-role="th">&nbsp;</th>
+<th class="blank col2" data-quarto-table-cell-role="th">&nbsp;</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_fedd3_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">32</th>
+<td id="T_fedd3_row0_col0" class="data row0 col0">-0.0255</td>
+<td id="T_fedd3_row0_col1" class="data row0 col1">0.0735</td>
+<td id="T_fedd3_row0_col2" class="data row0 col2">1.0000</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">33</th>
+<td id="T_fedd3_row1_col0" class="data row1 col0">-0.0255</td>
+<td id="T_fedd3_row1_col1" class="data row1 col1">0.0735</td>
+<td id="T_fedd3_row1_col2" class="data row1 col2">1.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">34</th>
+<td id="T_fedd3_row2_col0" class="data row2 col0">-0.0246</td>
+<td id="T_fedd3_row2_col1" class="data row2 col1">0.0789</td>
+<td id="T_fedd3_row2_col2" class="data row2 col2">1.0000</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">35</th>
+<td id="T_fedd3_row3_col0" class="data row3 col0">1.0000</td>
+<td id="T_fedd3_row3_col1" class="data row3 col1">-0.1864</td>
+<td id="T_fedd3_row3_col2" class="data row3 col2">-6.5312</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">37</th>
+<td id="T_fedd3_row4_col0" class="data row4 col0">-0.0246</td>
+<td id="T_fedd3_row4_col1" class="data row4 col1">0.0789</td>
+<td id="T_fedd3_row4_col2" class="data row4 col2">1.0000</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row5" class="row_heading level0 row5" data-quarto-table-cell-role="th">38</th>
+<td id="T_fedd3_row5_col0" class="data row5 col0">1.0000</td>
+<td id="T_fedd3_row5_col1" class="data row5 col1">-0.1864</td>
+<td id="T_fedd3_row5_col2" class="data row5 col2">-6.5312</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row6" class="row_heading level0 row6" data-quarto-table-cell-role="th">39</th>
+<td id="T_fedd3_row6_col0" class="data row6 col0">0.0010</td>
+<td id="T_fedd3_row6_col1" class="data row6 col1">-1.9258</td>
+<td id="T_fedd3_row6_col2" class="data row6 col2">1.0000</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row7" class="row_heading level0 row7" data-quarto-table-cell-role="th">40</th>
+<td id="T_fedd3_row7_col0" class="data row7 col0">1.0000</td>
+<td id="T_fedd3_row7_col1" class="data row7 col1">283.0773</td>
+<td id="T_fedd3_row7_col2" class="data row7 col2">189.7602</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row8" class="row_heading level0 row8" data-quarto-table-cell-role="th">41</th>
+<td id="T_fedd3_row8_col0" class="data row8 col0">1.0000</td>
+<td id="T_fedd3_row8_col1" class="data row8 col1">-26.9132</td>
+<td id="T_fedd3_row8_col2" class="data row8 col2">-15.2880</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row9" class="row_heading level0 row9" data-quarto-table-cell-role="th">42</th>
+<td id="T_fedd3_row9_col0" class="data row9 col0">-0.0168</td>
+<td id="T_fedd3_row9_col1" class="data row9 col1">1.0000</td>
+<td id="T_fedd3_row9_col2" class="data row9 col2">0.2163</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row10" class="row_heading level0 row10" data-quarto-table-cell-role="th">43</th>
+<td id="T_fedd3_row10_col0" class="data row10 col0">1.0000</td>
+<td id="T_fedd3_row10_col1" class="data row10 col1">-29.2984</td>
+<td id="T_fedd3_row10_col2" class="data row10 col2">-13.8492</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row11" class="row_heading level0 row11" data-quarto-table-cell-role="th">44</th>
+<td id="T_fedd3_row11_col0" class="data row11 col0">0.0010</td>
+<td id="T_fedd3_row11_col1" class="data row11 col1">-1.9258</td>
+<td id="T_fedd3_row11_col2" class="data row11 col2">1.0000</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row12" class="row_heading level0 row12" data-quarto-table-cell-role="th">45</th>
+<td id="T_fedd3_row12_col0" class="data row12 col0">1.0000</td>
+<td id="T_fedd3_row12_col1" class="data row12 col1">283.0773</td>
+<td id="T_fedd3_row12_col2" class="data row12 col2">189.7602</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row13" class="row_heading level0 row13" data-quarto-table-cell-role="th">46</th>
+<td id="T_fedd3_row13_col0" class="data row13 col0">1.0000</td>
+<td id="T_fedd3_row13_col1" class="data row13 col1">-26.9132</td>
+<td id="T_fedd3_row13_col2" class="data row13 col2">-15.2880</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row14" class="row_heading level0 row14" data-quarto-table-cell-role="th">47</th>
+<td id="T_fedd3_row14_col0" class="data row14 col0">-0.0168</td>
+<td id="T_fedd3_row14_col1" class="data row14 col1">1.0000</td>
+<td id="T_fedd3_row14_col2" class="data row14 col2">0.2163</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row15" class="row_heading level0 row15" data-quarto-table-cell-role="th">48</th>
+<td id="T_fedd3_row15_col0" class="data row15 col0">1.0000</td>
+<td id="T_fedd3_row15_col1" class="data row15 col1">-29.2984</td>
+<td id="T_fedd3_row15_col2" class="data row15 col2">-13.8492</td>
+</tr>
+<tr class="odd">
+<th id="T_fedd3_level0_row16" class="row_heading level0 row16" data-quarto-table-cell-role="th">65</th>
+<td id="T_fedd3_row16_col0" class="data row16 col0">1.0000</td>
+<td id="T_fedd3_row16_col1" class="data row16 col1">-0.0203</td>
+<td id="T_fedd3_row16_col2" class="data row16 col2">-0.0142</td>
+</tr>
+<tr class="even">
+<th id="T_fedd3_level0_row17" class="row_heading level0 row17" data-quarto-table-cell-role="th">66</th>
+<td id="T_fedd3_row17_col0" class="data row17 col0">1.0000</td>
+<td id="T_fedd3_row17_col1" class="data row17 col1">-0.0203</td>
+<td id="T_fedd3_row17_col2" class="data row17 col2">-0.0142</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Reading a row: for that mode, the darkest cell names the machine type whose inertia its damping ratio is most sensitive to - typically not all three alike, since each mode is dominated by a different subset of machines (recall the participation factors above).</p>
+</section>
+</section>
+<section id="eigenvalue-sensitivity-analytical-vs.-finite-difference" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Eigenvalue Sensitivity: Analytical vs.&nbsp;Finite-Difference</h1>
+<p><code>sensitivity_between</code> above finite-differences the <em>eigenvalues</em> themselves between two (tracked) runs. There is a second, classical way to get the same derivative that needs no eigenvalue tracking at all: the eigenvector-weighted sensitivity formula <span class="citation" data-cites="perezarriagaSelectiveModalAnalysis1982 vergheseSelectiveModalAnalysis1982">[<a href="#ref-perezarriagaSelectiveModalAnalysis1982" role="doc-biblioref">1</a>, <a href="#ref-vergheseSelectiveModalAnalysis1982" role="doc-biblioref">2</a>]</span></p>
+<p><span class="math display">\[\frac{d\lambda_i}{dp} \approx \frac{\psi_i^H \,(dA/dp)\, \phi_i}{\psi_i^H \phi_i}\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span>/<span class="math inline">\(\psi_i\)</span> are the right/left eigenvectors of mode <span class="math inline">\(i\)</span> - <code>ModalAnalysis.run()</code> already computes them (they’re what the participation factors above are built from), and <code>ModalAnalysisResults</code> keeps them (<code>get_right_eigenvectors()</code>/<code>get_left_eigenvectors()</code>). Since it only uses <em>one</em> run’s eigenvectors, it sidesteps eigenvalue tracking entirely - handy when two modes are close enough that tracking could plausibly mix them up. <code>dA/dp</code> is usually itself a finite difference of the <em>state matrix</em> between two runs (<code>system_matrix_sensitivity</code>), not of the eigenvalues - so both approaches still need two modal analyses, they just finite-difference a different quantity.</p>
+<p>This time we perturb a real controller parameter - <code>Ka</code>, the gain of generator G 05’s automatic voltage regulator (an IEEE Type 1 exciter, <code>avr_IEEET1</code>) - by a small amount:</p>
+<div id="bccb66b1" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>avr <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="er">\</span><span class="vs">Power Plant 05</span><span class="dv">\A</span><span class="vs">VR 05"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>baseline_params <span class="op">=</span> <span class="bu">list</span>(avr.GetAttribute(<span class="st">"params"</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>Ka_index <span class="op">=</span> <span class="dv">1</span>  <span class="co"># avr_IEEET1's parameter order: Tr,Ka,Ta,Ke,Te,Kf,Tf,E1,Se1,E2,Se2</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>delta <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>perturbed_params <span class="op">=</span> <span class="bu">list</span>(baseline_params)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>perturbed_params[Ka_index] <span class="op">+=</span> delta</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    before <span class="op">=</span> ma.run()</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    avr.SetAttribute(<span class="st">"params"</span>, perturbed_params)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    after <span class="op">=</span> ma.run()</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    avr.SetAttribute(<span class="st">"params"</span>, baseline_params)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>system_matrix_sensitivity(before, after, delta)</code> gives a finite-difference estimate of <code>dA/dKa</code>; <code>before.eigenvalue_sensitivity(mode_index, delta_matrix)</code> then applies the formula above using <code>before</code>’s own eigenvectors - no tracking involved. We compare it against <code>sensitivity_between(before, after)</code> (divided by <code>delta</code>, the same finite-difference-on-eigenvalues approach as above) for every mode dominated by this AVR’s own states:</p>
+<div id="97b995e1" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_modal_analysis <span class="im">import</span> system_matrix_sensitivity</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>delta_A <span class="op">=</span> system_matrix_sensitivity(before, after, delta)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>finite_difference <span class="op">=</span> sensitivity_between(before, after).get_dataframe() <span class="op">/</span> delta</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>avr_modes <span class="op">=</span> before.get_dataframe()</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>avr_modes <span class="op">=</span> avr_modes[avr_modes[<span class="st">"Dominant states"</span>].<span class="bu">str</span>.contains(<span class="st">"AVR 05"</span>)]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"analytical (eigenvectors)"</span>: [</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>            before.eigenvalue_sensitivity(idx, delta_A) <span class="cf">for</span> idx <span class="kw">in</span> avr_modes.index</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"finite difference (eigenvalues)"</span>: [</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">complex</span>(finite_difference.loc[idx, <span class="st">"Real (1/s)"</span>], finite_difference.loc[idx, <span class="st">"Imag (rad/s)"</span>])</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> idx <span class="kw">in</span> avr_modes.index</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span>avr_modes.index,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>).<span class="bu">round</span>(<span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">analytical (eigenvectors)</th>
+<th data-quarto-table-cell-role="th">finite difference (eigenvalues)</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">Index</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>0.04291-0.00000j</td>
+<td>0.04292+0.00000j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">96</th>
+<td>-0.00646-0.00391j</td>
+<td>-0.00646-0.00390j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">97</th>
+<td>-0.00646+0.00391j</td>
+<td>-0.00646+0.00390j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">101</th>
+<td>-0.02832-0.00000j</td>
+<td>-0.02833+0.00000j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">102</th>
+<td>-0.00078-0.00032j</td>
+<td>-0.00078-0.00032j</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">103</th>
+<td>-0.00078+0.00032j</td>
+<td>-0.00078+0.00032j</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">160</th>
+<td>0.00000+0.00000j</td>
+<td>0.00000+0.00000j</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The two independent approaches agree to 4-5 decimal places for every mode - a useful cross-check when eigenvalue tracking is in doubt (two nearby modes, a large step between runs, …). The fastest of the group (real part around -48, dominated by the AVR’s own state <code>xa</code>) is by far the most sensitive to <code>Ka</code>, as expected for a gain acting directly on that state; the electromechanical modes further up the table are only weakly affected, since <code>Ka</code> mainly shapes the AVR’s own fast dynamics.</p>
+</section>
+<section id="connecting-modal-analysis-to-a-time-domain-simulation" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Connecting Modal Analysis to a Time-Domain Simulation</h1>
+<p>Modal analysis and a time-domain simulation describe the same system from two angles: modal analysis linearizes around the operating point and reports every mode’s frequency and damping directly and exhaustively; a simulation shows the full response to one actual disturbance, which - for a small enough disturbance that the linearization still applies - is approximately the superposition of all those modes. The same parameter sweep should therefore tell a consistent story in both, <em>provided</em> the disturbance is one the linearization can actually speak to; that is why this section reuses the small load step from the setup above rather than a large fault. <code>evaluate</code> below runs the modal analysis first (at the pre-disturbance operating point) and <em>then</em> the load-step simulation already set up in this study case, storing both:</p>
+<div id="70be5f95" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.results <span class="im">import</span> Results</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>pfri <span class="op">=</span> Results(app)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>pfri.pf_objects_in_labels <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>h_param_small <span class="op">=</span> ModelParameter(</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"H (multiply)"</span>, linspace(<span class="fl">0.5</span>, <span class="fl">1.5</span>, <span class="dv">5</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    affects<span class="op">=</span>[(t, <span class="st">"tag"</span>) <span class="cf">for</span> t <span class="kw">in</span> synchronous_machine_types],</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">"multiply"</span>,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>sim_traces <span class="op">=</span> []</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_with_sim(values):</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    modal_results <span class="op">=</span> ma.run()</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    worst <span class="op">=</span> modal_results.filter_out_real_modes().get_dataframe()</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    pfds.initialize_and_run_sim()</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    sim_res <span class="op">=</span> pfri.export_to_pandas()</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    sim_traces.append(sim_res)</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"worst_damping_ratio"</span>: <span class="bu">float</span>(worst[<span class="st">"Damping ratio"</span>].<span class="bu">min</span>()),</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"worst_damped_freq_Hz"</span>: <span class="bu">float</span>(worst.loc[worst[<span class="st">"Damping ratio"</span>].idxmin(), <span class="st">"Damped frequency (Hz)"</span>]),</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    }, modal_results</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>    app.Hide()</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    combined_results <span class="op">=</span> Study([h_param_small], evaluate_with_sim).run(verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    app.Show()</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>combined_results.evaluations.<span class="bu">round</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1/6] sample</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[2/6] H (multiply)=0.5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[3/6] H (multiply)=0.75</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[4/6] H (multiply)=1.0</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[5/6] H (multiply)=1.25</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[6/6] H (multiply)=1.5</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\seberlein\local\FraunhIEE-UniKassel-PowSysStability\powfacpy\src\powfacpy\base\active_project.py:249: UserWarning: The returned *.ElmRes object is not unique in the  study case: 'Study Cases\powfacpy\Dynamic Modal Analysis'. Make sure that the correct *.ElmRes object is used: &lt;l3&gt;\seberlein.IntUser\powfacpy\39_bus_new_england_copy_to_run_tests.IntPrj\Study Cases.IntPrjfolder\powfacpy\Dynamic Modal Analysis.IntCase\All calculations.ElmRes&lt;/l3&gt;.
+  warn(</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">parameters</th>
+<th colspan="2" data-quarto-table-cell-role="th" data-halign="left">results</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">H (multiply)</th>
+<th data-quarto-table-cell-role="th">worst_damped_freq_Hz</th>
+<th data-quarto-table-cell-role="th">worst_damping_ratio</th>
+</tr>
+<tr class="header">
+<th data-quarto-table-cell-role="th">run</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1.00</td>
+<td>1.1101</td>
+<td>0.0282</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>0.50</td>
+<td>1.5616</td>
+<td>0.0534</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>0.75</td>
+<td>1.2777</td>
+<td>0.0369</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>1.00</td>
+<td>1.1101</td>
+<td>0.0282</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>1.25</td>
+<td>0.9958</td>
+<td>0.0233</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>1.50</td>
+<td>0.9113</td>
+<td>0.0204</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Side by side: the root-locus view from modal analysis, and the actual simulated speed of one machine (<code>G 10</code>, dominant in one of the poorly-damped modes above) for every <code>H</code> in the same sweep. Lower inertia visibly pushes the eigenvalues up the imaginary axis (faster oscillation, matching <code>worst_damped_freq_Hz</code> above) <em>and</em> produces a visibly faster, larger swing in the simulated response - modal analysis and the time-domain simulation agree on the direction of the effect, as they must, since they describe the same system:</p>
+<div id="3e54ba10" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the baseline run (H factor=1.0) duplicates one of the swept values here, so</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># we drop it from this plot with include_baseline=False.</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>combined_sweep <span class="op">=</span> EigenvalueSweepResults.from_study_results(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    combined_results, <span class="st">"H (multiply)"</span>, include_baseline<span class="op">=</span><span class="va">False</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>).track_eigenvalues()</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>swept <span class="op">=</span> [r.varied <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">for</span> r <span class="kw">in</span> combined_results.records]</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>h_values <span class="op">=</span> [</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    h <span class="cf">for</span> h, keep <span class="kw">in</span> <span class="bu">zip</span>(combined_results.evaluations[(<span class="st">"parameters"</span>, <span class="st">"H (multiply)"</span>)], swept) <span class="cf">if</span> keep</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>swept_traces <span class="op">=</span> [sim_res <span class="cf">for</span> sim_res, keep <span class="kw">in</span> <span class="bu">zip</span>(sim_traces, swept) <span class="cf">if</span> keep]</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="fl">4.5</span>))</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>combined_sweep.plot(colorbar_label<span class="op">=</span><span class="st">"H (multiply) factor"</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Eigenvalue movement (root locus)"</span>)</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"G 10 speed after the load step"</span>)</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>g10 <span class="op">=</span> [m <span class="cf">for</span> m <span class="kw">in</span> synchronous_machines <span class="cf">if</span> m.loc_name <span class="op">==</span> <span class="st">"G 10"</span>]</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h, sim_res <span class="kw">in</span> <span class="bu">zip</span>(h_values, swept_traces):</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    speed <span class="op">=</span> pfri.get_simulation_results_from_dataframe(sim_res, g10, RMS_BAL.ElmSym.s_speed.value).iloc[:, <span class="dv">0</span>]</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>    axes[<span class="dv">1</span>].plot(speed.index, speed.to_numpy(), label<span class="op">=</span><span class="ss">f"H factor=</span><span class="sc">{</span>h<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">"time [s]"</span>)<span class="op">;</span> axes[<span class="dv">1</span>].set_ylabel(<span class="st">"speed [pu]"</span>)</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].legend(fontsize<span class="op">=</span><span class="dv">8</span>)<span class="op">;</span> axes[<span class="dv">1</span>].grid(<span class="va">True</span>)</span>
+<span id="cb35-27"><a href="#cb35-27" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="dynamic_modal_analysis_files/figure-html/cell-20-output-1.png" width="1142" height="422" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="where-to-go-from-here" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Where To Go From Here</h1>
+<ul>
+<li><code>ModalAnalysis.run(commod_params={...})</code> passes additional/overriding <code>ComMod</code> parameters straight through (e.g.&nbsp;a different <code>initMode</code>, or a subset of eigenvalues via the <code>isRec*</code> filters) - see PowerFactory’s own documentation of <code>ComMod</code> for what’s available.</li>
+<li>Everything here composes with the rest of <code>parstudy</code>: a full <code>grid</code>, <code>latin_hypercube(n)</code> or <code>sobol(n)</code> sample is one <code>strategy=</code> argument to <code>Study</code>, and <code>EigenvalueSweepResults.from_study_results</code> works the same way regardless of the strategy used to produce <code>sweep_results</code>.</li>
+<li><code>ModalAnalysisResults.get_system_matrix()</code> / <code>.get_states()</code> give the raw state matrix and state names; <code>get_right_eigenvectors()</code> / <code>get_left_eigenvectors()</code> give the raw eigenvectors behind the participation factors and <code>eigenvalue_sensitivity</code> - if you need something this module doesn’t already compute from them.</li>
+<li>Combine this with the <a href="../../docs/tutorials/study_cases.html">Study Cases tutorial</a> to keep a persistent, browsable study case for each point of a sweep you want to revisit by hand, rather than (or alongside) the in-memory <code>parstudy</code> sweep used here - see the <em>Relation to the Study Cases tutorial</em> note in the <a href="../../docs/tutorials/parameter_studies.html">Parameter Studies tutorial</a>.</li>
+</ul>
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-perezarriagaSelectiveModalAnalysis1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">J. I. Pérez-Arriaga, G. C. Verghese, and F. C. Schweppe, <span>“Selective modal analysis with applications to electric power systems, <span>Part I</span>: <span>Heuristic</span> introduction,”</span> <em>IEEE Transactions on Power Apparatus and Systems</em>, vol. PAS–101, no. 9, pp. 3117–3125, Sept. 1982, doi: <a href="https://doi.org/10.1109/TPAS.1982.317524">10.1109/TPAS.1982.317524</a>.</div>
+</div>
+<div id="ref-vergheseSelectiveModalAnalysis1982" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">G. C. Verghese, J. I. Pérez-Arriaga, and F. C. Schweppe, <span>“Selective modal analysis with applications to electric power systems, <span>Part II</span>: <span>The</span> dynamic stability problem,”</span> <em>IEEE Transactions on Power Apparatus and Systems</em>, vol. PAS–101, no. 9, pp. 3126–3134, Sept. 1982, doi: <a href="https://doi.org/10.1109/TPAS.1982.317525">10.1109/TPAS.1982.317525</a>.</div>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/FraunhIEE-UniKassel-PowSysStability\.github\.io\/powfacpy\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../docs/tutorials/parameter_studies.html" class="pagination-link" aria-label="Parameter Studies">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Parameter Studies</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="pagination-link" aria-label="Network Matrices and Pandapower Interface">
+        <span class="nav-page-text">Network Matrices and Pandapower Interface</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/tutorials/dynamic_modal_analysis.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/tutorials/dynamic_modal_analysis.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -88,7 +88,7 @@ div.csl-indent {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../docs/tutorials/static_calc.html" rel="next">
+<link href="../../docs/tutorials/modelica_models.html" rel="next">
 <link href="../../docs/tutorials/dynamic_model_validation.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -221,6 +221,18 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -239,6 +251,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -247,6 +265,18 @@ div.csl-indent {
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -312,10 +342,23 @@ div.csl-indent {
 
 
 <p>This tutorial demonstrates how to generate <em>HTML</em> documentation for dynamic models in <em>PowerFactory</em>, specifically composite models (<code>ElmComp</code>) and their DSL models (<code>ElmDsl</code>). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to <em>PowerFactory</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>DynamicModelDocs</code> needs the <code>markdown</code> package, which is an optional dependency of <em>powfacpy</em>. Install it with <code>pip install powfacpy[docs]</code> (or <code>pip install markdown</code>) before running this tutorial.</p>
+</div>
+</div>
 <section id="setup" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1</span> Setup</h2>
 <p>We begin by starting <em>PowerFactory</em> and activating the project.</p>
-<div id="ce2b56a9" class="cell" data-execution_count="2">
+<div id="2cd72f7c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -329,14 +372,14 @@ div.csl-indent {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> powerfactory.GetApplication()</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(<span class="vs">rf"</span><span class="sc">{</span>SETTINGS[<span class="st">"path to powfacpy folder in PowerFactory database"</span>]<span class="sc">}</span><span class="er">\</span><span class="vs">powfacpy_tests_copy_where_tests_run"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(<span class="vs">rf"</span><span class="sc">{</span>SETTINGS[<span class="st">"path to powfacpy folder in PowerFactory database"</span>]<span class="sc">}</span><span class="er">\</span><span class="vs">powfacpy_tests_copy_to_run_tests"</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="generating-the-documentation" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="generating-the-documentation"><span class="header-section-number">2</span> Generating the Documentation</h2>
 <p>The <code>DynamicModelDocs</code> class from <em>powfacpy</em> generates documentation for a composite model. In this example, we document a hydro turbine model from the Nordic test system <span class="citation" data-cites="ospinaImplementationValidationNordic2017">[<a href="#ref-ospinaImplementationValidationNordic2017" role="doc-biblioref">1</a>]</span> located in the template library of the project. The resulting <em>HTML</em> documentation is displayed in the section below.</p>
-<div id="71cb0993" class="cell" data-execution_count="3">
+<div id="2cc36deb" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.dynamic_model_docs <span class="im">import</span> DynamicModelDocs</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pfdm <span class="op">=</span> DynamicModelDocs(app)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>: </span>
@@ -773,8 +816,8 @@ div.csl-indent {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../docs/tutorials/static_calc.html" class="pagination-link" aria-label="Static Calculations">
-        <span class="nav-page-text">Static Calculations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../docs/tutorials/modelica_models.html" class="pagination-link" aria-label="Importing Modelica Models">
+        <span class="nav-page-text">Importing Modelica Models</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

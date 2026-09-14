@@ -200,6 +200,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/modelica_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Modelica Models</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_model_block_testing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Isolated Testing of Dynamic Model Blocks (DSL/Modelica)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/static_calc.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Static Calculations</span></a>
   </div>
@@ -218,6 +230,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/dynamic_modal_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Modal Analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/network_matrices_and_pandapower_interface.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Network Matrices and Pandapower Interface</span></a>
   </div>
@@ -226,6 +244,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/topology_and_groupings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Topology and Groupings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/digsilent_library.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">The Global DIgSILENT Library</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/template_models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dynamic Model Templates</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -295,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This tutorial evaluates the performance characteristics of the Python API of <em>PowerFactory</em>. The <em>powfacpy</em> wrapper is benchmarked against the native API. Moreover, the performance improvements achieved through the caching mechanisms provided by <em>powfacpy</em> are demonstrated.</p>
 <p>We begin by activating the IEEE 39-bus system project.</p>
-<div id="7cfbf964" class="cell" data-execution_count="2">
+<div id="49fd8e47" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you use IPython/Jupyter:</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
@@ -309,18 +339,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the PF app</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> powerfactory</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject, ActiveProjectCached</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_class_protocols <span class="im">import</span> PFApp</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.pf_classes.protocols <span class="im">import</span> PFApp</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>app: PFApp <span class="op">=</span> powerfactory.GetApplication()</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>app.Show()</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>app.ActivateProject(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_where_tests_run"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="vs">r"powfacpy</span><span class="ch">\3</span><span class="vs">9_bus_new_england_copy_to_run_tests"</span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># Adjust the project path if required.</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject(app)</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>act_prj_cached <span class="op">=</span> ActiveProjectCached(app)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The following platform is used:</p>
-<div id="b99a054e" class="cell" data-execution_count="3">
+<div id="26c9c0a3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> platform</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>uname <span class="op">=</span> platform.uname()</span>
@@ -355,7 +385,7 @@ Processor: Intel64 Family 6 Model 181 Stepping 0, GenuineIntel</code></pre>
 </div>
 </div>
 <p>The methods are benchmarked both with the <em>PowerFactory</em> application visible and hidden (non-interactive engine mode). It is good practice to use a <code>try</code> statement to ensure that the application is restored to a visible state even if an exception occurs during execution.</p>
-<div id="cd417dbf" class="cell" data-execution_count="4">
+<div id="30976bf1" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>act_prj_obj <span class="op">=</span> app.GetActiveProject()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
@@ -377,17 +407,17 @@ Processor: Intel64 Family 6 Model 181 Stepping 0, GenuineIntel</code></pre>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_obj`:                                                      31.2 ms ± 434 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_obj` (cached):                                             17.2 ms ± 3.08 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `GetContents`:                                                  18.3 ms ± 4.28 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `get_obj` (app is hidden):                                      1.1 ms ± 202 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `get_obj` (cached, app is hidden):                              542 μs ± 26.3 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `GetContents` (app is hidden):                                  840 μs ± 257 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+<pre><code>Using `get_obj`:                                                      59.8 ms ± 2.94 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_obj` (cached):                                             28.7 ms ± 549 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetContents`:                                                  28.1 ms ± 1.35 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_obj` (app is hidden):                                      1.32 ms ± 64.8 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `get_obj` (cached, app is hidden):                              712 μs ± 27 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetContents` (app is hidden):                                  720 μs ± 28.3 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
 </div>
 </div>
 <p><code>get_obj</code> is approximately 50% slower than <code>GetContents</code>, but using <code>ActiveProjectCached</code> can mitigate this. However, the dominant performance factor is whether the <em>PowerFactory</em> application is visible or hidden.</p>
 <p>We next compare <code>get_calc_relevant_obj</code> with <code>GetCalcRelevantObjects</code>.</p>
-<div id="a008cfc7" class="cell" data-execution_count="5">
+<div id="6b9c009d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>timeit act_prj.get_calc_relevant_obj(<span class="vs">r"ElmTerm"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `get_calc_relevant_obj` (cached):"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
@@ -407,12 +437,12 @@ Using `GetContents` (app is hidden):                                  840 μs ±
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_calc_relevant_obj`:                                        45.6 ms ± 3.36 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_calc_relevant_obj` (cached):                               42.8 ms ± 1.14 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetCalcRelevantObject`:                                        44.3 ms ± 3.47 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_calc_relevant_obj` (app is hidden):                        1.41 ms ± 180 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `get_calc_relevant_obj` (cached, app is hidden):                1.9 ms ± 589 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `GetCalcRelevantObject` (app is hidden):                        1.3 ms ± 108 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+<pre><code>Using `get_calc_relevant_obj`:                                        31.7 ms ± 795 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_calc_relevant_obj` (cached):                               31.7 ms ± 612 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetCalcRelevantObject`:                                        28.7 ms ± 707 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_calc_relevant_obj` (app is hidden):                        1.45 ms ± 84.2 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `get_calc_relevant_obj` (cached, app is hidden):                1.77 ms ± 295 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetCalcRelevantObject` (app is hidden):                        3.4 ms ± 262 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)</code></pre>
 </div>
 </div>
 <p>Here, the difference between the wrapper and the native method is small. Again, the application state has a substantially larger impact than the method choice.</p>
@@ -420,7 +450,7 @@ Using `GetCalcRelevantObject` (app is hidden):                        1.3 ms ± 
 <section id="getting-attributes" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Getting Attributes</h1>
 <p>We now compare attribute access using <code>get_attr</code> with the native <code>GetAttribute</code> method. The wrapper is evaluated in two modes: passing the object directly and passing its path.</p>
-<div id="cbb8f108" class="cell" data-execution_count="6">
+<div id="7a963fa8" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -451,16 +481,16 @@ Using `GetCalcRelevantObject` (app is hidden):                        1.3 ms ± 
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `get_attr`:                                                     5.5 μs ± 229 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` (cached):                                            5.52 μs ± 283 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` and path:                                            89.4 ms ± 2.7 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `get_attr` and path (cached):                                   43.3 ms ± 2.4 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetAttribute`:                                                 5.26 μs ± 226 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` (app is hidden):                                     3.09 μs ± 597 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` (cached, app is hidden):                             2.61 μs ± 163 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-Using `get_attr` and path (app is hidden):                            1.43 ms ± 124 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `get_attr` and path (cached, app is hidden):                    739 μs ± 29.4 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `GetAttribute` (app is hidden):                                 3.42 μs ± 610 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)</code></pre>
+<pre><code>Using `get_attr`:                                                     7.32 μs ± 1.4 μs per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (cached):                                            5.69 μs ± 455 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` and path:                                            109 ms ± 17.1 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `get_attr` and path (cached):                                   51.4 ms ± 4.61 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetAttribute`:                                                 6.08 μs ± 334 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (app is hidden):                                     6.71 μs ± 637 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` (cached, app is hidden):                             6.13 μs ± 207 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+Using `get_attr` and path (app is hidden):                            1.45 ms ± 60.7 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `get_attr` and path (cached, app is hidden):                    747 μs ± 43.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetAttribute` (app is hidden):                                 5.86 μs ± 209 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)</code></pre>
 </div>
 </div>
 <p><code>get_attr</code> performs similarly to <code>GetAttribute</code>, except when a path must first be resolved to an object, which introduces additional overhead. Notably, the visibility of the application has only a minor influence on pure read operations.</p>
@@ -468,7 +498,7 @@ Using `GetAttribute` (app is hidden):                                 3.42 μs �
 <section id="setting-attributes" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Setting Attributes</h1>
 <p>We now evaluate write performance using <code>set_attr</code> versus <code>SetAttribute</code>. In addition to hiding the application, we examine the effect of enabling the write cache via <code>SetWriteCacheEnabled</code>.</p>
-<div id="0b1401d4" class="cell" data-execution_count="7">
+<div id="e8fdfc92" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj_cached.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;70}</span><span class="st">"</span>.<span class="bu">format</span>(<span class="st">"Using `set_attr`:"</span>), end<span class="op">=</span><span class="st">""</span>)</span>
@@ -516,25 +546,25 @@ Using `GetAttribute` (app is hidden):                                 3.42 μs �
 <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `set_attr`:                                                     123 ms ± 4.88 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `set_attr` (cached):                                            127 ms ± 18.6 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `set_attr` and path:                                            212 ms ± 12.2 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
-Using `set_attr` and path (cached):                                   159 ms ± 24 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `SetAttribute`:                                                 99.1 ms ± 3.89 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+<pre><code>Using `set_attr`:                                                     55.8 ms ± 2.07 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `set_attr` (cached):                                            55.1 ms ± 1.87 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `set_attr` and path:                                            105 ms ± 2.57 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `set_attr` and path (cached):                                   101 ms ± 26.4 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `SetAttribute`:                                                 83.4 ms ± 5.03 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
 
-Using `set_attr` (app is hidden):                                    3.02 ms ± 160 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `set_attr` (cached, app is hidden):                             2.81 ms ± 145 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `set_attr` and path (app is hidden):                            4.32 ms ± 524 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `set_attr` and path (cached, app is hidden):                    3.55 ms ± 312 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
-Using `SetAttribute` (app is hidden):                                 2.96 ms ± 201 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` (app is hidden):                                    6.71 ms ± 1.35 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` (cached, app is hidden):                             6.22 ms ± 576 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (app is hidden):                            7.43 ms ± 260 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (cached, app is hidden):                    7.84 ms ± 1.51 ms per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `SetAttribute` (app is hidden):                                 5.56 ms ± 226 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
 
-Execute `SetWriteCacheEnabled`:                                      135 ns ± 9.83 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
-Using `set_attr` (app hidden, cache enabled):                         955 μs ± 94.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `set_attr` (cached, app hidden, cache enabled):                 889 μs ± 16.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `set_attr` and path (app hidden, cache enabled):                2.08 ms ± 140 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `set_attr` and path (cached, app hidden, cache enabled):        2.08 ms ± 401 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `SetAttribute` (app hidden, cache enabled):                     1.28 ms ± 118 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Execute `WriteChangesToDb`:                                           620 μs ± 45.8 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
+Execute `SetWriteCacheEnabled`:                                      286 ns ± 19.3 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+Using `set_attr` (app hidden, cache enabled):                         1.17 ms ± 35.3 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `set_attr` (cached, app hidden, cache enabled):                 1.23 ms ± 81.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `set_attr` and path (app hidden, cache enabled):                2.56 ms ± 132 μs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+Using `set_attr` and path (cached, app hidden, cache enabled):        1.98 ms ± 56.7 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `SetAttribute` (app hidden, cache enabled):                     1.17 ms ± 36.9 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Execute `WriteChangesToDb`:                                           634 μs ± 21.8 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)</code></pre>
 </div>
 </div>
 <p>Write operations are the most computationally expensive. The choice between wrapper and native method has limited influence, whereas the application state again plays a major role. Enabling the write cache reduces execution time by roughly 50%. However, the overhead of calling <code>SetWriteCacheEnabled</code> and <code>WriteChangesToDb</code> makes this strategy most beneficial when writing larger batches of data.</p>
@@ -542,7 +572,7 @@ Execute `WriteChangesToDb`:                                           620 μs ±
 <section id="caching-return-values" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Caching Return Values</h1>
 <p>Caching refers to storing previously computed or frequently accessed data in a temporary storage layer so that subsequent requests can be served more efficiently. For example, the return value of a method without input arguments can be cached. This is appropriate only if the return value is invariant.</p>
-<div id="c3da3d4e" class="cell" data-execution_count="8">
+<div id="3599a366" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.applications.caching <span class="im">import</span> cache_method</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>terminal <span class="op">=</span> act_prj.get_unique_obj(<span class="vs">r"Network Model</span><span class="er">\</span><span class="vs">Network Data</span><span class="dv">\G</span><span class="vs">rid</span><span class="dv">\B</span><span class="vs">us 01"</span>)</span>
@@ -564,10 +594,10 @@ Execute `WriteChangesToDb`:                                           620 μs ±
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="cf">finally</span>:</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    app.Show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Using `GetClassName`:                                                 45.8 ms ± 1.92 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
-Using `GetClassName` after caching:                                   103 ns ± 3.14 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
-Using `GetClassName` (app is hidden):                                 1.06 ms ± 576 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
-Using `GetClassName` after caching (app is hidden):                   145 ns ± 21 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)</code></pre>
+<pre><code>Using `GetClassName`:                                                 34.5 ms ± 5.97 ms per loop (mean ± std. dev. of 7 runs, 10 loops each)
+Using `GetClassName` after caching:                                   109 ns ± 1.81 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+Using `GetClassName` (app is hidden):                                 599 μs ± 17.1 μs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+Using `GetClassName` after caching (app is hidden):                   106 ns ± 2.97 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)</code></pre>
 </div>
 </div>
 <p>Caching substantially reduces execution time. This approach improves readability compared to manually storing return values in intermediate variables and reusing them.</p>
