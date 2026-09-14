@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -18,7 +18,20 @@ jupyter: python3
 
 # Introduction
 
-This tutorial shows how to perform parameter studies in a concise and structured way and to generate targeted parameter modifications with minimal code. Compared to the 'Study Cases' tutorial, the focus is not on creating study cases, variations and operation scenarios, but rather on the parameter sets. 
+A *parameter study* changes one or more inputs of a simulation model, runs the model, and records a metric - repeated for many input values - so you can see how sensitive a result is to each input. This tutorial uses the [`parstudy`](https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy) package (`pip install powfacpy[parstudy]`) to do the bookkeeping: you declare each quantity to vary as a `ModelParameter`, provide one `evaluate(values)` function that runs your model for a given set of values and returns the results, and a `Study` takes care of which combinations to visit (a sweep strategy), running them, restoring the model afterwards, and collecting everything into a results table with plots and statistics on top.
+
+`powfacpy.applications.parameter_studies` adds two things that are specific to PowerFactory:
+
+- `pf_parameter(...)` - a convenience for sweeping one attribute across a *list* of PF objects in lockstep (a linear range, `"set"`/`"multiply"`/`"add"` against each object's current value);
+- `apply_gradient(...)` - spreads a value unevenly across a list of objects instead (e.g. varying generator inertias across a fleet while keeping the fleet average fixed) - something a generic parameter-study library has no way to know how to do for you.
+
+Everything else used below - `ModelParameter`, `Study`, `StudyResults` - is plain `parstudy` functionality.
+
+## Relation to the *Study Cases* tutorial
+
+The [Study Cases tutorial](study_cases.qmd) solves a related but different problem. `StudyCases` materializes every parameter combination as a persistent study case (with a matching operation scenario/variation) in the PF project database - well suited to a moderate, fixed set of combinations you want to keep around, browse, activate and rerun manually in the PowerFactory GUI, or compare via PF's own plot pages. `parstudy`, used here, instead mutates the model in place for each run, evaluates it, and restores it afterwards - nothing is written to the database permanently. That makes it the better fit for larger or more exploratory sweeps (a full `grid`, `latin_hypercube(n)`, `sobol(n)` sampling) where you mainly want the resulting numbers - plus the sweep strategies, statistics (`correlation`, `regression`, `sobol_indices`) and plots `parstudy` builds on top - rather than a browsable set of PF cases. The two are not mutually exclusive: an `evaluate` function can just as well activate one of `StudyCases`'s pre-built cases instead of mutating attributes directly, combining persistent, inspectable cases with `parstudy`'s sampling and analysis.
+
+# Setup
 
 First, we activate the PowerFactory project, i.e. the *IEEE 39 bus system*.
 
@@ -40,7 +53,7 @@ import powfacpy
 app = powerfactory.GetApplication()
 app.Show()
 app.ActivateProject(
-    r"powfacpy\39_bus_new_england_copy_where_tests_run"
+    r"powfacpy\39_bus_new_england_copy_to_run_tests"
 )  # You may change the project path.
 ```
 
@@ -54,7 +67,7 @@ act_prj.create_study_case("Parameter Study", r"Study Cases\2.1 Simulation Fault 
 act_prj.clear_results_variables()
 ```
 
-We get all synchronous machines and their types and their rotor speed as monitored result varibales.
+We get all synchronous machines and their types, and monitor their rotor speed.
 
 ```{python}
 from powfacpy.result_variables import ResVar
@@ -68,193 +81,175 @@ try:
     act_prj.add_results_variable(synchronous_machines, RMS_BAL.ElmSym.s_speed.value)
 finally:
     app.Show()
-synchronous_machines    
+synchronous_machines
 ```
 
-# Definition of Variants
+# Defining Parameters
 
+We define two `parstudy.ModelParameter`s, both affecting the inertia constant (`tag`) of the synchronous machine types, but in different ways: one scales every machine uniformly, the other redistributes inertia between just two of them.
 
-We define the parameter sets to be simulated by instantiating the `Variant` class. This class provides a concise and structured way to generate targeted parameter modifications with minimal code. Two representative examples are outlined below.
+## A multiplicative sweep
 
----
-
-**Variant 1**: *“All SM (H, mult.)”*
-
-This variant modifies the inertia constant (`tag`) of all synchronous machine (SM) types. The original inertia values are scaled multiplicatively by factors ranging from 0.6 to 1.4, distributed over four equidistant steps.
-
-The first plot below illustrates the resulting inertia constants for all SM types across these scaling factors.
-
-Note that, in addition to multiplicative scaling, the `Variant` class also supports alternative modification schemes, such as additive offsets to the original parameter values.
-
----
-
-**Variant 2**: *"All SM (H, grad.)"*
-
-The second variant also targets the inertia constants but applies a gradient distribution (`var.variation_type = "gradient"`).
-
-As shown in the second plot below:
-
-* The inertia of the first generator (Gen 01) is varied from 6 to 10.
-* The inertia of the last generator (Gen 10) is varied from 10 to 6.
-* etc.
-
-This creates a linear gradient across the generator fleet while preserving the overall average inertia of the system (though relative to the nominal power of the generators).
+`pf_parameter` builds a `ModelParameter` that scales every machine type's inertia by the same factor, from 0.6 to 1.4 over four steps - a shared range applied to objects that do not all start at the same value.
 
 ```{python}
-from powfacpy.applications.parameter_studies import Variant
+from powfacpy.applications.parameter_studies import pf_parameter
 
-try:
-    app.Hide()
-    
-    variants = []
-
-    var = Variant(app)
-    var.name = "All SM (H, mult.)"
-    var.objs_and_attr = [synchronous_machine_types, "tag"]
-    var.par_range = [0.6, 1.4]
-    var.steps = 4
-    var.value_calculation = "multiply" # other options are e.g. "add"
-    var.initialize()
-    variants.append(var)
-    
-    var = Variant(act_prj.app)
-    var.name = "All SM (H, grad.)"
-    var.objs_and_attr = [synchronous_machine_types, "tag"]
-    var.par_range = [6, 10]
-    var.steps = 4
-    var.value_calculation = "equal"
-    var.variation_type = "gradient"
-    var.initialize()
-    variants.append(var)
-
-finally:
-    app.Show()    
+h_mult = pf_parameter(
+    "H (multiply)", synchronous_machine_types, "tag", par_range=(0.6, 1.4), steps=4, mode="multiply",
+)
+h_mult.values
 ```
+
+## A custom sweep
+
+`pf_parameter` (and `ModelParameter`'s own `mode="set"/"multiply"/"add"`) always write the *same* value to every object in `affects`. Sometimes that is not what you want - here, we transfer inertia from one specific machine type to another instead: as the parameter increases, `synchronous_machine_types[0]` gains inertia and `synchronous_machine_types[-1]` loses the same amount, keeping their combined total fixed. There is no generic `ModelParameter` option for that, so we declare it with `auto_apply=False` (its `affects` still drives the snapshot / restore-on-exit and the audit trail) and write the two lines of custom logic ourselves, directly in `evaluate` below.
+
+(`powfacpy.applications.parameter_studies` also ships `apply_gradient`, a ready-made version of this same idea that spreads a value unevenly across an entire *fleet* of objects rather than just two named ones - see its docstring. We write the two-machine version by hand here since it is simpler to follow.)
+
+```{python}
+from parstudy import ModelParameter, linspace
+
+h_transfer_range = (-2.0, 2.0)
+machine_a, machine_b = synchronous_machine_types[0], synchronous_machine_types[-1]
+h_transfer_baseline = (machine_a.GetAttribute("tag"), machine_b.GetAttribute("tag"))
+
+h_transfer = ModelParameter(
+    "H (transfer)", linspace(*h_transfer_range, 4),
+    affects=[(machine_a, "tag"), (machine_b, "tag")],
+    auto_apply=False,
+)
+```
+
+A quick preview - without touching PowerFactory at all - of what each parameter would write, across its four steps: every machine type for `H (multiply)`, just `machine_a`/`machine_b` for `H (transfer)`:
 
 ```{python}
 import matplotlib.pyplot as plt
 
-plt.rcParams.update({"axes.grid" : True})
-for var in variants:
-    plt.figure()
-    for sm, h_values in var.values.items():
-        plt.plot(h_values, linestyle='--', marker='x', label=sm[0].loc_name)
-    plt.xticks(
-        ticks=list(range(len(var.names_for_each_value  ))),
-        labels=var.names_for_each_value,
-    )
-    plt.xticks(rotation=90)
-    plt.ylabel("Inertia [s]")
-    plt.subplots_adjust(bottom=0.3)    
-    plt.title(var.name)
-    plt.legend()
+plt.rcParams.update({"axes.grid": True})
+names = [t.loc_name for t in synchronous_machine_types]
+baselines = [t.GetAttribute("tag") for t in synchronous_machine_types]
+
+fig, axes = plt.subplots(1, 2, figsize=(11, 4))
+
+axes[0].set_title("H (multiply)")
+for name, base in zip(names, baselines):
+    axes[0].plot(h_mult.values, [base * f for f in h_mult.values], marker="x", ls="--", label=name)
+axes[0].set_xlabel("factor"); axes[0].set_ylabel("inertia [s]")
+axes[0].legend(fontsize=7, ncol=2)
+
+axes[1].set_title("H (transfer)")
+base_a, base_b = h_transfer_baseline
+axes[1].plot(h_transfer.values, [base_a + v for v in h_transfer.values], marker="x", ls="--", label=machine_a.loc_name)
+axes[1].plot(h_transfer.values, [base_b - v for v in h_transfer.values], marker="x", ls="--", label=machine_b.loc_name)
+axes[1].set_xlabel("H (transfer) value [s]")
+axes[1].legend(fontsize=8)
+
+fig.tight_layout()
 ```
 
-# The `ParameterStudy` Class
+# Running the Study
 
+`Study` needs one `evaluate` function, called once per run.
 
-The `ParameterStudy` class offers an interface to several `Variants`.
+- **Input:** `evaluate(values)` (or `evaluate(values, context)`) receives `values`, a `dict` mapping *every* parameter's name to the value it takes in this run - not only the one currently being swept. For a parameter that is not varied in a given run, `values` holds its `default` (the mean of its `values` unless you pass `default=...` explicitly). The optional second argument `context` is a `parstudy.RunContext` whose `context.varied` names the parameter being swept in this run, or is `None` for the baseline run.
+- **Output:** `evaluate` must return either a mapping of scalar results (e.g. `{"max_speed": 1.02}`), or a `(mapping, raw)` tuple. `mapping` becomes one row of the `results` block of the study's table; `raw` is the full artefact of the run (here, the whole simulation `DataFrame`) - kept in memory (or written to disk if `Study(..., raw_store=...)` is set) and retrievable later via `StudyResults.raw(run)`.
 
-```{python}
-from powfacpy.applications.parameter_studies import ParameterStudy
-from powfacpy.result_variables import ResVar
-RMS_BAL = ResVar.RMS_Bal
+By default (`strategy="one_at_a_time"`, used below since we don't pass `strategy=`), the plan is: one *baseline* run with every parameter at its `default`, then, for each parameter in turn, one run per value in its `values` while every other parameter stays at its `default`.
 
-try:
-    app.Hide()
-    parstudy = ParameterStudy()
-    parstudy.variants = variants
-    parstudy.initialize()
-finally:
-    app.Show()   
-```
-
-As shown in the plot below, the values of the parameter sets of both variants can be accessed and compared.
+`h_mult` auto-applies itself (its `affects` and `mode="multiply"` are enough). `h_transfer` needs the explicit two-line transfer - but only in the run where it is actually being swept: `values` always contains an entry for `"H (transfer)"` (its `default`, even while `h_mult` is being swept), so checking `"H (transfer)" in values` would apply the transfer on *every* run - even the ones sweeping `h_mult` - overwriting `h_mult`'s scaling on `machine_a`/`machine_b` with the transfer's own (default, no-op) values instead. `context.varied` tells us which parameter this particular run is actually varying, so that is what we check instead. This is also precisely what lets both parameters share a single `Study` below, rather than needing one `Study` each.
 
 ```{python}
-for sm, h_values in parstudy.values.items():
-    plt.plot(h_values, linestyle='--', marker='x', label=sm[0].loc_name)
-simulation_names = parstudy.get_all_names()    
-plt.xticks(
-    ticks=list(range(len(simulation_names))),
-    labels=simulation_names,
-)
-plt.xticks(rotation=90)
-plt.ylabel("Inertia [s]")
-plt.subplots_adjust(bottom=0.3)    
-plt.legend()    
-```
-
-We can now iterate all parameters sets and perform any kind of simulation or calculation. The values for each step are automatically set in *PowerFactory*.
-
-```{python}
-try:
-    app.Hide()
-    for values, sim_name in parstudy.step_generator():
-        print(sim_name)
-        print(values)
-        # perform any kind of calculation
-    parstudy.set_default_values()     
-finally:
-    app.Show()
-```
-
-You can also set the parameters for a specific simulation by specifiying the name of the variant and the step:
-
-```{python}
-parstudy.set_values_in_pf("All SM (H, grad.)", 3)
-```
-
-For dynamic (RMS or EMT) simulations, a dedicated utility function is available that automatically executes the simulation for all defined parameter sets and returns the corresponding time-domain results.
-
-```{python}
-try:
-    app.Hide()
-    sim_res_time_domain = parstudy.execute_dynamic_simulations()
-    
-finally:
-    app.Show()
-```
-
-We can access the results using the simulation name.
-
-```{python}
-sim_res_time_domain.keys() # simulation names
-```
-
-```{python}
-sim_res_time_domain['All SM (H, mult.)=0.600']
-```
-
-# Analysis of Simulation Results
-
-We now want to find out the maximum rotor speed of any generator in each simulation. 
-
-```{python}
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 
-try:
-    app.Hide()
-    pfres = Results(app)
-    pfres.pf_objects_in_labels = True
-    max_frequency = {}
-    for sim_name, sim_res in sim_res_time_domain.items():
-        max_frequency[sim_name] = pfres.get_simulation_results_from_dataframe(sim_res, synchronous_machines, RMS_BAL.ElmSym.s_speed.value).max(0).max()
-finally:
-    app.Show()
-max_frequency    
+pfds = DynamicSimulation(app)
+pfri = Results(app)
+pfri.pf_objects_in_labels = True
+
+def evaluate(values, context):
+    if context.varied == "H (transfer)":
+        base_a, base_b = h_transfer_baseline
+        machine_a.SetAttribute("tag", base_a + values["H (transfer)"])
+        machine_b.SetAttribute("tag", base_b - values["H (transfer)"])
+    pfds.initialize_and_run_sim()
+    sim_res = pfri.export_to_pandas()
+    max_speed = pfri.get_simulation_results_from_dataframe(
+        sim_res, synchronous_machines, RMS_BAL.ElmSym.s_speed.value
+    ).max(axis=0).max()
+    return {"max_speed": float(max_speed)}, sim_res
 ```
 
-The result is illustrated in the plot below. The mutiplication has a stronger influence than the gradient distribution.
+Both parameters can therefore share a single `Study`. `Study.run()` sweeps them (baseline, then `h_mult`'s four values, then `h_transfer`'s four values), applies/restores the model for us, and returns one `StudyResults`.
 
 ```{python}
-plt.plot(max_frequency.values(), linestyle='--', marker='o')
-plt.xticks(
-    ticks=list(range(len(max_frequency.keys()))),
-    labels=max_frequency.keys(),
-)
-plt.xticks(rotation=90)
-plt.ylabel("Maximum frequency [pu]")
-plt.subplots_adjust(bottom=0.3)
+from parstudy import Study
+
+try:
+    app.Hide()
+    results = Study([h_mult, h_transfer], evaluate).run(verbose=1)
+finally:
+    app.Show()
 ```
+
+## The results table
+
+One row per run - the shared baseline, then four rows sweeping `H (multiply)`, then four sweeping `H (transfer)` - with `parameters` and `results` blocks. The `parameters` block shows *every* parameter's value on *every* row, with `default` filled in for whichever one isn't being swept that run. The baseline row (`H (multiply)=1.0`, `H (transfer)=0.0`) is not a special "zero" case - it is simply the "no change" point of each range:
+
+```{python}
+results.evaluations.round(4)
+```
+
+`StudyResults.raw(run)` gives back the full simulation `DataFrame` of any run, and `StudyResults.varied` names which parameter (if any) was swept for each row. `StudyResults.tornado(metric)` shows, for *every* swept parameter, the swing between its smallest and largest step relative to the baseline - with two parameters in one `Study`, one call now compares both:
+
+```{python}
+results.tornado("max_speed");
+```
+
+`H (multiply)`'s bar is not centered on the baseline, even though its range (0.6 to 1.4) *is* centered on 1.0 - and that is not a bug: the bar shows the actual `max_speed` at the parameter's lowest and highest swept value, each minus the baseline, from the results table above. Dropping to `H (multiply)=0.6` raises `max_speed` by about +0.076 (1.1615 vs. the 1.0859 baseline); raising it to `H (multiply)=1.4` only lowers `max_speed` by about -0.025 - less than a third as much, in the opposite direction. That asymmetry is real: `max_speed` is not linear in `H`, since inertia's stabilizing effect has diminishing returns as it grows, so equal-sized steps in `H` do not produce equal-and-opposite steps in the response. `H (transfer)`'s bar shows a milder version of the same thing. A symmetric *input* range earns you a directly comparable pair of points to read off - not a symmetric *output* swing, which would only happen if the underlying relationship were linear (it rarely is, this close to a real disturbance's nonlinear dynamics).
+
+## Plotting each parameter's sweep
+
+`StudyResults.plot(metric)` puts every swept parameter in its own panel, x-axis at the parameter's *actual* value (not the run number), sorted and including the shared baseline point at each parameter's own default. `H (multiply)`'s panel has by far the larger vertical spread: scaling every machine's inertia together moves the fleet's *total* inertia and therefore the frequency response directly, whereas `H (transfer)` only moves two machines' inertias in opposite directions, leaving the fleet total unchanged - so its swing in `max_speed` here is only about a quarter of `H (multiply)`'s:
+
+```{python}
+results.plot("max_speed");
+```
+
+# Advanced Parameter Patterns
+
+Two further patterns are worth knowing, shown here without running them (they need model pieces this tutorial's test system does not have).
+
+**Post-processing-only parameters** do not change the simulation at all - a typical example is the filter/averaging time of a RoCoF measurement. Mark them with `affects_simulation=False` (a hint `parstudy` just stores for you) and, in `evaluate`, use `context.varied` (as above) to reuse the previous run's raw simulation instead of resimulating:
+
+```python
+filter_time = ModelParameter("filter time", linspace(0.1, 0.7, 4), default=0.4, affects_simulation=False)
+
+_cache = {}
+
+def evaluate(values, context):
+    if context.varied == "filter time" and "sim" in _cache:
+        sim_res = _cache["sim"]
+    else:
+        pfds.initialize_and_run_sim()
+        sim_res = _cache["sim"] = pfri.export_to_pandas()
+    rocof = compute_rocof(sim_res, filter_time=values["filter time"])  # only this changes
+    return {"rocof": rocof}, sim_res
+```
+
+**Parameters with no plain PF attribute** (a value written into a DSL array, say) simply omit `affects` - there is nothing to snapshot or auto-apply - and `evaluate` does the writing itself:
+
+```python
+rocof_param = ModelParameter("External grid (RoCoF)", linspace(-3.0, -0.5, 4))  # no 'affects'
+
+def evaluate(values):
+    set_external_rocof(values["External grid (RoCoF)"])  # writes a DSL array - your own code
+    ...
+```
+
+Since there is no `affects`, remember to reset it yourself afterwards if that matters (e.g. in a `finally` block around `study.run()`).
+
+# Where To Go From Here
+
+Because `results` is a plain `parstudy.StudyResults`, everything in parstudy's own tutorial applies unchanged: switching to a full `grid`, a `latin_hypercube(n)` or `sobol(n)` sample is one `strategy=` argument to `Study`; `run(parallel=N)` spreads runs over worker processes; `raw_store=...` writes each run's raw simulation to disk and enables `run(resume=True)`; `correlation()` / `regression()` / `sobol_indices()` quantify what `tornado`/`plot` show visually; `study.export_design(path)` / `parstudy.from_design(path)` save and replay a run matrix; and `parstudy.diff(before, after)` compares two studies run on the same design - handy for "I changed the model - what did it do to my results?".
 
