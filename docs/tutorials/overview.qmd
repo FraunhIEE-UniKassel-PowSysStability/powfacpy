@@ -2,7 +2,7 @@
 title: Overview
 toc: true
 number-sections: true
-jupyter: python3
+jupyter: powfacpy
 ---
 
 The following tutorials illustrate the functionality of *powfacpy*. You can use the *PowerFactory* project under [*tests\tests_input\powfacpy_tests.pfd*](../../tests/tests_input/) to run the commands in the tutorials locally. You can follow the link to *Github* on the right to download the tutorials in *.qmd* format ([*quarto*](https://quarto.org/)). If you prefer *jupyter* notebook format, you can convert them with `quarto convert <tutorial_name.qmd>` (assuming *quarto* is installed).
@@ -20,6 +20,12 @@ This [tutorial](dynamic_model_validation.qmd) illustartes the dynamic simulation
 ## Dynamic Model Documentation
 The [dynamic model documentation tutorial](dynamic_model_documentation.qmd) demonstrates how to generate *HTML* documentation for dynamic models in *PowerFactory*, specifically composite models (`ElmComp`) and their DSL models (`ElmDsl`). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to *PowerFactory*.
 
+## Importing Modelica Models (experimental)
+The [Modelica models tutorial](modelica_models.qmd) shows how to create and compile a PowerFactory Modelica model type (`TypMdl`) from a `.mo` file or a `ModelicaModelSpec` with `powfacpy.applications.modelica`, without entering the declarations and equations through the GUI. The running example is a stepwise under-frequency / RoCoF load-shedding controller.
+
+## Isolated Testing of Dynamic Model Blocks (DSL/Modelica)
+The [dynamic model block testing tutorial](dynamic_model_block_testing.qmd) exercises a DSL block definition (`BlkDef`) or a compiled Modelica model type (`TypMdl`) in isolation, independently of any grid or network it will eventually be connected to. It shows both isolated testers: `BlockDefinitionFrameTest` / `ModelicaModelFrameTest` (model placed in the shipped `BlockDefinitionTesting` composite frame, inputs fed by an `lapprox` DSL - true ramps and arbitrary piecewise-linear profiles) and, for a Modelica model directly with no frame at all, `ModelicaModelTest` (inputs driven by parameter events - step changes only).
+
 ## Static Calculations (Load Flow etc.)
 The static calculations [in this tutorial](static_calc.qmd) like *power flow* (or *load flow* as it's called in *PowerFactory*) or *short circuit analysis* are not the main focus of *powfacpy*. However, *powfacpy* provides a convenient interface to perform these calculations and to access the results.
 
@@ -27,7 +33,10 @@ The static calculations [in this tutorial](static_calc.qmd) like *power flow* (o
 The [study cases tutorial](study_cases.qmd) illustrates how to automatically create study cases for parameter studies. 
 
 ## Parameter Studies
-This [tutorial](parameter_studies.qmd) shows how to perform parameter studies in a concise and structured way and to generate targeted parameter modifications with minimal code. Compared to the 'Study Cases' tutorial, the focus is not on creating study cases, variations and operation scenarios, but rather on the parameter sets.
+This [tutorial](parameter_studies.qmd) shows how to perform parameter studies in a concise and structured way and to generate targeted parameter modifications with minimal code, built on the backend-agnostic [`parstudy`](https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy) package (`powfacpy[parstudy]`) - `powfacpy.applications.parameter_studies` only adds `pf_parameter` (sweep an attribute across a list of PF objects) and `apply_gradient` (spread it unevenly across them instead). Compared to the 'Study Cases' tutorial, `parstudy` mutates the model in place and restores it after each run rather than materializing a persistent study case per combination - a better fit for large or exploratory sweeps (grids, Latin hypercube, Sobol sampling) where the sweep strategy, statistics and plots matter more than having a browsable, reusable set of PF cases.
+
+## Dynamic Modal Analysis
+The [dynamic modal analysis tutorial](dynamic_modal_analysis.qmd) covers `powfacpy.applications.dynamic_modal_analysis`: a `ModalAnalysis` wrapper around PowerFactory's modal analysis command (`ComMod`) that returns eigenvalues, damping ratios, frequencies and participation factors as a `ModalAnalysisResults`, with filtering and plotting. Eigenvalue *sweeps* - how the eigenvalues move as a parameter changes - are built on the same `parstudy.Study` mechanism as the Parameter Studies tutorial; `track_eigenvalues`/`EigenvalueSweepResults` then turn the resulting sequence into a consistently-indexed root-locus trajectory, with `Sensitivity`/`ParametricSensitivity` on top. The tutorial closes by connecting this to a time-domain simulation of the same parameter sweep, showing the two agree.
 
 ## Network Matrices and *Pandapower* Interface
 This [tutorial](network_matrices_and_pandapower_interface.qmd) demonstrates how to export network matrices such as admittance or Jacobian matrix using the *Pandapower* interface as an intermediate step.
@@ -35,8 +44,14 @@ This [tutorial](network_matrices_and_pandapower_interface.qmd) demonstrates how 
 ## Topology and Groupings
 The [tutorial on topology and groupings](topology_and_groupings.qmd) focuses on the grouping of network elements into boundaries, zones and areas.
 
+## The Global DIgSILENT Library
+The [global DIgSILENT library tutorial](digsilent_library.qmd) shows how to navigate the built-in library by the folder names shown in the GUI (which differ from the coded names the Python API expects), using `DigsilentLibrary`.
+
+## Dynamic Model Templates
+The [dynamic model templates tutorial](template_models.qmd) covers `powfacpy.template_models`: Python interfaces to library templates that read information hidden in the controllers (e.g. the inertia of a grid-forming converter), `LibraryTemplateIndex` to detect which global-library template each controller in the active project's grid was built from, and `TemplateMatcher` which combines the two.
+
 ## Subsystems
-The [Subsystems tutorial](subsystems.qmd) covers similar topics as the topology and groupings tutorial on zones, areas and boundaries. However, the *SubSystem* and *SubSystemContainer* clases of *powfacpy* go beyond the functionality and add further analysis for coherent network areas and their interactions (e.g. power exchange, connectivity, etc.).
+The [Subsystems tutorial](subsystems.qmd) covers similar topics as the topology and groupings tutorial on zones, areas and boundaries. However, the *SubSystem* and *SubSystemContainer* clases of *powfacpy* go beyond the functionality and add further analysis for coherent network areas and their interactions (e.g. power exchange, connectivity, frequency stability / inertia, etc.).
 
 ## CGMES Model Exchange
 In the [cgmes model exchange tutorial](cgmes_model_exchange.qmd) you can learn how to get started with the application.model_exchange tool to export, import or update grid models using CGMES.

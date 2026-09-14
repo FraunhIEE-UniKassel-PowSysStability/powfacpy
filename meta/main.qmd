@@ -12,7 +12,7 @@ Note that each cell can also be executed in isolation, which is achieved by the 
 
 ```{python}
 EXECUTION_CONTROL = [
-    # "run_tests",
+    "run_tests",
     "synchronize_notebooks",
     "create_api_docs",
     "render_quarto",
@@ -50,7 +50,7 @@ This cell generates the API documentation, which is included as part of the rend
 from helpers import get_package_name
 
 if not 'EXECUTION_CONTROL' in locals() or "create_api_docs" in EXECUTION_CONTROL:
-    !(pdoc ../src/powfacpy !powfacpy.result_variables !powfacpy.pf_class_protocols !powfacpy.pf_classes.protocols -o docs/api)        
+    !(pdoc ../src/powfacpy !powfacpy.result_variables !powfacpy.pf_class_protocols !powfacpy.pf_classes.protocols -o ../docs/api)        
 ```
 
 # Render Quarto
