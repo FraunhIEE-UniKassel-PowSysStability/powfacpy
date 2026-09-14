@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -47,7 +47,7 @@ sys.path.append(
 import powerfactory
 app = powerfactory.GetApplication()
 app.Show()
-app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\39_bus_new_england_copy_where_tests_run")
+app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\39_bus_new_england_copy_to_run_tests")
 
 act_prj = ActiveProject(app)
 act_prj.activate_study_case(r"Study Cases\1. Power Flow")

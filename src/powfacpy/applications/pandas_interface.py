@@ -3,7 +3,6 @@
 import pandas as pd
 import numpy as np
 from pandas.api.types import is_complex_dtype
-from icecream import ic
 
 from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.applications.application_base import ApplicationBase

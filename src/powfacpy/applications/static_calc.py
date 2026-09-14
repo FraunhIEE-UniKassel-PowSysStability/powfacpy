@@ -5,8 +5,6 @@ from os import getcwd, remove
 
 import pandas as pd
 import numpy as np
-from icecream import ic
-
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.results import Results

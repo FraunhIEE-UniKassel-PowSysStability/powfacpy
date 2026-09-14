@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -38,7 +38,7 @@ import powfacpy
 
 app.Show()
 app.ActivateProject(
-    r"powfacpy\powfacpy_tests_copy_where_tests_run"
+    r"powfacpy\powfacpy_tests_copy_to_run_tests"
 )  # You may change the project path.
 ```
 

@@ -6,7 +6,6 @@ import pandas as pd
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.applications.results import Results
-import powfacpy.applications.topology
 from powfacpy.pf_classes.protocols import ElmBoundary, PFGeneral, ElmZone, ElmNet
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
@@ -127,8 +126,11 @@ class Boundary(ElmBase, GroupingBase):
         Returns:
             ElmZone: Created zone object
         """
+        # Imported lazily to avoid a circular import (topology imports Boundary).
+        from powfacpy.applications.topology import Topology
+
         terms = self.get_internal_elms_of_class("ElmTerm")
-        topo = powfacpy.applications.topology.Topology(cached=True)
+        topo = Topology(cached=True)
         if name is None:
             name = self._obj.loc_name
         if color is None:

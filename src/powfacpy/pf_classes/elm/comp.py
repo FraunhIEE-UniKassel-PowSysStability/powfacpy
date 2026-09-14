@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from icecream import ic
-
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import PFGeneral, BlkSlot, ElmComp, ElmDsl
 from powfacpy.pf_classes.elm.elm_base import ElmBase
@@ -101,7 +99,7 @@ class CompositeModel(ElmBase):
             include_empty_slots=False
         ).items():
             slot = Slot(slot)
-            result_signals = slot.get_signal_type(signal_types) 
+            result_signals = slot.get_signal_type(signal_types)
             act_prj.add_results_variable(slot._obj, result_signals)
             if create_plots:
                 pfplt.set_active_plot(net_elm.loc_name, "§ " + net_elm.loc_name)
@@ -111,7 +109,7 @@ class CompositeModel(ElmBase):
         """Monitor internals of the network elements in the slots that are of class 'ElmDsl'.
 
         Args:
-            signals (list[str]): Internal signals to monitor (e.g. ["input_signals", "output_signals", "states", "internal_variables","upper_limitation_signals", 
+            signals (list[str]): Internal signals to monitor (e.g. ["input_signals", "output_signals", "states", "internal_variables","upper_limitation_signals",
             "lower_limitation_signals"]). If None, all signals are monitored. Defaults to None.
             create_plots (bool): If True, plots are created for the signals of each 'ElmDsl' model. Defaults to False.
         """
@@ -124,7 +122,7 @@ class CompositeModel(ElmBase):
         ).items():
             if net_elm.GetClassName() == "ElmDsl":
                 blkdef = BlockDefinition(net_elm.typ_id)
-                result_variables = blkdef.get_signal_results_variables(signal_types)  
+                result_variables = blkdef.get_signal_results_variables(signal_types)
                 act_prj.add_results_variable(net_elm, result_variables)
                 if create_plots:
                     pfplt.set_active_plot(net_elm.loc_name, "§ " + net_elm.loc_name)
@@ -132,7 +130,3 @@ class CompositeModel(ElmBase):
             elif net_elm.GetClassName() == "ElmComp":
                 comp = CompositeModel(net_elm)
                 comp.monitor_signals_of_dsl_models(signal_types, create_plots)
-
-
-
-            

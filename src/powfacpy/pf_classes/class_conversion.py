@@ -13,14 +13,20 @@ from powfacpy.pf_classes.blk.slot import Slot
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.pf_classes.elm.dsl import DSLModel
 from powfacpy.pf_classes.elm.sym import SynchronousMachine
+from powfacpy.pf_classes.elm.genstat import StaticGenerator
+from powfacpy.pf_classes.elm.pvsys import PVSystem
+from powfacpy.pf_classes.elm.tr2 import TransformerTwoWinding
 from powfacpy.pf_classes.protocols import PFGeneral
 
 
 pf_to_powfacpy_class_mapping = {
     "Elm": {
         "Sym": SynchronousMachine,
-        "ElmDsl": DSLModel,
-        "ElmComp": CompositeModel,
+        "Genstat": StaticGenerator,
+        "Pvsys": PVSystem,
+        "Tr2": TransformerTwoWinding,
+        "Dsl": DSLModel,
+        "Comp": CompositeModel,
     },
     "Blk": {
         "Def": BlockDefinition,

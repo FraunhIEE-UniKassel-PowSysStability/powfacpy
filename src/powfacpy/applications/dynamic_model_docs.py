@@ -1,4 +1,10 @@
-""" """
+"""Generate HTML documentation for PowerFactory dynamic models.
+
+See `DynamicModelDocs` - it renders the parameters, block diagrams and DSL
+equations of composite models (`ElmComp`) and their DSL models (`ElmDsl`) into a
+self-contained HTML page (useful for reports or sharing with people without
+PowerFactory access).
+"""
 
 from __future__ import annotations
 
@@ -13,17 +19,15 @@ from pathlib import Path
 
 import pandas as pd
 import numpy as np
-from icecream import ic
-
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.base.string_manipulation import PFStringManipulation
 from powfacpy.pf_classes.protocols import ElmDsl, PFGeneral, PFApp, ElmComp
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.pf_classes.blk.definition import BlockDefinition
 
+
 class DynamicModelDocs(ApplicationBase):
-    """Document dynamic DSL models in html (parameters, graphics, equations,..). 
+    """Document dynamic DSL models in html (parameters, graphics, equations,..).
     """
 
     @property
@@ -32,7 +36,7 @@ class DynamicModelDocs(ApplicationBase):
         try:
             return self._composite_model._obj
         except AttributeError:
-            raise AttributeError("Attribute 'composite mode' not found. Please set.") 
+            raise AttributeError("Attribute 'composite mode' not found. Please set.")
 
     @composite_model.setter
     def composite_model(self, composite_model):
@@ -49,7 +53,7 @@ class DynamicModelDocs(ApplicationBase):
         "Directory where documentation will be created."
         self.file_name: str | None = None
         "File name of html file in 'target_directory'."
-        self.css_file_dir: str | None = None 
+        self.css_file_dir: str | None = None
         "Directory of css file to style html."
         self.include_out_of_service: bool = False
         "If True, models that are out of service are included."
@@ -58,7 +62,7 @@ class DynamicModelDocs(ApplicationBase):
         self.block_definition_attributes = ["Title", "Output signals", "Input signals", "States", "Parameters", "Upper limitation parameters", "Lower limitation parameters", "Equations"]
         "Block defintion attributes that are referenced."
         self.all_blkdef_info = {
-            "blkdefs_without_subblocks": [], 
+            "blkdefs_without_subblocks": [],
             "blkdefs_with_subblocks": [],
         }
         "Information about all block definitions (BlkDef) in the composite frame. See 'get_info' method of the 'BlockDefinition' class. The block definitions are separated into with and without subblocks"
@@ -74,7 +78,6 @@ class DynamicModelDocs(ApplicationBase):
         "Documentation of block definitions with subblocks in markdown."
         self._blkdef_macro_docs: str | None = None
         "Documentation of block definitions without subblocks in markdown."
-        
 
     def create_composite_model_docs(
         self, clear_target_dir: bool = False
@@ -90,10 +93,10 @@ class DynamicModelDocs(ApplicationBase):
             os.makedirs(self.target_directory)
         if self.css_file_dir is None:
             # use css file in .\styles folder in root
-            module_dir = os.path.dirname(os.path.abspath(__file__))  
-            self.css_file_dir = "\\".join(module_dir.split("\\")[0:-3]) + "\\" + "styles\\dynamic_model_docs.css"  
+            module_dir = os.path.dirname(os.path.abspath(__file__))
+            self.css_file_dir = "\\".join(module_dir.split("\\")[0:-3]) + "\\" + "styles\\dynamic_model_docs.css"
         if self.file_name is None:
-            self.file_name = self.composite_model.loc_name    
+            self.file_name = self.composite_model.loc_name
         self.get_block_defintion_info_of_dsl_models()
         self._get_unique_names_for_block_definitions()
         self._create_blkdef_macro_docs()
@@ -102,17 +105,16 @@ class DynamicModelDocs(ApplicationBase):
         markdown_content = self._comp_model_docs + self._blkdef_with_subblocks_docs + self._blkdef_macro_docs
         self._create_html_from_markdown(markdown_content)
 
-
     def get_block_defintion_info_of_dsl_models(self) -> dict:
-        """Get information on block definitions of DSL models. 
-        
-        See method 'get_info_incl_subblocks' of 'BlockDefinition' class  on more specifics. 
+        """Get information on block definitions of DSL models.
+
+        See method 'get_info_incl_subblocks' of 'BlockDefinition' class  on more specifics.
 
         Returns:
             dict: Dictionary with information on block definitions separated in to block definitions with (graphical) and without (macros) subblocks.
         """
         self.all_blkdef_info = {
-            "blkdefs_without_subblocks": [], 
+            "blkdefs_without_subblocks": [],
             "blkdefs_with_subblocks": [],
         }
         self._dsl_models = self._composite_model.get_dsl_models_in_slots()
@@ -123,11 +125,11 @@ class DynamicModelDocs(ApplicationBase):
             self.all_blkdef_info = blkdef.get_info_incl_subblocks(all_blkdef_info=self.all_blkdef_info)
         self.all_blkdef_info["blkdefs_without_subblocks"].sort(key=lambda x: x["BlkDef"].loc_name)
         return self.all_blkdef_info
-    
+
     def _get_unique_names_for_block_definitions(self) -> None:
-        """Get dict that maps block definitions (BlkDef) and their names. 
-        
-        In case different block definitions have the same name, unique names are defined ('name(1), name(2), ..'). Every block definition must have a unique name because the names are used as links in the html file. 
+        """Get dict that maps block definitions (BlkDef) and their names.
+
+        In case different block definitions have the same name, unique names are defined ('name(1), name(2), ..'). Every block definition must have a unique name because the names are used as links in the html file.
         """
         self._unique_blkdef_names = {}
         for all_info in [self.all_blkdef_info["blkdefs_without_subblocks"], self.all_blkdef_info["blkdefs_with_subblocks"]]:
@@ -137,14 +139,14 @@ class DynamicModelDocs(ApplicationBase):
                 while name in self._unique_blkdef_names.values():
                     name = blkdef_info["Name"] + f"({n})"
                     n += 1
-                self._unique_blkdef_names[blkdef_info["BlkDef"]] = name 
+                self._unique_blkdef_names[blkdef_info["BlkDef"]] = name
 
     def _create_blkdef_macro_docs(self) -> None:
         """Create markdown documentation for block definitions that have no subblocks (without graphical representation, also called macros).
         """
         self._blkdef_macro_docs = "# Block Definitions (Macros)\n\n"
         for blkdef_info in self.all_blkdef_info["blkdefs_without_subblocks"]:
-            name = self._unique_blkdef_names[blkdef_info["BlkDef"]]    
+            name = self._unique_blkdef_names[blkdef_info["BlkDef"]]
             link = "#" + slugify(f"{name}", "-")
             self._blkdef_macro_docs += f"## {name}\n\n"
             for attr in self.block_definition_attributes:
@@ -156,7 +158,7 @@ class DynamicModelDocs(ApplicationBase):
     def _create_blkdef_graphical_docs(self) -> None:
         """Create markdown documentation for graphical block definitions (usually with subblocks).
         """
-        self._blkdef_with_subblocks_docs = "# Block Defintions (Graphical)\n\n"   
+        self._blkdef_with_subblocks_docs = "# Block Defintions (Graphical)\n\n"
         for blkdef_info in self.all_blkdef_info["blkdefs_with_subblocks"]:
             name = self._unique_blkdef_names[blkdef_info["BlkDef"]]
             self._blkdef_with_subblocks_docs += f"## {name}\n\n"
@@ -175,7 +177,7 @@ class DynamicModelDocs(ApplicationBase):
     def _create_subblock_docs(self, blkdef_info: dict) -> None:
         """Create markdown documentation of subblocks inside a block definition.
 
-        Lists parameters, states, etc. Also adds the mapping of names (e.g. parameters can have a different name inside the subblock compared to the parent block definition level).  
+        Lists parameters, states, etc. Also adds the mapping of names (e.g. parameters can have a different name inside the subblock compared to the parent block definition level).
 
         Args:
             blkdef_info (dict): Block definition info of parent object.
@@ -188,7 +190,7 @@ class DynamicModelDocs(ApplicationBase):
             "sIntern": "Internal variables",
         }
         self._blkdef_with_subblocks_docs += f"### Subblocks\n\n"
-        for subblkref, subblkdef in blkdef_info["Subblocks"].items(): 
+        for subblkref, subblkdef in blkdef_info["Subblocks"].items():
             name_subblkdef = self._unique_blkdef_names[subblkdef]
             link = "#" + slugify(name_subblkdef, "-")
             self._blkdef_with_subblocks_docs += f"- [{name_subblkdef}]({link})\n"
@@ -204,35 +206,34 @@ class DynamicModelDocs(ApplicationBase):
     def _create_composite_model_docs(self) -> None:
         """Create markdown documentation of composite model (graphic, slots, etc.)
         """
-        name = f"Composite Model {self._composite_model.loc_name}" 
-        abs_dir = str(Path(self.target_directory).resolve())    
+        name = f"Composite Model {self._composite_model.loc_name}"
+        abs_dir = str(Path(self.target_directory).resolve())
         self._composite_model.export_block_diagram(target_dir = abs_dir, file_name=name)
         title = {self._composite_model.typ_id.sTitle} if {self._composite_model.typ_id.sTitle} else "None"
         self._comp_model_docs = f"""# {name}
-- **Block definition**: 
+- **Block definition**:
     - Name: {self._composite_model.typ_id.loc_name}
     - Title: {title}
 
 ## Graphic
-![{name}]({name}.svg)        
-
+![{name}]({name}.svg)
 
 ## Slot Links
 """
         slot_docs = ""
-        parameter_docs = "## Parameters\n\n"    
+        parameter_docs = "## Parameters\n\n"
         for slot, net_elm in self._composite_model.get_slots_and_network_elms_dict(include_empty_slots=False).items():
             if net_elm.GetClassName() == "ElmDsl":
                 if self.include_out_of_service == False and net_elm.outserv == 1:
                     continue
-                name = self._unique_blkdef_names[net_elm.typ_id] 
+                name = self._unique_blkdef_names[net_elm.typ_id]
                 link = "#" + slugify(f"{name}", "-")
-                slot_docs += f"- {slot.loc_name}: [{name}]({link})\n" 
+                slot_docs += f"- {slot.loc_name}: [{name}]({link})\n"
                 path = self.target_directory + "\\" + name + "_parameters.csv"
                 net_elm.ExportToFile(path, ",")
                 df = pd.read_csv(path, usecols=list(range(0,5))) # PF creates 6 cols for some parameters
                 parameter_docs += f"### Slot Model: {slot.loc_name}\n\n{df.to_html()}\n\n"
-        self._comp_model_docs += slot_docs + parameter_docs   
+        self._comp_model_docs += slot_docs + parameter_docs
 
     def _create_html_from_markdown(self, markdown_content: str) -> None:
         """Create self-contained html documentation from markdown.
@@ -279,7 +280,6 @@ class DynamicModelDocs(ApplicationBase):
             f.write(full_html)
 
         print(f"Wrote self-contained: '{out_file}' (CSS and SVGs inlined).")
-
 
     def _inline_svgs(self, html: str) -> str:
         """Replace <img src="*.svg"> tags with inline <svg> content.

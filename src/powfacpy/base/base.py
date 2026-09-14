@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from icecream import ic
-
 from powfacpy.pf_classes.protocols import PFGeneral
 from powfacpy.applications.caching import (
     cache_attr,
@@ -17,16 +15,29 @@ class BaseObjectStatic:
     def __init__(self, obj: PFGeneral) -> None:
         self._obj: PFGeneral = obj
 
-    def __eq__(self, value: BaseObjectStatic) -> bool:
-        """Check equality with a PF object.
+    def __eq__(self, value: object) -> bool:
+        """Check equality based on the wrapped PF object.
+
+        Accepts another wrapper (compares the wrapped objects) or a raw PF
+        object (compares directly). Any other type - including ``None`` - simply
+        compares unequal instead of raising.
 
         Args:
-            value (BaseObjectStatic)
+            value (object): wrapper, raw PF object or anything else
 
         Returns:
             bool: If equal
         """
-        return self._obj == value._obj
+        if isinstance(value, BaseObjectStatic):
+            return self._obj == value._obj
+        return self._obj == value
+
+    def __hash__(self) -> int:
+        """Hash based on the wrapped PF object so wrappers can be used in sets/dicts.
+
+        Defining ``__eq__`` would otherwise set ``__hash__`` to ``None``.
+        """
+        return hash(self._obj)
 
     def __str__(self):
         """Returns the 'loc_name' of the PF object."""

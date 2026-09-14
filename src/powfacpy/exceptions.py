@@ -1,11 +1,13 @@
+"""Custom exceptions for powfacpy."""
+
 from __future__ import annotations
 
-"""Custom exceptions for powfacpy.
-"""
-import sys
+from typing import TYPE_CHECKING
 
-import powfacpy.base.active_project
-from powfacpy.base.string_manipulation import PFStringManipulation
+from powfacpy.base import string_manipulation as strman
+
+if TYPE_CHECKING:
+    from powfacpy.base.active_project import ActiveProject
 
 
 class PFInterfaceError(Exception):
@@ -23,7 +25,7 @@ class PFAttributeError(PFInterfaceError):
         self,
         obj,
         msg_raised,
-        pf_active_project: powfacpy.base.active_project.ActiveProject,
+        pf_active_project: ActiveProject,
     ):
         if obj:
             object_str = pf_active_project.get_path_of_object(obj)
@@ -48,6 +50,21 @@ class PFAttributeTypeError(PFInterfaceError):
     def __init__(self, obj, attr, msg_raised, pf_active_project):
         object_str = pf_active_project.get_path_of_object(obj)
         self.message = f"The attribute '{attr}' of the object '{object_str}' is of unexpected type: {msg_raised}."
+        super().__init__(self.message)
+
+
+class PFNonUniqueObjectError(PFInterfaceError, TypeError):
+    """More than one PF object matched where a single unique object was expected.
+
+    Inherits from ``TypeError`` as well so that existing ``except TypeError``
+    handlers keep working (this used to be a plain ``TypeError``).
+    """
+
+    def __init__(self, path: str, parent_folder_str: str = ""):
+        self.message = (
+            f"The path '{path}{parent_folder_str}' is not a unique object. "
+            "Did you use wildcards ('*')? This method only returns single unique objects."
+        )
         super().__init__(self.message)
 
 
@@ -78,8 +95,8 @@ class PFNonExistingObjectError(PFInterfaceError):
     """Attempt to access PF object (optional: with a specific condition) that does not exist."""
 
     def __init__(self, folder, obj, condition=False, include_subfolders=False):
-        folder_str = PFStringManipulation.remove_html_tags_from_path(str(folder))
-        folder_str = PFStringManipulation.remove_class_names(folder_str)
+        folder_str = strman.remove_html_tags_from_path(str(folder))
+        folder_str = strman.remove_class_names(folder_str)
         if include_subfolders:
             msg_subfolder = " (and its subfolders)"
         else:
@@ -164,4 +181,48 @@ class PFInvalidResultExport(PFInterfaceError):
 
     def __init__(self, msg="") -> None:
         self.message = f"The simulation results could not be exported. Please check if the simulation executed correctly. \n\n {msg}"
+        super().__init__(self.message)
+
+
+class PFModelicaCompilationError(PFInterfaceError):
+    """A Modelica model type ('TypMdl') failed to check or compile."""
+
+    def __init__(self, model_name: str, messages: list[str] | None = None) -> None:
+        detail = ("\n" + "\n".join(messages)) if messages else ""
+        self.message = f"Modelica model type '{model_name}' did not compile.{detail}"
+        super().__init__(self.message)
+
+
+class PFEigenvalueMismatchError(PFInterfaceError):
+    """Two eigenvalue-related sets that should correspond 1:1 (e.g. for
+    tracking or computing a sensitivity) have different lengths or indexes."""
+
+    def __init__(self, message: str) -> None:
+        self.message = message
+        super().__init__(self.message)
+
+
+class PFEigenvalueTrackingError(PFInterfaceError):
+    """Eigenvalue tracking could not find a unique one-to-one mapping between
+    a reference and a scrambled eigenvalue set."""
+
+    def __init__(self, message: str) -> None:
+        self.message = message
+        super().__init__(self.message)
+
+
+class PFEnumValueError(PFInterfaceError):
+    """An enumeration attribute was given a label that is not one of its options."""
+
+    def __init__(
+        self, class_name: str, attr: str, value, options: dict[int, str]
+    ) -> None:
+        choices = (
+            ", ".join(f"{code}={label!r}" for code, label in options.items())
+            or "unknown"
+        )
+        self.message = (
+            f"{value!r} is not a valid value for the enumeration attribute "
+            f"'{attr}' of '{class_name}'. Options: {choices}."
+        )
         super().__init__(self.message)

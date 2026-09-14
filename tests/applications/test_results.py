@@ -8,6 +8,7 @@ sys.path.insert(0, r".\src")
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import PFApp
+from powfacpy.result_variables import ResVar
 from powfacpy.exceptions import PFNoActiveStudyCaseError
 
 
@@ -125,6 +126,94 @@ def test_get_result_variable_description(activate_powfacpy_test_project, pfri: R
     assert (
         pfri.get_result_variable_description("ElmArea", "c_cosgen", "RMS_Bal")
         == "Generators, Power Factor"
+    )
+
+
+def _run_rms_sim_with_relative_rotor_angle(pfri: Results) -> list:
+    """Monitor 'c:firel' for all synchronous machines and run the RMS simulation of the active study case. Returns the synchronous machines (ElmSym)."""
+    machines = pfri.act_prj.get_calc_relevant_obj("*.ElmSym")
+    pfri.act_prj.add_results_variable(machines, ResVar.RMS_Bal.ElmSym.c_firel.value)
+    DynamicSimulation(pfri.act_prj.app).initialize_and_run_sim(
+        param_initialization={"iopt_sim": "rms"},
+        param_simulation={"tstop": 5.0},
+    )
+    return machines
+
+
+def test_get_out_of_step_machines(
+    activate_39_bus_new_england_test_project, pfri: Results
+):
+    # Unstable short circuit fault -> at least one machine loses synchronism
+    pfri.act_prj.activate_study_case(
+        r"Study Cases\2.2 Simulation Fault Bus 16 Unstable"
+    )
+    _run_rms_sim_with_relative_rotor_angle(pfri)
+
+    out_of_step = pfri.get_out_of_step_machines()
+    assert out_of_step
+    assert all(machine.GetClassName() == "ElmSym" for machine in out_of_step)
+
+    out_of_step_names = sorted(machine.loc_name for machine in out_of_step)
+
+    # Passing an already exported DataFrame gives the same result
+    df = pfri.export_to_pandas()
+    assert (
+        sorted(
+            machine.loc_name
+            for machine in pfri.get_out_of_step_machines(df_simulation_results=df)
+        )
+        == out_of_step_names
+    )
+
+    # An explicit machine selection is respected
+    assert pfri.get_out_of_step_machines(machines=out_of_step[0]) == [out_of_step[0]]
+
+    # A very large threshold flags nothing
+    assert pfri.get_out_of_step_machines(threshold_deg=1e6) == []
+
+    # Stable fault -> no machine out of step
+    pfri.act_prj.activate_study_case(
+        r"Study Cases\2.1 Simulation Fault Bus 16 Stable"
+    )
+    _run_rms_sim_with_relative_rotor_angle(pfri)
+    assert pfri.get_out_of_step_machines() == []
+
+
+def test_get_relative_rotor_angles(
+    activate_39_bus_new_england_test_project, pfri: Results
+):
+    machines = pfri.act_prj.activate_study_case(
+        r"Study Cases\2.2 Simulation Fault Bus 16 Unstable"
+    )
+    machines = _run_rms_sim_with_relative_rotor_angle(pfri)
+
+    angles = pfri.get_relative_rotor_angles()
+    assert len(angles.columns) == len(machines)
+    assert angles.index.name == "time"
+    assert all(var == "c:firel" for _, var in angles.columns)
+
+    # Unwrapped: the machine that slips a pole leaves the (-180, 180] range
+    assert angles.abs().to_numpy().max() > 180
+    out_of_step_names = {
+        machine.loc_name for machine in pfri.get_out_of_step_machines()
+    }
+    unwrapped_over_180 = {
+        obj.split("\\")[-1]
+        for obj, _ in angles.columns
+        if angles[(obj, "c:firel")].abs().max() > 180
+    }
+    assert unwrapped_over_180 == out_of_step_names
+
+    # Without unwrapping the PowerFactory signal stays wrapped to (-180, 180]
+    wrapped = pfri.get_relative_rotor_angles(unwrap=False)
+    assert wrapped.abs().to_numpy().max() <= 180 + 1e-6
+
+    # Reading from an already exported DataFrame gives the same result
+    df = pfri.export_to_pandas()
+    from_df = pfri.get_relative_rotor_angles(df_simulation_results=df)
+    assert from_df.shape == angles.shape
+    assert from_df.abs().to_numpy().max() == pytest.approx(
+        angles.abs().to_numpy().max()
     )
 
 

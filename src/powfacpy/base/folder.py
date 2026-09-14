@@ -1,21 +1,18 @@
 """Classes for interaction with the PF database. Based on folders from where downstream objects can accessed (see class Folder). The class PFActiveProject inherits from Folder and adds some functionality for the active project.
 
-Also contains the class PFStringManipulation for string manipulation.
-
 The acronym 'PF' is used for 'PowerFactory'.
 """
 
 from __future__ import annotations
 from collections.abc import Iterable
-from typing import Union, Callable, Generator
+from typing import Union, Callable, Generator, TYPE_CHECKING
 from os import path as os_path
-from functools import partial
-
-from icecream import ic
+from functools import partial, cached_property
+from warnings import warn
 
 from powfacpy.base.base import BaseObjectStatic, BaseChildStatic
-from powfacpy.base.string_manipulation import PFStringManipulation
-from powfacpy.pf_class_protocols import (
+from powfacpy.base import string_manipulation as strman
+from powfacpy.pf_classes.protocols import (
     PFApp,
     PFGeneral,
     IntFolder,
@@ -25,12 +22,17 @@ from powfacpy.pf_class_protocols import (
 )
 from powfacpy.exceptions import (
     PFNonExistingObjectError,
+    PFNonUniqueObjectError,
     PFNotActiveError,
     PFAttributeError,
     PFAttributeTypeError,
+    PFInvalidCondition,
     PFPathError,
     PFPathInputError,
 )
+
+if TYPE_CHECKING:
+    from powfacpy.base.paths import Paths
 
 
 class Folder(BaseObjectStatic):
@@ -112,46 +114,18 @@ class Folder(BaseObjectStatic):
     def __len__(self) -> int:
         return len(self._obj.GetContents("*"))
 
-    ##################
-    # Reimplemenatation of methods of PF folder/container objects (to mimic the behavior of powerfactory.DataObject).
-    ##################
+    def __getattr__(self, name: str):
+        """Forward unknown attributes/methods to the wrapped PF object.
 
-    def GetContents(self, name: str, recursive: int = 0) -> list[PFGeneral]:
-        return self._obj.GetContents(name, recursive)
+        Only invoked when normal lookup fails, so the class's own attributes and
+        methods always win. This makes a `Folder` / `ActiveProject` transparently expose everything of the object it wraps (`GetContents`, `GetParent`, `loc_name`, `CreateObject`, `pPrjSettings`, ...) - the same proxying `BaseChildStatic` does for the `Elm*` wrappers.
 
-    def GetChildren(
-        self, hiddenMode: int, filter: str, subfolders: int
-    ) -> list[PFGeneral]:
-        return self._obj.GetChildren(hiddenMode, filter, subfolders)
-
-    def GetAttribute(self, attr: str) -> Union[int | float | str | PFGeneral | list]:
-        return self._obj.GetAttribute(attr)
-
-    def SetAttribute(
-        self, attr: str, value: Union[int | float | str | PFGeneral | list]
-    ) -> None:
-        return self._obj.SetAttribute(attr, value)
-
-    def GetParent(self) -> PFGeneral:
-        return self._obj.GetParent()
-
-    def CreateObject(
-        self, className: str, objectNameParts: Union[int, str] = ""
-    ) -> PFGeneral:
-        return self._obj.CreateObject(className, objectNameParts)
-
-    def Delete(self) -> int:
-        return self._obj.Delete()
-
-    def AddCopy(
-        self,
-        objectToCopy: list[PFGeneral] | PFGeneral,
-        partOfName: Union[str, int] = "",
-    ) -> PFGeneral:
-        return self._obj.AddCopy(objectToCopy, partOfName)
-
-    def GetFullName(self) -> str:
-        return self._obj.GetFullName()
+        Names starting with `_` are not forwarded: they are powfacpy-internal by
+        convention, and this also prevents recursion before `_obj` is set.
+        """
+        if name.startswith("_"):
+            raise AttributeError(name)
+        return getattr(self._obj, name)
 
     ##################
     # Get
@@ -177,7 +151,7 @@ class Folder(BaseObjectStatic):
 
             error_if_non_existent (bool, optional): raise exception if no objects are found; defaults to True
 
-            include_subfolders (bool, optional): include subfolders in the search; defaults to True
+            include_subfolders (bool, optional): include subfolders in the search; defaults to False
 
         Raises:
             TypeError: If 'path' is not a string
@@ -289,11 +263,12 @@ class Folder(BaseObjectStatic):
 
             include_subfolders (bool, optional):
             include subfolders in the search;
-            defaults to True
+            defaults to False
 
         Raises:
             TypeError:
             If 'path' is not a string.
+            PFNonUniqueObjectError (a TypeError subclass):
             If several objects were found.
 
         Returns:
@@ -316,9 +291,7 @@ class Folder(BaseObjectStatic):
                     )
                 else:
                     parent_folder_str = ""
-                raise TypeError(
-                    f"The path {path+parent_folder_str} is not a unique object. Did you use wildcards ('*')? This method only returns single unique objects."
-                )
+                raise PFNonUniqueObjectError(path, parent_folder_str)
         else:
             return None
 
@@ -332,6 +305,9 @@ class Folder(BaseObjectStatic):
         """DEPRECATED: Use 'get_unique_obj' instead.
 
         Get unique PowerFactory object under 'path'.
+
+        .. deprecated::
+            Use :meth:`get_unique_obj` instead. This method now forwards to it.
 
         Use this method if you want to access one single unique object.
         This method is an alternative to 'get_obj' and returns the unique object instead of a list (that needs to be accessed with '[0]'). It also checks whether the found object is unique (only one object is found).
@@ -354,7 +330,7 @@ class Folder(BaseObjectStatic):
 
             include_subfolders (bool, optional):
             include subfolders in the search;
-            defaults to True
+            defaults to False
 
         Raises:
             TypeError:
@@ -364,6 +340,11 @@ class Folder(BaseObjectStatic):
         Returns:
             PFGeneral: PF object
         """
+        warn(
+            "'get_single_obj' is deprecated, use 'get_unique_obj' instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.get_unique_obj(
             path,
             parent_folder=parent_folder,
@@ -396,7 +377,7 @@ class Folder(BaseObjectStatic):
         objs = []
         for parent in parent_folders:
             parent = self._handle_single_pf_object_or_path_input(parent)
-            objs.append(self.get_single_obj(sub_path, parent_folder=parent))
+            objs.append(self.get_unique_obj(sub_path, parent_folder=parent))
         return objs
 
     def get_upstream_obj(
@@ -434,8 +415,8 @@ class Folder(BaseObjectStatic):
                 )
         else:
             if error_if_non_existent:
-                raise Exception(
-                    "There is no upstream object that fullfills the condition."
+                raise PFInvalidCondition(
+                    "No upstream object fulfills the condition."
                 )
             else:
                 return None
@@ -459,26 +440,20 @@ class Folder(BaseObjectStatic):
         Example:
           pfbi.get_by_condition(list_of_objects, lambda x : getattr(x,"uknom")==110)
         """
-        try:
-            return [x for x in objects if condition(x)]
-        except:  # Check where exactly the exception is raised
-            objects_true = []
-            for obj in objects:
-                try:
-                    # This anonymous function is problematic because it does
-                    # not always throw an error when the user provided
-                    # an anonymous function that does not make sense.
-                    if condition(obj):
-                        objects_true.append(obj)
-                except AttributeError as e:
-                    raise PFAttributeError(obj, e, self)
-                except TypeError as e:
-                    object_str = self.get_path_of_object(obj)
-                    raise TypeError(
-                        f"{e}. Maybe an unexpected type is used "
-                        f"for attribute of object '{object_str}'."
-                    )
-            return objects_true  # should never be reached
+        objects_that_meet_condition = []
+        for obj in objects:
+            try:
+                if condition(obj):
+                    objects_that_meet_condition.append(obj)
+            except AttributeError as e:
+                raise PFAttributeError(obj, e, self)
+            except TypeError as e:
+                object_str = self.get_path_of_object(obj)
+                raise TypeError(
+                    f"{e}. Maybe an unexpected type is used "
+                    f"for an attribute of object '{object_str}'."
+                )
+        return objects_that_meet_condition
 
     def get_project_settings(self) -> SetPrj:
         """Get project settings object."""
@@ -572,12 +547,7 @@ class Folder(BaseObjectStatic):
             if existing_obj:
                 return existing_obj
         elif overwrite:
-            self.delete_obj(
-                obj,
-                parent_folder=folder,
-                include_subfolders=False,
-                error_if_non_existent=False,
-            )
+            self._delete_existing_in_target(obj, folder)
         return folder.CreateObject(class_name, obj_name)
 
     def create_directory(
@@ -657,7 +627,7 @@ class Folder(BaseObjectStatic):
         )
         look_in = self._handle_single_pf_object_or_path_input(look_in)
         filter_obj.objset = [object_filter]
-        filter_obj.expr = expression
+        filter_obj.expr = [expression]  # 'expr' is a list-typed PF attribute
         filter_obj.pstart = look_in
         filter_obj.isubfold = include_subfolders
         filter_obj.icalcrel = only_calc_relevant_obj
@@ -717,13 +687,7 @@ class Folder(BaseObjectStatic):
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if overwrite:
             for object_to_be_copied in obj:
-                self.delete_obj(
-                    object_to_be_copied.GetAttribute("loc_name")
-                    + "."
-                    + object_to_be_copied.GetClassName(),
-                    parent_folder=target_folder,
-                    error_if_non_existent=False,
-                )
+                self._delete_existing_in_target(object_to_be_copied, target_folder)
         # AddCopy() accepts a list of objects, but then it returns the target folder object and not the copied objects. Therefore, it is iterated through the objects.
         copied_obj = []
         for o in obj:
@@ -783,28 +747,21 @@ class Folder(BaseObjectStatic):
         )
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if use_existing:
+            existing_name = (
+                f"{new_name}.{obj.GetClassName()}"
+                if new_name
+                else self.get_loc_name_with_class(obj)
+            )
             existing_obj = self.get_unique_obj(
-                obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
+                existing_name,
                 parent_folder=target_folder,
                 error_if_non_existent=False,
             )
-            if existing_obj:
+            # never return the source itself (target folder may be the source's folder)
+            if existing_obj and existing_obj != obj:
                 return existing_obj
         elif overwrite:
-            if not new_name:
-                self.delete_obj(
-                    obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
-                    parent_folder=target_folder,
-                    include_subfolders=False,
-                    error_if_non_existent=False,
-                )
-            else:
-                self.delete_obj(
-                    f"{new_name}.{obj.GetClassName()}",
-                    parent_folder=target_folder,
-                    include_subfolders=False,
-                    error_if_non_existent=False,
-                )
+            self._delete_existing_in_target(obj, target_folder, new_name=new_name)
         if new_name:
             return target_folder.AddCopy(obj, new_name)
         else:
@@ -897,13 +854,7 @@ class Folder(BaseObjectStatic):
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if overwrite:
             for object_to_be_copied in obj:
-                self.delete_obj(
-                    object_to_be_copied.GetAttribute("loc_name")
-                    + "."
-                    + object_to_be_copied.GetClassName(),
-                    parent_folder=target_folder,
-                    error_if_non_existent=False,
-                )
+                self._delete_existing_in_target(object_to_be_copied, target_folder)
         return target_folder.Move(obj)
 
     def move_single_obj(
@@ -952,11 +903,7 @@ class Folder(BaseObjectStatic):
         )
         target_folder = self._handle_single_pf_object_or_path_input(target_folder)
         if overwrite:
-            self.delete_obj(
-                obj.GetAttribute("loc_name") + "." + obj.GetClassName(),
-                parent_folder=target_folder,
-                error_if_non_existent=False,
-            )
+            self._delete_existing_in_target(obj, target_folder)
         return target_folder.Move(obj)
 
     ##################
@@ -1019,6 +966,38 @@ class Folder(BaseObjectStatic):
 
                         if not o.IsDeleted():
                             raise TypeError(f"Object {o} cannot be deleted.")
+
+    def _delete_existing_in_target(
+        self,
+        obj_or_name: PFGeneral | str,
+        target_folder: PFGeneral | Folder,
+        new_name: str | None = None,
+    ) -> None:
+        """Delete an object of the same name and class already present in `target_folder`.
+
+        Shared 'overwrite' helper for `create_in_folder` / `copy_obj` /
+        `copy_single_obj` / `move_obj` / `move_single_obj`. Does nothing (and
+        raises no error) if no such object exists.
+
+        Args:
+            obj_or_name: a PF object (its `loc_name` + class are used) or a
+                `"name.Class"` string.
+            target_folder: folder to delete from.
+            new_name: if given (and `obj_or_name` is an object), match this name
+                instead of the object's own `loc_name`.
+        """
+        if isinstance(obj_or_name, str):
+            name_with_class = obj_or_name
+        elif new_name:
+            name_with_class = f"{new_name}.{obj_or_name.GetClassName()}"
+        else:
+            name_with_class = self.get_loc_name_with_class(obj_or_name)
+        self.delete_obj(
+            name_with_class,
+            parent_folder=target_folder,
+            include_subfolders=False,
+            error_if_non_existent=False,
+        )
 
     def clear_folder(self, folder: Union[PFGeneral, Folder, str] = None):
         """Clear all objects inside folder (including hidden objects).
@@ -1097,6 +1076,7 @@ class Folder(BaseObjectStatic):
         obj: Union[PFGeneral, str],
         params: dict,
         parent_folder: Union[PFGeneral, Folder, str] = None,
+        resolve_enum_names: bool = False,
     ) -> None:
         """Set the attribute(s) of an object.
 
@@ -1104,6 +1084,10 @@ class Folder(BaseObjectStatic):
             obj (Union[PFGeneral, str]): PF object
             params (dict): attributes and their values (e.g. {'parameter1':value1, 'parameter2':value2,..})
             parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
+            resolve_enum_names (bool, optional): translate a string value that names
+                an enumeration option (e.g. ``{"i_mot": "Motor"}``) to its integer
+                code before writing it. Off by default. See
+                `powfacpy.applications.attribute_metadata.AttributeMetadata`.
 
         Raises:
             PFAttributeTypeError: If the type of an attribute value is wrong
@@ -1112,6 +1096,10 @@ class Folder(BaseObjectStatic):
         obj = self._handle_single_pf_object_or_path_input(
             obj, parent_folder=parent_folder
         )
+        if resolve_enum_names:
+            from powfacpy.applications.attribute_metadata import AttributeMetadata
+
+            params = AttributeMetadata(self.app).resolve_enum_names(obj, params)
         for attr, value in params.items():
             try:
                 obj.SetAttribute(attr, value)
@@ -1303,11 +1291,11 @@ class Folder(BaseObjectStatic):
         See also method 'handle_pf_object_path_input'
 
         Args:
-            obj (Union[PFGeneral, str]): see get_single_obj
+            obj (Union[PFGeneral, str]): see get_unique_obj
 
-            parent_folder (Union[PFGeneral, Folder, str], optional): get_single_obj. Defaults to None.
+            parent_folder (Union[PFGeneral, Folder, str], optional): see get_unique_obj. Defaults to None.
 
-            error_if_non_existent (bool, optional): get_single_obj. Defaults to True.
+            error_if_non_existent (bool, optional): see get_unique_obj. Defaults to True.
 
         Raises:
             TypeError: If 'obj_or_path' is an iterable (unexpected), a meaningfull error is raised.
@@ -1388,160 +1376,74 @@ class Folder(BaseObjectStatic):
                     return False
                 else:
                     parent_path = parent.GetFullName()
-                    parent_path = PFStringManipulation.remove_class_names(parent_path)
+                    parent_path = strman.remove_class_names(parent_path)
                     existing_path = f"{parent_path}{existing_path}"
                     non_existent_child_name = child_name
                     return False, existing_path, non_existent_child_name
         return True
 
+    @cached_property
+    def paths(self) -> "Paths":
+        """Helper to build object paths relative to this folder / the project / the user."""
+        from powfacpy.base.paths import Paths
+
+        return Paths(self)
+
     def get_path_of_object(self, obj: Union[PFGeneral, Folder]) -> str:
-        """Get path relative to 'self._obj' without class names.
-
-        Args:
-            obj (PFGeneral): PF object
-
-        Returns:
-            str: path
-        """
-        obj = self._handle_single_pf_object_or_path_input(obj)
-        return PFStringManipulation.remove_class_names(
-            self.get_path_of_obj_with_class_names(obj)
-        )
+        """Get path relative to 'self._obj' without class names. See `self.paths.of`."""
+        return self.paths.of(obj)
 
     def get_path_of_obj_with_class_names(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path relative to 'self._obj' including class names.
-
-        Args:
-            obj (Union[PFGeneral, Folder, str]): PF object
-
-        Returns:
-            str: path
-        """
-        folder_path = self._obj.GetFullName()
-        obj = self._handle_single_pf_object_or_path_input(obj)
-        obj_str = obj.GetFullName()
-        return PFStringManipulation.truncate_beginning(obj_str, folder_path)
+        """Get path relative to 'self._obj' including class names. See `self.paths.of`."""
+        return self.paths.of(obj, with_class_names=True)
 
     def get_full_path_of_object(self, obj: Union[PFGeneral, Folder]) -> str:
-        """Get full path in PF database without class names.
-
-        Args:
-            obj (PFGeneral): PF object
-
-        Returns:
-            str: path
-        """
-        obj = self.get_full_path_of_object_with_class_names(obj)
-        return PFStringManipulation.remove_class_names(obj)
+        """Get full path in PF database without class names. See `self.paths.absolute`."""
+        return self.paths.absolute(obj)
 
     def get_full_path_of_object_with_class_names(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path in PF database including class names.
-
-        Args:
-            obj (PFGeneral): PF object
-
-        Returns:
-            str: path
-        """
-        obj = self._handle_single_pf_object_or_path_input(obj)
-        return obj.GetFullName()
+        """Get path in PF database including class names. See `self.paths.absolute`."""
+        return self.paths.absolute(obj, with_class_names=True)
 
     def get_path_of_object_in_active_project(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path relative to active project without class names.
-
-        Args:
-            obj (PFGeneral): PF object
-
-        Returns:
-            str: path
-        """
-        obj = self.get_path_of_object_in_active_project_with_class_names(obj)
-        return PFStringManipulation.remove_class_names(obj)
+        """Get path relative to active project without class names. See `self.paths.in_active_project`."""
+        return self.paths.in_active_project(obj)
 
     def get_path_of_object_in_active_project_with_class_names(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path relative to active project including class names.
-
-        Args:
-            obj (Union[PFGeneral, Folder, str]): PF object or its path
-
-        Returns:
-            str: path
-        """
-        active_project = self.__class__.app.GetActiveProject()
-        if active_project:
-            active_project_path = self.__class__.app.GetActiveProject().GetFullName()
-        else:
-            active_project_path = ""
-        obj = self._handle_single_pf_object_or_path_input(obj)
-        obj_str = obj.GetFullName()
-        return PFStringManipulation.truncate_beginning(obj_str, active_project_path)
+        """Get path relative to active project including class names. See `self.paths.in_active_project`."""
+        return self.paths.in_active_project(obj, with_class_names=True)
 
     def get_path_of_object_in_current_user(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path relative to current (active) user without class names.
-
-        Args:
-            obj (Union[PFGeneral, Folder, str]): PF object or its path
-
-        Returns:
-            str: path
-        """
-        obj = self.get_path_of_object_in_current_user_with_class_names(obj)
-        return PFStringManipulation.remove_class_names(obj)
+        """Get path relative to current (active) user without class names. See `self.paths.in_current_user`."""
+        return self.paths.in_current_user(obj)
 
     def get_path_of_object_in_current_user_with_class_names(
         self, obj: Union[PFGeneral, Folder, str]
     ) -> str:
-        """Get path relative to current (active) user including class names.
-
-        Args:
-            obj (Union[PFGeneral, Folder, str]): PF object or its path
-
-        Returns:
-            str: path
-        """
-        active_user_path = self.get_current_user().GetFullName()
-        obj = self._handle_single_pf_object_or_path_input(obj)
-        obj_str = obj.GetFullName()
-        return PFStringManipulation.truncate_beginning(obj_str, active_user_path)
+        """Get path relative to current (active) user including class names. See `self.paths.in_current_user`."""
+        return self.paths.in_current_user(obj, with_class_names=True)
 
     def _replace_special_PF_characters_in_path_string(self, path: str) -> str:
-        """Replaces special characters '$(ExtDataDir)','$(WorkspaceDir)','$(InstallationDir)' in path with their actual directories."""
-        if "$(ExtDataDir)" in path:
-            ext_data_dir = self.get_external_data_directory()
-            path = path.replace("$(ExtDataDir)", ext_data_dir)
-        path = path.replace("$(WorkspaceDir)", self.get_workspace_directory())
-        return path.replace("$(InstallationDir)", self.get_installation_directory())
+        """Replace '$(ExtDataDir)' / '$(WorkspaceDir)' / '$(InstallationDir)'. See `self.paths.expand_special_characters`."""
+        return self.paths.expand_special_characters(path)
 
     def get_path_between_objects(
         self,
         obj_high: Union[PFGeneral, Folder, str],
         obj_low: Union[PFGeneral, Folder, str],
     ) -> str:
-        """Get path between two objects in the PF database.
-
-        Args:
-            obj_high (Union[PFGeneral, Folder, str]): object higher in the hierarchy
-            obj_low (Union[PFGeneral, Folder, str]): object lower in the hierarchy
-
-        Returns:
-            str: path between
-        """
-        obj_high = self._handle_single_pf_object_or_path_input(obj_high)
-        obj_high = self.get_path_of_object(obj_high)
-        obj_low = self._handle_single_pf_object_or_path_input(obj_low)
-        obj_low = self.get_path_of_object(obj_low)
-        path = str(obj_low).split(str(obj_high))[1][1:]
-        return path
+        """Get path between two objects in the PF database. See `self.paths.between`."""
+        return self.paths.between(obj_high, obj_low)
 
     @staticmethod
     def get_loc_name_with_class(
