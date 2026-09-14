@@ -12,7 +12,6 @@ from pandapower.converter.powerfactory.validate import validate_pf_conversion
 import pandas as pd
 import numpy as np
 from numpy.typing import ArrayLike
-from icecream import ic
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.pandas_interface import PandasInterface

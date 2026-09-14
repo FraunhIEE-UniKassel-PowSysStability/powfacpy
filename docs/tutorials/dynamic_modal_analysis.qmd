@@ -1,0 +1,394 @@
+---
+title: Dynamic Modal Analysis
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: powfacpy
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+```
+
+# Introduction
+
+*Modal (small-signal) analysis* linearizes the system around its current operating point and computes the eigenvalues of the resulting state matrix - one eigenvalue per oscillatory or non-oscillatory *mode* of the system. These eigenvalues describe the system's **small-signal stability**: whether it returns to the operating point after a small enough disturbance that the linearization still holds - as opposed to *large-signal (transient) stability*, which asks the same question for one specific, possibly large, disturbance and can only be answered by a nonlinear time-domain simulation. A mode is stable exactly when its eigenvalue's real part is negative.
+
+Each eigenvalue $\lambda = \sigma + j\omega$ is reported as two derived quantities that are easy to conflate: the *decay rate* $\sigma$ (its real part, in 1/s - how fast the mode's envelope decays, independent of how fast it oscillates) and the dimensionless *damping ratio* $\zeta = -\sigma / |\lambda| = -\sigma / \sqrt{\sigma^2 + \omega^2}$. Unlike the decay rate, $\zeta$ *does* depend on the imaginary part $\omega$: two modes with the same decay rate but different oscillation frequencies have different damping ratios, since the faster-oscillating one completes - and therefore decays across - more cycles in the same time. A purely real eigenvalue has no oscillation to normalize by, so $\zeta = 1$ by convention. *Participation factors* say which states (rotor angles, speeds, controller states, ...) are involved in each mode.
+
+This is complementary to a time-domain simulation: modal analysis tells you directly and exhaustively *which* modes exist and how well damped they are, without needing to pick a disturbance large enough (or simulate long enough) for a poorly-damped mode to become visible in a time trace - the last section of this tutorial compares the two directly.
+
+`powfacpy.applications.dynamic_modal_analysis` wraps PowerFactory's modal analysis command (`ComMod`) into `ModalAnalysis` (one eigen-decomposition of the current state) and `ModalAnalysisResults` (eigenvalues, damping ratios, frequencies, participation factors and eigenvectors, with filtering, plotting and eigenvalue tracking). A parameter *sweep* - how the eigenvalues move as something in the model changes - is not a separate sweep loop here: it is built on `parstudy.Study`, exactly like [`powfacpy.applications.parameter_studies`](parameter_studies.qmd) - `evaluate()` calls `ModalAnalysis.run()` once per point, `parstudy` handles the sweep strategy and snapshot/restore, and `track_eigenvalues()` / `EigenvalueSweepResults` turn the resulting sequence of results into a consistently-indexed eigenvalue trajectory (PowerFactory does not guarantee eigenvalues come back in the same order run to run), with a root-locus plot and sensitivity helpers on top - two independent kinds of sensitivity, in fact: `sensitivity_between` finite-differences the eigenvalues between two tracked runs, while `eigenvalue_sensitivity` gets the same derivative analytically from the eigenvectors of a single run, with no tracking needed at all.
+
+Needs the optional `scipy` dependency (`pip install powfacpy[dynamic_modal_analysis]`); the sweep and sensitivity helpers additionally need `parstudy` (`pip install powfacpy[parstudy]`).
+
+# Setup
+
+First, we activate the PowerFactory project, i.e. the *IEEE 39 bus system*.
+
+```{python}
+# If you use IPython/Jupyter:
+import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
+sys.path.append(
+    SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+)
+# Get the PF app
+import powerfactory
+import powfacpy
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(
+    r"powfacpy\39_bus_new_england_copy_to_run_tests"
+)  # You may change the project path.
+```
+
+We copy a study case with a valid, stable operating point - modal analysis only needs a valid operating point, not a disturbance - and then swap out its pre-configured events for a small load step. A short-circuit fault (used elsewhere in these tutorials) is a *large* disturbance - a discrete switching event, a voltage collapse near the fault, possibly protection tripping - that pushes the system well outside where a linearization is valid, whereas modal analysis' own premise is precisely that the disturbance stays small; a modest load step keeps the time-domain comparison later in this tutorial honestly comparable to the linearized modal-analysis results. We also get the synchronous machines whose inertia we'll be perturbing.
+
+```{python}
+from powfacpy.base.active_project import ActiveProject
+from powfacpy.applications.dynamic_simulation import DynamicSimulation
+
+act_prj = ActiveProject(app)
+act_prj.create_study_case(
+    "Dynamic Modal Analysis", r"Study Cases\2.1 Simulation Fault Bus 16 Stable", parent_folder=r"Study Cases\powfacpy"
+)
+act_prj.clear_results_variables()
+pfds = DynamicSimulation(app)
+
+from powfacpy.result_variables import ResVar
+RMS_BAL = ResVar.RMS_Bal
+
+try:
+    app.Hide()
+    synchronous_machines = act_prj.get_calc_relevant_obj("ElmSym")
+    synchronous_machines.sort(key=lambda x: x.loc_name)
+    synchronous_machine_types = [sm.typ_id for sm in synchronous_machines]
+    act_prj.add_results_variable(synchronous_machines, RMS_BAL.ElmSym.s_speed.value)
+
+    # drop every event copied in with the study case (the fault, its clearance,
+    # and an unrelated turbine-power event) and add a single, small load step
+    loads = act_prj.get_calc_relevant_obj("ElmLod")
+    loads.sort(key=lambda x: x.loc_name)
+    load_step_target = loads[0]
+    for event in app.GetFromStudyCase("IntEvt").GetContents("*.Evt*"):
+        event.Delete()
+    pfds.create_dyn_sim_event(
+        "Load Step.EvtLod", {"p_target": load_step_target, "time": 1.0, "dP": 10.0}
+    )
+finally:
+    app.Show()
+```
+
+# A Single Modal Analysis
+
+`ModalAnalysis` works on whatever state is currently active - like `DynamicSimulation` or `StaticCalc`. `.run()` executes PowerFactory's modal analysis command and returns a `ModalAnalysisResults`:
+
+```{python}
+from powfacpy.applications.dynamic_modal_analysis import ModalAnalysis
+
+ma = ModalAnalysis(app)
+
+try:
+    app.Hide()
+    results = ma.run()
+finally:
+    app.Show()
+
+len(results)
+```
+
+`get_dataframe()` (or `show()` for a styled version) lists every eigenvalue with its real/imaginary part, damping ratio, natural/damped frequency, a `"Mode"` display string, and its dominant states (participation >= 5%):
+
+```{python}
+results.get_dataframe().round(4).head(10)
+```
+
+All ten of these happen to be real (zero imaginary part) - not a coincidence, but also not "the 10 most important eigenvalues": `get_dataframe()` sorts by each eigenvalue's *index*, i.e. its raw position in PowerFactory's own state matrix (`Amat.mtl`), not by any measure of significance, so `head(10)` is just an arbitrary slice of all 166 eigenvalues. Their `Dominant states` above explain why these particular ones are real: single first-order states - a synchronous machine's subtransient flux linkage (`psi1q`) or an exciter's own internal lag state (`xa`, from `avr_IEEET1`) - decay directly, without oscillating, on their own. Oscillatory (complex-conjugate) eigenvalue pairs need *two* coupled states instead, such as a rotor angle together with its own speed - see the poorly-damped modes below, whose dominant states are exactly `speed`/`phi` pairs.
+
+`.plot()` scatters the eigenvalues in the complex plane (the right half-plane, shaded, would be unstable - none are, here). By default (`xlim="auto"`) the x-axis is zoomed to the *dominant* eigenvalues - those with the largest (least negative) real part, i.e. the slowest-decaying ones, which are what actually matters for how long a disturbance's effect visibly persists - rather than the full range, which the fast, heavily-damped ones above (real parts around -45 to -85) would otherwise stretch until the dominant ones are an unreadable cluster near the origin. Concretely, the lower bound is the `quantile`-th percentile of all the real parts (`quantile=0.75` by default, so roughly the most dominant quarter of eigenvalues stay in view); pass a higher `quantile` (closer to 1) to zoom in on fewer, even more dominant eigenvalues, a lower one to include more of the faster ones, or an explicit `xlim=(lo, hi)` to set the range directly (`xlim=None` restores matplotlib's own full-range default):
+
+```{python}
+results.plot();
+```
+
+## Filtering
+
+The poorly-damped modes are usually the interesting ones. Filtering methods return a new `ModalAnalysisResults` rather than mutating `results`, so they chain: `filter_out_real_modes()` keeps only the oscillatory eigenvalues, and `filter_by_damping_ratio(...)` then keeps those at or below a threshold:
+
+```{python}
+poorly_damped = results.filter_out_real_modes().filter_by_damping_ratio(0.1)
+poorly_damped.get_dataframe().round(4)
+```
+
+## Participation Factors
+
+`get_participation_dataframe()` (or `show_participation()`, with a colour gradient) gives the full `(state, eigenvalue)` matrix; `plot_participation()` draws a bar chart per eigenvalue. `filter_by_index(...)` (an eigenvalue's `Index`, from the table above) narrows down to one mode - here, the worst-damped oscillatory one:
+
+```{python}
+worst_mode_index = poorly_damped.get_dataframe()["Damping ratio"].idxmin()
+results.filter_by_index(worst_mode_index).plot_participation();
+```
+
+# Sweeping a Parameter
+
+How do the eigenvalues move as a parameter changes? As in the [Parameter Studies tutorial](parameter_studies.qmd), we declare the swept quantity as a `parstudy.ModelParameter` and give a `Study` an `evaluate` function - here, `evaluate` just runs the modal analysis and returns a couple of scalar metrics (for the results table) alongside the full `ModalAnalysisResults` (as `raw`, for the eigenvalue trajectory below). We sweep every machine's inertia together, ±50% around its own value:
+
+```{python}
+from parstudy import ModelParameter, linspace, Study
+
+h_param = ModelParameter(
+    "H (multiply)", linspace(0.5, 1.5, 5),
+    affects=[(t, "tag") for t in synchronous_machine_types],
+    mode="multiply",
+)
+
+def evaluate(values):
+    modal_results = ma.run()
+    worst = modal_results.filter_out_real_modes().get_dataframe()["Damping ratio"]
+    return {
+        "worst_damping_ratio": float(worst.min()),
+    }, modal_results
+
+try:
+    app.Hide()
+    sweep_results = Study([h_param], evaluate).run(verbose=1)
+finally:
+    app.Show()
+
+sweep_results.evaluations.iloc[1:,:].round(4)
+```
+
+Scaling every machine's inertia down (`H (multiply) < 1`) raises every mode's frequency and, here, also its damping ratio; scaling it up does the opposite - inertia and the electromechanical modes' frequency are directly linked. (`worst_damping_ratio` is simply *whichever* mode is worst-damped in each individual run here - not necessarily the same physical mode throughout; the next section tracks the eigenvalues properly.)
+
+## Tracking Eigenvalues Across the Sweep
+
+PowerFactory does not guarantee the eigenvalues come back in the same order from run to run, so comparing them index-by-index across runs would risk comparing unrelated modes. `EigenvalueSweepResults.from_study_results(sweep_results, parameter_name)` pulls the swept parameter's value and each run's `raw` `ModalAnalysisResults` out of the `parstudy.StudyResults`; `.track_eigenvalues()` then reorders every run's eigenvalues to match the previous run's, so eigenvalue index `k` refers to the same physical mode throughout the sweep:
+
+```{python}
+from powfacpy.applications.dynamic_modal_analysis import EigenvalueSweepResults
+
+sweep = EigenvalueSweepResults.from_study_results(sweep_results, "H (multiply)").track_eigenvalues()
+len(sweep)
+```
+
+`.plot()` is the classic *root locus* view: every run's eigenvalues, coloured by the parameter value, with the same `xlim`/`quantile` auto-zoom to the dominant eigenvalues as above (computed here across every run in the sweep):
+
+```{python}
+sweep.plot(colorbar_label="H (multiply) factor");
+```
+
+`.plot_eigenvalue_tracking()` colours and labels by eigenvalue *index* instead of by parameter value - a sanity check that tracking followed each mode continuously rather than jumping between modes (a mode that appears to teleport between two very different positions from one point to the next signals a tracking mistake, e.g. too large a step between swept values):
+
+```{python}
+sweep.plot_eigenvalue_tracking();
+```
+
+# Modal Sensitivity
+
+`sensitivity_between(before, after)` tracks `after`'s eigenvalues against `before`'s and returns the per-eigenvalue *change* in every metric - a quick before/after comparison without plotting the whole sweep. Comparing the two extremes already computed above:
+
+```{python}
+from powfacpy.applications.dynamic_modal_analysis import sensitivity_between
+
+sensitivity = sensitivity_between(sweep.when_index(0), sweep.when_index(-1))
+sensitivity.filter_out_real_modes().filter_by_metrics(["Damping ratio", "Damped frequency (Hz)"]).show()
+```
+
+## Parametric Sensitivity
+
+To see how a sensitivity itself depends on a second, *condition* quantity, sweep both together and slice the (tracked) results by condition afterwards. Below, the condition is *which* single machine type's inertia gets perturbed (±20% this time) - a direct way to ask "which generator's inertia does a given mode's damping actually care about?" `condition` isn't itself a PF attribute, so it is a plain (`auto_apply=False`) `ModelParameter` whose values are the machine-type objects themselves, and `evaluate` applies the perturbation to whichever one `context` says is active this run:
+
+```{python}
+from powfacpy.applications.dynamic_modal_analysis import track_eigenvalues, ParametricSensitivity
+
+condition_types = synchronous_machine_types[:3]
+h_baseline = {t: t.GetAttribute("tag") for t in condition_types}
+
+condition_param = ModelParameter("condition", condition_types, auto_apply=False)
+h_2point = ModelParameter("H", [0.8, 1.2], auto_apply=False)
+
+def evaluate_2d(values, context):
+    typ = values["condition"]
+    typ.SetAttribute("tag", h_baseline[typ] * values["H"])
+    modal_results = ma.run()
+    typ.SetAttribute("tag", h_baseline[typ])  # auto_apply=False -> restore ourselves
+    return {}, modal_results
+
+try:
+    app.Hide()
+    results_2d = Study([condition_param, h_2point], evaluate_2d, strategy="grid").run(verbose=1)
+finally:
+    app.Show()
+```
+
+`strategy="grid"` visits every `(condition, H)` combination - 3 conditions x 2 values of `H` here, with no baseline row, which is exactly the pair of points each sensitivity needs. We track *all* six runs in one continuous sequence (not condition by condition) so that eigenvalue index `k` keeps meaning the same physical mode across every condition, then split the tracked sequence back into three (before, after) pairs - one per condition, in the same order `results_2d` visited them:
+
+```{python}
+all_tracked = track_eigenvalues([results_2d.raw(r.index) for r in results_2d.records])
+
+sensitivities = [
+    sensitivity_between(all_tracked[i], all_tracked[i + 1])
+    for i in range(0, len(all_tracked), 2)
+]
+parametric_sensitivity = ParametricSensitivity(
+    [t.loc_name for t in condition_types], sensitivities
+)
+(
+    parametric_sensitivity.filter_out_real_modes()
+    .filter_by_damping_ratio(0.2)
+    .filter_by_metrics("Damping ratio")
+    .normalize("column")
+    .show()
+)
+```
+
+Reading a row: for that mode, the darkest cell names the machine type whose inertia its damping ratio is most sensitive to - typically not all three alike, since each mode is dominated by a different subset of machines (recall the participation factors above).
+
+# Eigenvalue Sensitivity: Analytical vs. Finite-Difference
+
+`sensitivity_between` above finite-differences the *eigenvalues* themselves between two (tracked) runs. There is a second, classical way to get the same derivative that needs no eigenvalue tracking at all: the eigenvector-weighted sensitivity formula [@perezarriagaSelectiveModalAnalysis1982; @vergheseSelectiveModalAnalysis1982]
+
+$$\frac{d\lambda_i}{dp} \approx \frac{\psi_i^H \,(dA/dp)\, \phi_i}{\psi_i^H \phi_i}$$
+
+where $\phi_i$/$\psi_i$ are the right/left eigenvectors of mode $i$ - `ModalAnalysis.run()` already computes them (they're what the participation factors above are built from), and `ModalAnalysisResults` keeps them (`get_right_eigenvectors()`/`get_left_eigenvectors()`). Since it only uses *one* run's eigenvectors, it sidesteps eigenvalue tracking entirely - handy when two modes are close enough that tracking could plausibly mix them up. `dA/dp` is usually itself a finite difference of the *state matrix* between two runs (`system_matrix_sensitivity`), not of the eigenvalues - so both approaches still need two modal analyses, they just finite-difference a different quantity.
+
+This time we perturb a real controller parameter - `Ka`, the gain of generator G 05's automatic voltage regulator (an IEEE Type 1 exciter, `avr_IEEET1`) - by a small amount:
+
+```{python}
+avr = act_prj.get_unique_obj(r"Network Model\Network Data\Grid\Power Plant 05\AVR 05")
+baseline_params = list(avr.GetAttribute("params"))
+Ka_index = 1  # avr_IEEET1's parameter order: Tr,Ka,Ta,Ke,Te,Kf,Tf,E1,Se1,E2,Se2
+
+delta = 0.1
+perturbed_params = list(baseline_params)
+perturbed_params[Ka_index] += delta
+
+try:
+    app.Hide()
+    before = ma.run()
+    avr.SetAttribute("params", perturbed_params)
+    after = ma.run()
+finally:
+    avr.SetAttribute("params", baseline_params)
+    app.Show()
+```
+
+`system_matrix_sensitivity(before, after, delta)` gives a finite-difference estimate of `dA/dKa`; `before.eigenvalue_sensitivity(mode_index, delta_matrix)` then applies the formula above using `before`'s own eigenvectors - no tracking involved. We compare it against `sensitivity_between(before, after)` (divided by `delta`, the same finite-difference-on-eigenvalues approach as above) for every mode dominated by this AVR's own states:
+
+```{python}
+import pandas as pd
+from powfacpy.applications.dynamic_modal_analysis import system_matrix_sensitivity
+
+delta_A = system_matrix_sensitivity(before, after, delta)
+finite_difference = sensitivity_between(before, after).get_dataframe() / delta
+
+avr_modes = before.get_dataframe()
+avr_modes = avr_modes[avr_modes["Dominant states"].str.contains("AVR 05")]
+
+pd.DataFrame(
+    {
+        "analytical (eigenvectors)": [
+            before.eigenvalue_sensitivity(idx, delta_A) for idx in avr_modes.index
+        ],
+        "finite difference (eigenvalues)": [
+            complex(finite_difference.loc[idx, "Real (1/s)"], finite_difference.loc[idx, "Imag (rad/s)"])
+            for idx in avr_modes.index
+        ],
+    },
+    index=avr_modes.index,
+).round(5)
+```
+
+The two independent approaches agree to 4-5 decimal places for every mode - a useful cross-check when eigenvalue tracking is in doubt (two nearby modes, a large step between runs, ...). The fastest of the group (real part around -48, dominated by the AVR's own state `xa`) is by far the most sensitive to `Ka`, as expected for a gain acting directly on that state; the electromechanical modes further up the table are only weakly affected, since `Ka` mainly shapes the AVR's own fast dynamics.
+
+# Connecting Modal Analysis to a Time-Domain Simulation
+
+Modal analysis and a time-domain simulation describe the same system from two angles: modal analysis linearizes around the operating point and reports every mode's frequency and damping directly and exhaustively; a simulation shows the full response to one actual disturbance, which - for a small enough disturbance that the linearization still applies - is approximately the superposition of all those modes. The same parameter sweep should therefore tell a consistent story in both, *provided* the disturbance is one the linearization can actually speak to; that is why this section reuses the small load step from the setup above rather than a large fault. `evaluate` below runs the modal analysis first (at the pre-disturbance operating point) and *then* the load-step simulation already set up in this study case, storing both:
+
+```{python}
+from powfacpy.applications.results import Results
+
+pfri = Results(app)
+pfri.pf_objects_in_labels = True
+
+h_param_small = ModelParameter(
+    "H (multiply)", linspace(0.5, 1.5, 5),
+    affects=[(t, "tag") for t in synchronous_machine_types],
+    mode="multiply",
+)
+
+sim_traces = []
+
+def evaluate_with_sim(values):
+    modal_results = ma.run()
+    worst = modal_results.filter_out_real_modes().get_dataframe()
+
+    pfds.initialize_and_run_sim()
+    sim_res = pfri.export_to_pandas()
+    sim_traces.append(sim_res)
+
+    return {
+        "worst_damping_ratio": float(worst["Damping ratio"].min()),
+        "worst_damped_freq_Hz": float(worst.loc[worst["Damping ratio"].idxmin(), "Damped frequency (Hz)"]),
+    }, modal_results
+
+try:
+    app.Hide()
+    combined_results = Study([h_param_small], evaluate_with_sim).run(verbose=1)
+finally:
+    app.Show()
+
+combined_results.evaluations.round(4)
+```
+
+Side by side: the root-locus view from modal analysis, and the actual simulated speed of one machine (`G 10`, dominant in one of the poorly-damped modes above) for every `H` in the same sweep. Lower inertia visibly pushes the eigenvalues up the imaginary axis (faster oscillation, matching `worst_damped_freq_Hz` above) *and* produces a visibly faster, larger swing in the simulated response - modal analysis and the time-domain simulation agree on the direction of the effect, as they must, since they describe the same system:
+
+```{python}
+import matplotlib.pyplot as plt
+
+# the baseline run (H factor=1.0) duplicates one of the swept values here, so
+# we drop it from this plot with include_baseline=False.
+combined_sweep = EigenvalueSweepResults.from_study_results(
+    combined_results, "H (multiply)", include_baseline=False
+).track_eigenvalues()
+
+swept = [r.varied is not None for r in combined_results.records]
+h_values = [
+    h for h, keep in zip(combined_results.evaluations[("parameters", "H (multiply)")], swept) if keep
+]
+swept_traces = [sim_res for sim_res, keep in zip(sim_traces, swept) if keep]
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4.5))
+
+combined_sweep.plot(colorbar_label="H (multiply) factor", ax=axes[0])
+axes[0].set_title("Eigenvalue movement (root locus)")
+
+axes[1].set_title("G 10 speed after the load step")
+g10 = [m for m in synchronous_machines if m.loc_name == "G 10"]
+for h, sim_res in zip(h_values, swept_traces):
+    speed = pfri.get_simulation_results_from_dataframe(sim_res, g10, RMS_BAL.ElmSym.s_speed.value).iloc[:, 0]
+    axes[1].plot(speed.index, speed.to_numpy(), label=f"H factor={h:.2f}")
+axes[1].set_xlabel("time [s]"); axes[1].set_ylabel("speed [pu]")
+axes[1].legend(fontsize=8); axes[1].grid(True)
+fig.tight_layout()
+```
+
+# Where To Go From Here
+
+- `ModalAnalysis.run(commod_params={...})` passes additional/overriding `ComMod` parameters straight through (e.g. a different `initMode`, or a subset of eigenvalues via the `isRec*` filters) - see PowerFactory's own documentation of `ComMod` for what's available.
+- Everything here composes with the rest of `parstudy`: a full `grid`, `latin_hypercube(n)` or `sobol(n)` sample is one `strategy=` argument to `Study`, and `EigenvalueSweepResults.from_study_results` works the same way regardless of the strategy used to produce `sweep_results`.
+- `ModalAnalysisResults.get_system_matrix()` / `.get_states()` give the raw state matrix and state names; `get_right_eigenvectors()` / `get_left_eigenvectors()` give the raw eigenvectors behind the participation factors and `eigenvalue_sensitivity` - if you need something this module doesn't already compute from them.
+- Combine this with the [Study Cases tutorial](study_cases.qmd) to keep a persistent, browsable study case for each point of a sweep you want to revisit by hand, rather than (or alongside) the in-memory `parstudy` sweep used here - see the *Relation to the Study Cases tutorial* note in the [Parameter Studies tutorial](parameter_studies.qmd).
+

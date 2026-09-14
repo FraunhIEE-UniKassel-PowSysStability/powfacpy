@@ -8,7 +8,6 @@ import re
 import math
 
 from numpy import diff
-from icecream import ic
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.base.base import BaseChildStatic
@@ -44,7 +43,7 @@ class BlockDefinition(BaseChildStatic):
     @property
     def parameters(self) -> list[str]:
         return self.read_attribute_that_is_string_in_list("sParams")
-    
+
     @property
     def internal_variables(self) -> list[str]:
         return self.read_attribute_that_is_string_in_list("sIntern")
@@ -96,7 +95,7 @@ class BlockDefinition(BaseChildStatic):
         - 'Name mapping': mapping of names of parameters and states between block references and their block definitions
 
         Returns:
-            dict: dict with default information. 
+            dict: dict with default information.
         """
         attr_info = self.get_attribute_info()
         attr_info["Subblocks"] = self.get_blkdefs_of_subblocks()
@@ -187,8 +186,8 @@ class BlockDefinition(BaseChildStatic):
         return pfplt.export_active_page(format=format, path=path)
 
     def get_names_mapping_of_blkdefs_and_blkrefs(self) -> dict:
-        """Get mapping of names of parameters and states between block references and their block definitions. 
-        
+        """Get mapping of names of parameters and states between block references and their block definitions.
+
         The parameter and state names can differ (e.g. when the same name occurs in several block references inside a block definition - assume several references have a state named 'x', those names need to differ on the level of the block definition(x, x1, x2,...)).
 
         Args:
@@ -227,12 +226,12 @@ class BlockDefinition(BaseChildStatic):
             "sUpLimPar": "upper_limitation_parameters",
             "sLowLimPar": "lower_limitation_parameters",
         }
-    
+
     def get_signal_results_variables(self, signal_types: list[str] | None = None) -> list[str]:
-        """Get names of results variables for signals (e.g. 's:varname') of the block definition. 
+        """Get names of results variables for signals (e.g. 's:varname') of the block definition.
 
         Args:
-            signal_types (list[str]): e.g. ["input_signals", "output_signals", "states", "internal_variables""upper_limitation_signals", 
+            signal_types (list[str]): e.g. ["input_signals", "output_signals", "states", "internal_variables""upper_limitation_signals",
             "lower_limitation_signals"]). If None, all internal signals are monitored. Defaults to None.
 
         Returns:
@@ -247,7 +246,7 @@ class BlockDefinition(BaseChildStatic):
                 "upper_limitation_signals",
                 "lower_limitation_signals"
             ]
-        signal_results_variables = []   
+        signal_results_variables = []
         for signal_type in signal_types:
             signale = getattr(self, signal_type)
             if not signal_type == "internal_variables":
@@ -257,9 +256,9 @@ class BlockDefinition(BaseChildStatic):
             else:
                 signal_results_variables += [
                         f"c:{sig}" for sig in signale
-                    ] 
+                    ]
         return signal_results_variables
-    
+
     def get_info_incl_subblocks(self, all_blkdef_info: dict | None = None, parent: None | BlkDef = None):
         """
         Recursive
@@ -276,11 +275,11 @@ class BlockDefinition(BaseChildStatic):
             all_blkdef_info["blkdefs_with_subblocks"].append(info)
             for blkdef in info["Subblocks"].values():
                 blkdef = BlockDefinition(blkdef)
-                all_blkdef_info = blkdef.get_info_incl_subblocks(all_blkdef_info=all_blkdef_info, parent=self._obj)   
+                all_blkdef_info = blkdef.get_info_incl_subblocks(all_blkdef_info=all_blkdef_info, parent=self._obj)
         else: # lowest level reached
             blkdef_in_list = [blkdef_info for blkdef_info in all_blkdef_info["blkdefs_without_subblocks"] if blkdef_info["BlkDef"] == self._obj]
             if not blkdef_in_list:
-                all_blkdef_info["blkdefs_without_subblocks"].append(info)     
+                all_blkdef_info["blkdefs_without_subblocks"].append(info)
         return all_blkdef_info
 
     def get_parameter_limits_from_equations(self, exclusive_limit_distance: float = 0) -> dict:
@@ -290,7 +289,8 @@ class BlockDefinition(BaseChildStatic):
             if line.startswith("limfix"):
                 parlim = parse_limfix(line, exclusive_limit_distance)
                 param_limits[parlim["param"]] = parlim["limits"]
-        return param_limits        
+        return param_limits
+
 
 def parse_limfix(s: str, exclusive_limit_distance: float = 0) -> dict:
     # Truncate comment
@@ -298,20 +298,20 @@ def parse_limfix(s: str, exclusive_limit_distance: float = 0) -> dict:
 
     # Extract parameter name
     param = re.search(r'limfix\((\w+)\)', s).group(1)
-    
+
     # Extract the range string, e.g. "(0,)", "[0,10]", "(,-5)"
     range_str = re.search(r'=\s*(.+)', s).group(1).strip()
-    
+
     # Determine bracket types
     lower_inclusive = range_str[0] == '['
     upper_inclusive = range_str[-1] == ']'
-    
+
     # Extract lower and upper values
     inner = range_str[1:-1]  # strip brackets
     parts = inner.split(',')
     lower_str = parts[0].strip()
     upper_str = parts[1].strip()
-    
+
     # Parse lower limit
     if lower_str == '':
         lower = -math.inf
@@ -328,4 +328,4 @@ def parse_limfix(s: str, exclusive_limit_distance: float = 0) -> dict:
         if not upper_inclusive:
             upper -= exclusive_limit_distance
 
-    return {"param": param, "limits": (lower, upper)}                
+    return {"param": param, "limits": (lower, upper)}

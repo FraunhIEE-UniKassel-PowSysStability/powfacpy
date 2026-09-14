@@ -1,5 +1,5 @@
 from powfacpy.base.active_project import ActiveProjectCached, ActiveProject
-from powfacpy.pf_class_protocols import PFApp
+from powfacpy.pf_classes.protocols import PFApp
 
 
 class ApplicationBase:

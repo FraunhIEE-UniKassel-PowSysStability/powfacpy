@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Callable
+from typing import Callable, TYPE_CHECKING
 
 import numpy as np
-from icecream import ic
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.protocols import ElmArea, ElmZone, PFGeneral, ElmRes, StaPll
 from powfacpy.pf_classes.elm.sym import SynchronousMachine
+from powfacpy.pf_classes.elm.unit_collection import UnitCollection
 from powfacpy.pf_classes.class_conversion import convert_pf_obj_to_powfacpy
 from powfacpy.exceptions import PFInvalidLoadFlow
 from powfacpy.result_variables import ResVar
@@ -65,8 +65,18 @@ class GroupingBase(ABC):
             elms = act_prj.get_by_condition(elms, condition)
         return elms
 
-    def get_internal_elms_of_class(self, class_name: str) -> list[PFGeneral]:
-        return self.get_internal_elms(lambda x: x.GetClassName() == class_name)
+    def get_internal_elms_of_class(
+        self, class_name: str, condition: Callable | None = None
+    ) -> list[PFGeneral]:
+        """Internal elements of a given class, optionally further filtered by `condition`.
+
+        `Zone` / `Area` override this with a targeted `GetObjs` query; the generic
+        implementation here filters `get_all_internal_elms`.
+        """
+        return self.get_internal_elms(
+            lambda x: x.GetClassName() == class_name
+            and (condition is None or condition(x))
+        )
 
     def get_network_elements_of_plant_models(
         self,
@@ -126,6 +136,66 @@ class GroupingBase(ABC):
             lambda x: x.GetClassName() in ["ElmGenstat", "ElmPvsys", "ElmVsc"]
         )
 
+    # Dispatchable-unit categories
+    #
+    # PowerFactory's plant categories are partly ambiguous, so these use the
+    # stable code attribute 'aCategory' ('cCategory' is the localised display
+    # string). 'ElmGenstat' models several technologies; 'ElmPvsys' is always PV.
+    _BATTERY_SUBCATEGORIES = ("battery", "stbat")
+
+    def _get_internal_static_generators_of_category(
+        self, a_category: str
+    ) -> list[PFGeneral]:
+        return self.get_internal_elms_of_class(
+            "ElmGenstat",
+            condition=lambda x: x.GetAttribute("aCategory") == a_category,
+        )
+
+    def get_internal_pv(self) -> list[PFGeneral]:
+        """Internal PV units: every `ElmPvsys` plus every `ElmGenstat` of category "pv"."""
+        return self._get_internal_static_generators_of_category(
+            "pv"
+        ) + self.get_internal_elms_of_class("ElmPvsys")
+
+    def get_internal_wind(self) -> list[PFGeneral]:
+        """Internal wind units: every `ElmGenstat` of category "wgen"."""
+        return self._get_internal_static_generators_of_category("wgen")
+
+    def get_internal_bess(self) -> list[PFGeneral]:
+        """Internal battery storage units: every `ElmGenstat` of category "stor" with a battery `aSubCategory`."""
+        return [
+            generator
+            for generator in self._get_internal_static_generators_of_category("stor")
+            if str(generator.GetAttribute("aSubCategory")).lower()
+            in self._BATTERY_SUBCATEGORIES
+        ]
+
+    def get_internal_sg(self) -> list[PFGeneral]:
+        """Internal synchronous generators: every `ElmSym` that is not a motor or condenser(`i_mot` == 0)."""
+        return self.get_internal_elms_of_class(
+            "ElmSym", condition=lambda x: x.i_mot == 0
+        )
+
+    @property
+    def pv(self) -> UnitCollection:
+        """`UnitCollection` of the internal PV units (see `get_internal_pv`)."""
+        return UnitCollection(self.get_internal_pv())
+
+    @property
+    def wind(self) -> UnitCollection:
+        """`UnitCollection` of the internal wind units (see `get_internal_wind`)."""
+        return UnitCollection(self.get_internal_wind())
+
+    @property
+    def bess(self) -> UnitCollection:
+        """`UnitCollection` of the internal battery storage units (see `get_internal_bess`)."""
+        return UnitCollection(self.get_internal_bess())
+
+    @property
+    def sg(self) -> UnitCollection:
+        """`UnitCollection` of the internal synchronous generators (see `get_internal_sg`)."""
+        return UnitCollection(self.get_internal_sg())
+
     def get_grid_forming_converters(self) -> list:
         return [conv for conv in self.get_converters() if conv.ctrlStruct == 1]
 
@@ -182,7 +252,7 @@ class GroupingBase(ABC):
     def get_all_powfacpy_groupings_of_same_type(self) -> list:
         """Get all calculation relevant groupings of the same type (Zone class returns Zone, Area class returns...)
 
-        Difference to 'get_all_groupings_of_same_type' is that e.g. Zones instead ElmZone are returned
+        Difference to 'get_all_groupings_of_same_type' is that e.g. Zones instead ElmZone are returned.
 
         Returns:
             list: alls groupings of same type
@@ -283,9 +353,8 @@ class AreaZoneBase(GroupingBase):
         """
         pass
 
-
-from powfacpy.pf_classes.elm.zone import Zone
-from powfacpy.pf_classes.elm.area import Area
-
-type ElmAreaOrZone = ElmArea | ElmZone
-type AreaOrZone = Area | Zone
+"""
+The 'AreaOrZone' / 'ElmAreaOrZone' type aliases live in 'grouping_types.py' - see the note there. They are re-exported here (as a type-checking-only import) so that the annotations in this module still resolve for static type checkers, without creating a circular import at runtime.
+"""
+if TYPE_CHECKING:
+    from powfacpy.pf_classes.elm.grouping_types import AreaOrZone, ElmAreaOrZone

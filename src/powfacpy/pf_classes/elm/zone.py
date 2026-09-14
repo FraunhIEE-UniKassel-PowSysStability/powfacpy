@@ -89,11 +89,9 @@ class ZoneStatic(ElmBase, AreaZoneBase):
         self, class_name: str, condition: Callable | None = None
     ) -> list[PFGeneral]:
         objs = self._obj.GetObjs(class_name)
-        if not condition:
+        if condition is None:
             return objs
-        else:
-            act_prj = ActiveProjectCached()
-            elms = act_prj.get_by_condition(elms, condition)
+        return ActiveProjectCached().get_by_condition(objs, condition)
 
     def get_all_groupings_of_same_type(self) -> list[ElmZone]:
         act_prj = ActiveProjectCached()

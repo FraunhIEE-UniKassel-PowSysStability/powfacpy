@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from numpy import diff
-from icecream import ic
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.base.base import BaseChildStatic

@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -19,6 +19,10 @@ plt.rcParams['axes.grid'] = True
 ```
 
 This tutorial demonstrates how to generate *HTML* documentation for dynamic models in *PowerFactory*, specifically composite models (`ElmComp`) and their DSL models (`ElmDsl`). Such documentation is useful for project reports, or for sharing model details in an accessible format with collaborators who do not have access to *PowerFactory*.
+
+::: {.callout-note}
+`DynamicModelDocs` needs the `markdown` package, which is an optional dependency of *powfacpy*. Install it with `pip install powfacpy[docs]` (or `pip install markdown`) before running this tutorial.
+:::
 
 ## Setup
 
@@ -38,7 +42,7 @@ sys.path.append(
 import powerfactory
 app = powerfactory.GetApplication()
 app.Show()
-app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\powfacpy_tests_copy_where_tests_run")
+app.ActivateProject(rf"{SETTINGS["path to powfacpy folder in PowerFactory database"]}\powfacpy_tests_copy_to_run_tests")
 act_prj = ActiveProject(app)
 ```
 
@@ -63,3 +67,4 @@ finally:
 
 
 <iframe src=".\output\dynamic_model_docs\Frame(g1).html" width="100%" height="600px" style="border:none;"></iframe>
+

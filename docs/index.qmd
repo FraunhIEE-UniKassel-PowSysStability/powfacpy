@@ -38,12 +38,28 @@ Using pip:
 pip install powfacpy
 ```
 
+A few features rely on optional dependencies that are not installed by default:
+
+| Extra | Installs | Needed for |
+|---|---|---|
+| `powfacpy[pandapower]` | `pandapower` | `powfacpy.applications.pandapower_interface` (network matrices / pandapower export) |
+| `powfacpy[comtrade]` | `comtraderecord` | `Plots.plot_from_pandas_using_comtrade` |
+| `powfacpy[docs]` | `markdown` | `powfacpy.applications.dynamic_model_docs` (HTML model documentation) |
+| `powfacpy[parstudy]` | [`parstudy`](https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy) | `powfacpy.applications.parameter_studies` (parameter sweeps), and the eigenvalue-sweep/sensitivity helpers in `dynamic_modal_analysis` |
+| `powfacpy[dynamic_modal_analysis]` | `scipy` | `powfacpy.applications.dynamic_modal_analysis` (`ModalAnalysis` - eigenvalues, damping ratios, participation factors) |
+| `powfacpy[tutorials]` | `jupyter`, `PyQt6`, `deepdiff` | running the tutorial notebooks yourself |
+| `powfacpy[all]` | all of the above | running every tutorial |
+
+```
+pip install powfacpy[pandapower]
+```
+
 # Contact
 simon.eberlein@iee.fraunhofer.de or open an issue.
 
 # Contribute
 Contributions (new features, bug reports, feature requests, etc.) are very welcome on Github. If you want to contribute to the code base, please have a look at [How to contribute](docs/how_to_contribute.qmd).
 
-# About
-*powfacpy* is an open source package which is mainly developed at Fraunhofer IEE and not associated with *DIgSILENT*.
+# Disclaimer
+*PowerFactory* and *DIgSILENT* are trademarks of DIgSILENT GmbH. *powfacpy* is an independent, community-maintained open source project and is not affiliated with, endorsed by, or sponsored by DIgSILENT GmbH. Using *powfacpy* requires your own valid PowerFactory license and installation.
 

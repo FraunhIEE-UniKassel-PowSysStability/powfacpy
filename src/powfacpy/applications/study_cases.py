@@ -4,11 +4,10 @@ from os import getcwd, makedirs
 from os.path import join
 
 import numpy as np
-from icecream import ic
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.results import Results
-from powfacpy.pf_class_protocols import (
+from powfacpy.pf_classes.protocols import (
     PFGeneral,
     ElmNet,
     IntCase,
@@ -20,7 +19,7 @@ from powfacpy.pf_class_protocols import (
     PFApp,
 )
 from powfacpy.exceptions import PFCaseStudyParameterValueDefinitionError
-from powfacpy.base.string_manipulation import PFStringManipulation
+from powfacpy.base import string_manipulation as strman
 
 
 class StudyCases(ApplicationBase):
@@ -436,7 +435,7 @@ class StudyCases(ApplicationBase):
         par_name_to_list_mapping = self._get_parameter_name_to_list_mapping()
         # Then the parameter names are replaced in conditions. Note that there could be strings inside conditions which should not be considered: For example, if there is condition "control == 'control A'", then only the parameter name 'control' should be replaced, not the value 'control A' which also contains 'control', i.e x[0] == 'control A'.
         condition_strings_list = (
-            PFStringManipulation.replace_outside_or_inside_of_strings_in_a_string(
+            strman.replace_outside_or_inside_of_strings_in_a_string(
                 conditions, par_name_to_list_mapping
             )
         )

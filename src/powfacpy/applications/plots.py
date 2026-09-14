@@ -7,12 +7,10 @@ from os.path import exists
 
 from matplotlib import pyplot
 import pandas
-from icecream import ic
-from comtraderecord import comtradeWriter
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.dynamic_simulation import DynamicSimulation
-from powfacpy.pf_class_protocols import (
+from powfacpy.pf_classes.protocols import (
     GrpPage,
     SetVipage,
     VisPlot,
@@ -562,6 +560,13 @@ class Plots(ApplicationBase):
         Returns:
             str: path of the created COMTRADE file (without extension).
         """
+        try:
+            from comtraderecord import comtradeWriter
+        except ImportError as error:
+            raise ImportError(
+                "plot_from_pandas_using_comtrade needs the 'comtraderecord' package - "
+                "install it with `pip install powfacpy[comtrade]` (or `pip install comtraderecord`)."
+            ) from error
         if comtrade_file_dir is None:
             directory = self.act_prj.get_project_directory() + "\\comtrade_files"
             if not exists(directory):

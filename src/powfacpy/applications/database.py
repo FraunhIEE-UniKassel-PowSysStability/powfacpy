@@ -18,18 +18,17 @@ import copy
 
 import pandas as pd
 import numpy as np
-from icecream import ic
-
 
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.result_variables import ResVar
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.base.string_manipulation import PFStringManipulation
+from powfacpy.base import string_manipulation as strman
 from powfacpy.pf_classes.protocols import (
     PFGeneral,
     PFApp,
 )
 from powfacpy.pf_classes.elm.dsl import DSLModel
+
 
 class Database(ApplicationBase):
 
@@ -109,7 +108,7 @@ class Database(ApplicationBase):
             if not keys_are_pf_obj:
                 key = self.act_prj.get_path_of_obj_with_class_names(obj)
                 if truncated_path:
-                    key = PFStringManipulation.truncate_until(
+                    key = strman.truncate_until(
                         key, truncated_path + "\\"
                     )
             else:
@@ -158,7 +157,7 @@ class Database(ApplicationBase):
     def _handle_obj_type(
         self, obj: PFGeneral | str, added_path: None | str = None
     ) -> PFGeneral:
-        """Converts obj specified by their path to the actual PF object. 
+        """Converts obj specified by their path to the actual PF object.
 
         Args:
             obj (PFGeneral | str): _description_
@@ -329,7 +328,7 @@ class Database(ApplicationBase):
             vars = vars.replace(":", "_")
             vars = filter(enum_class.__members__.keys(), vars)
         if objs is None:
-            objs = self.act_prj.get_calc_relevant_obj("*." + class_name)  
+            objs = self.act_prj.get_calc_relevant_obj("*." + class_name)
         var_values = {var: [None]*len(objs) for var in vars}
         for var in vars:
             for m, obj in enumerate(objs):
@@ -339,9 +338,9 @@ class Database(ApplicationBase):
                     if not val:
                         val = None
                 else:
-                    val = None        
+                    val = None
                 var_values[var][m] = val
-        df = pd.DataFrame(var_values)   
+        df = pd.DataFrame(var_values)
         if index_format == "path":
             df.index = [self.act_prj.get_path_of_object_in_active_project(o) for o in objs]
         elif index_format == "obj":
@@ -349,12 +348,22 @@ class Database(ApplicationBase):
         else:
             df.index = [o.loc_name for o in objs]
         df.columns = pd.MultiIndex.from_tuples(
-            [(enum_class[var].value, enum_class[var].__doc__) 
+            [(enum_class[var].value, enum_class[var].__doc__)
                 for var in vars]
         )
         return df
-    
+
     def get_composite_model_parameters(self, composite_models: list | None = None, include_out_of_service: bool = False, obj_format: str = "name") -> dict:
+        """_summary_
+
+        Args:
+            composite_models (list | None, optional): Composite models for which to get parameters. Defaults to None (all calculation relevant composite models).
+            include_out_of_service (bool, optional): Whether to include out-of-service objects. Defaults to False.
+            obj_format (str, optional): Format of the object keys in the returned dictionary ("name", "path", or "obj"). Defaults to "name".
+
+        Returns:
+            dict: A dictionary containing the parameters for each composite model.
+        """
         if composite_models is None:
             composite_models = self.act_prj.get_calc_relevant_obj("*.ElmComp")
         model_parameters = {}
@@ -362,39 +371,76 @@ class Database(ApplicationBase):
             if obj_format == "path":
                 comp_model_key = self.act_prj.get_path_of_object_in_active_project(comp_model)
             elif obj_format == "obj":
-                comp_model_key = comp_model    
+                comp_model_key = comp_model
             else:
                 comp_model_key = comp_model.loc_name
 
             model_parameters[comp_model_key] = {}
             comp_model = CompositeModel(comp_model)
-            for dsl_model in comp_model.get_dsl_models_in_slots():
-                if dsl_model.outserv and not include_out_of_service:
+            for net_elm in comp_model.get_network_elms():
+                if not net_elm:
                     continue
-                if obj_format == "path":
-                    dsl_key = self.act_prj.get_path_of_object_in_active_project(dsl_model)
-                elif obj_format == "obj":
-                    dsl_key = dsl_model
-                else:
-                    dsl_key = dsl_model.loc_name
-                dsl_model = DSLModel(dsl_model)
-                model_parameters[comp_model_key][dsl_key] = dsl_model.get_parameters()
+                if net_elm.GetClassName() == "ElmComp": # Subframe (composite model) inside the composite model
+                    if net_elm.outserv and not include_out_of_service:
+                        continue
+                    net_elm = CompositeModel(net_elm)
+                    model_parameters[comp_model_key] = model_parameters[comp_model_key] | self.get_composite_model_parameters([net_elm._obj], include_out_of_service=include_out_of_service, obj_format=obj_format)
+                elif net_elm.GetClassName() == "ElmDsl":
+                    if net_elm.outserv and not include_out_of_service:
+                        continue
+                    if obj_format == "path":
+                        dsl_key = self.act_prj.get_path_of_object_in_active_project(net_elm)
+                    elif obj_format == "obj":
+                        dsl_key = net_elm
+                    else:
+                        dsl_key = net_elm.loc_name
+                    net_elm = DSLModel(net_elm)
+                    model_parameters[comp_model_key][dsl_key] = net_elm.get_parameters()
         return model_parameters
-    
+
     def set_composite_model_parameters(self, model_parameters: dict) -> None:
-        for comp_model_key, dsl_models in model_parameters.items():
+        """Set parameters of composite models.
+
+        Args:
+            model_parameters (dict): dict
+                keys: composite model (PF object, name or path),
+                values: dict
+                    keys: dsl model (PF object, name or path) or edge case:    subframe (composite model) inside the composite model,
+                    values: dict
+                        keys: parameter names
+                        values: parameter values
+
+        Example:
+            ```python
+            model_parameters = {
+            "Network Model\\Network Data\\Grid\\Power Plant 02": {
+                "Network Model\\Network Data\\Grid\\Power Plant 02\\AVR 02": {
+                    "Ka": 10.0,
+                    "Ta": 0.1
+                },
+                "Network Model\\Network Data\\Grid\\Power Plant 02\\Gov 02": {
+                    "Kf": 0.5,
+                    "Tf": 0.2
+                }
+            }
+            pfdb.set_composite_model_parameters(model_parameters)
+
+            ```
+        """
+        for comp_model_key, net_elms in model_parameters.items():
             if isinstance(comp_model_key, str):
                 comp_model = self.act_prj.get_unique_obj(comp_model_key)
             else:
                 comp_model = comp_model_key
             comp_model = CompositeModel(comp_model)
-            for dsl_key, parameters in dsl_models.items():
-                if isinstance(dsl_key, str):
-                    dsl_model = self.act_prj.get_unique_obj(dsl_key)
+            for net_elm, parameters in net_elms.items():
+                if isinstance(net_elm, str):
+                    net_elm = self.act_prj.get_unique_obj(net_elm)
+                if net_elm.GetClassName() == "ElmComp":
+                    self.set_composite_model_parameters({net_elm: parameters})
                 else:
-                    dsl_model = dsl_key
-                dsl_model = DSLModel(dsl_model)
-                dsl_model.set_parameter_values(parameters)
+                    net_elm = DSLModel(net_elm)
+                    net_elm.set_parameter_values(parameters)
 
 
 class DatabaseDict(dict, ApplicationBase):

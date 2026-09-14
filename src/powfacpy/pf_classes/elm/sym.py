@@ -12,10 +12,11 @@ from powfacpy.pf_classes.elm.elm_base import (
     SinglePortBase,
 
 )
-from powfacpy.pf_classes.elm.elm_plant_controlled_base import ElmPlantControlledBase
+from powfacpy.pf_classes.elm.elm_base import ElmPlantControlledBase
 from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.result_variables import ResVar
 from powfacpy.engineering_helpers import get_weighted_average
+from powfacpy.exceptions import PFInterfaceError
 
 LDF = ResVar.LF_Bal
 
@@ -45,6 +46,145 @@ class SynchronousMachine(ElmBase, SinglePortBase, ElmPlantControlledBase):
     @property
     def rated_apparent_power(self) -> float:
         return self.ratedS
+
+    def get_machines_sharing_type(self) -> list[ElmSym]:
+        """Other calculation-relevant machines (`ElmSym` / `ElmAsm`) that use the same `TypSym`.
+
+        Changing the type in place (e.g. its rated power) would affect all of them.
+
+        Only the active network is considered - `TypSym.GetReferences()` also
+        returns variation-stage shadows of the machine itself, which are not
+        separate machines.
+        """
+        machine_type: TypSym = self._obj.typ_id
+        if machine_type is None:
+            return []
+        type_name = machine_type.GetFullName()
+        own_name = self._obj.GetFullName()
+        act_prj = ActiveProjectCached()
+        machines = act_prj.get_calc_relevant_obj(
+            "*.ElmSym", error_if_non_existent=False
+        ) + act_prj.get_calc_relevant_obj("*.ElmAsm", error_if_non_existent=False)
+        return [
+            machine
+            for machine in machines
+            if machine.GetFullName() != own_name
+            and machine.typ_id is not None
+            and machine.typ_id.GetFullName() == type_name
+        ]
+
+    def _check_type_writable(self, copy_shared_type: bool) -> None:
+        """Raise if the machine's `TypSym` cannot be modified in place.
+
+        For `ElmSym` the rating (`sgn`) and the inertia (`h`) live on the machine type. If that type is shared with other machines, changing it would silently affect all of them, so type-changing setters raise unless `copy_shared_type` is True.
+        """
+        obj = self._obj
+        if obj.typ_id is None:
+            raise PFInterfaceError(
+                f"'{obj.loc_name}' has no machine type ('typ_id'); its type cannot be modified."
+            )
+        others = self.get_machines_sharing_type()
+        if others and not copy_shared_type:
+            names = ", ".join(sorted(o.loc_name for o in others))
+            raise PFInterfaceError(
+                f"The type '{obj.typ_id.loc_name}' of '{obj.loc_name}' is shared with "
+                f"{len(others)} other machine(s) ({names}). Pass copy_shared_type=True "
+                "to give this machine a private copy of its type first."
+            )
+
+    def _writable_type(self, copy_shared_type: bool) -> TypSym:
+        """Return the machine's `TypSym`, ready to be modified in place.
+
+        Runs `_check_type_writable`; if the type is shared and `copy_shared_type` is True, the machine is first given a private copy of its type (next to the original) and that copy is returned and re-pointed to via `typ_id`.
+        """
+        self._check_type_writable(copy_shared_type)
+        machine_type: TypSym = self._obj.typ_id
+        if self.get_machines_sharing_type():
+            act_prj = ActiveProjectCached()
+            # not use_existing: several machines can share both a type and a
+            # loc_name (a fleet built from one template), and use_existing would
+            # then hand them all the same "copy" - collapsing the private types
+            # back into one. A name clash instead auto-suffixes "(1)", "(2)".
+            machine_type = act_prj.copy_single_obj(
+                machine_type,
+                machine_type.GetParent(),
+                new_name=f"{machine_type.loc_name} ({self._obj.loc_name})",
+                overwrite=False,
+                use_existing=False,
+            )
+            self._obj.typ_id = machine_type
+        return machine_type
+
+    def make_type_private(self) -> TypSym:
+        """Give the machine a private copy of its `TypSym` if it currently shares one.
+
+        The copy is created next to the original and `typ_id` is re-pointed to it. Returns the machine's type (the copy, or the original if it was already private). Call this once - e.g. on a fleet built from a single template - before setting each machine's rating or inertia individually.
+        """
+        return self._writable_type(copy_shared_type=True)
+
+    def set_rated_apparent_power(
+        self,
+        apparent_power: float,
+        *,
+        scale_setpoints: bool = False,
+        scale_limits: bool = False,
+        scale_step_up_transformer: bool = False,
+        copy_shared_type: bool = False,
+    ) -> None:
+        """Set the rated apparent power [MVA] of the whole station.
+
+        For `ElmSym` the rating (`sgn`) lives on the machine type (`TypSym`). If that type is shared with other machines, changing it in place would silently re-rate all of them, so this raises unless `copy_shared_type` is True - in which case the machine is first given a private copy of its type.
+
+        Args:
+            apparent_power: New station rating; the type's `sgn` is set to `apparent_power / ngnum`.
+
+            scale_setpoints: Also scale the active/reactive power dispatch setpoints by the same ratio.
+
+            scale_limits: Also scale the active power operational limits (`Pmin_uc` / `Pmax_uc`) by the same ratio.
+
+            scale_step_up_transformer: Also resize the machine's step-up transformer to the new rating.
+
+            copy_shared_type: Give the machine a private copy of its type before changing the rating (required when the type is shared).
+        """
+        obj = self._obj
+        machine_type = self._writable_type(copy_shared_type)
+        old = machine_type.sgn * obj.ngnum
+        machine_type.sgn = apparent_power / obj.ngnum
+        if old:
+            ratio = apparent_power / old
+            if scale_limits:
+                self._scale_active_power_limits(ratio)
+            if scale_setpoints:
+                self.scale_power_dispatch(ratio)
+        if scale_step_up_transformer and self.get_step_up_transformer() is not None:
+            self.rescale_step_up_transformer()
+
+    def set_inertia(
+        self,
+        inertia_constant_seconds: float,
+        *,
+        copy_shared_type: bool = False,
+    ) -> None:
+        """Set the inertia constant H [s] of the machine type (`TypSym.h`).
+
+        H is per unit of the type's rated apparent power. Like the rating, it
+        lives on the (possibly shared) `TypSym`, so this raises for a shared type
+        unless `copy_shared_type` is True.
+
+        Args:
+            inertia_constant_seconds: new H [s].
+
+            copy_shared_type: give the machine a private copy of its type first
+                (required when the type is shared).
+        """
+        self._writable_type(copy_shared_type).h = inertia_constant_seconds
+
+    def scale_inertia(
+        self, factor: float, *, copy_shared_type: bool = False
+    ) -> None:
+        """Scale the inertia constant H by `factor` (see `set_inertia`)."""
+        machine_type = self._writable_type(copy_shared_type)
+        machine_type.h = machine_type.h * factor
 
     @property
     def H_in_seconds_based_on_Snom(self) -> float:

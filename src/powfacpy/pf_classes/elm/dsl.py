@@ -4,7 +4,6 @@ from textwrap import indent
 import os
 
 import numpy as np
-from icecream import ic
 import pandas as pd
 
 from powfacpy.base.active_project import ActiveProjectCached
@@ -73,10 +72,10 @@ class DSLModel(ElmBase):
 
     def get_parameter_values(self) -> list:
         return self._obj.params
-    
+
     def set_parameter_values(self, params: dict) -> None:
         for par, val in params.items():
-            self._obj.SetAttribute(par, val) 
+            self._obj.SetAttribute(par, val)
 
 
 def get_parameters_of_dsl_models(
@@ -123,7 +122,6 @@ def get_average_parameter_values_of_dsl_models(
     else:
         params = {par: np.mean(values) for par, values in params.items()}
     return params
-
 
 from powfacpy.pf_classes.class_conversion import convert_pf_obj_to_powfacpy
 

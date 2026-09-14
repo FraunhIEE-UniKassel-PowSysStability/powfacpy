@@ -44,3 +44,35 @@ def get_weighted_average(
         return values
     else:
         return values, sum_of_weights
+
+
+def unwrap_degrees(angle_deg) -> ndarray:
+    """Unwrap an angle signal given in degrees (remove +-360 deg discontinuities).
+
+    PowerFactory wraps rotor angle signals such as 'c:firel' and 'c:firot' to (-180, 180] deg. Unwrapping restores a continuous trajectory so that out-of-step / pole-slip conditions (relative rotor angle growing beyond 180 deg) can be detected and angle differences computed correctly.
+
+    Args:
+        angle_deg: Angle signal (1D array-like) in degrees.
+
+    Returns:
+        ndarray: Unwrapped angle signal in degrees.
+    """
+    return np.unwrap(np.asarray(angle_deg, dtype=float), period=360.0)
+
+
+def is_out_of_step(relative_rotor_angle_deg, threshold_deg: float = 180.0) -> bool:
+    """Check whether a relative rotor angle signal indicates loss of synchronism.
+
+    The (wrapped) input signal is unwrapped first (see 'unwrap_degrees'); the machine is considered out of step if the magnitude of the unwrapped angle exceeds 'threshold_deg' at any point in time.
+
+    Args:
+        relative_rotor_angle_deg: Rotor angle relative to the reference machine ('c:firel'), 1D array-like in degrees.
+        threshold_deg: Angle magnitude above which the machine is considered out of step. Defaults to 180.
+
+    Returns:
+        bool: True if the machine falls out of step.
+    """
+    unwrapped = unwrap_degrees(relative_rotor_angle_deg)
+    if unwrapped.size == 0:
+        return False
+    return bool(np.max(np.abs(unwrapped)) > threshold_deg)

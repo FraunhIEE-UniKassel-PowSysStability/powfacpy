@@ -4,7 +4,6 @@ from warnings import warn
 from os import getcwd, remove
 
 import pandas as pd
-from icecream import ic
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.pf_classes.protocols import (

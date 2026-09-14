@@ -28,3 +28,15 @@ sidebar:
     - docs/tutorials/study_cases.qmd
     - docs/tutorials/my_tutorial.qmd
 ```
+
+Tutorials execute against a real *PowerFactory* install, so rendering them (`quarto render`)
+requires a Jupyter kernel named `powfacpy`, registered once per machine from the project venv:
+
+```
+.venv/Scripts/python.exe -m ipykernel install --user --name powfacpy --display-name "Python (powfacpy)"
+```
+
+New tutorial `.qmd` files should set `jupyter: powfacpy` in their frontmatter (like the
+existing tutorials) rather than relying on a project-wide default — Quarto does not
+reliably resolve the kernel to use for execution from a `jupyter:` default set only in
+`_quarto.yml`.

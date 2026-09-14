@@ -19,7 +19,7 @@ def create_measurement_file(
     # activate_powfacpy_test_project.Activate()
     # act_prj = ActiveProject()
     # act_prj.app.ActivateProject(
-    #     r"\seberlein\powfacpy\powfacpy_tests_copy_where_tests_run"
+    #     r"\seberlein\powfacpy\powfacpy_tests_copy_to_run_tests"
     # )
     print(f"############# {act_prj.app.GetActiveProject()}")
     elmfile = act_prj.create_in_folder(

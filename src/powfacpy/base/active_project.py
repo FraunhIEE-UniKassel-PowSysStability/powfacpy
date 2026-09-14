@@ -1,21 +1,21 @@
 from __future__ import annotations
 from warnings import warn
-from typing import Union, Callable
+from typing import Union, Callable, Literal
 from os import path as os_path
 from functools import cached_property
 from collections.abc import Iterable
 
-from icecream import ic
-
 import powfacpy.base.folder
-from powfacpy.base.string_manipulation import PFStringManipulation
+from powfacpy.base.monitored_variables import MonitoredVariables
+from powfacpy.base.projects import Projects
+from powfacpy.base.study_cases import StudyCases
 from powfacpy.exceptions import (
     PFNoActiveStudyCaseError,
     PFNotActiveError,
     PFInvalidLoadFlow,
     PFAttributeNotSetError,
 )
-from powfacpy.pf_class_protocols import (
+from powfacpy.pf_classes.protocols import (
     PFApp,
     PFGeneral,
     ElmRes,
@@ -28,12 +28,55 @@ from powfacpy.pf_class_protocols import (
     ComLdf,
     IntMon,
     IntVersion,
-    ComPfdimport,
     IntPrj,
     IntScheme,
     SetTime,
     SetColscheme,
 )
+
+
+#: Read-only accessors backed by an ``app.<method>(*args)`` call. Single source
+#: of truth - installed as ``property`` on ``ActiveProject`` and as
+#: ``functools.cached_property`` on ``ActiveProjectCached`` by
+#: ``_install_app_accessors`` (called right after each class body). All of these
+#: are stable for the lifetime of an active project, so caching them is safe.
+_APP_ACCESSORS: dict[str, tuple] = {
+    "network_model_folder": ("GetProjectFolder", "netmod"),
+    "network_data_folder": ("GetProjectFolder", "netdat"),
+    "operation_scenarios_folder": ("GetProjectFolder", "scen"),
+    "variations_folder": ("GetProjectFolder", "scheme"),
+    "study_cases_folder": ("GetProjectFolder", "study"),
+    "equipment_type_lib_folder": ("GetProjectFolder", "equip"),
+    "library_folder": ("GetProjectFolder", "lib"),
+    "scripts_folder": ("GetProjectFolder", "scripts"),
+    "templates_folder": ("GetProjectFolder", "templ"),
+    "zones_folder": ("GetDataFolder", "ElmZone"),
+    "areas_folder": ("GetDataFolder", "ElmArea"),
+    "boundaries_folder": ("GetDataFolder", "IntBoundary"),
+    "circuits_folder": ("GetDataFolder", "IntCircuit"),
+    "feeders_folder": ("GetDataFolder", "IntFeeder"),
+    "active_user_folder": ("GetCurrentUser",),
+    "global_library_folder": ("GetGlobalLibrary",),
+}
+
+
+def _install_app_accessors(cls, wrapper) -> None:
+    """Install `_APP_ACCESSORS` on `cls`, wrapped in `wrapper`
+    (`property` for `ActiveProject`, `cached_property` for `ActiveProjectCached`).
+    """
+    for name, (getter, *args) in _APP_ACCESSORS.items():
+
+        def accessor(self, _getter=getter, _args=tuple(args)):
+            return getattr(type(self).app, _getter)(*_args)
+
+        accessor.__name__ = name
+        accessor.__qualname__ = f"{cls.__qualname__}.{name}"
+        accessor.__doc__ = f"`app.{getter}({', '.join(map(repr, args))})`"
+        descriptor = wrapper(accessor)
+        set_name = getattr(descriptor, "__set_name__", None)
+        if set_name is not None:
+            set_name(cls, name)
+        setattr(cls, name, descriptor)
 
 
 class ActiveProject(powfacpy.base.folder.Folder):
@@ -49,11 +92,6 @@ class ActiveProject(powfacpy.base.folder.Folder):
                 "The input app is of type 'NoneType'. Maybe the PowerFactory app was not loaded correctly."
             )
 
-    def __new__(cls, *args, **kwargs) -> IntPrj | ActiveProject:
-        """Required to provide type hints ('IntPrj | ActiveProject')"""
-        instance = super().__new__(cls)
-        return instance
-
     @property
     def _obj(self) -> IntPrj:
         return self.get_active_project()
@@ -62,65 +100,23 @@ class ActiveProject(powfacpy.base.folder.Folder):
     def load_flow_command(self) -> ComLdf:
         return self.get_from_study_case("ComLdf")
 
-    @property
-    def network_model_folder(self):
-        return self.__class__.app.GetProjectFolder("netmod")
-
-    @property
-    def network_data_folder(self):
-        return self.__class__.app.GetProjectFolder("netdat")
-
-    @property
-    def operation_scenarios_folder(self):
-        return self.__class__.app.GetProjectFolder("scen")
-
-    @property
-    def variations_folder(self):
-        return self.__class__.app.GetProjectFolder("scheme")
-
-    @property
-    def study_cases_folder(self):
-        return self.__class__.app.GetProjectFolder("study")
-
-    @property
-    def equipment_type_lib_folder(self):
-        return self.__class__.app.GetProjectFolder("equip")
-
-    @property
-    def library_folder(self):
-        return self.__class__.app.GetProjectFolder("lib")
-
-    @property
-    def scripts_folder(self):
-        return self.__class__.app.GetProjectFolder("scripts")
-
-    @property
-    def templates_folder(self):
-        return self.__class__.app.GetProjectFolder("templ")
-
-    @property
-    def zones_folder(self):
-        return self.__class__.app.GetDataFolder("ElmZone")
-
-    @property
-    def areas_folder(self):
-        return self.__class__.app.GetDataFolder("ElmArea")
-
-    @property
-    def boundaries_folder(self):
-        return self.__class__.app.GetDataFolder("IntBoundary")
-
-    @property
-    def circuits_folder(self):
-        return self.__class__.app.GetDataFolder("IntCircuit")
-
-    @property
-    def feeders_folder(self):
-        return self.__class__.app.GetDataFolder("IntFeeder")
+    # The app accessors (network_model_folder, study_cases_folder, zones_folder,
+    # active_user_folder, global_library_folder, ...) are installed from the
+    # _APP_ACCESSORS table right after this class - as plain 'property' here and
+    # as 'cached_property' on ActiveProjectCached. They also serve as attribute
+    # aliases for the method-style getters (get_active_user_folder() etc.).
 
     @property
     def versions_folder(self):
         return self.get_unique_obj("*.IntVersionman")
+
+    @property
+    def active_study_case(self) -> IntCase | None:
+        """Alias of `get_active_study_case(error_if_no_active_case=False)`.
+
+        Not in `_APP_ACCESSORS` / never cached - it changes on study-case activation.
+        """
+        return self.__class__.app.GetActiveStudyCase()
 
     @property
     def stored_attr(self) -> dict:
@@ -139,22 +135,28 @@ class ActiveProject(powfacpy.base.folder.Folder):
         self,
         obj: PFGeneral | str,
         params: dict,
-        parent_folder: PFGeneral | Folder | str = None,
+        parent_folder: PFGeneral | powfacpy.base.folder.Folder | str = None,
     ) -> None:
-        """Set attributes of an object and to store the original values (e.g. to reset them later).
+        """Set attributes of an object, remembering the value from before the *first* call.
+
+        Call `reset_stored_attr()` afterwards to restore those remembered values.
+        Calling this method several times for the same object/attribute keeps the
+        value seen on the first call (so a later reset restores the true original,
+        not the value in between).
 
         Args:
             obj (PFGeneral | str): PF object or its path
             params (dict): parameter names (keys) and values (values)
             parent_folder (PFGeneral | Folder | str, optional): parent folder of object. Defaults to None.
         """
-        self._handle_pf_object_or_path_input(obj, parent_folder=parent_folder)
+        obj = self._handle_single_pf_object_or_path_input(obj, parent_folder=parent_folder)
         for attr, new_val in params.items():
-            obj_val = self.stored_attr.get(obj)
-            if obj_val:
-                obj_val[attr] = self.get_attr(obj, attr)
-            else:
+            stored = self.stored_attr.get(obj)
+            if stored is None:
                 self._stored_attr[obj] = {attr: self.get_attr(obj, attr)}
+            elif attr not in stored:
+                stored[attr] = self.get_attr(obj, attr)
+            # else: the original was already remembered on an earlier call - keep it
             obj.SetAttribute(attr, new_val)
 
     def reset_stored_attr(
@@ -196,8 +198,8 @@ class ActiveProject(powfacpy.base.folder.Folder):
     def get_from_study_case(
         self,
         class_name: str,
-        if_not_unique: str = "warning",
-        if_no_study_case: str = "error",
+        if_not_unique: Literal["warning", "error"] | None = "warning",
+        if_no_study_case: Literal["warning", "error"] | None = "error",
     ) -> PFGeneral:
         """Get objects from active study case (similar to PF built-in function 'app.GetFromStudyCase()').
 
@@ -206,17 +208,26 @@ class ActiveProject(powfacpy.base.folder.Folder):
         Args:
             class_name (str): class name of the object (e.g. 'ElmRes'), optionally preceded by an object name without wildcards and a dot (e.g. 'All Calcualations.ElmRes')
 
-            if_not_unique (str, optional): Warn ('warning') or raise exception ('error') if there are more than one objects of class 'class_name'. Defaults to "warning".
+            if_not_unique ('warning' | 'error' | None, optional): Warn, raise, or do nothing if there is more than one object of class 'class_name'. Defaults to "warning".
 
-            if_no_study_case (str, optional): Warn ('warning') or raise exception ('error') if no study case is active. Defaults to "error".
+            if_no_study_case ('warning' | 'error' | None, optional): Warn, raise, or do nothing if no study case is active. Defaults to "error".
 
         Raises:
+            ValueError: Invalid 'if_not_unique' / 'if_no_study_case' value
             PFNoActiveStudyCaseError: No study case activated
             TypeError: More than one object was found
 
         Returns:
             PFGeneral: Found or created object
         """
+        for arg_name, arg_value in (
+            ("if_not_unique", if_not_unique),
+            ("if_no_study_case", if_no_study_case),
+        ):
+            if arg_value and arg_value not in ("warning", "error"):
+                raise ValueError(
+                    f"{arg_name}={arg_value!r} - expected 'warning', 'error' or None."
+                )
         obj = self.__class__.app.GetFromStudyCase(class_name)
 
         if if_no_study_case and not self.__class__.app.GetActiveStudyCase():
@@ -316,48 +327,32 @@ class ActiveProject(powfacpy.base.folder.Folder):
         else:
             return objs
 
+    @cached_property
+    def monitored_variables(self) -> MonitoredVariables:
+        """Helper to manage the monitored variables / contents of results objects (`ElmRes`)."""
+        return MonitoredVariables(self)
+
     def add_results_variable(
         self,
         obj: PFGeneral | str | list[PFGeneral | str],
         variables: str | list[str],
         results_obj: ElmRes | None = None,
     ) -> ElmRes:
-        """Add variable(s) of 'obj' to the monitored variables in of result object.
+        """Add variable(s) of 'obj' to the monitored variables of a results object.
 
-        Args:
-
-            obj (PFGeneral | str | list[PFGeneral | str]): PF object or its path
-
-            variables (list[str]): variable names
-
-            results_obj (ElmRes, optional): Results object. Defaults to None (ElmRes from active study case is used).
-
-        Returns:
-            ElmRes: the results object
+        Forwards to `self.monitored_variables.add` - see `MonitoredVariables`.
         """
-        if results_obj is None:
-            results_obj = self.get_from_study_case("ElmRes")
-        else:
-            results_obj = self._handle_single_pf_object_or_path_input(results_obj)
-        obj = self._handle_pf_object_or_path_input(obj)
-        if isinstance(variables, str):
-            variables = [variables]
-        for o in obj:
-            for var in variables:
-                results_obj.AddVariable(o, var)
-        results_obj.Load()
-        return results_obj
+        return self.monitored_variables.add(obj, variables, results_obj)
 
     def clear_results_variables(
         self,
         results_obj: ElmRes | None = None,
     ) -> None:
-        if results_obj is None:
-            results_obj = self.get_from_study_case("ElmRes")
-        else:
-            results_obj = self._handle_single_pf_object_or_path_input(results_obj)
-        for intmon in results_obj.GetContents("*.IntMon"):
-            intmon.Delete()
+        """Delete all variable selection objects (`IntMon`) from a results object.
+
+        Forwards to `self.monitored_variables.clear` - see `MonitoredVariables`.
+        """
+        return self.monitored_variables.clear(results_obj)
 
     def add_variable_selection_obj_to_results_obj(
         self,
@@ -366,25 +361,13 @@ class ActiveProject(powfacpy.base.folder.Folder):
         class_name: str = None,
         variables: list[str] = [],
     ) -> IntMon:
-        """Add a variable selection object (IntMon) to a result object (ElmRes).
+        """Add a variable selection object (`IntMon`) to a results object (`ElmRes`).
 
-        Args:
-            name (str): Name of IntMon
-            results_obj (ElmRes): Results object
-            class_name (str, optional): 'classnm' parameter of IntMon. Defaults to None.
-            variables (list[str], optional): 'vars' parameter of IntMon. Defaults to [].
-
-        Returns:
-            IntMon: variable selection object
+        Forwards to `self.monitored_variables.add_variable_selection_obj` - see `MonitoredVariables`.
         """
-        variable_selection_obj: IntMon = self.create_in_folder(
-            name + ".IntMon", results_obj
+        return self.monitored_variables.add_variable_selection_obj(
+            name, results_obj, class_name, variables
         )
-        if class_name:
-            variable_selection_obj.classnm = class_name
-        if variables:
-            variable_selection_obj.vars = variables
-        return variable_selection_obj
 
     def get_first_level_folder(self, folder_type: str) -> PFGeneral:
         """Get folder on first level of PF database.
@@ -462,26 +445,18 @@ class ActiveProject(powfacpy.base.folder.Folder):
     def clear_elmres_from_objects_with_status_deleted(
         self, results_obj: ElmRes | None = None
     ):
-        """Deletes all objects from a results object (ElmRes) that have the
-        status deleted (i.e. attribute 'obj_id' is deleted).
+        """Delete entries of a results object (`ElmRes`) whose referenced object (`obj_id`) is deleted.
+
+        Forwards to `self.monitored_variables.clear_elmres_from_deleted_objects`.
         """
-        if not results_obj:
-            results_obj = self.get_from_study_case("ElmRes")
-        obj_in_elmres = results_obj.GetContents("*")
-        for o in obj_in_elmres:
-            obj_id = o.obj_id
-            if obj_id.IsDeleted():
-                o.Delete()
+        return self.monitored_variables.clear_elmres_from_deleted_objects(results_obj)
 
     def clear_elmres(self, results_obj: ElmRes = None):
-        """Clear all results variables from results object (ElmRes).
+        """Clear all contents of a results object (`ElmRes`).
 
-        Args:
-            results_obj (ElmRes, optional): Results object. Defaults to None (get elmres from study case).
+        Forwards to `self.monitored_variables.clear_elmres`.
         """
-        if not results_obj:
-            results_obj = self.get_from_study_case("ElmRes")
-        self.clear_folder(results_obj)
+        return self.monitored_variables.clear_elmres(results_obj)
 
     def get_parameter_value_string(self, parameters: dict, delimiter=" ") -> str:
         """Get string with parameters and their values.
@@ -536,6 +511,11 @@ class ActiveProject(powfacpy.base.folder.Folder):
         # intcomtrade.Load() probably not required
         return intcomtrade
 
+    @cached_property
+    def study_cases(self) -> StudyCases:
+        """Helper to create study cases, variations and scenarios (see `StudyCases`)."""
+        return StudyCases(self)
+
     def create_study_case(
         self,
         name: str,
@@ -547,142 +527,38 @@ class ActiveProject(powfacpy.base.folder.Folder):
         use_existing=False,
         activate: bool = True,
     ) -> IntCase | list[IntCase | IntScheme | IntScenario]:
-        """Create a new study case and optionally a variation and/or scenario.
-
-        Args:
-            name (str): name (used for case name and variation/scenario name)
-            copy_from (IntCase | str | None, optional): case to copy from. Defaults to None.
-            parent_folder (PFGeneral | str | None, optional): parent folder (same subfolders are used for variation/scenario). Defaults to None.
-            create_variation (bool, optional): Defaults to False.
-            create_scenario (bool, optional): Defaults to False.
-            overwrite (bool, optional): existing objects are overwritten. Defaults to True.
-            use_existing (bool, optional): existing objects are used. Defaults to False.
-            activate (bool, optional): activate case/variation/scenario. Defaults to True.
-
-        Returns:
-            IntCase | list[IntCase | IntScheme | IntScenario]: Created case or list with case/variation/scenario.
-        """
-        if parent_folder is None:
-            parent_folder = self.study_cases_folder
-        elif isinstance(parent_folder, str):
-            if "\\" in parent_folder:
-                parent_folder = self.create_by_path(
-                    parent_folder + ".IntFolder", overwrite=False, use_existing=True
-                )
-            else:
-                parent_folder = self.study_cases_folder
-        if copy_from is None:
-            case = self.create_in_folder(
-                name + ".IntCase",
-                parent_folder,
-                overwrite=overwrite,
-                use_existing=use_existing,
-            )
-        else:
-            case = self.copy_single_obj(
-                copy_from,
-                target_folder=parent_folder,
-                new_name=name,
-                overwrite=overwrite,
-                use_existing=use_existing,
-            )
-        if activate:
-            case.Activate()
-        if not create_variation and not create_scenario:
-            return case
-        else:
-            returned_objs = [case]
-        if create_variation:
-            returned_objs.append(
-                self.create_parallel_variation_for_study_case(
-                    case, overwrite=overwrite, activate=activate
-                )
-            )
-        if create_scenario:
-            returned_objs.append(
-                self.create_parallel_scenario_for_study_case(
-                    case, overwrite=overwrite, activate=activate
-                )
-            )
-        return returned_objs
+        """Create a study case (+ optional parallel variation/scenario). See `StudyCases.create`."""
+        return self.study_cases.create(
+            name,
+            copy_from=copy_from,
+            parent_folder=parent_folder,
+            create_variation=create_variation,
+            create_scenario=create_scenario,
+            overwrite=overwrite,
+            use_existing=use_existing,
+            activate=activate,
+        )
 
     def _get_path_of_folder_of_study_case_inside_study_cases_folder(
         self, case: IntCase | None
     ) -> str | None:
-        """Get path of folder of study case inside study cases folder.
-
-        Args:
-            case (IntCase | None): case
-
-        Returns:
-            str | None: path of folder of case in study cases folder
-        """
-        path_of_case_inside_study_cases_folder = PFStringManipulation.truncate_until(
-            self.get_path_of_object(case), self.study_cases_folder.loc_name + "\\"
-        )
-        if not "\\" in path_of_case_inside_study_cases_folder:
-            return None
-        else:
-            return "".join(path_of_case_inside_study_cases_folder.split("\\")[:-1])
+        """See `StudyCases._folder_of_case_inside_study_cases_folder`."""
+        return self.study_cases._folder_of_case_inside_study_cases_folder(case)
 
     def create_parallel_variation_for_study_case(
         self, case: IntCase | str, overwrite: bool = True, activate: bool = True
     ) -> IntScheme:
-        """Create a parallel variation for a study case (same subfolders as in the study cases folder are also used in the variations folder).
-
-        Args:
-            case (IntCase | str): study case
-            overwrite (bool, optional): overwrite existing object. Defaults to True.
-            activate (bool, optional): activate variation. Defaults to True.
-
-        Returns:
-            IntScheme: variation
-        """
-        case = self._handle_single_pf_object_or_path_input(case)
-        path_inside_study_cases_folder = (
-            self._get_path_of_folder_of_study_case_inside_study_cases_folder(case)
-        )
-        if path_inside_study_cases_folder:
-            parent_folder = self.create_directory(
-                path_inside_study_cases_folder, self.variations_folder
-            )
-        else:
-            parent_folder = self.variations_folder
-        return self.create_variation(
-            name=case.loc_name,
-            parent_folder=parent_folder,
-            overwrite=overwrite,
-            activate=activate,
+        """See `StudyCases.create_parallel_variation`."""
+        return self.study_cases.create_parallel_variation(
+            case, overwrite=overwrite, activate=activate
         )
 
     def create_parallel_scenario_for_study_case(
         self, case: IntCase | str, overwrite: bool = True, activate: bool = True
     ) -> IntScenario:
-        """Create a parallel scenario for a study case (same subfolders as in the study cases folder are also used in the scenarios folder).
-
-        Args:
-            case (IntCase | str): study case
-            overwrite (bool, optional): overwrite existing object. Defaults to True.
-            activate (bool, optional): activate variation. Defaults to True.
-
-        Returns:
-            IntScenario: Scenario
-        """
-        case = self._handle_single_pf_object_or_path_input(case)
-        path_inside_study_cases_folder = (
-            self._get_path_of_folder_of_study_case_inside_study_cases_folder(case)
-        )
-        if path_inside_study_cases_folder:
-            parent_folder = self.create_directory(
-                path_inside_study_cases_folder, self.operation_scenarios_folder
-            )
-        else:
-            parent_folder = self.operation_scenarios_folder
-        return self.create_scenario(
-            name=case.loc_name,
-            parent_folder=parent_folder,
-            overwrite=overwrite,
-            activate=activate,
+        """See `StudyCases.create_parallel_scenario`."""
+        return self.study_cases.create_parallel_scenario(
+            case, overwrite=overwrite, activate=activate
         )
 
     def create_variation(
@@ -694,25 +570,15 @@ class ActiveProject(powfacpy.base.folder.Folder):
         activate: int = 1,
         overwrite: bool = True,
     ) -> IntScheme:
-        """Create variation (including one expansion stage).
-
-        Args:
-            name (str): Name of variation
-            parent_folder (str | PFGeneral, optional): Parent folder where variation is created. Defaults to None (i.e. variations folder).
-            name_expansion_stage (str, optional): Name of. Defaults to "Expansion Stage".
-            activationTime (int, optional): UTC time
-            activate (int, optional): If 1, expansion stage is activated. If 0, expansion stage is not activated. Defaults to 1.
-
-        Returns:
-            IntScheme: The created variation object
-        """
-        if not parent_folder:
-            parent_folder = self.variations_folder
-        variation = self.create_in_folder(
-            name + ".IntScheme", parent_folder, overwrite=overwrite
+        """Create a variation (including one expansion stage). See `StudyCases.create_variation`."""
+        return self.study_cases.create_variation(
+            name,
+            parent_folder=parent_folder,
+            name_expansion_stage=name_expansion_stage,
+            activationTime=activationTime,
+            activate=activate,
+            overwrite=overwrite,
         )
-        variation.NewStage(name_expansion_stage, activationTime, activate)
-        return variation
 
     def create_scenario(
         self,
@@ -721,14 +587,10 @@ class ActiveProject(powfacpy.base.folder.Folder):
         activate: bool = True,
         overwrite: bool = True,
     ) -> IntScenario:
-        if not parent_folder:
-            parent_folder = self.operation_scenarios_folder
-        scenario: IntScenario = self.create_in_folder(
-            name + ".IntScenario", parent_folder, overwrite=overwrite
+        """Create an operation scenario. See `StudyCases.create_scenario`."""
+        return self.study_cases.create_scenario(
+            name, parent_folder=parent_folder, activate=activate, overwrite=overwrite
         )
-        if activate:
-            scenario.Activate()
-        return scenario
 
     def execute_load_flow(self, params: dict = {}) -> int:
         """Execute load flow.
@@ -779,7 +641,7 @@ class ActiveProject(powfacpy.base.folder.Folder):
         self, elms: list[PFGeneral] | PFGeneral, searchOpenedDiagramsOnly: int = 0
     ) -> None:
         if not isinstance(elms, list):
-            elms = list(elms)
+            elms = [elms] if not isinstance(elms, Iterable) else list(elms)
         self.__class__.app.MarkInGraphics(elms, searchOpenedDiagramsOnly)
 
     def _handle_possible_attribute_not_set_error(
@@ -795,50 +657,22 @@ class ActiveProject(powfacpy.base.folder.Folder):
         else:
             raise AttributeError(error_message)
 
+    @cached_property
+    def projects(self) -> Projects:
+        """Helper for project versions, `.pfd`/`.dz` import & export, templates (see `Projects`)."""
+        return Projects(self)
+
     def get_project_version(self, version_name: str) -> IntVersion | None:
-        """Get (previous) version of project.
-
-        Args:
-            version_name (str): Name (loc_name) of version
-
-        Returns:
-            IntVersion | None: Version object
-        """
-        version = self.get_by_condition(
-            self._obj.GetVersions(), lambda x: x.loc_name == version_name
-        )
-        if version:
-            return version[0]
+        """Get a stored project version by name. See `Projects.get_version`."""
+        return self.projects.get_version(version_name)
 
     def create_project_version(self, version_name: str, overwrite: bool = True) -> None:
-        """Create a version of current state of the project.
-
-        Uses 'CreateVersion'. New version will be added to top level versions folder of project.
-
-        Args:
-            version_name (str): Name (loc_name) of version
-
-            overwrite (bool, optional): Overwrite existing version with same name. Defaults to True.
-        """
-        version = self.get_project_version(version_name)
-        if version and overwrite:
-            version.Delete()
-        self.__class__.app.WriteChangesToDb()
-        self._obj.CreateVersion(version_name)
+        """Snapshot the current project state as a version. See `Projects.create_version`."""
+        return self.projects.create_version(version_name, overwrite=overwrite)
 
     def rollback_project_to_previous_version(self, version_name: str) -> None:
-        """Rollback to previous project version (IntVersion in versions folder).
-
-        Args:
-            version_name (str): Name (loc_name) of version.
-        """
-        active_project = self._obj
-        version = self.get_project_version(version_name)
-        try:
-            active_project.Deactivate()
-            version.Rollback()
-        finally:
-            active_project.Activate()
+        """Roll the project back to a stored version. See `Projects.rollback_to_version`."""
+        return self.projects.rollback_to_version(version_name)
 
     def import_project(
         self,
@@ -846,60 +680,26 @@ class ActiveProject(powfacpy.base.folder.Folder):
         target_folder_in_active_user: str | PFGeneral | None = None,
         keep_current_project_activated: bool = True,
     ) -> IntPrj:
-        """Import a project (.pfd file)
+        """Import a project (.pfd file). See `Projects.import_pfd`."""
+        return self.projects.import_pfd(
+            file_path,
+            target_folder_in_active_user=target_folder_in_active_user,
+            keep_current_project_activated=keep_current_project_activated,
+        )
 
-        Args:
-            file_path (str): Windows path. Don't use relative paths.
-
-            target_folder_in_active_user (str | PFGeneral | None, optional): Target folder for project import in active user. Defaults to None.
-
-            keep_current_project_activated (bool, optional): If True, the initial project and study case remain active.If False, the imported project will be active after import. Defaults to True.
-
-        Returns:
-            IntPrj: Imported project
-        """
-        try:
-            if keep_current_project_activated:
-                initial_project = self._obj
-                initial_study_case = self.get_active_study_case()
-            pfd_import: ComPfdimport = self.get_from_study_case("ComPfdimport")
-            if not file_path[-4:] == ".pfd":
-                file_path += ".pfd"
-            pfd_import.g_file = file_path
-            if target_folder_in_active_user:
-                if isinstance(target_folder_in_active_user, str):
-                    pfd_import.g_target = self.get_unique_obj(
-                        target_folder_in_active_user,
-                        parent_folder=self.get_active_user_folder(),
-                    )
-                else:
-                    pfd_import.g_target = target_folder_in_active_user
-            else:
-                pfd_import.g_target = self.get_active_user_folder()
-            pfd_import.Execute()
-            imported_project: IntPrj = self.__class__.app.GetActiveProject()
-        finally:
-            if keep_current_project_activated:
-                imported_project.Deactivate()
-                initial_project.Activate()
-                initial_study_case.Activate()
-        return imported_project
+    def export_to_pfd(
+        self,
+        file_path: str,
+        objects: PFGeneral | str | list[PFGeneral | str] | None = None,
+    ) -> str:
+        """Export to a `.pfd` file (counterpart of `import_project`). See `Projects.export_pfd`."""
+        return self.projects.export_pfd(file_path, objects)
 
     def import_dz_file(
         self, file_path: str, target_folder: PFGeneral | None = None
     ) -> list:
-        """Import a .dz file (e.g. a template).
-
-        Args:
-            file_path (str): path of .dz file
-            target_folder (PFGeneral | None, optional): target folder. Defaults to None (active project).
-
-        Returns:
-            list: [int errorCode, list importedObjects]
-        """
-        if target_folder is None:
-            target_folder = self.get_active_project()
-        return self.app.ImportDz(target_folder, file_path)
+        """Import a .dz file (e.g. a template). See `Projects.import_dz`."""
+        return self.projects.import_dz(file_path, target_folder)
 
     def set_time_using_year(self, year):
         settime: SetTime = self.get_from_study_case("SetTime")
@@ -910,39 +710,26 @@ class ActiveProject(powfacpy.base.folder.Folder):
         settime.SetTimeUTC(approximate_time_in_seconds_since_1970)
 
     def reset_default_units(self) -> None:
-        """Reset the default units of the active project. Deletes the content in the 'Settings\\Units' folder and reactivates the project so that settings take effect."""
-        self.clear_folder(r"Settings\Units")
-        self.reactivate_project()
+        """Reset the default units of the active project. See `Projects.reset_default_units`."""
+        return self.projects.reset_default_units()
 
     def reactivate_project(self) -> None:
-        """Deactivate and activate the active project."""
-        prj = self._obj
-        prj.Deactivate()
-        prj.Activate()
+        """Deactivate and activate the active project. See `Projects.reactivate`."""
+        return self.projects.reactivate()
 
     def add_template_from_global_library(
         self, template_name: str | list[str], target_folder: PFGeneral | None = None
     ) -> PFGeneral:
-        """Add a template from the global library to the active project.
-
-        Args:
-            template_name (str): Name of the template (e.g. 'MyTemplate.dz')
-            target_folder (PFGeneral | None, optional): Target folder in the active project. Defaults to None (i.e. templates folder).
-
-        Returns:
-            PFGeneral: The created object in the active project.
-        """
-        if target_folder is None:
-            target_folder = self.templates_folder
-        templates = self.get_from_global_library(template_name)
-        copied_templates = self.copy_obj(templates, target_folder)
-        return copied_templates
+        """Add a template from the global library to the active project. See `Projects.add_template_from_global_library`."""
+        return self.projects.add_template_from_global_library(
+            template_name, target_folder
+        )
 
     def duplicate_to_restore_attributes(
         self,
         obj: PFGeneral | str,
         attr: str | list[str],
-        parent_folder: PFGeneral | Folder | str = None,
+        parent_folder: PFGeneral | powfacpy.base.folder.Folder | str = None,
         suffix_of_duplicate: str = "_COPY",
     ) -> PFGeneral:
         obj = self._handle_single_pf_object_or_path_input(
@@ -950,7 +737,7 @@ class ActiveProject(powfacpy.base.folder.Folder):
         )
         name_of_copy = obj.loc_name + suffix_of_duplicate
         copy_of_obj = self.get_unique_obj(
-            name_of_copy, obj.GetParent(), error_if_non_existent=False
+            name_of_copy, parent_folder=obj.GetParent(), error_if_non_existent=False
         )
         if copy_of_obj:
             if not isinstance(attr, list):
@@ -962,7 +749,10 @@ class ActiveProject(powfacpy.base.folder.Folder):
             self.copy_single_obj(obj, obj.GetParent(), new_name=name_of_copy)
 
     def clear_output_window(self) -> None:
-        self.app.ClearOutputWindow()        
+        self.app.ClearOutputWindow()
+
+
+_install_app_accessors(ActiveProject, property)
 
 
 class ActiveProjectCached(ActiveProject):
@@ -973,61 +763,11 @@ class ActiveProjectCached(ActiveProject):
         return self.get_active_project()
 
     @cached_property
-    def network_model_folder(self):
-        return self.__class__.app.GetProjectFolder("netmod")
-
-    @cached_property
-    def network_data_folder(self):
-        return self.__class__.app.GetProjectFolder("netdat")
-
-    @cached_property
-    def operation_scenarios_folder(self):
-        return self.__class__.app.GetProjectFolder("scen")
-
-    @cached_property
-    def variations_folder(self):
-        return self.__class__.app.GetProjectFolder("scheme")
-
-    @cached_property
-    def study_cases_folder(self):
-        return self.__class__.app.GetProjectFolder("study")
-
-    @cached_property
-    def equipment_type_lib_folder(self):
-        return self.__class__.app.GetProjectFolder("equip")
-
-    @cached_property
-    def library_folder(self):
-        return self.__class__.app.GetProjectFolder("lib")
-
-    @cached_property
-    def scripts_folder(self):
-        return self.__class__.app.GetProjectFolder("scripts")
-
-    @cached_property
-    def templates_folder(self):
-        return self.__class__.app.GetProjectFolder("templ")
-
-    @cached_property
-    def zones_folder(self):
-        return self.__class__.app.GetDataFolder("ElmZone")
-
-    @cached_property
-    def areas_folder(self):
-        return self.__class__.app.GetDataFolder("ElmArea")
-
-    @cached_property
-    def boundaries_folder(self):
-        return self.__class__.app.GetDataFolder("IntBoundary")
-
-    @cached_property
-    def circuits_folder(self):
-        return self.__class__.app.GetDataFolder("IntCircuit")
-
-    @cached_property
-    def feeders_folder(self):
-        return self.__class__.app.GetDataFolder("IntFeeder")
-
-    @cached_property
     def versions_folder(self):
         return self.get_unique_obj("*.IntVersionman")
+
+
+# `active_user_folder` / `global_library_folder` become cached here (session-
+# stable). `active_study_case` stays a plain property - it must always reflect
+# the currently active case.
+_install_app_accessors(ActiveProjectCached, cached_property)

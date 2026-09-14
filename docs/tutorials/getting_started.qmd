@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -58,12 +58,12 @@ Here are two ways to 1. show the PowerFactory application and 2. activate a proj
 ```{python}
 app.Show()
 app.ActivateProject(
-    r"powfacpy\powfacpy_tests_copy_where_tests_run"
+    r"powfacpy\powfacpy_tests_copy_to_run_tests"
 )  # You may change the project path.
 
 act_prj.app.Show()
 act_prj.app.ActivateProject(
-    r"powfacpy\powfacpy_tests_copy_where_tests_run"
+    r"powfacpy\powfacpy_tests_copy_to_run_tests"
 )  # You may change the project path.
 ```
 
@@ -240,6 +240,8 @@ Note that this also works with lists:
 terminals: list[ElmTerm] = act_prj.get_calc_relevant_obj("ElmTerm")
 ```
 
+Each protocol attribute also carries its *PowerFactory* description as a docstring (hover over it in your IDE). To resolve an attribute's GUI label or an enumeration's options *at runtime*, see [Working with enumerations and GUI names](#working-with-enumerations-and-gui-names) below.
+
 # Setting and Getting Object Attributes
 How about setting data in the database? You can set attributes of an object as follows:
 
@@ -287,11 +289,47 @@ nominal_voltage = act_prj.get_attr(
 )
 ```
 
+## Working with enumerations and GUI names
+
+Many attributes are *enumerations* stored as an integer whose meaning is only obvious in the *PowerFactory* dialog: `Terminal MV`'s `iUsage` is `0`, but the dialog shows "Busbar". The `AttributeMetadata` class lets you use the names from the dialog instead of the codes.
+
+```{python}
+from powfacpy.applications.attribute_metadata import AttributeMetadata
+
+meta = AttributeMetadata(app)
+
+meta.enum_options("ElmTerm", "iUsage")  # {0: 'Busbar', 1: 'Junction Node', 2: 'Internal Node'}
+```
+
+Set an enumeration by its name with `set_enum` (one attribute) or `set_attributes` (a `set_attr`-style dictionary):
+
+```{python}
+meta.set_enum(mv_terminal, "iUsage", "Junction Node")
+print(mv_terminal.iUsage)  # 1
+```
+
+The same translation is available on `set_attr` itself via `resolve_enum_names=True`: a string that names an option becomes its code, everything else is written unchanged.
+
+```{python}
+act_prj.set_attr(
+    mv_terminal, {"iUsage": "Busbar", "outserv": 0}, resolve_enum_names=True
+)
+```
+
+`label` returns an attribute's GUI label, and `describe` tabulates several attributes with their labels and decoded values:
+
+```{python}
+print(meta.label("ElmTerm", "uknom"))  # 'Nominal Voltage'
+meta.describe(mv_terminal, ["iUsage", "uknom", "outserv"])
+```
+
+Under the hood this reads *PowerFactory*'s GUI-string database (the same file `DigsilentLibrary` uses); if it cannot be found, `AttributeMetadata` falls back to what the scripting API exposes and warns once. String-valued enumerations such as `av_mode` or `mode_inp` already read and write as their string and need no translation.
+
 # Creating Objects and Directories
 If you want to create a new object, use:
 
 ```{python}
-from powfacpy.pf_class_protocols import BlkDef, IntPrjfolder
+from powfacpy.pf_classes.protocols import BlkDef, IntPrjfolder
 
 new_obj: BlkDef = act_prj.create_by_path(r"Library\Dynamic Models\dummy.BlkDef")
 ```

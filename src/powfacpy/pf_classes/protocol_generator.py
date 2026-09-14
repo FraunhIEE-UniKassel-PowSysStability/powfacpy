@@ -3,7 +3,6 @@ Create protocol classes for all python classes in the PF python scripting refere
 
 IMPORTANT: If you miss a class please add it to the 'missing_classes_that_are_not_in_scripting_reference' list below.
 
-
 This module is not used by other modules of powfacpy and has the sole purpose of creating the protocols.
 """
 
@@ -51,13 +50,10 @@ missing_classes_that_are_not_in_scripting_reference = [
     "IntTemplate",
 ]
 
-
 import os
 import keyword
 import sys
 import json
-
-from icecream import ic
 
 powfacpy_project_root_directory = os.path.dirname(os.path.abspath(__file__)).replace(
     r"\src\powfacpy\pf_classes", ""
@@ -291,7 +287,6 @@ class PFClassesProtocolGenerator(ActiveProject):
         """General methods from python scripting reference."""
         general_methods = "AddCopy ContainsNonAsciiCharacters CopyData CreateObject Delete Energize GetAttribute GetAttributeDescription GetAttributeLength GetAttributes GetAttributeShape GetAttributeType GetAttributeUnit GetChildren GetClassName GetCombinedProjectSource GetConnectedElements GetConnectionCount GetContents GetControlledNode GetCubicle GetFullName GetImpedance GetInom GetNode GetOperator GetOwner GetParent GetReferences GetRegion GetSupplyingSubstations GetSupplyingTransformers GetSupplyingTrfstations GetSystemGrounding GetUnom GetZeroImpedance HasAttribute HasResults IsCalcRelevant IsDeleted IsEarthed IsEnergized IsHidden IsInFeeder IsNetworkDataFolder IsNode IsObjectActive IsObjectModifiedByVariation Isolate IsOutOfService IsReducible IsShortCircuited MarkInGraphics Move PasteCopy PurgeUnusedObjects ReplaceNonAsciiCharacters ReportNonAsciiCharacters ReportUnusedObjects SearchObject SetAttribute SetAttributeLength SetAttributes SetAttributeShape ShowEditDialog ShowModalSelectTree SwitchOff SwitchOn WriteChangesToDb"
         return set(general_methods.split())
-
 
 if __name__ == "__main__":
     with open(powfacpy_project_root_directory + "\\settings_local.json") as settings_file:

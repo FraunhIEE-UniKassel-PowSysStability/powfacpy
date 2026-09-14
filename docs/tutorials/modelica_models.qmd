@@ -1,0 +1,182 @@
+---
+title: Importing Modelica Models
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: powfacpy
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+```
+
+PowerFactory has no `.mo` file import. A Modelica model type (`TypMdl`) is a *decomposed* representation - separate tabular declarations for inputs / outputs / parameters / states / internal variables plus text fields for the equations - and it only supports a subset of Modelica 3.5. Entering all of that through the GUI is tedious.
+
+`powfacpy.applications.modelica` lets you describe the model once (as a `.mo` file or a `ModelicaModelSpec`) and create the compiled `TypMdl` from a script. This tutorial imports the stepwise under-frequency / RoCoF load-shedding controller shipped in [`pf_models/modelica/LoadSheddingController.mo`](https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/pf_models/modelica/LoadSheddingController.mo).
+
+::: {.callout-warning}
+## Experimental feature
+
+This is a best-effort bridge, not a general Modelica compiler. PowerFactory's `TypMdl` only supports a subset of Modelica 3.5, and the `.mo` parser and the array / `for`-loop flattener handle the constructs typical of controllers and relays - not arbitrary Modelica. Expect to simplify a model's source to fit the subset (see the rules at the end), or to assemble the `ModelicaModelSpec` by hand. For full standard Modelica, compile the `.mo` to an FMU (OpenModelica / Dymola) and load that into a `TypMdl` instead. The API may still change.
+:::
+
+# Setup
+
+```{python}
+import sys
+import json
+from pathlib import Path
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
+sys.path.append(SETTINGS["local path to PowerFactory application"])
+
+import powerfactory
+from powfacpy.applications.modelica import ModelicaModel, ModelicaModelSpec, ModelicaVariable
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(r"powfacpy\39_bus_new_england_copy_to_run_tests")
+
+pfmdl = ModelicaModel(app)
+```
+
+# The Modelica model
+
+The controller is written as standard Modelica (it also compiles with OpenModelica / Dymola), but it is written to fit PowerFactory's subset - see the notes at the end.
+
+```{python}
+MO_FILE = Path(r"..\..\pf_models\modelica\LoadSheddingController.mo")
+print(MO_FILE.read_text()[:1600], "...")
+```
+
+# Parse it into a spec
+
+`ModelicaModelSpec.from_modelica` is a best-effort parser that splits the source into the parts a `TypMdl` needs.
+
+```{python}
+spec = ModelicaModelSpec.from_modelica(MO_FILE)
+
+print("name:  ", spec.name)
+print("method:", spec.method)
+print("inputs: ", [v.name for v in spec.inputs])
+print("outputs:", [v.name for v in spec.outputs])
+print("states: ", [f"{v.name}{'['+v.size+']' if v.size else ''}" for v in spec.states])
+print("params: ", [f"{v.name}{'['+v.size+']' if v.size else ''}" for v in spec.parameters])
+```
+
+The parser recognises `fTmr` as a *state* (because `der(fTmr[i])` appears in the equations) and the other protected variables as *internal variables*.
+
+You can also build the spec directly, without a `.mo` file:
+
+```{python}
+manual_spec = ModelicaModelSpec(
+    name="Gain",
+    inputs=[ModelicaVariable("u", unit="p.u.")],
+    outputs=[ModelicaVariable("y", unit="p.u.")],
+    parameters=[ModelicaVariable("K", default="1.0", description="gain")],
+    equations=["y = K*u;"],
+)
+print(manual_spec.to_modelica())
+```
+
+# Flatten arrays and `for` loops
+
+PowerFactory's support for arrays and `for` loops inside the equation fields is limited, so `spec.flattened()` unrolls them: array variables `x[n]` become scalars `x_1 ... x_n`, `for i in 1:n loop ... end for;` is expanded, and `sum(x)` becomes `(x_1 + ... + x_n)`. Array sizes are resolved from Integer parameters with an integer default (`nStage = 4`).
+
+```{python}
+flat = spec.flattened()
+
+print("parameters after flattening:")
+print(" ", [v.name for v in flat.parameters])
+print("\nunrolled under-frequency stage equations:")
+for eq in flat.equations:
+    if eq.startswith(("fArm_", "fTrip", "fCon_", "when fArm", "when not fArm")):
+        print("  ", eq)
+print("\naggregation:")
+for eq in flat.equations:
+    if eq.startswith(("kTarget", "der(kShed)", "dpext", "dqext")):
+        print("  ", eq)
+```
+
+# Create and compile the `TypMdl`
+
+`create_model_type` flattens the spec (unless told otherwise), creates the `TypMdl` in the project's dynamic-models library folder (`app.GetProjectFolder("blk")` - its display name is 'Dynamic Models', 'User Defined Models', ... depending on the project), sets every declaration column and equation, then runs `Check()` and `Compile()`. A failed compile raises `PFModelicaCompilationError` carrying the PowerFactory output-window messages.
+
+```{python}
+try:
+    app.Hide()
+    model_type = pfmdl.create_model_type(spec)
+finally:
+    app.Show()
+
+print("class:      ", model_type.GetClassName())
+print("modMethod:  ", model_type.GetAttribute("modMethod"), "(0 = Hybrid)")
+print("compiled:   ", bool(model_type.GetAttribute("modelType")))
+print("binary:     ", model_type.GetAttribute("cfilePath"))
+print("parameters: ", model_type.GetAttribute("paramName"))
+```
+
+The four under-frequency stages of the source array `fLevel[nStage]` are now the scalar parameters `fLevel_1 ... fLevel_4`, each with its own default from the `{49.0, 48.8, 48.6, 48.4}` literal.
+
+## Read it back
+
+```{python}
+roundtrip = pfmdl.read_model_type(model_type)
+print("inputs: ", [v.name for v in roundtrip.inputs])
+print("param defaults:", {v.name: v.default for v in roundtrip.parameters if v.name.startswith("fLevel")})
+```
+
+# Create a model instance
+
+```{python}
+try:
+    app.Hide()
+    load = pfmdl.act_prj.get_unique_obj(
+        r"Network Model\Network Data\Grid\Load 23"
+    )
+    model = pfmdl.create_model(
+        model_type, parent_folder=load.GetParent(), name="Load 23 shedding"
+    )
+    # Not wired into a composite model yet (see below), so its inputs are
+    # unconnected - take it out of service to avoid breaking dynamic
+    # simulations elsewhere in this project until it is actually wired up.
+    model.outserv = 1
+finally:
+    app.Show()
+
+print(model, "->", model.GetAttribute("typ_id"))
+```
+
+# Wiring it into a simulation
+
+The `ElmMdl` still has to be placed in a **composite model** (`ElmComp`) whose frame (`BlkDef`) connects:
+
+| controller signal | source / target |
+|---|---|
+| `f`     | bus electrical frequency `n:fehz` of the load's terminal |
+| `pLoad` | load active power `m:Psum:bus1` |
+| `qLoad` | load reactive power `m:Qsum:bus1` |
+| `dpext` | `ElmLod.Pext` |
+| `dqext` | `ElmLod.Qext` |
+
+Building that frame is currently a GUI step (see the *Study Cases* / *Dynamic Simulation* tutorials for working with composite models). One known limitation: setting scalar parameter values on the `ElmMdl` from a script only works after PowerFactory has populated the instance's parameter list (open the model dialog once); `create_model` warns for any value it could not set.
+
+# PowerFactory Modelica subset
+
+Things a Hybrid model must obey (the shipped `.mo` already does, while staying valid standard Modelica):
+
+- a state's start value must be a literal constant, not a parameter - initialise states in the `initial equation` section;
+- every equation must have exactly `x` or `der(x)` on the left-hand side: write `der(x) = (u - x)/T`, not `T*der(x) = u - x`;
+- `der()` may only be applied to a declared **state**, never to an output - make it a `protected` state and monitor it as `s:<name>`;
+- every state must be assigned exactly once in `initial equation`.
+
+`reinit()`, `when`, `pre()`, `if` / `for` (once unrolled), `min` / `max` and latching booleans (a `Boolean` written only inside a `when`) all work.
+

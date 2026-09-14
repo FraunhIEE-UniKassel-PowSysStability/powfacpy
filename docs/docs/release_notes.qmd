@@ -5,6 +5,21 @@ number-sections: false
 ---
 
 
+## v0.5.0
+Everything below summarizes what changed since v0.4.3 (releases in between were not individually documented here).
+
+- New `dynamic_modal_analysis` application module (`ModalAnalysis`): eigenvalues, damping ratios, natural/damped frequencies and participation factors from PowerFactory's modal analysis command (`ComMod`), with filtering, plotting, eigenvalue tracking across a parameter sweep, and eigenvalue sensitivity (both the classical eigenvector-weighted formula and finite-difference) - see the new [tutorial](../tutorials/dynamic_modal_analysis.qmd)
+- `parameter_studies` (`pf_parameter`, `apply_gradient`) is now built on the new, backend-agnostic [`parstudy`](https://github.com/FraunhIEE-UniKassel-PowSysStability/parstudy) package rather than a bespoke sweep loop - see the updated [tutorial](../tutorials/parameter_studies.qmd)
+- New `attribute_metadata` module: resolve PowerFactory's own GUI enum labels via the localisation database, so `set_attr(..., resolve_enum_names=True)` can set an integer-enum attribute by its GUI name (e.g. `i_mot="Motor"`) instead of a raw, undocumented integer
+- New `digsilent_library` module and `template_models` package: GUI-name navigation of PowerFactory's template library, and per-template interfaces (e.g. grid-forming converters)
+- `subsystems`: added secondary (power-frequency) control support
+- Extended unit-dispatch API: `GroupingBase.get_internal_pv/wind/bess/sg` (and `.pv`/`.wind`/`.bess`/`.sg` accessors), `SinglePortBase.set_power_dispatch`, new `StaticGenerator`/`PVSystem` interface classes
+- Internal refactor of `Folder`/`ActiveProject` (no breaking changes to existing methods): cohesive method groups extracted into composed helpers reachable as `ActiveProject.monitored_variables`, `.study_cases`, `.projects` and `Folder.paths`; `PFStringManipulation` became plain module functions in `base/string_manipulation.py` (the old class is kept as a deprecated shim)
+- Removed dead code (`pf_elm_objects.py`, the unused `PFTranslator` class) and the unused `icecream` dependency
+- `dependencies` split into a lean core plus optional extras - `pandapower`, `comtrade`, `docs`, `parstudy`, `dynamic_modal_analysis`, `tutorials`, `dev`, `all` - see the [installation section](../index.qmd#installation)
+- Various bug fixes found while substantially raising test coverage (now largely PowerFactory-license-free for the pure-Python parts, `pytest -m unit`), including a `SynchronousMachine.q` property that returned the wrong value and a `set_attr_resettable` that could restore the wrong original value
+- Declares `requires-python >= 3.11` and PyPI classifiers
+
 ## v0.4.3
 - add tutorial on subsystems and subsystem containers
 - add tutorial on static calculations

@@ -1,20 +1,21 @@
 import sys
-from os import remove, getcwd, replace
+from os import remove, getcwd, replace, makedirs
+from os.path import exists as path_exists
 from math import inf
 from warnings import warn
 from typing import Iterable
 import re
 
 import pandas as pd
-from icecream import ic
 
 sys.path.insert(0, r".\src")
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.base.string_manipulation import PFStringManipulation
-from powfacpy.pf_class_protocols import PFGeneral, ElmRes, PFApp
+from powfacpy.base import string_manipulation as strman
+from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
-from powfacpy.exceptions import PFNotActiveError
+from powfacpy.engineering_helpers import is_out_of_step, unwrap_degrees
+from powfacpy.exceptions import PFNotActiveError, PFInvalidResultExport
 
 
 class Results(ApplicationBase):
@@ -121,6 +122,9 @@ class Results(ApplicationBase):
                 )
             comres.iopt_csel = 0  # export all variables
 
+        if dir is not None:
+            makedirs(dir, exist_ok=True)
+
         self._set_comres_settings_for_csv_export(
             comres,
             dir,
@@ -133,7 +137,7 @@ class Results(ApplicationBase):
         if export_successful != 0:
             comres_path = self.act_prj.get_path_of_object(comres)
             raise Exception(
-                "CSV export was not successful using '" + str(comres_path) + "'"
+                f"CSV export was not successful using '{comres_path}.\nMaybe there are no simulation results and the simulation was not executed correctly (please check the PF output window)?"
             )
 
         path = self.act_prj._replace_special_PF_characters_in_path_string(comres.f_name)
@@ -259,9 +263,9 @@ class Results(ApplicationBase):
                 is_last_column = col == len(full_paths) - 1
                 if col > 0:
                     path = self._format_path_of_obj_inside_active_project(
-                        PFStringManipulation.format_full_path(path, self.act_prj.app)
+                        self.act_prj.paths.format_full_path(path)
                     )
-                    variable_name = PFStringManipulation.format_variable_name(
+                    variable_name = strman.format_variable_name(
                         variables[col]
                     )
                     row = (
@@ -365,7 +369,7 @@ class Results(ApplicationBase):
                 format_csv_file=False,
             )
 
-            df = pd.read_csv(full_path, encoding="ISO-8859-1", header=[0, 1])
+            df = pd.read_csv(full_path, encoding="utf_8", header=[0, 1])
             self._format_pandas_column_headers(
                 df,
                 list_of_results_objs,
@@ -376,7 +380,8 @@ class Results(ApplicationBase):
                         "Not all specified results were exported. Some of the elements may be 'out of service' and were not included."
                     )
         finally:
-            remove(full_path)
+            if path_exists(full_path):
+                remove(full_path)
         df.set_index(df.columns[0], inplace=True)
         df.index.name = "time"
         return df
@@ -403,27 +408,23 @@ class Results(ApplicationBase):
             headers[0] = ("time", "s")
             parent_folder = self.act_prj.network_data_folder
             for n, col in enumerate(df.columns[1:], start=1):
-                var = PFStringManipulation.format_variable_name(
+                var = strman.format_variable_name(
                     col[num_header_rows - 1]
                 )
                 if self.pf_objects_in_labels:
                     obj = self.act_prj.GetContents(col[0])[0]
                 else:
-                    obj = PFStringManipulation.format_full_path(
-                        col[num_header_rows - 2], self.act_prj.app
-                    )
+                    obj = self.act_prj.paths.format_full_path(col[num_header_rows - 2])
                     obj = self._format_path_of_obj_inside_active_project(obj)
                 headers[n] = (obj, var)
             df.columns = pd.MultiIndex.from_tuples(headers)
         else:
             headers[0] = "time"
             for n, col in enumerate(df.columns[1:], start=1):
-                var = PFStringManipulation.format_variable_name(
+                var = strman.format_variable_name(
                     col[num_header_rows - 1]
                 )
-                obj = PFStringManipulation.format_full_path(
-                    col[num_header_rows - 2], self.act_prj.app
-                )
+                obj = self.act_prj.paths.format_full_path(col[num_header_rows - 2])
                 obj = self._format_path_of_obj_inside_active_project(obj)
                 headers[n] = obj + "\\" + var
             df.columns = headers
@@ -441,7 +442,7 @@ class Results(ApplicationBase):
             str: path truncated until 'self.truncate_paths_until'
         """
         if self.truncate_paths_until:
-            path = PFStringManipulation.truncate_until(path, self.truncate_paths_until)
+            path = strman.truncate_until(path, self.truncate_paths_until)
         return path
 
     # def _format_path_inside_network_data_folder(self, path: str) -> str:
@@ -454,7 +455,7 @@ class Results(ApplicationBase):
     #         str: path truncated until 'self.truncate_paths_until'
     #     """
     #     if self.truncate_paths_until:
-    #         path = PFStringManipulation.truncate_until(path, self.truncate_paths_until)
+    #         path = strman.truncate_until(path, self.truncate_paths_until)
     #     return path
 
     def replace_variable_aliases(self, var_name: str) -> str:
@@ -520,23 +521,152 @@ class Results(ApplicationBase):
             for obj in objs:
                 if not self.pf_objects_in_labels:
                     obj = self._format_path_of_obj_inside_active_project(
-                        PFStringManipulation.format_full_path(
-                            str(obj), self.act_prj.app
-                        )
+                        self.act_prj.paths.format_full_path(str(obj))
                     )
                 for var in variables:
                     obj_and_vars.append((obj, var))
         else:
-            network_data_folder_path = PFStringManipulation.format_full_path(
-                str(self.act_prj.network_data_folder), self.act_prj.app
-            )
+            network_data_folder_path = self.act_prj.paths.format_full_path(str(self.act_prj.network_data_folder))
             for obj in objs:
                 obj = self._format_path_of_obj_inside_active_project(
-                    PFStringManipulation.format_full_path(str(obj), self.act_prj.app),
+                    self.act_prj.paths.format_full_path(str(obj)),
                 )
                 for var in variables:
                     obj_and_vars.append(f"{obj}\\{var}")
         return df[obj_and_vars]
+
+    def _handle_machines_input(
+        self,
+        machines: PFGeneral | str | Iterable[PFGeneral | str] | None,
+        df_simulation_results: pd.DataFrame | None,
+        variable: str,
+    ) -> list[PFGeneral]:
+        """Resolve the 'machines' argument shared by the rotor angle methods: an explicit input, else the ElmSym found in the columns of 'df_simulation_results', else all calculation-relevant ElmSym in the active project."""
+        if machines is not None:
+            return self.act_prj._handle_pf_object_or_path_input(machines)
+        if df_simulation_results is not None:
+            return self._get_objs_from_dataframe_columns(
+                df_simulation_results, variable, class_name="ElmSym"
+            )
+        return self.act_prj.get_calc_relevant_obj(
+            "ElmSym", error_if_non_existent=False
+        )
+
+    def get_relative_rotor_angles(
+        self,
+        machines: PFGeneral | str | Iterable[PFGeneral | str] | None = None,
+        df_simulation_results: pd.DataFrame | None = None,
+        variable: str = ResVar.RMS_Bal.ElmSym.c_firel.value,
+        unwrap: bool = True,
+    ) -> pd.DataFrame:
+        """Get the rotor angles of synchronous machines relative to the reference machine ('c:firel') over the course of an RMS simulation.
+
+        PowerFactory wraps 'c:firel' to (-180, 180] deg. By default the returned angles are unwrapped (see 'powfacpy.engineering_helpers.unwrap_degrees') so that pole slips show up as the angle growing beyond 180 deg and angle differences stay continuous.
+
+        Note: 'c:firel' requires a reference machine to be defined in the model (ElmSym Load Flow page, 'Reference Machine'). The reference machine has 'c:firel' = 0.
+
+        Args:
+            machines: Synchronous machines (or their paths). If None, the machines are taken from the columns of 'df_simulation_results' (if given) or from all calculation-relevant ElmSym in the active project.
+
+            df_simulation_results: Simulation results DataFrame as returned by 'export_to_pandas' (multi index columns). If given, the angles are read from it instead of exporting the results again. Must contain 'variable' for the requested machines.
+
+            variable: Result variable holding the relative rotor angle. Defaults to 'c:firel'.
+
+            unwrap: If True (default), the wrapped PowerFactory signal is unwrapped.
+
+        Returns:
+            pd.DataFrame: Index is the simulation time [s], columns are the machines (same multi index format as 'export_to_pandas'), values are the relative rotor angles [deg].
+        """
+        machines = self._handle_machines_input(
+            machines, df_simulation_results, variable
+        )
+        if not machines:
+            return pd.DataFrame()
+
+        if df_simulation_results is not None:
+            angles = self.get_simulation_results_from_dataframe(
+                df_simulation_results, machines, variable
+            )
+        else:
+            elmres = self.act_prj.get_from_study_case("ElmRes")
+            angles = self.export_to_pandas(
+                list_of_results_objs=[elmres] * len(machines),
+                elements=list(machines),
+                variables=[variable] * len(machines),
+            )
+        if unwrap:
+            angles = angles.apply(unwrap_degrees, raw=True)
+        return angles
+
+    def get_out_of_step_machines(
+        self,
+        machines: PFGeneral | str | Iterable[PFGeneral | str] | None = None,
+        df_simulation_results: pd.DataFrame | None = None,
+        threshold_deg: float = 180.0,
+        variable: str = ResVar.RMS_Bal.ElmSym.c_firel.value,
+    ) -> list[PFGeneral]:
+        """Get the synchronous machines (ElmSym) that fell out of step during an RMS simulation.
+
+        A machine is considered out of step if the magnitude of its rotor angle relative to the reference machine ('c:firel') exceeds 'threshold_deg' at any point in time. PowerFactory wraps 'c:firel' to (-180, 180] deg, so the signal is unwrapped first (see 'powfacpy.engineering_helpers.is_out_of_step').
+
+        Note: 'c:firel' requires a reference machine to be defined in the model (ElmSym Load Flow page, 'Reference Machine'). The reference machine itself has 'c:firel' = 0 and is therefore never reported as out of step.
+
+        Args:
+            machines: Synchronous machines (or their paths) to check. If None, the machines are taken from the columns of 'df_simulation_results' (if given) or from all calculation-relevant ElmSym in the active project.
+
+            df_simulation_results: Simulation results DataFrame as returned by 'export_to_pandas'. If given, the rotor angles are read from it instead of exporting/reading the results again. Must contain 'variable' for the checked machines.
+
+            threshold_deg: Rotor angle magnitude (relative to the reference machine) above which a machine is considered out of step. Defaults to 180.
+
+            variable: Result variable holding the relative rotor angle. Defaults to 'c:firel'.
+
+        Returns:
+            list[PFGeneral]: The ElmSym objects that fell out of step (empty if none).
+        """
+        machines = self._handle_machines_input(
+            machines, df_simulation_results, variable
+        )
+        if not machines:
+            return []
+        angles = self.get_relative_rotor_angles(
+            machines=machines,
+            df_simulation_results=df_simulation_results,
+            variable=variable,
+            unwrap=False,
+        )
+        return [
+            machine
+            for machine, column in zip(machines, angles.columns)
+            if is_out_of_step(angles[column], threshold_deg)
+        ]
+
+    def _get_objs_from_dataframe_columns(
+        self,
+        df_simulation_results: pd.DataFrame,
+        variable: str,
+        class_name: str | None = None,
+    ) -> list[PFGeneral]:
+        """Get the PF objects whose 'variable' is contained in a simulation results DataFrame with multi index columns (as returned by 'export_to_pandas').
+
+        Args:
+            df_simulation_results (pd.DataFrame): Simulation results (multi index columns).
+            variable (str): Result variable, e.g. 'c:firel'.
+            class_name (str | None): If given, only objects of this PF class are returned.
+
+        Returns:
+            list[PFGeneral]: The matching PF objects (in column order).
+        """
+        objs = []
+        for obj, var in df_simulation_results.columns:
+            if var != variable:
+                continue
+            if isinstance(obj, str):
+                obj = self.act_prj.get_unique_obj(
+                    self.truncate_paths_until + obj, error_if_non_existent=False
+                )
+            if obj and (class_name is None or obj.GetClassName() == class_name):
+                objs.append(obj)
+        return objs
 
     def _get_time_variable_name_from_elmres(self, elmres) -> str:
         """Returns the variable name of simulation time in an ElmRes object.
@@ -550,9 +680,9 @@ class Results(ApplicationBase):
         else:
             elmres_path = self.act_prj.get_path_of_object(elmres)
             raise Exception(
-                f"""The PF simulation type number '{elmres.calTp}' of the results object 
-      '{elmres_path}' 
-      (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to 
+                f"""The PF simulation type number '{elmres.calTp}' of the results object
+      '{elmres_path}'
+      (attribute 'calTp' of ElmRes object) is not known or has not been implemented yet. Consider changes in the source code to
       _get_time_variable_name_from_elmres (or open an issue: https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/)."""
             )
 

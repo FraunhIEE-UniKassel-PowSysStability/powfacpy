@@ -53,6 +53,28 @@ def copy_39_bus_new_england_test_project(act_prj: ActiveProject) -> IntPrj:
     return create_copy_of_test_project(act_prj, "39_bus_new_england")
 
 
+@pytest.fixture(scope="module")
+def copy_control_block_testing_test_project(act_prj: ActiveProject) -> IntPrj:
+    """Copy of the control_block_testing project (holds the BlockDefinitionTesting
+    composite frame used by powfacpy.applications.frame_test)."""
+    return create_copy_of_test_project(act_prj, "control_block_testing")
+
+
+@pytest.fixture(scope="module")
+def copy_component_tests_test_project(act_prj: ActiveProject) -> IntPrj:
+    """Copy of the component_tests project (SMIB test bench used by the dynamic
+    model validation / component test interface)."""
+    return create_copy_of_test_project(act_prj, "component_tests")
+
+
+@pytest.fixture(scope="module")
+def copy_39_bus_with_der_test_project(act_prj: ActiveProject) -> IntPrj:
+    """Copy of the 39_bus_with_der project (39-bus New England with a range of
+    grid-following/synchronous-machine templates from the global library applied;
+    used to exercise the template-model interface)."""
+    return create_copy_of_test_project(act_prj, "39_bus_with_der")
+
+
 def create_copy_of_test_project(
     act_prj: ActiveProject, project_name_in_powfacpy_folder: str
 ) -> IntPrj:
@@ -69,7 +91,7 @@ def create_copy_of_test_project(
     project_copy = act_prj.copy_single_obj(
         project_for_testing,
         folder_of_project_for_testing,
-        new_name=f"{project_name_in_powfacpy_folder}_copy_where_tests_run",
+        new_name=f"{project_name_in_powfacpy_folder}_copy_to_run_tests",
     )
     return project_copy
 
@@ -100,3 +122,29 @@ def activate_39_bus_new_england_test_project(
     """
     copy_39_bus_new_england_test_project.Activate()
     return copy_39_bus_new_england_test_project
+
+
+@pytest.fixture(scope="function")
+def activate_control_block_testing_test_project(
+    copy_control_block_testing_test_project: IntPrj,
+) -> IntPrj:
+    copy_control_block_testing_test_project.Activate()
+    return copy_control_block_testing_test_project
+
+
+@pytest.fixture(scope="function")
+def activate_component_tests_test_project(
+    copy_component_tests_test_project: IntPrj,
+) -> IntPrj:
+    """Activate the component_tests copy and return it (function-scoped)."""
+    copy_component_tests_test_project.Activate()
+    return copy_component_tests_test_project
+
+
+@pytest.fixture(scope="function")
+def activate_39_bus_with_der_test_project(
+    copy_39_bus_with_der_test_project: IntPrj,
+) -> IntPrj:
+    """Activate the 39_bus_with_der copy and return it (function-scoped)."""
+    copy_39_bus_with_der_test_project.Activate()
+    return copy_39_bus_with_der_test_project

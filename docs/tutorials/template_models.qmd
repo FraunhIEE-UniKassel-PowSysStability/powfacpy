@@ -1,0 +1,214 @@
+---
+title: Dynamic Model Templates
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: powfacpy
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+```
+
+Some information about a dynamic unit is not stored on the network element but
+buried in its controllers. The clearest example is a **grid-forming converter**:
+the static generator (`ElmGenstat`) has no inertia parameter - the (virtual)
+inertia lives inside the DSL controller. When the controller was built from a
+known template, *powfacpy* can read that information back out.
+
+`powfacpy.template_models` provides:
+
+- a Python class per template (mirroring the library folder structure, e.g.
+  `template_models.digsilent_library.grid_forming_converters`), with domain
+  methods such as `get_inertia_constant()`;
+- `TemplateMatcher`, which detects *which* template a composite model in a grid
+  was built from - including "packed" templates that carry no link back to the
+  library.
+
+```{python}
+import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
+sys.path.append(SETTINGS["local path to PowerFactory application"])
+
+import powerfactory
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(r"powfacpy\39_bus_with_der_copy_to_run_tests")
+
+from powfacpy.applications.digsilent_library import DigsilentLibrary
+
+lib = DigsilentLibrary(app)
+```
+
+`39_bus_with_der` is the 39-bus New England system with a range of dynamic-model
+templates from the global library applied to its generators: WECC large-scale PV
+plants, WECC WT type 4B, and an older (packed) synchronous-generator template.
+
+# The per-template interface
+
+Each `IntTemplate` in the library contains a small composite model. Wrapping it
+in the matching class gives access to the frequency-relevant quantities. The
+[DIgSILENT library tutorial](./digsilent_library.qmd) shows how `lib` resolves
+the GUI path.
+
+```{python}
+from powfacpy.template_models.digsilent_library.grid_forming_converters import (
+    WeccRegfmB1,
+    WeccRegfmA1,
+)
+
+
+def composite_model_of(template):
+    return next(
+        c for c in _iter(template) if c.GetClassName() == "ElmComp"
+    )
+
+
+def _iter(obj):
+    for child in obj.GetContents():
+        yield child
+        yield from _iter(child)
+
+
+regfm_b1 = WeccRegfmB1(
+    composite_model_of(
+        lib.get_template(
+            r"Templates\Grid-forming Converters\WECC REGFM_B1 VSM Inverter - Storage"
+        )
+    )
+)
+```
+
+`WECC REGFM_B1` is a virtual-synchronous-machine converter, so it has an explicit
+inertia constant `H`:
+
+```{python}
+{
+    "rated_power_MVA": regfm_b1.rated_apparent_power_MVA,
+    "H_s": regfm_b1.get_inertia_constant(),
+    "kinetic_energy_MWs": regfm_b1.get_kinetic_energy_MWs(),
+    "active_power_droop": regfm_b1.get_active_power_droop(),
+    "steady_state_damping": regfm_b1.get_steady_state_damping(),
+}
+```
+
+A pure-droop converter (`WECC REGFM_A1`) has no inertia term.
+`get_equivalent_inertia_constant()` derives one from the droop and the
+power-measurement filter (`H_eq = Tpf / (2 * mp)`):
+
+```{python}
+regfm_a1 = WeccRegfmA1(
+    composite_model_of(
+        lib.get_template(
+            r"Templates\Grid-forming Converters\WECC REGFM_A1 Droop Inverter - Storage"
+        )
+    )
+)
+
+{
+    "explicit_H": regfm_a1.get_inertia_constant(),  # None
+    "equivalent_H_s": regfm_a1.get_equivalent_inertia_constant(),
+    "power_filter_time_constant_s": regfm_a1.get_power_filter_time_constant(),
+    "effective_time_constant_s": regfm_a1.get_effective_time_constant(),
+}
+```
+
+::: {.callout-note}
+The equivalent-inertia formula is an approximation from the DIgSILENT technical
+reference; it should be checked against a dynamic simulation for a given
+parametrisation.
+:::
+
+# Detecting templates in the active project's grid
+
+An applied template keeps no reference to the `IntTemplate` it came from, so
+detection works from what is left on the composite model - primarily its frame
+(`typ_id`). `LibraryTemplateIndex` builds an index of every template under
+`Templates\` (keyed by frame) once, then matches the composite models in a grid
+against it.
+
+```{python}
+from powfacpy.base.active_project import ActiveProject
+from powfacpy.template_models import LibraryTemplateIndex
+
+act_prj = ActiveProject(app)
+grid = act_prj.get_unique_obj(r"Network Model\Network Data\Grid")
+
+index = LibraryTemplateIndex(app)          # walks Templates\ once (a few seconds)
+matches = index.identify_in(grid)          # one LibraryTemplateMatch per ElmComp
+```
+
+```{python}
+import pandas as pd
+
+detected = pd.DataFrame(
+    {
+        "composite_model": m.composite_model.loc_name,
+        "frame": m.frame_name,
+        "matched_by": m.matched_by,
+        "confidence": m.confidence,
+        "templates": " | ".join(p.split("\\")[-1] for p in m.template_paths),
+    }
+    for m in matches
+)
+detected["templates"].value_counts(dropna=False)
+```
+
+The WECC PV and WT composite models point straight at a *shared* library frame
+(`\Lib.IntLibrary\Dynamics\IBR\WECC\Frm\...`), so they are matched with high
+confidence - the 50 Hz and 60 Hz variants of a template cannot be told apart
+from the frame alone, so both are reported. The synchronous-generator controllers
+were built from a template packed from an older PowerFactory version; their frame
+is not in the current library, so they are not matched (`matched_by = None`).
+
+```{python}
+detected[detected["matched_by"].isna()][["composite_model", "frame"]].head()
+```
+
+## Combining detection with the typed interface
+
+`TemplateMatcher(app=app)` runs both checks: the signature match that returns a
+`TemplateModel` class (for the templates powfacpy has an interface for - so far
+the grid-forming converters), and the `library_template_paths` from the index.
+
+```{python}
+from powfacpy.template_models import TemplateMatcher
+
+matcher = TemplateMatcher(app=app)
+pv = act_prj.get_unique_obj("control_PV_03", parent_folder=grid)
+
+result = matcher.identify(pv)
+result.template_class, result.library_template_paths
+```
+
+There is no `TemplateModel` class for a grid-following PV plant (it carries no
+inertia), so `template_class` is `None` while `library_template_paths` still
+names the template. For a grid-forming converter the same call returns the class
+too, and `result.build()` gives the typed model shown above.
+
+The signature check trades effort for confidence:
+
+- `linked` - the frame block definition still lives under the global library
+  (only for non-packed templates);
+- `signature` (default) - a wired DSL model references a block definition that
+  identifies the template;
+- `strict` - additionally the frame name and the parameter-name set match.
+
+# Dynamics of a subsystem
+
+`SubSystemDynamics` (`subsystem.dynamics`, see the
+[Subsystems tutorial](./subsystems.qmd)) uses `TemplateMatcher` internally: for
+every grid-forming converter in the subsystem it identifies the template and
+adds its kinetic energy to the total inertia, alongside the synchronous
+machines.

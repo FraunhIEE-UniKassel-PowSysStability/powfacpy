@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -32,6 +32,10 @@ Note that not all networks elements/components are supported by pandapower (see 
 
 :::
 
+::: {.callout-note}
+`pandapower` is an optional dependency of *powfacpy*. Install it with `pip install powfacpy[pandapower]` (or `pip install pandapower`) before running this tutorial.
+:::
+
 ## Imports and Project Activation
 First we import some packages and activate the *PowerFactory* project from which we want to export the dataset (the *IEEE 39 bus system* example) and get the network matrices.
 
@@ -39,7 +43,6 @@ First we import some packages and activate the *PowerFactory* project from which
 import os
 
 import numpy as np
-from icecream import ic
 import pandas as pd
 import pandapower as pp
 
@@ -65,7 +68,7 @@ pf_app: PFApp = powerfactory.GetApplication()
 act_prj = ActiveProject(pf_app)
 act_prj.app.Show()
 act_prj.app.ActivateProject(
-    "powfacpy\\39_bus_new_england_copy_where_tests_run"
+    "powfacpy\\39_bus_new_england_copy_to_run_tests"
 )  # You may change the project path.
 act_prj.activate_study_case("Study Cases\\2.1 Simulation Fault Bus 16 Stable")
 ```
