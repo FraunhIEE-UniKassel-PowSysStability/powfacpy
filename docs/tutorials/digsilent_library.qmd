@@ -1,0 +1,163 @@
+---
+title: The Global DIgSILENT Library
+toc: true
+number-sections: true
+mainfont: Arial
+format:
+  html: default
+jupyter: powfacpy
+---
+
+
+```{python}
+#| echo: false
+#| output: false
+%load_ext autoreload
+%autoreload 2
+```
+
+The global *DIgSILENT* library (`app.GetGlobalLibrary()`) holds the templates,
+equipment types, dynamic models and reports that ship with *PowerFactory*.
+Navigating it from a script is awkward because **the folder names shown in the
+GUI are not the names the Python API expects**. In the GUI you see
+
+```
+Templates \ Grid-forming Converters \ WECC REGFM_A1 Droop Inverter - Storage
+```
+
+but `GetContents("Grid-forming Converters")` returns an empty list - the folder's
+`loc_name` is actually `TemplGfc`, and the path the API needs is
+
+```
+Templ \ TemplGfc \ WECC REGFM_A1 Droop Inverter - Storage
+```
+
+This only affects the built-in *system* folders of the **global** library.
+Folders and objects in your **user** account (and the templates themselves)
+already have the name you see in the GUI, so there the Python API works as
+expected and you can access objects as described in the [Getting Started](./getting_started.qmd) tutorial.
+
+`powfacpy.applications.digsilent_library.DigsilentLibrary` bridges the gap: it
+reads *PowerFactory*'s own localisation database from the installation folder
+(`<install>\localisation\en-GB\data.db`) to translate the coded folder names, so
+you can address library objects by the path shown in the GUI.
+
+We first activate a *PowerFactory* project and create a `DigsilentLibrary` instance:
+
+```{python}
+import sys
+import json
+
+with open(r"..\..\settings_local.json") as settings_file:
+    SETTINGS = json.load(settings_file)
+
+sys.path.append(SETTINGS["local path to PowerFactory application"]) # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
+
+import powerfactory
+
+app = powerfactory.GetApplication()
+app.Show()
+app.ActivateProject(r"powfacpy\39_bus_with_der_copy_to_run_tests")
+
+from powfacpy.applications.digsilent_library import DigsilentLibrary
+
+lib = DigsilentLibrary(app)
+```
+
+# Resolving GUI paths
+
+`get_object` walks the global library and matches each path segment against the
+child objects' *displayed* names (and, as a fallback, their literal `loc_name`). That way you can use the GUI-style path as presented in the *Data Manager* of *PowerFactory*.
+`"\\"` and `"/"` both work as separators.
+
+![](.\figures\object-path-global-library.png)
+
+```{python}
+folder = lib.get_folder(r"Templates\Grid-forming Converters")
+folder, folder.loc_name, folder.GetFullName()
+```
+
+```{python}
+template = lib.get_template(
+    r"Templates\Grid-forming Converters\WECC REGFM_A1 Droop Inverter - Storage"
+)
+template, template.GetClassName()
+```
+
+`get_folder` / `get_template` are `get_object` with a class check; use
+`get_object` for anything else, and `error_if_non_existent=False` to get `None`
+instead of an exception:
+
+```{python}
+lib.get_object(r"Templates\Does Not Exist", error_if_non_existent=False)
+```
+
+# Listing and translating
+
+`list_contents` returns a `{displayed_name: object}` dictionary of a folder's
+children; `list_templates` is the same, restricted to `IntTemplate`s:
+
+```{python}
+lib.list_templates(r"Templates\Grid-forming Converters")
+```
+
+```{python}
+# every child of the folder, not just the templates
+list(lib.list_contents("Templates").keys())
+```
+
+The dictionary keys are the names shown in the GUI. `gui_name` performs that
+single-name translation and accepts either a coded `loc_name` or a folder
+object:
+
+```{python}
+lib.gui_name("TemplGfc"), lib.gui_name(folder)
+```
+
+Only the built-in *system* folders carry a coded name that needs translating.
+Anything that already has its GUI name - folders you created yourself, and the
+templates themselves - is returned unchanged, so it is safe to call `gui_name`
+on a name that is already "real":
+
+```{python}
+lib.gui_name("Grid-forming Converters"), lib.gui_name(template.loc_name)
+```
+
+The translations live in `folder_name_translations`, a `{loc_name: gui_name}`
+dictionary read once (and cached) from *PowerFactory*'s localisation database
+at `<install>\localisation\en-GB\data.db`:
+
+```{python}
+{k: lib.folder_name_translations[k] for k in ["Templ", "TemplGfc", "TemplPv", "TemplHvdc"]}
+```
+
+`gui_path` is the reverse of `get_object` - the full GUI-style path of any
+library object:
+
+```{python}
+lib.gui_path(template)
+```
+
+# Checking the name table against your PowerFactory version
+
+The translations come from a private *PowerFactory* file, so in principle they
+could drift between versions. `unmapped_system_folders` walks the live library
+and reports every *system* folder (`iopt_sys == 1`) below a given branch whose
+`loc_name` has no entry in the name table:
+
+```{python}
+lib.unmapped_system_folders()  # within the 'Templates' branch by default
+```
+
+An empty list means the name table and this *PowerFactory* installation agree,
+and every folder in that branch can be reached by its GUI name. A non-empty
+list is not a hard failure - navigation still works for those folders through
+their literal `loc_name` - but `gui_name` and `gui_path` will keep showing the
+coded name until the table is extended (either by a *PowerFactory* update or by
+adding an entry to `_FALLBACK_FOLDER_NAMES`).
+
+The check deliberately skips folders whose `loc_name` contains a space: a few
+vendor sub-libraries such as `Templates\HVDC\Hitachi Energy` are marked as
+system folders but already carry a human-readable name, and *PowerFactory*'s
+coded keys never contain spaces.
+
