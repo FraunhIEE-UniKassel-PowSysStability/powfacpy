@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -25,6 +25,7 @@ This tutorial focuses on network topologies, specifically the organization of ne
 - Creating and using zones
 - Creating and using areas
 - Additional useful methods of *powfacpy* for groupings (boundaries, areas, zones), e.g. merging of zones/areas, showing areas in the network graphic, checking connectivity, checking if elements are internal, getting load flow results,  etc.
+- Getting the dispatchable units of a grouping by technology (synchronous generators, PV, wind, battery storage) and setting or scaling their power dispatch and rated power
 
 The respective *powfacpy* classes for zones/areas/boundaries extend the functionality of the PowerFactory classes. Note that *powfacpy* also defines its own grouping class named *SubSystem* with even more extended functionality which is covered in the [SubSystems tutorial](./subsystems.qmd). 
 
@@ -34,12 +35,9 @@ First, we activate the PowerFactory project of the *IEEE 39 bus system* example,
 # If you use IPython/Jupyter:
 import sys
 import json
-from icecream import ic
 
 with open(r"..\..\settings_local.json") as settings_file:
     SETTINGS = json.load(settings_file)
-
-from icecream import ic
 
 sys.path.append(
     SETTINGS["local path to PowerFactory application"] # e.g. r"C:\Program Files\DIgSILENT\PowerFactory 2025 SP5\Python\3.13"
@@ -54,7 +52,7 @@ pf_app: PFApp = powerfactory.GetApplication()
 act_prj = ActiveProject(pf_app)
 act_prj.app.Show()
 act_prj.app.ActivateProject(
-    "powfacpy\\39_bus_new_england_copy_where_tests_run"
+    "powfacpy\\39_bus_new_england_copy_to_run_tests"
 )  # You may change the project path.
 study_case = act_prj.copy_single_obj("Study Cases\\2.3 Simulation Fault Bus 31 Stable", "Study Cases", new_name="Topology tutorial")
 study_case.Activate()
@@ -273,19 +271,19 @@ try:
     # Check if element is internal
     is_internal = boundary_1.is_internal_elm(elms[0])
     is_internal = zone_1.is_internal_elm(elms[0])
-    ic(is_internal)
+    print(is_internal)
     
     # Check if list of elements (which must be of same class) are internal
     is_internal_list = boundary_1.are_internal_elms_with_same_class(elms)
     is_internal_list = zone_1.are_internal_elms_with_same_class(elms)
-    ic(is_internal_list)
+    print(is_internal_list)
     
     # Get results variable for active power exchange in RMS simulations
     p_res_var = boundary_1.get_P_exchange_res_var_rms_bal()
     p_res_var = zone_1.get_P_exchange_res_var_rms_bal()
     
     # Load flow state
-    
+
 finally:
     app.Show()
 ```
@@ -323,5 +321,117 @@ try:
     zone_1.merge(zone_2)
 finally:
     app.Show()
+```
+
+# Dispatchable Units in a Grouping
+
+`GroupingBase` also gives quick access to the *dispatchable units* inside a grouping, sorted by technology. The category is taken from the PowerFactory plant-category *code* `aCategory` (e.g. `"wgen"`, `"pv"`, `"stor"`), which is stable across PowerFactory's display language - unlike the localised `cCategory` shown in the GUI (`"Wind"`, `"Photovoltaic"`, ...).
+
+| method | returns |
+|---|---|
+| `get_internal_sg()` | synchronous generators (`ElmSym` with `i_mot == 0`) |
+| `get_internal_pv()` | every `ElmPvsys` plus every `ElmGenstat` of category `"pv"` |
+| `get_internal_wind()` | every `ElmGenstat` of category `"wgen"` |
+| `get_internal_bess()` | every `ElmGenstat` of category `"stor"` with a battery sub-category |
+
+The IEEE 39 bus system has only synchronous machines, so we use `zone_1` (still valid after the merge above) for those:
+
+```{python}
+print(len(zone_1.get_internal_sg()), "synchronous machines in zone 1")
+```
+
+## Unit groups
+
+The properties `zone.sg`, `zone.pv`, `zone.wind` and `zone.bess` wrap the corresponding list in a `UnitCollection`. A `UnitCollection` still behaves like the list of raw PowerFactory objects (you can iterate and index it), but it adds aggregate operations. Its totals - and the `distribute` option below - account for parallel units (`ngnum`).
+
+We do the following experiments in a separate variation so they can be rolled back out afterwards.
+
+```{python}
+from powfacpy.pf_classes.elm.unit_collection import UnitCollection
+
+dispatch_variation = act_prj.create_variation("Dispatch examples")
+
+machines: UnitCollection = zone_1.sg
+print("count:                            ", len(machines))
+print("total active power dispatch [MW]: ", round(machines.total_active_power))
+print("total reactive power [Mvar]:      ", round(machines.total_reactive_power))
+print("total rated apparent power [MVA]: ", round(machines.total_rated_power))
+```
+
+Set or scale the dispatch of the whole group:
+
+```{python}
+# the same setpoint on every unit
+machines.set_power_dispatch(400, 50)                 # 400 MW, 50 Mvar each
+
+# interpret the argument as a group total and split it equally
+machines.set_power_dispatch(4000, distribute=True)
+
+# scale the present dispatch (active and reactive, so the power factor is kept)
+machines.scale_power_dispatch(0.9)
+
+# re-dispatch to a group total, shared out proportionally to ...
+machines.scale_to_total(4200, base="current")        # ... the present active power
+machines.scale_to_total(4200, base="rated")          # ... the rated apparent power
+print("total after re-dispatch [MW]:", round(machines.total_active_power))
+```
+
+By default the power-setting methods **widen the operational limits** (`Pmax_uc` / `Pmin_uc` and `cQ_min` / `cQ_max`) when a setpoint falls outside them; they never narrow a limit. Pass `adapt_limits=False` to leave the limits untouched. A reactive-power setpoint also switches the unit's input mode (`mode_inp`) to `"PQ"`, a power factor switches it to `"PC"`.
+
+## Individual units
+
+Each unit class - `SynchronousMachine` (`ElmSym`), `StaticGenerator` (`ElmGenstat`) and `PVSystem` (`ElmPvsys`) - has the same `set_power_dispatch` for a single element (`active_power` and `reactive_power` are per parallel unit here):
+
+```{python}
+from powfacpy.pf_classes.elm.sym import SynchronousMachine
+
+machine = SynchronousMachine(zone_1.get_internal_sg()[0])
+machine.set_power_dispatch(500)                                        # active power only
+machine.set_power_dispatch(500, 120)                                   # ... and reactive power
+machine.set_power_dispatch(500, power_factor=0.95, capacitive=True)    # ... or a power factor
+print(machine.loc_name, "- rated apparent power [MVA]:", machine.rated_apparent_power)
+```
+
+## Rated power
+
+`set_rated_power` / `scale_rated_power` change the units' nominal apparent power; pass `scale_setpoints=True` to move the dispatch with it.
+
+::: {.callout-warning}
+For `ElmSym` the rating lives on the shared machine *type* (`TypSym`). If a type is used by more than one machine, `set_rated_power` / `scale_rated_power` raise rather than silently re-rating the others - pass `copy_shared_type=True` to give each machine its own copy of the type first. The machines of the IEEE 39 bus system each have their own type, so it is not needed here.
+:::
+
+```{python}
+machines.scale_rated_power(1.1, scale_setpoints=True)
+print("total rated power now [MVA]:", round(machines.total_rated_power))
+
+dispatch_variation.Deactivate()  # roll the experiments back out
+```
+
+## A grouping with converter-based units
+
+The `39_bus_with_der` project from the [template models tutorial](./template_models.qmd) has wind (`ElmGenstat`) and PV (`ElmPvsys`) units. We switch to it and look at its pre-defined `Zone 2` (this is the last step of the tutorial, so we do not switch back).
+
+```{python}
+act_prj.app.ActivateProject("powfacpy\\39_bus_with_der_copy_to_run_tests")
+act_prj.activate_study_case("Study Cases\\QDS")
+
+der_zone = Zone(act_prj.get_calc_relevant_obj("Zone 2.ElmZone")[0])
+
+print("synchronous generators:", len(der_zone.get_internal_sg()))
+print("wind units (ElmGenstat):", len(der_zone.get_internal_wind()))
+print("PV units (ElmPvsys):    ", len(der_zone.get_internal_pv()))
+print("battery storage units:  ", der_zone.get_internal_bess())
+
+print(f"installed wind capacity [MVA]: {der_zone.wind.total_rated_power:.0f}")
+```
+
+```{python}
+der_variation = act_prj.create_variation("DER dispatch example")
+
+# curtail the zone's wind to 60 % of its installed capacity
+der_zone.wind.set_power_dispatch(0.6 * der_zone.wind.total_rated_power, distribute=True)
+print("wind active power now [MW]:", round(der_zone.wind.total_active_power))
+
+der_variation.Deactivate()
 ```
 

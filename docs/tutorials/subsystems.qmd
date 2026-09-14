@@ -5,7 +5,7 @@ number-sections: true
 mainfont: Arial
 format:
   html: default
-jupyter: python3
+jupyter: powfacpy
 ---
 
 
@@ -23,13 +23,15 @@ Examples for the functionality of `SubSystem` include (and will be extended in f
 - Accessing information on the load flow state
 - Accessing internal elements like like lines, terminals, synchronous machines, etc.
 - Accessing information about dynamic models and controllers (e.g. parameters of governors, AVRs, etc.)
+- Accessing dynamics-related aggregate quantities (inertia, active-power margins) relevant e.g. for frequency stability and intentional islanding
+- Creating a secondary (power-frequency) controller that regulates the subsystem's own interchange - e.g. for a subsystem meant to run as an island
 
 Examples for the functionality of `SubSystemContainer` include (and will be extended in future):
 
 - Accessing information on the load flow state of all contained `SubSystem`s (e.g. power exchange between the subsystems in matrix format)
-- Accessing information on the topology (e.g. neighbors/connectivity)
+- Accessing information on the topology (e.g. neighbors/connectivity, tie lines/branches connecting subsystems)
 
-We first activate the *IEEE 39 bus system* project and create a study case for this tutorial. 
+We first activate the *IEEE 39 bus system* project and create a study case for this tutorial. All existing grouping onjects are cleared.
 
 ```{python}
 # If you use IPython/Jupyter:
@@ -49,7 +51,7 @@ from powfacpy.base.active_project import ActiveProject
 
 app.Show()
 app.ActivateProject(
-    r"powfacpy\39_bus_new_england_copy_where_tests_run"
+    r"powfacpy\39_bus_new_england_copy_to_run_tests"
 )  # You may change the project path.
 act_prj = ActiveProject(app)
 
@@ -140,7 +142,7 @@ finally:
     app.Show() 
 ```
 
-You can also get more detailled information on dynmic models such as governors. The `get_governor_info()` method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (`parent_elms`), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.
+You can also get more detailled information on dynamic models such as governors. The `get_governor_info()` method for example returns a dictionary with the block definitions (BlkDef) of the governors as keys and the values are the respective synchronous machines (`parent_elms`), the parameter values and the average parameter values (weighted by the rated apparent power by default) of the respective DSL models. The information is sorted by block definition, so you can easily compare the parameter values of different synchronous machines with the same block definition.
 
 ```{python}
 governor_info = subsystems[0].dynamic_models.synchronous_machines.get_governor_info()
@@ -168,6 +170,92 @@ There is also a method to export the information on all dynamic models (governor
 ```{python}
 subsystems[0].dynamic_models.synchronous_machines.export_info_to_csv(r".\output\synchronous_machines_info")
 ```
+
+## Dynamics
+
+`subsystem.dynamics` collects dynamics-related aggregate quantities - relevant
+e.g. for frequency stability and islanding: the inertia of every
+dynamic unit, the active-power margins, and the load / generation balance.
+
+Inertia is resolved per unit - directly from the type for synchronous machines,
+and via the [template model interfaces](./template_models.qmd) for grid-forming
+converters (this system has none, so the converter rows are empty here):
+
+```{python}
+try:
+    app.Hide()
+    display(subsystems[0].dynamics.get_inertia_details())
+finally:
+    app.Show()
+```
+
+```{python}
+subsystems[0].dynamics.total_inertia_MWs()
+```
+
+The active-power headroom is a load-flow property, so it lives on
+`subsystem.load_flow`: `get_power_margins()` reports the up- and downward
+headroom per generator (from the operational limits configured on the
+elements):
+
+```{python}
+try:
+    app.Hide()
+    display(subsystems[0].load_flow.get_power_margins())
+finally:
+    app.Show()
+```
+
+If you only need the fleet-wide totals rather than the per-generator
+breakdown, `upward_power_margin_MW()` / `downward_power_margin_MW()` sum the
+respective column:
+
+```{python}
+subsystems[0].load_flow.upward_power_margin_MW(), subsystems[0].load_flow.downward_power_margin_MW()
+```
+
+`dynamics.get_state()` is a one-row summary of the whole subsystem (it pulls the
+margins from `load_flow`):
+
+```{python}
+try:
+    app.Hide()
+    display(subsystems[0].dynamics.get_state())
+finally:
+    app.Show()
+```
+
+## Secondary (Power-Frequency) Control
+A subsystem intended to run as an island (or otherwise balance its own
+interchange) needs a secondary controller regulating *its own* power
+exchange, not the whole grid's. `load_flow.create_secondary_controller()` is a
+thin wrapper around `StaticCalc.create_secondary_controller` that sets this up
+automatically: it creates an `ElmSecctrl` with `iexchange` ("Exchange for") set
+to *Zone*/*Area* as appropriate and `pPmeas` ("Boundary/Zone/Area") set to the
+subsystem's own grouping object, so the controller measures and regulates
+this subsystem's interchange rather than a grid-wide setpoint.
+
+The controlled machines (`psym`) are assembled from the subsystem's internal
+units, one flag per category - here we regulate the internal synchronous
+machines:
+
+```{python}
+try:
+    app.Hide()
+    secondary_controller = subsystems[0].load_flow.create_secondary_controller(
+        synchronous_machines=True
+    )
+finally:
+    app.Show()
+secondary_controller
+```
+
+`batteries`, `wind` and `pv` add the corresponding internal unit categories to
+`psym` in the same way. Everything else on the controller (`i_net`, `psetp`,
+`Kpf`, ...) is left at its PowerFactory default - set it explicitly via
+`attr={...}`, or afterwards like any other object. Without `parent_folder`,
+the controller is created in the grid of the subsystem's first internal
+terminal.
 
 # Subsystem Container
 Subsystem containers are designed to group multiple subsystems together and provide methods to analyze these groups. 
@@ -222,9 +310,39 @@ finally:
     app.Show()  
 ```
 
+You can also get the branch elements that physically tie subsystems together - lines, transformers, couplers, ... - regardless of the current load flow (unlike the neighbor check above, this does not need a valid power flow, since it only looks at the topology):
+
+```{python}
+try:
+    app.Hide()
+    display(ss_container.get_tie_lines())
+finally:
+    app.Show()
+```
+
+`get_tie_lines()` is a shortcut for `get_tie_branches(element_classes=["ElmLne"])`; omit `element_classes` to also catch tie transformers, couplers, etc.:
+
+```{python}
+try:
+    app.Hide()
+    display(ss_container.get_tie_branches())
+finally:
+    app.Show()
+```
+
+To get just the elements between one specific pair of subsystems:
+
+```{python}
+try:
+    app.Hide()
+    display(ss_container.get_tie_branches_between(zone_east, zone_west))
+finally:
+    app.Show()
+```
+
 ## Dynamic Models
 ### Synchronous Machines
-The `SubSystemContainer` class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files. 
+The `SubSystemContainer` class also provides a method to export the information on the synchronous machines contained in all subsystems to csv files.
 
 ```{python}
 ss_container.export_synchronous_machines_info_to_csv(r".\output\synchronous_machines_info_by_subsystem")

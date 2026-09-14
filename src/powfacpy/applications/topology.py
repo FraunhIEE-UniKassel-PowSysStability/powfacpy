@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Callable
 
-from icecream import ic
-
 from powfacpy.pf_classes.elm.boundary import Boundary
 from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.applications.application_base import ApplicationBase
