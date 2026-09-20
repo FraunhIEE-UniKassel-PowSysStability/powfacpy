@@ -8,11 +8,13 @@ import (and one that breaks when `area` / `zone` is the first module imported).
 
 from __future__ import annotations
 
+from typing import TypeAlias
+
 from powfacpy.pf_classes.protocols import ElmArea, ElmZone
 from powfacpy.pf_classes.elm.area import Area
 from powfacpy.pf_classes.elm.zone import Zone
 
 #: an `ElmArea` or `ElmZone` (raw PowerFactory object)
-type ElmAreaOrZone = ElmArea | ElmZone
+ElmAreaOrZone: TypeAlias = ElmArea | ElmZone
 #: an `Area` or `Zone` (powfacpy wrapper object)
-type AreaOrZone = Area | Zone
+AreaOrZone: TypeAlias = Area | Zone
