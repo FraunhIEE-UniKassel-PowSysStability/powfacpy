@@ -6,7 +6,6 @@ The acronym 'PF' is used for 'PowerFactory'.
 from __future__ import annotations
 from collections.abc import Iterable
 from typing import Union, Callable, Generator, TYPE_CHECKING
-from os import path as os_path
 from functools import partial, cached_property
 from warnings import warn
 
@@ -25,13 +24,13 @@ from powfacpy.exceptions import (
     PFNonUniqueObjectError,
     PFNotActiveError,
     PFAttributeError,
-    PFAttributeTypeError,
     PFInvalidCondition,
     PFPathError,
     PFPathInputError,
 )
 
 if TYPE_CHECKING:
+    from powfacpy.base.attributes import Attributes
     from powfacpy.base.object_operations import ObjectOperations
     from powfacpy.base.paths import Paths
 
@@ -803,50 +802,20 @@ class Folder(BaseObjectStatic):
         attr: str,
         parent_folder: Union[PFGeneral, Folder, str] = None,
     ) -> Union[int | float | str | PFGeneral | list]:
-        """Get the value of an attribute of an object.
-
-        Args:
-            obj (Union[PFGeneral, str]): object or its path
-            attr (str): attribute name
-            parent_folder (Union[PFGeneral, Folder, str], optional):
-                - parent folder of object. Defaults to None.
-
-        Raises:
-            PFAttributeError: If ojbect does not have the specified attribute
-
-        Returns:
-            Union[int|float|str|PFGeneral|list]: Attribute value
-
-        Example:
-            get_attr(terminal_1, "systype")
-        """
-        if isinstance(obj, str):
-            obj = self.get_unique_obj(obj, parent_folder=parent_folder)
-        try:
-            if not isinstance(attr, list):
-                return obj.GetAttribute(attr)
-            else:
-                attr_values = dict()
-                for attribute in attr:
-                    attr_values[attribute] = obj.GetAttribute(attribute)
-                return attr_values
-        except AttributeError as e:
-            raise PFAttributeError(obj, e, self)
+        """Get the value of an attribute of an object. See `self.attributes.get` for the arguments."""
+        return self.attributes.get(
+            obj=obj,
+            attr=attr,
+            parent_folder=parent_folder,
+        )
 
     def get_attr_by_path(
         self, path_with_attr: str
     ) -> Union[int | float | str | PFGeneral | list]:
-        """Get attribute using the path including the atrribute name
-
-        Args:
-            path_with_attr (str): path including the atrribute name
-            Example: 'user\\project\\path\\to\\object\\m:Psum:bus1'
-
-        Returns:
-            Union[int|float|str|PFGeneral|list]: Attribute value
-        """
-        head_tail = os_path.split(path_with_attr)
-        return self.get_attr(head_tail[0], head_tail[1])
+        """Get attribute using the path including the atrribute name See `self.attributes.get_by_path` for the arguments."""
+        return self.attributes.get_by_path(
+            path_with_attr=path_with_attr,
+        )
 
     def set_attr(
         self,
@@ -855,53 +824,22 @@ class Folder(BaseObjectStatic):
         parent_folder: Union[PFGeneral, Folder, str] = None,
         resolve_enum_names: bool = False,
     ) -> None:
-        """Set the attribute(s) of an object.
-
-        Args:
-            obj (Union[PFGeneral, str]): PF object
-            params (dict): attributes and their values (e.g. {'parameter1':value1, 'parameter2':value2,..})
-            parent_folder (Union[PFGeneral, Folder, str], optional): Parent folder object. Defaults to None.
-            resolve_enum_names (bool, optional): translate a string value that names
-                an enumeration option (e.g. ``{"i_mot": "Motor"}``) to its integer
-                code before writing it. Off by default. See
-                `powfacpy.applications.attribute_metadata.AttributeMetadata`.
-
-        Raises:
-            PFAttributeTypeError: If the type of an attribute value is wrong
-            PFAttributeError: If an object does not have the specified attribute
-        """
-        obj = self._handle_single_pf_object_or_path_input(
-            obj, parent_folder=parent_folder
+        """Set the attribute(s) of an object. See `self.attributes.set` for the arguments."""
+        return self.attributes.set(
+            obj=obj,
+            params=params,
+            parent_folder=parent_folder,
+            resolve_enum_names=resolve_enum_names,
         )
-        if resolve_enum_names:
-            from powfacpy.applications.attribute_metadata import AttributeMetadata
-
-            params = AttributeMetadata(self.app).resolve_enum_names(obj, params)
-        for attr, value in params.items():
-            try:
-                obj.SetAttribute(attr, value)
-            except TypeError as e:
-                raise PFAttributeTypeError(obj, attr, e, self)
-            except AttributeError as e:
-                raise PFAttributeError(obj, e, self)
 
     def set_attr_by_path(
         self, path_with_attr: str, value: Union[int | float | str | PFGeneral | list]
     ):
-        """Set attribute using the path including the attribute name.
-
-        Args:
-            path_with_attr (str): path to ojbect with attribute name at the end
-            value (Union[int | float | str | PFGeneral | list]): attribute value
-
-        Example:
-          set_attr_by_path(
-                "Library\\Dynamic Models\\Linear_interpolation\\desc",
-                ["description"])
-          Here 'desc' is the name of the attribute.
-        """
-        head_tail = os_path.split(path_with_attr)
-        self.set_attr(head_tail[0], {head_tail[1]: value})
+        """Set attribute using the path including the attribute name. See `self.attributes.set_by_path` for the arguments."""
+        return self.attributes.set_by_path(
+            path_with_attr=path_with_attr,
+            value=value,
+        )
 
     ##################
     # Handle
@@ -1158,6 +1096,13 @@ class Folder(BaseObjectStatic):
                     non_existent_child_name = child_name
                     return False, existing_path, non_existent_child_name
         return True
+
+    @cached_property
+    def attributes(self) -> "Attributes":
+        """Helper to get and set attributes of objects (see `Attributes`)."""
+        from powfacpy.base.attributes import Attributes
+
+        return Attributes(self)
 
     @cached_property
     def objects(self) -> "ObjectOperations":

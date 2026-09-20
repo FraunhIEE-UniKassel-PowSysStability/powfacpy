@@ -1425,6 +1425,7 @@ def test_composed_helpers_are_cached(
     from powfacpy.base.study_cases import StudyCases
     from powfacpy.base.projects import Projects
     from powfacpy.base.object_operations import ObjectOperations
+    from powfacpy.base.attributes import Attributes
 
     for name, cls in (
         ("paths", Paths),
@@ -1432,6 +1433,7 @@ def test_composed_helpers_are_cached(
         ("study_cases", StudyCases),
         ("projects", Projects),
         ("objects", ObjectOperations),
+        ("attributes", Attributes),
     ):
         helper = getattr(act_prj, name)
         assert isinstance(helper, cls)
