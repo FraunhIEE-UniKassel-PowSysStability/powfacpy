@@ -8,20 +8,16 @@ PowerFactory access).
 
 from __future__ import annotations
 
-import sys, os, shutil
-from fnmatch import fnmatchcase
-from typing import Callable, Iterable, Any, OrderedDict
-import importlib, inspect
-import copy
+import os
+import shutil
 import markdown
 from markdown.extensions.toc import slugify
 from pathlib import Path
 
 import pandas as pd
-import numpy as np
 
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_classes.protocols import ElmDsl, PFGeneral, PFApp, ElmComp
+from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.pf_classes.blk.definition import BlockDefinition
 
@@ -147,7 +143,6 @@ class DynamicModelDocs(ApplicationBase):
         self._blkdef_macro_docs = "# Block Definitions (Macros)\n\n"
         for blkdef_info in self.all_blkdef_info["blkdefs_without_subblocks"]:
             name = self._unique_blkdef_names[blkdef_info["BlkDef"]]
-            link = "#" + slugify(f"{name}", "-")
             self._blkdef_macro_docs += f"## {name}\n\n"
             for attr in self.block_definition_attributes:
                 if blkdef_info[attr]:
@@ -189,7 +184,7 @@ class DynamicModelDocs(ApplicationBase):
             "sLowLimPar": "Lower limitation parameters",
             "sIntern": "Internal variables",
         }
-        self._blkdef_with_subblocks_docs += f"### Subblocks\n\n"
+        self._blkdef_with_subblocks_docs += "### Subblocks\n\n"
         for subblkref, subblkdef in blkdef_info["Subblocks"].items():
             name_subblkdef = self._unique_blkdef_names[subblkdef]
             link = "#" + slugify(name_subblkdef, "-")

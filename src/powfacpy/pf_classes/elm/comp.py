@@ -5,9 +5,7 @@ from powfacpy.pf_classes.protocols import PFGeneral, BlkSlot, ElmComp, ElmDsl
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.blk.slot import Slot
 from powfacpy.pf_classes.blk.definition import BlockDefinition
-from powfacpy.result_variables import ResVar
 from powfacpy.applications.plots import Plots
-from powfacpy.base.active_project import ActiveProjectCached
 
 
 class CompositeModel(ElmBase):

@@ -92,6 +92,16 @@ In comparison to the *PowerFactory* classes from @sec-pf-classes, this folder co
 As a rule of thumb, any functionality that involves only one native *PowerFactory* class should be accommodated in an interface class in the *pf_classes/* folder. *Applications* can make use of this functionality. This prevents too much functionality from being packed into the application classes.
 :::
 
+The larger applications (`dynamic_modal_analysis`, `modelica`, `subsystems`) are packages of focused submodules. Everything is re-exported from the package, so imports such as `from powfacpy.applications.modelica import ModelicaModelSpec` do not depend on the internal file layout.
+
+## API stability {#sec-api-stability}
+*powfacpy* is under active development. As a rule of thumb, the following applies until version 1.0:
+
+- **Stable** (changes are avoided, and existing names are kept when the internals are reorganized): `ActiveProject`, `Folder` and the helpers on them, the classes in *pf_classes/*, the *Protocol* classes and the result variables, and the applications for results, plots, study cases, dynamic simulation, static calculations, network topology and the database interface.
+- **Newer, may still change** between minor versions: `template_models`, `digsilent_library`, `subsystems`, `modelica`, `dynamic_modal_analysis`, `attribute_metadata`, the unit-dispatch methods of the grouping classes and the network equivalent/connection functions in `networks`.
+
+Breaking changes are listed in the [release notes](release_notes.qmd).
+
 ## Result Variables
 - *result_variables.py*
 
@@ -104,7 +114,12 @@ The file *result_variables.py* contains (automatically created) enumeration clas
 This folder contains base classes that are used in for *Application* and *PowerFacory* classes and the `ActiveProject` class.
 
 ### *base/folder.py*
-This file contains the `Folder` class which provides functionality to interact with the *PowerFactory* database, such as getting objects and setting attributes of objects inside a folder in the *PowerFactory* database. To interact with *PowerFactory*, it holds the *PowerFactory* app as a class attribute. Path-building methods (`of`, `absolute`, `in_active_project`, `in_current_user`, `between`, ...) live in a separate `Paths` helper, reachable as `Folder.paths` (e.g. `folder.paths.of(obj)`), rather than directly on `Folder` itself.
+This file contains the `Folder` class which provides functionality to interact with the *PowerFactory* database, such as getting objects and setting attributes of objects inside a folder in the *PowerFactory* database. To interact with *PowerFactory*, it holds the *PowerFactory* app as a class attribute. Path-building methods (`of`, `absolute`, `in_active_project`, `in_current_user`, `between`, ...) live in a separate `Paths` helper, reachable as `Folder.paths` (e.g. `folder.paths.of(obj)`), rather than directly on `Folder` itself. The same pattern is used for two further groups of methods:
+
+- `folder.objects` (`ObjectOperations`, *base/object_operations.py*) - copying, moving and deleting objects (`copy`, `copy_single`, `move`, `move_single`, `delete`, `clear`)
+- `folder.attributes` (`Attributes`, *base/attributes.py*) - reading and writing attributes (`get`, `get_by_path`, `set`, `set_by_path`)
+
+The familiar `Folder` methods (`copy_obj`, `delete_obj`, `get_attr`, `set_attr`, ...) still exist with unchanged signatures and forward to these helpers. They are not deprecated.
 
 ### *base/active_project.py*
 The file contains the `ActiveProject` class that inherits from the `Folder` class and adds functionality specific to the active project in *PowerFactory*. The class `ActiveProjectCached` can be more performant than `ActiveProject` as it caches the properties, but it should be used only in one project (the caching fails after a different project was activated).
@@ -151,3 +166,12 @@ These are generic helper functions in the electrical and power engineering domai
 
 ## *exceptions.py*
 This is a collection of custom exceptions of *powfacpy*. Custom exceptions can provide more information on what goes wrong and are easier to catch for any python code that uses *powfacpy*.  
+
+
+## Generated files {#sec-generated-files}
+Two very large modules are generated and must not be edited by hand. They are excluded from the linter and from the coverage statistics.
+
+- *pf_classes/protocols.py*: created by [*pf_classes/protocol_generator.py*](../../src/powfacpy/pf_classes/protocol_generator.py). Run it from the repository root with *PowerFactory* available. It reads the class names from *power_factory_objects/CopyOfObjectsInTableOfContentsOfScriptingReference.txt* (the table of contents of the Python scripting reference), inspects an instance of every class in a temporary project and writes *pf_classes/protocols_new.py*. Review the differences and then replace *protocols.py* with it. Classes that are missing from the scripting reference are listed in `missing_classes_that_are_not_in_scripting_reference` in the generator.
+- *result_variables.py*: created by [*result_variables_parser.py*](../../src/powfacpy/result_variables_parser.py) from the text files in the *result_variables/* folder (one per *PowerFactory* class, exported from the variable selection dialog). Run the parser from the repository root.
+
+The generators need a *PowerFactory* installation and its documentation, which cannot be redistributed. This is why the generated files are committed instead of being created during the build.

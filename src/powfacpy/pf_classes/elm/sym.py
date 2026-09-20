@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from fnmatch import fnmatch
-from typing import Callable
 
 import numpy as np
 

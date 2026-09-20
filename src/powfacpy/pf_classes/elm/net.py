@@ -1,21 +1,13 @@
 from __future__ import annotations
 
-from fnmatch import fnmatch
-from typing import Callable
 
-import numpy as np
 
-from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmNet, PFGeneral, TypSym, ElmTerm, ElmDsl
+from powfacpy.pf_classes.protocols import ElmNet
 from powfacpy.pf_classes.elm.elm_base import (
     ElmBase,
-    SinglePortBase,
 
 )
-from powfacpy.pf_classes.elm.elm_base import ElmPlantControlledBase
-from powfacpy.pf_classes.elm.term import Terminal
 from powfacpy.result_variables import ResVar
-from powfacpy.engineering_helpers import get_weighted_average
 
 LDF = ResVar.LF_Bal
 

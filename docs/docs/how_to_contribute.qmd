@@ -14,6 +14,11 @@ It is recommended to read through the [description of the structure of *powfacpy
 ## Should I add tests?
 It is good practice to add unit tests using the *pytest* package. Unit tests are located in the [*tests* folder](../../tests/), which has a similar folder structure as the source code. The unit tests require *PowerFactory* test projects which you can find under [*tests/tests_input/*](../../tests/tests_input/). They need to be added in the *PowerFactory* database to the folder specified in [settings_local.json](../../settings_local.json) (attribute `path to powfacpy folder in PowerFactory database`). If you adapt those *.pfd* files for your tests, don't forget to commit the new version.
 
+Tests that do not need *PowerFactory* are marked with `@pytest.mark.unit` (or `pytestmark = pytest.mark.unit` for a whole file) and can be run without a *PowerFactory* installation with `pytest -m unit`. If *PowerFactory* is not available at all, `pytest` skips every test that is not marked as a unit test. Prefer small fakes over a live *PowerFactory* wherever a test only exercises Python logic.
+
+## Which checks run automatically?
+The [GitHub Actions workflow](../../.github/workflows/ci.yml) runs on every pull request: the linter [*ruff*](https://docs.astral.sh/ruff/) (`ruff check`, configured in *pyproject.toml*), the unit tests with Python 3.11 to 3.13 and a build of the package. Please run `ruff check` and the tests locally before opening a pull request. The tests that need *PowerFactory* cannot run on GitHub, so they are run locally.
+
 ## How can I showcase the functionality of the feature?
 To expose features to a wider range of users, adding a tutorial is more effective than just adding source code. Tutorials are located in the [*docs/tutorials* folder](../tutorials/). Like the whole website, they are written in [*quarto*](https://quarto.org/) (markdown like syntax with extended features). If you prefer working with jupyter notebooks, you can easily convert jupyter notebooks to quarto (*.qmd*) with the command `quarto convert my_tutorial.ipynb`. Finally, to make the *.qmd* file appear on the website, it must be added to the [*_quart.yml* file](../../_quarto.yml) in the root directory, e.g.:
 

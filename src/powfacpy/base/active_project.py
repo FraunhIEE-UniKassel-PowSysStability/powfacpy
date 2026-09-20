@@ -632,7 +632,7 @@ class ActiveProject(powfacpy.base.folder.Folder):
                 raise PFInvalidLoadFlow()
             return True
         elif when_invalid == "warning":
-            warn(f"No valid load flow results.", UserWarning)
+            warn("No valid load flow results.", UserWarning)
             return False
         else:
             raise PFInvalidLoadFlow()

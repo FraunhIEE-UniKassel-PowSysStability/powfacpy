@@ -3,19 +3,15 @@
 The class 'ActiveProject' inherits from 'Folder'. There are no separate tests for the 'Folder' class, all tests for both classes are included here.
 """
 
-import sys
 import os
-import json
-import importlib
-
 import pytest
 
-with open(".\\settings_local.json") as settings_file:
-    settings = json.load(settings_file)
-sys.path.append(settings["local path to PowerFactory application"])
-import powerfactory
+# conftest.py has already put the PowerFactory application on sys.path (if available).
+try:
+    import powerfactory
+except ImportError:
+    powerfactory = None
 
-sys.path.insert(0, r".\src")
 from powfacpy.base.folder import Folder
 from powfacpy.base.base import BaseObjectStatic
 from powfacpy.base.string_manipulation import PFStringManipulation
@@ -52,7 +48,7 @@ def test_get_single_object(act_prj: ActiveProject, activate_powfacpy_test_projec
     )
     assert isinstance(terminal_1, powerfactory.DataObject)
     with pytest.raises(TypeError):
-        terminals = act_prj.get_unique_obj(
+        act_prj.get_unique_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*"
         )
 
@@ -132,7 +128,7 @@ def test_set_attr_exceptions(act_prj: ActiveProject, activate_powfacpy_test_proj
             {"sTie": "dummy", "desc": ["dummy description"]},
         )  # 'sTie' is not a valid attribute
     with pytest.raises(PFPathError):
-        terminal_1 = act_prj.get_obj(
+        act_prj.get_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Termalamala"
         )
 
@@ -1363,7 +1359,7 @@ def test_get_multiple_obj_from_similar_sub_directories(
     # every grid has a 'Grid' terminal set? use a child known to exist: none is
     # guaranteed, so build the fixture explicitly
     for i, parent in enumerate(parents):
-        act_prj.create_in_folder(f"tc_similar_child.IntFolder", parent)
+        act_prj.create_in_folder("tc_similar_child.IntFolder", parent)
     try:
         children = act_prj.get_multiple_obj_from_similar_sub_directories(
             parents, "tc_similar_child"
@@ -1428,12 +1424,16 @@ def test_composed_helpers_are_cached(
     from powfacpy.base.monitored_variables import MonitoredVariables
     from powfacpy.base.study_cases import StudyCases
     from powfacpy.base.projects import Projects
+    from powfacpy.base.object_operations import ObjectOperations
+    from powfacpy.base.attributes import Attributes
 
     for name, cls in (
         ("paths", Paths),
         ("monitored_variables", MonitoredVariables),
         ("study_cases", StudyCases),
         ("projects", Projects),
+        ("objects", ObjectOperations),
+        ("attributes", Attributes),
     ):
         helper = getattr(act_prj, name)
         assert isinstance(helper, cls)
@@ -1496,3 +1496,28 @@ if __name__ == "__main__":
     # pytest.main([r"tests\applications\test_study_cases.py"])
     # pytest.main([r"tests\pf_classes"])
     pytest.main([r"tests"])
+
+
+def test_objects_helper_forwarders_and_clear_folder(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
+    """Folder.copy_obj/move_single_obj/clear_folder forward to `Folder.objects`."""
+    project = act_prj.get_active_project()
+    src = act_prj.create_in_folder("tc_objects_src.IntFolder", project)
+    dst = act_prj.create_in_folder("tc_objects_dst.IntFolder", project)
+    dst_2 = act_prj.create_in_folder("tc_objects_dst_2.IntFolder", project)
+    child = act_prj.create_in_folder("tc_objects_child.IntFolder", src)
+
+    copied = act_prj.copy_obj(child, dst)
+    assert [o.loc_name for o in copied] == ["tc_objects_child"]
+    assert act_prj.objects.copy(child, dst_2)[0].loc_name == "tc_objects_child"
+
+    act_prj.move_single_obj(copied[0], dst_2)  # overwrites the copy already in dst_2
+    assert dst.GetContents("*") == []
+    assert len(dst_2.GetContents("*")) == 1
+
+    act_prj.clear_folder(dst_2)
+    assert dst_2.GetContents("*") == []
+
+    for folder in (src, dst, dst_2):
+        act_prj.delete_obj(folder)
