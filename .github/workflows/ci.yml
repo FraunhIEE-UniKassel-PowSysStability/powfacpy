@@ -1,0 +1,61 @@
+name: CI
+
+# Runs everything that does not need a PowerFactory installation/licence:
+#   - ruff lint
+#   - the tests marked 'unit' (all other tests skip themselves when PowerFactory is missing)
+#   - a package build
+# The full test suite drives a real PowerFactory and is run locally (see CLAUDE.md).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install ruff
+      - run: ruff check
+
+  unit-tests:
+    name: unit tests (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ["3.11", "3.12", "3.13"]
+        include:
+          - os: windows-latest
+            python-version: "3.13"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - name: Install package with the extras that unit tests exercise
+        run: pip install -e ".[pandapower,comtrade,docs,parstudy,dynamic_modal_analysis,dev]"
+      - name: Run unit tests
+        run: pytest -m unit --cov=src/powfacpy --cov-report=term-missing
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install build twine
+      - run: python -m build
+      - run: twine check dist/*

@@ -146,7 +146,7 @@ class StudyCases(ApplicationBase):
                     or not self.ignore_parameters_that_are_none_in_names
                 ):
                     add_to_string = str(parameter_value) + "\\"
-                    if not par_name in self.anonymous_parameters:
+                    if par_name not in self.anonymous_parameters:
                         add_to_string = par_name + "_" + add_to_string
                     folder_path += add_to_string
             if folder_path:
@@ -690,8 +690,7 @@ class StudyCases(ApplicationBase):
                             is_omitted_combination = False
                             values_of_all_parameters_for_case[param_num] = None
                     elif (
-                        not values_of_all_parameters_for_case[param_num]
-                        in omitted_combination_dict[param_name]
+                        values_of_all_parameters_for_case[param_num] not in omitted_combination_dict[param_name]
                     ):
                         is_omitted_combination = False
                         break

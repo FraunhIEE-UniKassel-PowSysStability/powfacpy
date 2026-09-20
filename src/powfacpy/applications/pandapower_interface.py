@@ -3,12 +3,10 @@ Interface with pandapower.
 Tutorial on internal data structure and matrices of pandapower: https://github.com/e2nIEE/pandapower/blob/develop/tutorials/internal_datastructure.ipynb
 """
 
-from abc import abstractmethod
 from typing import Callable
 import copy
 
 import pandapower as pp
-from pandapower.converter.powerfactory.validate import validate_pf_conversion
 import pandas as pd
 import numpy as np
 from numpy.typing import ArrayLike

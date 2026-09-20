@@ -6,7 +6,7 @@ from typing import Callable, TYPE_CHECKING
 import numpy as np
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import ElmArea, ElmZone, PFGeneral, ElmRes, StaPll
+from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, StaPll
 from powfacpy.pf_classes.elm.sym import SynchronousMachine
 from powfacpy.pf_classes.elm.unit_collection import UnitCollection
 from powfacpy.pf_classes.class_conversion import convert_pf_obj_to_powfacpy

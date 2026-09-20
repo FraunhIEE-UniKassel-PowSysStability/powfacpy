@@ -10,14 +10,12 @@ ToDo: Add tutorial for this interface (when there is more functionality).
 
 from __future__ import annotations
 
-import sys
 from fnmatch import fnmatchcase, filter
-from typing import Callable, Iterable, Any, OrderedDict
-import importlib, inspect
-import copy
+from typing import Iterable, Any
+import importlib
+import inspect
 
 import pandas as pd
-import numpy as np
 
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.result_variables import ResVar
@@ -122,7 +120,7 @@ class Database(ApplicationBase):
                         val = self._handle_attribute_type_for_reading(
                             obj, attr, not values_are_pf_obj
                         )
-                        if not (val is False):
+                        if val is not False:
                             obj_attr_dict[key][attr] = val
         return obj_attr_dict
 
@@ -272,7 +270,7 @@ class Database(ApplicationBase):
         def count_and_rename_objs() -> None:
             for obj in objs:
                 name_with_class = obj.loc_name + "." + obj.GetClassName()
-                if not name_with_class in obj_count.keys():
+                if name_with_class not in obj_count.keys():
                     obj_count[name_with_class] = 1
                 else:
                     obj_count[name_with_class] += 1

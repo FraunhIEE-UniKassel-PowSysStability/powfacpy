@@ -1,9 +1,6 @@
 from __future__ import annotations
-from typing import Any, Callable
 
-from numpy import diff
 
-from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.base.base import BaseChildStatic
 from powfacpy.pf_classes.protocols import BlkSlot
 

@@ -40,7 +40,7 @@ from warnings import warn
 
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.frame_test import FrameTest
-from powfacpy.pf_classes.protocols import ElmComp, ElmMdl, IntFolder, PFApp, PFGeneral, TypMdl
+from powfacpy.pf_classes.protocols import ElmComp, ElmMdl, PFApp, PFGeneral, TypMdl
 from powfacpy.exceptions import PFModelicaCompilationError
 
 # --------------------------------------------------------------------------- #

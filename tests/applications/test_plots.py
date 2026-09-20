@@ -1,6 +1,5 @@
 import sys
 import os
-from os import remove, getcwd
 
 import pytest
 from matplotlib import pyplot
@@ -9,13 +8,10 @@ from powfacpy.applications.dynamic_simulation import DynamicSimulation
 
 sys.path.insert(0, r".\src")
 from powfacpy.applications.plots import Plots
-from powfacpy.applications.dynamic_simulation import DynamicSimulation
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.exceptions import (
     PFAttributeNotSetError,
-    PFAttributeTypeError,
-    PFPathError,
 )
 
 

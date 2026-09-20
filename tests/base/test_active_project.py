@@ -3,19 +3,15 @@
 The class 'ActiveProject' inherits from 'Folder'. There are no separate tests for the 'Folder' class, all tests for both classes are included here.
 """
 
-import sys
 import os
-import json
-import importlib
-
 import pytest
 
-with open(".\\settings_local.json") as settings_file:
-    settings = json.load(settings_file)
-sys.path.append(settings["local path to PowerFactory application"])
-import powerfactory
+# conftest.py has already put the PowerFactory application on sys.path (if available).
+try:
+    import powerfactory
+except ImportError:
+    powerfactory = None
 
-sys.path.insert(0, r".\src")
 from powfacpy.base.folder import Folder
 from powfacpy.base.base import BaseObjectStatic
 from powfacpy.base.string_manipulation import PFStringManipulation
@@ -52,7 +48,7 @@ def test_get_single_object(act_prj: ActiveProject, activate_powfacpy_test_projec
     )
     assert isinstance(terminal_1, powerfactory.DataObject)
     with pytest.raises(TypeError):
-        terminals = act_prj.get_unique_obj(
+        act_prj.get_unique_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Terminal*"
         )
 
@@ -132,7 +128,7 @@ def test_set_attr_exceptions(act_prj: ActiveProject, activate_powfacpy_test_proj
             {"sTie": "dummy", "desc": ["dummy description"]},
         )  # 'sTie' is not a valid attribute
     with pytest.raises(PFPathError):
-        terminal_1 = act_prj.get_obj(
+        act_prj.get_obj(
             r"Network Model\Network Data\test_active_project_interface\Grid\Termalamala"
         )
 
@@ -1363,7 +1359,7 @@ def test_get_multiple_obj_from_similar_sub_directories(
     # every grid has a 'Grid' terminal set? use a child known to exist: none is
     # guaranteed, so build the fixture explicitly
     for i, parent in enumerate(parents):
-        act_prj.create_in_folder(f"tc_similar_child.IntFolder", parent)
+        act_prj.create_in_folder("tc_similar_child.IntFolder", parent)
     try:
         children = act_prj.get_multiple_obj_from_similar_sub_directories(
             parents, "tc_similar_child"

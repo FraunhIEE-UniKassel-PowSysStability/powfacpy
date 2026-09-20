@@ -7,7 +7,6 @@ from typing import Any, Callable
 import re
 import math
 
-from numpy import diff
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.base.base import BaseChildStatic

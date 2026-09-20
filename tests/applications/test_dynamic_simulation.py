@@ -111,7 +111,7 @@ def test_get_parameters_of_dsl_models_in_composite_model(
     )
     assert not par_val_dict_1["test_no_parameters"]
     assert par_val_dict_1["test_a"]["d"] == 0
-    assert not "oarray_x" in par_val_dict_1["test_a"]
+    assert "oarray_x" not in par_val_dict_1["test_a"]
 
     par_val_dict_2 = pfsim.get_parameters_of_dsl_models_in_composite_model(
         composite_model, single_dict_for_all_dsl_models=True

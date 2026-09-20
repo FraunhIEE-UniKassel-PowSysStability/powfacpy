@@ -47,6 +47,8 @@ parstudy = [
 # Eigenvalue sweeps additionally need the 'parstudy' extra above.
 dynamic_modal_analysis = [
     "scipy >= 1.10",
+    # pandas Styler (the show() tables) needs jinja2
+    "jinja2 >= 3.0",
 ]
 tutorials = [
     "jupyter>=1.1.1",
@@ -57,6 +59,7 @@ tutorials = [
 dev = [
     "pytest >= 8.0",
     "pytest-cov >= 5.0",
+    "ruff >= 0.6",
 ]
 # everything above, for a full-featured install
 all = [
@@ -86,3 +89,31 @@ omit = [
     "src/powfacpy/result_variables.py",
     "src/powfacpy/pf_class_protocols.py",
 ]
+
+[tool.ruff]
+# Only lint the package and its tests. The two big generated modules and the
+# generated test output are excluded.
+include = ["src/**/*.py", "tests/**/*.py"]
+extend-exclude = [
+    "src/powfacpy/pf_classes/protocols.py",
+    "src/powfacpy/result_variables.py",
+    "tests/tests_output",
+    "tests/tests_input",
+]
+target-version = "py311"
+
+[tool.ruff.lint]
+# Conservative baseline: syntax errors, pyflakes (unused/undefined names) and the
+# pycodestyle checks that flag likely bugs. Formatting is not enforced yet.
+select = ["E4", "E7", "E9", "F"]
+ignore = [
+    # Deliberate late imports (circular-import avoidance, sys.path set-up in tests).
+    "E402",
+    # PowerFactory attributes can be None/0/1, so '== False' is not always 'not x'.
+    "E712",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Fixtures imported from another test module and requested by name in the test
+# signature look like redefinitions to pyflakes.
+"tests/**" = ["F811"]

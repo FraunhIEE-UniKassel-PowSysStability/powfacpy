@@ -10,7 +10,7 @@ from os import path as os_path
 from functools import partial, cached_property
 from warnings import warn
 
-from powfacpy.base.base import BaseObjectStatic, BaseChildStatic
+from powfacpy.base.base import BaseObjectStatic
 from powfacpy.base import string_manipulation as strman
 from powfacpy.pf_classes.protocols import (
     PFApp,
@@ -1458,7 +1458,7 @@ class Folder(BaseObjectStatic):
             Union[str, list[str]]: local name(s)
         """
         is_list = True
-        if not type(objects) == list:
+        if type(objects) is not list:
             objects = [
                 objects,
             ]

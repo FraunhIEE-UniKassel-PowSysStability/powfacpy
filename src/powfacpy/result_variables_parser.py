@@ -135,7 +135,7 @@ Currently, the following 'Elm' classes are supported: \n
         attr_with_underscores_instead_of_colon = attr_and_unit_and_description[
             0
         ].replace(":", "_")
-        if not attr_with_underscores_instead_of_colon in used_attr:
+        if attr_with_underscores_instead_of_colon not in used_attr:
             used_attr.append(attr_with_underscores_instead_of_colon)
             out_line = (
                 3 * self.indentation_increment

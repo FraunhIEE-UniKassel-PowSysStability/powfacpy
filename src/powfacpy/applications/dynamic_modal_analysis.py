@@ -43,7 +43,6 @@ from os.path import join
 from shutil import rmtree
 from typing import TYPE_CHECKING, Any, Literal, Self, Sequence
 
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
