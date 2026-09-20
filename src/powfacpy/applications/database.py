@@ -10,7 +10,7 @@ ToDo: Add tutorial for this interface (when there is more functionality).
 
 from __future__ import annotations
 
-from fnmatch import fnmatchcase, filter
+from fnmatch import fnmatchcase
 from typing import Iterable, Any
 import importlib
 import inspect
@@ -181,9 +181,10 @@ class Database(ApplicationBase):
         Returns:
             PF object | str:
         """
-        if isinstance(value, str) and not isinstance(
-            obj.GetAttributeType(attr), str
-        ):  # Then the true attribute type is a PF object
+        if (
+            isinstance(value, str)
+            and getattr(obj.GetAttributeType(attr), "name", None) == "OBJECT"
+        ):  # The attribute holds a PF object -> the string is the path of that object
             return self.act_prj.get_unique_obj(value)
         else:
             return value
@@ -324,7 +325,8 @@ class Database(ApplicationBase):
         enum_class = getattr(getattr(ResVar, simulation_type), class_name)
         if isinstance(vars, str):
             vars = vars.replace(":", "_")
-            vars = filter(enum_class.__members__.keys(), vars)
+            # case-sensitive on every platform (fnmatch.filter is not on Windows): "m_u*" must not match "m_U"
+            vars = [name for name in enum_class.__members__ if fnmatchcase(name, vars)]
         if objs is None:
             objs = self.act_prj.get_calc_relevant_obj("*." + class_name)
         var_values = {var: [None]*len(objs) for var in vars}
@@ -509,7 +511,7 @@ class DatabaseDict(dict, ApplicationBase):
                 d_new[obj + "\\" + attr] = val
         if inplace:
             self.reset(d_new)
-        return DatabaseDict(self.app, d_new)
+        return DatabaseDict(d_new)
 
     def get_obj_attribute_strings(self, truncate: None | str = None) -> list[str]:
         """Get list of object attribute strings.
@@ -521,7 +523,7 @@ class DatabaseDict(dict, ApplicationBase):
             list[str]: object attribute strings
         """
         dbd = self.keys_to_obj_attr_str(truncate=truncate)
-        return list(dbd.d.keys())
+        return list(dbd.keys())
 
     def set_pf_obj_values(self, values: Iterable) -> None:
         """Set attribute values of PF objects in PF database using 'values'.
@@ -542,6 +544,7 @@ class DatabaseDict(dict, ApplicationBase):
         for obj, dict_attr_val in self.items():
             for attr in dict_attr_val.keys():
                 self[obj][attr] = values[n]
+                n += 1
 
     def set_values_of_dict_in_pf(self) -> None:
         """Set values of DatabaseDict in PF objects."""
