@@ -1424,12 +1424,14 @@ def test_composed_helpers_are_cached(
     from powfacpy.base.monitored_variables import MonitoredVariables
     from powfacpy.base.study_cases import StudyCases
     from powfacpy.base.projects import Projects
+    from powfacpy.base.object_operations import ObjectOperations
 
     for name, cls in (
         ("paths", Paths),
         ("monitored_variables", MonitoredVariables),
         ("study_cases", StudyCases),
         ("projects", Projects),
+        ("objects", ObjectOperations),
     ):
         helper = getattr(act_prj, name)
         assert isinstance(helper, cls)
@@ -1492,3 +1494,28 @@ if __name__ == "__main__":
     # pytest.main([r"tests\applications\test_study_cases.py"])
     # pytest.main([r"tests\pf_classes"])
     pytest.main([r"tests"])
+
+
+def test_objects_helper_forwarders_and_clear_folder(
+    act_prj: ActiveProject, activate_powfacpy_test_project
+):
+    """Folder.copy_obj/move_single_obj/clear_folder forward to `Folder.objects`."""
+    project = act_prj.get_active_project()
+    src = act_prj.create_in_folder("tc_objects_src.IntFolder", project)
+    dst = act_prj.create_in_folder("tc_objects_dst.IntFolder", project)
+    dst_2 = act_prj.create_in_folder("tc_objects_dst_2.IntFolder", project)
+    child = act_prj.create_in_folder("tc_objects_child.IntFolder", src)
+
+    copied = act_prj.copy_obj(child, dst)
+    assert [o.loc_name for o in copied] == ["tc_objects_child"]
+    assert act_prj.objects.copy(child, dst_2)[0].loc_name == "tc_objects_child"
+
+    act_prj.move_single_obj(copied[0], dst_2)  # overwrites the copy already in dst_2
+    assert dst.GetContents("*") == []
+    assert len(dst_2.GetContents("*")) == 1
+
+    act_prj.clear_folder(dst_2)
+    assert dst_2.GetContents("*") == []
+
+    for folder in (src, dst, dst_2):
+        act_prj.delete_obj(folder)
