@@ -208,7 +208,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#sec-active-project" id="toc-sec-active-project" class="nav-link" data-scroll-target="#sec-active-project"><span class="header-section-number">1.1</span> Active Project</a></li>
   <li><a href="#sec-pf-classes" id="toc-sec-pf-classes" class="nav-link" data-scroll-target="#sec-pf-classes"><span class="header-section-number">1.2</span> <em>PowerFactory</em> Classes</a></li>
   <li><a href="#applications" id="toc-applications" class="nav-link" data-scroll-target="#applications"><span class="header-section-number">1.3</span> Applications</a></li>
-  <li><a href="#result-variables" id="toc-result-variables" class="nav-link" data-scroll-target="#result-variables"><span class="header-section-number">1.4</span> Result Variables</a></li>
+  <li><a href="#sec-api-stability" id="toc-sec-api-stability" class="nav-link" data-scroll-target="#sec-api-stability"><span class="header-section-number">1.4</span> API stability</a></li>
+  <li><a href="#result-variables" id="toc-result-variables" class="nav-link" data-scroll-target="#result-variables"><span class="header-section-number">1.5</span> Result Variables</a></li>
   </ul></li>
   <li><a href="#sec-advanced" id="toc-sec-advanced" class="nav-link" data-scroll-target="#sec-advanced"><span class="header-section-number">2</span> Advanced (for Contributors)</a>
   <ul class="collapse">
@@ -223,6 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#pf_classes" id="toc-pf_classes" class="nav-link" data-scroll-target="#pf_classes"><span class="header-section-number">2.2</span> <em>pf_classes</em></a></li>
   <li><a href="#engineering_helpers.py" id="toc-engineering_helpers.py" class="nav-link" data-scroll-target="#engineering_helpers.py"><span class="header-section-number">2.3</span> <em>engineering_helpers.py</em></a></li>
   <li><a href="#exceptions.py" id="toc-exceptions.py" class="nav-link" data-scroll-target="#exceptions.py"><span class="header-section-number">2.4</span> <em>exceptions.py</em></a></li>
+  <li><a href="#sec-generated-files" id="toc-sec-generated-files" class="nav-link" data-scroll-target="#sec-generated-files"><span class="header-section-number">2.5</span> Generated files</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/edit/main/docs/docs/structure_of_powfacpy.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/blob/main/docs/docs/structure_of_powfacpy.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li><li><a href="https://github.com/FraunhIEE-UniKassel-PowSysStability/powfacpy/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -264,12 +266,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   ├── caching.py
 │   ├── database.py
 │   ├── digsilent_library.py
-│   ├── dynamic_modal_analysis.py
+│   ├── dynamic_modal_analysis/
+│   │   ├── _common.py
+│   │   ├── analysis.py
+│   │   ├── eigenvalues.py
+│   │   ├── results.py
+│   │   ├── sensitivity.py
+│   │   ├── sweep.py
+│   │   └── tracking.py
 │   ├── dynamic_model_docs.py
 │   ├── dynamic_simulation.py
 │   ├── frame_test.py
 │   ├── model_exchange.py
-│   ├── modelica.py
+│   ├── modelica/
+│   │   ├── _codegen.py
+│   │   ├── model.py
+│   │   ├── spec.py
+│   │   └── testing.py
 │   ├── networks.py
 │   ├── pandapower_interface.py
 │   ├── pandas_interface.py
@@ -278,14 +291,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 │   ├── results.py
 │   ├── static_calc.py
 │   ├── study_cases.py
-│   ├── subsystems.py
+│   ├── subsystems/
+│   │   ├── container.py
+│   │   ├── dynamics.py
+│   │   ├── load_flow.py
+│   │   └── subsystem.py
 │   └── topology.py
 ├── base/
 │   ├── active_project.py
+│   ├── attributes.py
 │   ├── base.py
 │   ├── folder.py
 │   ├── functional.py
 │   ├── monitored_variables.py
+│   ├── object_operations.py
 │   ├── paths.py
 │   ├── projects.py
 │   ├── string_manipulation.py
@@ -362,24 +381,11 @@ Figure&nbsp;1
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> powfacpy.base.active_project <span class="im">import</span> ActiveProject</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>act_prj <span class="op">=</span> ActiveProject()</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sm_pf_native <span class="op">=</span> act_prj.get_calc_relevant_object(<span class="st">"SM 01.ElmSym"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>sm_pf_native <span class="op">=</span> act_prj.get_calc_relevant_obj(<span class="st">"SM 01.ElmSym"</span>)[<span class="dv">0</span>]</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sm <span class="op">=</span> SynchronousMachine(sm_pf_native)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>sm.Disconnect() <span class="co"># Method from native PF object</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sm.get_averaged_internal_reactance() <span class="co"># Method from powfacpy.pf_classes.elm.sym</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In addition, <em>pf_classes/protocols.py</em> contains protocol classes for (almost) all classes from the <em>PowerFactory</em> database (automatically created, see <em>protocol_generator.py</em>). They are used for type hints for example, as explained in the <a href="../../docs/tutorials/getting_started.html">Getting Started Tutorial</a>.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Protocols
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Note that there is a <em>protocols.py</em> file in the root directory for compatibility with versions prior to 0.3.0. It will be deprecated and <em>pf_classes/protocols.py</em> should be used.</p>
-</div>
-</div>
 </section>
 <section id="applications" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="applications"><span class="header-section-number">1.3</span> Applications</h2>
@@ -401,9 +407,19 @@ Figure&nbsp;1
 <p>As a rule of thumb, any functionality that involves only one native <em>PowerFactory</em> class should be accommodated in an interface class in the <em>pf_classes/</em> folder. <em>Applications</em> can make use of this functionality. This prevents too much functionality from being packed into the application classes.</p>
 </div>
 </div>
+<p>The larger applications (<code>dynamic_modal_analysis</code>, <code>modelica</code>, <code>subsystems</code>) are packages of focused submodules. Everything is re-exported from the package, so imports such as <code>from powfacpy.applications.modelica import ModelicaModelSpec</code> do not depend on the internal file layout.</p>
 </section>
-<section id="result-variables" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="result-variables"><span class="header-section-number">1.4</span> Result Variables</h2>
+<section id="sec-api-stability" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="sec-api-stability"><span class="header-section-number">1.4</span> API stability</h2>
+<p><em>powfacpy</em> is under active development. As a rule of thumb, the following applies until version 1.0:</p>
+<ul>
+<li><strong>Stable</strong> (changes are avoided, and existing names are kept when the internals are reorganized): <code>ActiveProject</code>, <code>Folder</code> and the helpers on them, the classes in <em>pf_classes/</em>, the <em>Protocol</em> classes and the result variables, and the applications for results, plots, study cases, dynamic simulation, static calculations, network topology and the database interface.</li>
+<li><strong>Newer, may still change</strong> between minor versions: <code>template_models</code>, <code>digsilent_library</code>, <code>subsystems</code>, <code>modelica</code>, <code>dynamic_modal_analysis</code>, <code>attribute_metadata</code>, the unit-dispatch methods of the grouping classes and the network equivalent/connection functions in <code>networks</code>.</li>
+</ul>
+<p>Breaking changes are listed in the <a href="../../docs/docs/release_notes.html">release notes</a>.</p>
+</section>
+<section id="result-variables" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="result-variables"><span class="header-section-number">1.5</span> Result Variables</h2>
 <ul>
 <li><em>result_variables.py</em></li>
 </ul>
@@ -417,7 +433,12 @@ Figure&nbsp;1
 <p>This folder contains base classes that are used in for <em>Application</em> and <em>PowerFacory</em> classes and the <code>ActiveProject</code> class.</p>
 <section id="basefolder.py" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="basefolder.py"><span class="header-section-number">2.1.1</span> <em>base/folder.py</em></h3>
-<p>This file contains the <code>Folder</code> class which provides functionality to interact with the <em>PowerFactory</em> database, such as getting objects and setting attributes of objects inside a folder in the <em>PowerFactory</em> database. To interact with <em>PowerFactory</em>, it holds the <em>PowerFactory</em> app as a class attribute. Path-building methods (<code>of</code>, <code>absolute</code>, <code>in_active_project</code>, <code>in_current_user</code>, <code>between</code>, …) live in a separate <code>Paths</code> helper, reachable as <code>Folder.paths</code> (e.g.&nbsp;<code>folder.paths.of(obj)</code>), rather than directly on <code>Folder</code> itself.</p>
+<p>This file contains the <code>Folder</code> class which provides functionality to interact with the <em>PowerFactory</em> database, such as getting objects and setting attributes of objects inside a folder in the <em>PowerFactory</em> database. To interact with <em>PowerFactory</em>, it holds the <em>PowerFactory</em> app as a class attribute. Path-building methods (<code>of</code>, <code>absolute</code>, <code>in_active_project</code>, <code>in_current_user</code>, <code>between</code>, …) live in a separate <code>Paths</code> helper, reachable as <code>Folder.paths</code> (e.g.&nbsp;<code>folder.paths.of(obj)</code>), rather than directly on <code>Folder</code> itself. The same pattern is used for two further groups of methods:</p>
+<ul>
+<li><code>folder.objects</code> (<code>ObjectOperations</code>, <em>base/object_operations.py</em>) - copying, moving and deleting objects (<code>copy</code>, <code>copy_single</code>, <code>move</code>, <code>move_single</code>, <code>delete</code>, <code>clear</code>)</li>
+<li><code>folder.attributes</code> (<code>Attributes</code>, <em>base/attributes.py</em>) - reading and writing attributes (<code>get</code>, <code>get_by_path</code>, <code>set</code>, <code>set_by_path</code>)</li>
+</ul>
+<p>The familiar <code>Folder</code> methods (<code>copy_obj</code>, <code>delete_obj</code>, <code>get_attr</code>, <code>set_attr</code>, …) still exist with unchanged signatures and forward to these helpers. They are not deprecated.</p>
 </section>
 <section id="baseactive_project.py" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="baseactive_project.py"><span class="header-section-number">2.1.2</span> <em>base/active_project.py</em></h3>
@@ -464,6 +485,15 @@ Figure&nbsp;1
 <section id="exceptions.py" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="exceptions.py"><span class="header-section-number">2.4</span> <em>exceptions.py</em></h2>
 <p>This is a collection of custom exceptions of <em>powfacpy</em>. Custom exceptions can provide more information on what goes wrong and are easier to catch for any python code that uses <em>powfacpy</em>.</p>
+</section>
+<section id="sec-generated-files" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-generated-files"><span class="header-section-number">2.5</span> Generated files</h2>
+<p>Two very large modules are generated and must not be edited by hand. They are excluded from the linter and from the coverage statistics.</p>
+<ul>
+<li><em>pf_classes/protocols.py</em>: created by <a href="../../src/powfacpy/pf_classes/protocol_generator.py"><em>pf_classes/protocol_generator.py</em></a>. Run it from the repository root with <em>PowerFactory</em> available. It reads the class names from <em>power_factory_objects/CopyOfObjectsInTableOfContentsOfScriptingReference.txt</em> (the table of contents of the Python scripting reference), inspects an instance of every class in a temporary project and writes <em>pf_classes/protocols_new.py</em>. Review the differences and then replace <em>protocols.py</em> with it. Classes that are missing from the scripting reference are listed in <code>missing_classes_that_are_not_in_scripting_reference</code> in the generator.</li>
+<li><em>result_variables.py</em>: created by <a href="../../src/powfacpy/result_variables_parser.py"><em>result_variables_parser.py</em></a> from the text files in the <em>result_variables/</em> folder (one per <em>PowerFactory</em> class, exported from the variable selection dialog). Run the parser from the repository root.</li>
+</ul>
+<p>The generators need a <em>PowerFactory</em> installation and its documentation, which cannot be redistributed. This is why the generated files are committed instead of being created during the build.</p>
 
 
 </section>

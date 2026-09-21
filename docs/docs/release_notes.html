@@ -167,7 +167,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#v0.5.0" id="toc-v0.5.0" class="nav-link active" data-scroll-target="#v0.5.0">v0.5.0</a></li>
+  <li><a href="#v0.5.1" id="toc-v0.5.1" class="nav-link active" data-scroll-target="#v0.5.1">v0.5.1</a></li>
+  <li><a href="#v0.5.0" id="toc-v0.5.0" class="nav-link" data-scroll-target="#v0.5.0">v0.5.0</a></li>
   <li><a href="#v0.4.3" id="toc-v0.4.3" class="nav-link" data-scroll-target="#v0.4.3">v0.4.3</a></li>
   <li><a href="#v0.4.1" id="toc-v0.4.1" class="nav-link" data-scroll-target="#v0.4.1">v0.4.1</a></li>
   <li><a href="#v0.4.0" id="toc-v0.4.0" class="nav-link" data-scroll-target="#v0.4.0">v0.4.0</a></li>
@@ -198,6 +199,19 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="v0.5.1" class="level2">
+<h2 class="anchored" data-anchor-id="v0.5.1">v0.5.1</h2>
+<p>Bug fixes and internal restructuring, no breaking changes.</p>
+<ul>
+<li>Fixed: version 0.5.0 could not be imported on Python 3.11 (<code>grouping_types.py</code> used the <code>type</code> statement, which needs Python 3.12), although 3.11 is declared as supported</li>
+<li>Fixed: the <code>dynamic_modal_analysis</code> extra now includes <code>jinja2</code>, which pandas needs for the styled tables</li>
+<li>Fixed in <code>Database</code>/<code>DatabaseDict</code>: string attributes such as <code>loc_name</code> could not be set with <code>set_pf_obj_attribute_values</code>, result-variable patterns were case-insensitive on Windows (<code>"m_u*"</code> also matched <code>"m_U"</code>), and <code>keys_to_obj_attr_str</code>, <code>get_obj_attribute_strings</code> and <code>set_values_of_dict</code> did not work</li>
+<li><code>dynamic_modal_analysis</code>, <code>modelica</code> and <code>subsystems</code> are now packages of focused submodules. All names are still importable from <code>powfacpy.applications.&lt;name&gt;</code></li>
+<li>New composed helpers <code>Folder.objects</code> (copy, move, delete) and <code>Folder.attributes</code> (get, set). The existing <code>Folder</code>/<code>ActiveProject</code> methods keep their signatures and forward to them; none are deprecated</li>
+<li>Continuous integration (GitHub Actions): ruff, unit tests on Python 3.11-3.13 and a package build. The test suite now skips everything that needs <em>PowerFactory</em> when it is not installed</li>
+<li>Documentation: API stability of the modules, how to regenerate the generated files, and what the automatic checks do</li>
+</ul>
+</section>
 <section id="v0.5.0" class="level2">
 <h2 class="anchored" data-anchor-id="v0.5.0">v0.5.0</h2>
 <p>Everything below summarizes what changed since v0.4.3 (releases in between were not individually documented here).</p>
