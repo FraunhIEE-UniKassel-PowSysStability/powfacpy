@@ -1,6 +1,5 @@
 """Plotting interface."""
 
-from cProfile import label
 from os import getcwd
 from os import makedirs
 from os.path import exists

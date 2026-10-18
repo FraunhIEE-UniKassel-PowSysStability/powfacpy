@@ -48,11 +48,11 @@ class ZoneStatic(ElmBase, AreaZoneBase):
                 return zone
             else:
                 raise ValueError(
-                    f"Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
+                    "Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
                 )
         except AttributeError:
             raise ValueError(
-                f"Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
+                "Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
             )
 
     def _get_powfacpy_obj_input(self, zone: Zone | ElmZone) -> Zone:
@@ -73,11 +73,11 @@ class ZoneStatic(ElmBase, AreaZoneBase):
                 return Zone(zone)
             else:
                 raise ValueError(
-                    f"Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
+                    "Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
                 )
         except AttributeError:
             raise ValueError(
-                f"Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
+                "Expected type 'Zone' or 'ElmZone' for input argument 'zone'"
             )
 
     def get_all_internal_elms(

@@ -1,7 +1,6 @@
 import os
 import zipfile
 import glob
-import importlib
 import sys
 
 import pytest

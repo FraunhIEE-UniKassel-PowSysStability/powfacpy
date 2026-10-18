@@ -47,7 +47,7 @@ class Networks(ApplicationBase):
         terminal = self.act_prj._handle_single_pf_object_or_path_input(terminal)
         cubicles = self.get_cubicles_of_terminal(terminal)
         for cubicle in cubicles:
-            if cubicle.obj_id == None:
+            if cubicle.obj_id is None:
                 if new_cubicle_name:
                     cubicle.loc_name = new_cubicle_name
                 return cubicle

@@ -4,7 +4,6 @@ from os.path import exists as path_exists
 from math import inf
 from warnings import warn
 from typing import Iterable
-import re
 
 import pandas as pd
 
@@ -15,7 +14,7 @@ from powfacpy.base import string_manipulation as strman
 from powfacpy.pf_classes.protocols import PFGeneral, ElmRes, PFApp
 from powfacpy.result_variables import ResVar
 from powfacpy.engineering_helpers import is_out_of_step, unwrap_degrees
-from powfacpy.exceptions import PFNotActiveError, PFInvalidResultExport
+from powfacpy.exceptions import PFNotActiveError
 
 
 class Results(ApplicationBase):
@@ -259,6 +258,7 @@ class Results(ApplicationBase):
                 read_file.readline().split(",")
                 full_paths = read_file.readline().split(",")
                 variables = read_file.readline().split(",")
+            row = "time,"  # Header of first column
             for col, path in enumerate(full_paths):
                 is_last_column = col == len(full_paths) - 1
                 if col > 0:
@@ -271,8 +271,6 @@ class Results(ApplicationBase):
                     row = (
                         row + path + "\\" + variable_name + "," * (not is_last_column)
                     )  # consistently add headers to row
-                else:
-                    row = "time,"  # Header of first column
             write_file.write(row + "\n")
             # Write remaining data rows until end of file is reached
             while row:
@@ -406,7 +404,6 @@ class Results(ApplicationBase):
         headers = [None] * len(df.columns)
         if self.multi_index_labels:
             headers[0] = ("time", "s")
-            parent_folder = self.act_prj.network_data_folder
             for n, col in enumerate(df.columns[1:], start=1):
                 var = strman.format_variable_name(
                     col[num_header_rows - 1]
@@ -526,7 +523,6 @@ class Results(ApplicationBase):
                 for var in variables:
                     obj_and_vars.append((obj, var))
         else:
-            network_data_folder_path = self.act_prj.paths.format_full_path(str(self.act_prj.network_data_folder))
             for obj in objs:
                 obj = self._format_path_of_obj_inside_active_project(
                     self.act_prj.paths.format_full_path(str(obj)),

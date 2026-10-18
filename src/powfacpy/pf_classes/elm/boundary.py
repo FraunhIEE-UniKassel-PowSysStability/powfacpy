@@ -6,7 +6,7 @@ import pandas as pd
 
 from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.applications.results import Results
-from powfacpy.pf_classes.protocols import ElmBoundary, PFGeneral, ElmZone, ElmNet
+from powfacpy.pf_classes.protocols import ElmBoundary, PFGeneral, ElmZone
 from powfacpy.pf_classes.elm.elm_base import ElmBase
 from powfacpy.pf_classes.elm.grouping_base import GroupingBase
 from powfacpy.pf_classes.set.colscheme import DiagramColorScheme
@@ -81,7 +81,7 @@ class Boundary(ElmBase, GroupingBase):
 
         def remove_ignored(elms: list):
             if ignored_elms:
-                return [elm for elm in elms if not elm in ignored_elms]
+                return [elm for elm in elms if elm not in ignored_elms]
             else:
                 return elms
 

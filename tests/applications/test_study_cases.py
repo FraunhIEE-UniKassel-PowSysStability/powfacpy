@@ -126,7 +126,7 @@ def test_create_cases_regression(pfsc: StudyCases, activate_powfacpy_test_projec
     for case_num, study_case_obj in enumerate(pfsc.study_cases):
         dsl_controller_obj = r"Network Model\Network Data\test_case_studies\Grid 2\WECC WT Control System Type 4A\REEC_A Electrical Control Model"
         if pfsc.get_value_of_parameter_for_case("p HV load", case_num) == 1:
-            case_label = pfsc.get_case_params_value_string(
+            pfsc.get_case_params_value_string(
                 case_num,
                 omitted_parameters="p HV load",
                 delimiter=" | ",

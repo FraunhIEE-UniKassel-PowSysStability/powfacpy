@@ -240,7 +240,7 @@ class PFClassesProtocolGenerator(ActiveProject):
                     # The types "DataObject", "NoneType" are replace with 'object'
                     # "DataObject" is replaced because powfacpy should not depend on an import of the powerfactory module (which is necessary for this type hint)
                     # "NoneType" is not a helpful information
-                    if not attribute_type in ["DataObject", "NoneType"]:
+                    if attribute_type not in ["DataObject", "NoneType"]:
                         data_attributes += (
                             self.indentation_increment
                             + attr

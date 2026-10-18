@@ -50,11 +50,11 @@ class AreaStatic(ElmBase, AreaZoneBase):
                 return area._obj
             else:
                 raise ValueError(
-                    f"Expected type 'Area' or 'ElmArea' for input argument 'area'"
+                    "Expected type 'Area' or 'ElmArea' for input argument 'area'"
                 )
         except AttributeError:
             raise ValueError(
-                f"Expected type 'Area' or 'ElmArea' for input argument 'area'"
+                "Expected type 'Area' or 'ElmArea' for input argument 'area'"
             )
 
     def _get_powfacpy_obj_input(self, area: Area | ElmArea) -> Area:
@@ -75,11 +75,11 @@ class AreaStatic(ElmBase, AreaZoneBase):
                 return Area(area)
             else:
                 raise ValueError(
-                    f"Expected type 'Area' or 'ElmArea' for input argument 'area'"
+                    "Expected type 'Area' or 'ElmArea' for input argument 'area'"
                 )
         except AttributeError:
             raise ValueError(
-                f"Expected type 'Area' or 'ElmArea' for input argument 'area'"
+                "Expected type 'Area' or 'ElmArea' for input argument 'area'"
             )
 
     def get_all_internal_elms(

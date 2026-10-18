@@ -10,14 +10,12 @@ ToDo: Add tutorial for this interface (when there is more functionality).
 
 from __future__ import annotations
 
-import sys
-from fnmatch import fnmatchcase, filter
-from typing import Callable, Iterable, Any, OrderedDict
-import importlib, inspect
-import copy
+from fnmatch import fnmatchcase
+from typing import Iterable, Any
+import importlib
+import inspect
 
 import pandas as pd
-import numpy as np
 
 from powfacpy.pf_classes.elm.comp import CompositeModel
 from powfacpy.result_variables import ResVar
@@ -122,7 +120,7 @@ class Database(ApplicationBase):
                         val = self._handle_attribute_type_for_reading(
                             obj, attr, not values_are_pf_obj
                         )
-                        if not (val is False):
+                        if val is not False:
                             obj_attr_dict[key][attr] = val
         return obj_attr_dict
 
@@ -183,9 +181,10 @@ class Database(ApplicationBase):
         Returns:
             PF object | str:
         """
-        if isinstance(value, str) and not isinstance(
-            obj.GetAttributeType(attr), str
-        ):  # Then the true attribute type is a PF object
+        if (
+            isinstance(value, str)
+            and getattr(obj.GetAttributeType(attr), "name", None) == "OBJECT"
+        ):  # The attribute holds a PF object -> the string is the path of that object
             return self.act_prj.get_unique_obj(value)
         else:
             return value
@@ -272,7 +271,7 @@ class Database(ApplicationBase):
         def count_and_rename_objs() -> None:
             for obj in objs:
                 name_with_class = obj.loc_name + "." + obj.GetClassName()
-                if not name_with_class in obj_count.keys():
+                if name_with_class not in obj_count.keys():
                     obj_count[name_with_class] = 1
                 else:
                     obj_count[name_with_class] += 1
@@ -326,7 +325,8 @@ class Database(ApplicationBase):
         enum_class = getattr(getattr(ResVar, simulation_type), class_name)
         if isinstance(vars, str):
             vars = vars.replace(":", "_")
-            vars = filter(enum_class.__members__.keys(), vars)
+            # case-sensitive on every platform (fnmatch.filter is not on Windows): "m_u*" must not match "m_U"
+            vars = [name for name in enum_class.__members__ if fnmatchcase(name, vars)]
         if objs is None:
             objs = self.act_prj.get_calc_relevant_obj("*." + class_name)
         var_values = {var: [None]*len(objs) for var in vars}
@@ -511,7 +511,7 @@ class DatabaseDict(dict, ApplicationBase):
                 d_new[obj + "\\" + attr] = val
         if inplace:
             self.reset(d_new)
-        return DatabaseDict(self.app, d_new)
+        return DatabaseDict(d_new)
 
     def get_obj_attribute_strings(self, truncate: None | str = None) -> list[str]:
         """Get list of object attribute strings.
@@ -523,7 +523,7 @@ class DatabaseDict(dict, ApplicationBase):
             list[str]: object attribute strings
         """
         dbd = self.keys_to_obj_attr_str(truncate=truncate)
-        return list(dbd.d.keys())
+        return list(dbd.keys())
 
     def set_pf_obj_values(self, values: Iterable) -> None:
         """Set attribute values of PF objects in PF database using 'values'.
@@ -544,6 +544,7 @@ class DatabaseDict(dict, ApplicationBase):
         for obj, dict_attr_val in self.items():
             for attr in dict_attr_val.keys():
                 self[obj][attr] = values[n]
+                n += 1
 
     def set_values_of_dict_in_pf(self) -> None:
         """Set values of DatabaseDict in PF objects."""

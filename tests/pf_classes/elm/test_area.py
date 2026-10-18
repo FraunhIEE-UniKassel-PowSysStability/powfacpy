@@ -5,8 +5,8 @@ import pytest
 sys.path.insert(0, r".\src")
 sys.path.insert(0, r".\tests")
 
+from applications.test_topology import create_area  # noqa: F401  (pytest fixture)
 from powfacpy.pf_classes.elm.area import Area
-from applications.test_topology import create_area
 from powfacpy.result_variables import ResVar
 
 RMS_BAL = ResVar.RMS_Bal

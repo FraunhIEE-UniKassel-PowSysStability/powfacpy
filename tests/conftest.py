@@ -1,20 +1,50 @@
-import sys
 import os
+import sys
 import json
+from pathlib import Path
 import pytest
 
-with open(".\\settings_local.json") as settings_file:
-    settings = json.load(settings_file)
-sys.path.append(settings["local path to PowerFactory application"])
-import powerfactory
+# Tests must not open plot windows (no display on CI); an explicit MPLBACKEND wins.
+os.environ.setdefault("MPLBACKEND", "Agg")
 
-sys.path.insert(0, r".\src")
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_REPO_ROOT / "src"))
+
+# Most tests drive a real PowerFactory installation (see settings_local.json).
+# Without it (e.g. on a CI runner) only the tests marked 'unit' are run; all
+# others are skipped, see pytest_collection_modifyitems below.
+try:
+    with open(_REPO_ROOT / "settings_local.json") as settings_file:
+        settings = json.load(settings_file)
+    sys.path.append(settings["local path to PowerFactory application"])
+    import powerfactory
+
+    POWERFACTORY_AVAILABLE = True
+except (OSError, KeyError, ImportError):
+    settings = {}
+    powerfactory = None
+    POWERFACTORY_AVAILABLE = False
+
+
+def pytest_collection_modifyitems(config, items):
+    if POWERFACTORY_AVAILABLE:
+        return
+    skip_no_pf = pytest.mark.skip(
+        reason="PowerFactory not available (settings_local.json or 'powerfactory' module missing)"
+    )
+    for item in items:
+        if "unit" not in item.keywords:
+            item.add_marker(skip_no_pf)
+
+
 from powfacpy.base.active_project import ActiveProject
 from powfacpy.pf_classes.protocols import IntPrj, PFApp
 
 
 @pytest.fixture(scope="session")
 def pf_app():
+    if not POWERFACTORY_AVAILABLE:
+        pytest.skip("PowerFactory not available")
     if settings["PowerFactory username"]:
         if settings["PowerFactory command line arguments for GetApplication"]:
             return powerfactory.GetApplicationExt(

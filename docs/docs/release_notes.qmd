@@ -5,6 +5,17 @@ number-sections: false
 ---
 
 
+## v0.5.1
+Bug fixes and internal restructuring, no breaking changes.
+
+- Fixed: version 0.5.0 could not be imported on Python 3.11 (`grouping_types.py` used the `type` statement, which needs Python 3.12), although 3.11 is declared as supported
+- Fixed: the `dynamic_modal_analysis` extra now includes `jinja2`, which pandas needs for the styled tables
+- Fixed in `Database`/`DatabaseDict`: string attributes such as `loc_name` could not be set with `set_pf_obj_attribute_values`, result-variable patterns were case-insensitive on Windows (`"m_u*"` also matched `"m_U"`), and `keys_to_obj_attr_str`, `get_obj_attribute_strings` and `set_values_of_dict` did not work
+- `dynamic_modal_analysis`, `modelica` and `subsystems` are now packages of focused submodules. All names are still importable from `powfacpy.applications.<name>`
+- New composed helpers `Folder.objects` (copy, move, delete) and `Folder.attributes` (get, set). The existing `Folder`/`ActiveProject` methods keep their signatures and forward to them; none are deprecated
+- Continuous integration (GitHub Actions): ruff, unit tests on Python 3.11-3.13 and a package build. The test suite now skips everything that needs *PowerFactory* when it is not installed
+- Documentation: API stability of the modules, how to regenerate the generated files, and what the automatic checks do
+
 ## v0.5.0
 Everything below summarizes what changed since v0.4.3 (releases in between were not individually documented here).
 

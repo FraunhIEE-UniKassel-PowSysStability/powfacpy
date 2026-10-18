@@ -6,9 +6,6 @@ from pandas.api.types import is_complex_dtype
 
 from powfacpy.pf_classes.protocols import PFApp
 from powfacpy.applications.application_base import ApplicationBase
-from powfacpy.pf_classes.protocols import (
-    PFApp,
-)
 
 
 class PandasInterface(ApplicationBase):

@@ -86,7 +86,7 @@ class PFPathInputError(PFInterfaceError):
     def __init__(self, path):
         self.message = (
             f"The path '{path}' is invalid or empty. Please don't start "
-            + f"the path with '\\'."
+            + "the path with '\\'."
         )
         super().__init__(self.message)
 

@@ -1,7 +1,5 @@
 """Module with interface for static calculations (load flow, short circuits,..)"""
 
-from warnings import warn
-from os import getcwd, remove
 
 import pandas as pd
 import numpy as np
@@ -9,7 +7,6 @@ import numpy as np
 from powfacpy.applications.application_base import ApplicationBase
 from powfacpy.applications.results import Results
 from powfacpy.pf_classes.protocols import ElmSecctrl, PFGeneral, PFApp
-from powfacpy.exceptions import PFInvalidLoadFlow
 
 
 class StaticCalc(ApplicationBase):

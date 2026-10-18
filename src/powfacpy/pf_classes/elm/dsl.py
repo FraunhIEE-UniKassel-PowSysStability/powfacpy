@@ -1,16 +1,13 @@
 from __future__ import annotations
-from textwrap import indent
-
 import os
 
 import numpy as np
 import pandas as pd
 
 from powfacpy.base.active_project import ActiveProjectCached
-from powfacpy.pf_classes.protocols import PFGeneral, BlkSlot, ElmDsl
+from powfacpy.pf_classes.protocols import PFGeneral, ElmDsl
 
 from powfacpy.pf_classes.elm.elm_base import ElmBase
-from powfacpy.base.active_project import ActiveProjectCached
 from powfacpy.pf_classes.blk.definition import BlockDefinition
 from powfacpy.engineering_helpers import get_weighted_average
 

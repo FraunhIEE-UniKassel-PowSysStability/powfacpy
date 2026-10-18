@@ -5,10 +5,9 @@ import pytest
 sys.path.insert(0, r".\src")
 sys.path.insert(0, r".\tests")
 
+from applications.test_topology import create_zone  # noqa: F401  (pytest fixture)
 from powfacpy.pf_classes.elm.zone import Zone
-from powfacpy.base.active_project import ActiveProject
 
-from applications.test_topology import create_zone
 from powfacpy.result_variables import ResVar
 
 RMS_BAL = ResVar.RMS_Bal
